@@ -22,7 +22,7 @@ public class Booking extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "event")
-    private Long event;
+    private Event event;
 
     @OneToMany(mappedBy = "booking",
     fetch = FetchType.LAZY,
