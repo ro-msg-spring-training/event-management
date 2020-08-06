@@ -37,13 +37,15 @@ public class Event extends BaseEntity {
 
     private boolean noTicketEvent;
 
+    private Long creator;
+
     @OneToMany(mappedBy = "event",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     private List<Picture> pictures;
 
-    @OneToMany(mappedBy = "sublocation",
+    @OneToMany(mappedBy = "event",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             orphanRemoval = true)
