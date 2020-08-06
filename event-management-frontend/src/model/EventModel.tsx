@@ -8,6 +8,7 @@ interface EventModel {
     date: string;
     hour: number;
     occRate: number;
+    name: string;
 }
 
 export default EventModel;

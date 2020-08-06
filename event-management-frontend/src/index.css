@@ -11,3 +11,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.events_admin_title {
+  background-color: #6BB7D0;
+  height: 1em;
+  padding: 20px;
+  color: #133655
+}
