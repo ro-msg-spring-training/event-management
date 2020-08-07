@@ -1,0 +1,239 @@
+import React from 'react';
+import { Grid, TextField, Button, Select, MenuItem, Checkbox, FormControlLabel, InputLabel, FormControl } from '@material-ui/core'
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css";
+import { MathRelation } from '../../../model/MathRelation';
+import { formatDate } from '../../../utils/formatDate';
+import { useStyles } from '../../../styles/filterStyles';
+
+interface Props {
+    isExpanded: boolean,
+    filters: any,
+    updateFilters: (filters: any) => void,
+    toggle: () => void,
+    submitForm: (event: any) => void,
+    handleChangeTitle: (title: string) => void,
+    handleChangeSubtitle: (subtitle: string) => void,
+    handleChangeLocation: (location: string) => void,
+    handleChangeStatus: (status: string) => void,
+    handleChangeHighlighted: (highlighted: boolean) => void,
+    handleChangeStartHour: (startHour: string) => void,
+    handleChangeEndHour: (endHour: string) => void,
+    handleChangeDate: (date: any) => void,
+    handleChangeMaxPeople: (maxPeople: string) => void,
+    handleChangeMaxPeopleSign: (maxPeopleSign: MathRelation) => void,
+    handleChangeRate: (rate: string) => void,
+    handleChangeRateSign: (rateSign: MathRelation) => void,
+}
+
+
+function FilterSectionDumb(props: Props) {
+    const classes = useStyles()
+
+    const titleInput = () => {
+        return (
+            <TextField
+                label="Title"
+                onChange={(e) => props.handleChangeTitle(e.target.value)}
+                fullWidth />
+        )
+    }
+
+    const locationInput = () => {
+        return (
+            <TextField
+                label="Location"
+                onChange={(e) => props.handleChangeLocation(e.target.value)}
+                fullWidth />
+        )
+    }
+
+    const diplayDate = () => {
+        let result = ''
+
+        if (props.filters.startDate !== null) {
+            result += formatDate(props.filters.startDate, '/')
+        }
+
+        if (props.filters.endDate !== null) {
+            result += " to " + formatDate(props.filters.endDate, '/')
+        }
+
+        return result
+    }
+
+    const dateInput = () => {
+        return (
+            <DatePicker
+                selected={props.filters.startDate}
+                startDate={props.filters.startDate}
+                endDate={props.filters.endDate}
+                selectsRange
+                value={diplayDate()}
+                onChange={(e) => props.handleChangeDate(e)}
+                customInput={<TextField label="Date" />}
+            />
+        )
+    }
+
+    const showSomeFilters = () => {
+        return (
+            <Grid container spacing={3}>
+                <Grid item xs={12} sm={6} md={3}>
+                    {
+                        titleInput()
+                    }
+                </Grid>
+
+                <Grid item xs={12} sm={6} md={3}>
+                    {
+                        locationInput()
+                    }
+                </Grid>
+
+
+                <Grid item xs={12} sm={6} md={3}>
+                    {
+                        dateInput()
+                    }
+                </Grid>
+
+                <Grid item xs={12} sm={6} md={3}>
+                    <Button onClick={props.toggle}>See more...</Button>
+                </Grid>
+            </Grid>
+        )
+    }
+
+    const showAllFilters = () => {
+        return (
+            <Grid container spacing={3}>
+                <Grid item xs={12} sm={6} md={3}>
+                    {
+                        titleInput()
+                    }
+                </Grid>
+
+                <Grid item xs={12} sm={6} md={3}>
+                    <TextField
+                        label="Subtitle"
+                        onChange={(e) => props.handleChangeSubtitle(e.target.value)}
+                        fullWidth />
+                </Grid>
+
+                <Grid item xs={12} sm={6} md={3}>
+                    <TextField
+                        select
+                        label="Status"
+                        value={props.filters.status}
+                        onChange={(e) => props.handleChangeStatus(e.target.value as string)}
+                        fullWidth>
+
+                        <MenuItem value={'true'}>Active</MenuItem>
+                        <MenuItem value={'false'}>Inactive</MenuItem>
+                        <MenuItem value={'none'}>Not set</MenuItem>
+                    </TextField>
+                </Grid>
+
+                <Grid item xs={12} sm={6} md={3}>
+                    <FormControlLabel
+                        control=
+                        {
+                            <Checkbox onChange={(e) => props.handleChangeHighlighted(e.target.checked)} />
+                        }
+                        label="Highlighted"
+                        labelPlacement="end"
+                    />
+                </Grid>
+
+                <Grid item xs={12} sm={6} md={3}>
+                    {
+                        locationInput()
+                    }
+                </Grid>
+
+                <Grid item xs={12} sm={6} md={3}>
+                    {
+                        dateInput()
+                    }
+                </Grid>
+
+                <Grid item xs={12} sm={6} md={3} className={classes.timeArea}>
+                    <TextField
+                        className={classes.timeInput}
+                        label="Start hour"
+                        type="time"
+                        defaultValue="07:30"
+                        onChange={(e) => props.handleChangeStartHour(e.target.value)} />
+
+                    <div>
+                        to
+                    </div>
+
+                    <TextField
+                        className={classes.timeInput}
+                        label="End hour"
+                        type="time"
+                        defaultValue="07:30"
+                        onChange={(e) => props.handleChangeEndHour(e.target.value)} />
+                </Grid>
+
+                <Grid item xs={12} sm={6} md={3} className={classes.relationArea}>
+                    <Select
+                        className={classes.relationSelect}
+                        value={props.filters.maxPeopleSign}
+                        onChange={e => props.handleChangeMaxPeopleSign(e.target.value as MathRelation)}>
+
+                        <MenuItem value={MathRelation.GREATER}>&gt;</MenuItem>
+                        <MenuItem value={MathRelation.LOWER}>&lt;</MenuItem>
+                        <MenuItem value={MathRelation.EQUAL}>=</MenuItem>
+                    </Select>
+
+                    <TextField
+                        fullWidth
+                        label='Max people'
+                        type='number'
+                        onChange={(e) => props.handleChangeMaxPeople(e.target.value)} />
+
+                </Grid>
+
+                <Grid item xs={12} sm={6} md={3} className={classes.relationArea}>
+                    <Select
+                        className={classes.relationSelect}
+                        value={props.filters.rateSign}
+                        onChange={e => props.handleChangeRateSign(e.target.value as MathRelation)} >
+
+                        <MenuItem value={MathRelation.GREATER}>&gt;</MenuItem>
+                        <MenuItem value={MathRelation.LOWER}>&lt;</MenuItem>
+                        <MenuItem value={MathRelation.EQUAL}>=</MenuItem>
+                    </Select>
+
+                    <TextField
+                        fullWidth
+                        label='Occupacy rate'
+                        type='number'
+                        onChange={(e) => props.handleChangeRate(e.target.value)} />
+                </Grid>
+
+                <Grid item xs={12} sm={6} md={3}>
+                    <Button onClick={props.toggle}>See less...</Button>
+                </Grid>
+            </Grid>
+        )
+    }
+
+    return (
+        <>
+            <form onSubmit={event => props.submitForm(event)}>
+                {
+                    props.isExpanded ? showAllFilters() : showSomeFilters()
+                }
+                <Button type='submit'>Filter</Button>
+            </form>
+
+            <Button>Create event</Button>
+        </>
+    )
+}
+
+export default FilterSectionDumb;
