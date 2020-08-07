@@ -8,10 +8,10 @@ export interface EventPageFilters {
     status: string,
     highlighted: boolean,
     location: string,
-    startDate: any,
+    startDate: any, // to change
     endDate: any, // to change
-    startHour: string, // to change
-    endHour: string, // to change
+    startHour: string, 
+    endHour: string, 
     rate: number,
     rateSign: MathRelation,
     maxPeople: number,

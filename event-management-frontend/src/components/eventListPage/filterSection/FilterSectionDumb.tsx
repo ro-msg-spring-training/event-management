@@ -1,5 +1,5 @@
-import React from 'react';
-import { Grid, TextField, Button, Select, MenuItem, Checkbox, FormControlLabel, InputLabel, FormControl } from '@material-ui/core'
+import React, { useState } from 'react';
+import { Grid, TextField, Button, Select, MenuItem, Checkbox, FormControlLabel } from '@material-ui/core'
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css";
 import { MathRelation } from '../../../model/MathRelation';
@@ -29,7 +29,7 @@ interface Props {
 
 function FilterSectionDumb(props: Props) {
     const classes = useStyles()
-
+    
     const diplayDate = () => {
         let result = ''
 
@@ -57,6 +57,7 @@ function FilterSectionDumb(props: Props) {
         return (
             <TextField
                 label="Location"
+                
                 onChange={(e) => props.handleChangeLocation(e.target.value)}
                 fullWidth />
         )
@@ -175,6 +176,11 @@ function FilterSectionDumb(props: Props) {
                         fullWidth
                         label='Max people'
                         type='number'
+                        InputProps={{
+                            inputProps: { 
+                                min: 0 
+                            }
+                        }}
                         onChange={(e) => props.handleChangeMaxPeople(e.target.value)} />
 
                 </Grid>
@@ -194,6 +200,11 @@ function FilterSectionDumb(props: Props) {
                         fullWidth
                         label='Occupacy rate'
                         type='number'
+                        InputProps={{
+                            inputProps: { 
+                                max: 100, min: 0 
+                            }
+                        }}
                         onChange={(e) => props.handleChangeRate(e.target.value)} />
                 </Grid>
 
