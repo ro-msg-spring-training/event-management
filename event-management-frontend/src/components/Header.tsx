@@ -7,7 +7,7 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.background.default,
     background: theme.palette.primary.main,
     borderRadius: '5px',
-    width: "90%",
+    width: "85%",
   },
   grid: {
     width: '100%',
