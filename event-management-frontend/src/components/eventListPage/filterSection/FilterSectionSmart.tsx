@@ -14,6 +14,7 @@ interface Props {
 
 function FilterSectionSmart({ filters, updateFilters, filterEvents }: Props) {
     const [expanded, setExpanded] = useState(false)
+    const fakeDateForComparation = '01/01/2020'
 
     const handleChange = () => {
         const newFilters = Object.assign({}, filters)
@@ -53,12 +54,24 @@ function FilterSectionSmart({ filters, updateFilters, filterEvents }: Props) {
     }
 
     const handleChangeStartHour = (startHour: string) => {
-        filters.startHour = startHour
+        if (Date.parse(`${fakeDateForComparation} ${startHour}`) > Date.parse(`${fakeDateForComparation} ${filters.endHour}`)) {
+            filters.startHour = filters.endHour
+            filters.endHour = startHour
+        }
+        else {
+            filters.startHour = startHour
+        }
         handleChange()
     }
 
     const handleChangeEndHour = (endHour: string) => {
-        filters.endHour = endHour
+        if (Date.parse(`${fakeDateForComparation} ${endHour}`) < Date.parse(`${fakeDateForComparation} ${filters.startHour}`)) {
+            filters.endHour = filters.startHour
+            filters.startHour = endHour
+        }
+        else {
+            filters.endHour = endHour
+        }
         handleChange()
     }
 
@@ -84,7 +97,7 @@ function FilterSectionSmart({ filters, updateFilters, filterEvents }: Props) {
 
     const submitForm = (event: any) => {
         event.preventDefault()
-    
+
         filterEvents()
     }
 
@@ -92,12 +105,26 @@ function FilterSectionSmart({ filters, updateFilters, filterEvents }: Props) {
         setExpanded(!expanded)
     }
 
+    const restrictNumberInput = (e: any) => {
+        if(e.key=== '-' || e.key === 'e' || e.key === '+' || e.key === '.' || e.key === ',')
+        {
+            e.preventDefault()
+        }
+    }
+
+    const restrictRateInput = (e: any) => {
+        restrictNumberInput(e)
+    }
+    
+
     return (
         <Container>
             <FilterSectionDumb
                 toggle={toggle}
                 isExpanded={expanded}
                 filters={filters}
+                restrictMaxPeopleInput={restrictNumberInput}
+                restrictRateInput={restrictRateInput}
                 updateFilters={updateFilters}
                 submitForm={submitForm}
                 handleChangeTitle={handleChangeTitle}

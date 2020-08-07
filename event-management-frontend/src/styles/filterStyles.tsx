@@ -16,7 +16,7 @@ export const useStyles = makeStyles({
         alignItems: 'flex-end'
     },
     relationSelect: {
-        marginRight: '5px'
+        marginRight: '5px',
     },
     timeInput: {
         width: '40%'

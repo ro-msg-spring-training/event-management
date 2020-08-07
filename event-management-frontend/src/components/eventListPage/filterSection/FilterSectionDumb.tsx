@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Grid, TextField, Button, Select, MenuItem, Checkbox, FormControlLabel } from '@material-ui/core'
+import React from 'react';
+import { Grid, TextField, Button, Select, MenuItem, Checkbox, FormControlLabel, InputAdornment } from '@material-ui/core'
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css";
 import { MathRelation } from '../../../model/MathRelation';
@@ -12,6 +12,8 @@ interface Props {
     updateFilters: (filters: any) => void,
     toggle: () => void,
     submitForm: (event: any) => void,
+    restrictMaxPeopleInput: (event: any) => void,
+    restrictRateInput: (event: any) => void,
     handleChangeTitle: (title: string) => void,
     handleChangeSubtitle: (subtitle: string) => void,
     handleChangeLocation: (location: string) => void,
@@ -29,7 +31,7 @@ interface Props {
 
 function FilterSectionDumb(props: Props) {
     const classes = useStyles()
-    
+
     const diplayDate = () => {
         let result = ''
 
@@ -57,7 +59,7 @@ function FilterSectionDumb(props: Props) {
         return (
             <TextField
                 label="Location"
-                
+
                 onChange={(e) => props.handleChangeLocation(e.target.value)}
                 fullWidth />
         )
@@ -146,6 +148,7 @@ function FilterSectionDumb(props: Props) {
                         className={classes.timeInput}
                         label="Start hour"
                         type="time"
+                        value={props.filters.startHour}
                         defaultValue={props.filters.startHour}
                         onChange={(e) => props.handleChangeStartHour(e.target.value)} />
 
@@ -157,54 +160,67 @@ function FilterSectionDumb(props: Props) {
                         className={classes.timeInput}
                         label="End hour"
                         type="time"
+                        value={props.filters.endHour}
                         defaultValue={props.filters.endHour}
                         onChange={(e) => props.handleChangeEndHour(e.target.value)} />
                 </Grid>
 
                 <Grid item xs={12} sm={4} className={classes.relationArea}>
-                    <Select
-                        className={classes.relationSelect}
-                        value={props.filters.maxPeopleSign}
-                        onChange={e => props.handleChangeMaxPeopleSign(e.target.value as MathRelation)}>
 
-                        <MenuItem value={MathRelation.GREATER}>&gt;</MenuItem>
-                        <MenuItem value={MathRelation.LOWER}>&lt;</MenuItem>
-                        <MenuItem value={MathRelation.EQUAL}>=</MenuItem>
-                    </Select>
 
                     <TextField
                         fullWidth
                         label='Max people'
                         type='number'
                         InputProps={{
-                            inputProps: { 
-                                min: 0 
-                            }
-                        }}
-                        onChange={(e) => props.handleChangeMaxPeople(e.target.value)} />
+                            inputProps: {
+                                min: 0
+                            },
+                            startAdornment: (
+                                <Select
+                                    disableUnderline={true}
+                                    className={classes.relationSelect}
+                                    value={props.filters.maxPeopleSign}
+                                    onChange={e => props.handleChangeMaxPeopleSign(e.target.value as MathRelation)}>
 
+                                    <MenuItem value={MathRelation.GREATER}>&gt;</MenuItem>
+                                    <MenuItem value={MathRelation.LOWER}>&lt;</MenuItem>
+                                    <MenuItem value={MathRelation.EQUAL}>=</MenuItem>
+                                </Select>
+                            )
+                        }}
+                        onKeyPress={(e) => props.restrictMaxPeopleInput(e)}
+                        onChange={(e) => props.handleChangeMaxPeople(e.target.value)} />
                 </Grid>
 
                 <Grid item xs={12} sm={4} className={classes.relationArea}>
-                    <Select
-                        className={classes.relationSelect}
-                        value={props.filters.rateSign}
-                        onChange={e => props.handleChangeRateSign(e.target.value as MathRelation)} >
-
-                        <MenuItem value={MathRelation.GREATER}>&gt;</MenuItem>
-                        <MenuItem value={MathRelation.LOWER}>&lt;</MenuItem>
-                        <MenuItem value={MathRelation.EQUAL}>=</MenuItem>
-                    </Select>
-
                     <TextField
                         fullWidth
                         label='Occupacy rate'
                         type='number'
                         InputProps={{
-                            inputProps: { 
-                                max: 100, min: 0 
-                            }
+                            inputProps: {
+                                max: 100, min: 0,
+                            },
+                            startAdornment: (
+                                <Select
+                                    className={classes.relationSelect}
+                                    value={props.filters.rateSign}
+                                    disableUnderline={true}
+                                    onChange={e => props.handleChangeRateSign(e.target.value as MathRelation)} >
+
+                                    <MenuItem value={MathRelation.GREATER}>&gt;</MenuItem>
+                                    <MenuItem value={MathRelation.LOWER}>&lt;</MenuItem>
+                                    <MenuItem value={MathRelation.EQUAL}>=</MenuItem>
+                                </Select>
+                            ),
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    %
+                                </InputAdornment>
+                            ),
                         }}
+                        onKeyPress={(e) => props.restrictRateInput(e)}
                         onChange={(e) => props.handleChangeRate(e.target.value)} />
                 </Grid>
 
