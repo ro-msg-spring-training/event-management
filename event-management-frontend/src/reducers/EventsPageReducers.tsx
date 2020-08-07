@@ -12,9 +12,9 @@ export interface EventPageFilters {
     endDate: any, // to change
     startHour: string, 
     endHour: string, 
-    rate: number,
+    rate: number | string,
     rateSign: MathRelation,
-    maxPeople: number,
+    maxPeople: number | string,
     maxPeopleSign: MathRelation
 }
 
@@ -34,9 +34,9 @@ const initialState: EventsPageState = {
         endDate: null,
         startHour: '00:00',
         endHour: '23:59',
-        rate: 0,
+        rate: '',
         rateSign: MathRelation.GREATER,
-        maxPeople: 100,
+        maxPeople: '',
         maxPeopleSign: MathRelation.GREATER
     },
 }
@@ -49,6 +49,7 @@ interface ReducerActionProps {
 export const EventsPageReducer = (state = initialState, action: ReducerActionProps) => {
     switch (action.type) {
         case UPDATE_FILTERS:
+            console.log('in reducer', action.payload)
             return {
                 ...state,
                 filters: action.payload

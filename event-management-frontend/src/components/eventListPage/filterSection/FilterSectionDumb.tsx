@@ -9,11 +9,12 @@ import { useStyles } from '../../../styles/filterStyles';
 interface Props {
     isExpanded: boolean,
     filters: any,
+    errorRate: string,
+    errorMaxPeople: string,
     updateFilters: (filters: any) => void,
     toggle: () => void,
     submitForm: (event: any) => void,
-    restrictMaxPeopleInput: (event: any) => void,
-    restrictRateInput: (event: any) => void,
+    restrictNumberInput: (event: any) => void
     handleChangeTitle: (title: string) => void,
     handleChangeSubtitle: (subtitle: string) => void,
     handleChangeLocation: (location: string) => void,
@@ -59,7 +60,6 @@ function FilterSectionDumb(props: Props) {
         return (
             <TextField
                 label="Location"
-
                 onChange={(e) => props.handleChangeLocation(e.target.value)}
                 fullWidth />
         )
@@ -81,18 +81,19 @@ function FilterSectionDumb(props: Props) {
     const showSomeFilters = () => {
         return (
             <Grid container spacing={3}>
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={6} md={4}>
                     {
                         titleInput()
                     }
                 </Grid>
 
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={6} md={4}>
                     {
                         locationInput()
                     }
                 </Grid>
-                <Grid item xs={12} sm={4}>
+
+                <Grid item xs={12} sm={6} md={4}>
                     {
                         dateInput()
                     }
@@ -104,20 +105,20 @@ function FilterSectionDumb(props: Props) {
     const showAllFilters = () => {
         return (
             <Grid container spacing={3}>
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={6} md={4}>
                     {
                         titleInput()
                     }
                 </Grid>
 
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={6} md={4}>
                     <TextField
                         label="Subtitle"
                         onChange={(e) => props.handleChangeSubtitle(e.target.value)}
                         fullWidth />
                 </Grid>
 
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={6} md={4}>
                     <TextField
                         select
                         label="Status"
@@ -131,25 +132,24 @@ function FilterSectionDumb(props: Props) {
                     </TextField>
                 </Grid>
 
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={6} md={4}>
                     {
                         locationInput()
                     }
                 </Grid>
 
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={6} md={4}>
                     {
                         dateInput()
                     }
                 </Grid>
 
-                <Grid item xs={12} sm={4} className={classes.timeArea}>
+                <Grid item xs={12} sm={6} md={4} className={classes.timeArea}>
                     <TextField
                         className={classes.timeInput}
                         label="Start hour"
                         type="time"
                         value={props.filters.startHour}
-                        defaultValue={props.filters.startHour}
                         onChange={(e) => props.handleChangeStartHour(e.target.value)} />
 
                     <div>
@@ -161,70 +161,67 @@ function FilterSectionDumb(props: Props) {
                         label="End hour"
                         type="time"
                         value={props.filters.endHour}
-                        defaultValue={props.filters.endHour}
                         onChange={(e) => props.handleChangeEndHour(e.target.value)} />
                 </Grid>
 
-                <Grid item xs={12} sm={4} className={classes.relationArea}>
+                <Grid item xs={12} sm={6} md={4} className={classes.relationArea}>
+                    <Select
+                        disableUnderline={true}
+                        className={classes.relationSelect}
+                        value={props.filters.maxPeopleSign}
+                        onChange={e => props.handleChangeMaxPeopleSign(e.target.value as MathRelation)}>
 
+                        <MenuItem value={MathRelation.GREATER}>&gt;</MenuItem>
+                        <MenuItem value={MathRelation.LOWER}>&lt;</MenuItem>
+                        <MenuItem value={MathRelation.EQUAL}>=</MenuItem>
+                    </Select>
 
                     <TextField
                         fullWidth
-                        label='Max people'
+                        error={props.errorMaxPeople!==''}
+                        label={props.errorMaxPeople? `Max number of people - ${props.errorMaxPeople}` : 'Max number of people'}
                         type='number'
                         InputProps={{
                             inputProps: {
                                 min: 0
-                            },
-                            startAdornment: (
-                                <Select
-                                    disableUnderline={true}
-                                    className={classes.relationSelect}
-                                    value={props.filters.maxPeopleSign}
-                                    onChange={e => props.handleChangeMaxPeopleSign(e.target.value as MathRelation)}>
-
-                                    <MenuItem value={MathRelation.GREATER}>&gt;</MenuItem>
-                                    <MenuItem value={MathRelation.LOWER}>&lt;</MenuItem>
-                                    <MenuItem value={MathRelation.EQUAL}>=</MenuItem>
-                                </Select>
-                            )
+                            }
                         }}
-                        onKeyPress={(e) => props.restrictMaxPeopleInput(e)}
+                        onKeyPress={(e) => props.restrictNumberInput(e)}
                         onChange={(e) => props.handleChangeMaxPeople(e.target.value)} />
                 </Grid>
 
-                <Grid item xs={12} sm={4} className={classes.relationArea}>
+                <Grid item xs={12} sm={6} md={4} className={classes.relationArea}>
+                    <Select
+                        className={classes.relationSelect}
+                        value={props.filters.rateSign}
+                        disableUnderline={true}
+                        onChange={e => props.handleChangeRateSign(e.target.value as MathRelation)} >
+
+                        <MenuItem value={MathRelation.GREATER}>&gt;</MenuItem>
+                        <MenuItem value={MathRelation.LOWER}>&lt;</MenuItem>
+                        <MenuItem value={MathRelation.EQUAL}>=</MenuItem>
+                    </Select>
+
                     <TextField
                         fullWidth
-                        label='Occupacy rate'
+                        label={props.errorRate? `Occupacy rate - ${props.errorRate}` : 'Occupacy rate'}
                         type='number'
+                        error={props.errorRate!==''}
                         InputProps={{
                             inputProps: {
                                 max: 100, min: 0,
                             },
-                            startAdornment: (
-                                <Select
-                                    className={classes.relationSelect}
-                                    value={props.filters.rateSign}
-                                    disableUnderline={true}
-                                    onChange={e => props.handleChangeRateSign(e.target.value as MathRelation)} >
-
-                                    <MenuItem value={MathRelation.GREATER}>&gt;</MenuItem>
-                                    <MenuItem value={MathRelation.LOWER}>&lt;</MenuItem>
-                                    <MenuItem value={MathRelation.EQUAL}>=</MenuItem>
-                                </Select>
-                            ),
                             endAdornment: (
                                 <InputAdornment position="end">
                                     %
                                 </InputAdornment>
-                            ),
+                            )
                         }}
-                        onKeyPress={(e) => props.restrictRateInput(e)}
+                        onKeyPress={(e) => props.restrictNumberInput(e)}
                         onChange={(e) => props.handleChangeRate(e.target.value)} />
                 </Grid>
 
-                <Grid item xs={12} sm={4} className={classes.highlightedCheckbox}>
+                <Grid item xs={12} sm={6} md={4} className={classes.highlightedCheckbox}>
                     <FormControlLabel
                         control=
                         {
@@ -241,14 +238,14 @@ function FilterSectionDumb(props: Props) {
     return (
         <form onSubmit={event => props.submitForm(event)}>
             <Grid container spacing={3}>
-                <Grid item xs={10}>
+                <Grid item xs={12} sm={10}>
                     {
                         props.isExpanded ? showAllFilters() : showSomeFilters()
                     }
                 </Grid>
 
-                <Grid item xs={2} className={classes.filterButtonsArea}>
-                    <Button type='submit'>Filter</Button>
+                <Grid item xs={12} sm={2} className={classes.filterButtonsArea}>
+                    <Button type='submit' disabled={props.errorRate!=='' || props.errorMaxPeople!==""}>Filter</Button>
                     <div onClick={props.toggle} className={classes.filterExpandText}>
                         {
                             props.isExpanded ? "See less filters" : "See more filters"

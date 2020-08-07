@@ -14,6 +14,9 @@ interface Props {
 
 function FilterSectionSmart({ filters, updateFilters, filterEvents }: Props) {
     const [expanded, setExpanded] = useState(false)
+    const [errorRate, setErrorRate] = useState('')
+    const [errorMaxPeople, setErrorMaxPeople] = useState('')
+
     const fakeDateForComparation = '01/01/2020'
 
     const handleChange = () => {
@@ -54,9 +57,10 @@ function FilterSectionSmart({ filters, updateFilters, filterEvents }: Props) {
     }
 
     const handleChangeStartHour = (startHour: string) => {
-        if (Date.parse(`${fakeDateForComparation} ${startHour}`) > Date.parse(`${fakeDateForComparation} ${filters.endHour}`)) {
-            filters.startHour = filters.endHour
-            filters.endHour = startHour
+        if (Date.parse(`${fakeDateForComparation} ${startHour}`)
+            > Date.parse(`${fakeDateForComparation} ${filters.endHour}`)) {
+                filters.startHour = filters.endHour
+                filters.endHour = startHour
         }
         else {
             filters.startHour = startHour
@@ -65,9 +69,10 @@ function FilterSectionSmart({ filters, updateFilters, filterEvents }: Props) {
     }
 
     const handleChangeEndHour = (endHour: string) => {
-        if (Date.parse(`${fakeDateForComparation} ${endHour}`) < Date.parse(`${fakeDateForComparation} ${filters.startHour}`)) {
-            filters.endHour = filters.startHour
-            filters.startHour = endHour
+        if (Date.parse(`${fakeDateForComparation} ${endHour}`)
+            < Date.parse(`${fakeDateForComparation} ${filters.startHour}`)) {
+                filters.endHour = filters.startHour
+                filters.startHour = endHour
         }
         else {
             filters.endHour = endHour
@@ -76,8 +81,23 @@ function FilterSectionSmart({ filters, updateFilters, filterEvents }: Props) {
     }
 
     const handleChangeMaxPeople = (maxPeople: string) => {
-        filters.maxPeople = parseInt(maxPeople)
-        handleChange()
+        if (maxPeople === '') {
+            setErrorMaxPeople('')
+            filters.maxPeople = maxPeople
+            handleChange()
+        }
+        else {
+            const maxPeopleNumber = parseInt(maxPeople)
+
+            if (maxPeopleNumber.toString() !== maxPeople && maxPeople !== '') {
+                setErrorMaxPeople('Not a number')
+            }
+            else {
+                setErrorMaxPeople('')
+                filters.maxPeople = maxPeopleNumber
+                handleChange()
+            }
+        }
     }
 
     const handleChangeMaxPeopleSign = (maxPeopleSign: MathRelation) => {
@@ -86,8 +106,26 @@ function FilterSectionSmart({ filters, updateFilters, filterEvents }: Props) {
     }
 
     const handleChangeRate = (rate: string) => {
-        filters.rate = parseInt(rate)
-        handleChange()
+        if (rate === '') {
+            setErrorRate('')
+            filters.rate = rate
+            handleChange()
+        }
+        else {
+            const rateNumber = parseInt(rate)
+
+            if (rateNumber.toString() !== rate && rate !== '') {
+                setErrorRate('Not a number')
+            }
+            else if (rateNumber > 100) {
+                setErrorRate('Not a valid percent')
+            }
+            else {
+                setErrorRate('')
+                filters.rate = rateNumber
+                handleChange()
+            }
+        }
     }
 
     const handleChangeRateSign = (rateSign: MathRelation) => {
@@ -97,7 +135,6 @@ function FilterSectionSmart({ filters, updateFilters, filterEvents }: Props) {
 
     const submitForm = (event: any) => {
         event.preventDefault()
-
         filterEvents()
     }
 
@@ -106,8 +143,7 @@ function FilterSectionSmart({ filters, updateFilters, filterEvents }: Props) {
     }
 
     const restrictNumberInput = (e: any) => {
-        if(e.key=== '-' || e.key === 'e' || e.key === '+' || e.key === '.' || e.key === ',')
-        {
+        if (e.key === '-' || e.key === 'e' || e.key === '+' || e.key === '.' || e.key === ',') {
             e.preventDefault()
         }
     }
@@ -115,7 +151,7 @@ function FilterSectionSmart({ filters, updateFilters, filterEvents }: Props) {
     const restrictRateInput = (e: any) => {
         restrictNumberInput(e)
     }
-    
+
 
     return (
         <Container>
@@ -123,8 +159,9 @@ function FilterSectionSmart({ filters, updateFilters, filterEvents }: Props) {
                 toggle={toggle}
                 isExpanded={expanded}
                 filters={filters}
-                restrictMaxPeopleInput={restrictNumberInput}
-                restrictRateInput={restrictRateInput}
+                errorRate={errorRate}
+                errorMaxPeople={errorMaxPeople}
+                restrictNumberInput={restrictNumberInput}
                 updateFilters={updateFilters}
                 submitForm={submitForm}
                 handleChangeTitle={handleChangeTitle}
