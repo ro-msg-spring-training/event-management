@@ -10,15 +10,16 @@ import Images from './Images';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    flexGrow: 1,
+    // flexGrow: 1,
     backgroundColor: theme.palette.background.default,
     display: 'flex',
-    height: "100%",
     color: theme.palette.text.primary,
   },
   tabs: {
     borderRight: `1px solid ${theme.palette.divider}`,
-  }
+    minWidth: "90px"
+  },
+
 }));
 
 interface TabPanelProps {
@@ -39,7 +40,7 @@ function TabPanel(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box p={3}> {children} </Box>
+        <Box width="auto" height = "auto" p={3}> {children} </Box>
       )}
     </div>
   );
@@ -88,7 +89,6 @@ export default function Stepper() {
       <TabPanel value={value} index={3}>
         <Images />
       </TabPanel>
-
     </div>
   );
 }
