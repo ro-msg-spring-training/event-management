@@ -85,6 +85,7 @@ function FilterSectionSmart({ filters, updateFilters, filterEvents }: Props) {
     const submitForm = (event: any) => {
         event.preventDefault()
         console.log('on submit')
+        console.log(filters)
     }
 
     const toggle = () => {

@@ -10,8 +10,8 @@ export interface EventPageFilters {
     location: string,
     startDate: any,
     endDate: any, // to change
-    startHour: any, // to change
-    endHour: any, // to change
+    startHour: string, // to change
+    endHour: string, // to change
     rate: number,
     rateSign: MathRelation,
     maxPeople: number,
@@ -20,12 +20,10 @@ export interface EventPageFilters {
 
 
 export interface EventsPageState {
-    isExpanded: boolean,
     filters: EventPageFilters
 }
 
 const initialState: EventsPageState = {
-    isExpanded: false,
     filters: {
         title: '',
         subtitle: '',
@@ -34,8 +32,8 @@ const initialState: EventsPageState = {
         location: '',
         startDate: null,
         endDate: null,
-        startHour: undefined,
-        endHour: undefined,
+        startHour: '00:00',
+        endHour: '23:59',
         rate: 0,
         rateSign: MathRelation.GREATER,
         maxPeople: 100,

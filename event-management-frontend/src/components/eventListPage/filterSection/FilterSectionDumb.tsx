@@ -30,6 +30,20 @@ interface Props {
 function FilterSectionDumb(props: Props) {
     const classes = useStyles()
 
+    const diplayDate = () => {
+        let result = ''
+
+        if (props.filters.startDate !== null) {
+            result += formatDate(props.filters.startDate, '/')
+        }
+
+        if (props.filters.endDate !== null) {
+            result += " to " + formatDate(props.filters.endDate, '/')
+        }
+
+        return result
+    }
+
     const titleInput = () => {
         return (
             <TextField
@@ -48,20 +62,6 @@ function FilterSectionDumb(props: Props) {
         )
     }
 
-    const diplayDate = () => {
-        let result = ''
-
-        if (props.filters.startDate !== null) {
-            result += formatDate(props.filters.startDate, '/')
-        }
-
-        if (props.filters.endDate !== null) {
-            result += " to " + formatDate(props.filters.endDate, '/')
-        }
-
-        return result
-    }
-
     const dateInput = () => {
         return (
             <DatePicker
@@ -71,35 +71,28 @@ function FilterSectionDumb(props: Props) {
                 selectsRange
                 value={diplayDate()}
                 onChange={(e) => props.handleChangeDate(e)}
-                customInput={<TextField label="Date" />}
-            />
+                customInput={<TextField label="Date" />} />
         )
     }
 
     const showSomeFilters = () => {
         return (
             <Grid container spacing={3}>
-                <Grid item xs={12} sm={6} md={3}>
+                <Grid item xs={12} sm={4}>
                     {
                         titleInput()
                     }
                 </Grid>
 
-                <Grid item xs={12} sm={6} md={3}>
+                <Grid item xs={12} sm={4}>
                     {
                         locationInput()
                     }
                 </Grid>
-
-
-                <Grid item xs={12} sm={6} md={3}>
+                <Grid item xs={12} sm={4}>
                     {
                         dateInput()
                     }
-                </Grid>
-
-                <Grid item xs={12} sm={6} md={3}>
-                    <Button onClick={props.toggle}>See more...</Button>
                 </Grid>
             </Grid>
         )
@@ -108,20 +101,20 @@ function FilterSectionDumb(props: Props) {
     const showAllFilters = () => {
         return (
             <Grid container spacing={3}>
-                <Grid item xs={12} sm={6} md={3}>
+                <Grid item xs={12} sm={4}>
                     {
                         titleInput()
                     }
                 </Grid>
 
-                <Grid item xs={12} sm={6} md={3}>
+                <Grid item xs={12} sm={4}>
                     <TextField
                         label="Subtitle"
                         onChange={(e) => props.handleChangeSubtitle(e.target.value)}
                         fullWidth />
                 </Grid>
 
-                <Grid item xs={12} sm={6} md={3}>
+                <Grid item xs={12} sm={4}>
                     <TextField
                         select
                         label="Status"
@@ -135,35 +128,24 @@ function FilterSectionDumb(props: Props) {
                     </TextField>
                 </Grid>
 
-                <Grid item xs={12} sm={6} md={3}>
-                    <FormControlLabel
-                        control=
-                        {
-                            <Checkbox onChange={(e) => props.handleChangeHighlighted(e.target.checked)} />
-                        }
-                        label="Highlighted"
-                        labelPlacement="end"
-                    />
-                </Grid>
-
-                <Grid item xs={12} sm={6} md={3}>
+                <Grid item xs={12} sm={4}>
                     {
                         locationInput()
                     }
                 </Grid>
 
-                <Grid item xs={12} sm={6} md={3}>
+                <Grid item xs={12} sm={4}>
                     {
                         dateInput()
                     }
                 </Grid>
 
-                <Grid item xs={12} sm={6} md={3} className={classes.timeArea}>
+                <Grid item xs={12} sm={4} className={classes.timeArea}>
                     <TextField
                         className={classes.timeInput}
                         label="Start hour"
                         type="time"
-                        defaultValue="07:30"
+                        defaultValue={props.filters.startHour}
                         onChange={(e) => props.handleChangeStartHour(e.target.value)} />
 
                     <div>
@@ -174,11 +156,11 @@ function FilterSectionDumb(props: Props) {
                         className={classes.timeInput}
                         label="End hour"
                         type="time"
-                        defaultValue="07:30"
+                        defaultValue={props.filters.endHour}
                         onChange={(e) => props.handleChangeEndHour(e.target.value)} />
                 </Grid>
 
-                <Grid item xs={12} sm={6} md={3} className={classes.relationArea}>
+                <Grid item xs={12} sm={4} className={classes.relationArea}>
                     <Select
                         className={classes.relationSelect}
                         value={props.filters.maxPeopleSign}
@@ -197,7 +179,7 @@ function FilterSectionDumb(props: Props) {
 
                 </Grid>
 
-                <Grid item xs={12} sm={6} md={3} className={classes.relationArea}>
+                <Grid item xs={12} sm={4} className={classes.relationArea}>
                     <Select
                         className={classes.relationSelect}
                         value={props.filters.rateSign}
@@ -215,24 +197,39 @@ function FilterSectionDumb(props: Props) {
                         onChange={(e) => props.handleChangeRate(e.target.value)} />
                 </Grid>
 
-                <Grid item xs={12} sm={6} md={3}>
-                    <Button onClick={props.toggle}>See less...</Button>
+                <Grid item xs={12} sm={4} className={classes.highlightedCheckbox}>
+                    <FormControlLabel
+                        control=
+                        {
+                            <Checkbox onChange={(e) => props.handleChangeHighlighted(e.target.checked)} />
+                        }
+                        label="Highlighted"
+                        labelPlacement="end"
+                    />
                 </Grid>
             </Grid>
         )
     }
 
     return (
-        <>
-            <form onSubmit={event => props.submitForm(event)}>
-                {
-                    props.isExpanded ? showAllFilters() : showSomeFilters()
-                }
-                <Button type='submit'>Filter</Button>
-            </form>
+        <form onSubmit={event => props.submitForm(event)}>
+            <Grid container spacing={3}>
+                <Grid item xs={10}>
+                    {
+                        props.isExpanded ? showAllFilters() : showSomeFilters()
+                    }
+                </Grid>
 
-            <Button>Create event</Button>
-        </>
+                <Grid item xs={2} className={classes.filterButtonsArea}>
+                    <Button type='submit'>Filter</Button>
+                    <div onClick={props.toggle} className={classes.filterExpandText}>
+                        {
+                            props.isExpanded ? "See less filters" : "See more filters"
+                        }
+                    </div>
+                </Grid>
+            </Grid>
+        </form>
     )
 }
 
