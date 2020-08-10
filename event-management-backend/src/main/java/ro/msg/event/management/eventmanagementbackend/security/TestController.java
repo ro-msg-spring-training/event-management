@@ -4,18 +4,20 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api")
 public class TestController {
 
-    @GetMapping(path = "/api/hello")
+    @GetMapping(path = "/hello")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getResp() {
         return "Hey authenticated admin!";
     }
 
-    @GetMapping(path = "/api/hello2")
+    @GetMapping(path = "/hello2")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
     public String getRespUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -23,7 +25,7 @@ public class TestController {
         return "Hey authenticated " + user.getIdentificationString();
     }
 
-    @GetMapping(path = "/api/public/hello")
+    @GetMapping(path = "/public/hello")
     public String getPublicResponse() {
         return "PUBLIC";
     }

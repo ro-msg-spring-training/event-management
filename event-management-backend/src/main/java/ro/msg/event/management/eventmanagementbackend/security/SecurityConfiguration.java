@@ -24,9 +24,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 //public resources that do not require authentication
-                .antMatchers("/api/public/**").permitAll()
+                .antMatchers("**/public/**").permitAll()
                 //resources that require authentication
-                .antMatchers("/api/**").authenticated()
+                .antMatchers("/").authenticated()
                 .and()
                 .addFilterBefore(awsCognitoJwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
