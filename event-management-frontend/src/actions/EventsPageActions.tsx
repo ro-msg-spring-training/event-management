@@ -51,7 +51,6 @@ export const fetchEventsRequest = () => {
 }
 
 export const fetchEventsSuccess = (result: any) => {
-    console.log('in fetchEventsSuccess')
     return {
         type: FETCH_EVENTS_SUCCESS,
         payload: result
@@ -62,27 +61,4 @@ export const fetchEventsError = () => {
     return {
         type: FETCH_EVENTS_ERROR,
     }
-}
-
-export const filterEventsFromService = (filters: EventFiltersProps) => {
-    fetchFilteredEvents(filters)
-        .then(result => {
-            filterEventsSuccess(result)
-        })
-        .catch(err => {
-            filterEventsError()
-        })
-}
-
-export const fetchEventsFromService = () => {
-    fetchEventsRequest()
-    fetchEvents()
-        .then(result => {
-            console.log('heeeloe')
-            fetchEventsSuccess(result)
-        })
-        .catch(err => {
-            console.log(err)
-            fetchEventsError()
-        })
 }
