@@ -44,11 +44,10 @@ export const fetchFilteredEvents = (filters: EventFiltersProps) => {
     url.search = new URLSearchParams(filtersToSend).toString();
 
     return fetch(url.toString())
-        .then(response => response.json())
+        .then(response => response.json(), )
 }
 
 export const fetchEvents = () => {
-    console.log('aiciicicicic')
     return fetch(eventsUrl)
-        .then(response => response.json())
+        .then(response => response.json(), );  
 }

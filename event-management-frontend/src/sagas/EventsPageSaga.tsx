@@ -1,14 +1,8 @@
-import {
-    FILTER_EVENTS,
-    filterEventsFromService,
-    FETCH_EVENTS,
-    fetchEventsSuccess,
-    fetchEventsError
-} from "../actions/EventsPageActions";
+import { FILTER_EVENTS, FETCH_EVENTS, fetchEventsRequest, fetchEventsSuccess, fetchEventsError, filterEventsSuccess, filterEventsError } from "../actions/EventsPageActions";
 
 import { takeLatest, call, takeEvery, put } from "redux-saga/effects";
 import { EventFiltersProps } from "../types/EventFiltersProps";
-import { fetchEvents } from "../services/EventsService";
+import { fetchEvents, fetchFilteredEvents } from "../services/EventsService";
 
 
 interface FilterEventsProps {
@@ -17,7 +11,13 @@ interface FilterEventsProps {
 }
 
 function* fetchFilteredEventsAsync(action: FilterEventsProps) {
-    yield call(() => filterEventsFromService(action.payload))
+    try {
+        const result = yield fetchFilteredEvents(action.payload)
+        yield put(filterEventsSuccess(result))
+    }
+    catch (err) {
+        yield put(filterEventsError())
+    }
 }
 
 export function* watchFetchFilteredEventsAsync() {
@@ -25,11 +25,13 @@ export function* watchFetchFilteredEventsAsync() {
 }
 
 function* fetchEventsAsync() {
+    fetchEventsRequest()
     try {
-        const result = yield fetchEvents();
-        yield put(fetchEventsSuccess(result));
-    } catch (err) {
-        yield put(fetchEventsError());
+        const result = yield fetchEvents()
+        yield put(fetchEventsSuccess(result))
+    }
+    catch (err) {
+        yield put(fetchEventsError())
     }
 }
 

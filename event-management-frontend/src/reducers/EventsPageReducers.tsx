@@ -35,7 +35,6 @@ interface ReducerActionProps {
 }
 
 export const EventsPageReducer = (state = initialState, action: ReducerActionProps) => {
-    console.log('reducerrr', action.type)
     switch (action.type) {
         case UPDATE_FILTERS:
             return {
@@ -57,7 +56,6 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
                 isLoading: true
             };
         case FETCH_EVENTS_SUCCESS:
-            console.log('in FETCH_EVENTS_SUCCESS')
             return {
                 ...state,
                 allEvents: action.payload,
