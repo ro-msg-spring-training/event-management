@@ -23,6 +23,6 @@ public class Ticket extends BaseEntity {
     private Booking booking;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="ticket")
+    @JoinColumn(name = "ticket")
     private TicketDocument ticketDocument;
 }

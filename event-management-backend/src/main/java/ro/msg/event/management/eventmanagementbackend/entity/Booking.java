@@ -25,8 +25,8 @@ public class Booking extends BaseEntity {
     private Event event;
 
     @OneToMany(mappedBy = "booking",
-    fetch = FetchType.LAZY,
-    cascade = CascadeType.ALL,
-    orphanRemoval = true)
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
     private List<Ticket> tickets;
 }
