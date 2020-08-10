@@ -26,6 +26,8 @@ CREATE TABLE IF NOT EXISTS `event` (
 CREATE TABLE IF NOT EXISTS `event_sublocation` (
 
                                           `id` long NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                                          `start_date` datetime,
+                                          `end_date` datetime,
                                           `sublocation` long,
                                           `event` long
 
@@ -85,14 +87,3 @@ CREATE TABLE IF NOT EXISTS `booking` (
                                           `event` long
 
 );
-
-
-
-
-
-
-
-
-
-
-
