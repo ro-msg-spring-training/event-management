@@ -1,9 +1,6 @@
 package ro.msg.event.management.eventmanagementbackend.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -33,11 +30,11 @@ public class Event extends BaseEntity {
 
     private boolean highlighted;
 
-    private String observation;
+    private String observations;
 
     private boolean noTicketEvent;
 
-    private Long creator;
+    private String creator;
 
     @OneToMany(mappedBy = "event",
             fetch = FetchType.LAZY,
