@@ -18,10 +18,6 @@ import java.time.LocalDateTime;
 @Entity
 public class EventSublocation extends BaseEntity {
 
-    private LocalDateTime startDate;
-
-    private LocalDateTime endDate;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "sublocation")
     private Sublocation sublocation;

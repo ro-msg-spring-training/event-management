@@ -33,7 +33,8 @@ public class Event extends BaseEntity {
 
     private boolean highlighted;
 
-    private String observation;
+
+    private String observations;
 
     private boolean noTicketEvent;
 
