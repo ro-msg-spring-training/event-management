@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core";
 
-export const useStyles = makeStyles({
+export const useFilterStyles = makeStyles({
     filterButtonsArea: {
         display: 'flex',
         flexDirection: 'column',
@@ -23,10 +23,21 @@ export const useStyles = makeStyles({
     },
     filterExpandText: {
         cursor: 'pointer',
-        fontSize: 12
+        fontSize: 12,
+        marginTop: '5px'
     },
     highlightedCheckbox: {
         display: 'flex',
         alignItems: 'flex-end'
+    },
+    extraFilterHeight: {
+        overflow: 'hidden',
+        transition: 'max-height 0.5s',
+        maxHeight: '100%'
+    },
+    extraFilterHeightZero: {
+        overflow: 'hidden',
+        transition: 'max-height 0.5s',
+        maxHeight: 0,
     }
 });

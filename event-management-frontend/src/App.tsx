@@ -4,17 +4,39 @@ import './App.css';
 import FilterSectionSmart from './components/eventListPage/filterSection/FilterSectionSmart';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core';
+
+const themeDark = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#1E5FA4', //blue
+      light: '#21C6F3', //light blue
+      dark: '#133C55' //dark blue
+    },
+    secondary: {
+      light: '#f9c929', //light yellow
+      main: '#FFFFFF', //pure white
+      dark: '#f2ac0a', //dark yellow
+      contrastText: '#ED4D6E' //paradise pink
+    },
+    background: {
+      default: '#FFFFFF', //white
+    },
+    text: {
+      primary: '#133C55', //dark blue
+    },
+  }
+});
 
 function App() {
   return (
-      // <MuiPickersUtilsProvider utils={DateFnsUtils}>
+    <ThemeProvider theme={themeDark}>
       <Provider store={store}>
         <FilterSectionSmart />
-      </Provider> 
-      // </MuiPickersUtilsProvider>
-      
+      </Provider>
+    </ThemeProvider>
 
-      
+
     // <div className="App">
     //   <header className="App-header">
     //     <img src={logo} className="App-logo" alt="logo" />
