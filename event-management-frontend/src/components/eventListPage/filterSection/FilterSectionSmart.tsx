@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, FormEvent, KeyboardEvent } from 'react';
 import FilterSectionDumb from './FilterSectionDumb';
 import { Container } from '@material-ui/core';
 import { updateFilters, filterEvents } from '../../../actions/EventsPageActions';
 import { connect } from 'react-redux';
-import { EventPageFilters } from '../../../reducers/EventsPageReducers';
 import { MathRelation } from '../../../model/MathRelation';
+import { EventFiltersProps } from '../../../types/EventFiltersProps';
 
 interface Props {
-    filters: EventPageFilters,
-    updateFilters: (filters: any) => void,
-    filterEvents: () => void,
+    filters: EventFiltersProps,
+    updateFilters: (filters: EventFiltersProps) => void,
+    filterEvents: (filters: EventFiltersProps) => void,
 }
 
 function FilterSectionSmart({ filters, updateFilters, filterEvents }: Props) {
@@ -133,25 +133,20 @@ function FilterSectionSmart({ filters, updateFilters, filterEvents }: Props) {
         handleChange()
     }
 
-    const submitForm = (event: any) => {
+    const submitForm = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        filterEvents()
+        filterEvents(filters)
     }
 
     const toggle = () => {
         setExpanded(!expanded)
     }
 
-    const restrictNumberInput = (e: any) => {
+    const restrictNumberInput = (e: KeyboardEvent<HTMLDivElement>) => {
         if (e.key === '-' || e.key === 'e' || e.key === '+' || e.key === '.' || e.key === ',') {
             e.preventDefault()
         }
     }
-
-    const restrictRateInput = (e: any) => {
-        restrictNumberInput(e)
-    }
-
 
     return (
         <Container>
@@ -180,14 +175,14 @@ function FilterSectionSmart({ filters, updateFilters, filterEvents }: Props) {
     )
 }
 
-const mapStateToProps = (state: any) => ({
-    filters: state.eventReducer.filters
+const mapStateToProps = ({eventReducer}: any) => ({
+    filters: eventReducer.filters
 });
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        updateFilters: (filters: any) => dispatch(updateFilters(filters)),
-        filterEvents: () => dispatch(filterEvents())
+        updateFilters: (filters: EventFiltersProps) => dispatch(updateFilters(filters)),
+        filterEvents: (filters: EventFiltersProps) => dispatch(filterEvents(filters))
     }
 }
 

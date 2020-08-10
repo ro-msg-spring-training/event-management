@@ -1,17 +1,16 @@
-import { FILTER_EVENTS, filterEventsRequest, filterEventsError, filterEventsSuccess } from "../actions/EventsPageActions";
+import { FILTER_EVENTS, filterEventsRequest } from "../actions/EventsPageActions";
 
-import { put, takeLatest, call } from "redux-saga/effects";
+import { takeLatest, call } from "redux-saga/effects";
+import { EventFiltersProps } from "../types/EventFiltersProps";
 
-function* filterEventsAsync() {
-    try {
-        yield put(filterEventsRequest())
-        // to call the API
-        // const response = yield call()
-        yield put(filterEventsSuccess());
-    }
-    catch{
-        yield put(filterEventsError());
-    }
+
+interface FilterEventsProps {
+    type: string,
+    payload: EventFiltersProps
+}
+
+function* filterEventsAsync(action: FilterEventsProps) {
+    yield call(() => filterEventsRequest(action.payload))
 }
 
 export function* fetchProdictListWatcher() {

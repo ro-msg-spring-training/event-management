@@ -39,5 +39,13 @@ export const useFilterStyles = makeStyles({
         overflow: 'hidden',
         transition: 'max-height 0.5s',
         maxHeight: 0,
+    },
+    customDatePickerWidth: {
+        '& .react-datepicker-wrapper': {
+            width: '100%'
+        }
+    },
+    datePicker: {
+        width: '100%'
     }
-});
+}); 

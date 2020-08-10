@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FormEvent, KeyboardEvent } from 'react';
 import { Grid, TextField, Button, Select, MenuItem, Checkbox, FormControlLabel, InputAdornment } from '@material-ui/core'
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css";
@@ -6,16 +6,18 @@ import { MathRelation } from '../../../model/MathRelation';
 import { formatDate } from '../../../utils/formatDate';
 import { useFilterStyles } from '../../../styles/filterStyles';
 import { useStyles } from '../../../styles/CommonStyles';
+import { EventFiltersProps } from '../../../types/EventFiltersProps';
+
 
 interface Props {
     isExpanded: boolean,
-    filters: any,
+    filters: EventFiltersProps,
     errorRate: string,
     errorMaxPeople: string,
-    updateFilters: (filters: any) => void,
+    updateFilters: (filters: EventFiltersProps) => void,
     toggle: () => void,
-    submitForm: (event: any) => void,
-    restrictNumberInput: (event: any) => void
+    submitForm: (event: FormEvent<HTMLFormElement>) => void,
+    restrictNumberInput: (event: KeyboardEvent<HTMLDivElement>) => void
     handleChangeTitle: (title: string) => void,
     handleChangeSubtitle: (subtitle: string) => void,
     handleChangeLocation: (location: string) => void,
@@ -23,7 +25,7 @@ interface Props {
     handleChangeHighlighted: (highlighted: boolean) => void,
     handleChangeStartHour: (startHour: string) => void,
     handleChangeEndHour: (endHour: string) => void,
-    handleChangeDate: (date: any) => void,
+    handleChangeDate: (date: Date | [Date, Date] | null) => void,
     handleChangeMaxPeople: (maxPeople: string) => void,
     handleChangeMaxPeopleSign: (maxPeopleSign: MathRelation) => void,
     handleChangeRate: (rate: string) => void,
@@ -82,6 +84,7 @@ function FilterSectionDumb(props: Props) {
                             </TextField>
                         </Grid>
                     </Grid>
+
                     <Grid container spacing={3} className={props.isExpanded ? classes.extraFilterHeight : classes.extraFilterHeightZero}>
                         <Grid item xs={12} sm={12} md={4}>
                             <TextField
@@ -91,14 +94,17 @@ function FilterSectionDumb(props: Props) {
                         </Grid>
 
                         <Grid item xs={12} sm={12} md={4}>
-                            <DatePicker
-                                selected={props.filters.startDate}
-                                startDate={props.filters.startDate}
-                                endDate={props.filters.endDate}
-                                selectsRange
-                                value={diplayDate()}
-                                onChange={(e) => props.handleChangeDate(e)}
-                                customInput={<TextField label="Date" />} />
+                            <div className={classes.customDatePickerWidth}>
+                                <DatePicker
+                                    className={classes.datePicker}
+                                    selected={props.filters.startDate}
+                                    startDate={props.filters.startDate}
+                                    endDate={props.filters.endDate}
+                                    selectsRange
+                                    value={diplayDate()}
+                                    onChange={(e) => props.handleChangeDate(e)}
+                                    customInput={<TextField label="Date" />} />
+                            </div>
                         </Grid>
 
                         <Grid item xs={12} sm={12} md={4} className={classes.timeArea}>
@@ -197,7 +203,8 @@ function FilterSectionDumb(props: Props) {
                         disabled={props.errorRate !== '' || props.errorMaxPeople !== ""}
                         className={`${communClasses.buttonStyle2} ${communClasses.buttonStyle3}`}>
                         Filter
-                        </Button>
+                    </Button>
+                    
                     <div onClick={props.toggle} className={classes.filterExpandText}>
                         {
                             props.isExpanded ? "See less filters" : "See more filters"

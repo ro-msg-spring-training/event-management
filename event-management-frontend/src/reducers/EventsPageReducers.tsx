@@ -1,26 +1,11 @@
-import { UPDATE_FILTERS } from "../actions/EventsPageActions"
+import { UPDATE_FILTERS, FILTER_EVENTS_SUCCESS, FILTER_EVENTS_ERROR } from "../actions/EventsPageActions"
 import { MathRelation } from "../model/MathRelation"
-
-
-export interface EventPageFilters {
-    title: string,
-    subtitle: string,
-    status: string,
-    highlighted: boolean,
-    location: string,
-    startDate: any, // to change
-    endDate: any, // to change
-    startHour: string, 
-    endHour: string, 
-    rate: number | string,
-    rateSign: MathRelation,
-    maxPeople: number | string,
-    maxPeopleSign: MathRelation
-}
+import { EventFiltersProps } from "../types/EventFiltersProps";
 
 
 export interface EventsPageState {
-    filters: EventPageFilters
+    filters: EventFiltersProps,
+    allEvents: []
 }
 
 const initialState: EventsPageState = {
@@ -39,20 +24,29 @@ const initialState: EventsPageState = {
         maxPeople: '',
         maxPeopleSign: MathRelation.GREATER
     },
+    allEvents: []
 }
 
 interface ReducerActionProps {
     type: string,
-    payload: boolean | any
+    payload: boolean | []
 }
 
 export const EventsPageReducer = (state = initialState, action: ReducerActionProps) => {
     switch (action.type) {
         case UPDATE_FILTERS:
-            console.log('in reducer', action.payload)
             return {
                 ...state,
                 filters: action.payload
+            };
+        case FILTER_EVENTS_SUCCESS:
+            return {
+                ...state,
+                allEvents: action.payload
+            }
+        case FILTER_EVENTS_ERROR:
+            return {
+                ...state,
             }
         default:
             return state
