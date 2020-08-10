@@ -6,7 +6,7 @@ import EventList from "./EventList";
 const Event = () => (
     <Switch>
         <Route exact path='/events' component={EventList}/>
-</Switch>
+    </Switch>
 )
 
 export default Event

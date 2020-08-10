@@ -2,7 +2,7 @@ import { createStore, applyMiddleware } from "redux";
 import rootReducer from '../reducers/rootReducer';
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from '../sagas/rootSaga';
-import { FetchEventsState } from "../reducers/fetchEventsReducer";
+// import { FetchEventsState } from "../reducers/fetchEventsReducer";
 import { EventsPageState } from "../reducers/EventsPageReducers";
 
 const sagaMiddleware = createSagaMiddleware()
@@ -14,6 +14,5 @@ export const store = createStore(
 sagaMiddleware.run(rootSaga)
 
 export interface AppState {
-    events: FetchEventsState,
-    eventsList: EventsPageState
+    events: EventsPageState
 }

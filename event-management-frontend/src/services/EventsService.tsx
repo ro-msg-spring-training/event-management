@@ -1,6 +1,6 @@
 import { EventFiltersProps } from "../types/EventFiltersProps";
 
-const eventsUrl = 'http://localhost:4000/events';
+const eventsUrl = 'http://localhost:4000/products';
 
 const computeFilterQueryString = (filters: EventFiltersProps) => {
     let filtersToSend: any = {}
@@ -44,5 +44,11 @@ export const fetchFilteredEvents = (filters: EventFiltersProps) => {
     url.search = new URLSearchParams(filtersToSend).toString();
 
     return fetch(url.toString())
+        .then(response => response.json())
+}
+
+export const fetchEvents = () => {
+    console.log('aiciicicicic')
+    return fetch(eventsUrl)
         .then(response => response.json())
 }

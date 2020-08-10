@@ -9,9 +9,10 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { connect } from 'react-redux';
-import { fetchEvents } from "../actions/FetchEvents";
 import { AppState } from "../store/store";
 import {withStyles, Theme, createStyles } from '@material-ui/core/styles';
+import {fetchAllEvents} from '../actions/EventsPageActions'
+
 
 const StyledTableCell = withStyles((theme: Theme) =>
     createStyles({
@@ -28,7 +29,7 @@ interface State {}
 // TODO: find a way to get rid of this <any>
 class EventList extends React.Component<any, State> {
     componentWillMount() {
-        this.props.fetchEvents();
+        this.props.fetchAllEvents();
     }
 
     render() {
@@ -72,4 +73,4 @@ const mapStateToProps = (state: AppState) => ({
     events: state.events.allEvents,
     isLoading: state.events.isLoading
 });
-export default connect(mapStateToProps, {fetchEvents})(EventList)
+export default connect(mapStateToProps, { fetchAllEvents })(EventList)

@@ -175,8 +175,8 @@ function FilterSectionSmart({ filters, updateFilters, filterEvents }: Props) {
     )
 }
 
-const mapStateToProps = ({eventReducer}: any) => ({
-    filters: eventReducer.filters
+const mapStateToProps = ({events}: any) => ({
+    filters: events.filters
 });
 
 const mapDispatchToProps = (dispatch: any) => {
