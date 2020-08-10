@@ -3,8 +3,10 @@ import rootReducer from '../reducers/rootReducer';
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from '../sagas/rootSaga';
 import { FetchEventsState } from "../reducers/fetchEventsReducer";
+import { EventsPageState } from "../reducers/EventsPageReducers";
 
 const sagaMiddleware = createSagaMiddleware()
+
 export const store = createStore(
     rootReducer,
     applyMiddleware(sagaMiddleware)
@@ -12,5 +14,6 @@ export const store = createStore(
 sagaMiddleware.run(rootSaga)
 
 export interface AppState {
-    events: FetchEventsState
+    events: FetchEventsState,
+    eventsList: EventsPageState
 }
