@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface EventModel {
+interface Event {
     id: number;
     title: string;
     subtitle: string;
@@ -11,4 +11,4 @@ interface EventModel {
     name: string;
 }
 
-export default EventModel;
+export default Event;

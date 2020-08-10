@@ -35,9 +35,9 @@ interface Props {
 
 function FilterSectionDumb(props: Props) {
     const classes = useFilterStyles()
-    const communClasses = useStyles()
+    const commonClasses = useStyles()
 
-    const diplayDate = () => {
+    const displayDate = () => {
         let result = ''
 
         if (props.filters.startDate !== null) {
@@ -101,7 +101,7 @@ function FilterSectionDumb(props: Props) {
                                     startDate={props.filters.startDate}
                                     endDate={props.filters.endDate}
                                     selectsRange
-                                    value={diplayDate()}
+                                    value={displayDate()}
                                     onChange={(e) => props.handleChangeDate(e)}
                                     customInput={<TextField label="Date" />} />
                             </div>
@@ -201,7 +201,7 @@ function FilterSectionDumb(props: Props) {
                     <Button
                         type='submit'
                         disabled={props.errorRate !== '' || props.errorMaxPeople !== ""}
-                        className={`${communClasses.buttonStyle2} ${communClasses.buttonStyle3}`}>
+                        className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3}`}>
                         Filter
                     </Button>
                     
