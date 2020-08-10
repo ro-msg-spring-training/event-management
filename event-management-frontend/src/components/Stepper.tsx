@@ -7,18 +7,24 @@ import Overview from './Overview';
 import Location from './Location';
 import Tickets from './Tickets';
 import Images from './Images';
+import { Grid } from '@material-ui/core';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.default,
     display: 'flex',
-    height: "100%",
     color: theme.palette.text.primary,
+    height: "100%",
+    width: "100%",
   },
   tabs: {
-    borderRight: `1px solid ${theme.palette.divider}`,
+    borderRight: `1px solid ${theme.palette.primary.dark}`,
+    // minWidth: "75px"
+  },
+  tab: {
+    paddingBottom: "25px",
+    paddingTop: "25px",
   }
+
 }));
 
 interface TabPanelProps {
@@ -29,7 +35,7 @@ interface TabPanelProps {
 
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
-
+  // p={3}
   return (
     <div
       role="tabpanel"
@@ -39,9 +45,9 @@ function TabPanel(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box p={3}> {children} </Box>
+        <Box width="auto"> {children} </Box>
       )}
-    </div>
+    </div >
   );
 }
 
@@ -62,33 +68,43 @@ export default function Stepper() {
 
   return (
     <div className={classes.root}>
-      <Tabs
-        orientation="vertical"
-        value={value}
-        onChange={handleChange}
-        className={classes.tabs}
-        centered
-      >
-        <Tab label="Overview" {...a11yProps(0)} />
-        <Tab label="Location" {...a11yProps(1)} />
-        <Tab label="Tickets" {...a11yProps(2)} />
-        <Tab label="Images" {...a11yProps(3)} />
 
-      </Tabs>
+      <Grid container direction="row" justify="flex-start" alignItems="center">
 
-      <TabPanel value={value} index={0}>
-        <Overview />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <Location />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        <Tickets />
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        <Images />
-      </TabPanel>
+        <Grid item xl={1} lg={2} md={2} sm={2} xs={3}>
 
+          <Tabs
+            orientation="vertical"
+            value={value}
+            onChange={handleChange}
+            className={classes.tabs}
+            centered
+          >
+            {/* className={`rotate ${classes.tab}`}   */}
+            <Tab label="Overview"  {...a11yProps(0)} />
+            <Tab label="Location"  {...a11yProps(1)} />
+            <Tab label="Tickets" {...a11yProps(2)} />
+            <Tab label="Images" {...a11yProps(3)} />
+
+          </Tabs>
+        </Grid>
+
+        <Grid item xl={11} lg={10} md={10} sm={10} xs={9}>
+          <TabPanel value={value} index={0}>
+            <Overview/>
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <Location />
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            <Tickets />
+          </TabPanel>
+          <TabPanel value={value} index={3}>
+            <Images />
+          </TabPanel>
+        </Grid>
+
+      </Grid>
     </div>
   );
 }

@@ -1,54 +1,55 @@
 import React from 'react';
 import './App.css';
-import Stepper from './components/Stepper';
 import { createMuiTheme, MuiThemeProvider, makeStyles, Paper } from '@material-ui/core';
-import Header from './components/Header';
+import { Provider } from 'react-redux';
+import store from './store/store';
+import Main from './components/Main';
 
 const themeDark = createMuiTheme({
   palette: {
     primary: {
-      main: "#F2B705", //yellow
-      light: "#6BB7D0" //light blue
+      main: '#1E5FA4', //blue
+      light: '#21C6F3', //light blue
+      dark: '#133C55' //dark blue
+    },
+    secondary: {
+      light: '#f9c929', //light yellow
+      main: '#FFFFFF', //pure white
+      dark: '#f2ac0a', //dark yellow
+      contrastText: '#ED4D6E' //paradise pink
     },
     background: {
-      default: "#133C55", //dark blue
-      paper: "#F4F5F9",
+      default: '#FFFFFF', //white
     },
     text: {
-      primary: "#ffffff"
+      primary: '#133C55', //dark blue
     },
-    divider: "#555555",
   }
-
 });
 
 const useStyles = makeStyles({
   paper: {
     width: "100%",
     minHeight: "100vh",
-    backgroundColor: '#133C55' //dark blue
+    background: 'linear-gradient(45deg, #21C6F3 50%, #1E5FA4 90%)',
+    // background: '#FFFFFF', 
   },
 });
 
-//yellow: F2B705
-//off white: F4F5F9
-// light blue: 6BB7D0
-//dark blue: 133C55
-
-
 function App() {
-  const eventName = "eventname";
-
   const classes = useStyles();
   return (
-    <MuiThemeProvider theme={themeDark}>
-      <Paper className={classes.paper}>
-        <div className="App">
-          <Header eventName={eventName} />
-          <Stepper />
-        </div>
-      </Paper>
-    </MuiThemeProvider>
+    <Provider store={store}>
+      <MuiThemeProvider theme={themeDark}>
+        <Paper className={classes.paper}>
+          <div className="App">
+            <Main/>
+            {/* <Header admin={true} /> */}
+            {/* <Stepper /> */}
+          </div>
+        </Paper>
+      </MuiThemeProvider>
+    </Provider>
   );
 }
 
