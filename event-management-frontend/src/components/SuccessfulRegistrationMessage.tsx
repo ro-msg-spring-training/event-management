@@ -1,5 +1,5 @@
 import { Alert, AlertTitle } from '@material-ui/lab';
-import useStylesSuccess from "../style/FormSuccessStyle";
+import useStylesSuccess from "../styles/FormSuccessStyle";
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -14,7 +14,7 @@ export const RegistrationSucces = (props: FromSuccessProps) => {
        return (
        <Alert severity="success" className={classes.success}>
            <AlertTitle><strong>{props.successMessage}.</strong></AlertTitle>
-            Please{' '}<strong><Link color="secondary" to={`/login`}>log in</Link></strong>{' '}first to continue.
+            We sent a verification code to your email account. After checking it please {' '}<strong><Link color="secondary" to={`/login`}>log in</Link></strong>{' '}to continue.
         </Alert>
        )
    } else {

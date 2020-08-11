@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { Auth, auth0SignInButton } from 'aws-amplify';
-import { Amplify } from 'aws-amplify';
-import { FormGroup, TextField, Button, FormControl, InputLabel, Input, InputAdornment, IconButton, OutlinedInput } from '@material-ui/core'
+import { Auth} from 'aws-amplify';
+import { FormGroup, TextField, Button, FormControl, InputLabel,  InputAdornment, IconButton, OutlinedInput } from '@material-ui/core'
 import { useHistory } from 'react-router-dom';
-import { withRouter } from 'react-router';
 import useStylesLogin from '../styles/loginStyle';
 import { useStyles } from '../styles/CommonStyles';
 import { FormErrors } from './FormErrors'

@@ -1,7 +1,7 @@
 import React from "react";
-
 import useStylesError from '../styles/FormErrorsStyle'
 import { Alert } from '@material-ui/lab';
+
 interface FromErrorProps {
     error: string;
 }

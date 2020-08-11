@@ -1,6 +1,6 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import { Auth } from 'aws-amplify';
-import { FormGroup, TextField, Button, FormHelperText } from '@material-ui/core';
+import { FormGroup, TextField, Button } from '@material-ui/core';
 import useStylesLogin from '../styles/loginStyle';
 import { useStyles } from '../styles/CommonStyles';
 import { useHistory } from 'react-router-dom';
@@ -27,7 +27,7 @@ const ForgotPassword = () => {
     }
 
 
-    if (validateEmail(email) && emailError == "") {
+    if (validateEmail(email) && emailError === "") {
         setEmailError("Enter a valid email address")
     }
 
@@ -52,7 +52,7 @@ const ForgotPassword = () => {
                     required
                     variant="outlined"
                     helperText={emailError}
-                    error={emailError != "" || validateEmail(email)}
+                    error={emailError !== "" || validateEmail(email)}
                     onChange={e => { setEmail(e.target.value); setEmailError("") }}
 
 

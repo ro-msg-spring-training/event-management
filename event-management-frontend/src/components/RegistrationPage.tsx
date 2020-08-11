@@ -3,13 +3,13 @@ import { Auth } from "aws-amplify";
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { TextField, Button, FormGroup, FormControl, FormHelperText, InputLabel, InputAdornment, IconButton, OutlinedInput, ThemeProvider } from "@material-ui/core";
-import { useStyles2 } from '../style/CommonStyles'
-import { useStyles } from '../style/RegistrationPageStyle'
+import { useStyles } from '../styles/CommonStyles'
+import { useStylesRegistration } from '../styles/RegistrationPageStyle'
 import { validateEmail, validatePassword, validateConfirmPassword } from '../validation/registrationValidation';
-import { RegistrationSucces } from './RegistrationSuccess';
+import { RegistrationSucces } from './SuccessfulRegistrationMessage';
 import { Link } from 'react-router-dom';
 import { FormErrors } from './FormErrors';
-import { themeDark } from '../style/Themes';
+import themeDark  from '../styles/theme';
 
 const RegisterPage =  () => {
 
@@ -30,8 +30,8 @@ const RegisterPage =  () => {
       showPassword: false,
     });
     
-    const classes = useStyles();
-    const classes2 = useStyles2();
+    const classes = useStylesRegistration();
+    const classes2 = useStyles();
 
     const handleClickShowPassword = () => {
       setValues({ showPassword: !values.showPassword });
@@ -49,7 +49,9 @@ const RegisterPage =  () => {
             email: email
           }
         });
+        setErrorMessage("");
         setSuccessMessage("Registration successful.");
+        
       } catch (error) {
         setErrorMessage(error.message);
         switch (error.code) {
@@ -119,7 +121,7 @@ const RegisterPage =  () => {
               label="Username"
               value={username}
               onChange={event => { setUsername(event.target.value); setUsernameError(''); }}
-              error={usernameError != ''}
+              error={usernameError !== ''}
               helperText={usernameError}
             />
             <FormControl 
@@ -132,7 +134,7 @@ const RegisterPage =  () => {
                   labelWidth={80}
                   value={password}
                   onChange={event => { setPassword(event.target.value); setPasswordError('') }}
-                  error={validatePassword(password, passwordError, setPasswordError) || passwordError != ''}
+                  error={validatePassword(password, passwordError, setPasswordError) || passwordError !== ''}
                   endAdornment={
                     <InputAdornment position="end">
                       <IconButton

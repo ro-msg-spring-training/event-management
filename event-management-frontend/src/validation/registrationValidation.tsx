@@ -1,6 +1,6 @@
 
   export const validateEmail=(email: string, emailError:string, setEmailError: (arg0: string) => void) => {
-    if (email.trim() == "" || (/^[a-zA-Z0-9_.\-$]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email))) {
+    if (email.trim() === "" || (/^[a-zA-Z0-9_.\-$]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email))) {
       return false;
     }
 
@@ -11,7 +11,7 @@
   }
 
   export const validatePassword=(password:string, passwordError:string, setPasswordError: (arg0: string) => void) => {
-    if (password.trim() == "" || (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(password))) {
+    if (password.trim() === "" || (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(password))) {
       return false;
     }
 
@@ -22,7 +22,7 @@
   }
 
   export const validateConfirmPassword=(password:string, confirmPassword: string, confirmPasswordError: string, setConfirmPasswordError: (arg0: string) => void) => {
-    if (confirmPassword.trim() == "" || confirmPassword === password) {
+    if (confirmPassword.trim() === "" || confirmPassword === password) {
       return false;
     }
     

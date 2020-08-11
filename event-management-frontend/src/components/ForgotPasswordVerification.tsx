@@ -1,6 +1,6 @@
-import React, { Component, useState } from 'react';
+import React, {  useState } from 'react';
 import { Auth } from 'aws-amplify';
-import { FormGroup, TextField, Button, FormControl, InputLabel, Input, InputAdornment, IconButton, OutlinedInput, FormHelperText } from '@material-ui/core';
+import { FormGroup, TextField, Button, FormControl, InputLabel, InputAdornment, IconButton, OutlinedInput, FormHelperText } from '@material-ui/core';
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import useStylesLogin from '../styles/loginStyle';
@@ -42,10 +42,10 @@ const ForgotPasswordVerification = () => {
         }
     }
 
-    if (validatePasswordRequirements(newpassword) && newpasswordError == "") {
+    if (validatePasswordRequirements(newpassword) && newpasswordError === "") {
         setPasswordError("Requirements min. 8 characters uppercase and number")
     }
-    if (validateEmail(email) && emailError == "") {
+    if (validateEmail(email) && emailError === "") {
         setEmailError("Enter a valid email address")
     }
 
@@ -77,7 +77,7 @@ const ForgotPasswordVerification = () => {
                     variant="outlined"
                     required
                     helperText={emailError}
-                    error={emailError != "" || validateEmail(email)}
+                    error={emailError !== "" || validateEmail(email)}
                     onChange={e => { setEmail(e.target.value); setEmailError("") }}
 
                 />
@@ -89,7 +89,7 @@ const ForgotPasswordVerification = () => {
                         type={values.showPassword ? 'text' : 'password'}
                         value={newpassword}
                         required
-                        error={newpasswordError != "" || validatePasswordRequirements(newpassword)}
+                        error={newpasswordError !== "" || validatePasswordRequirements(newpassword)}
                         onChange={event => { setPassword(event.target.value); setPasswordError("") }}
                         endAdornment={
                             <InputAdornment position="end">

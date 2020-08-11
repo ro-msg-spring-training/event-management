@@ -2,7 +2,7 @@ import React from "react";
 import { useStyles } from '../styles/CommonStyles';
 import useStylesChangePassword from "../styles/ChangePasswordStyle";
 import { Grid, Button } from "@material-ui/core";
-import { Link, BrowserRouter as Router } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const ChangePasswordConfirm = () => {
     const classes = useStyles();
