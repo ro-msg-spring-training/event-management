@@ -8,6 +8,8 @@ import ro.msg.event.management.eventmanagementbackend.converter.EventUpdateConve
 import ro.msg.event.management.eventmanagementbackend.dto.EventDTO;
 import ro.msg.event.management.eventmanagementbackend.entity.Event;
 import ro.msg.event.management.eventmanagementbackend.service.EventService;
+import ro.msg.event.management.eventmanagementbackend.service.ExceededCapacityException;
+import ro.msg.event.management.eventmanagementbackend.service.OverlappingEventsException;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -36,8 +38,10 @@ public class EventController {
         try {
             eventUpdated = eventService.updateEvent(event);
             eventDto = eventUpdateConverter.convertToDto(eventUpdated);
-        } catch (NoSuchElementException exception) {
+        } catch (NoSuchElementException noSuchElementException) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (OverlappingEventsException | ExceededCapacityException overlappingEventsException) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         return new ResponseEntity<>(eventDto, HttpStatus.OK);
     }
