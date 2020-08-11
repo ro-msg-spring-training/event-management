@@ -31,6 +31,12 @@ public class EventService {
 
     private final EventRepository eventRepository;
 
+
+    public void deleteEvent(long id)
+    {
+        this.eventRepository.deleteById(id);
+    }
+
     private final EventViewRepository eventViewRepository;
 
     @PersistenceContext(type = PersistenceContextType.EXTENDED)
