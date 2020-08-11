@@ -52,13 +52,14 @@ function FilterSectionDumb(props: Props) {
     }
 
     return (
-        <form onSubmit={event => props.submitForm(event)}>
+        <form onSubmit={event => props.submitForm(event)} className={classes.filterArea}>
             <Grid container spacing={3}>
                 <Grid item xs={12} sm={10}>
-                    <Grid container spacing={3}>
+                    <Grid container spacing={3} className={classes.firstFiltersArea}>
                         <Grid item xs={12} sm={12} md={4}>
                             <TextField
                                 label="Title"
+                                variant="outlined"
                                 onChange={(e) => props.handleChangeTitle(e.target.value)}
                                 fullWidth />
                         </Grid>
@@ -66,6 +67,7 @@ function FilterSectionDumb(props: Props) {
                         <Grid item xs={12} sm={12} md={4}>
                             <TextField
                                 label="Subtitle"
+                                variant="outlined"
                                 onChange={(e) => props.handleChangeSubtitle(e.target.value)}
                                 fullWidth />
                         </Grid>
@@ -73,6 +75,7 @@ function FilterSectionDumb(props: Props) {
                         <Grid item xs={12} sm={12} md={4}>
                             <TextField
                                 select
+                                variant="outlined"
                                 label="Status"
                                 value={props.filters.status}
                                 onChange={(e) => props.handleChangeStatus(e.target.value as string)}
@@ -85,10 +88,14 @@ function FilterSectionDumb(props: Props) {
                         </Grid>
                     </Grid>
 
-                    <Grid container spacing={3} className={props.isExpanded ? classes.extraFilterHeight : classes.extraFilterHeightZero}>
+                    <Grid container
+                        spacing={3}
+                        className={props.isExpanded ? classes.extraFilterHeight : classes.extraFilterHeightZero}>
+                        
                         <Grid item xs={12} sm={12} md={4}>
                             <TextField
                                 label="Location"
+                                variant="outlined"
                                 onChange={(e) => props.handleChangeLocation(e.target.value)}
                                 fullWidth />
                         </Grid>
@@ -103,7 +110,7 @@ function FilterSectionDumb(props: Props) {
                                     selectsRange
                                     value={displayDate()}
                                     onChange={(e) => props.handleChangeDate(e)}
-                                    customInput={<TextField label="Date" />} />
+                                    customInput={<TextField label="Date" variant="outlined" />} />
                             </div>
                         </Grid>
 
@@ -111,6 +118,7 @@ function FilterSectionDumb(props: Props) {
                             <TextField
                                 className={classes.timeInput}
                                 label="Start hour"
+                                variant="outlined"
                                 type="time"
                                 value={props.filters.startHour}
                                 onChange={(e) => props.handleChangeStartHour(e.target.value)} />
@@ -122,6 +130,7 @@ function FilterSectionDumb(props: Props) {
                             <TextField
                                 className={classes.timeInput}
                                 label="End hour"
+                                variant="outlined"
                                 type="time"
                                 value={props.filters.endHour}
                                 onChange={(e) => props.handleChangeEndHour(e.target.value)} />
@@ -140,9 +149,9 @@ function FilterSectionDumb(props: Props) {
                             </Select>
 
                             <TextField
-                                fullWidth
                                 error={props.errorMaxPeople !== ''}
                                 label={props.errorMaxPeople ? `Max number of people - ${props.errorMaxPeople}` : 'Max number of people'}
+                                variant="outlined"
                                 type='number'
                                 InputProps={{
                                     inputProps: {
@@ -150,7 +159,8 @@ function FilterSectionDumb(props: Props) {
                                     }
                                 }}
                                 onKeyPress={(e) => props.restrictNumberInput(e)}
-                                onChange={(e) => props.handleChangeMaxPeople(e.target.value)} />
+                                onChange={(e) => props.handleChangeMaxPeople(e.target.value)}
+                                fullWidth />
                         </Grid>
 
                         <Grid item xs={12} sm={12} md={4} className={classes.relationArea}>
@@ -166,8 +176,8 @@ function FilterSectionDumb(props: Props) {
                             </Select>
 
                             <TextField
-                                fullWidth
                                 label={props.errorRate ? `Occupacy rate - ${props.errorRate}` : 'Occupacy rate'}
+                                variant="outlined"
                                 type='number'
                                 error={props.errorRate !== ''}
                                 InputProps={{
@@ -181,7 +191,8 @@ function FilterSectionDumb(props: Props) {
                                     )
                                 }}
                                 onKeyPress={(e) => props.restrictNumberInput(e)}
-                                onChange={(e) => props.handleChangeRate(e.target.value)} />
+                                onChange={(e) => props.handleChangeRate(e.target.value)}
+                                fullWidth />
                         </Grid>
 
                         <Grid item xs={12} sm={12} md={4} className={classes.highlightedCheckbox}>
@@ -204,7 +215,7 @@ function FilterSectionDumb(props: Props) {
                         className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3}`}>
                         Filter
                     </Button>
-                    
+
                     <div onClick={props.toggle} className={classes.filterExpandText}>
                         {
                             props.isExpanded ? "See less filters" : "See more filters"
