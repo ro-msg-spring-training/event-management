@@ -30,7 +30,7 @@ public class EventUpdateConverter {
             for (Picture picture : event.getPictures()) {
                 picturesUrl.add(picture.getUrl());
             }
-            eventUpdateDto.setPictures(picturesUrl);
+            eventUpdateDto.setPictureURL(picturesUrl);
         }
         return eventUpdateDto;
     }
@@ -50,10 +50,10 @@ public class EventUpdateConverter {
         event.setStartDate(eventDTO.getStartDate());
         event.setEndDate(eventDTO.getEndDate());
 
-        if (eventDTO.getPictures() != null) {
+        if (eventDTO.getPictureURL() != null) {
             List<Picture> pictures = new ArrayList<>();
 
-            for (String urlPicture : eventDTO.getPictures()) {
+            for (String urlPicture : eventDTO.getPictureURL()) {
                 Picture picture = new Picture();
 
                 picture.setUrl(urlPicture);

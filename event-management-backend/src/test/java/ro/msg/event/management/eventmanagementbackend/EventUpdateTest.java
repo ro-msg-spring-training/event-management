@@ -53,8 +53,10 @@ class EventUpdateTest {
     @Test
     void updateTitles_thenGetOk() throws NoSuchElementException, ExceededCapacityException, OverlappingEventsException {
         List<String> pictures = new ArrayList<>();
+        List<Long> sublocations = new ArrayList<>();
+        sublocations.add((long)1);
 
-        EventDTO eventDTO = new EventDTO("newTitle", "newSubtitle", true, LocalDateTime.of(2017, 7, 3, 2, 54), LocalDateTime.of(2017, 7, 2, 2, 20), 100, "description", false, "obs", true, "creator", pictures, (long)1);
+        EventDTO eventDTO = new EventDTO("newTitle", "newSubtitle", true, LocalDateTime.of(2017, 7, 3, 2, 54), LocalDateTime.of(2017, 7, 2, 2, 20), 100, "description", false, "obs", true, "creator", pictures, sublocations);
         Event newEvent = eventUpdateConverter.convertToEntity(eventDTO);
         newEvent.setId((long) 1);
 

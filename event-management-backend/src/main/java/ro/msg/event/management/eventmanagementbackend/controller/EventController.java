@@ -9,7 +9,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ro.msg.event.management.eventmanagementbackend.dto.EventDTO;
-import ro.msg.event.management.eventmanagementbackend.embeddedid.EventSublocationID;
 import ro.msg.event.management.eventmanagementbackend.entity.*;
 import ro.msg.event.management.eventmanagementbackend.security.User;
 import java.util.List;
