@@ -1,7 +1,6 @@
 package ro.msg.event.management.eventmanagementbackend.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -48,10 +47,6 @@ public class EventController {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         return new ResponseEntity<>(eventDto, HttpStatus.OK);
-    }
-    @Autowired
-    public EventController(EventService eventService) {
-        this.eventService = eventService;
     }
 
     @DeleteMapping("/{id}")

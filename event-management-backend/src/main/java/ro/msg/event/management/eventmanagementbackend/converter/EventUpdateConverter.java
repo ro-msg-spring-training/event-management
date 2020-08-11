@@ -1,6 +1,5 @@
 package ro.msg.event.management.eventmanagementbackend.converter;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ro.msg.event.management.eventmanagementbackend.dto.EventDTO;
 import ro.msg.event.management.eventmanagementbackend.entity.*;
