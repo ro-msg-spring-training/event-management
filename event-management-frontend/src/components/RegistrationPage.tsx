@@ -162,7 +162,7 @@ const RegisterPage =  () => {
                 <FormHelperText>{confirmPasswordError}</FormHelperText>
             </FormControl>
             <Button variant="contained" className={`${classes2.buttonStyle2} ${classes2.buttonStyle3} ${classes.registrationButton}`} type='submit' onClick={handleSubmit}>Register</Button>
-            <div className={classes.loginLink}>Already have an account?{' '}<Link to="/registration">Sign in!</Link></div>
+            <div className={classes.loginLink}>Already have an account?{' '}<Link to="/login">Sign in!</Link></div>
           </FormGroup>
         </div>
       </ThemeProvider>

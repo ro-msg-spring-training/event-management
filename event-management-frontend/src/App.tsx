@@ -35,7 +35,7 @@ function App() {
                     <Route path='/forgotpassword' component={ForgotPassword}></Route>
                     <Route path='/forgotpasswordverification' component={ForgotPasswordVerification}></Route>
                     <Route path='/changepasswordconfirmation' component={ChangePasswordConfirm}></Route>
-                    <Route path='/registration' component={RegistrationPage}></Route>
+                    <Route path='/register' component={RegistrationPage}></Route>
                 </Switch>
             </ThemeProvider>
         </div>
