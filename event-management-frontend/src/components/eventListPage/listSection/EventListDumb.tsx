@@ -11,6 +11,7 @@ import {withStyles, Theme, createStyles } from '@material-ui/core/styles';
 import TableFooter from "@material-ui/core/TableFooter";
 import {Link} from "react-router-dom";
 import TablePaginationActions from "@material-ui/core/TablePagination/TablePaginationActions";
+import FilterSectionSmart from "../filterSection/FilterSectionSmart";
 
 
 const StyledTableCell = withStyles((theme: Theme) =>
@@ -57,6 +58,7 @@ const EventListDumb = (props: Props) => {
                     <Button className="button-style3">Create new event</Button>
                 </Link>
 
+                <FilterSectionSmart></FilterSectionSmart>
                 <Table aria-label="customized table">
                     <TableHead>
                         <TableRow>
