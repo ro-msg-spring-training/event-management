@@ -2,17 +2,19 @@ import React from 'react'
 import { connect } from 'react-redux';
 import ImagesSectionDumb from './ImagesSectionDumb'
 import { EventImage } from '../../../model/EventImage';
+import { updateEventImages } from '../../../actions/ImageActions';
 
-function ImagesSectionSmart({ eventImages }: { eventImages: EventImage[] }) {
+interface ImagesSectionProps {
+    eventImages: EventImage[],
+    updateEventImages: (images: EventImage[]) => void,
+}
 
-    const updateEventImages = (newImages: EventImage[]) => {
-        console.log(newImages)
-    }
 
+function ImagesSectionSmart({ eventImages, updateEventImages }: ImagesSectionProps) {
     return (
         <ImagesSectionDumb
             eventImages={eventImages}
-            updateEventImages={updateEventImages}></ImagesSectionDumb>
+            updateEventImages={updateEventImages}/>
     )
 }
 
@@ -20,11 +22,8 @@ const mapStateToProps = ({ eventCrud }: any) => ({
     eventImages: eventCrud.images
 });
 
-const mapDispatchToProps = (dispatch: any) => {
-    return {
-    }
-}
 
 export default connect(
-    mapStateToProps
+    mapStateToProps,
+    {updateEventImages}
 )(ImagesSectionSmart);

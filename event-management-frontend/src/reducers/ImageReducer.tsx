@@ -1,4 +1,4 @@
-import { UPLOAD_IMAGES } from "../actions/ImageActions"
+import { UPDATE_EVENT_IMAGES } from "../actions/ImageActions"
 import { EventImage } from "../model/EventImage"
 
 
@@ -13,7 +13,8 @@ const initialState = {
 
 export const ImagesReducer = (state = initialState, action: ReducerActionProps) => {
     switch (action.type) {
-        case UPLOAD_IMAGES:
+        case UPDATE_EVENT_IMAGES:
+            console.log('le-am pus in store', action.payload)
             return {
                 ...state,
                 images: action.payload

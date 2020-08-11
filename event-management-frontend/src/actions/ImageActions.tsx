@@ -1,8 +1,10 @@
-export const UPLOAD_IMAGES = "UPLOAD_IMAGES"
+import { EventImage } from "../model/EventImage"
 
-export const uploadImagesAction = (images: []) => {
+export const UPDATE_EVENT_IMAGES = "UPDATE_EVENT_IMAGES"
+
+export const updateEventImages = (images: EventImage[]) => {
     return {
-        type: UPLOAD_IMAGES,
+        type: UPDATE_EVENT_IMAGES,
         payload: images
     }
 }
