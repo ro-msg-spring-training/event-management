@@ -1,16 +1,18 @@
 package ro.msg.event.management.eventmanagementbackend.service;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
 import ro.msg.event.management.eventmanagementbackend.entity.Event;
 import ro.msg.event.management.eventmanagementbackend.entity.EventSublocation;
 import ro.msg.event.management.eventmanagementbackend.entity.Sublocation;
 import ro.msg.event.management.eventmanagementbackend.repository.EventRepository;
 import ro.msg.event.management.eventmanagementbackend.repository.SublocationRepository;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
+
+import javax.transaction.Transactional;
+
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,8 +22,34 @@ import java.util.stream.Collectors;
 public class EventService {
 
     private final EventRepository eventRepository;
-
     private final SublocationRepository sublocationRepository;
+
+    public long saveEvent(Event event, List<Long> sublocations) throws Exception {
+
+        LocalDateTime start = event.getStartDate();
+        LocalDateTime end = event.getEndDate();
+        boolean validSublocations = true;
+        int sumCapacity = 0;
+        for (Long l : sublocations) {
+            if (!checkOverlappingEvents(start, end, l)) {
+                validSublocations = false;
+            }
+            sumCapacity += sublocationRepository.getOne(l).getMaxCapacity();
+        }
+
+        if (validSublocations && sumCapacity >= event.getMaxPeople()) {
+            return eventRepository.save(event).getId();
+        } else if (!validSublocations) {
+            throw new OverlappingEventsException("Event overlaps another scheduled event");
+        } else {
+            throw new ExceededCapacityException("MaxPeople exceeds capacity of sublocations");
+        }
+    }
+
+    public boolean checkOverlappingEvents(LocalDateTime start, LocalDateTime end, long sublocation) {
+        List<Event> overlappingEvents = eventRepository.findOverlappingEvents(start, end, sublocation);
+        return overlappingEvents.isEmpty();
+    }
 
     @Transactional
     public Event updateEvent(Event event) throws OverlappingEventsException, ExceededCapacityException {

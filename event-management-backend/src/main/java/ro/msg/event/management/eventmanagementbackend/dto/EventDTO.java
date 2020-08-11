@@ -34,7 +34,7 @@ public class EventDTO {
 
     private String creator;
 
-    private List<String> pictures;
+    private List<String> pictureURL;
 
-    private Long locationId;
+    private List<Long> subLocation;
 }

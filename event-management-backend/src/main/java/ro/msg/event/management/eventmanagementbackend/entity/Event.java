@@ -12,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "event")
 public class Event extends BaseEntity {
 
     private String title;
@@ -36,11 +37,13 @@ public class Event extends BaseEntity {
 
     private String creator;
 
+
     @OneToMany(mappedBy = "event",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     private List<Picture> pictures;
+
 
     @OneToMany(mappedBy = "event",
             fetch = FetchType.LAZY,
@@ -48,9 +51,13 @@ public class Event extends BaseEntity {
             orphanRemoval = true)
     private List<EventSublocation> eventSublocations;
 
+
+
     @OneToMany(mappedBy = "event",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     private List<Booking> bookings;
+
+
 }
