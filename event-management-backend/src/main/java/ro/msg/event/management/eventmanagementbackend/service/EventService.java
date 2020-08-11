@@ -31,9 +31,11 @@ public class EventService {
 
         if(validSublocations && sumCapacity>= event.getMaxPeople()) {
             return eventRepository.save(event).getId();
+        }else if(!validSublocations) {
+            throw new OverlappingEventsException("Event overlaps another scheduled event");
+        }else{
+            throw new ExceededCapacityException("MaxPeople exceeds capacity of sublocations");
         }
-
-        throw new Exception("Event overlaps other events or exceeds capacity");
     }
 
     public boolean checkOverlappingEvents(LocalDateTime start, LocalDateTime end, long sublocation){
