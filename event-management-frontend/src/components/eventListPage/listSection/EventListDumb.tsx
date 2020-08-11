@@ -12,6 +12,7 @@ import TableFooter from "@material-ui/core/TableFooter";
 import {Link} from "react-router-dom";
 import TablePaginationActions from "@material-ui/core/TablePagination/TablePaginationActions";
 
+
 const StyledTableCell = withStyles((theme: Theme) =>
     createStyles({
         root: {
@@ -26,7 +27,19 @@ const StyledTableCell = withStyles((theme: Theme) =>
     }),
 )(TableCell);
 
-const EventListDumb = (props: any) => {
+interface Props {
+    emptyRows: number;
+    rowsPerPage: number;
+    eventsDetailsSlice: any[];
+    eventsDetails: any[];
+    rows: number;
+    page: number;
+    handleChangePage: (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => void;
+    handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,) => void
+    handleSort: (column: string) => void;
+}
+
+const EventListDumb = (props: Props) => {
     const emptyRows = props.emptyRows;
     const rowsPerPage = props.rowsPerPage;
     const eventsDetailsSlice = props.eventsDetailsSlice;

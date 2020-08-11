@@ -25,7 +25,7 @@ export function* watchFetchFilteredEventsAsync() {
 }
 
 function* fetchEventsAsync() {
-    fetchEventsRequest()
+    yield put(fetchEventsRequest())
     try {
         const result = yield fetchEvents()
         yield put(fetchEventsSuccess(result))

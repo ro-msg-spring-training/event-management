@@ -1,4 +1,3 @@
-import { fetchFilteredEvents, fetchEvents } from "../services/EventsService"
 import { EventFiltersProps } from "../types/EventFiltersProps"
 
 export const UPDATE_FILTERS = "UPDATE_FILTERS"

@@ -1,6 +1,5 @@
 import React from 'react';
 import EventDetailsDumb from "./EventDetailsDumb";
-import { Container } from "@material-ui/core";
 import { connect } from 'react-redux';
 import {fetchAllEvents} from '../../../actions/EventsPageActions'
 import { AppState } from "../../../store/store";
@@ -8,9 +7,22 @@ import EventListDumb from "./EventListDumb";
 
 
 let ROWS_PER_PAGE = 10;
+interface Props {
+    events: { Event: any; }[];
+    isLoading: boolean;
+    isError: boolean;
+    fetchAllEvents: () => { type: string; };
+}
 
-class EventListSmart extends React.Component<any, any> {
-    constructor(props: any) {
+interface State {
+    page: number;
+    rowsPerPage: number;
+    columnToSort: any;
+    sortDirection: any;
+}
+
+class EventListSmart extends React.Component<Props, State> {
+    constructor(props: Props) {
         super(props);
         this.state = {
             page: 0,
@@ -25,6 +37,7 @@ class EventListSmart extends React.Component<any, any> {
     }
 
     render() {
+        console.log("State: ", this.state)
         let { events } = this.props;
 
         const rows = events.length;
@@ -32,17 +45,16 @@ class EventListSmart extends React.Component<any, any> {
         const emptyRows = this.state.rowsPerPage - Math.min(this.state.rowsPerPage, rows - this.state.page * this.state.rowsPerPage);
 
         const invertDirection = (direction: string) => {
-            direction === 'asc' ? this.setState({ sortDirection : 'desc'})
-                : this.setState({ sortDirection : 'asc'});
+            direction === 'asc' ? this.setState({ sortDirection : "desc"})
+                : this.setState({ sortDirection : "asc"});
         };
 
         const handleSort = (columnName: string) => {
-            this.setState((state: { columnToSort: string; }) => ({
-                columnToSort: columnName,
-                sortDirection: this.state.columnToSort === columnName ?
-                    invertDirection(this.state.sortDirection)
-                    : 'asc',
-            }));
+            const result = this.state.columnToSort === columnName ?
+                invertDirection(this.state.sortDirection)
+                : "asc";
+            this.setState({ columnToSort : columnName});
+            this.setState({ sortDirection : result});
         };
 
         const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
@@ -59,7 +71,7 @@ class EventListSmart extends React.Component<any, any> {
 
         // Using the map function, we will get all the events from the array
         const eventDetails = events
-            .sort((eventA: any, eventB: any) => eventA.id < eventB.id)
+            //.sort((eventA: any, eventB: any) => eventA.id < eventB.id)
             .map((event: any) =>
                 <EventDetailsDumb key={event.id} id={event.id} title={event.title} subtitle={event.title}
                                   location={event.location} date={event.date} hour={event.hour} occRate={event.occRate}
@@ -74,8 +86,8 @@ class EventListSmart extends React.Component<any, any> {
                                   location={event.location} date={event.date} hour={event.hour} occRate={event.occRate}
                                   name={event.name} />);
 
+
         return (
-            <Container>
                 <EventListDumb emptyRows={emptyRows}
                     rowsPerPage={this.state.rowsPerPage}
                     eventsDetailsSlice={eventDetailsSlice}
@@ -85,7 +97,6 @@ class EventListSmart extends React.Component<any, any> {
                     handleChangePage={handleChangePage}
                     handleChangeRowsPerPage={handleChangeRowsPerPage}
                     handleSort={handleSort}/>
-            </Container>
         );
     }
 }
