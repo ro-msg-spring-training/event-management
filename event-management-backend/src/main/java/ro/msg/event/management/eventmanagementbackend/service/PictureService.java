@@ -11,7 +11,8 @@ public class PictureService {
 
     private final PictureRepository pictureRepository;
 
-    public void savePicture(Picture picture){
+    public void savePicture(Picture picture) {
         pictureRepository.save(picture);
     }
+
 }
