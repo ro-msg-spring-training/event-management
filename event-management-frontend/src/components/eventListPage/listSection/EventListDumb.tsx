@@ -12,6 +12,7 @@ import TableFooter from "@material-ui/core/TableFooter";
 import {Link} from "react-router-dom";
 import TablePaginationActions from "@material-ui/core/TablePagination/TablePaginationActions";
 import FilterSectionSmart from "../filterSection/FilterSectionSmart";
+import { useStyles } from '../../../styles/CommonStyles';
 
 
 const StyledTableCell = withStyles((theme: Theme) =>
@@ -41,6 +42,8 @@ interface Props {
 }
 
 const EventListDumb = (props: Props) => {
+    const commonClasses = useStyles()
+
     const emptyRows = props.emptyRows;
     const rowsPerPage = props.rowsPerPage;
     const eventsDetailsSlice = props.eventsDetailsSlice;
@@ -53,12 +56,13 @@ const EventListDumb = (props: Props) => {
 
         return (
             <TableContainer component={Paper}>
-                <Typography variant="h3" className="events-admin-title">Events</Typography>
+                <Typography variant="h3" className={`${commonClasses.eventTitle}`}>Events</Typography>
                 <Link to={`/newEvent`} style={{ textDecoration: 'none' }}>
-                    <Button className="button-style3">Create new event</Button>
+                    <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3} ${commonClasses.buttonStyle4}`}>Create new event</Button>
                 </Link>
-
+                <br/><br/>
                 <FilterSectionSmart></FilterSectionSmart>
+                <br/>
                 <Table aria-label="customized table">
                     <TableHead>
                         <TableRow>

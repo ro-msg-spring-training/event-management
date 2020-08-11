@@ -60,14 +60,16 @@ function FilterSectionDumb(props: Props) {
                             <TextField
                                 label="Title"
                                 onChange={(e) => props.handleChangeTitle(e.target.value)}
-                                fullWidth />
+                                fullWidth
+                                variant="outlined"/>
                         </Grid>
 
                         <Grid item xs={12} sm={12} md={4}>
                             <TextField
                                 label="Subtitle"
                                 onChange={(e) => props.handleChangeSubtitle(e.target.value)}
-                                fullWidth />
+                                fullWidth
+                                variant="outlined"/>
                         </Grid>
 
                         <Grid item xs={12} sm={12} md={4}>
@@ -76,7 +78,7 @@ function FilterSectionDumb(props: Props) {
                                 label="Status"
                                 value={props.filters.status}
                                 onChange={(e) => props.handleChangeStatus(e.target.value as string)}
-                                fullWidth>
+                                fullWidth variant="outlined">
 
                                 <MenuItem value={'true'}>Active</MenuItem>
                                 <MenuItem value={'false'}>Inactive</MenuItem>
@@ -90,7 +92,8 @@ function FilterSectionDumb(props: Props) {
                             <TextField
                                 label="Location"
                                 onChange={(e) => props.handleChangeLocation(e.target.value)}
-                                fullWidth />
+                                fullWidth
+                                variant="outlined"/>
                         </Grid>
 
                         <Grid item xs={12} sm={12} md={4}>
@@ -103,7 +106,7 @@ function FilterSectionDumb(props: Props) {
                                     selectsRange
                                     value={displayDate()}
                                     onChange={(e) => props.handleChangeDate(e)}
-                                    customInput={<TextField label="Date" />} />
+                                    customInput={<TextField label="Date" variant="outlined"/>} />
                             </div>
                         </Grid>
 
@@ -113,7 +116,8 @@ function FilterSectionDumb(props: Props) {
                                 label="Start hour"
                                 type="time"
                                 value={props.filters.startHour}
-                                onChange={(e) => props.handleChangeStartHour(e.target.value)} />
+                                onChange={(e) => props.handleChangeStartHour(e.target.value)}
+                                variant="outlined"/>
 
                             <div>
                                 to
@@ -124,7 +128,8 @@ function FilterSectionDumb(props: Props) {
                                 label="End hour"
                                 type="time"
                                 value={props.filters.endHour}
-                                onChange={(e) => props.handleChangeEndHour(e.target.value)} />
+                                onChange={(e) => props.handleChangeEndHour(e.target.value)}
+                                variant="outlined"/>
                         </Grid>
 
                         <Grid item xs={12} sm={12} md={4} className={classes.relationArea}>
@@ -140,6 +145,7 @@ function FilterSectionDumb(props: Props) {
                             </Select>
 
                             <TextField
+                                variant="outlined"
                                 fullWidth
                                 error={props.errorMaxPeople !== ''}
                                 label={props.errorMaxPeople ? `Max number of people - ${props.errorMaxPeople}` : 'Max number of people'}
@@ -166,6 +172,7 @@ function FilterSectionDumb(props: Props) {
                             </Select>
 
                             <TextField
+                                variant="outlined"
                                 fullWidth
                                 label={props.errorRate ? `Occupacy rate - ${props.errorRate}` : 'Occupacy rate'}
                                 type='number'
