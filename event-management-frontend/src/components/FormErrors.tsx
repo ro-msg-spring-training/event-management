@@ -1,22 +1,19 @@
-import React from "react";
-import useStylesError from '../styles/FormErrorsStyle'
+import React from 'react';
+import useStylesError from '../styles/FormErrorsStyle';
 import { Alert } from '@material-ui/lab';
 
 interface FromErrorProps {
-    error: string;
+  error: string;
 }
 export const FormErrors = (props: FromErrorProps) => {
-    const classes = useStylesError()
-    if (props.error) {
-        return (
-            <Alert severity="error" className={classes.error}>
-                Error:   {props.error}
-            </Alert>
-        )
-    }
-    else {
-        return (
-            null
-        )
-    }
-}
+  const classes = useStylesError();
+  if (props.error) {
+    return (
+      <Alert severity="error" className={classes.error}>
+        Error: {props.error}
+      </Alert>
+    );
+  } else {
+    return null;
+  }
+};

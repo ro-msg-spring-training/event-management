@@ -9,7 +9,6 @@ import { useHistory } from 'react-router-dom';
 import { validatePasswordRequirements, validateEmail } from '../validation/LoginValidation';
 import { FormErrors } from './FormErrors';
 
-
 const ForgotPasswordVerification = () => {
     const [email, setEmail] = useState("");
     const [emailError, setEmailError] = useState("");
