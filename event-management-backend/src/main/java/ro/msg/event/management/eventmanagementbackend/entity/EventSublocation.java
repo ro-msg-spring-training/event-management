@@ -29,4 +29,9 @@ public class EventSublocation {
     @ManyToOne
     private Sublocation sublocation;
 
+    public EventSublocation(Event event, Sublocation sublocation){
+        this.event = event;
+        this.sublocation= sublocation;
+    }
+
 }
