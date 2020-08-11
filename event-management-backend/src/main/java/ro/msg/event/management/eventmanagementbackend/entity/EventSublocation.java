@@ -2,31 +2,31 @@ package ro.msg.event.management.eventmanagementbackend.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import ro.msg.event.management.eventmanagementbackend.embeddedid.EventSublocationID;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import java.time.LocalDateTime;
+import javax.persistence.*;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class EventSublocation extends BaseEntity {
+public class EventSublocation {
 
-    private LocalDateTime startDate;
+    @AttributeOverrides({
+            @AttributeOverride(name = "event", column = @Column(name = "event")),
+            @AttributeOverride(name = "sublocation", column = @Column(name = "sublocation"))
+    })
 
-    private LocalDateTime endDate;
+    @EmbeddedId
+    private EventSublocationID eventSublocationID;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "sublocation")
+    @MapsId(value = "event")
+    @ManyToOne
+    private Event event;
+
+    @MapsId(value = "sublocation")
+    @ManyToOne
     private Sublocation sublocation;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "event")
-    private Event event;
 }
