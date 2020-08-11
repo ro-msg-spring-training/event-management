@@ -20,10 +20,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.headers().cacheControl();
+        //h2-console
+        http.headers().frameOptions().disable();
         http.csrf().disable()
                 .authorizeRequests()
                 //public resources that do not require authentication
                 .antMatchers("**/public/**").permitAll()
+                //h2-console
                 .antMatchers("/h2-console/**").permitAll()
                 //resources that require authentication
                 .antMatchers("/").authenticated()
