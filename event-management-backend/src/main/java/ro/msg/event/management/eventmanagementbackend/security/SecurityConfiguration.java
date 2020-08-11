@@ -1,16 +1,37 @@
 package ro.msg.event.management.eventmanagementbackend.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    private final AWSCognitoJWTAuthenticationFilter awsCognitoJwtAuthenticationFilter;
+
+    @Autowired
+    public SecurityConfiguration(AWSCognitoJWTAuthenticationFilter awsCognitoJwtAuthenticationFilter) {
+        this.awsCognitoJwtAuthenticationFilter = awsCognitoJwtAuthenticationFilter;
+    }
+
     @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeRequests().antMatchers("/").permitAll().and()
-                .authorizeRequests().antMatchers("/h2-console/**").permitAll();
-        httpSecurity.csrf().disable();
-        httpSecurity.headers().frameOptions().disable();
+    protected void configure(HttpSecurity http) throws Exception {
+        http.headers().cacheControl();
+        //h2-console
+        http.headers().frameOptions().disable();
+        http.csrf().disable()
+                .authorizeRequests()
+                //public resources that do not require authentication
+                .antMatchers("**/public/**").permitAll()
+                //h2-console
+                .antMatchers("/h2-console/**").permitAll()
+                //resources that require authentication
+                .antMatchers("/").authenticated()
+                .and()
+                .addFilterBefore(awsCognitoJwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }

@@ -87,4 +87,8 @@ public class EventService {
         return overlapingEvents.isEmpty();
     }
 
+    public void deleteEvent(long id)
+    {
+        this.eventRepository.deleteById(id);
+    }
 }

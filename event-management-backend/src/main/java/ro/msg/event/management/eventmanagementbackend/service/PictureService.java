@@ -6,7 +6,7 @@ import ro.msg.event.management.eventmanagementbackend.repository.PictureReposito
 
 @Service
 @RequiredArgsConstructor
-public class PicureService {
+public class PictureService {
 
     private final PictureRepository pictureRepository;
 }

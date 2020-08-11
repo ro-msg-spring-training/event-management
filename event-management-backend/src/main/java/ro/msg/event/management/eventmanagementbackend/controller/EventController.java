@@ -1,8 +1,10 @@
 package ro.msg.event.management.eventmanagementbackend.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ro.msg.event.management.eventmanagementbackend.converter.EventUpdateConverter;
 import ro.msg.event.management.eventmanagementbackend.dto.EventDTO;
@@ -16,18 +18,20 @@ import java.util.NoSuchElementException;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/events")
 public class EventController {
 
     private final EventService eventService;
 
     private final EventUpdateConverter eventUpdateConverter;
 
-    @GetMapping("events")
+    @GetMapping
     public List<Event> getEvents() {
         return eventService.findEvents();
     }
 
-    @PutMapping("/events/{id}")
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<EventDTO> updateEvent(@PathVariable Long id, @RequestBody EventDTO eventUpdateDto) {
         EventDTO eventDto;
         Event eventUpdated;
@@ -44,5 +48,15 @@ public class EventController {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         return new ResponseEntity<>(eventDto, HttpStatus.OK);
+    }
+    @Autowired
+    public EventController(EventService eventService) {
+        this.eventService = eventService;
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public void deleteEvent(@PathVariable long id) {
+        this.eventService.deleteEvent(id);
     }
 }
