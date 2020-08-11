@@ -71,14 +71,12 @@ class EventListSmart extends React.Component<Props, State> {
 
         // Using the map function, we will get all the events from the array
         const eventDetails = events
-            //.sort((eventA: any, eventB: any) => eventA.id < eventB.id)
             .map((event: any) =>
                 <EventDetailsDumb key={event.id} id={event.id} title={event.title} subtitle={event.title}
                                   location={event.location} date={event.date} hour={event.hour} occRate={event.occRate}
                                   name={event.name} />);
 
         const eventDetailsSlice = events
-            //.sort((eventA: any, eventB: any) => eventA.title - eventB.title )
             .slice(this.state.page * this.state.rowsPerPage,
                 this.state.page * this.state.rowsPerPage + this.state.rowsPerPage)
             .map((event: any) =>
@@ -96,7 +94,7 @@ class EventListSmart extends React.Component<Props, State> {
                     page={this.state.page}
                     handleChangePage={handleChangePage}
                     handleChangeRowsPerPage={handleChangeRowsPerPage}
-                    handleSort={handleSort}/>
+                    handleSort={handleSort} orderBy={''} order={'asc'}/>
         );
     }
 }
