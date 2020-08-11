@@ -1,6 +1,6 @@
 import { FILTER_EVENTS, FETCH_EVENTS, fetchEventsRequest, fetchEventsSuccess, fetchEventsError, filterEventsSuccess, filterEventsError } from "../actions/EventsPageActions";
 
-import { takeLatest, call, takeEvery, put } from "redux-saga/effects";
+import { takeLatest, takeEvery, put } from "redux-saga/effects";
 import { EventFiltersProps } from "../types/EventFiltersProps";
 import { fetchEvents, fetchFilteredEvents } from "../services/EventsService";
 

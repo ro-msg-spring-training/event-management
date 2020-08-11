@@ -92,6 +92,7 @@ class EventListSmart extends React.Component<any, any> {
 
 const mapStateToProps = (state: AppState) => ({
     events: state.events.allEvents,
-    isLoading: state.events.isLoading
+    isLoading: state.events.isLoading,
+    isError: state.events.isError
 });
 export default connect(mapStateToProps, { fetchAllEvents })(EventListSmart)

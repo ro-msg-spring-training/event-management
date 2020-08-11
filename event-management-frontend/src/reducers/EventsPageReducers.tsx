@@ -7,6 +7,7 @@ export interface EventsPageState {
     filters: EventFiltersProps,
     allEvents: [],
     isLoading: boolean,
+    isError: boolean,
 }
 
 const initialState: EventsPageState = {
@@ -26,6 +27,7 @@ const initialState: EventsPageState = {
         maxPeopleSign: MathRelation.GREATER
     },
     isLoading: true,
+    isError: false,
     allEvents: []
 }
 
@@ -59,12 +61,14 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
             return {
                 ...state,
                 allEvents: action.payload,
-                isLoading: false
+                isLoading: false,
+                isError: false
             };
         case FETCH_EVENTS_ERROR:
             return {
                 ...state,
-                isLoading: false
+                isLoading: false,
+                isError: true
             };
         default:
             return state

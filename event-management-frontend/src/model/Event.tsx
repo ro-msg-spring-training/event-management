@@ -8,7 +8,6 @@ interface Event {
     date: string;
     hour: number;
     occRate: number;
-    name: string;
 }
 
 export default Event;
