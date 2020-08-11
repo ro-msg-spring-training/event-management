@@ -24,6 +24,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 //public resources that do not require authentication
                 .antMatchers("**/public/**").permitAll()
+                .antMatchers("/h2-console/**").permitAll()
                 //resources that require authentication
                 .antMatchers("/").authenticated()
                 .and()
