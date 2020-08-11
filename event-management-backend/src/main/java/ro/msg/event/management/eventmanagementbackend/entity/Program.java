@@ -17,7 +17,7 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Program extends BaseEntity{
+public class Program extends BaseEntity {
 
     private int weekday;
 

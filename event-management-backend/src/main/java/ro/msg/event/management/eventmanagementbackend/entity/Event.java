@@ -37,7 +37,7 @@ public class Event extends BaseEntity {
 
     private boolean noTicketEvent;
 
-    private Long creator;
+    private String creator;
 
     @OneToMany(mappedBy = "event",
             fetch = FetchType.LAZY,
