@@ -142,7 +142,6 @@ import { connect } from 'react-redux'
 import { loadEvent, deleteEvent, addEvent } from '../actions/HeaderActions';
 import Stepper from './Stepper';
 import { useHistory } from 'react-router-dom';
-import DrawerComponent from './newOrEditEvent/DrawerComponent';
 import MenuIcon from '@material-ui/icons/Menu';
 
 const useStyles2 = makeStyles({

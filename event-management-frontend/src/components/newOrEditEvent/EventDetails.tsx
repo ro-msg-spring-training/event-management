@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../Header';
-import DrawerComponent from './DrawerComponent';
-import { Button, makeStyles, Container, CircularProgress } from '@material-ui/core';
+import { Button, makeStyles, CircularProgress, Container } from '@material-ui/core';
 import { Route, Switch, BrowserRouter, Link } from 'react-router-dom';
 import Overview from '../Overview';
 import Tickets from '../Tickets';
@@ -10,6 +9,7 @@ import Location from '../Location';
 import { loadEvent, deleteEvent, addEvent } from '../../actions/HeaderActions';
 import { connect } from 'react-redux';
 import Test from './Test';
+import DrawerComponent from './DrawerComponent';
 
 const useStyles = makeStyles({
   container: {
