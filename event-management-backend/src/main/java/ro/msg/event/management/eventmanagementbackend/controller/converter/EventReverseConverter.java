@@ -1,7 +1,7 @@
 package ro.msg.event.management.eventmanagementbackend.controller.converter;
 
 import org.springframework.stereotype.Component;
-import ro.msg.event.management.eventmanagementbackend.controller.dto.EventDTO;
+import ro.msg.event.management.eventmanagementbackend.controller.dto.EventDto;
 import ro.msg.event.management.eventmanagementbackend.entity.Event;
 import ro.msg.event.management.eventmanagementbackend.entity.Picture;
 
@@ -9,23 +9,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class EventReverseConverter implements Converter<EventDTO, Event>{
+public class EventReverseConverter implements Converter<EventDto, Event> {
 
     @Override
-    public Event convert(EventDTO eventDTO) {
-        Event event = new Event();
-
-        event.setTitle(eventDTO.getTitle());
-        event.setSubtitle(eventDTO.getSubtitle());
-        event.setObservations(eventDTO.getObservations());
-        event.setNoTicketEvent(eventDTO.isNoTicketEvent());
-        event.setHighlighted(eventDTO.isHighlighted());
-        event.setStatus(eventDTO.isStatus());
-        event.setMaxPeople(eventDTO.getMaxPeople());
-        event.setCreator(eventDTO.getCreator());
-        event.setDescription(eventDTO.getDescription());
-        event.setStartDate(eventDTO.getStartDate());
-        event.setEndDate(eventDTO.getEndDate());
+    public Event convert(EventDto eventDTO) {
+        Event event = Event.builder()
+                .title(eventDTO.getTitle())
+                .subtitle(eventDTO.getSubtitle())
+                .observations(eventDTO.getObservations())
+                .noTicketEvent(eventDTO.isNoTicketEvent())
+                .highlighted(eventDTO.isHighlighted())
+                .status(eventDTO.isStatus())
+                .maxPeople(eventDTO.getMaxPeople())
+                .creator(eventDTO.getCreator())
+                .description(eventDTO.getDescription())
+                .startDate(eventDTO.getStartDate())
+                .endDate(eventDTO.getEndDate())
+                .build();
 
         if (eventDTO.getPictureURL() != null) {
             List<Picture> pictures = new ArrayList<>();

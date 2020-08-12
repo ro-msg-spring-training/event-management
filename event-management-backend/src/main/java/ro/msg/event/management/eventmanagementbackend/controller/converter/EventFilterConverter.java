@@ -8,16 +8,15 @@ import ro.msg.event.management.eventmanagementbackend.entity.view.EventView;
 public class EventFilterConverter implements Converter<EventView, EventFilteringDto> {
     @Override
     public EventFilteringDto convert(EventView eventView) {
-        EventFilteringDto eventFilteringDto = new EventFilteringDto();
-        eventFilteringDto.setTitle(eventView.getTitle());
-        eventFilteringDto.setSubtitle(eventView.getSubtitle());
-        eventFilteringDto.setLocation(eventView.getLocation());
-        eventFilteringDto.setStartDate(eventView.getStartDate().toLocalDate());
-        eventFilteringDto.setEndDate(eventView.getEndDate().toLocalDate());
-        eventFilteringDto.setStartHour(eventView.getStartDate().toLocalTime());
-        eventFilteringDto.setEndHour(eventView.getEndDate().toLocalTime());
-        eventFilteringDto.setOccupancyRate(eventView.getRate());
-        return eventFilteringDto;
-
+        return EventFilteringDto.builder()
+                .title(eventView.getTitle())
+                .subtitle(eventView.getSubtitle())
+                .startDate(eventView.getStartDate().toLocalDate())
+                .endDate(eventView.getEndDate().toLocalDate())
+                .location(eventView.getLocation())
+                .startHour(eventView.getStartDate().toLocalTime())
+                .endHour(eventView.getEndDate().toLocalTime())
+                .occupancyRate(eventView.getRate())
+                .build();
     }
 }

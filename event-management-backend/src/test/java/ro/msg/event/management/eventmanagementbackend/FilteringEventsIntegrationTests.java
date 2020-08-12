@@ -6,15 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import ro.msg.event.management.eventmanagementbackend.entity.EventSublocation;
-import ro.msg.event.management.eventmanagementbackend.entity.Location;
-import ro.msg.event.management.eventmanagementbackend.entity.Sublocation;
 import ro.msg.event.management.eventmanagementbackend.entity.view.EventView;
-import ro.msg.event.management.eventmanagementbackend.repository.*;
 import ro.msg.event.management.eventmanagementbackend.service.EventService;
+import ro.msg.event.management.eventmanagementbackend.utils.ComparisonSign;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -29,7 +25,7 @@ public class FilteringEventsIntegrationTests {
 
     @Test
     public void filterEventsTest() {
-            List<EventView> eventViews =eventService.filterAndPaginate(null,null,true,true,null,null, null,ComparisonSign.GREATER,(float)0,null,null,1,1);
+            List<EventView> eventViews =eventService.filterAndPaginate(null,null,true,true,null,null, null, ComparisonSign.GREATER,(float)0,null,null,1,1);
             assertThat(eventViews.size()).isEqualTo(1);
             eventViews =eventService.filterAndPaginate(null,null,true,true,null,null, null,ComparisonSign.GREATER,(float)0,null,null,2,1);
             assertThat(eventViews).isEmpty();

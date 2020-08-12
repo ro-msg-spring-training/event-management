@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ro.msg.event.management.eventmanagementbackend.controller.converter.Converter;
-import ro.msg.event.management.eventmanagementbackend.controller.dto.EventDTO;
+import ro.msg.event.management.eventmanagementbackend.controller.dto.EventDto;
 import ro.msg.event.management.eventmanagementbackend.entity.*;
 import ro.msg.event.management.eventmanagementbackend.repository.EventRepository;
 import ro.msg.event.management.eventmanagementbackend.service.EventService;
@@ -30,10 +30,10 @@ class EventUpdateTest {
     private EventRepository eventRepository;
 
     @Autowired
-    private  Converter<Event,EventDTO> convertToDto;
+    private  Converter<Event, EventDto> convertToDto;
 
     @Autowired
-    private  Converter<EventDTO,Event> convertToEntity;
+    private  Converter<EventDto,Event> convertToEntity;
 
     @Autowired
     private EventService eventService;
@@ -59,7 +59,7 @@ class EventUpdateTest {
         List<Long> sublocations = new ArrayList<>();
         sublocations.add((long)1);
 
-        EventDTO eventDTO = new EventDTO("newTitle", "newSubtitle", true, LocalDateTime.of(2017, 7, 3, 2, 54), LocalDateTime.of(2017, 7, 2, 2, 20), 100, "description", false, "obs", true, "creator", pictures, sublocations);
+        EventDto eventDTO = new EventDto("newTitle", "newSubtitle", true, LocalDateTime.of(2017, 7, 3, 2, 54), LocalDateTime.of(2017, 7, 2, 2, 20), 100, "description", false, "obs", true, "creator", pictures, sublocations);
         Event newEvent = convertToEntity.convert(eventDTO);
         newEvent.setId((long) 1);
 

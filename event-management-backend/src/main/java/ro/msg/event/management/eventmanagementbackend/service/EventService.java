@@ -1,19 +1,20 @@
 package ro.msg.event.management.eventmanagementbackend.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ro.msg.event.management.eventmanagementbackend.ComparisonSign;
-import ro.msg.event.management.eventmanagementbackend.SortCriteria;
 import ro.msg.event.management.eventmanagementbackend.comparator.EventViewDateComparator;
+import ro.msg.event.management.eventmanagementbackend.comparator.EventViewHourComparator;
 import ro.msg.event.management.eventmanagementbackend.comparator.EventViewOccupancyRateComparator;
-import ro.msg.event.management.eventmanagementbackend.comparator.EventViweHourComparator;
 import ro.msg.event.management.eventmanagementbackend.entity.Event;
-import ro.msg.event.management.eventmanagementbackend.entity.view.EventView;
 import ro.msg.event.management.eventmanagementbackend.entity.EventSublocation;
 import ro.msg.event.management.eventmanagementbackend.entity.Sublocation;
+import ro.msg.event.management.eventmanagementbackend.entity.view.EventView;
 import ro.msg.event.management.eventmanagementbackend.repository.EventRepository;
 import ro.msg.event.management.eventmanagementbackend.repository.EventViewRepository;
 import ro.msg.event.management.eventmanagementbackend.repository.SublocationRepository;
+import ro.msg.event.management.eventmanagementbackend.utils.ComparisonSign;
+import ro.msg.event.management.eventmanagementbackend.utils.SortCriteria;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -23,19 +24,14 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import javax.transaction.Transactional;
-
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class EventService {
 
     private final EventRepository eventRepository;
@@ -45,7 +41,7 @@ public class EventService {
     @PersistenceContext(type = PersistenceContextType.EXTENDED)
     private final EntityManager entityManager;
 
-    public long saveEvent(Event event, List<Long> sublocations) throws Exception {
+    public long saveEvent(Event event, List<Long> sublocations) throws OverlappingEventsException, ExceededCapacityException {
 
         LocalDateTime start = event.getStartDate();
         LocalDateTime end = event.getEndDate();
@@ -123,10 +119,6 @@ public class EventService {
             throw new NoSuchElementException();
     }
 
-    public List<Event> findEvents() {
-        return eventRepository.findAll();
-    }
-
     public boolean checkOverlappingEvents(Long eventID, LocalDateTime start, LocalDateTime end, long sublocation) {
         List<Event> foundEvents = eventRepository.findOverlappingEvents(start, end, sublocation);
         List<Event> overlapingEvents = foundEvents
@@ -141,10 +133,12 @@ public class EventService {
     }
 
     public TypedQuery<EventView> filter(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDateTime startDate, LocalDateTime endDate, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople) {
+        entityManager.clear();
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<EventView> q = criteriaBuilder.createQuery(EventView.class);
         Root<EventView> c = q.from(EventView.class);
-        List<Predicate> predicate = new ArrayList<Predicate>();
+        List<Predicate> predicate = new ArrayList<>();
+        log.info("view repo: " + this.eventViewRepository.findAll().toString());
         if (title != null) {
             predicate.add(criteriaBuilder.equal(c.get("title"), title));
         }
@@ -180,6 +174,8 @@ public class EventService {
                 case EQUAL:
                     predicate.add(criteriaBuilder.equal(c.get("maxPeople"), maxPeople));
                     break;
+                default:
+                    break;
             }
         }
 
@@ -194,9 +190,11 @@ public class EventService {
                 case EQUAL:
                     predicate.add(criteriaBuilder.equal(c.get("rate"), rate));
                     break;
+                default:
+                    break;
             }
         }
-        Predicate finalPredicate = criteriaBuilder.and(predicate.toArray(new Predicate[predicate.size()]));
+        Predicate finalPredicate = criteriaBuilder.and(predicate.toArray(new Predicate[0]));
         q.where(finalPredicate);
         return entityManager.createQuery(q);
     }
@@ -206,6 +204,7 @@ public class EventService {
         int offset = (pageNumber - 1) * eventPerPage;
         typedQuery.setFirstResult(offset);
         typedQuery.setMaxResults(eventPerPage);
+        log.info("typedQuery result: " + typedQuery.getResultList().toString());
         return typedQuery.getResultList();
     }
 
@@ -214,21 +213,25 @@ public class EventService {
         List<EventView> eventViews = typedQuery.getResultList();
         switch (sortCriteria) {
             case DATE:
-                Collections.sort(eventViews, new EventViewDateComparator());
+                eventViews.sort(new EventViewDateComparator());
                 break;
             case HOUR:
-                Collections.sort(eventViews, new EventViweHourComparator());
+                eventViews.sort(new EventViewHourComparator());
                 break;
             case OCCUPANCY_RATE:
-                Collections.sort(eventViews, new EventViewOccupancyRateComparator());
+                eventViews.sort(new EventViewOccupancyRateComparator());
                 break;
             default:
                 break;
         }
-        if (sortType == false) {
+        if (!sortType) {
             Collections.reverse(eventViews);
         }
         int offset = (pageNumber - 1) * eventPerPage;
+        if(offset + eventPerPage > eventViews.size())
+        {
+            return eventViews.subList(offset, eventViews.size());
+        }
         return eventViews.subList(offset, offset + eventPerPage);
     }
 
@@ -236,5 +239,4 @@ public class EventService {
         int count = filter(title, subtitle, status, highlighted, location, startDate, endDate, rateSign, rate, maxPeopleSign, maxPeople).getResultList().size();
         return count / eventPerPage;
     }
-
 }

@@ -1,9 +1,11 @@
 package ro.msg.event.management.eventmanagementbackend.security;
 
+import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
+@NoArgsConstructor
 @ConfigurationProperties(
         prefix = "event-management.jwt.aws"
 )
@@ -16,9 +18,6 @@ public class JWTConfiguration {
     private int connectionTimeout = 2000;
     private int readTimeout = 2000;
     private String httpHeader = "Authorization";
-
-    public JWTConfiguration() {
-    }
 
     public String getJwkUrl() {
         return this.jwkUrl != null && !this.jwkUrl.isEmpty() ? this.jwkUrl : String.format("https://cognito-idp.%s.amazonaws.com/%s/.well-known/jwks.json", this.region, this.userPoolId);

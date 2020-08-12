@@ -1,4 +1,4 @@
-package ro.msg.event.management.eventmanagementbackend;
+package ro.msg.event.management.eventmanagementbackend.utils;
 
 public enum ComparisonSign {
     GREATER,
