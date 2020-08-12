@@ -58,7 +58,7 @@ const EventDetailsDumb = (props: Event) => {
     );
 }
 
-//TODO: sort + pagination for fronted (integrate after with backend)
+//TODO: pagination for fronted (integrate after with backend)
 //TODO: gmail address instead of MyAccount
 //TODO: active header
 //TODO: fewer column (get rid of subtitle, hour and occupancy rate) for mobile

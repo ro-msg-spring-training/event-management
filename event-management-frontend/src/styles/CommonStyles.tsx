@@ -55,6 +55,12 @@ const useStyles = makeStyles(theme => ({
     top: 20,
     width: 1,
   },
+  prev: {
+    fontSize: 20
+  },
+  next: {
+    fontSize: 20
+  }
 }));
 
 export { useStyles }

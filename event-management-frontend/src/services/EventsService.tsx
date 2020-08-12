@@ -80,5 +80,5 @@ export const fetchSortedEvents = (sort: EventSortProps, filters: EventFiltersPro
 
 export const fetchEvents = () => {
     return fetch(mockUrlProducts)
-        .then(response => response.json(), );  
+        .then(response => response.json());
 }
