@@ -17,7 +17,6 @@ import java.util.List;
 public class Sublocation extends BaseEntity {
 
     private String name;
-
     private int maxCapacity;
 
     @ManyToOne(fetch = FetchType.EAGER)

@@ -7,9 +7,11 @@ import ro.msg.event.management.eventmanagementbackend.SortCriteria;
 import ro.msg.event.management.eventmanagementbackend.comparator.EventViewDateComparator;
 import ro.msg.event.management.eventmanagementbackend.comparator.EventViewOccupancyRateComparator;
 import ro.msg.event.management.eventmanagementbackend.comparator.EventViweHourComparator;
+import ro.msg.event.management.eventmanagementbackend.entity.Event;
 import ro.msg.event.management.eventmanagementbackend.entity.view.EventView;
 import ro.msg.event.management.eventmanagementbackend.repository.EventRepository;
 import ro.msg.event.management.eventmanagementbackend.repository.EventViewRepository;
+import ro.msg.event.management.eventmanagementbackend.repository.SublocationRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -21,7 +23,6 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -30,10 +31,36 @@ import java.util.List;
 public class EventService {
 
     private final EventRepository eventRepository;
+    private final SublocationRepository sublocationRepository;
 
+    public long saveEvent(Event event, List<Long> sublocations) throws Exception {
 
-    public void deleteEvent(long id)
-    {
+        LocalDateTime start = event.getStartDate();
+        LocalDateTime end = event.getEndDate();
+        boolean validSublocations = true;
+        int sumCapacity = 0;
+        for (Long l : sublocations) {
+            if (!checkOverlappingEvents(start, end, l)) {
+                validSublocations = false;
+            }
+            sumCapacity += sublocationRepository.getOne(l).getMaxCapacity();
+        }
+
+        if (validSublocations && sumCapacity >= event.getMaxPeople()) {
+            return eventRepository.save(event).getId();
+        } else if (!validSublocations) {
+            throw new OverlappingEventsException("Event overlaps another scheduled event");
+        } else {
+            throw new ExceededCapacityException("MaxPeople exceeds capacity of sublocations");
+        }
+    }
+
+    public boolean checkOverlappingEvents(LocalDateTime start, LocalDateTime end, long sublocation) {
+        List<Event> overlappingEvents = eventRepository.findOverlappingEvents(start, end, sublocation);
+        return overlappingEvents.isEmpty();
+    }
+
+    public void deleteEvent(long id) {
         this.eventRepository.deleteById(id);
     }
 
@@ -103,34 +130,35 @@ public class EventService {
         return entityManager.createQuery(q);
     }
 
-    public List<EventView> filterAndPaginate(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDateTime startDate, LocalDateTime endDate, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople, int pageNumber, int eventPerPage){
-        TypedQuery<EventView> typedQuery = filter(title,subtitle,status,highlighted,location,startDate,endDate,rateSign,rate,maxPeopleSign,maxPeople);
+    public List<EventView> filterAndPaginate(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDateTime startDate, LocalDateTime endDate, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople, int pageNumber, int eventPerPage) {
+        TypedQuery<EventView> typedQuery = filter(title, subtitle, status, highlighted, location, startDate, endDate, rateSign, rate, maxPeopleSign, maxPeople);
         int offset = (pageNumber - 1) * eventPerPage;
         typedQuery.setFirstResult(offset);
         typedQuery.setMaxResults(eventPerPage);
         return typedQuery.getResultList();
     }
 
-    public List<EventView> filterAndOrder(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDateTime startDate, LocalDateTime endDate, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople, int pageNumber, int eventPerPage, SortCriteria sortCriteria, Boolean sortType){
-        TypedQuery<EventView> typedQuery = filter(title,subtitle,status,highlighted,location,startDate,endDate,rateSign,rate,maxPeopleSign,maxPeople);
+    public List<EventView> filterAndOrder(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDateTime startDate, LocalDateTime endDate, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople, int pageNumber, int eventPerPage, SortCriteria sortCriteria, Boolean sortType) {
+        TypedQuery<EventView> typedQuery = filter(title, subtitle, status, highlighted, location, startDate, endDate, rateSign, rate, maxPeopleSign, maxPeople);
         List<EventView> eventViews = typedQuery.getResultList();
-        switch (sortCriteria){
+        switch (sortCriteria) {
             case DATE:
-                Collections.sort(eventViews,new EventViewDateComparator());
+                Collections.sort(eventViews, new EventViewDateComparator());
                 break;
             case HOUR:
                 Collections.sort(eventViews, new EventViweHourComparator());
                 break;
             case OCCUPANCY_RATE:
-                Collections.sort(eventViews,new EventViewOccupancyRateComparator());
+                Collections.sort(eventViews, new EventViewOccupancyRateComparator());
                 break;
-            default: break;
+            default:
+                break;
         }
-        if (sortType == false){
+        if (sortType == false) {
             Collections.reverse(eventViews);
         }
         int offset = (pageNumber - 1) * eventPerPage;
-        return eventViews.subList(offset,offset+eventPerPage);
+        return eventViews.subList(offset, offset + eventPerPage);
     }
 
     public int getNumberOfPages(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDateTime startDate, LocalDateTime endDate, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople, int pageNumber, int eventPerPage) {
