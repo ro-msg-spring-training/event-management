@@ -8,13 +8,12 @@ interface ReducerActionProps {
 }
 
 const initialState = {
-    images: [],
+    images: [{id: 'first', name: 'butterfly', byteArr: 'https://img.bunadimineata.ro/uploads/2015/04/fluture-pe-floare_27122598-770x600.jpg'}],
 }
 
 export const ImagesReducer = (state = initialState, action: ReducerActionProps) => {
     switch (action.type) {
         case UPDATE_EVENT_IMAGES:
-            console.log('le-am pus in store', action.payload)
             return {
                 ...state,
                 images: action.payload
