@@ -1,6 +1,16 @@
-import { UPDATE_FILTERS, FILTER_EVENTS_SUCCESS, FILTER_EVENTS_ERROR, FETCH_EVENTS_SUCCESS, FETCH_EVENTS_ERROR, FETCH_EVENTS_REQUEST } from "../actions/EventsPageActions"
+import {
+    UPDATE_FILTERS,
+    FILTER_EVENTS_SUCCESS,
+    FILTER_EVENTS_ERROR,
+    FETCH_EVENTS_SUCCESS,
+    FETCH_EVENTS_ERROR,
+    FETCH_EVENTS_REQUEST,
+    SORT_EVENTS
+} from "../actions/EventsPageActions"
 import { MathRelation } from "../model/MathRelation"
 import { EventFiltersProps } from "../types/EventFiltersProps";
+import { EventSortProps } from "../types/EventSortProps";
+import { sendRequestForSorting } from "../services/EventsService";
 
 
 export interface EventsPageState {
@@ -8,6 +18,7 @@ export interface EventsPageState {
     allEvents: [],
     isLoading: boolean,
     isError: boolean,
+    eventsSort: EventSortProps,
 }
 
 const initialState: EventsPageState = {
@@ -28,7 +39,8 @@ const initialState: EventsPageState = {
     },
     isLoading: true,
     isError: false,
-    allEvents: []
+    allEvents: [],
+    eventsSort: { criteria: '', type: ''},
 }
 
 interface ReducerActionProps {
@@ -38,6 +50,12 @@ interface ReducerActionProps {
 
 export const EventsPageReducer = (state = initialState, action: ReducerActionProps) => {
     switch (action.type) {
+        case SORT_EVENTS:
+            sendRequestForSorting(action.payload)
+            return {
+                ...state,
+                eventsSort: action.payload
+            }
         case UPDATE_FILTERS:
             return {
                 ...state,

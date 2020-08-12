@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -14,7 +14,6 @@ import FilterSectionSmart from "../filterSection/FilterSectionSmart";
 import { useStyles } from '../../../styles/CommonStyles';
 
 
-type Order = 'asc' | 'desc';
 interface Props {
     emptyRows: number;
     rowsPerPage: number;
@@ -25,8 +24,7 @@ interface Props {
     handleChangePage: (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => void;
     handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,) => void
     handleSort: (column: string) => void;
-    orderBy: string;
-    order: Order;
+    handleSortEvent: (criteria: string, type: string) => void;
 }
 
 interface Data {
@@ -46,9 +44,6 @@ interface HeadCell {
 }
 
 const headCells: HeadCell[] = [
-    { id: 'title', numeric: false, disablePadding: false, label: 'Title' },
-    { id: 'subtitle', numeric: false, disablePadding: false, label: 'Subtitle' },
-    { id: 'location', numeric: false, disablePadding: false, label: 'Location' },
     { id: 'date', numeric: true, disablePadding: false, label: 'Date' },
     { id: 'hour', numeric: true, disablePadding: false, label: 'Hour' },
     { id: 'occRate', numeric: true, disablePadding: false, label: 'Occupancy rate' },
@@ -66,11 +61,10 @@ const EventListDumb = (props: Props) => {
     const page = props.page;
     const handleChangePage = props.handleChangePage;
     const handleChangeRowsPerPage = props.handleChangeRowsPerPage;
-    const orderBy = props.orderBy;
-    const order = props.order;
+    const handleSortEvent = props.handleSortEvent;
 
-    const [criteria, setCriteria] = useState(orderBy);
-    const [type, setType] = useState(order);
+    const [criteria, setCriteria] = useState();
+    const [type, setType] = useState();
 
     const createSortHandler = (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
         setCriteria(property);
@@ -80,6 +74,10 @@ const EventListDumb = (props: Props) => {
             setType("asc");
         }
     };
+
+    useEffect(() => {
+        handleSortEvent(criteria, type);
+    }, [criteria, type, handleSortEvent]);
 
         return (
             <TableContainer component={Paper}>
@@ -93,12 +91,15 @@ const EventListDumb = (props: Props) => {
                 <Table aria-label="customized table">
                     <TableHead>
                         <TableRow>
+                            <TableCell key={"title"} align={"left"} padding={"default"} size={"medium"}>Title</TableCell>
+                            <TableCell key={"subtitle"} align={"left"} padding={"default"} size={"medium"}>Subtitle</TableCell>
+                            <TableCell key={"location"} align={"left"} padding={"default"} size={"medium"}>Location</TableCell>
                             {headCells.map((headCell) => (
                                 <TableCell
                                     key={headCell.id}
                                     align={headCell.numeric ? 'right' : 'left'}
                                     padding={headCell.disablePadding ? 'none' : 'default'}
-                                    sortDirection={orderBy === headCell.id && headCell.numeric ? order : false}
+                                    sortDirection={criteria === headCell.id && headCell.numeric ? type : false}
                                     size={"medium"}
                                 >
                                     <TableSortLabel
@@ -153,19 +154,3 @@ const EventListDumb = (props: Props) => {
 }
 
 export default EventListDumb;
-
-
-/*<StyledTableCell><div onClick={() => handleSort("title")}>Title</div></StyledTableCell>
-                            <StyledTableCell>Subtitle</StyledTableCell>
-                            <StyledTableCell>Location</StyledTableCell>
-                            <StyledTableCell>Date</StyledTableCell>
-                            <StyledTableCell>Hour</StyledTableCell>
-                            <StyledTableCell>Occupancy rate</StyledTableCell>
-                            <StyledTableCell><TableSortLabel>
-                                active={orderBy === headCell.id}
-                                direction={orderBy === headCell.id ? order : 'asc'}
-                                onClick={createSortHandler(headCell.id)}
-                            </TableSortLabel></StyledTableCell>
-
-
-                            */

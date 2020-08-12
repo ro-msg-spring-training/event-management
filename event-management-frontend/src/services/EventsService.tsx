@@ -1,6 +1,16 @@
 import { EventFiltersProps } from "../types/EventFiltersProps";
+import {EventSortProps} from "../types/EventSortProps";
 
 const eventsUrl = 'http://localhost:4000/products';
+
+const computeSortQueryString = (sort: EventSortProps) => {
+    let sortToSend: any = {}
+
+    sortToSend['sortCriteria'] = sort.criteria;
+    sortToSend['sortType'] = sort.type;
+
+    return sortToSend;
+}
 
 const computeFilterQueryString = (filters: EventFiltersProps) => {
     let filtersToSend: any = {}
@@ -50,4 +60,12 @@ export const fetchFilteredEvents = (filters: EventFiltersProps) => {
 export const fetchEvents = () => {
     return fetch(eventsUrl)
         .then(response => response.json(), );  
+}
+
+export const sendRequestForSorting = (data: EventSortProps) => {
+    const bit = data.type === "asc" ? 1 : 0;
+    const fullUrl = eventsUrl + "sortCriteria=" + data.criteria.toUpperCase() + "&sortType=" + bit;
+    console.log("Sending..." + data.criteria + data.type)
+    fetch(fullUrl)
+        .then(response => response.json())
 }

@@ -1,4 +1,5 @@
 import { EventFiltersProps } from "../types/EventFiltersProps"
+import {EventSortProps} from "../types/EventSortProps";
 
 export const UPDATE_FILTERS = "UPDATE_FILTERS"
 export const FILTER_EVENTS = "FILTER_EVENTS"
@@ -8,6 +9,7 @@ export const FETCH_EVENTS = 'FETCH_EVENTS'
 export const FETCH_EVENTS_REQUEST = 'FETCH_EVENTS_REQUEST'
 export const FETCH_EVENTS_SUCCESS = 'FETCH_EVENTS_SUCCESS'
 export const FETCH_EVENTS_ERROR = 'FETCH_EVENTS_ERROR'
+export const SORT_EVENTS = 'SORT_EVENTS'
 
 
 export const updateFilters = (filters: EventFiltersProps) => {
@@ -37,11 +39,19 @@ export const filterEventsError = () => {
     }
 }
 
+export const sortEvents = (sort: EventSortProps) => {
+    return {
+        type: SORT_EVENTS,
+        payload: sort
+    }
+}
+
 export const fetchAllEvents = () => {
     return {
         type: FETCH_EVENTS,
     }
 }
+
 
 export const fetchEventsRequest = () => {
     return {

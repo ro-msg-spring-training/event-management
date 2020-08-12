@@ -4,14 +4,18 @@ import { connect } from 'react-redux';
 import {fetchAllEvents} from '../../../actions/EventsPageActions'
 import { AppState } from "../../../store/store";
 import EventListDumb from "./EventListDumb";
+import {EventSortProps} from "../../../types/EventSortProps";
+import { sortEvents } from "../../../actions/EventsPageActions";
 
 
 let ROWS_PER_PAGE = 10;
 interface Props {
     events: { Event: any; }[];
+    eventsSort: EventSortProps;
     isLoading: boolean;
     isError: boolean;
     fetchAllEvents: () => { type: string; };
+    sortEvents: (sort: EventSortProps) => void;
 }
 
 interface State {
@@ -19,6 +23,8 @@ interface State {
     rowsPerPage: number;
     columnToSort: any;
     sortDirection: any;
+    sortCriteria: any;
+    sortType: any;
 }
 
 class EventListSmart extends React.Component<Props, State> {
@@ -29,6 +35,8 @@ class EventListSmart extends React.Component<Props, State> {
             rowsPerPage: ROWS_PER_PAGE,
             columnToSort: '',
             sortDirection: 'desc',
+            sortCriteria: '',
+            sortType: '',
         };
     }
 
@@ -37,7 +45,6 @@ class EventListSmart extends React.Component<Props, State> {
     }
 
     render() {
-        console.log("State: ", this.state)
         let { events } = this.props;
 
         const rows = events.length;
@@ -69,6 +76,19 @@ class EventListSmart extends React.Component<Props, State> {
             this.setState( { page: 0});
         };
 
+        const handleSortEvent = (criteria: string, type: string) => {
+            const sortParams: EventSortProps = {
+                criteria: criteria,
+                type: type
+            }
+            if (sortParams.criteria === undefined || (criteria === this.state.sortCriteria && type === this.state.sortType)){
+                return
+            } else {
+                this.props.sortEvents(sortParams);
+            }
+            this.setState({sortCriteria: criteria, sortType: type});
+        }
+
         // Using the map function, we will get all the events from the array
         const eventDetails = events
             .map((event: any) =>
@@ -94,7 +114,8 @@ class EventListSmart extends React.Component<Props, State> {
                     page={this.state.page}
                     handleChangePage={handleChangePage}
                     handleChangeRowsPerPage={handleChangeRowsPerPage}
-                    handleSort={handleSort} orderBy={''} order={'asc'}/>
+                    handleSort={handleSort}
+                    handleSortEvent={handleSortEvent}/>
         );
     }
 }
@@ -102,6 +123,7 @@ class EventListSmart extends React.Component<Props, State> {
 const mapStateToProps = (state: AppState) => ({
     events: state.events.allEvents,
     isLoading: state.events.isLoading,
-    isError: state.events.isError
+    isError: state.events.isError,
+    eventsSort: state.events.eventsSort,
 });
-export default connect(mapStateToProps, { fetchAllEvents })(EventListSmart)
+export default connect(mapStateToProps, { fetchAllEvents, sortEvents })(EventListSmart)
