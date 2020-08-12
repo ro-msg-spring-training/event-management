@@ -1,4 +1,4 @@
-import { UPDATE_EVENT_IMAGES } from "../actions/ImageActions"
+import { UPDATE_EVENT_IMAGES, FETCH_EVENT_IMAGES_S3_SUCCESS, FETCH_EVENT_IMAGES_S3_ERROR, FETCH_EVENT_IMAGES_S3_REQUEST } from "../actions/ImageActions"
 import { EventImage } from "../model/EventImage"
 
 
@@ -8,7 +8,10 @@ interface ReducerActionProps {
 }
 
 const initialState = {
-    images: [{id: 'first', name: 'butterfly', byteArr: 'https://img.bunadimineata.ro/uploads/2015/04/fluture-pe-floare_27122598-770x600.jpg'}],
+    isError: false,
+    isLoading: false,
+    // images: [{ id: 'first', name: 'butterfly', byteArr: 'https://event-management-pictures.s3-eu-west-1.amazonaws.com/first.jpg' }],
+    images: []
 }
 
 export const ImagesReducer = (state = initialState, action: ReducerActionProps) => {
@@ -16,7 +19,26 @@ export const ImagesReducer = (state = initialState, action: ReducerActionProps) 
         case UPDATE_EVENT_IMAGES:
             return {
                 ...state,
+                images: action.payload,
+                isError: false
+            }
+        case FETCH_EVENT_IMAGES_S3_REQUEST:
+            return {
+                ...state,
+                isLoading: true
+            }
+        case FETCH_EVENT_IMAGES_S3_SUCCESS:
+            return {
+                ...state,
+                isError: false,
+                isLoading: false,
                 images: action.payload
+            }
+        case FETCH_EVENT_IMAGES_S3_ERROR:
+            return {
+                ...state,
+                isError: true,
+                isLoading: false
             }
         default:
             return state

@@ -23,7 +23,7 @@ export const useStyle = makeStyles({
         cursor: 'pointer'
     },
     imagesContainer: {
-        backgroundColor: '#eeeeee',
+        backgroundColor: '#eeeeee'
     },
     imageWrapper: {
         position: 'relative'
