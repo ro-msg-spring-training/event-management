@@ -1,30 +1,39 @@
 package ro.msg.event.management.eventmanagementbackend.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ro.msg.event.management.eventmanagementbackend.ComparisonSign;
+import ro.msg.event.management.eventmanagementbackend.SortCriteria;
+import ro.msg.event.management.eventmanagementbackend.controller.converter.Converter;
+import ro.msg.event.management.eventmanagementbackend.controller.dto.EventFilteringDto;
 import ro.msg.event.management.eventmanagementbackend.dto.EventDTO;
-import ro.msg.event.management.eventmanagementbackend.entity.*;
+import ro.msg.event.management.eventmanagementbackend.entity.Event;
+import ro.msg.event.management.eventmanagementbackend.entity.EventSublocation;
+import ro.msg.event.management.eventmanagementbackend.entity.EventSublocationID;
+import ro.msg.event.management.eventmanagementbackend.entity.Picture;
+import ro.msg.event.management.eventmanagementbackend.entity.view.EventView;
 import ro.msg.event.management.eventmanagementbackend.security.User;
-import ro.msg.event.management.eventmanagementbackend.service.*;
-
-import java.util.List;
-
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import ro.msg.event.management.eventmanagementbackend.service.EventService;
+import ro.msg.event.management.eventmanagementbackend.service.EventSublocationService;
+import ro.msg.event.management.eventmanagementbackend.service.PictureService;
+import ro.msg.event.management.eventmanagementbackend.service.SublocationService;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 
 @RestController
 @RequestMapping("/events")
+@RequiredArgsConstructor
 public class EventController {
+
+    private static final int EVENTS_PER_PAGE = 1;
 
     private final EventService eventService;
     private final PictureService pictureService;
@@ -65,11 +74,20 @@ public class EventController {
     }
 
     @Autowired
-    public EventController(EventService eventService, PictureService pictureService, SublocationService sublocationService, EventSublocationService eventSublocationService) {
-        this.eventService = eventService;
-        this.pictureService = pictureService;
-        this.sublocationService = sublocationService;
-        this.eventSublocationService = eventSublocationService;
+    private Converter<EventView, EventFilteringDto> converter;
+
+    @GetMapping(path = "/{pageNumber}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public List<EventFilteringDto> getPaginatedFilteredEvents(@PathVariable("pageNumber") int pageNumber, @RequestParam(required = false) String title, @RequestParam(required = false) String subtitle, @RequestParam(required = false) Boolean status, @RequestParam(required = false) Boolean highlighted, @RequestParam(required = false) String location, @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate, @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate, @RequestParam(required = false) ComparisonSign rateSign, @RequestParam(required = false) Float rate, @RequestParam(required = false) ComparisonSign maxPeopleSign, @RequestParam(required = false) Integer maxPeople) {
+        List<EventView> eventViews = eventService.filterAndPaginate(title, subtitle, status, highlighted, location, startDate, endDate, rateSign, rate, maxPeopleSign, maxPeople, pageNumber, EVENTS_PER_PAGE);
+        return converter.convertAll(eventViews);
+    }
+
+    @GetMapping(path = "/sort/{pageNumber}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public List<EventFilteringDto> getPaginatedFilteredAndSortedEvents(@PathVariable("pageNumber") int pageNumber, @RequestParam(required = false) String title, @RequestParam(required = false) String subtitle, @RequestParam(required = false) Boolean status, @RequestParam(required = false) Boolean highlighted, @RequestParam(required = false) String location, @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate, @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate, @RequestParam(required = false) ComparisonSign rateSign, @RequestParam(required = false) Float rate, @RequestParam(required = false) ComparisonSign maxPeopleSign, @RequestParam(required = false) Integer maxPeople, @RequestParam(required = false) SortCriteria sortCriteria, @RequestParam Boolean sortType) {
+        List<EventView> eventViews = eventService.filterAndOrder(title, subtitle, status, highlighted, location, startDate, endDate, rateSign, rate, maxPeopleSign, maxPeople, pageNumber, EVENTS_PER_PAGE, sortCriteria, sortType);
+        return converter.convertAll(eventViews);
     }
 
     @DeleteMapping("/{id}")
@@ -78,4 +96,3 @@ public class EventController {
         this.eventService.deleteEvent(id);
     }
 }
-

@@ -9,10 +9,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 
-import org.springframework.stereotype.Repository;
-
-
-@Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
 
     @Query("select e from Event e join EventSublocation es on e.id = es.event.id " +
