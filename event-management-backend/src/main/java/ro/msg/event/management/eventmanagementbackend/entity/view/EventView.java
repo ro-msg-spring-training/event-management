@@ -1,0 +1,51 @@
+package ro.msg.event.management.eventmanagementbackend.entity.view;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Immutable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import java.time.LocalDateTime;
+
+@Entity
+@Immutable
+@AllArgsConstructor
+@Data
+@NoArgsConstructor
+public class EventView {
+
+    @Id
+    @Column(updatable = false, nullable = false)
+    private Long id;
+
+    @Column
+    private String title;
+
+    @Column
+    private String subtitle;
+
+    @Column
+    private Boolean status;
+
+    @Column
+    private Boolean highlighted;
+
+    @Column
+    private String location;
+
+    @Column
+    private LocalDateTime startDate;
+
+    @Column
+    private LocalDateTime endDate;
+
+    @Column
+    private Integer maxPeople;
+
+    @Column
+    private Float rate;
+
+}
