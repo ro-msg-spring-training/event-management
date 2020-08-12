@@ -48,7 +48,6 @@ export function* watchSortEventsAsync() {
     yield takeEvery(SORT_EVENTS, sortEventsAsync)
 }
 
-
 function* fetchEventsAsync() {
     yield put(fetchEventsRequest())
     try {

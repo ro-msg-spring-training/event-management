@@ -12,6 +12,7 @@ import {Link} from "react-router-dom";
 import TablePaginationActions from "@material-ui/core/TablePagination/TablePaginationActions";
 import FilterSectionSmart from "../filterSection/FilterSectionSmart";
 import { useStyles } from '../../../styles/CommonStyles';
+import {EventSortProps} from "../../../types/EventSortProps";
 
 
 interface Props {
@@ -25,6 +26,7 @@ interface Props {
     handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,) => void
     handleSort: (column: string) => void;
     handleSortEvent: (criteria: string, type: string) => void;
+    sort: EventSortProps;
 }
 
 interface Data {
@@ -62,6 +64,7 @@ const EventListDumb = (props: Props) => {
     const handleChangePage = props.handleChangePage;
     const handleChangeRowsPerPage = props.handleChangeRowsPerPage;
     const handleSortEvent = props.handleSortEvent;
+    const sort = props.sort;
 
     const [criteria, setCriteria] = useState();
     const [type, setType] = useState();
@@ -104,7 +107,7 @@ const EventListDumb = (props: Props) => {
                                 >
                                     <TableSortLabel
                                         hideSortIcon={!headCell.numeric}
-                                        active={criteria === headCell.id && headCell.numeric}
+                                        active={criteria === headCell.id && headCell.numeric && sort.criteria !== ""}
                                         direction={criteria === headCell.id ? type : 'asc'}
                                         onClick={createSortHandler(headCell.id)}
                                     >

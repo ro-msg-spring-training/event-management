@@ -115,7 +115,8 @@ class EventListSmart extends React.Component<Props, State> {
                     handleChangePage={handleChangePage}
                     handleChangeRowsPerPage={handleChangeRowsPerPage}
                     handleSort={handleSort}
-                    handleSortEvent={handleSortEvent}/>
+                    handleSortEvent={handleSortEvent}
+                    sort={this.props.eventsSort}/>
         );
     }
 }

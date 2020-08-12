@@ -1,13 +1,14 @@
-import { EventFiltersProps } from "../types/EventFiltersProps";
+import {EventFiltersProps} from "../types/EventFiltersProps";
 import {EventSortProps} from "../types/EventSortProps";
 
-const eventsUrl = 'http://localhost:4000/products';
+const eventsUrl = 'http://localhost:8080/events/filter';
+const mockUrlProducts = 'http://localhost:4000/products';
 
 const computeSortQueryString = (sort: EventSortProps) => {
     let sortToSend: any = {}
 
-    sortToSend['sortCriteria'] = sort.criteria;
-    sortToSend['sortType'] = sort.type;
+    sortToSend['sortCriteria'] = sort.criteria === "occRate" ? "OCCUPANCY_RATE" : sort.criteria.toUpperCase();
+    sortToSend['sortType'] = sort.type === "asc" ? 1 : 0;
 
     return sortToSend;
 }
@@ -50,22 +51,34 @@ const computeFilterQueryString = (filters: EventFiltersProps) => {
 
 export const fetchFilteredEvents = (filters: EventFiltersProps) => {
     const filtersToSend = computeFilterQueryString(filters)
-    const url = new URL(eventsUrl)
+    const url = new URL(eventsUrl + "?")
+
     url.search = new URLSearchParams(filtersToSend).toString();
 
-    return fetch(url.toString())
-        .then(response => response.json(), )
+    console.log("Sending data to: " + url.toString())
+
+    // UNCOMMENT THIS ONLY IF ALL URLS ARE RIGHT
+    /* return fetch(url.toString())
+        .then(response => response.json(), )*/
+}
+
+
+export const fetchSortedEvents = (sort: EventSortProps, filters: EventFiltersProps) => {
+    const filtersToSend = computeFilterQueryString(filters)
+    const sortToSend = computeSortQueryString(sort)
+    const url = new URL(eventsUrl + "/sort?")
+
+    url.search = new URLSearchParams(filtersToSend).toString();
+    url.search += new URLSearchParams(sortToSend).toString();
+
+    console.log("Sending data to: " + url.toString())
+
+    // UNCOMMENT THIS ONLY IF ALL URLS ARE RIGHT
+    /*fetch(url.toString())
+        .then(response => response.json())*/
 }
 
 export const fetchEvents = () => {
-    return fetch(eventsUrl)
+    return fetch(mockUrlProducts)
         .then(response => response.json(), );  
-}
-
-export const sendRequestForSorting = (data: EventSortProps) => {
-    const bit = data.type === "asc" ? 1 : 0;
-    const fullUrl = eventsUrl + "sortCriteria=" + data.criteria.toUpperCase() + "&sortType=" + bit;
-    console.log("Sending..." + data.criteria + data.type)
-    fetch(fullUrl)
-        .then(response => response.json())
 }

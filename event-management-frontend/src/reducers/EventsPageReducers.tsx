@@ -5,12 +5,12 @@ import {
     FETCH_EVENTS_SUCCESS,
     FETCH_EVENTS_ERROR,
     FETCH_EVENTS_REQUEST,
-    SORT_EVENTS
+    SORT_EVENTS, FILTER_EVENTS
 } from "../actions/EventsPageActions"
 import { MathRelation } from "../model/MathRelation"
 import { EventFiltersProps } from "../types/EventFiltersProps";
 import { EventSortProps } from "../types/EventSortProps";
-import { sendRequestForSorting } from "../services/EventsService";
+import {fetchSortedEvents } from "../services/EventsService";
 
 
 export interface EventsPageState {
@@ -51,7 +51,7 @@ interface ReducerActionProps {
 export const EventsPageReducer = (state = initialState, action: ReducerActionProps) => {
     switch (action.type) {
         case SORT_EVENTS:
-            sendRequestForSorting(action.payload)
+            fetchSortedEvents(action.payload, state.filters)
             return {
                 ...state,
                 eventsSort: action.payload
@@ -59,12 +59,17 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
         case UPDATE_FILTERS:
             return {
                 ...state,
-                filters: action.payload
+                filters: action.payload,
+            };
+        case FILTER_EVENTS:
+            return {
+                ...state,
+                eventsSort: { criteria: "", type: ""}
             };
         case FILTER_EVENTS_SUCCESS:
             return {
                 ...state,
-                allEvents: action.payload
+                //allEvents: action.payload,
             };
         case FILTER_EVENTS_ERROR:
             return {
