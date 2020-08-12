@@ -2,7 +2,8 @@ package ro.msg.event.management.eventmanagementbackend.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -12,20 +13,27 @@ import ro.msg.event.management.eventmanagementbackend.ComparisonSign;
 import ro.msg.event.management.eventmanagementbackend.SortCriteria;
 import ro.msg.event.management.eventmanagementbackend.controller.converter.Converter;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.EventFilteringDto;
-import ro.msg.event.management.eventmanagementbackend.dto.EventDTO;
+import ro.msg.event.management.eventmanagementbackend.controller.dto.EventDTO;
 import ro.msg.event.management.eventmanagementbackend.entity.Event;
 import ro.msg.event.management.eventmanagementbackend.entity.EventSublocation;
 import ro.msg.event.management.eventmanagementbackend.entity.EventSublocationID;
 import ro.msg.event.management.eventmanagementbackend.entity.Picture;
 import ro.msg.event.management.eventmanagementbackend.entity.view.EventView;
 import ro.msg.event.management.eventmanagementbackend.security.User;
+
+import java.util.List;
+
 import ro.msg.event.management.eventmanagementbackend.service.EventService;
 import ro.msg.event.management.eventmanagementbackend.service.EventSublocationService;
 import ro.msg.event.management.eventmanagementbackend.service.PictureService;
 import ro.msg.event.management.eventmanagementbackend.service.SublocationService;
 
+import java.util.NoSuchElementException;
+
+import ro.msg.event.management.eventmanagementbackend.service.ExceededCapacityException;
+import ro.msg.event.management.eventmanagementbackend.service.OverlappingEventsException;
+
 import java.time.LocalDateTime;
-import java.util.List;
 
 
 @RestController
@@ -39,6 +47,9 @@ public class EventController {
     private final PictureService pictureService;
     private final SublocationService sublocationService;
     private final EventSublocationService eventSublocationService;
+    private final Converter<Event,EventDTO> convertToDto;
+    private final Converter<EventDTO,Event> convertToEntity;
+    private final Converter<EventView, EventFilteringDto> converter;
 
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -73,9 +84,6 @@ public class EventController {
         return event;
     }
 
-    @Autowired
-    private Converter<EventView, EventFilteringDto> converter;
-
     @GetMapping(path = "/{pageNumber}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<EventFilteringDto> getPaginatedFilteredEvents(@PathVariable("pageNumber") int pageNumber, @RequestParam(required = false) String title, @RequestParam(required = false) String subtitle, @RequestParam(required = false) Boolean status, @RequestParam(required = false) Boolean highlighted, @RequestParam(required = false) String location, @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate, @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate, @RequestParam(required = false) ComparisonSign rateSign, @RequestParam(required = false) Float rate, @RequestParam(required = false) ComparisonSign maxPeopleSign, @RequestParam(required = false) Integer maxPeople) {
@@ -90,9 +98,30 @@ public class EventController {
         return converter.convertAll(eventViews);
     }
 
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<EventDTO> updateEvent(@PathVariable Long id, @RequestBody EventDTO eventUpdateDto) {
+        EventDTO eventDto;
+        Event eventUpdated;
+
+        Event event = convertToEntity.convert(eventUpdateDto);
+        event.setId(id);
+
+        try {
+            eventUpdated = eventService.updateEvent(event);
+            eventDto = convertToDto.convert(eventUpdated);
+        } catch (NoSuchElementException noSuchElementException) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (OverlappingEventsException | ExceededCapacityException overlappingEventsException) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>(eventDto, HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteEvent(@PathVariable long id) {
         this.eventService.deleteEvent(id);
     }
 }
+
