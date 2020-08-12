@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
     backgroundImage: 'linear-gradient(45deg, #f9c929 10%, #f2ac0a 50%, #ed4d6e 90%)',
   },
   typography: {
-    fontSize: 25,
+    fontSize: 20,
     fontFamily: 'Monospace',
     color: theme.palette.secondary.main,
     textTransform: "uppercase"

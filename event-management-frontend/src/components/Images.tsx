@@ -1,6 +1,10 @@
 import React from 'react';
 
-function Images() {
+interface Props{
+  match: any,
+}
+
+function Images({ match } : Props) {
   return (
     <h1>Images</h1>
   );

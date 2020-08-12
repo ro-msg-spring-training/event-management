@@ -58,7 +58,6 @@ export function* deleteProductWatcher() {
 //-----------------------------------------ADD EVENT
 function* addEventAsync(props: AddProps) {
   try {
-    console.log("addEventAsync");
     yield put(addEventRequest());
     yield call(() => addEventAPI(props.payload));
     yield put(addEventSuccess())

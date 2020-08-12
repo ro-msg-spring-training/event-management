@@ -33,6 +33,23 @@ interface TabPanelProps {
   value: any;
 }
 
+interface IProductBase {
+  name: string,
+  category: string,
+  image: string,
+  description: string,
+}
+
+export interface IProductDetailsReady extends IProductBase {
+  id: number,
+  price: number
+}
+
+interface EventProps{
+  newEvent:boolean,
+  event: IProductDetailsReady
+}
+
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
   // p={3}
@@ -58,7 +75,7 @@ function a11yProps(index: any) {
   };
 }
 
-export default function Stepper() {
+export default function Stepper(props: EventProps) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -66,9 +83,12 @@ export default function Stepper() {
     setValue(newValue);
   };
 
+  // console.log("Stepper");
+  // console.log(props.event);
+
   return (
     <div className={classes.root}>
-
+      
       <Grid container direction="row" justify="flex-start" alignItems="center">
 
         <Grid item xl={1} lg={2} md={2} sm={2} xs={3}>
@@ -90,8 +110,8 @@ export default function Stepper() {
         </Grid>
 
         <Grid item xl={11} lg={10} md={10} sm={10} xs={9}>
-          <TabPanel value={value} index={0}>
-            <Overview/>
+          {/* <TabPanel value={value} index={0}>
+            <Overview event={props.event} newEvent={props.newEvent}/>
           </TabPanel>
           <TabPanel value={value} index={1}>
             <Location />
@@ -101,7 +121,7 @@ export default function Stepper() {
           </TabPanel>
           <TabPanel value={value} index={3}>
             <Images />
-          </TabPanel>
+          </TabPanel> */}
         </Grid>
 
       </Grid>

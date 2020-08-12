@@ -20,7 +20,7 @@ export interface ProductState {
 
 const initialState: ProductState = {
   loading: false,
-  product: { id: 100, name: "mock", category: "mock", price: 0, image: "mock", description: "mock" },
+  product: { id: -1, name: "NEW EVENT", category: "mock", price: 0, image: "mock", description: "mock" },
   error: ''
 }
 
