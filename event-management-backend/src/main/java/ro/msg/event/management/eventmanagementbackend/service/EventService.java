@@ -2,7 +2,6 @@ package ro.msg.event.management.eventmanagementbackend.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import lombok.RequiredArgsConstructor;
 import ro.msg.event.management.eventmanagementbackend.ComparisonSign;
 import ro.msg.event.management.eventmanagementbackend.SortCriteria;
 import ro.msg.event.management.eventmanagementbackend.comparator.EventViewDateComparator;
