@@ -138,7 +138,6 @@ public class EventService {
         CriteriaQuery<EventView> q = criteriaBuilder.createQuery(EventView.class);
         Root<EventView> c = q.from(EventView.class);
         List<Predicate> predicate = new ArrayList<>();
-        log.info("view repo: " + this.eventViewRepository.findAll().toString());
         if (title != null) {
             predicate.add(criteriaBuilder.equal(c.get("title"), title));
         }
@@ -204,7 +203,6 @@ public class EventService {
         int offset = (pageNumber - 1) * eventPerPage;
         typedQuery.setFirstResult(offset);
         typedQuery.setMaxResults(eventPerPage);
-        log.info("typedQuery result: " + typedQuery.getResultList().toString());
         return typedQuery.getResultList();
     }
 
