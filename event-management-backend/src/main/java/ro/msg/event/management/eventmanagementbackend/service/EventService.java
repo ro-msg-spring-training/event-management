@@ -44,12 +44,15 @@ public class EventService {
 
     public long saveEvent(Event event, List<Long> sublocations) throws OverlappingEventsException, ExceededCapacityException {
 
-        LocalDate start = event.getStartDate();
-        LocalDate end = event.getEndDate();
+        LocalDate startDate = event.getStartDate();
+        LocalDate endDate = event.getEndDate();
+        LocalTime startHour = event.getStartHour();
+        LocalTime endHour = event.getEndHour();
+
         boolean validSublocations = true;
         int sumCapacity = 0;
         for (Long l : sublocations) {
-            if (!checkOverlappingEvents(start, end, l)) {
+            if (!checkOverlappingEvents(startDate, endDate, startHour, endHour, l)) {
                 validSublocations = false;
             }
             sumCapacity += sublocationRepository.getOne(l).getMaxCapacity();
@@ -64,8 +67,8 @@ public class EventService {
         }
     }
 
-    public boolean checkOverlappingEvents(LocalDate start, LocalDate end, long sublocation) {
-        List<Event> overlappingEvents = eventRepository.findOverlappingEvents(start, end, sublocation);
+    public boolean checkOverlappingEvents(LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, long sublocation) {
+        List<Event> overlappingEvents = eventRepository.findOverlappingEvents(startDate, endDate, startHour, endHour, sublocation);
         return overlappingEvents.isEmpty();
     }
 
@@ -77,8 +80,10 @@ public class EventService {
         if (eventOptional.isPresent()) {
             Event eventFromDB = eventOptional.get();
 
-            LocalDate start = event.getStartDate();
-            LocalDate end = event.getEndDate();
+            LocalDate startDate = event.getStartDate();
+            LocalDate endDate = event.getEndDate();
+            LocalTime startHour = event.getStartHour();
+            LocalTime endHour = event.getEndHour();
 
             boolean validSublocation = true;
             int sumCapacity = 0;
@@ -90,7 +95,7 @@ public class EventService {
                     .collect(Collectors.toList());
 
             for (Long subId : sublocationsId) {
-                if (!checkOverlappingEvents(eventFromDB.getId(), start, end, subId)) {
+                if (!checkOverlappingEvents(eventFromDB.getId(), startDate, endDate, startHour, endHour, subId)) {
                     validSublocation = false;
                 }
                 sumCapacity += sublocationRepository.getOne(subId).getMaxCapacity();
@@ -98,8 +103,10 @@ public class EventService {
 
             if (validSublocation) {
                 if (sumCapacity >= event.getMaxPeople()) {
-                    eventFromDB.setStartDate(start);
-                    eventFromDB.setEndDate(end);
+                    eventFromDB.setStartDate(startDate);
+                    eventFromDB.setEndDate(endDate);
+                    eventFromDB.setStartHour(startHour);
+                    eventFromDB.setEndHour(endHour);
                     eventFromDB.setTitle(event.getTitle());
                     eventFromDB.setSubtitle(event.getSubtitle());
                     eventFromDB.setDescription(event.getDescription());
@@ -120,8 +127,8 @@ public class EventService {
             throw new NoSuchElementException();
     }
 
-    public boolean checkOverlappingEvents(Long eventID, LocalDate start, LocalDate end, long sublocation) {
-        List<Event> foundEvents = eventRepository.findOverlappingEvents(start, end, sublocation);
+    public boolean checkOverlappingEvents(Long eventID, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, long sublocation) {
+        List<Event> foundEvents = eventRepository.findOverlappingEvents(startDate, endDate, startHour, endHour, sublocation);
         List<Event> overlapingEvents = foundEvents
                 .stream()
                 .filter(event -> !event.getId().equals(eventID))
