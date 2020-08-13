@@ -5,6 +5,7 @@ import TableRow from '@material-ui/core/TableRow';
 import {Link} from "react-router-dom";
 import Event from "../../../model/Event";
 import {createStyles, Theme, withStyles} from "@material-ui/core/styles";
+import { useStyles } from '../../../styles/CommonStyles';
 
 
 const StyledTableCell = withStyles((theme: Theme) =>
@@ -26,6 +27,8 @@ const StyledTableRow = withStyles((theme: Theme) =>
 )(TableRow);
 
 const EventDetailsDumb = (props: Event) => {
+    const commonClasses = useStyles()
+
     const id = props.id;
     const title = props.name;
     const subtitle = props.subtitle;
@@ -45,14 +48,19 @@ const EventDetailsDumb = (props: Event) => {
 
             <StyledTableCell>
                 <Link to={`/events/${id}`} style={{ textDecoration: 'none' }}>
-                    <Button className="button-style1">Details</Button>
+                    <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3}`}>Details</Button>
                 </Link><br/><br/>
                 <Link to={`/validate/${id}`} style={{ textDecoration: 'none' }}>
-                    <Button className="button-style1">Validate</Button>
+                    <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3}`}>Validate</Button>
                 </Link>
             </StyledTableCell>
         </StyledTableRow>
     );
 }
+
+//TODO: pagination for fronted (integrate after with backend)
+//TODO: gmail address instead of MyAccount
+//TODO: active header
+//TODO: fewer column (get rid of subtitle, hour and occupancy rate) for mobile
 
 export default EventDetailsDumb

@@ -4,31 +4,35 @@ import { connect } from 'react-redux';
 import {fetchAllEvents} from '../../../actions/EventsPageActions'
 import { AppState } from "../../../store/store";
 import EventListDumb from "./EventListDumb";
+import {EventSortProps} from "../../../types/EventSortProps";
+import { sortEvents, prevPage, nextPage } from "../../../actions/EventsPageActions";
+import {EventFiltersProps} from "../../../types/EventFiltersProps";
 
 
-let ROWS_PER_PAGE = 10;
 interface Props {
     events: { Event: any; }[];
+    eventsSort: EventSortProps;
+    filters: EventFiltersProps;
     isLoading: boolean;
     isError: boolean;
     fetchAllEvents: () => { type: string; };
+    sortEvents: (sort: EventSortProps, page: number) => void;
+    page: number;
+    prevPage: (filters: EventFiltersProps, sort: EventSortProps) => void;
+    nextPage: (filters: EventFiltersProps, sort: EventSortProps) => void;
 }
 
 interface State {
-    page: number;
-    rowsPerPage: number;
-    columnToSort: any;
-    sortDirection: any;
+    sortCriteria: any;
+    sortType: any;
 }
 
 class EventListSmart extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            page: 0,
-            rowsPerPage: ROWS_PER_PAGE,
-            columnToSort: '',
-            sortDirection: 'desc',
+            sortCriteria: '',
+            sortType: '',
         };
     }
 
@@ -37,66 +41,43 @@ class EventListSmart extends React.Component<Props, State> {
     }
 
     render() {
-        console.log("State: ", this.state)
         let { events } = this.props;
 
-        const rows = events.length;
+        const handleSortEvent = (criteria: string, type: string) => {
+            const sortParams: EventSortProps = {
+                criteria: criteria,
+                type: type
+            }
+            if (sortParams.criteria === undefined || (criteria === this.state.sortCriteria && type === this.state.sortType)){
+                return
+            } else {
+                this.props.sortEvents(sortParams, this.props.page);
+            }
+            this.setState({sortCriteria: criteria, sortType: type});
+        }
 
-        const emptyRows = this.state.rowsPerPage - Math.min(this.state.rowsPerPage, rows - this.state.page * this.state.rowsPerPage);
+        const goToPrevPage = () => {
+            this.props.prevPage(this.props.filters, this.props.eventsSort);
+        }
 
-        const invertDirection = (direction: string) => {
-            direction === 'asc' ? this.setState({ sortDirection : "desc"})
-                : this.setState({ sortDirection : "asc"});
-        };
-
-        const handleSort = (columnName: string) => {
-            const result = this.state.columnToSort === columnName ?
-                invertDirection(this.state.sortDirection)
-                : "asc";
-            this.setState({ columnToSort : columnName});
-            this.setState({ sortDirection : result});
-        };
-
-        const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
-            this.setState({ page: newPage});
-        };
-
-        const handleChangeRowsPerPage = (
-            event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-        ) => {
-            this.setState( { rowsPerPage: parseInt(event.target.value, 10) });
-            ROWS_PER_PAGE = parseInt(event.target.value, 10);
-            this.setState( { page: 0});
-        };
+        const goToNextPage = () => {
+            this.props.nextPage(this.props.filters, this.props.eventsSort);
+        }
 
         // Using the map function, we will get all the events from the array
         const eventDetails = events
-            //.sort((eventA: any, eventB: any) => eventA.id < eventB.id)
             .map((event: any) =>
                 <EventDetailsDumb key={event.id} id={event.id} title={event.title} subtitle={event.title}
                                   location={event.location} date={event.date} hour={event.hour} occRate={event.occRate}
                                   name={event.name} />);
-
-        const eventDetailsSlice = events
-            //.sort((eventA: any, eventB: any) => eventA.title - eventB.title )
-            .slice(this.state.page * this.state.rowsPerPage,
-                this.state.page * this.state.rowsPerPage + this.state.rowsPerPage)
-            .map((event: any) =>
-                <EventDetailsDumb key={event.id} id={event.id} title={event.title} subtitle={event.title}
-                                  location={event.location} date={event.date} hour={event.hour} occRate={event.occRate}
-                                  name={event.name} />);
-
 
         return (
-                <EventListDumb emptyRows={emptyRows}
-                    rowsPerPage={this.state.rowsPerPage}
-                    eventsDetailsSlice={eventDetailsSlice}
+                <EventListDumb
                     eventsDetails={eventDetails}
-                    rows={rows}
-                    page={this.state.page}
-                    handleChangePage={handleChangePage}
-                    handleChangeRowsPerPage={handleChangeRowsPerPage}
-                    handleSort={handleSort}/>
+                    handleSortEvent={handleSortEvent}
+                    sort={this.props.eventsSort}
+                    goToPrevPage={goToPrevPage}
+                    goToNextPage={goToNextPage}/>
         );
     }
 }
@@ -104,6 +85,9 @@ class EventListSmart extends React.Component<Props, State> {
 const mapStateToProps = (state: AppState) => ({
     events: state.events.allEvents,
     isLoading: state.events.isLoading,
-    isError: state.events.isError
+    isError: state.events.isError,
+    eventsSort: state.events.eventsSort,
+    page: state.events.page,
+    filters: state.events.filters
 });
-export default connect(mapStateToProps, { fetchAllEvents })(EventListSmart)
+export default connect(mapStateToProps, { fetchAllEvents, sortEvents, prevPage, nextPage })(EventListSmart)

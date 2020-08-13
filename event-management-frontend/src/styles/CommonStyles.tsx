@@ -4,6 +4,12 @@ const useStyles = makeStyles(theme => ({
   shadow: {
     boxShadow: '0px 7px 8px -4px rgba(0,0,0,0.2),0px 13px 19px 2px rgba(0,0,0,0.14),0px 5px 24px 4px rgba(0,0,0,0.12)',
   },
+  eventTitle: {
+    height: 50,
+    padding: 20,
+    color: '#133655',
+    width: 100,
+  },
   buttonStyle1: {
     textAlign: 'center',
     color: theme.palette.secondary.main,
@@ -15,11 +21,9 @@ const useStyles = makeStyles(theme => ({
     boxShadow: '0 1px 7px 1px #133C55',
   },
   buttonStyle2: {
-    color: theme.palette.secondary.main,
     textTransform: 'uppercase',
     borderRadius: '20px',
     width: "85%",
-    boxShadow: '0 1px 7px 1px #133C55',
     cursor: 'pointer',
     backgroundSize: '200%',
     transition: '0.3s',
@@ -30,11 +34,32 @@ const useStyles = makeStyles(theme => ({
   buttonStyle3: {
     backgroundImage: 'linear-gradient(45deg, #f9c929 10%, #f2ac0a 50%, #ed4d6e 90%)',
   },
+  buttonStyle4: {
+    width: "100%",
+    borderRadius: "0px",
+  },
   typography: {
     fontSize: 25,
     fontFamily: 'Monospace',
     color: theme.palette.text.primary,
     textTransform: "uppercase"
+  },
+  visuallyHidden: {
+    border: 0,
+    clip: 'rect(0 0 0 0)',
+    height: 1,
+    margin: -1,
+    overflow: 'hidden',
+    padding: 0,
+    position: 'absolute',
+    top: 20,
+    width: 1,
+  },
+  prev: {
+    fontSize: 20
+  },
+  next: {
+    fontSize: 20
   },
 }));
 

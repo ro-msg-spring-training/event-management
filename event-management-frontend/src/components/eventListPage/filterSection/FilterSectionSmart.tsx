@@ -8,11 +8,12 @@ import { EventFiltersProps } from '../../../types/EventFiltersProps';
 
 interface Props {
     filters: EventFiltersProps,
+    page: number,
     updateFilters: (filters: EventFiltersProps) => void,
-    filterEvents: (filters: EventFiltersProps) => void,
+    filterEvents: (filters: EventFiltersProps, page: number) => void,
 }
 
-function FilterSectionSmart({ filters, updateFilters, filterEvents }: Props) {
+function FilterSectionSmart({ filters, updateFilters, filterEvents, page }: Props) {
     const [expanded, setExpanded] = useState(false)
     const [errorRate, setErrorRate] = useState('')
     const [errorMaxPeople, setErrorMaxPeople] = useState('')
@@ -135,7 +136,7 @@ function FilterSectionSmart({ filters, updateFilters, filterEvents }: Props) {
 
     const submitForm = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        filterEvents(filters)
+        filterEvents(filters, page)
     }
 
     const toggle = () => {
@@ -176,13 +177,14 @@ function FilterSectionSmart({ filters, updateFilters, filterEvents }: Props) {
 }
 
 const mapStateToProps = ({events}: any) => ({
-    filters: events.filters
+    filters: events.filters,
+    page: events.page
 });
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
         updateFilters: (filters: EventFiltersProps) => dispatch(updateFilters(filters)),
-        filterEvents: (filters: EventFiltersProps) => dispatch(filterEvents(filters))
+        filterEvents: (filters: EventFiltersProps, page: number) => dispatch(filterEvents(filters, page))
     }
 }
 

@@ -13,5 +13,5 @@ export const store = createStore(
 sagaMiddleware.run(rootSaga)
 
 export interface AppState {
-    events: EventsPageState
+    events: EventsPageState,
 }

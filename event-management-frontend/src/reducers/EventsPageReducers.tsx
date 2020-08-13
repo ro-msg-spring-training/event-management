@@ -1,6 +1,17 @@
-import { UPDATE_FILTERS, FILTER_EVENTS_SUCCESS, FILTER_EVENTS_ERROR, FETCH_EVENTS_SUCCESS, FETCH_EVENTS_ERROR, FETCH_EVENTS_REQUEST } from "../actions/EventsPageActions"
+import {
+    UPDATE_FILTERS,
+    FILTER_EVENTS_SUCCESS,
+    FILTER_EVENTS_ERROR,
+    FETCH_EVENTS_SUCCESS,
+    FETCH_EVENTS_ERROR,
+    FETCH_EVENTS_REQUEST,
+    SORT_EVENTS, FILTER_EVENTS,
+    PREV_PAGE, NEXT_PAGE
+} from "../actions/EventsPageActions"
 import { MathRelation } from "../model/MathRelation"
 import { EventFiltersProps } from "../types/EventFiltersProps";
+import { EventSortProps } from "../types/EventSortProps";
+import {fetchSortedEvents, changePage } from "../services/EventsService";
 
 
 export interface EventsPageState {
@@ -8,6 +19,8 @@ export interface EventsPageState {
     allEvents: [],
     isLoading: boolean,
     isError: boolean,
+    eventsSort: EventSortProps,
+    page: number
 }
 
 const initialState: EventsPageState = {
@@ -28,25 +41,52 @@ const initialState: EventsPageState = {
     },
     isLoading: true,
     isError: false,
-    allEvents: []
+    allEvents: [],
+    eventsSort: { criteria: '', type: ''},
+    page: 1
 }
 
 interface ReducerActionProps {
     type: string,
-    payload: any
+    payload: any,
+    sort: any,
+    page: number
 }
 
 export const EventsPageReducer = (state = initialState, action: ReducerActionProps) => {
     switch (action.type) {
+        case PREV_PAGE:
+            changePage(action.payload, action.sort, state.page - 1)
+            return {
+                ...state,
+                page: state.page - 1,
+            }
+        case NEXT_PAGE:
+            changePage(action.payload, action.sort, state.page + 1)
+            return {
+                ...state,
+                page: state.page + 1
+            }
+        case SORT_EVENTS:
+            fetchSortedEvents(action.payload, state.filters, action.page)
+            return {
+                ...state,
+                eventsSort: action.payload
+            }
         case UPDATE_FILTERS:
             return {
                 ...state,
-                filters: action.payload
+                filters: action.payload,
+            };
+        case FILTER_EVENTS:
+            return {
+                ...state,
+                eventsSort: { criteria: "", type: ""}
             };
         case FILTER_EVENTS_SUCCESS:
             return {
                 ...state,
-                allEvents: action.payload
+                //allEvents: action.payload,
             };
         case FILTER_EVENTS_ERROR:
             return {

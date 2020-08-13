@@ -3,14 +3,10 @@ import { Link } from 'react-router-dom'
 import { AppBar, Toolbar, Typography } from '@material-ui/core'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        menuButton: {
-            flexGrow: 1,
-        },
         title: {
             flexGrow: 1,
         },
@@ -39,15 +35,12 @@ const Header = () => {
     const classes = useStyles();
 
     return (
-    <AppBar position="static" className={classes.dark}>
+    <AppBar position="sticky" className={classes.dark}>
         <Toolbar>
             <Link to='/' style={{ textDecoration: 'none' }}>
-                <IconButton edge="start" className={classes.menuButton} aria-label="menu">
-                    <MenuIcon className={classes.light}/>
                     <Typography variant="h6" className={classes.light}>
-                        Home
+                        Home&nbsp;&nbsp;
                     </Typography>
-                </IconButton>
             </Link>
 
             <Link to='/buildings' style={{ textDecoration: 'none' }} className={classes.ghost}>
