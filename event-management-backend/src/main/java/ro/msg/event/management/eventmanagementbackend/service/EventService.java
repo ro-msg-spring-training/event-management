@@ -141,7 +141,7 @@ public class EventService {
     }
 
     public TypedQuery<EventView> filter(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople) {
-        entityManager.clear();
+        //entityManager.clear();
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<EventView> q = criteriaBuilder.createQuery(EventView.class);
         Root<EventView> c = q.from(EventView.class);
@@ -165,13 +165,15 @@ public class EventService {
         }
 
         if (startDate != null && endDate != null) {
-            //Expression<Integer> year = criteriaBuilder.function("year", Integer.class, c.get("startDate"));
-            //Expression<Integer> month = criteriaBuilder.function("month", Integer.class, c.get("startDate"));
-            //Expression<Integer> day = criteriaBuilder.function("day", Integer.class, c.get("startDate"));
             Predicate firstCase = criteriaBuilder.between(c.get("startDate"), startDate, endDate);
             Predicate secondCase = criteriaBuilder.between(c.get("endDate"), startDate, endDate);
             predicate.add(criteriaBuilder.or(firstCase, secondCase));
 
+        }
+        if (startHour != null && endHour != null){
+            Predicate firstCase = criteriaBuilder.between(c.get("startHour"), startHour, endHour);
+            Predicate secondCase = criteriaBuilder.between(c.get("endHour"), startHour, endHour);
+            predicate.add(criteriaBuilder.or(firstCase, secondCase));
         }
         if (maxPeopleSign != null) {
             switch (maxPeopleSign) {
@@ -207,7 +209,6 @@ public class EventService {
         Predicate finalPredicate = criteriaBuilder.and(predicate.toArray(new Predicate[0]));
         q.where(finalPredicate);
         TypedQuery<EventView> typedQuery = entityManager.createQuery(q);
-        entityManager.close();
         return typedQuery;
     }
 
