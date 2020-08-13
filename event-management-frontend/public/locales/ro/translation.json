@@ -1,5 +1,11 @@
 {
   "welcome": {
-    "title": "Bine ai venit!"
+    "title": "Bine ai venit!",
+    "imageErrorMessage": "A apărut o eroare la încărcarea imaginilor",
+    "imageDragAndDrop": "Trageți și plasați fișiere aici sau faceți click pentru a selecta fișiere",
+    "imageDialogTitle": "Doriți să ștergeți imginea?",
+    "imageDialogContent": "Dacă ștergeți imaginea nu o veți mai putea recupera mai târziu.",
+    "imageDialogAgree": "Da",
+    "imageDialogDisagree": "Nu"
   }
 }

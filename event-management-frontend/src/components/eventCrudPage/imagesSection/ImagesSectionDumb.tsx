@@ -5,6 +5,8 @@ import { Grid, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActi
 import { useStyle } from '../../../styles/ImagesSectionStyles'
 import { EventImage } from '../../../model/EventImage'
 import CancelIcon from '@material-ui/icons/Cancel';
+import { useTranslation, Trans } from "react-i18next";
+
 
 interface ImagesSectionProps {
     isError: boolean,
@@ -15,6 +17,7 @@ interface ImagesSectionProps {
 
 function ImagesSectionDumb({ isError, isLoading, eventImages, updateEventImages }: ImagesSectionProps) {
     const classes = useStyle()
+    const { t, i18n } = useTranslation();
 
     const [images, setImages] = useState<EventImage[]>(eventImages)
     const [open, setOpen] = useState(false);
@@ -69,14 +72,14 @@ function ImagesSectionDumb({ isError, isLoading, eventImages, updateEventImages 
 
             <div {...getRootProps()} className={classes.dragndrop}>
                 <input {...getInputProps()} />
-                <p>Drag 'n' drop some files here, or click to select files</p>
+                <p>{t("welcome.imageDragAndDrop")}</p>
             </div>
 
             {
                 isError ?
-                    <p>An error occurred</p> :
+                    <p>{t("welcome.imageErrorMessage")}</p> :
                     isLoading ?
-                        <LinearProgress  /> :
+                        <LinearProgress /> :
                         images.length !== 0 ?
                             <ReactSortable list={images} setList={setImages} direction="horizontal" animation={150} className={`${classes.imagesContainer} MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3`}>
                                 {images.filter(item => item.deleted === undefined).map(item => (
@@ -96,22 +99,22 @@ function ImagesSectionDumb({ isError, isLoading, eventImages, updateEventImages 
                 onClose={handleCloseDecline}>
 
                 <DialogTitle>
-                    Do you want to remove this image?
+                    {t("welcome.imageDialogTitle")}
                 </DialogTitle>
 
                 <DialogContent>
                     <DialogContentText>
-                        If you delete the image, you will not be able to recover it later.
+                        {t("welcome.imageDialogContent")}
                     </DialogContentText>
                 </DialogContent>
 
                 <DialogActions>
                     <Button onClick={handleCloseDecline} color="primary">
-                        Disagree
+                        {t("welcome.imageDialogDisagree")}
                     </Button>
 
                     <Button onClick={handleCloseConfirm} color="primary" autoFocus>
-                        Agree
+                        {t("welcome.imageDialogAgree")}
                     </Button>
                 </DialogActions>
             </Dialog>

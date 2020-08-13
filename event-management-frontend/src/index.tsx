@@ -11,15 +11,13 @@ import * as serviceWorker from './serviceWorker';
 import "./i18n";
 
 ReactDOM.render(
-  <React.StrictMode>
     <Provider store={store}>
         <Router>
             <ThemeProvider theme={theme}>
                 <App/>
             </ThemeProvider>
         </Router>
-    </Provider>
-    </React.StrictMode>,
+    </Provider>,
   document.getElementById('root')
 );
 

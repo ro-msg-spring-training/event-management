@@ -20,7 +20,8 @@ function ImagesSectionSmart({ eventId, isError, isLoading, eventImages, updateEv
     useEffect(() => {
         fetchEventImagesS3(eventId) // to move this in the main component
     }, [fetchEventImagesS3, eventId]);
-    
+
+
     return (
         <>
         <ImagesSectionDumb
