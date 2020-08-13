@@ -14,9 +14,10 @@ export const updateEventImages = (images: EventImage[]) => {
     }
 }
 
-export const fetchEventImagesS3 = () => {
+export const fetchEventImagesS3 = (eventId: number) => {
     return {
-        type: FETCH_EVENT_IMAGES_S3
+        type: FETCH_EVENT_IMAGES_S3,
+        payload: eventId
     }
 }
 
@@ -40,9 +41,12 @@ export const fetchEventImagesS3Error = () => {
 }
 
 // to change the specification of the method
-export const uploadEventImagesS3 = (images: any) => {
+export const uploadEventImagesS3 = (images: any, eventId: number) => {
     return {
         type: UPLOAD_EVENT_IMAGES_S3,
-        payload: images
+        payload: {
+            images: images,
+            id: eventId
+        }
     }
 }

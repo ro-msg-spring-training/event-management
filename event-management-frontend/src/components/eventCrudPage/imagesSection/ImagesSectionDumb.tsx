@@ -11,10 +11,9 @@ interface ImagesSectionProps {
     isLoading: boolean,
     eventImages: EventImage[]
     updateEventImages: (images: EventImage[]) => void,
-    uploadEventImagesS3: (images: EventImage[]) => void,
 }
 
-function ImagesSectionDumb({ isError, isLoading, eventImages, updateEventImages, uploadEventImagesS3 }: ImagesSectionProps) {
+function ImagesSectionDumb({ isError, isLoading, eventImages, updateEventImages }: ImagesSectionProps) {
     const classes = useStyle()
 
     const [images, setImages] = useState<EventImage[]>(eventImages)
@@ -28,7 +27,7 @@ function ImagesSectionDumb({ isError, isLoading, eventImages, updateEventImages,
             reader.onload = () => {
                 const byteArr = reader.result
                 const id = `image-${file.name}-${file.size}-${Date.now()}` // image id
-                const elem = { id: id, name: file.name, byteArr: byteArr, file: file }
+                const elem = { id: id, name: file.name, url: byteArr, file: file }
                 setImages(prevState => [...prevState, elem]);
             }
         });
@@ -67,7 +66,6 @@ function ImagesSectionDumb({ isError, isLoading, eventImages, updateEventImages,
 
     return (
         <>
-            <Button onClick={() => uploadEventImagesS3(images)}>Upload</Button>
 
             <div {...getRootProps()} className={classes.dragndrop}>
                 <input {...getInputProps()} />
@@ -86,7 +84,7 @@ function ImagesSectionDumb({ isError, isLoading, eventImages, updateEventImages,
                                         <CancelIcon
                                             onClick={() => handleClickOpen(item)}
                                             className={classes.deleteButton} />
-                                        <img alt={item.name} src={item.byteArr} className={classes.image} />
+                                        <img alt={item.name} src={item.url} className={classes.image} />
                                     </Grid>
                                 ))}
                             </ReactSortable> :

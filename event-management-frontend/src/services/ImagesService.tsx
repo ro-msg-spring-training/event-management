@@ -1,7 +1,7 @@
 import { EventImage } from "../model/EventImage";
 
-const awsURL = 'https://event-management-pictures.s3-eu-west-1.amazonaws.com/test.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20200812T142419Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3599&X-Amz-Credential=AKIAQMOAINUJ4IPX7LEM%2F20200812%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Signature=e2a8de0d6262038858930b9e8edb5e6212426f3ed2e9ac921cd3824a0f5c95de'
-const serverURL = 'http://localhost:4000/events/pictures'
+const serverURL = 'http://localhost:4000/pictures'
+
 
 const getEventImagesURL = async (newAddedImagesNames: string[]) => {
     return fetch(serverURL, {
@@ -10,7 +10,7 @@ const getEventImagesURL = async (newAddedImagesNames: string[]) => {
     }).then(response => response.json(),) // return string[]
 }
 
-const saveEventImages = async(newAddedImages: File, newAddedImagesURLsToUpload: string) => {
+const saveEventImage = async (newAddedImages: File, newAddedImagesURLsToUpload: string) => {
     return fetch(newAddedImagesURLsToUpload, {
         method: 'PUT',
         headers: {
@@ -20,32 +20,36 @@ const saveEventImages = async(newAddedImages: File, newAddedImagesURLsToUpload: 
     }).then(res => res.url) // the URL where the image was saved on S3
 }
 
-export const uploadEventImages = async (images: EventImage[]) => {
-    const newAddedImages = images.filter(img => img.file !== undefined && img.deleted === undefined).map(img => img.file)
+export const uploadEventImagesS3 = async (images: EventImage[]) => {
+    console.log('in uploadEventImagesS3 method', images)
+    
+    const newAddedImages = images.filter(img => img.file !== undefined && img.deleted === undefined)
+    const newAddedImagesNames = newAddedImages.map(image => image.name)
 
-    const newAddedImagesNames = newAddedImages.map(image => image?.name)
+    // get presigned URLs from the server to upload on S3  
     const newAddedImagesURLsToUpload = await getEventImagesURL(newAddedImagesNames as string[])
-    // const newAddedImagesURLsToUpload = ['https://event-management-pictures.s3-eu-west-1.amazonaws.com/test.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20200812T142419Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3599&X-Amz-Credential=AKIAQMOAINUJ4IPX7LEM%2F20200812%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Signature=e2a8de0d6262038858930b9e8edb5e6212426f3ed2e9ac921cd3824a0f5c95de']
-    const s3URLs: string[] = [] 
 
-    newAddedImagesURLsToUpload.forEach(async (url: string, index: number) => {
-        const imageURLFromS3 = await saveEventImages(newAddedImages[index] as File, url)
-        s3URLs.push(imageURLFromS3)
+    // upload images on S3 and save the images URL in order to send them back to server
+    newAddedImages.forEach(async (newImage: EventImage, index: number) => {
+        const urlS3 = newAddedImagesURLsToUpload[index]
+        const indexImage = images.findIndex(im => im.id === newImage.id)
+        images[indexImage].url = await saveEventImage(newImage.file as File, urlS3)
     });
-    return s3URLs
+
+    return images
 }
 
-export const uploadEventImagesOnServer = (images: EventImage[], s3URLs: string[]) => {
-    const keyToDelete = images.filter(img => img.deleted!==undefined).map(img => img.byteArr) // URL of the image I want to remove
-    const keysOreder: any = []
+export const uploadEventImagesOnServer = (images: EventImage[], id: number) => {
+    const imagesToDelete = images.filter(img => img.deleted !== undefined).map(img => img.url) 
+    const imagesOrder = images.filter(img => img.deleted === undefined).map(img => img.url) 
 
-    return fetch(serverURL, {
+    return fetch(`${serverURL}/${id}`, {
         method: 'PUT',
-        body: JSON.stringify({keyToDelete: keyToDelete, keysToAdd: s3URLs, keysOreder: keysOreder})
+        body: JSON.stringify({ imagesToDelete: imagesToDelete, imagesOrder: imagesOrder})
     })
 }
 
-export const fetchEventImages = () => {
-    return fetch(serverURL)
+export const fetchEventImages = (id: number) => {
+    return fetch(`${serverURL}/${id}`)
         .then(response => response.json(),)
 }
