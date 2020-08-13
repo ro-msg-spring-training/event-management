@@ -11,7 +11,7 @@ public class SublocationService {
 
     private final SublocationRepository sublocationRepository;
 
-    public Sublocation findById(long id){
+    public Sublocation findById(long id) {
         return sublocationRepository.getOne(id);
     }
 

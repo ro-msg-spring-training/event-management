@@ -11,7 +11,7 @@ public class EventSublocationService {
 
     private final EventSublocationRepository eventSublocationRepository;
 
-    public void saveES(EventSublocation eventSublocation){
+    public void saveES(EventSublocation eventSublocation) {
         eventSublocationRepository.save(eventSublocation);
     }
 }

@@ -1,16 +1,20 @@
 package ro.msg.event.management.eventmanagementbackend.controller.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EventDTO {
+@Builder
+public class EventDto {
 
     private String title;
 
@@ -18,9 +22,13 @@ public class EventDTO {
 
     private boolean status;
 
-    private LocalDateTime startDate;
+    private LocalDate startDate;
 
-    private LocalDateTime endDate;
+    private LocalDate endDate;
+
+    private LocalTime startHour;
+
+    private LocalTime endHour;
 
     private int maxPeople;
 
