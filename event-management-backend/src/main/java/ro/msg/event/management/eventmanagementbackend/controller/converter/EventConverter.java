@@ -31,6 +31,8 @@ public class EventConverter implements Converter<Event, EventDto> {
                 .maxPeople(event.getMaxPeople())
                 .startDate(event.getStartDate())
                 .endDate(event.getEndDate())
+                .startHour(event.getStartHour())
+                .endHour(event.getEndHour())
                 .creator(event.getCreator())
                 .pictureURL(picturesUrl)
                 .build();

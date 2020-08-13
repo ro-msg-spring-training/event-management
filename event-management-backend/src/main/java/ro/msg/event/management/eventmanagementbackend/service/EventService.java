@@ -25,6 +25,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -43,8 +44,8 @@ public class EventService {
 
     public long saveEvent(Event event, List<Long> sublocations) throws OverlappingEventsException, ExceededCapacityException {
 
-        LocalDateTime start = event.getStartDate();
-        LocalDateTime end = event.getEndDate();
+        LocalDate start = event.getStartDate();
+        LocalDate end = event.getEndDate();
         boolean validSublocations = true;
         int sumCapacity = 0;
         for (Long l : sublocations) {
@@ -63,7 +64,7 @@ public class EventService {
         }
     }
 
-    public boolean checkOverlappingEvents(LocalDateTime start, LocalDateTime end, long sublocation) {
+    public boolean checkOverlappingEvents(LocalDate start, LocalDate end, long sublocation) {
         List<Event> overlappingEvents = eventRepository.findOverlappingEvents(start, end, sublocation);
         return overlappingEvents.isEmpty();
     }
@@ -76,8 +77,8 @@ public class EventService {
         if (eventOptional.isPresent()) {
             Event eventFromDB = eventOptional.get();
 
-            LocalDateTime start = event.getStartDate();
-            LocalDateTime end = event.getEndDate();
+            LocalDate start = event.getStartDate();
+            LocalDate end = event.getEndDate();
 
             boolean validSublocation = true;
             int sumCapacity = 0;
@@ -119,7 +120,7 @@ public class EventService {
             throw new NoSuchElementException();
     }
 
-    public boolean checkOverlappingEvents(Long eventID, LocalDateTime start, LocalDateTime end, long sublocation) {
+    public boolean checkOverlappingEvents(Long eventID, LocalDate start, LocalDate end, long sublocation) {
         List<Event> foundEvents = eventRepository.findOverlappingEvents(start, end, sublocation);
         List<Event> overlapingEvents = foundEvents
                 .stream()
@@ -157,6 +158,9 @@ public class EventService {
         }
 
         if (startDate != null && endDate != null) {
+            //Expression<Integer> year = criteriaBuilder.function("year", Integer.class, c.get("startDate"));
+            //Expression<Integer> month = criteriaBuilder.function("month", Integer.class, c.get("startDate"));
+            //Expression<Integer> day = criteriaBuilder.function("day", Integer.class, c.get("startDate"));
             Predicate firstCase = criteriaBuilder.between(c.get("startDate"), startDate, endDate);
             Predicate secondCase = criteriaBuilder.between(c.get("endDate"), startDate, endDate);
             predicate.add(criteriaBuilder.or(firstCase, secondCase));
@@ -195,7 +199,9 @@ public class EventService {
         }
         Predicate finalPredicate = criteriaBuilder.and(predicate.toArray(new Predicate[0]));
         q.where(finalPredicate);
-        return entityManager.createQuery(q);
+        TypedQuery<EventView> typedQuery = entityManager.createQuery(q);
+        entityManager.close();
+        return typedQuery;
     }
 
     public List<EventView> filterAndPaginate(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDateTime startDate, LocalDateTime endDate, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople, int pageNumber, int eventPerPage) {
@@ -226,8 +232,7 @@ public class EventService {
             Collections.reverse(eventViews);
         }
         int offset = (pageNumber - 1) * eventPerPage;
-        if(offset + eventPerPage > eventViews.size())
-        {
+        if (offset + eventPerPage > eventViews.size()) {
             return eventViews.subList(offset, eventViews.size());
         }
         return eventViews.subList(offset, offset + eventPerPage);

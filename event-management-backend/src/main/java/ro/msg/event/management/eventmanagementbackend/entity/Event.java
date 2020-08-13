@@ -3,7 +3,9 @@ package ro.msg.event.management.eventmanagementbackend.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 
@@ -22,9 +24,13 @@ public class Event extends BaseEntity {
 
     private boolean status;
 
-    private LocalDateTime startDate;
+    private LocalDate startDate;
 
-    private LocalDateTime endDate;
+    private LocalDate endDate;
+
+    private LocalTime endHour;
+
+    private LocalTime startHour;
 
     private int maxPeople;
 
