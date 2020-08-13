@@ -4,6 +4,7 @@ import { AppBar, Toolbar, Typography } from '@material-ui/core'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import AppBarCollapse from "./AppBarCollapse";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -37,37 +38,13 @@ const Header = () => {
     return (
     <AppBar position="sticky" className={classes.dark}>
         <Toolbar>
-            <Link to='/' style={{ textDecoration: 'none' }}>
-                    <Typography variant="h6" className={classes.light}>
-                        Home&nbsp;&nbsp;
-                    </Typography>
-            </Link>
-
-            <Link to='/buildings' style={{ textDecoration: 'none' }} className={classes.ghost}>
-                <Typography variant="h6" className={classes.title} >
-                    Buildings&nbsp;&nbsp;
-                </Typography>
-            </Link>
-
-            <Link to='/events' style={{ textDecoration: 'none' }} className={classes.light}>
-                <Typography variant="h6" className={classes.title}>
-                    Events&nbsp;&nbsp;
-                </Typography>
-            </Link>
-
-            <Link to='/statistics' className={classes.title} style={{ textDecoration: 'none' }}>
-                <Typography variant="h6" className={classes.ghost}>
-                    Statistics&nbsp;&nbsp;
-                </Typography>
-            </Link>
-
             <Link to='/account' style={{ textDecoration: 'none' }} >
                 <IconButton className={classes.yellow}>
                     <AccountCircle />
                     <Typography variant="h6" >&nbsp;My account</Typography>
                 </IconButton>
             </Link>
-
+            <AppBarCollapse/>
         </Toolbar>
     </AppBar>
     );

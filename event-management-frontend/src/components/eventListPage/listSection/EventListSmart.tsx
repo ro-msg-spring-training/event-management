@@ -7,6 +7,8 @@ import EventListDumb from "./EventListDumb";
 import {EventSortProps} from "../../../types/EventSortProps";
 import { sortEvents, prevPage, nextPage } from "../../../actions/EventsPageActions";
 import {EventFiltersProps} from "../../../types/EventFiltersProps";
+import {CircularProgress, Grid} from "@material-ui/core";
+import ErrorIcon from '@material-ui/icons/Error';
 
 
 interface Props {
@@ -42,6 +44,25 @@ class EventListSmart extends React.Component<Props, State> {
 
     render() {
         let { events } = this.props;
+        if (this.props.isLoading) {
+            return (
+                <Grid container alignItems={"center"} justify={"center"}>
+                    <br/><br/><br/><br/><br/><CircularProgress />
+                </Grid>
+            );
+        }
+
+        if (this.props.isError) {
+            return (
+                <Grid container alignItems={"center"} justify={"center"}>
+                    <br/><br/><br/><br/><br/><ErrorIcon color={"primary"} fontSize={"large"}/>
+                    Oops, there was an error
+                </Grid>
+            );
+        }
+
+        // TODO: get this from server
+        const lastPageFromServer = 5;
 
         const handleSortEvent = (criteria: string, type: string) => {
             const sortParams: EventSortProps = {
@@ -57,11 +78,19 @@ class EventListSmart extends React.Component<Props, State> {
         }
 
         const goToPrevPage = () => {
-            this.props.prevPage(this.props.filters, this.props.eventsSort);
+            if (this.props.page <= 1) {
+                return
+            } else {
+                this.props.prevPage(this.props.filters, this.props.eventsSort);
+            }
         }
 
         const goToNextPage = () => {
-            this.props.nextPage(this.props.filters, this.props.eventsSort);
+            if (this.props.page >= lastPageFromServer) {
+                return
+            } else {
+                this.props.nextPage(this.props.filters, this.props.eventsSort);
+            }
         }
 
         // Using the map function, we will get all the events from the array
