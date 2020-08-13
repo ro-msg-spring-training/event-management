@@ -25,11 +25,11 @@ SELECT
   CAST(CAST(COUNT(DISTINCT ticket.id) AS FLOAT)/CAST(event.max_people AS FLOAT) AS DECIMAL(16,2)) as rate
 FROM
   event
-  INNER JOIN event_sublocation ON event.id = event_sublocation.event_id
-  INNER JOIN sublocation ON event_sublocation.sublocation_id = sublocation.id
-  INNER JOIN location ON sublocation.location = location.id
-  INNER JOIN booking ON event.id = booking.event
-  INNER JOIN ticket ON booking.id = ticket.booking
+  LEFT OUTER JOIN event_sublocation ON event.id = event_sublocation.event_id
+  LEFT OUTER JOIN sublocation ON event_sublocation.sublocation_id = sublocation.id
+  LEFT OUTER JOIN location ON sublocation.location = location.id
+  LEFT OUTER JOIN booking ON event.id = booking.event
+  LEFT OUTER JOIN ticket ON booking.id = ticket.booking
 GROUP BY
   ticket.booking;
 

@@ -3,6 +3,7 @@ package ro.msg.event.management.eventmanagementbackend.entity.view;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.tomcat.jni.Local;
 import org.hibernate.annotations.Immutable;
 
 import javax.persistence.Column;
@@ -39,10 +40,16 @@ public class EventView {
     private String location;
 
     @Column
-    private LocalDateTime startDate;
+    private LocalDate startDate;
 
     @Column
-    private LocalDateTime endDate;
+    private LocalDate endDate;
+
+    @Column
+    private LocalTime startHour;
+
+    @Column
+    private LocalTime endHour;
 
     @Column
     private Integer maxPeople;

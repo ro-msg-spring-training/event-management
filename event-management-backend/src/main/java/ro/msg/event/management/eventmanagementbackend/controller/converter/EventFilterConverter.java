@@ -11,8 +11,10 @@ public class EventFilterConverter implements Converter<EventView, EventFiltering
         return EventFilteringDto.builder()
                 .title(eventView.getTitle())
                 .subtitle(eventView.getSubtitle())
-                .startDate(eventView.getStartDate().toLocalDate())
-                .endDate(eventView.getEndDate().toLocalDate())
+                .startDate(eventView.getStartDate())
+                .endDate(eventView.getEndDate())
+                .startHour(eventView.getStartHour())
+                .endHour(eventView.getEndHour())
                 .location(eventView.getLocation())
                 .occupancyRate(eventView.getRate())
                 .build();
