@@ -60,7 +60,7 @@ const useStyles = makeStyles(theme => ({
   },
   next: {
     fontSize: 20
-  }
+  },
 }));
 
 export { useStyles }

@@ -35,7 +35,7 @@ const Header = () => {
     const classes = useStyles();
 
     return (
-    <AppBar position="static" className={classes.dark}>
+    <AppBar position="sticky" className={classes.dark}>
         <Toolbar>
             <Link to='/' style={{ textDecoration: 'none' }}>
                     <Typography variant="h6" className={classes.light}>

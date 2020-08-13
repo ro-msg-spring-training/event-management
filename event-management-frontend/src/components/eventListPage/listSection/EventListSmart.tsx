@@ -5,16 +5,21 @@ import {fetchAllEvents} from '../../../actions/EventsPageActions'
 import { AppState } from "../../../store/store";
 import EventListDumb from "./EventListDumb";
 import {EventSortProps} from "../../../types/EventSortProps";
-import { sortEvents } from "../../../actions/EventsPageActions";
+import { sortEvents, prevPage, nextPage } from "../../../actions/EventsPageActions";
+import {EventFiltersProps} from "../../../types/EventFiltersProps";
 
 
 interface Props {
     events: { Event: any; }[];
     eventsSort: EventSortProps;
+    filters: EventFiltersProps;
     isLoading: boolean;
     isError: boolean;
     fetchAllEvents: () => { type: string; };
-    sortEvents: (sort: EventSortProps) => void;
+    sortEvents: (sort: EventSortProps, page: number) => void;
+    page: number;
+    prevPage: (filters: EventFiltersProps, sort: EventSortProps) => void;
+    nextPage: (filters: EventFiltersProps, sort: EventSortProps) => void;
 }
 
 interface State {
@@ -46,9 +51,17 @@ class EventListSmart extends React.Component<Props, State> {
             if (sortParams.criteria === undefined || (criteria === this.state.sortCriteria && type === this.state.sortType)){
                 return
             } else {
-                this.props.sortEvents(sortParams);
+                this.props.sortEvents(sortParams, this.props.page);
             }
             this.setState({sortCriteria: criteria, sortType: type});
+        }
+
+        const goToPrevPage = () => {
+            this.props.prevPage(this.props.filters, this.props.eventsSort);
+        }
+
+        const goToNextPage = () => {
+            this.props.nextPage(this.props.filters, this.props.eventsSort);
         }
 
         // Using the map function, we will get all the events from the array
@@ -62,7 +75,9 @@ class EventListSmart extends React.Component<Props, State> {
                 <EventListDumb
                     eventsDetails={eventDetails}
                     handleSortEvent={handleSortEvent}
-                    sort={this.props.eventsSort}/>
+                    sort={this.props.eventsSort}
+                    goToPrevPage={goToPrevPage}
+                    goToNextPage={goToNextPage}/>
         );
     }
 }
@@ -72,5 +87,7 @@ const mapStateToProps = (state: AppState) => ({
     isLoading: state.events.isLoading,
     isError: state.events.isError,
     eventsSort: state.events.eventsSort,
+    page: state.events.page,
+    filters: state.events.filters
 });
-export default connect(mapStateToProps, { fetchAllEvents, sortEvents })(EventListSmart)
+export default connect(mapStateToProps, { fetchAllEvents, sortEvents, prevPage, nextPage })(EventListSmart)

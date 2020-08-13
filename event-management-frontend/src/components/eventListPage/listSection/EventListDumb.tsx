@@ -3,7 +3,7 @@ import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import {Button, TableFooter, TableSortLabel, Typography} from "@material-ui/core";
+import {Button, TableFooter, TableSortLabel } from "@material-ui/core";
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
@@ -17,6 +17,8 @@ interface Props {
     eventsDetails: any[];
     handleSortEvent: (criteria: string, type: string) => void;
     sort: EventSortProps;
+    goToPrevPage: () => void;
+    goToNextPage: () => void;
 }
 
 interface Data {
@@ -48,6 +50,8 @@ const EventListDumb = (props: Props) => {
     const eventsDetails = props.eventsDetails;
     const handleSortEvent = props.handleSortEvent;
     const sort = props.sort;
+    const goToPrevPage = props.goToPrevPage;
+    const goToNextPage = props.goToNextPage;
 
     const [criteria, setCriteria] = useState();
     const [type, setType] = useState();
@@ -67,7 +71,6 @@ const EventListDumb = (props: Props) => {
 
         return (
             <TableContainer component={Paper}>
-                <Typography variant="h3" className={`${commonClasses.eventTitle}`}>Events</Typography>
                 <Link to={`/newEvent`} style={{ textDecoration: 'none' }}>
                     <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3} ${commonClasses.buttonStyle4}`}>Create new event</Button>
                 </Link>
@@ -116,10 +119,10 @@ const EventListDumb = (props: Props) => {
                             <TableCell/>
                             <TableCell/>
                             <TableCell className={`${commonClasses.prev}`}>
-                                <Button>&nbsp;&laquo; Previous &nbsp;</Button>
+                                <Button onClick={goToPrevPage}>&nbsp;&laquo; Previous &nbsp;</Button>
                             </TableCell>
                             <TableCell className={`${commonClasses.next}`}>
-                                <Button>&nbsp; Next &raquo;</Button>
+                                <Button onClick={goToNextPage}>&nbsp; Next &raquo;</Button>
                             </TableCell>
                             <TableCell/>
                             <TableCell/>

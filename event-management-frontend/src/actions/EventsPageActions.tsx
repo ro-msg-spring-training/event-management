@@ -10,7 +10,24 @@ export const FETCH_EVENTS_REQUEST = 'FETCH_EVENTS_REQUEST'
 export const FETCH_EVENTS_SUCCESS = 'FETCH_EVENTS_SUCCESS'
 export const FETCH_EVENTS_ERROR = 'FETCH_EVENTS_ERROR'
 export const SORT_EVENTS = 'SORT_EVENTS'
+export const PREV_PAGE = 'PREV_PAGE'
+export const NEXT_PAGE = 'NEXT_PAGE'
 
+export const prevPage = (filters: EventFiltersProps, sort: EventSortProps) => {
+    return {
+        type: PREV_PAGE,
+        payload: filters,
+        sort: sort
+    }
+}
+
+export const nextPage = (filters: EventFiltersProps, sort: EventSortProps) => {
+    return {
+        type: NEXT_PAGE,
+        payload: filters,
+        sort: sort
+    }
+}
 
 export const updateFilters = (filters: EventFiltersProps) => {
     return {
@@ -19,10 +36,11 @@ export const updateFilters = (filters: EventFiltersProps) => {
     }
 }
 
-export const filterEvents = (filters: EventFiltersProps) => {
+export const filterEvents = (filters: EventFiltersProps, page: number) => {
     return {
         type: FILTER_EVENTS,
-        payload: filters
+        payload: filters,
+        page: page
     }
 }
 
@@ -39,10 +57,11 @@ export const filterEventsError = () => {
     }
 }
 
-export const sortEvents = (sort: EventSortProps) => {
+export const sortEvents = (sort: EventSortProps, page: number) => {
     return {
         type: SORT_EVENTS,
-        payload: sort
+        payload: sort,
+        page: page
     }
 }
 

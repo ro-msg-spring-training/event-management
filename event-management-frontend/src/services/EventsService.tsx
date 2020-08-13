@@ -49,9 +49,9 @@ const computeFilterQueryString = (filters: EventFiltersProps) => {
     return filtersToSend
 }
 
-export const fetchFilteredEvents = (filters: EventFiltersProps) => {
+export const fetchFilteredEvents = (filters: EventFiltersProps, page: number) => {
     const filtersToSend = computeFilterQueryString(filters)
-    const url = new URL(eventsUrl + "?")
+    const url = new URL(eventsUrl + "/" + page + "?")
 
     url.search = new URLSearchParams(filtersToSend).toString();
 
@@ -63,10 +63,10 @@ export const fetchFilteredEvents = (filters: EventFiltersProps) => {
 }
 
 
-export const fetchSortedEvents = (sort: EventSortProps, filters: EventFiltersProps) => {
+export const fetchSortedEvents = (sort: EventSortProps, filters: EventFiltersProps, page: number) => {
     const filtersToSend = computeFilterQueryString(filters)
     const sortToSend = computeSortQueryString(sort)
-    const url = new URL(eventsUrl + "/sort?")
+    const url = new URL(eventsUrl + "/sort/" + page + "?")
 
     url.search = new URLSearchParams(filtersToSend).toString();
     url.search += new URLSearchParams(sortToSend).toString();
@@ -81,4 +81,31 @@ export const fetchSortedEvents = (sort: EventSortProps, filters: EventFiltersPro
 export const fetchEvents = () => {
     return fetch(mockUrlProducts)
         .then(response => response.json());
+}
+
+//TODO: error handling: go only to existent pages
+//TODO: get rid of event title and active header only
+//TODO: static filters and static header
+export const changePage = (filters: EventFiltersProps, sort: EventSortProps, page: number) => {
+    const filtersToSend = computeFilterQueryString(filters)
+    const sortToSend = computeSortQueryString(sort)
+
+    if (sort.criteria === "") {
+        const url = new URL(eventsUrl + "/" + page + "?")
+
+        url.search = new URLSearchParams(filtersToSend).toString();
+
+        console.log("Sending data to: " + url.toString())
+    } else {
+        const url = new URL(eventsUrl + "/sort/" + page + "?")
+
+        url.search = new URLSearchParams(filtersToSend).toString();
+        url.search += new URLSearchParams(sortToSend).toString();
+
+        console.log("Sending data to: " + url.toString())
+    }
+
+    // UNCOMMENT THIS ONLY IF ALL URLS ARE RIGHT
+    /*fetch(url.toString())
+        .then(response => response.json())*/
 }

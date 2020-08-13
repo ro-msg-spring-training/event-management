@@ -6,7 +6,7 @@ import {
     fetchEventsError,
     filterEventsSuccess,
     filterEventsError,
-    SORT_EVENTS
+    SORT_EVENTS, PREV_PAGE, NEXT_PAGE
 } from "../actions/EventsPageActions";
 
 import { takeLatest, takeEvery, put } from "redux-saga/effects";
@@ -26,9 +26,9 @@ interface SortEventsProps {
 }
 
 const delay = (ms: number) => new Promise(res => setTimeout(res, ms))
-function* fetchFilteredEventsAsync(action: FilterEventsProps) {
+function* fetchFilteredEventsAsync(action: any) {
     try {
-        const result = yield fetchFilteredEvents(action.payload)
+        const result = yield fetchFilteredEvents(action.payload, action.page)
         yield put(filterEventsSuccess(result))
     }
     catch (err) {
@@ -46,6 +46,22 @@ function* sortEventsAsync() {
 
 export function* watchSortEventsAsync() {
     yield takeEvery(SORT_EVENTS, sortEventsAsync)
+}
+
+function* prevPageAsync() {
+    yield delay(1000);
+}
+
+export function* watchPrevPageAsync() {
+    yield takeEvery(PREV_PAGE, prevPageAsync)
+}
+
+function* nextPageAsync() {
+    yield delay(1000);
+}
+
+export function* watchNextPageAsync() {
+    yield takeEvery(NEXT_PAGE, nextPageAsync)
 }
 
 function* fetchEventsAsync() {
