@@ -1,3 +1,5 @@
+import { EventCrud } from "../components/model/EventCrud"
+
 export const LOAD_EVENT = 'LOAD_EVENT'
 export const DELETE_EVENT = 'DELETE_EVENT'
 export const ADD_EVENT = 'ADD_EVENT'
@@ -14,18 +16,6 @@ export const ADD_EVENT_REQUEST = 'ADD_EVENT_REQUEST'
 export const ADD_EVENT_SUCCESS = 'ADD_EVENT_SUCCESS'
 export const ADD_EVENT_FAILURE = 'ADD_EVENT_FAILURE'
 
-interface IProductBase{
-  name: string,
-  category: string,
-  image: string,
-  description: string,
-}
-
-export interface IProductDetailsReady extends IProductBase{
-  id: number,
-  price: number
-}
-
 //---------------------------------------------------for SAGA
 export const loadEvent = (id: string) => {
   return {
@@ -41,7 +31,7 @@ export const deleteEvent = (id: string) => {
   }
 }
 
-export const addEvent = (event: IProductDetailsReady) => {
+export const addEvent = (event: EventCrud) => {
   return {
     type: ADD_EVENT,
     payload: event
@@ -55,7 +45,7 @@ export const fetchEventRequest = () => {
   }
 }
 
-export const fetchEventSuccess = (product: IProductDetailsReady) => {
+export const fetchEventSuccess = (product: EventCrud) => {
   return {
     type: FETCH_EVENT_SUCCESS,
     payload: product

@@ -1,5 +1,5 @@
 import React from 'react';
-import HeaderDumb from './HeaderDumbSaveAndDelete';
+import HeaderDumb from './HeaderCrudDumb';
 
 interface IProductBase {
   name: string,

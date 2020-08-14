@@ -1,5 +1,6 @@
 import React from 'react';
-import { Grid, Paper, makeStyles, Theme, Typography, TextField, FormControl, InputLabel, Select, MenuItem, withStyles, CheckboxProps, Checkbox, FormControlLabel, Button } from '@material-ui/core';
+import { Grid, Paper, makeStyles, Theme, Typography, TextField, FormControl, InputLabel, Select, MenuItem, withStyles, CheckboxProps, Checkbox, FormControlLabel } from '@material-ui/core';
+import { EventCrud } from '../../model/EventCrud';
 
 const YellowCheckbox = withStyles({
   root: {
@@ -58,21 +59,21 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 }));
 
-interface IProductBase {
-  name: string,
-  category: string,
-  image: string,
-  description: string,
-}
+// interface IProductBase {
+//   name: string,
+//   category: string,
+//   image: string,
+//   description: string,
+// }
 
-export interface IProductDetailsReady extends IProductBase {
-  id: number,
-  price: number
-}
+// export interface IProductDetailsReady extends IProductBase {
+//   id: number,
+//   price: number
+// }
 
 interface OverviewDumbProps {
   newEvent: boolean,
-  event: IProductDetailsReady,
+  event: EventCrud,
   admin: boolean,
   handleEnterKey: any,
   handleChange: any,
@@ -89,7 +90,7 @@ interface OverviewDumbProps {
   highlighted: boolean,
   handleChangeCheckboxState: any,
   setStatus: any,
-  handleSubmit: any,
+  // handleSubmit: any,
   status: string,
   currDate: string,
   currTime: string,
@@ -117,7 +118,7 @@ function OverviewDumb(props: OverviewDumbProps) {
                   label="Title"
                   variant="outlined"
                   onChange={props.handleChange}
-                  defaultValue={props.newEvent === true ? "" : props.event.name}
+                  defaultValue={props.newEvent === true ? "" : props.event.title}
                   error={props.formErrors.title.length > 0}
                   helperText={props.formErrors.title}
                   required />
@@ -134,7 +135,7 @@ function OverviewDumb(props: OverviewDumbProps) {
                   label="Subtitle"
                   variant="outlined"
                   onChange={props.handleChange}
-                  defaultValue={props.newEvent === true ? "" : props.event.category}
+                  defaultValue={props.newEvent === true ? "" : props.event.subtitle}
                   error={props.formErrors.subtitle.length > 0}
                   helperText={props.formErrors.subtitle}
                   required
@@ -153,7 +154,7 @@ function OverviewDumb(props: OverviewDumbProps) {
                   label="Max Number Of People"
                   variant="outlined"
                   onChange={props.handleChange}
-                  defaultValue={props.newEvent === true ? 0 : props.event.price}
+                  defaultValue={props.newEvent === true ? 0 : props.event.maxPeople}
                   error={props.formErrors.maxPeople.length > 0}
                   helperText={props.formErrors.maxPeople}
                   required
@@ -300,7 +301,7 @@ function OverviewDumb(props: OverviewDumbProps) {
           </Grid>
 
         </Grid>
-        <Button variant="contained" onClick={props.handleSubmit}> Submit </Button>
+        {/* <Button variant="contained" onClick={props.handleSubmit}> Submit </Button> */}
       </Paper>
     </>
   );

@@ -7,14 +7,17 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { useHistory } from 'react-router-dom';
 
-interface AlertDialogProps{
+interface AlertDialogProps {
   open: boolean,
   setOpen: any,
+  msgUndo: string,
+  dialogTitle: string,
+  dialogDescription: string,
 }
 
-export default function AlertDialog({ open, setOpen }: AlertDialogProps) {
+export default function AlertDialog({ open, setOpen, msgUndo, dialogTitle, dialogDescription }: AlertDialogProps) {
   const history = useHistory();
-  
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -36,18 +39,21 @@ export default function AlertDialog({ open, setOpen }: AlertDialogProps) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Cancel and go back to the main page?"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            By choosing to cancel you will lose the progress
+            {dialogDescription}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleProceed} color="primary">
-            Proceed
-          </Button>
+          {
+            msgUndo === "Take me back" ?
+              <Button onClick={handleProceed} color="primary">
+                Proceed
+              </Button> : null
+          }
           <Button onClick={handleCancel} color="primary" autoFocus>
-            Cancel
+            {msgUndo}
           </Button>
         </DialogActions>
       </Dialog>

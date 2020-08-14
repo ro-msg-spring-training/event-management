@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, makeStyles, Grid, Typography } from '@material-ui/core';
-import { useStyles } from '../../styles/CommonStyles'
+import { useStyles } from '../../../styles/CommonStyles'
 
 const useStyles2 = makeStyles({
   grid: {

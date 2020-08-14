@@ -1,18 +1,7 @@
 import { takeLatest, call, put } from "redux-saga/effects";
-import { LOAD_EVENT, fetchEventRequest, fetchEventSuccess, fetchEventFailure, DELETE_EVENT, deleteEventRequest, deleteEventSuccess, deleteEventFailure, ADD_EVENT, addEventRequest, addEventSuccess, addEventFailure } from "../actions/HeaderActions";
-import { fetchEventAPI, deleteEventAPI, addEventAPI } from "../api/HeaderAPI";
-
-interface IProductBase{
-  name: string,
-  category: string,
-  image: string,
-  description: string,
-}
-
-export interface IProductDetailsReady extends IProductBase{
-  id: number,
-  price: number
-}
+import { LOAD_EVENT, fetchEventRequest, fetchEventSuccess, fetchEventFailure, DELETE_EVENT, deleteEventRequest, deleteEventSuccess, deleteEventFailure, ADD_EVENT, addEventRequest, addEventSuccess, addEventFailure } from "../actions/HeaderEventCrudActions";
+import { fetchEventAPI, deleteEventAPI, addEventAPI } from "../api/HeaderEventCrudAPI";
+import { EventCrud } from "../components/model/EventCrud";
 
 interface Props {
   type: string,
@@ -21,7 +10,7 @@ interface Props {
 
 interface AddProps {
   type: string,
-  payload: IProductDetailsReady
+  payload: EventCrud
 }
 
 //-----------------------------------------LOAD EVENT

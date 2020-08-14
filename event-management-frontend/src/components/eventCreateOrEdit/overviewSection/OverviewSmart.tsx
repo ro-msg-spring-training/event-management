@@ -1,40 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, {  useEffect } from 'react';
 import OverviewDumb from './OverviewDumb';
-
-interface IProductBase {
-  name: string,
-  category: string,
-  image: string,
-  description: string,
-}
-
-export interface IProductDetailsReady extends IProductBase {
-  id: number,
-  price: number
-}
-
-
-
-// const initialEvent = {
-//   title: "",
-//   subtitle: "",
-//   description: "",
-//   startDate: "",
-//   startTime: "",
-//   endDate: "",
-//   endTime: "",
-//   maxPeople: 0,
-//   formErrors: {
-//     title: "",
-//     subtitle: "",
-//     description: "",
-//     startDate: "",
-//     endDate: "",
-//     startTime: "",
-//     endTime: "",
-//     maxPeople: "",
-//   }
-// }
+import { EventCrud } from '../../model/EventCrud';
 
 interface EventObjectProps {
   title: string,
@@ -63,7 +29,7 @@ interface CheckboxProps {
 
 interface EventProps {
   newEvent: boolean,
-  event: IProductDetailsReady,
+  event: EventCrud,
   admin: boolean,
   finalEventOverview: EventObjectProps,
   setFinalEventOverview: any,
@@ -71,15 +37,13 @@ interface EventProps {
   setStatusOverview: any,
   checkBoxStateOverview: CheckboxProps,
   setCheckboxStateOverview: any,
+  setOpen: any,
+  setMsgUndo: any,
+  setDialogTitle: any,
+  setDialogDescription: any,
 }
 
 function OverviewSmart(props: EventProps) {
-  // const [event, setEvent] = useState(initialEvent);
-  // const [status, setStatus] = useState("active");
-  // const [checkBoxState, setCheckboxState] = React.useState({
-  //   highlighted: false,
-  // });
-
   let today = new Date(new Date().toString().split('GMT')[0] + ' UTC').toISOString().split('.')[0]
   const dateAndTime = today.split("T");
   const currDate = dateAndTime[0];
@@ -89,8 +53,8 @@ function OverviewSmart(props: EventProps) {
     //TODO set new event with old event
     props.setFinalEventOverview({
       ...props.finalEventOverview,
-      title: props.event.name,
-      subtitle: props.event.category,
+      title: props.event.title,
+      subtitle: props.event.subtitle,
       description: props.event.description,
     });
   }
@@ -100,59 +64,6 @@ function OverviewSmart(props: EventProps) {
   useEffect(() => {
     if (props.newEvent === false) updateFields();
   }, [])
-
-  const formValid = () => {
-
-    //------------------------------------------------make sure that there are no error messages
-    if (
-      props.finalEventOverview.formErrors.title.length > 0 ||
-      props.finalEventOverview.formErrors.subtitle.length > 0 ||
-      props.finalEventOverview.formErrors.description.length > 0 ||
-      props.finalEventOverview.formErrors.startDate.length > 0 ||
-      props.finalEventOverview.formErrors.endDate.length > 0 ||
-      props.finalEventOverview.formErrors.startTime.length > 0 ||
-      props.finalEventOverview.formErrors.endTime.length > 0 ||
-      props.finalEventOverview.formErrors.maxPeople.length > 0
-    ) { console.log("error msg"); return false; }
-
-    //---------------------------------------make sure that, for new Event there are no null fields
-    if ((
-      props.finalEventOverview.title.length === 0 ||
-      props.finalEventOverview.subtitle.length === 0 ||
-      props.finalEventOverview.description.length === 0 ||
-      props.finalEventOverview.startDate.length === 0 ||
-      props.finalEventOverview.startTime.length === 0 ||
-      props.finalEventOverview.endDate.length === 0 ||
-      props.finalEventOverview.endTime.length === 0 ||
-      props.finalEventOverview.maxPeople < 2) && props.newEvent //adica daca in pagina de /newEvent am field-uri goale => bai; daca e pagina de /events => not so much pt ca am obectul initial 
-    ) { console.log("error null field"); return false; }
-
-    //event to be submitted
-    console.log("event to be submitted");
-    console.log(props.finalEventOverview);
-
-    return true;
-  };
-
-
-  const handleSubmit = (e: any): void => {
-    e.preventDefault();
-
-    if (formValid()) {
-      console.log(`
-        --SUBMITTING--
-        Title: ${props.finalEventOverview.title}
-        subtitle: ${props.finalEventOverview.subtitle}
-        status: ${props.statusOverview}
-        startDate: ${props.finalEventOverview.startDate}
-        startTime: ${props.finalEventOverview.startTime}
-        maxPeople: ${props.finalEventOverview.maxPeople}
-        highlighted: ${props.checkBoxStateOverview.highlighted}
-      `);
-    } else {
-      console.error("FORM INVALID - DISPLAY ERROR MESSAGE");
-    }
-  };
 
   const handleChangeCheckboxState = (event: React.ChangeEvent<HTMLInputElement>) => {
     props.setCheckboxStateOverview({ ...props.checkBoxStateOverview, [event.target.name]: event.target.checked });
@@ -272,7 +183,7 @@ function OverviewSmart(props: EventProps) {
         highlighted={props.checkBoxStateOverview.highlighted}
         handleChangeCheckboxState={handleChangeCheckboxState}
         setStatus={props.setStatusOverview}
-        handleSubmit={handleSubmit}
+        // handleSubmit={handleSubmit}
         status={props.statusOverview}
         currDate={currDate}
         currTime={currTime}
