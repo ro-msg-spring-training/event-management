@@ -44,12 +44,15 @@ public class EventService {
 
     public long saveEvent(Event event, List<Long> sublocations) throws OverlappingEventsException, ExceededCapacityException {
 
-        LocalDate start = event.getStartDate();
-        LocalDate end = event.getEndDate();
+        LocalDate startDate = event.getStartDate();
+        LocalDate endDate = event.getEndDate();
+        LocalTime startHour = event.getStartHour();
+        LocalTime endHour = event.getEndHour();
+
         boolean validSublocations = true;
         int sumCapacity = 0;
         for (Long l : sublocations) {
-            if (!checkOverlappingEvents(start, end, l)) {
+            if (!checkOverlappingEvents(startDate, endDate, startHour, endHour, l)) {
                 validSublocations = false;
             }
             sumCapacity += sublocationRepository.getOne(l).getMaxCapacity();
@@ -64,8 +67,8 @@ public class EventService {
         }
     }
 
-    public boolean checkOverlappingEvents(LocalDate start, LocalDate end, long sublocation) {
-        List<Event> overlappingEvents = eventRepository.findOverlappingEvents(start, end, sublocation);
+    public boolean checkOverlappingEvents(LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, long sublocation) {
+        List<Event> overlappingEvents = eventRepository.findOverlappingEvents(startDate, endDate, startHour, endHour, sublocation);
         return overlappingEvents.isEmpty();
     }
 
@@ -77,8 +80,10 @@ public class EventService {
         if (eventOptional.isPresent()) {
             Event eventFromDB = eventOptional.get();
 
-            LocalDate start = event.getStartDate();
-            LocalDate end = event.getEndDate();
+            LocalDate startDate = event.getStartDate();
+            LocalDate endDate = event.getEndDate();
+            LocalTime startHour = event.getStartHour();
+            LocalTime endHour = event.getEndHour();
 
             boolean validSublocation = true;
             int sumCapacity = 0;
@@ -90,7 +95,7 @@ public class EventService {
                     .collect(Collectors.toList());
 
             for (Long subId : sublocationsId) {
-                if (!checkOverlappingEvents(eventFromDB.getId(), start, end, subId)) {
+                if (!checkOverlappingEvents(eventFromDB.getId(), startDate, endDate, startHour, endHour, subId)) {
                     validSublocation = false;
                 }
                 sumCapacity += sublocationRepository.getOne(subId).getMaxCapacity();
@@ -98,8 +103,10 @@ public class EventService {
 
             if (validSublocation) {
                 if (sumCapacity >= event.getMaxPeople()) {
-                    eventFromDB.setStartDate(start);
-                    eventFromDB.setEndDate(end);
+                    eventFromDB.setStartDate(startDate);
+                    eventFromDB.setEndDate(endDate);
+                    eventFromDB.setStartHour(startHour);
+                    eventFromDB.setEndHour(endHour);
                     eventFromDB.setTitle(event.getTitle());
                     eventFromDB.setSubtitle(event.getSubtitle());
                     eventFromDB.setDescription(event.getDescription());
@@ -120,8 +127,8 @@ public class EventService {
             throw new NoSuchElementException();
     }
 
-    public boolean checkOverlappingEvents(Long eventID, LocalDate start, LocalDate end, long sublocation) {
-        List<Event> foundEvents = eventRepository.findOverlappingEvents(start, end, sublocation);
+    public boolean checkOverlappingEvents(Long eventID, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, long sublocation) {
+        List<Event> foundEvents = eventRepository.findOverlappingEvents(startDate, endDate, startHour, endHour, sublocation);
         List<Event> overlapingEvents = foundEvents
                 .stream()
                 .filter(event -> !event.getId().equals(eventID))
@@ -134,7 +141,7 @@ public class EventService {
     }
 
     public TypedQuery<EventView> filter(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople) {
-        entityManager.clear();
+        //entityManager.clear();
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<EventView> q = criteriaBuilder.createQuery(EventView.class);
         Root<EventView> c = q.from(EventView.class);
@@ -158,13 +165,15 @@ public class EventService {
         }
 
         if (startDate != null && endDate != null) {
-            //Expression<Integer> year = criteriaBuilder.function("year", Integer.class, c.get("startDate"));
-            //Expression<Integer> month = criteriaBuilder.function("month", Integer.class, c.get("startDate"));
-            //Expression<Integer> day = criteriaBuilder.function("day", Integer.class, c.get("startDate"));
             Predicate firstCase = criteriaBuilder.between(c.get("startDate"), startDate, endDate);
             Predicate secondCase = criteriaBuilder.between(c.get("endDate"), startDate, endDate);
             predicate.add(criteriaBuilder.or(firstCase, secondCase));
 
+        }
+        if (startHour != null && endHour != null){
+            Predicate firstCase = criteriaBuilder.between(c.get("startHour"), startHour, endHour);
+            Predicate secondCase = criteriaBuilder.between(c.get("endHour"), startHour, endHour);
+            predicate.add(criteriaBuilder.or(firstCase, secondCase));
         }
         if (maxPeopleSign != null) {
             switch (maxPeopleSign) {
@@ -200,7 +209,6 @@ public class EventService {
         Predicate finalPredicate = criteriaBuilder.and(predicate.toArray(new Predicate[0]));
         q.where(finalPredicate);
         TypedQuery<EventView> typedQuery = entityManager.createQuery(q);
-        entityManager.close();
         return typedQuery;
     }
 
