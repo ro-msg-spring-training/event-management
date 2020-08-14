@@ -19,10 +19,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
+import javax.persistence.metamodel.EntityType;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -143,15 +141,20 @@ public class EventService {
     }
 
     public TypedQuery<EventView> filter(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople) {
+
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<EventView> q = criteriaBuilder.createQuery(EventView.class);
         Root<EventView> c = q.from(EventView.class);
         List<Predicate> predicate = new ArrayList<>();
         if (title != null) {
-            predicate.add(criteriaBuilder.equal(c.get("title"), title));
+            Expression<String> path = c.get("title");
+            Expression<String> upper =criteriaBuilder.upper(path);
+            predicate.add(criteriaBuilder.like(upper,"%"+title.toUpperCase()+"%"));
         }
         if (subtitle != null) {
-            predicate.add(criteriaBuilder.equal(c.get("subtitle"), subtitle));
+            Expression<String> path = c.get("subtitle");
+            Expression<String> upper =criteriaBuilder.upper(path);
+            predicate.add(criteriaBuilder.like(upper,"%"+subtitle.toUpperCase()+"%"));
         }
         if (status != null) {
             predicate.add(criteriaBuilder.equal(c.get("status"), status));
@@ -162,7 +165,9 @@ public class EventService {
         }
 
         if (location != null) {
-            predicate.add(criteriaBuilder.equal(c.get("location"), location));
+            Expression<String> path = c.get("location");
+            Expression<String> upper =criteriaBuilder.upper(path);
+            predicate.add(criteriaBuilder.like(upper,"%"+location.toUpperCase()+"%"));
         }
 
         if (startDate != null && endDate != null) {
@@ -171,7 +176,7 @@ public class EventService {
             predicate.add(criteriaBuilder.or(firstCase, secondCase));
 
         }
-        if (startHour != null && endHour != null) {
+        if (startHour != null && endHour != null){
             Predicate firstCase = criteriaBuilder.between(c.get("startHour"), startHour, endHour);
             Predicate secondCase = criteriaBuilder.between(c.get("endHour"), startHour, endHour);
             predicate.add(criteriaBuilder.or(firstCase, secondCase));
@@ -242,6 +247,9 @@ public class EventService {
         int offset = (pageNumber - 1) * eventPerPage;
         if (offset + eventPerPage > eventViews.size()) {
             return eventViews.subList(offset, eventViews.size());
+        }
+        if (offset + eventPerPage+1 == eventViews.size() || pageNumber <0){
+            return null;
         }
         return eventViews.subList(offset, offset + eventPerPage);
     }
