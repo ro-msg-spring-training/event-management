@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -13,12 +13,12 @@ import { useStyles } from '../../../styles/CommonStyles';
 import { EventSortProps } from "../../../types/EventSortProps";
 import { useTranslation } from "react-i18next";
 import { useScrollPosition } from '@n8tb1t/use-scroll-position'
-
+import { useListStyles } from '../../../styles/eventListStyles';
 
 interface Props {
+    sort: EventSortProps;
     eventsDetails: any[];
     handleSortEvent: (criteria: string, type: string) => void;
-    sort: EventSortProps;
     goToPrevPage: () => void;
     goToNextPage: () => void;
 }
@@ -39,24 +39,22 @@ interface HeadCell {
     numeric: boolean;
 }
 
-
-
-
 const EventListDumb = (props: Props) => {
     const commonClasses = useStyles()
+    const classes = useListStyles()
 
+    const sort = props.sort;
     const eventsDetails = props.eventsDetails;
     const handleSortEvent = props.handleSortEvent;
-    const sort = props.sort;
     const goToPrevPage = props.goToPrevPage;
     const goToNextPage = props.goToNextPage;
 
     const [criteria, setCriteria] = useState();
     const [type, setType] = useState();
     const [expanded, setExpanded] = useState(false)
+    const [t] = useTranslation();
 
-    const { t } = useTranslation();
-
+    const stickyDiv: React.RefObject<HTMLInputElement> = React.createRef()
 
     const headCells: HeadCell[] = [
         { id: 'date', numeric: true, disablePadding: false, label: t("eventList.date") },
@@ -73,11 +71,22 @@ const EventListDumb = (props: Props) => {
         }
     };
 
+    useEffect(() => {
+        handleSortEvent(criteria, type);
+    }, [criteria, type, handleSortEvent]);
+
+
     useScrollPosition(
         ({ prevPos, currPos }) => {
-            const elementHeight = 600
-            console.log('cat', elementHeight - currPos.y, window.outerHeight)
-            if ( elementHeight - currPos.y  > window.outerHeight && expanded) {
+
+            // compute the height of the sticky area
+            const elementHeight = stickyDiv.current ? stickyDiv.current.offsetHeight : 0
+
+            // get the maximum value between sticky area height and window height
+            const height = elementHeight < window.outerHeight ? elementHeight : window.outerHeight
+
+            // collapse on scrolling up or on a quick scroll down
+            if ((prevPos.y > currPos.y + height) || (prevPos.y < currPos.y)) {
                 setExpanded(false)
             }
         },
@@ -87,18 +96,16 @@ const EventListDumb = (props: Props) => {
         300
     )
 
-    useEffect(() => {
-        handleSortEvent(criteria, type);
-    }, [criteria, type, handleSortEvent]);
-
     return (
-        <TableContainer component={Paper} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around', alignItems: 'center', overflow: 'visible' }}>
-            <Link to={`/newEvent`} style={{ textDecoration: 'none' }}>
-                <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3} ${commonClasses.buttonStyle4}`}>{t("eventList.createNewEventButton")}</Button>
-            </Link>
-
+        <TableContainer component={Paper} className={classes.pageContainer}>
             <div
-                style={{ position: 'sticky', top: '50px', backgroundColor: 'white', zIndex: 2 }} >
+                className={classes.stickyArea}
+                ref={stickyDiv}>
+
+                <Link to={`/newEvent`} style={{ textDecoration: 'none' }}>
+                    <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3} ${commonClasses.buttonStyle4}`}>{t("eventList.createNewEventButton")}</Button>
+                </Link>
+
                 <FilterSectionSmart expanded={expanded} setExpanded={setExpanded} />
             </div>
 
@@ -108,30 +115,34 @@ const EventListDumb = (props: Props) => {
                         <TableCell key={"title"} align={"left"} padding={"default"} size={"medium"}>{t("eventList.title")}</TableCell>
                         <TableCell key={"subtitle"} align={"left"} padding={"default"} size={"medium"}>{t("eventList.subtitle")}</TableCell>
                         <TableCell key={"location"} align={"left"} padding={"default"} size={"medium"}>{t("eventList.location")}</TableCell>
+
                         {headCells.map((headCell) => (
                             <TableCell
                                 key={headCell.id}
                                 align={headCell.numeric ? 'right' : 'left'}
                                 padding={headCell.disablePadding ? 'none' : 'default'}
                                 sortDirection={criteria === headCell.id && headCell.numeric ? type : false}
-                                size={"medium"}
-                            >
+                                size={"medium"}>
+
                                 <TableSortLabel
                                     hideSortIcon={!headCell.numeric}
                                     active={criteria === headCell.id && headCell.numeric && sort.criteria !== ""}
                                     direction={criteria === headCell.id ? type : 'asc'}
-                                    onClick={createSortHandler(headCell.id)}
-                                >
+                                    onClick={createSortHandler(headCell.id)}>
+
                                     {headCell.label}
-                                    {criteria === headCell.id && headCell.numeric ? (
-                                        <span className={`${commonClasses.visuallyHidden}`} >
-                                            {type === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                                        </span>
-                                    ) : null}
+
+                                    {
+                                        criteria === headCell.id && headCell.numeric ?
+                                            (
+                                                <span className={`${commonClasses.visuallyHidden}`} >
+                                                    {type === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                                                </span>
+                                            ) : null
+                                    }
                                 </TableSortLabel>
                             </TableCell>
                         ))}
-
                     </TableRow>
                 </TableHead>
 

@@ -10,14 +10,14 @@ import {
 } from "../actions/EventsPageActions";
 
 import { takeLatest, takeEvery, put } from "redux-saga/effects";
-import { EventFiltersProps } from "../types/EventFiltersProps";
+import { EventFilters } from "../model/EventFilters";
 import { fetchEvents, fetchFilteredEvents } from "../services/EventsService";
 import { EventSortProps } from "../types/EventSortProps";
 
 
 interface FilterEventsProps {
     type: string,
-    payload: EventFiltersProps
+    payload: EventFilters
 }
 
 interface SortEventsProps {

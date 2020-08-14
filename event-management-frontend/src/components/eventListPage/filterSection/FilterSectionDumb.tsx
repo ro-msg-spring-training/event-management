@@ -6,16 +6,16 @@ import { MathRelation } from '../../../model/MathRelation';
 import { formatDate } from '../../../utils/formatDate';
 import { useFilterStyles } from '../../../styles/filterStyles';
 import { useStyles } from '../../../styles/CommonStyles';
-import { EventFiltersProps } from '../../../types/EventFiltersProps';
+import { EventFilters } from '../../../model/EventFilters';
 import { useTranslation } from "react-i18next";
 
 
 interface Props {
     isExpanded: boolean,
-    filters: EventFiltersProps,
+    filters: EventFilters,
     errorRate: string,
     errorMaxPeople: string,
-    updateFilters: (filters: EventFiltersProps) => void,
+    updateFilters: (filters: EventFilters) => void,
     toggle: () => void,
     submitForm: (event: FormEvent<HTMLFormElement>) => void,
     restrictNumberInput: (event: KeyboardEvent<HTMLDivElement>) => void
@@ -37,7 +37,8 @@ interface Props {
 function FilterSectionDumb(props: Props) {
     const classes = useFilterStyles()
     const commonClasses = useStyles()
-    const { t } = useTranslation();
+
+    const [ t ] = useTranslation();
 
     const displayDate = () => {
         let result = ''
@@ -91,9 +92,7 @@ function FilterSectionDumb(props: Props) {
                     </Grid>
 
                     <Collapse in={props.isExpanded} timeout={500} className={classes.collapseArea}>
-                        <Grid container
-                            spacing={3}>
-
+                        <Grid container spacing={3}>
                             <Grid item xs={12} sm={12} md={4}>
                                 <TextField
                                     label={t("eventList.location")}
@@ -218,7 +217,7 @@ function FilterSectionDumb(props: Props) {
                         type='submit'
                         disabled={props.errorRate !== '' || props.errorMaxPeople !== ""}
                         className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3}`}>
-                        {t("eventList.filterButton")}
+                            {t("eventList.filterButton")}
                     </Button>
 
                     <div onClick={props.toggle} className={classes.filterExpandText}>

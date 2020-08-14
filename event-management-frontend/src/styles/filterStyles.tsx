@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core";
 export const useFilterStyles = makeStyles({
     filterArea:{
         paddingTop: '30px',
-        paddingBottom: '30px'
+        paddingBottom: '10px'
     },
     filterButtonsArea: {
         display: 'flex',
@@ -45,5 +45,5 @@ export const useFilterStyles = makeStyles({
     },
     collapseArea: {
         paddingTop: '24px'
-    }
+    },
 }); 

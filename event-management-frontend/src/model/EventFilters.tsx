@@ -1,6 +1,6 @@
-import { MathRelation } from "../model/MathRelation";
+import { MathRelation } from "./MathRelation";
 
-export interface EventFiltersProps {
+export interface EventFilters {
     title: string,
     subtitle: string,
     status: string,

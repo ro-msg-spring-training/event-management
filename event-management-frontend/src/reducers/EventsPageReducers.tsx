@@ -9,13 +9,13 @@ import {
     PREV_PAGE, NEXT_PAGE
 } from "../actions/EventsPageActions"
 import { MathRelation } from "../model/MathRelation"
-import { EventFiltersProps } from "../types/EventFiltersProps";
+import { EventFilters } from "../model/EventFilters";
 import { EventSortProps } from "../types/EventSortProps";
 import {fetchSortedEvents, changePage } from "../services/EventsService";
 
 
 export interface EventsPageState {
-    filters: EventFiltersProps,
+    filters: EventFilters,
     allEvents: [],
     isLoading: boolean,
     isError: boolean,

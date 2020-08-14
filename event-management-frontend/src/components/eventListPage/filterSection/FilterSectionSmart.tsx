@@ -4,25 +4,24 @@ import { Container } from '@material-ui/core';
 import { updateFilters, filterEvents } from '../../../actions/EventsPageActions';
 import { connect } from 'react-redux';
 import { MathRelation } from '../../../model/MathRelation';
-import { EventFiltersProps } from '../../../types/EventFiltersProps';
+import { EventFilters } from '../../../model/EventFilters';
 import { useTranslation } from "react-i18next";
 
 interface Props {
-    filters: EventFiltersProps,
+    filters: EventFilters,
     page: number,
     expanded: boolean,
     setExpanded: (exp: boolean) => void,
-    updateFilters: (filters: EventFiltersProps) => void,
-    filterEvents: (filters: EventFiltersProps, page: number) => void,
+    updateFilters: (filters: EventFilters) => void,
+    filterEvents: (filters: EventFilters, page: number) => void,
 }
 
 function FilterSectionSmart({ filters, expanded, setExpanded, updateFilters, filterEvents, page }: Props) {
-    // const [expanded, setExpanded] = useState(false)
+    const fakeDateForComparation = '01/01/2020'
+
     const [errorRate, setErrorRate] = useState('')
     const [errorMaxPeople, setErrorMaxPeople] = useState('')
-    const { t } = useTranslation();
-
-    const fakeDateForComparation = '01/01/2020'
+    const [ t ] = useTranslation();
 
     const handleChange = () => {
         const newFilters = Object.assign({}, filters)
@@ -141,6 +140,7 @@ function FilterSectionSmart({ filters, expanded, setExpanded, updateFilters, fil
     const submitForm = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         filterEvents(filters, page)
+        setExpanded(false)
     }
 
     const toggle = () => {
@@ -187,8 +187,8 @@ const mapStateToProps = ({events}: any) => ({
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        updateFilters: (filters: EventFiltersProps) => dispatch(updateFilters(filters)),
-        filterEvents: (filters: EventFiltersProps, page: number) => dispatch(filterEvents(filters, page))
+        updateFilters: (filters: EventFilters) => dispatch(updateFilters(filters)),
+        filterEvents: (filters: EventFilters, page: number) => dispatch(filterEvents(filters, page))
     }
 }
 
