@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -12,6 +12,7 @@ import FilterSectionSmart from "../filterSection/FilterSectionSmart";
 import { useStyles } from '../../../styles/CommonStyles';
 import { EventSortProps } from "../../../types/EventSortProps";
 import { useTranslation } from "react-i18next";
+import { useScrollPosition } from '@n8tb1t/use-scroll-position'
 
 
 interface Props {
@@ -72,37 +73,35 @@ const EventListDumb = (props: Props) => {
         }
     };
 
-    useEffect(() => {
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
-
-
-
-    const handleScroll = (e: any) => {
-        console.log('scroll event')
-        // if ((window.innerHeight + window.scrollY) < document.body.scrollHeight) {
-        //     //show loading spinner and make fetch request to api
-        // }
-        // else {
-        //     setExpanded(false)
-        // }
-    }
-
+    useScrollPosition(
+        ({ prevPos, currPos }) => {
+            const elementHeight = 600
+            console.log('cat', elementHeight - currPos.y, window.outerHeight)
+            if ( elementHeight - currPos.y  > window.outerHeight && expanded) {
+                setExpanded(false)
+            }
+        },
+        [expanded],
+        undefined,
+        false,
+        300
+    )
 
     useEffect(() => {
         handleSortEvent(criteria, type);
     }, [criteria, type, handleSortEvent]);
 
     return (
-        <TableContainer component={Paper} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around', overflow: 'visible' }}>
+        <TableContainer component={Paper} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around', alignItems: 'center', overflow: 'visible' }}>
             <Link to={`/newEvent`} style={{ textDecoration: 'none' }}>
-    <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3} ${commonClasses.buttonStyle4}`}>{t("eventList.createNewEventButton")}</Button>
+                <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3} ${commonClasses.buttonStyle4}`}>{t("eventList.createNewEventButton")}</Button>
             </Link>
+
             <div
                 style={{ position: 'sticky', top: '50px', backgroundColor: 'white', zIndex: 2 }} >
                 <FilterSectionSmart expanded={expanded} setExpanded={setExpanded} />
             </div>
+
             <Table aria-label="customized table">
                 <TableHead>
                     <TableRow>

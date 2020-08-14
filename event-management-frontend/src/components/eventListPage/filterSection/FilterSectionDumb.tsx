@@ -90,7 +90,7 @@ function FilterSectionDumb(props: Props) {
                         </Grid>
                     </Grid>
 
-                    <Collapse in={!props.isExpanded} timeout={500} className={classes.collapseArea}>
+                    <Collapse in={props.isExpanded} timeout={500} className={classes.collapseArea}>
                         <Grid container
                             spacing={3}>
 
