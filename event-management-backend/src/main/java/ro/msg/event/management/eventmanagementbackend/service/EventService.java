@@ -11,7 +11,6 @@ import ro.msg.event.management.eventmanagementbackend.entity.EventSublocation;
 import ro.msg.event.management.eventmanagementbackend.entity.Sublocation;
 import ro.msg.event.management.eventmanagementbackend.entity.view.EventView;
 import ro.msg.event.management.eventmanagementbackend.repository.EventRepository;
-import ro.msg.event.management.eventmanagementbackend.repository.EventViewRepository;
 import ro.msg.event.management.eventmanagementbackend.repository.SublocationRepository;
 import ro.msg.event.management.eventmanagementbackend.utils.ComparisonSign;
 import ro.msg.event.management.eventmanagementbackend.utils.SortCriteria;
@@ -37,9 +36,8 @@ public class EventService {
 
     private final EventRepository eventRepository;
     private final SublocationRepository sublocationRepository;
-    private final EventViewRepository eventViewRepository;
 
-    @PersistenceContext(type = PersistenceContextType.EXTENDED)
+    @PersistenceContext(type = PersistenceContextType.TRANSACTION)
     private final EntityManager entityManager;
 
     public long saveEvent(Event event, List<Long> sublocations) throws OverlappingEventsException, ExceededCapacityException {
@@ -137,11 +135,14 @@ public class EventService {
     }
 
     public void deleteEvent(long id) {
+        Optional<Event> optionalEvent = this.eventRepository.findById(id);
+        if (optionalEvent.isEmpty()) {
+            throw new NoSuchElementException("No event with id= " + id);
+        }
         this.eventRepository.deleteById(id);
     }
 
     public TypedQuery<EventView> filter(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople) {
-        //entityManager.clear();
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<EventView> q = criteriaBuilder.createQuery(EventView.class);
         Root<EventView> c = q.from(EventView.class);
@@ -170,7 +171,7 @@ public class EventService {
             predicate.add(criteriaBuilder.or(firstCase, secondCase));
 
         }
-        if (startHour != null && endHour != null){
+        if (startHour != null && endHour != null) {
             Predicate firstCase = criteriaBuilder.between(c.get("startHour"), startHour, endHour);
             Predicate secondCase = criteriaBuilder.between(c.get("endHour"), startHour, endHour);
             predicate.add(criteriaBuilder.or(firstCase, secondCase));
@@ -208,8 +209,7 @@ public class EventService {
         }
         Predicate finalPredicate = criteriaBuilder.and(predicate.toArray(new Predicate[0]));
         q.where(finalPredicate);
-        TypedQuery<EventView> typedQuery = entityManager.createQuery(q);
-        return typedQuery;
+        return entityManager.createQuery(q);
     }
 
     public List<EventView> filterAndPaginate(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople, int pageNumber, int eventPerPage) {
