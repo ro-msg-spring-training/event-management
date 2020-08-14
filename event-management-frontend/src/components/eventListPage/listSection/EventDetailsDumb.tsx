@@ -59,6 +59,5 @@ const EventDetailsDumb = (props: Event) => {
 }
 
 //TODO: gmail address instead of MyAccount
-//TODO: fewer column (get rid of subtitle, hour and occupancy rate) for mobile
 
 export default EventDetailsDumb
