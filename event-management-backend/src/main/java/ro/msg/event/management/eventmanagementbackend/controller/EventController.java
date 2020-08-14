@@ -137,7 +137,7 @@ public class EventController {
         } catch (OverlappingEventsException | ExceededCapacityException overlappingEventsException) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, overlappingEventsException.getMessage(), overlappingEventsException);
         } catch (DateTimeException dateTimeException) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, dateTimeException.toString(), dateTimeException);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, dateTimeException.getMessage(), dateTimeException);
         }
         return new ResponseEntity<>(eventDto, HttpStatus.OK);
     }
