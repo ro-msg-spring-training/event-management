@@ -9,14 +9,16 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ro.msg.event.management.eventmanagementbackend.controller.converter.Converter;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.EventDto;
-import ro.msg.event.management.eventmanagementbackend.entity.*;
+import ro.msg.event.management.eventmanagementbackend.entity.Booking;
+import ro.msg.event.management.eventmanagementbackend.entity.Event;
+import ro.msg.event.management.eventmanagementbackend.entity.EventSublocation;
+import ro.msg.event.management.eventmanagementbackend.entity.Picture;
 import ro.msg.event.management.eventmanagementbackend.repository.EventRepository;
 import ro.msg.event.management.eventmanagementbackend.service.EventService;
 import ro.msg.event.management.eventmanagementbackend.service.ExceededCapacityException;
 import ro.msg.event.management.eventmanagementbackend.service.OverlappingEventsException;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
