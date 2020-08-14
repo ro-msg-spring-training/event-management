@@ -1,10 +1,6 @@
 import React from 'react';
 
-interface Props{
-  match: any,
-}
-
-function Location({ match } : Props) {
+function Location() {
   return (
     <>
       <h1>Location</h1>

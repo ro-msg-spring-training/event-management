@@ -3,10 +3,6 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
-import Overview from './Overview';
-import Location from './Location';
-import Tickets from './Tickets';
-import Images from './Images';
 import { Grid } from '@material-ui/core';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -18,7 +14,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   tabs: {
     borderRight: `1px solid ${theme.palette.primary.dark}`,
-    // minWidth: "75px"
   },
   tab: {
     paddingBottom: "25px",
@@ -45,10 +40,6 @@ export interface IProductDetailsReady extends IProductBase {
   price: number
 }
 
-interface EventProps{
-  newEvent:boolean,
-  event: IProductDetailsReady
-}
 
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
@@ -75,7 +66,15 @@ function a11yProps(index: any) {
   };
 }
 
-export default function Stepper(props: EventProps) {
+interface EventProps {
+  overviewComponent: any,
+  locationComponent: any,
+  ticketsComponent: any,
+  imagesComponent: any,
+
+}
+
+function Stepper(props: EventProps) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -83,15 +82,12 @@ export default function Stepper(props: EventProps) {
     setValue(newValue);
   };
 
-  // console.log("Stepper");
-  // console.log(props.event);
-
   return (
     <div className={classes.root}>
-      
+
       <Grid container direction="row" justify="flex-start" alignItems="center">
 
-        <Grid item xl={1} lg={2} md={2} sm={2} xs={3}>
+        <Grid item xl={1} lg={2} md={2} sm={3} xs={3}>
 
           <Tabs
             orientation="vertical"
@@ -100,7 +96,6 @@ export default function Stepper(props: EventProps) {
             className={classes.tabs}
             centered
           >
-            {/* className={`rotate ${classes.tab}`}   */}
             <Tab label="Overview"  {...a11yProps(0)} />
             <Tab label="Location"  {...a11yProps(1)} />
             <Tab label="Tickets" {...a11yProps(2)} />
@@ -109,22 +104,24 @@ export default function Stepper(props: EventProps) {
           </Tabs>
         </Grid>
 
-        <Grid item xl={11} lg={10} md={10} sm={10} xs={9}>
-          {/* <TabPanel value={value} index={0}>
-            <Overview event={props.event} newEvent={props.newEvent}/>
+        <Grid item xl={11} lg={10} md={10} sm={9} xs={9}>
+          <TabPanel value={value} index={0}>
+            {props.overviewComponent}
           </TabPanel>
           <TabPanel value={value} index={1}>
-            <Location />
+            {props.locationComponent}
           </TabPanel>
           <TabPanel value={value} index={2}>
-            <Tickets />
+            {props.ticketsComponent}
           </TabPanel>
           <TabPanel value={value} index={3}>
-            <Images />
-          </TabPanel> */}
+            {props.imagesComponent}
+          </TabPanel>
         </Grid>
 
       </Grid>
     </div>
   );
 }
+
+export default Stepper;

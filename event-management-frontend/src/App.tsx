@@ -44,8 +44,6 @@ function App() {
         <Paper className={classes.paper}>
           <div className="App">
             <Main/>
-            {/* <Header admin={true} /> */}
-            {/* <Stepper /> */}
           </div>
         </Paper>
       </MuiThemeProvider>

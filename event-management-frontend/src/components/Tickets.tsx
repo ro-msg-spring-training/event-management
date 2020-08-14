@@ -1,10 +1,6 @@
 import React from 'react';
 
-interface Props{
-  match: any,
-}
-
-function Tickets({ match } : Props) {
+function Tickets() {
   return (
     <h1>Hello</h1>
   );
