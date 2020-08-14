@@ -87,14 +87,3 @@ CREATE TABLE IF NOT EXISTS `booking` (
                                           `event` long
 
 );
-
-
-
-
-
-
-
-
-
-
-

@@ -1,14 +1,13 @@
 package ro.msg.event.management.eventmanagementbackend.security;
 
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@NoArgsConstructor
 public class JWTIdTokenCredentialsHolder {
 
     private String idToken;
-
-    public JWTIdTokenCredentialsHolder() {
-    }
 
     public String getIdToken() {
         return this.idToken;
