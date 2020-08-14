@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import FilterSectionSmart from "../filterSection/FilterSectionSmart";
 import { useStyles } from '../../../styles/CommonStyles';
 import { EventSortProps } from "../../../types/EventSortProps";
+import { useTranslation } from "react-i18next";
 
 
 interface Props {
@@ -37,11 +38,7 @@ interface HeadCell {
     numeric: boolean;
 }
 
-const headCells: HeadCell[] = [
-    { id: 'date', numeric: true, disablePadding: false, label: 'Date' },
-    { id: 'hour', numeric: true, disablePadding: false, label: 'Hour' },
-    { id: 'occRate', numeric: true, disablePadding: false, label: 'Occupancy rate' },
-];
+
 
 
 const EventListDumb = (props: Props) => {
@@ -56,6 +53,15 @@ const EventListDumb = (props: Props) => {
     const [criteria, setCriteria] = useState();
     const [type, setType] = useState();
     const [expanded, setExpanded] = useState(false)
+
+    const { t } = useTranslation();
+
+
+    const headCells: HeadCell[] = [
+        { id: 'date', numeric: true, disablePadding: false, label: t("eventList.date") },
+        { id: 'hour', numeric: true, disablePadding: false, label: t("eventList.hour") },
+        { id: 'occRate', numeric: true, disablePadding: false, label: t("eventList.occupacyRate") },
+    ];
 
     const createSortHandler = (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
         setCriteria(property);
@@ -91,7 +97,7 @@ const EventListDumb = (props: Props) => {
     return (
         <TableContainer component={Paper} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around', overflow: 'visible' }}>
             <Link to={`/newEvent`} style={{ textDecoration: 'none' }}>
-                <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3} ${commonClasses.buttonStyle4}`}>Create new event</Button>
+    <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3} ${commonClasses.buttonStyle4}`}>{t("eventList.createNewEventButton")}</Button>
             </Link>
             <div
                 style={{ position: 'sticky', top: '50px', backgroundColor: 'white', zIndex: 2 }} >
@@ -100,9 +106,9 @@ const EventListDumb = (props: Props) => {
             <Table aria-label="customized table">
                 <TableHead>
                     <TableRow>
-                        <TableCell key={"title"} align={"left"} padding={"default"} size={"medium"}>Title</TableCell>
-                        <TableCell key={"subtitle"} align={"left"} padding={"default"} size={"medium"}>Subtitle</TableCell>
-                        <TableCell key={"location"} align={"left"} padding={"default"} size={"medium"}>Location</TableCell>
+                        <TableCell key={"title"} align={"left"} padding={"default"} size={"medium"}>{t("eventList.title")}</TableCell>
+                        <TableCell key={"subtitle"} align={"left"} padding={"default"} size={"medium"}>{t("eventList.subtitle")}</TableCell>
+                        <TableCell key={"location"} align={"left"} padding={"default"} size={"medium"}>{t("eventList.location")}</TableCell>
                         {headCells.map((headCell) => (
                             <TableCell
                                 key={headCell.id}
@@ -139,10 +145,10 @@ const EventListDumb = (props: Props) => {
                         <TableCell />
                         <TableCell />
                         <TableCell className={`${commonClasses.prev}`}>
-                            <Button onClick={goToPrevPage}>&nbsp;&laquo; Previous &nbsp;</Button>
+                            <Button onClick={goToPrevPage}>&nbsp;&laquo; {t("eventList.previous")} &nbsp;</Button>
                         </TableCell>
                         <TableCell className={`${commonClasses.next}`}>
-                            <Button onClick={goToNextPage}>&nbsp; Next &raquo;</Button>
+                            <Button onClick={goToNextPage}>&nbsp; {t("eventList.next")} &raquo;</Button>
                         </TableCell>
                         <TableCell />
                         <TableCell />

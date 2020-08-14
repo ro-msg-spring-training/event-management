@@ -5,6 +5,7 @@ import { updateFilters, filterEvents } from '../../../actions/EventsPageActions'
 import { connect } from 'react-redux';
 import { MathRelation } from '../../../model/MathRelation';
 import { EventFiltersProps } from '../../../types/EventFiltersProps';
+import { useTranslation } from "react-i18next";
 
 interface Props {
     filters: EventFiltersProps,
@@ -19,6 +20,7 @@ function FilterSectionSmart({ filters, expanded, setExpanded, updateFilters, fil
     // const [expanded, setExpanded] = useState(false)
     const [errorRate, setErrorRate] = useState('')
     const [errorMaxPeople, setErrorMaxPeople] = useState('')
+    const { t } = useTranslation();
 
     const fakeDateForComparation = '01/01/2020'
 
@@ -93,7 +95,7 @@ function FilterSectionSmart({ filters, expanded, setExpanded, updateFilters, fil
             const maxPeopleNumber = parseInt(maxPeople)
 
             if (maxPeopleNumber.toString() !== maxPeople && maxPeople !== '') {
-                setErrorMaxPeople('Not a number')
+                setErrorMaxPeople(t("eventList.notANumber"))
             }
             else {
                 setErrorMaxPeople('')
@@ -118,10 +120,10 @@ function FilterSectionSmart({ filters, expanded, setExpanded, updateFilters, fil
             const rateNumber = parseInt(rate)
 
             if (rateNumber.toString() !== rate && rate !== '') {
-                setErrorRate('Not a number')
+                setErrorRate(t("eventList.notANumber"))
             }
             else if (rateNumber > 100) {
-                setErrorRate('Not a valid percent')
+                setErrorRate(t("eventList.notAvalidPercent"))
             }
             else {
                 setErrorRate('')

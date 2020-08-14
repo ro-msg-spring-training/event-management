@@ -7,6 +7,7 @@ import { formatDate } from '../../../utils/formatDate';
 import { useFilterStyles } from '../../../styles/filterStyles';
 import { useStyles } from '../../../styles/CommonStyles';
 import { EventFiltersProps } from '../../../types/EventFiltersProps';
+import { useTranslation } from "react-i18next";
 
 
 interface Props {
@@ -36,6 +37,7 @@ interface Props {
 function FilterSectionDumb(props: Props) {
     const classes = useFilterStyles()
     const commonClasses = useStyles()
+    const { t } = useTranslation();
 
     const displayDate = () => {
         let result = ''
@@ -45,7 +47,7 @@ function FilterSectionDumb(props: Props) {
         }
 
         if (props.filters.endDate !== null) {
-            result += " to " + formatDate(props.filters.endDate, '/')
+            result += t("eventList.to") + formatDate(props.filters.endDate, '/')
         }
 
         return result
@@ -58,7 +60,7 @@ function FilterSectionDumb(props: Props) {
                     <Grid container spacing={3}>
                         <Grid item xs={12} sm={12} md={4}>
                             <TextField
-                                label="Title"
+                                label={t("eventList.title")}
                                 onChange={(e) => props.handleChangeTitle(e.target.value)}
                                 fullWidth
                                 variant="outlined" />
@@ -66,7 +68,7 @@ function FilterSectionDumb(props: Props) {
 
                         <Grid item xs={12} sm={12} md={4}>
                             <TextField
-                                label="Subtitle"
+                                label={t("eventList.subtitle")}
                                 onChange={(e) => props.handleChangeSubtitle(e.target.value)}
                                 fullWidth
                                 variant="outlined" />
@@ -76,14 +78,14 @@ function FilterSectionDumb(props: Props) {
                             <TextField
                                 select
                                 variant="outlined"
-                                label="Status"
+                                label={t("eventList.status")}
                                 value={props.filters.status}
                                 onChange={(e) => props.handleChangeStatus(e.target.value as string)}
                                 fullWidth>
 
-                                <MenuItem value={'true'}>Active</MenuItem>
-                                <MenuItem value={'false'}>Inactive</MenuItem>
-                                <MenuItem value={'none'}>Not set</MenuItem>
+                                <MenuItem value={'true'}>{t("eventList.active")}</MenuItem>
+                                <MenuItem value={'false'}>{t("eventList.inactive")}</MenuItem>
+                                <MenuItem value={'none'}>{t("eventList.notSet")}</MenuItem>
                             </TextField>
                         </Grid>
                     </Grid>
@@ -94,7 +96,7 @@ function FilterSectionDumb(props: Props) {
 
                             <Grid item xs={12} sm={12} md={4}>
                                 <TextField
-                                    label="Location"
+                                    label={t("eventList.location")}
                                     onChange={(e) => props.handleChangeLocation(e.target.value)}
                                     fullWidth
                                     variant="outlined" />
@@ -110,26 +112,28 @@ function FilterSectionDumb(props: Props) {
                                         selectsRange
                                         value={displayDate()}
                                         onChange={(e) => props.handleChangeDate(e)}
-                                        customInput={<TextField label="Date" variant="outlined" />} />
+                                        customInput={<TextField label={t("eventList.date")} variant="outlined" />} />
                                 </div>
                             </Grid>
 
                             <Grid item xs={12} sm={12} md={4} className={classes.timeArea}>
                                 <TextField
                                     className={classes.timeInput}
-                                    label="Start hour"
+                                    label={t("eventList.startHour")}
                                     variant="outlined"
                                     type="time"
                                     value={props.filters.startHour}
                                     onChange={(e) => props.handleChangeStartHour(e.target.value)} />
 
                                 <div>
-                                    to
-                            </div>
+                                    {
+                                        t("eventList.to")
+                                    }
+                                </div>
 
                                 <TextField
                                     className={classes.timeInput}
-                                    label="End hour"
+                                    label={t("eventList.endHour")}
                                     variant="outlined"
                                     type="time"
                                     value={props.filters.endHour}
@@ -151,7 +155,7 @@ function FilterSectionDumb(props: Props) {
                                 <TextField
                                     variant="outlined"
                                     error={props.errorMaxPeople !== ''}
-                                    label={props.errorMaxPeople ? `Max number of people - ${props.errorMaxPeople}` : 'Max number of people'}
+                                    label={ `${t("eventList.maxPeople")} ${props.errorMaxPeople ? " - " + props.errorMaxPeople : ""}`}
                                     type='number'
                                     InputProps={{
                                         inputProps: {
@@ -176,7 +180,7 @@ function FilterSectionDumb(props: Props) {
                                 </Select>
 
                                 <TextField
-                                    label={props.errorRate ? `Occupacy rate - ${props.errorRate}` : 'Occupacy rate'}
+                                    label={ `${t("eventList.occupacyRate")} ${props.errorRate ? " - " + props.errorRate : ""}`}
                                     variant="outlined"
                                     type='number'
                                     error={props.errorRate !== ''}
@@ -201,7 +205,7 @@ function FilterSectionDumb(props: Props) {
                                     {
                                         <Checkbox onChange={(e) => props.handleChangeHighlighted(e.target.checked)} />
                                     }
-                                    label="Highlighted"
+                                    label={t("eventList.highlighted")}
                                     labelPlacement="end"
                                 />
                             </Grid>
@@ -214,12 +218,12 @@ function FilterSectionDumb(props: Props) {
                         type='submit'
                         disabled={props.errorRate !== '' || props.errorMaxPeople !== ""}
                         className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3}`}>
-                        Filter
+                        {t("eventList.filterButton")}
                     </Button>
 
                     <div onClick={props.toggle} className={classes.filterExpandText}>
                         {
-                            props.isExpanded ? "See less filters" : "See more filters"
+                            props.isExpanded ? t("eventList.seeLessFilters") : t("eventList.seeMoreFilters")
                         }
                     </div>
                 </Grid>
