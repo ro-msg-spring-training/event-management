@@ -65,12 +65,6 @@ const useStyles = makeStyles(theme => ({
     top: 20,
     width: 1,
   },
-  prev: {
-    fontSize: 20
-  },
-  next: {
-    fontSize: 20
-  },
   //Colors
   dark: {
     color: '#133655',
@@ -112,6 +106,9 @@ const useStyles = makeStyles(theme => ({
     },
     margin: "10px",
     boxShadow: "none"
+  },
+  left: {
+    left: "100px"
   }
 }));
 

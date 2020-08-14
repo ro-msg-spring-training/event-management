@@ -9,6 +9,7 @@ import { sortEvents, prevPage, nextPage } from "../../../actions/EventsPageActio
 import {EventFiltersProps} from "../../../types/EventFiltersProps";
 import {CircularProgress, Grid} from "@material-ui/core";
 import ErrorIcon from '@material-ui/icons/Error';
+import EventDetailsMobileDumb from "./EventDetailsMobileDumb";
 
 
 interface Props {
@@ -99,10 +100,16 @@ class EventListSmart extends React.Component<Props, State> {
                 <EventDetailsDumb key={event.id} id={event.id} title={event.title} subtitle={event.title}
                                   location={event.location} date={event.date} hour={event.hour} occRate={event.occRate}
                                   name={event.name} />);
+        // On mobile we would like to keep only title and date
+        const eventDetailsMobile = events
+            .map((event: any) =>
+            <EventDetailsMobileDumb key={event.id} id={event.id}
+                                    title={event.title} location={event.location} date={event.date} name={event.name} />);
 
         return (
                 <EventListDumb
                     eventsDetails={eventDetails}
+                    eventsDetailsMobile={eventDetailsMobile}
                     handleSortEvent={handleSortEvent}
                     sort={this.props.eventsSort}
                     goToPrevPage={goToPrevPage}
