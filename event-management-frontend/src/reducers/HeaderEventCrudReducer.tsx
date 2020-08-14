@@ -1,5 +1,5 @@
 import { FETCH_EVENT_REQUEST, FETCH_EVENT_SUCCESS, FETCH_EVENT_FAILURE, DELETE_EVENT_REQUEST, DELETE_EVENT_SUCCESS, DELETE_EVENT_FAILURE, ADD_EVENT_REQUEST, ADD_EVENT_SUCCESS, ADD_EVENT_FAILURE } from "../actions/HeaderEventCrudActions"
-import { EventCrud } from "../components/model/EventCrud"
+import { EventCrud } from "../model/EventCrud"
 
 export interface EventState {
   loading: boolean,

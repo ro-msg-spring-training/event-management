@@ -10,7 +10,7 @@ import Overview from './overviewSection/OverviewSmart';
 import Images from '../Images';
 import Tickets from '../Tickets';
 import Location from '../Location';
-import { EventCrud } from '../model/EventCrud';
+import { EventCrud } from '../../model/EventCrud';
 
 // const event: EventCrud = {
 //   title: "",
@@ -90,8 +90,8 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, fetc
     highlighted: false,
   });
 
-  const [images, setImages] = useState(undefined);
-  const [,] = useState(undefined);
+  // const [images, setImages] = useState(undefined);
+  // const [,] = useState(undefined);
   // //-------------------
 
   useEffect(() => {//called once when component mountes and once when it unmounts

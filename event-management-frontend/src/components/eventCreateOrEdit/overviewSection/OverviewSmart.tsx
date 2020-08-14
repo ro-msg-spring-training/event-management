@@ -1,6 +1,6 @@
 import React, {  useEffect } from 'react';
 import OverviewDumb from './OverviewDumb';
-import { EventCrud } from '../../model/EventCrud';
+import { EventCrud } from '../../../model/EventCrud';
 
 interface EventObjectProps {
   title: string,

@@ -1,4 +1,4 @@
-import { EventCrud } from "../components/model/EventCrud"
+import { EventCrud } from "../model/EventCrud"
 
 export const LOAD_EVENT = 'LOAD_EVENT'
 export const DELETE_EVENT = 'DELETE_EVENT'

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Paper, makeStyles, Theme, Typography, TextField, FormControl, InputLabel, Select, MenuItem, withStyles, CheckboxProps, Checkbox, FormControlLabel } from '@material-ui/core';
-import { EventCrud } from '../../model/EventCrud';
+import { EventCrud } from '../../../model/EventCrud';
 
 const YellowCheckbox = withStyles({
   root: {

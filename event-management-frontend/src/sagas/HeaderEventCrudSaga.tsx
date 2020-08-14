@@ -1,7 +1,7 @@
 import { takeLatest, call, put } from "redux-saga/effects";
 import { LOAD_EVENT, fetchEventRequest, fetchEventSuccess, fetchEventFailure, DELETE_EVENT, deleteEventRequest, deleteEventSuccess, deleteEventFailure, ADD_EVENT, addEventRequest, addEventSuccess, addEventFailure } from "../actions/HeaderEventCrudActions";
 import { fetchEventAPI, deleteEventAPI, addEventAPI } from "../api/HeaderEventCrudAPI";
-import { EventCrud } from "../components/model/EventCrud";
+import { EventCrud } from "../model/EventCrud";
 
 interface Props {
   type: string,

@@ -1,4 +1,4 @@
-import { EventCrud } from "../components/model/EventCrud";
+import { EventCrud } from "../model/EventCrud";
 
 export const fetchEventAPI = (id: string) => {
   return fetch(`http://localhost:4000/products/${id}`).then(response => response.json())
