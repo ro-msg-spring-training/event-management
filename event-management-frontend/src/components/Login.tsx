@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Auth } from 'aws-amplify';
+import React, { useState } from "react";
+import { Auth } from "aws-amplify";
 import {
   FormGroup,
   TextField,
@@ -9,26 +9,27 @@ import {
   InputAdornment,
   IconButton,
   OutlinedInput,
-} from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
-import useStylesLogin from '../styles/loginStyle';
-import { useStyles } from '../styles/CommonStyles';
-import { FormErrors } from './FormErrors';
-import { validatePassword } from '../validation/LoginValidation';
-import { SuccessMessage } from './SuccessMessage';
-import '../styles/LoginCss.css';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
+} from "@material-ui/core";
+import { useHistory } from "react-router-dom";
+import useStylesLogin from "../styles/loginStyle";
+import { useStyles } from "../styles/CommonStyles";
+import { FormErrors } from "./FormErrors";
+import { displayErrorMessage } from "../validation/LoginValidation";
+import { SuccessMessage } from "./SuccessMessage";
+import "../styles/responsivity.css";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import { useTranslation, Trans } from "react-i18next";
 
+import { displaySuccessMessage } from "../validation/registrationValidation";
 const Login = () => {
-  const [isLoading, setisLoading] = useState(false);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const history = useHistory();
+  const [, setisLoading] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const classesLogin = useStylesLogin();
   const classes = useStyles();
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const [values, setValues] = React.useState<{ showPassword: boolean }>({
     showPassword: false,
@@ -41,14 +42,11 @@ const Login = () => {
   const onSubmit = async () => {
     setisLoading(true);
     try {
-      const user = await Auth.signIn(username, password);
-      setSuccess('Succesful login');
-      setError('');
-    } catch (e) {
-      setError(e.message);
-      if (validatePassword(password, username)) {
-        setError('Password cannot be empty');
-      }
+      displaySuccessMessage(<Trans i18nKey="login.successMessage">Succesful login</Trans>, setSuccess);
+      setError("");
+    } catch (error) {
+      console.log(error);
+      displayErrorMessage(<Trans i18nKey="login.errorMessage">Incorrect username or password.</Trans>, setError);
       setisLoading(false);
     }
   };
@@ -56,25 +54,29 @@ const Login = () => {
   return (
     <div className={classesLogin.root}>
       <FormGroup className={`${classesLogin.loginform} loginformResponsive`}>
-        <h1 className={classes.typography}>Login</h1>
+        <h1 className={classes.typography}>
+          <Trans i18nKey="login.title">Login</Trans>
+        </h1>
         <div className={classesLogin.successDiv}>
           <SuccessMessage success={success} />
         </div>
         <TextField
           className={classesLogin.loginformItems}
-          label="Username"
+          label={<Trans i18nKey="login.username">username</Trans>}
           type="text"
           value={username}
           required
           variant="outlined"
           onChange={(e) => setUsername(e.target.value)}
-        />
+        ></TextField>
         <FormControl className={classesLogin.loginformItems} required variant="outlined">
-          <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+          <InputLabel htmlFor="outlined-adornment-password">
+            <Trans i18nKey="login.password">Password</Trans>
+          </InputLabel>
           <OutlinedInput
             labelWidth={80}
             id="outlined-adornment-password"
-            type={values.showPassword ? 'text' : 'password'}
+            type={values.showPassword ? "text" : "password"}
             value={password}
             required
             onChange={(event) => setPassword(event.target.value)}
@@ -90,27 +92,27 @@ const Login = () => {
         <div className="field">
           <p className={classesLogin.alignLeftDiv}>
             <a href="/forgotpassword" className={classesLogin.link}>
-              Forgot password?
+              <Trans i18nKey="login.forgotPassword">Forgot password?</Trans>
             </a>
           </p>
         </div>
         <FormErrors error={error} />
-
         <Button
           variant="contained"
           type="submit"
           onClick={onSubmit}
           className={`${classes.buttonStyle2} ${classes.buttonStyle3} ${classesLogin.loginButton}`}
         >
-          Login
+          <Trans i18nKey="login.button">Login</Trans>
         </Button>
-
         <div className="field">
           <p className="control">
-            Don't have an account?
-            <a href="/register" className={classesLogin.link}>
-              Register here
-            </a>
+            <Trans i18nKey="login.registerLink">
+              Don't have an account?
+              <a href="/register" className={classesLogin.link}>
+                Register here
+              </a>
+            </Trans>
           </p>
         </div>
       </FormGroup>

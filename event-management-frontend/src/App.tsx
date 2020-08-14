@@ -1,15 +1,17 @@
-import React from 'react';
-import './App.css';
-import Login from './components/Login';
-import Amplify from 'aws-amplify';
-import config from './configure';
-import { Switch, Route, Redirect } from 'react-router-dom';
-import ForgotPassword from './components/ForgotPassword';
-import ForgotPasswordVerification from './components/ForgotPasswordVerification';
-import ChangePasswordConfirm from './components/ChangePasswordConfirm';
-import themeDark from './styles/theme';
-import { ThemeProvider } from '@material-ui/core';
-import RegistrationPage from './components/RegistrationPage';
+import React, { Suspense } from "react";
+import "./App.css";
+import Amplify from "aws-amplify";
+import config from "./config";
+import themeDark from "./styles/theme";
+import { ThemeProvider } from "@material-ui/core";
+import AuthWrapper from "./components/AuthWrapper";
+
+// loading component for suspense fallback
+const Loader = () => (
+  <div className="App">
+    <div>loading...</div>
+  </div>
+);
 
 Amplify.configure({
   Auth: {
@@ -23,18 +25,11 @@ Amplify.configure({
 function App() {
   return (
     <div className="App">
-      <ThemeProvider theme={themeDark}>
-        <Switch>
-          <Route exact path="/">
-            <Redirect to="/login" />
-          </Route>
-          <Route path="/login" component={Login}></Route>
-          <Route path="/forgotpassword" component={ForgotPassword}></Route>
-          <Route path="/forgotpasswordverification" component={ForgotPasswordVerification}></Route>
-          <Route path="/changepasswordconfirmation" component={ChangePasswordConfirm}></Route>
-          <Route path="/register" component={RegistrationPage}></Route>
-        </Switch>
-      </ThemeProvider>
+      <Suspense fallback={<Loader />}>
+        <ThemeProvider theme={themeDark}>
+          <AuthWrapper />
+        </ThemeProvider>
+      </Suspense>
     </div>
   );
 }

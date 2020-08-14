@@ -1,37 +1,44 @@
-import React, { useState } from 'react';
-import { Auth } from 'aws-amplify';
-import { FormGroup, TextField, Button } from '@material-ui/core';
-import useStylesLogin from '../styles/loginStyle';
-import { useStyles } from '../styles/CommonStyles';
-import { useHistory } from 'react-router-dom';
-import { validateEmail } from '../validation/LoginValidation';
-import { FormErrors } from './FormErrors';
+import React, { useState } from "react";
+import { Auth } from "aws-amplify";
+import { FormGroup, TextField, Button } from "@material-ui/core";
+import useStylesLogin from "../styles/loginStyle";
+import { useStyles } from "../styles/CommonStyles";
+import { useHistory } from "react-router-dom";
+import { validateEmail, displayErrorMessage } from "../validation/LoginValidation";
+import { FormErrors } from "./FormErrors";
+import { Trans } from "react-i18next";
 
 const ForgotPassword = () => {
-  const [email, setEmail] = useState('');
-  const [emailError, setEmailError] = useState('');
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
   const classesLogin = useStylesLogin();
   const classes = useStyles();
   const history = useHistory();
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
-  const onSubmit = async () => {
+  const onSubmit = async (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+    if (validateEmail(email, emailError, setEmailError)) {
+      return;
+    }
     try {
       await Auth.forgotPassword(email);
-      history.push('/forgotpasswordverification');
+      history.push("/forgotpasswordverification");
     } catch (error) {
-      setError(error.message);
+      displayErrorMessage(<Trans i18nKey="forgotPassword.errorMessage">Enter your email address.</Trans>, setError);
     }
   };
-  if (validateEmail(email) && emailError === '') {
-    setEmailError('Enter a valid email address');
-  }
   return (
-    <div className={classesLogin.root}>
+    <div className={`${classesLogin.root} forgotPasswordResponsive`}>
       <FormGroup>
-        <h1 className={classes.typography}>Forgot your password?</h1>
-        <p>Please enter the email address associated with your account and we'll email you a password reset link.</p>
-
+        <h1 className={classes.typography}>
+          <Trans i18nKey="forgotPassword.title">Forgot your password?</Trans>
+        </h1>
+        <p>
+          <Trans i18nKey="forgotPassword.message">
+            Please enter the email address associated with your account and we'll email you a password reset link.
+          </Trans>
+        </p>
         <TextField
           className={classesLogin.loginformItems}
           label="Email"
@@ -40,10 +47,10 @@ const ForgotPassword = () => {
           required
           variant="outlined"
           helperText={emailError}
-          error={emailError !== '' || validateEmail(email)}
+          error={emailError !== "" || validateEmail(email, emailError, setEmailError)}
           onChange={(e) => {
             setEmail(e.target.value);
-            setEmailError('');
+            setEmailError("");
           }}
         />
         <FormErrors error={error} />
@@ -53,7 +60,7 @@ const ForgotPassword = () => {
           onClick={onSubmit}
           className={`${classes.buttonStyle2} ${classes.buttonStyle3} ${classesLogin.loginButton}`}
         >
-          Submit
+          <Trans i18nKey="forgotPassword.button">Submit</Trans>
         </Button>
       </FormGroup>
     </div>
