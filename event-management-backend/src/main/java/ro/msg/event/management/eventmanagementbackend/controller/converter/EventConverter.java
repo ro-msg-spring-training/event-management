@@ -34,7 +34,7 @@ public class EventConverter implements Converter<Event, EventDto> {
                 .startHour(event.getStartHour())
                 .endHour(event.getEndHour())
                 .creator(event.getCreator())
-                .pictureURL(picturesUrl)
+                .picturesUrlSave(picturesUrl)
                 .build();
     }
 }

@@ -41,7 +41,9 @@ public class EventDto {
 
     private String creator;
 
-    private List<String> pictureURL;
+    private long location;
 
-    private List<Long> subLocation;
+    private List<String> picturesUrlSave;
+
+    private List<String> picturesUrlDelete;
 }

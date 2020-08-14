@@ -29,10 +29,10 @@ public class EventReverseConverter implements Converter<EventDto, Event> {
                 .endHour(eventDTO.getEndHour())
                 .build();
 
-        if (eventDTO.getPictureURL() != null) {
+        if (eventDTO.getPicturesUrlSave() != null) {
             List<Picture> pictures = new ArrayList<>();
 
-            for (String urlPicture : eventDTO.getPictureURL()) {
+            for (String urlPicture : eventDTO.getPicturesUrlSave()) {
                 Picture picture = new Picture();
 
                 picture.setUrl(urlPicture);

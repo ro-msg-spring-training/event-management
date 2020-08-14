@@ -1,7 +1,6 @@
 package ro.msg.event.management.eventmanagementbackend.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ro.msg.event.management.eventmanagementbackend.comparator.EventViewDateComparator;
 import ro.msg.event.management.eventmanagementbackend.comparator.EventViewHourComparator;
@@ -11,16 +10,17 @@ import ro.msg.event.management.eventmanagementbackend.entity.EventSublocation;
 import ro.msg.event.management.eventmanagementbackend.entity.Sublocation;
 import ro.msg.event.management.eventmanagementbackend.entity.view.EventView;
 import ro.msg.event.management.eventmanagementbackend.repository.EventRepository;
+import ro.msg.event.management.eventmanagementbackend.repository.PictureRepository;
 import ro.msg.event.management.eventmanagementbackend.repository.SublocationRepository;
 import ro.msg.event.management.eventmanagementbackend.utils.ComparisonSign;
 import ro.msg.event.management.eventmanagementbackend.utils.SortCriteria;
+import ro.msg.event.management.eventmanagementbackend.utils.TimeValidation;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
-import javax.persistence.metamodel.EntityType;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -29,11 +29,11 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class EventService {
 
     private final EventRepository eventRepository;
     private final SublocationRepository sublocationRepository;
+    private final PictureRepository pictureRepository;
 
     @PersistenceContext(type = PersistenceContextType.TRANSACTION)
     private final EntityManager entityManager;
@@ -44,6 +44,8 @@ public class EventService {
         LocalDate endDate = event.getEndDate();
         LocalTime startHour = event.getStartHour();
         LocalTime endHour = event.getEndHour();
+
+        TimeValidation.validateTime(startDate, endDate, startHour, endHour);
 
         boolean validSublocations = true;
         int sumCapacity = 0;
@@ -69,9 +71,14 @@ public class EventService {
     }
 
     @Transactional
-    public Event updateEvent(Event event) throws OverlappingEventsException, ExceededCapacityException {
+    public Event updateEvent(Event event, List<String> picturesUrlDelete) throws OverlappingEventsException, ExceededCapacityException {
         Optional<Event> eventOptional;
         eventOptional = eventRepository.findById(event.getId());
+
+        for(String url : picturesUrlDelete)
+        {
+            pictureRepository.deleteByUrl(url);
+        }
 
         if (eventOptional.isPresent()) {
             Event eventFromDB = eventOptional.get();
@@ -80,6 +87,8 @@ public class EventService {
             LocalDate endDate = event.getEndDate();
             LocalTime startHour = event.getStartHour();
             LocalTime endHour = event.getEndHour();
+
+            TimeValidation.validateTime(startDate, endDate, startHour, endHour);
 
             boolean validSublocation = true;
             int sumCapacity = 0;
@@ -218,6 +227,10 @@ public class EventService {
     }
 
     public List<EventView> filterAndPaginate(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople, int pageNumber, int eventPerPage) {
+        if(pageNumber < 1)
+        {
+            throw new IndexOutOfBoundsException("Invalid page number");
+        }
         TypedQuery<EventView> typedQuery = filter(title, subtitle, status, highlighted, location, startDate, endDate, startHour, endHour, rateSign, rate, maxPeopleSign, maxPeople);
         int offset = (pageNumber - 1) * eventPerPage;
         typedQuery.setFirstResult(offset);
@@ -226,6 +239,10 @@ public class EventService {
     }
 
     public List<EventView> filterAndOrder(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople, int pageNumber, int eventPerPage, SortCriteria sortCriteria, Boolean sortType) {
+        if(pageNumber < 1)
+        {
+            throw new IndexOutOfBoundsException("Invalid page number");
+        }
         TypedQuery<EventView> typedQuery = filter(title, subtitle, status, highlighted, location, startDate, endDate, startHour, endHour, rateSign, rate, maxPeopleSign, maxPeople);
         List<EventView> eventViews = typedQuery.getResultList();
         switch (sortCriteria) {
@@ -249,7 +266,7 @@ public class EventService {
             return eventViews.subList(offset, eventViews.size());
         }
         if (offset + eventPerPage+1 == eventViews.size() || pageNumber <0){
-            return null;
+            return new ArrayList<>();
         }
         return eventViews.subList(offset, offset + eventPerPage);
     }
@@ -257,5 +274,18 @@ public class EventService {
     public int getNumberOfPages(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople, int pageNumber, int eventPerPage) {
         int count = filter(title, subtitle, status, highlighted, location, startDate, endDate, startHour, endHour, rateSign, rate, maxPeopleSign, maxPeople).getResultList().size();
         return count / eventPerPage;
+    }
+
+    public Event getEvent(long id)
+    {
+        Optional<Event> eventOptional = this.eventRepository.findById(id);
+        if(eventOptional.isPresent())
+        {
+            return eventOptional.get();
+        }
+        else
+        {
+            throw new NoSuchElementException("No event with id= " + id);
+        }
     }
 }
