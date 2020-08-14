@@ -26,9 +26,7 @@ public class AWSCognitoJWTAuthenticationFilter extends GenericFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception exception) {
-            log.error("Cognito ID Token processing error", exception);
             SecurityContextHolder.clearContext();
-            throw new InvalidJWTException("Cognito ID token processing error: " + exception.toString());
         }
         filterChain.doFilter(request, response);
     }
