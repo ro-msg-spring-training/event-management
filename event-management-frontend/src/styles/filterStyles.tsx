@@ -5,9 +5,6 @@ export const useFilterStyles = makeStyles({
         paddingTop: '30px',
         paddingBottom: '30px'
     },
-    firstFiltersArea: {
-        paddingBottom: '12px'
-    },
     filterButtonsArea: {
         display: 'flex',
         flexDirection: 'column',
@@ -31,21 +28,11 @@ export const useFilterStyles = makeStyles({
     filterExpandText: {
         cursor: 'pointer',
         fontSize: 12,
-        marginTop: '5px'
+        marginTop: '5px',
     },
     highlightedCheckbox: {
         display: 'flex',
         alignItems: 'center'
-    },
-    extraFilterHeight: {
-        overflow: 'hidden',
-        transition: 'max-height 0.3s',
-        maxHeight: '100%'
-    },
-    extraFilterHeightZero: {
-        overflow: 'hidden',
-        transition: 'max-height 0.3s',
-        maxHeight: 0,
     },
     customDatePickerWidth: {
         '& .react-datepicker-wrapper': {
@@ -53,6 +40,10 @@ export const useFilterStyles = makeStyles({
         },
     },
     datePicker: {
-        width: '100%'
+        width: '100%',
+        zIndex: 200
+    },
+    collapseArea: {
+        paddingTop: '24px'
     }
 }); 

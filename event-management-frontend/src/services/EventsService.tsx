@@ -1,6 +1,6 @@
 import {EventFiltersProps} from "../types/EventFiltersProps";
 import {EventSortProps} from "../types/EventSortProps";
-
+import moment from 'moment'
 const eventsUrl = 'http://localhost:8080/events/filter';
 const mockUrlProducts = 'http://localhost:4000/products';
 
@@ -29,10 +29,10 @@ const computeFilterQueryString = (filters: EventFiltersProps) => {
         filtersToSend['location'] = filters.location
     }
     if (filters.startDate !== null) {
-        filtersToSend['startDate'] = filters.startDate 
+        filtersToSend['startDate'] = moment(filters.startDate ).format("YYYY-MM-DD") 
     }
     if (filters.endDate !== null) {
-        filtersToSend['endDate'] = filters.endDate 
+        filtersToSend['endDate'] = moment(filters.endDate ).format("YYYY-MM-DD") 
     }
     if (filters.rate !== '') {
         filtersToSend['rate'] = filters.rate

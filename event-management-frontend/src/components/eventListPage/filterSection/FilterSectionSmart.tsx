@@ -9,12 +9,14 @@ import { EventFiltersProps } from '../../../types/EventFiltersProps';
 interface Props {
     filters: EventFiltersProps,
     page: number,
+    expanded: boolean,
+    setExpanded: (exp: boolean) => void,
     updateFilters: (filters: EventFiltersProps) => void,
     filterEvents: (filters: EventFiltersProps, page: number) => void,
 }
 
-function FilterSectionSmart({ filters, updateFilters, filterEvents, page }: Props) {
-    const [expanded, setExpanded] = useState(false)
+function FilterSectionSmart({ filters, expanded, setExpanded, updateFilters, filterEvents, page }: Props) {
+    // const [expanded, setExpanded] = useState(false)
     const [errorRate, setErrorRate] = useState('')
     const [errorMaxPeople, setErrorMaxPeople] = useState('')
 
