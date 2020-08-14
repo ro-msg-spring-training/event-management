@@ -87,6 +87,14 @@ const useStyles = makeStyles(theme => ({
   yellow: {
     color: '#F2AE30',
   },
+  active: {
+    color: '#F2AE30',
+    textDecoration: "none"
+  },
+  inactive: {
+    color: '#6BB7D0',
+    textDecoration: "none"
+  },
   buttonBar: {
     [theme.breakpoints.down("xs")]: {
       display: "none"
@@ -97,6 +105,13 @@ const useStyles = makeStyles(theme => ({
     position: "relative",
     width: "100%",
     background: "transparent"
+  },
+  buttonCollapse: {
+    [theme.breakpoints.up("sm")]: {
+      display: "none"
+    },
+    margin: "10px",
+    boxShadow: "none"
   }
 }));
 
