@@ -83,12 +83,13 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, fetc
   const [dialogTitle, setDialogTitle] = useState("Are you sure?");
   const [dialogDescription, setDialogDescription] = useState("By choosing to cancel you will lose the progress");
 
-  // //-------------------
+  // //-------| Overview states |------------
   const [finalEventOverview, setFinalEventOverview] = useState(initialEventOverview);
   const [statusOverview, setStatusOverview] = useState("active");
   const [checkBoxStateOverview, setCheckboxStateOverview] = React.useState({
     highlighted: false,
   });
+  //--------------------------
 
   // const [images, setImages] = useState(undefined);
   // const [,] = useState(undefined);
@@ -174,8 +175,6 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, fetc
       console.log("===== PROBLEM =====");
     }
   };
-
-
 
   let saveEvent = (): void => {
     //TODO instantiaza event-ul mare
