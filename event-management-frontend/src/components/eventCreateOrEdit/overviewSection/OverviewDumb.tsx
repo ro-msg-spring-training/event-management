@@ -59,18 +59,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 }));
 
-// interface IProductBase {
-//   name: string,
-//   category: string,
-//   image: string,
-//   description: string,
-// }
-
-// export interface IProductDetailsReady extends IProductBase {
-//   id: number,
-//   price: number
-// }
-
 interface OverviewDumbProps {
   newEvent: boolean,
   event: EventCrud,
@@ -90,7 +78,6 @@ interface OverviewDumbProps {
   highlighted: boolean,
   handleChangeCheckboxState: any,
   setStatus: any,
-  // handleSubmit: any,
   status: string,
   currDate: string,
   currTime: string,
@@ -102,13 +89,12 @@ function OverviewDumb(props: OverviewDumbProps) {
   return (
     <>
       <Paper className={classes.fundal}>
-        {/* <Typography className={classes.typography}> Overview</Typography> */}
         <Typography className={classes.typography}></Typography>
 
         <Grid container direction="column" justify="center" alignItems="center">
 
           <Grid item container direction="row" justify="center" alignItems="center">
-            <Grid item xl={3} lg={4} sm={8} xs={11}>
+            <Grid item xl={8} lg={4} sm={8} xs={11}>
               <form className={classes.root} autoComplete="off">
                 <TextField
                   onKeyDown={props.handleEnterKey}
@@ -125,7 +111,7 @@ function OverviewDumb(props: OverviewDumbProps) {
               </form>
             </Grid>
 
-            <Grid item xl={3} lg={4} sm={8} xs={11}>
+            <Grid item xl={8} lg={4} sm={8} xs={11}>
               <form className={classes.root} autoComplete="off">
                 <TextField
                   onKeyDown={props.handleEnterKey}
@@ -143,7 +129,7 @@ function OverviewDumb(props: OverviewDumbProps) {
               </form>
             </Grid>
 
-            <Grid item xl={3} lg={4} sm={8} xs={11}>
+            <Grid item xl={8} lg={4} sm={8} xs={11}>
               <form className={classes.root} autoComplete="off">
                 <TextField
                   onKeyDown={props.handleEnterKey}
@@ -188,7 +174,6 @@ function OverviewDumb(props: OverviewDumbProps) {
 
           <Grid item container spacing={2} className={classes.grid} direction="row" justify="center" alignItems="center">
 
-            {/* start */}
             <Grid item container spacing={2} className={classes.grid} direction="row" justify="center" alignItems="center">
               <Grid item xl={2} lg={4} md={5} sm={7} xs={12}>
                 <form className={classes.root} autoComplete="off">
@@ -230,7 +215,6 @@ function OverviewDumb(props: OverviewDumbProps) {
               </Grid>
             </Grid>
 
-            {/* end */}
             <Grid item container spacing={2} className={classes.grid} direction="row" justify="center" alignItems="center">
               <Grid item xl={2} lg={4} md={5} sm={7} xs={12}>
                 <form className={classes.root} autoComplete="off">
@@ -275,7 +259,6 @@ function OverviewDumb(props: OverviewDumbProps) {
 
         </Grid>
 
-        {/* TODO de luat valuarea corecta pt checkbox daca ii vorba de edit */}
         <Grid item container className={classes.grid} direction="row" justify="center" alignItems="center">
           <Grid item xl={1} lg={2} md={2} sm={3} xs={7}>
             <FormControlLabel
@@ -285,7 +268,6 @@ function OverviewDumb(props: OverviewDumbProps) {
             />
           </Grid>
 
-          {/* TODO de luat valoarea corecta pt status daca ii vorba de edit */}
           <Grid item xl={1} lg={2} md={2} sm={3} xs={7}>
             <FormControl className={classes.formControl}>
               <InputLabel>Status</InputLabel>
@@ -301,7 +283,6 @@ function OverviewDumb(props: OverviewDumbProps) {
           </Grid>
 
         </Grid>
-        {/* <Button variant="contained" onClick={props.handleSubmit}> Submit </Button> */}
       </Paper>
     </>
   );

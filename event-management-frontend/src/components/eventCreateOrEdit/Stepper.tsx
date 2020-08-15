@@ -43,7 +43,6 @@ export interface IProductDetailsReady extends IProductBase {
 
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
-  // p={3}
   return (
     <div
       role="tabpanel"
@@ -71,7 +70,6 @@ interface EventProps {
   locationComponent: any,
   ticketsComponent: any,
   imagesComponent: any,
-
 }
 
 function Stepper(props: EventProps) {

@@ -1,4 +1,4 @@
-import React, {  useEffect } from 'react';
+import React, { useEffect } from 'react';
 import OverviewDumb from './OverviewDumb';
 import { EventCrud } from '../../../model/EventCrud';
 
@@ -49,29 +49,50 @@ function OverviewSmart(props: EventProps) {
   const currDate = dateAndTime[0];
   const currTime = dateAndTime[1];
 
+  //TODO
   const updateFields = (): void => {
-    //TODO set new event with old event
     props.setFinalEventOverview({
       ...props.finalEventOverview,
       title: props.event.title,
       subtitle: props.event.subtitle,
       description: props.event.description,
+      startDate: props.event.startDate,
+      endDate: props.event.endDate,
     });
   }
 
-  //TODO get rid of useEffect warning
-  //----------------------------------------------if we come from /users/:id => first instantiate the event 
+  const updateDateAndTime = (): void => {
+    props.setFinalEventOverview((prevEvent: any) => {
+      let newEvent = Object.assign({}, prevEvent);
+      newEvent.startDate = currDate;
+      newEvent.endDate = currDate;
+      newEvent.startTime = currTime;
+      newEvent.endTime = currTime;
+      return newEvent;
+    });
+  }
+
   useEffect(() => {
-    if (props.newEvent === false) updateFields();
+    props.newEvent === false ? updateFields() : updateDateAndTime()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleChangeCheckboxState = (event: React.ChangeEvent<HTMLInputElement>) => {
     props.setCheckboxStateOverview({ ...props.checkBoxStateOverview, [event.target.name]: event.target.checked });
   };
 
-  const compareDates = function (date1: Date, date2: Date) {
+  const compareDates = (date_1: string, date_2: string): number => {
+    let date1 = new Date(date_1);
+    let date2 = new Date(date_2);
+
     if (date1 > date2) return 1;
     else if (date1 < date2) return -1;
+    else return 0;
+  }
+
+  const compareTimes = (time1: string, time2: string): number => {
+    if (time1 > time2) return 1;
+    else if (time1 < time2) return -1;
     else return 0;
   }
 
@@ -79,7 +100,6 @@ function OverviewSmart(props: EventProps) {
     e.preventDefault();
     const { name, value } = e.target;
 
-    // TODO asta modifica field-urile din event, trebe facut pt toate care nu sunt in errorForms
     props.setFinalEventOverview((prevEvent: any) => {
       let newEvent = Object.assign({}, prevEvent);
       switch (name) {
@@ -116,40 +136,149 @@ function OverviewSmart(props: EventProps) {
 
     let formErrors = { ...props.finalEventOverview.formErrors };
 
-    let startDate = new Date(props.finalEventOverview.startDate);
-    let endDate = new Date(props.finalEventOverview.endDate);
+    let startDate = props.finalEventOverview.startDate;
+    let endDate = props.finalEventOverview.endDate;
+    let startTime = props.finalEventOverview.startTime;
+    let endTime = props.finalEventOverview.endTime;
 
     switch (name) {
       case "title":
         formErrors.title =
           value.length < 3 ? "minimum 3 characters required" : "";
         break;
+      
       case "subtitle":
         formErrors.subtitle =
           value.length < 3 ? "minimum 3 characters required" : "";
         break;
+      
       case "description":
         formErrors.description =
           value.length < 3 ? "minimum 3 characters required" : "";
         break;
+      
       case "startDate":
-        let start = new Date(value);
-        formErrors.startDate = compareDates(new Date(currDate), start) === 1 ? "start date must be in the future" : ""
+        formErrors.startDate = ""
+        formErrors.endDate = ""
+        formErrors.startTime = ""
+        formErrors.endTime = ""
+
+        formErrors.startDate =
+          (compareDates(value, currDate) === -1) ?
+            ("the first day of the event can't be in the past") :
+            (compareDates(value, endDate) === 1 ?
+              "the first day of the event can't be after the last" : "")
+
+        formErrors.startTime =
+          (compareDates(value, endDate) === 0) ?
+            (
+              (compareTimes(startTime, endTime) !== -1) ?
+                ("if it is a one day event, you must choose the start time to be earlier than the end time") : ""
+            ) : ""
+
+        formErrors.endTime =
+          (compareDates(value, endDate) === 0) ?
+            (
+              (compareTimes(startTime, endTime) !== -1) ?
+                ("if it is a one day event, you must choose the end time to be earlier than the start time") : ""
+            ) : ""
+
         break;
+      
       case "endDate":
-        let end = new Date(value);
-        formErrors.endDate = compareDates(end, startDate) === -1 ? "end date must be after start date" : ""
+        formErrors.startDate = ""
+        formErrors.endDate = ""
+        formErrors.startTime = ""
+        formErrors.endTime = ""
+
+        formErrors.endDate =
+          (compareDates(startDate, value) === 1) ?
+            ("the last day of the event can't be before the first") : ""
+
+        formErrors.startDate =
+          (compareDates(startDate, currDate) === -1) ?
+            ("the first day of the event can't be in the past") :
+            (compareDates(startDate, value) === 1 ?
+              "the first day of the event can't be after the last" : "")
+
+        formErrors.startTime =
+          (compareDates(startDate, value) === 0) ?
+            (
+              (compareTimes(startTime, endTime) !== -1) ?
+                ("if it is a one day event, you must choose the start time to be earlier than the end time") : ""
+            ) : ""
+
+        formErrors.endTime =
+          (compareDates(startDate, value) === 0) ?
+            (
+              (compareTimes(startTime, endTime) !== -1) ?
+                ("if it is a one day event, you must choose the end time to be earlier than the start time") : ""
+            ) : ""
+
         break;
+      
       case "startTime":
-        formErrors.startTime = compareDates(startDate, endDate) === 0 ? "if the event takes place in a single day, you need to select the end time after start time" : ""
+        formErrors.startDate = ""
+        formErrors.endDate = ""
+        formErrors.startTime = ""
+        formErrors.endTime = ""
+
+        formErrors.startTime =
+          (compareDates(startDate, endDate) === 0) ?
+            (
+              (compareTimes(value, endTime) !== -1) ?
+                ("if it is a one day event, you must choose the start time to be earlier than the end time") : ""
+            ) : ""
+
+        formErrors.startDate =
+          (compareDates(startDate, currDate) === -1) ?
+            ("the first day of the event can't be in the past") :
+            (compareDates(startDate, endDate) === 1 ?
+              "the first day of the event can't be after the last" : "")
+
+        formErrors.endTime =
+          (compareDates(startDate, endDate) === 0) ?
+            (
+              (compareTimes(value, endTime) !== -1) ?
+                ("if it is a one day event, you must choose the end time to be earlier than the start time") : ""
+            ) : ""
+
         break;
+      
       case "endTime":
-        formErrors.endTime = compareDates(startDate, endDate) === 0 ? "if the event takes place in a single day, you need to select the end time after start time" : ""
+        formErrors.startDate = ""
+        formErrors.endDate = ""
+        formErrors.startTime = ""
+        formErrors.endTime = ""
+
+        formErrors.endTime =
+          (compareDates(startDate, endDate) === 0) ?
+            (
+              (compareTimes(startTime, value) !== -1) ?
+                ("if it is a one day event, you must choose the end time to be earlier than the start time") : ""
+            ) : ""
+
+        formErrors.startDate =
+          (compareDates(startDate, currDate) === -1) ?
+            ("the first day of the event can't be in the past") :
+            (compareDates(startDate, endDate) === 1 ?
+              "the first day of the event can't be after the last" : "")
+
+        formErrors.startTime =
+          (compareDates(startDate, endDate) === 0) ?
+            (
+              (compareTimes(startTime, value) !== -1) ?
+                ("if it is a one day event, you must choose the start time to be earlier than the end time") : ""
+            ) : ""
+
         break;
+      
       case "maxPeople":
         formErrors.maxPeople =
           Number(value) < 2 ? "minimum of 2 people required" : "";
         break;
+      
+      
       default:
         break;
     }
@@ -160,15 +289,9 @@ function OverviewSmart(props: EventProps) {
       return newEvent;
     });
 
-    console.log(props.finalEventOverview.formErrors)
   };
 
-  const handleEnterKey = (e: any): void => {
-    if (e.keyCode === 13) {
-      e.preventDefault();
-      console.log("ENTER");
-    }
-  }
+  const handleEnterKey = (e: any): void => { e.keyCode === 13 && e.preventDefault(); }
 
   //TODO get rid of all console.logs
   return (
@@ -183,7 +306,6 @@ function OverviewSmart(props: EventProps) {
         highlighted={props.checkBoxStateOverview.highlighted}
         handleChangeCheckboxState={handleChangeCheckboxState}
         setStatus={props.setStatusOverview}
-        // handleSubmit={handleSubmit}
         status={props.statusOverview}
         currDate={currDate}
         currTime={currTime}

@@ -54,7 +54,7 @@ interface Props {
   },
 }
 
-const initialEvent = {
+const initialEventOverview = {
   title: "",
   subtitle: "",
   description: "",
@@ -84,7 +84,7 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, fetc
   const [dialogDescription, setDialogDescription] = useState("By choosing to cancel you will lose the progress");
 
   // //-------------------
-  const [finalEventOverview, setFinalEventOverview] = useState(initialEvent);
+  const [finalEventOverview, setFinalEventOverview] = useState(initialEventOverview);
   const [statusOverview, setStatusOverview] = useState("active");
   const [checkBoxStateOverview, setCheckboxStateOverview] = React.useState({
     highlighted: false,
@@ -95,25 +95,26 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, fetc
   // //-------------------
 
   useEffect(() => {//called once when component mountes and once when it unmounts
-    newEvent === false ? fetchEventF(match.params.id) : console.log("new");
+    newEvent === false && fetchEventF(match.params.id)
   }, [fetchEventF, match.params.id, newEvent])
 
+  const verifyDateAndTimePeriods = (): void => {
+    if (new Date(finalEventOverview.startDate) === new Date(finalEventOverview.endDate)) {
+      if (finalEventOverview.startTime >= finalEventOverview.endTime) {
+        setMsgUndo("Try again");
+        setDialogTitle("Error");
+        setDialogDescription("The time period is not properly selected.\n If the event takes place in a single day, start time must be before end time.");
+        setOpen(true);
+      }
+    } else if (new Date(finalEventOverview.startDate) > new Date(finalEventOverview.endDate)) {
+      setMsgUndo("Try again");
+      setDialogTitle("Error");
+      setDialogDescription("The date period is not properly selected.\n Start date must be before end date.");
+      setOpen(true);
+    }
+  }
 
-  const formValid = () => {
-
-    //------------------------------------------------make sure that there are no error messages
-    if ((
-      finalEventOverview.title.length === 0 ||
-      finalEventOverview.subtitle.length === 0 ||
-      finalEventOverview.description.length === 0 ||
-      finalEventOverview.startDate.length === 0 ||
-      finalEventOverview.startTime.length === 0 ||
-      finalEventOverview.endDate.length === 0 ||
-      finalEventOverview.endTime.length === 0 ||
-      finalEventOverview.maxPeople < 2) && newEvent
-    ) { console.log("error null field"); return false; }
-
-    //---------------------------------------make sure that, for new Event there are no null fields
+  const verifyErrorMessages = (): void => {
     if (
       finalEventOverview.formErrors.title.length > 0 ||
       finalEventOverview.formErrors.subtitle.length > 0 ||
@@ -123,17 +124,40 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, fetc
       finalEventOverview.formErrors.startTime.length > 0 ||
       finalEventOverview.formErrors.endTime.length > 0 ||
       finalEventOverview.formErrors.maxPeople.length > 0
-    ) { console.log("error msg"); return false; }
+    ) {
+      setMsgUndo("I understand");
+      setDialogTitle("Error");
+      setDialogDescription("There are fields that have not been filled correctly. In order to move forward, please offer a valid input.");
+      setOpen(true);
+    }
+  }
 
-    console.log("event to be submitted:");
-    console.log(finalEventOverview);
+  const verifyNullFields = (): void => {
+    if ((
+      finalEventOverview.title.length === 0 ||
+      finalEventOverview.subtitle.length === 0 ||
+      finalEventOverview.description.length === 0 ||
+      (
+        finalEventOverview.startDate === finalEventOverview.endDate &&
+        finalEventOverview.startTime === finalEventOverview.endTime
+      ) ||
+      finalEventOverview.maxPeople === 0) && newEvent
+    ) {
+      setMsgUndo("I understand");
+      setDialogTitle("Error");
+      setDialogDescription("There are still fields that have not yet been filled. In order to move forward, please finish the form.");
+      setOpen(true);
+    }
+  }
 
+  const formValid = () => {
+    verifyDateAndTimePeriods();
+    verifyErrorMessages();
+    verifyNullFields();
     return true;
   };
 
   const handleSaveOverviewEvent = (): void => {
-    // e.preventDefault();
-
     if (formValid()) {
       console.log(`
         --SUBMITTING--
@@ -142,23 +166,24 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, fetc
         status: ${statusOverview}
         startDate: ${finalEventOverview.startDate}
         startTime: ${finalEventOverview.startTime}
+        endTime: ${finalEventOverview.endTime}
         maxPeople: ${finalEventOverview.maxPeople}
         highlighted: ${checkBoxStateOverview.highlighted}
       `);
     } else {
-      // console.error("FORM INVALID - DISPLAY ERROR MESSAGE");
-      setMsgUndo("I understand");
-      setDialogTitle("Error");
-      setDialogDescription("There are still fields that have not yet been filled. In order to move forward you need to finish the form.");
-      setOpen(true);
+      console.log("===== PROBLEM =====");
     }
   };
 
 
 
   let saveEvent = (): void => {
+    //TODO instantiaza event-ul mare
+    //TODO verifica daca e save pentru NEW Product sau save pentru EDIT Product => poti in EvendDetails la save sa verifici cu newEvent
+    //TODO fa request ca sa primesti url-urile unde vor fi stocate imaginile------!!!!!!!
+
     handleSaveOverviewEvent();
-    console.log("save");
+    console.log("saved");
     console.log(statusOverview);
     console.log(checkBoxStateOverview.highlighted);
     // history.push('/');
@@ -167,7 +192,6 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, fetc
   let deleteEvent = (): void => {
 
     if (newEvent === true) {
-      console.log("popup");
       setMsgUndo("Take me back");
       setDialogTitle("Are you sure?");
       setDialogDescription("By choosing to cancel you will lose the progress");
