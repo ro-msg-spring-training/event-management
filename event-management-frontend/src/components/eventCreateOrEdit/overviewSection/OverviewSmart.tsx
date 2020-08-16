@@ -23,11 +23,7 @@ interface EventObjectProps {
   }
 }
 
-interface CheckboxProps {
-  highlighted: boolean
-}
-
-interface EventProps {
+interface OverviewSmartProps {
   newEvent: boolean,
   event: EventCrud,
   admin: boolean,
@@ -35,7 +31,7 @@ interface EventProps {
   setFinalEventOverview: any,
   statusOverview: string,
   setStatusOverview: any,
-  checkBoxStateOverview: CheckboxProps,
+  checkBoxStateOverview: boolean,
   setCheckboxStateOverview: any,
   setOpen: any,
   setMsgUndo: any,
@@ -43,23 +39,13 @@ interface EventProps {
   setDialogDescription: any,
 }
 
-function OverviewSmart(props: EventProps) {
+function OverviewSmart(props: OverviewSmartProps) {
   let today = new Date(new Date().toString().split('GMT')[0] + ' UTC').toISOString().split('.')[0]
   const dateAndTime = today.split("T");
   const currDate = dateAndTime[0];
   const currTime = dateAndTime[1];
 
-  //TODO
-  const updateFields = (): void => {
-    props.setFinalEventOverview({
-      ...props.finalEventOverview,
-      title: props.event.title,
-      subtitle: props.event.subtitle,
-      description: props.event.description,
-      startDate: props.event.startDate,
-      endDate: props.event.endDate,
-    });
-  }
+  const updateFields = (): void => { props.setFinalEventOverview(props.event) }
 
   const updateDateAndTime = (): void => {
     props.setFinalEventOverview((prevEvent: any) => {
@@ -78,7 +64,7 @@ function OverviewSmart(props: EventProps) {
   }, [])
 
   const handleChangeCheckboxState = (event: React.ChangeEvent<HTMLInputElement>) => {
-    props.setCheckboxStateOverview({ ...props.checkBoxStateOverview, [event.target.name]: event.target.checked });
+    props.setCheckboxStateOverview(event.target.checked );
   };
 
   const compareDates = (date_1: string, date_2: string): number => {
@@ -303,7 +289,7 @@ function OverviewSmart(props: EventProps) {
         handleEnterKey={handleEnterKey}
         handleChange={handleChange}
         formErrors={props.finalEventOverview.formErrors}
-        highlighted={props.checkBoxStateOverview.highlighted}
+        highlighted={props.checkBoxStateOverview}
         handleChangeCheckboxState={handleChangeCheckboxState}
         setStatus={props.setStatusOverview}
         status={props.statusOverview}
