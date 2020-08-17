@@ -10,7 +10,7 @@ import {
 } from "../actions/EventsPageActions"
 import { MathRelation } from "../model/MathRelation"
 import { EventFilters } from "../model/EventFilters";
-import { EventSortProps } from "../model/EventSort";
+import { EventSort } from "../model/EventSort";
 import {fetchSortedEvents, changePage } from "../services/EventsService";
 
 
@@ -19,7 +19,7 @@ export interface EventsPageState {
     allEvents: [],
     isLoading: boolean,
     isError: boolean,
-    eventsSort: EventSortProps,
+    eventsSort: EventSort,
     page: number
 }
 

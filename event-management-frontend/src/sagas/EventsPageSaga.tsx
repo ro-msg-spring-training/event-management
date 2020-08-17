@@ -12,7 +12,7 @@ import {
 import { takeLatest, takeEvery, put } from "redux-saga/effects";
 import { EventFilters } from "../model/EventFilters";
 import { fetchEvents, fetchFilteredEvents } from "../services/EventsService";
-import { EventSortProps } from "../model/EventSort";
+import { EventSort } from "../model/EventSort";
 
 
 interface FilterEventsProps {
@@ -22,7 +22,7 @@ interface FilterEventsProps {
 
 interface SortEventsProps {
     type: string,
-    payload: EventSortProps
+    payload: EventSort
 }
 
 const delay = (ms: number) => new Promise(res => setTimeout(res, ms))

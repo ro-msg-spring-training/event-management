@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { fetchAllEvents } from '../../../actions/EventsPageActions'
 import { AppState } from "../../../store/store";
 import EventListDumb from "./EventListDumb";
-import { EventSortProps } from "../../../model/EventSort";
+import { EventSort } from "../../../model/EventSort";
 import { sortEvents, prevPage, nextPage } from "../../../actions/EventsPageActions";
 import { EventFilters } from "../../../model/EventFilters";
 import {CircularProgress, Grid} from "@material-ui/core";
@@ -14,15 +14,15 @@ import EventDetailsMobileDumb from "./EventDetailsMobileDumb";
 
 interface Props {
     events: { Event: any; }[];
-    eventsSort: EventSortProps;
+    eventsSort: EventSort;
     filters: EventFilters;
     isLoading: boolean;
     isError: boolean;
     fetchAllEvents: () => { type: string; };
-    sortEvents: (sort: EventSortProps, page: number) => void;
+    sortEvents: (sort: EventSort, page: number) => void;
     page: number;
-    prevPage: (filters: EventFilters, sort: EventSortProps) => void;
-    nextPage: (filters: EventFilters, sort: EventSortProps) => void;
+    prevPage: (filters: EventFilters, sort: EventSort) => void;
+    nextPage: (filters: EventFilters, sort: EventSort) => void;
 }
 
 interface State {
@@ -66,7 +66,7 @@ class EventListSmart extends React.Component<Props, State> {
         const lastPageFromServer = 5;
 
         const handleSortEvent = (criteria: string, type: string) => {
-            const sortParams: EventSortProps = {
+            const sortParams: EventSort = {
                 criteria: criteria,
                 type: type
             }

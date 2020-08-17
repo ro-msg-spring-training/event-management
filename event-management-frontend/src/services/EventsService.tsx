@@ -1,10 +1,10 @@
 import {EventFilters} from "../model/EventFilters";
-import {EventSortProps} from "../model/EventSort";
+import {EventSort} from "../model/EventSort";
 import moment from 'moment'
 const eventsUrl = 'http://localhost:8080/events/filter';
 const mockUrlProducts = 'http://localhost:4000/products';
 
-const computeSortQueryString = (sort: EventSortProps) => {
+const computeSortQueryString = (sort: EventSort) => {
     let sortToSend: any = {}
 
     sortToSend['sortCriteria'] = sort.criteria === "occRate" ? "OCCUPANCY_RATE" : sort.criteria.toUpperCase();
@@ -63,7 +63,7 @@ export const fetchFilteredEvents = (filters: EventFilters, page: number) => {
 }
 
 
-export const fetchSortedEvents = (sort: EventSortProps, filters: EventFilters, page: number) => {
+export const fetchSortedEvents = (sort: EventSort, filters: EventFilters, page: number) => {
     const filtersToSend = computeFilterQueryString(filters)
     const sortToSend = computeSortQueryString(sort)
     const url = new URL(eventsUrl + "/sort/" + page + "?")
@@ -83,7 +83,7 @@ export const fetchEvents = () => {
         .then(response => response.json());
 }
 
-export const changePage = (filters: EventFilters, sort: EventSortProps, page: number) => {
+export const changePage = (filters: EventFilters, sort: EventSort, page: number) => {
     const filtersToSend = computeFilterQueryString(filters)
     const sortToSend = computeSortQueryString(sort)
 

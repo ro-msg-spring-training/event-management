@@ -1,5 +1,5 @@
 import { EventFilters } from "../model/EventFilters"
-import {EventSortProps} from "../model/EventSort";
+import {EventSort} from "../model/EventSort";
 
 export const UPDATE_FILTERS = "UPDATE_FILTERS"
 export const FILTER_EVENTS = "FILTER_EVENTS"
@@ -13,7 +13,7 @@ export const SORT_EVENTS = 'SORT_EVENTS'
 export const PREV_PAGE = 'PREV_PAGE'
 export const NEXT_PAGE = 'NEXT_PAGE'
 
-export const prevPage = (filters: EventFilters, sort: EventSortProps) => {
+export const prevPage = (filters: EventFilters, sort: EventSort) => {
     return {
         type: PREV_PAGE,
         payload: filters,
@@ -21,7 +21,7 @@ export const prevPage = (filters: EventFilters, sort: EventSortProps) => {
     }
 }
 
-export const nextPage = (filters: EventFilters, sort: EventSortProps) => {
+export const nextPage = (filters: EventFilters, sort: EventSort) => {
     return {
         type: NEXT_PAGE,
         payload: filters,
@@ -57,7 +57,7 @@ export const filterEventsError = () => {
     }
 }
 
-export const sortEvents = (sort: EventSortProps, page: number) => {
+export const sortEvents = (sort: EventSort, page: number) => {
     return {
         type: SORT_EVENTS,
         payload: sort,

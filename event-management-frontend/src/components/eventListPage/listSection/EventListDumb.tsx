@@ -10,7 +10,7 @@ import TableRow from '@material-ui/core/TableRow';
 import { Link } from "react-router-dom";
 import FilterSectionSmart from "../filterSection/FilterSectionSmart";
 import { useStyles } from '../../../styles/CommonStyles';
-import { EventSortProps } from "../../../model/EventSort";
+import { EventSort } from "../../../model/EventSort";
 import { useTranslation } from "react-i18next";
 import { useScrollPosition } from '@n8tb1t/use-scroll-position'
 import { useListStyles } from '../../../styles/eventListStyles';
@@ -35,7 +35,7 @@ const PaginationCell = withStyles((theme: Theme) =>
 )(TableCell);
 
 interface Props {
-    sort: EventSortProps;
+    sort: EventSort;
     eventsDetails: any[];
     eventsDetailsMobile: any[];
     handleSortEvent: (criteria: string, type: string) => void;
@@ -130,16 +130,13 @@ const EventListDumb = (props: Props) => {
     if (width <= 600) {
         return (
             <TableContainer component={Paper}>
-                <div
-                    className={classes.stickyArea}
-                    ref={stickyDiv}>
 
                     <Link to={`/newEvent`} style={{ textDecoration: 'none' }}>
                         <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3} ${commonClasses.buttonStyle4}`}>{t("eventList.createNewEventButton")}</Button>
                     </Link>
 
                     <FilterSectionSmart expanded={expanded} setExpanded={setExpanded} />
-                </div>
+
 
                 <Table aria-label="customized table" className={commonClasses.left}>
                     <TableHead>
