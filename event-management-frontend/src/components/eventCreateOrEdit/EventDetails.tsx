@@ -30,18 +30,6 @@ const event: EventCrud = {
   maxNoTicketsPerUser: 0,
 }
 
-interface IProductBase {
-  name: string,
-  category: string,
-  image: string,
-  description: string,
-}
-
-export interface IProductDetailsReady extends IProductBase {
-  id: number,
-  price: number
-}
-
 interface Props {
   match: any,
   admin: boolean,

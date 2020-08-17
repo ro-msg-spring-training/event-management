@@ -37,12 +37,13 @@ const useStyles = makeStyles((theme: Theme) => ({
     // width: "91vw",
     // height: "100vh",
     // width: window.outerWidth,
-    // height: (window.innerHeight), //70 is height of header
+    // height: (window.innerHeight - 70), //70 is height of header
+    
     padding: "3.9%",
     display: "flex",
     flexWrap: "wrap",
+
     // height: "100%",
-    // overflow: "hidden",
     // minHeight: "93.5vh",
     backgroundColor: theme.palette.background.default,
   },
