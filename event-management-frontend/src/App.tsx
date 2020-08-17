@@ -21,7 +21,8 @@ Amplify.configure({
   },
 });
 
-function App() {
+// This component will be rendered by our <Router>
+const App = () => {
   return (
     <div className="App">
       <Suspense fallback={<Loader />}>
@@ -31,4 +32,4 @@ function App() {
   );
 }
 
-export default App;
+export default App

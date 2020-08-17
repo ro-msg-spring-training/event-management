@@ -1,62 +1,88 @@
 {
-  "login": {
-    "title": "Login",
-    "forgotPassword": "Forgot password?",
-    "button": "Login",
-    "registerLink": "Don't have an account? <1>Register here</1>",
-    "username": "Username",
-    "password": "Password",
-    "successMessage": "Succesful login",
-    "passwordError": " Requirements: min. 8 characters, an uppercase letter and a number.",
-    "emailError": "Enter a valid email address!",
-    "errorMessage": "Incorrect username or password."
-  },
-
-  "messages": {
-    "loginSuccess": "Succesful login",
-    "loginEmptyPassword": "Password cannot be empty",
-    "registrationSuccess": "Registration successful"
-  },
-
-  "registration": {
-    "title": "Registration",
-    "firstName": "First Name",
-    "lastName": "Last Name",
-    "email": "Email Address",
-    "username": "Username",
-    "password": "Password",
-    "confirmPassword": "Confirm Password",
-    "button": "Register",
-    "loginLink": "Already have an account? <1>Sign in</1>",
-    "emptyError": "Enter a value",
-    "emailError": "Enter a valid email address!",
-    "passwordError": " Requirements: min. 8 characters, an uppercase letter and a number.",
-    "passwordNotMatching": "Passwords do not match!",
-    "userExists": "User already exists",
-    "successMessage": "Registration successful"
-  },
-
-  "changePassword": {
-    "title": "Change Password",
-    "message": "Your password has been successfully updated!",
-    "button": "Login"
-  },
-
-  "successfulRegistration": "We sent a verification code to your email account. After checking it please <1>log in</1> to continue.",
-
-  "forgotPassword": {
-    "title": "Forgot your password?",
-    "message": "Please enter the email address associated with your account and we'll email you a password reset link.",
-    "button": "Submit",
-    "errorMessage": "Enter your email address."
-  },
-
-  "forgotPasswordVerification": {
-    "title": "Set new password",
-    "message": " Please enter the verification code sent to your email address below, your email address and a new password.",
-    "code": "Verification Code",
-    "password": "Password",
-    "button": "Submit",
-    "errorMessage": "Invalid verification code or email address!"
-  }
+    "eventList": {
+        "account": "My account",
+        "home": "Home",
+        "buildings": "Buildings",
+        "events": "Events",
+        "statistics": "Statistics",
+        "previous": "Prev",
+        "next": "Next",
+        "details": "Details",
+        "validate": "Validate",
+        "title": "Title",
+        "subtitle": "Subtitle",
+        "status": "Status",
+        "active": "Active",
+        "inactive": "Inactive",
+        "notSet": "Not set",
+        "location": "Location",
+        "date": "Date",
+        "hour": "Hour",
+        "startHour": "Start time",
+        "endHour": "End time",
+        "to": "to",
+        "maxPeople": "Max number of people",
+        "occupancyRate": "Occupancy rate",
+        "highlighted": "Highlighted",
+        "createNewEventButton": "Create new event",
+        "filterButton": "Filter",
+        "seeMoreFilters": "See more filters",
+        "seeLessFilters": "See less filters",
+        "notANumber": "Invalid number",
+        "notAValidPercent": "Invalid percent"
+    },
+    "login": {
+        "title": "Login",
+        "forgotPassword": "Forgot password?",
+        "button": "Login",
+        "registerLink": "Don't have an account? <1>Register here</1>",
+        "username": "Username",
+        "password": "Password",
+        "successMessage": "Succesful login",
+        "passwordError": " Requirements: min. 8 characters, an uppercase letter and a number.",
+        "emailError": "Enter a valid email address!",
+        "errorMessage": "Incorrect username or password."
+    },
+    "messages": {
+        "loginSuccess": "Succesful login",
+        "loginEmptyPassword": "Password cannot be empty",
+        "registrationSuccess": "Registration successful"
+    },
+    "registration": {
+        "title": "Registration",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "email": "Email Address",
+        "username": "Username",
+        "password": "Password",
+        "confirmPassword": "Confirm Password",
+        "button": "Register",
+        "loginLink": "Already have an account? <1>Sign in</1>",
+        "emptyError": "Enter a value",
+        "emailError": "Enter a valid email address!",
+        "passwordError": " Requirements: min. 8 characters, an uppercase letter and a number.",
+        "passwordNotMatching": "Passwords do not match!",
+        "userExists": "User already exists",
+        "successMessage": "Registration successful"
+    },
+    "changePassword": {
+        "title": "Change Password",
+        "message": "Your password has been successfully updated!",
+        "button": "Login"
+    },
+    "successfulRegistration": "We sent a verification code to your email account. After checking it please <1>log in</1> to continue.",
+    "forgotPassword": {
+        "title": "Forgot your password?",
+        "message": "Please enter the email address associated with your account and we'll email you a password reset link.",
+        "button": "Submit",
+        "errorMessage": "Enter your email address."
+    },
+    "forgotPasswordVerification": {
+        "title": "Set new password",
+        "message": " Please enter the verification code sent to your email address below, your email address and a new password.",
+        "code": "Verification Code",
+        "password": "Password",
+        "button": "Submit",
+        "errorMessage": "Invalid verification code or email address!"
+    }
 }

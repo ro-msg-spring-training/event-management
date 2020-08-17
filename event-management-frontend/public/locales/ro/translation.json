@@ -1,62 +1,88 @@
 {
-  "login": {
-    "title": "Autentificare",
-    "forgotPassword": "Ți-ai uitat parola?",
-    "button": "Autentificare",
-    "registerLink": "Nu ai cont? <1>Înregistrează-te aici!</1>",
-    "username": "Nume de utilizator",
-    "password": "Parolă",
-    "successMessage": "Autentificare reușită!",
-    "passwordError": "Cerințe: min. 8 caractere, litere mari și un număr.",
-    "emailError": "Introduceți o adresă de email validă!",
-    "errorMessage": "Nume de utilizator sau parolă incorectă."
-  },
-
-  "messages": {
-    "loginSuccess": "Autentificare reușită",
-    "loginEmptyPassword": "Nu lăsa parola goală",
-    "registrationSuccess": "Înregistrare reușită"
-  },
-
-  "registration": {
-    "title": "Înregistrare",
-    "firstName": "Nume",
-    "lastName": "Prenume",
-    "email": "Email",
-    "username": "Nume de utilizator",
-    "password": "Parola",
-    "confirmPassword": "Confirmă parola",
-    "button": "Înregistare",
-    "loginLink": "Ai deja un cont? <1>Autentifică-te!</1>",
-    "emptyError": "Introduceți o valoare",
-    "emailError": "Introduceți o adresă de email validă!",
-    "passwordError": "Cerințe: min. 8 caractere, litere mari și un număr.",
-    "passwordNotMatching": "Nu se potrivesc parolele!",
-    "userExists": "Utilizatorul deja există",
-    "successMessage": "Înregistrare reușită!"
-  },
-
-  "changePassword": {
-    "title": "Schimbă parola",
-    "message": "Parola ta a fost resetată cu succes!",
-    "button": "Autentificare"
-  },
-
-  "successfulRegistration": "Am trimis un cod de verificare în contul dvs. de email. După verificare, vă rugăm să <1>vă autentificați</1> pentru a continua.",
-
-  "forgotPassword": {
-    "title": "Ți-ai uitat parola?",
-    "message": "Vă rugăm să introduceți adresa de email asociată contului dvs. Vă vom trimite un link pentru resetarea parolei.",
-    "button": "Confirmă",
-    "errorMessage": "Introduceți adresa de email!"
-  },
-
-  "forgotPasswordVerification": {
-    "title": "Setați parola nouă",
-    "message": "Vă rugăm să introduceți codul de verificare trimis la adresa dvs. de email, adresa de email și o nouă parolă.",
-    "code": "Cod de verificare",
-    "password": "Parola",
-    "button": "Confirmă",
-    "errorMessage": "Cod de verificare sau adresă de email invalid!"
-  }
+    "eventList": {
+        "account": "Contul meu",
+        "home": "Acasă",
+        "buildings": "Clădiri",
+        "events": "Evenimente",
+        "statistics": "Statistici",
+        "previous": "Anterior",
+        "next": "Următor",
+        "details": "Detalii",
+        "validate": "Validează",
+        "title": "Titlu",
+        "subtitle": "Subtitlu",
+        "status": "Status",
+        "active": "Activ",
+        "inactive": "Inactiv",
+        "notSet": "Nedeterminat",
+        "location": "Locație",
+        "date": "Dată",
+        "hour": "Ora",
+        "startHour": "Momentul de începere",
+        "endHour": "Momentul de încheiere",
+        "to": "-",
+        "maxPeople": "Număr maxim de persoane",
+        "occupancyRate": "Rata de ocupare",
+        "highlighted": "Evidențiat",
+        "createNewEventButton": "Crează eveniment nou",
+        "filterButton": "Filtrare",
+        "seeMoreFilters": "Vezi mai multe filtre",
+        "seeLessFilters": "Vezi mai puține filtre",
+        "notANumber": "Număr invalid",
+        "notAValidPercent": "Procent invalid"
+    },
+    "login": {
+        "title": "Autentificare",
+        "forgotPassword": "Ți-ai uitat parola?",
+        "button": "Autentificare",
+        "registerLink": "Nu ai cont? <1>Înregistrează-te aici!</1>",
+        "username": "Nume de utilizator",
+        "password": "Parolă",
+        "successMessage": "Autentificare reușită!",
+        "passwordError": "Cerințe: min. 8 caractere, litere mari și un număr.",
+        "emailError": "Introduceți o adresă de email validă!",
+        "errorMessage": "Nume de utilizator sau parolă incorectă."
+    },
+    "messages": {
+        "loginSuccess": "Autentificare reușită",
+        "loginEmptyPassword": "Nu lăsa parola goală",
+        "registrationSuccess": "Înregistrare reușită"
+    },
+    "registration": {
+        "title": "Înregistrare",
+        "firstName": "Nume",
+        "lastName": "Prenume",
+        "email": "Email",
+        "username": "Nume de utilizator",
+        "password": "Parola",
+        "confirmPassword": "Confirmă parola",
+        "button": "Înregistare",
+        "loginLink": "Ai deja un cont? <1>Autentifică-te!</1>",
+        "emptyError": "Introduceți o valoare",
+        "emailError": "Introduceți o adresă de email validă!",
+        "passwordError": "Cerințe: min. 8 caractere, litere mari și un număr.",
+        "passwordNotMatching": "Nu se potrivesc parolele!",
+        "userExists": "Utilizatorul deja există",
+        "successMessage": "Înregistrare reușită!"
+    },
+    "changePassword": {
+        "title": "Schimbă parola",
+        "message": "Parola ta a fost resetată cu succes!",
+        "button": "Autentificare"
+    },
+    "successfulRegistration": "Am trimis un cod de verificare în contul dvs. de email. După verificare, vă rugăm să <1>vă autentificați</1> pentru a continua.",
+    "forgotPassword": {
+        "title": "Ți-ai uitat parola?",
+        "message": "Vă rugăm să introduceți adresa de email asociată contului dvs. Vă vom trimite un link pentru resetarea parolei.",
+        "button": "Confirmă",
+        "errorMessage": "Introduceți adresa de email!"
+    },
+    "forgotPasswordVerification": {
+        "title": "Setați parola nouă",
+        "message": "Vă rugăm să introduceți codul de verificare trimis la adresa dvs. de email, adresa de email și o nouă parolă.",
+        "code": "Cod de verificare",
+        "password": "Parola",
+        "button": "Confirmă",
+        "errorMessage": "Cod de verificare sau adresă de email invalid!"
+    }
 }

@@ -1,20 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { ThemeProvider } from '@material-ui/core/styles';
+import { BrowserRouter as Router } from "react-router-dom";
+import {Provider} from 'react-redux'
+import { store } from './store/store';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { BrowserRouter as Router } from 'react-router-dom';
-import './i18n';
-import { ThemeProvider } from '@material-ui/core';
+import "./i18n";
 import themeDark from './styles/AppTheme';
 
-
 ReactDOM.render(
-  <Router>
-    <ThemeProvider theme={themeDark}>
-      <App />
-    </ThemeProvider>
-  </Router>,
+    <Provider store={store}>
+        <Router>
+            <ThemeProvider theme={themeDark}>
+                <App/>
+            </ThemeProvider>
+        </Router>
+    </Provider>,
   document.getElementById('root')
 );
 
