@@ -83,9 +83,6 @@ export const fetchEvents = () => {
         .then(response => response.json());
 }
 
-//TODO: error handling: go only to existent pages
-//TODO: get rid of event title and active header only
-//TODO: static filters and static header
 export const changePage = (filters: EventFilters, sort: EventSortProps, page: number) => {
     const filtersToSend = computeFilterQueryString(filters)
     const sortToSend = computeSortQueryString(sort)

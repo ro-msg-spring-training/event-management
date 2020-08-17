@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -14,10 +14,30 @@ import { EventSortProps } from "../../../model/EventSort";
 import { useTranslation } from "react-i18next";
 import { useScrollPosition } from '@n8tb1t/use-scroll-position'
 import { useListStyles } from '../../../styles/eventListStyles';
+import {createStyles, Theme, withStyles} from "@material-ui/core/styles";
+
+const StyledTableCell = withStyles((theme: Theme) =>
+    createStyles({
+        body: {
+            fontSize: 14,
+            padding: 10,
+        },
+    }),
+)(TableCell);
+
+const PaginationCell = withStyles((theme: Theme) =>
+    createStyles({
+        body: {
+            fontSize: 50,
+            padding: 10,
+        },
+    }),
+)(TableCell);
 
 interface Props {
     sort: EventSortProps;
     eventsDetails: any[];
+    eventsDetailsMobile: any[];
     handleSortEvent: (criteria: string, type: string) => void;
     goToPrevPage: () => void;
     goToNextPage: () => void;
@@ -45,6 +65,7 @@ const EventListDumb = (props: Props) => {
 
     const sort = props.sort;
     const eventsDetails = props.eventsDetails;
+    const eventsDetailsMobile = props.eventsDetailsMobile;
     const handleSortEvent = props.handleSortEvent;
     const goToPrevPage = props.goToPrevPage;
     const goToNextPage = props.goToNextPage;
@@ -52,6 +73,7 @@ const EventListDumb = (props: Props) => {
     const [criteria, setCriteria] = useState();
     const [type, setType] = useState();
     const [expanded, setExpanded] = useState(false)
+    const [width, setWidth] = useState(window.innerWidth);
     const [t] = useTranslation();
 
     const stickyDiv: React.RefObject<HTMLInputElement> = React.createRef()
@@ -75,6 +97,15 @@ const EventListDumb = (props: Props) => {
         handleSortEvent(criteria, type);
     }, [criteria, type, handleSortEvent]);
 
+    useLayoutEffect(() => {
+        function updateSize() {
+            setWidth(window.innerWidth);
+        }
+        window.addEventListener('resize', updateSize);
+        updateSize();
+        return () => window.removeEventListener('resize', updateSize);
+    }, []);
+
 
     useScrollPosition(
         ({ prevPos, currPos }) => {
@@ -96,77 +127,134 @@ const EventListDumb = (props: Props) => {
         300
     )
 
-    return (
-        <TableContainer component={Paper} className={classes.pageContainer}>
-            <div
-                className={classes.stickyArea}
-                ref={stickyDiv}>
+    if (width <= 600) {
+        return (
+            <TableContainer component={Paper}>
+                <div
+                    className={classes.stickyArea}
+                    ref={stickyDiv}>
 
-                <Link to={`/newEvent`} style={{ textDecoration: 'none' }}>
-                    <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3} ${commonClasses.buttonStyle4}`}>{t("eventList.createNewEventButton")}</Button>
-                </Link>
+                    <Link to={`/newEvent`} style={{ textDecoration: 'none' }}>
+                        <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3} ${commonClasses.buttonStyle4}`}>{t("eventList.createNewEventButton")}</Button>
+                    </Link>
 
-                <FilterSectionSmart expanded={expanded} setExpanded={setExpanded} />
-            </div>
+                    <FilterSectionSmart expanded={expanded} setExpanded={setExpanded} />
+                </div>
 
-            <Table aria-label="customized table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell key={"title"} align={"left"} padding={"default"} size={"medium"}>{t("eventList.title")}</TableCell>
-                        <TableCell key={"subtitle"} align={"left"} padding={"default"} size={"medium"}>{t("eventList.subtitle")}</TableCell>
-                        <TableCell key={"location"} align={"left"} padding={"default"} size={"medium"}>{t("eventList.location")}</TableCell>
-
-                        {headCells.map((headCell) => (
-                            <TableCell
-                                key={headCell.id}
-                                align={headCell.numeric ? 'right' : 'left'}
-                                padding={headCell.disablePadding ? 'none' : 'default'}
-                                sortDirection={criteria === headCell.id && headCell.numeric ? type : false}
-                                size={"medium"}>
-
+                <Table aria-label="customized table" className={commonClasses.left}>
+                    <TableHead>
+                        <TableRow>
+                            <StyledTableCell>Title</StyledTableCell>
+                            <StyledTableCell sortDirection={criteria === 'date' ? type : false}>
                                 <TableSortLabel
-                                    hideSortIcon={!headCell.numeric}
-                                    active={criteria === headCell.id && headCell.numeric && sort.criteria !== ""}
-                                    direction={criteria === headCell.id ? type : 'asc'}
-                                    onClick={createSortHandler(headCell.id)}>
-
-                                    {headCell.label}
-
-                                    {
-                                        criteria === headCell.id && headCell.numeric ?
-                                            (
-                                                <span className={`${commonClasses.visuallyHidden}`} >
-                                                    {type === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                                    hideSortIcon={true}
+                                    active={criteria === 'date' && sort.criteria !== ""}
+                                    direction={criteria === 'date' ? type : 'asc'}
+                                    onClick={createSortHandler('date')}>
+                                    {criteria === 'date' ? (
+                                        <span className={`${commonClasses.visuallyHidden}`} >
+                                                {type === 'desc' ? 'sorted descending' : 'sorted ascending'}
                                                 </span>
-                                            ) : null
-                                    }
+                                    ) : null}
+                                    {'Date'}
                                 </TableSortLabel>
-                            </TableCell>
-                        ))}
-                    </TableRow>
-                </TableHead>
+                            </StyledTableCell>
+                            <StyledTableCell/>
+                        </TableRow>
+                    </TableHead>
 
-                <TableBody>
-                    {eventsDetails}
-                </TableBody>
+                    <TableBody>
+                        {eventsDetailsMobile}
+                    </TableBody>
 
-                <TableFooter>
-                    <TableRow>
-                        <TableCell />
-                        <TableCell />
-                        <TableCell className={`${commonClasses.prev}`}>
-                            <Button onClick={goToPrevPage}>&nbsp;&laquo; {t("eventList.previous")} &nbsp;</Button>
-                        </TableCell>
-                        <TableCell className={`${commonClasses.next}`}>
-                            <Button onClick={goToNextPage}>&nbsp; {t("eventList.next")} &raquo;</Button>
-                        </TableCell>
-                        <TableCell />
-                        <TableCell />
-                    </TableRow>
-                </TableFooter>
-            </Table>
-        </TableContainer>
-    );
+                    <TableFooter>
+                        <TableRow>
+                            <PaginationCell>
+                                <Button onClick={goToPrevPage} color={"secondary"}><b>&laquo; Prev</b></Button>
+                            </PaginationCell>
+                            <PaginationCell/>
+                            <PaginationCell>
+                                <Button onClick={goToNextPage} color={"secondary"}><b>Next &raquo;</b></Button>
+                            </PaginationCell>
+                        </TableRow>
+                    </TableFooter>
+                </Table>
+            </TableContainer>
+        );
+    } else {
+        return (
+            <TableContainer component={Paper} className={classes.pageContainer}>
+                <div
+                    className={classes.stickyArea}
+                    ref={stickyDiv}>
+
+                    <Link to={`/newEvent`} style={{ textDecoration: 'none' }}>
+                        <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3} ${commonClasses.buttonStyle4}`}>{t("eventList.createNewEventButton")}</Button>
+                    </Link>
+
+                    <FilterSectionSmart expanded={expanded} setExpanded={setExpanded} />
+                </div>
+
+                <Table aria-label="customized table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell key={"title"} align={"left"} padding={"default"} size={"medium"}>{t("eventList.title")}</TableCell>
+                            <TableCell key={"subtitle"} align={"left"} padding={"default"} size={"medium"}>{t("eventList.subtitle")}</TableCell>
+                            <TableCell key={"location"} align={"left"} padding={"default"} size={"medium"}>{t("eventList.location")}</TableCell>
+
+                            {headCells.map((headCell) => (
+                                <TableCell
+                                    key={headCell.id}
+                                    align={headCell.numeric ? 'right' : 'left'}
+                                    padding={headCell.disablePadding ? 'none' : 'default'}
+                                    sortDirection={criteria === headCell.id && headCell.numeric ? type : false}
+                                    size={"medium"}>
+
+                                    <TableSortLabel
+                                        hideSortIcon={!headCell.numeric}
+                                        active={criteria === headCell.id && headCell.numeric && sort.criteria !== ""}
+                                        direction={criteria === headCell.id ? type : 'asc'}
+                                        onClick={createSortHandler(headCell.id)}>
+
+                                        {headCell.label}
+
+                                        {
+                                            criteria === headCell.id && headCell.numeric ?
+                                                (
+                                                    <span className={`${commonClasses.visuallyHidden}`} >
+                                                        {type === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                                                    </span>
+                                                ) : null
+                                        }
+                                    </TableSortLabel>
+                                </TableCell>
+                            ))}
+                        </TableRow>
+                    </TableHead>
+
+                    <TableBody>
+                        {eventsDetails}
+                    </TableBody>
+
+                    <TableFooter>
+                        <TableRow>
+                            <PaginationCell>
+                                <Button onClick={goToPrevPage} color={"secondary"}><b>&laquo;Prev</b></Button>
+                            </PaginationCell>
+                            <PaginationCell/>
+                            <PaginationCell/>
+                            <PaginationCell/>
+                            <PaginationCell/>
+                            <PaginationCell/>
+                            <PaginationCell>
+                                <Button onClick={goToNextPage} color={"secondary"}><b>Next&raquo;</b></Button>
+                            </PaginationCell>
+                        </TableRow>
+                    </TableFooter>
+                </Table>
+            </TableContainer>
+        );
+    }
 }
 
 export default EventListDumb;

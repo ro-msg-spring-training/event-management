@@ -1,6 +1,16 @@
 import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    position: "absolute",
+    right: 0
+  },
+  linkDecoration: {
+    textDecoration: "none"
+  },
+  title: {
+    flexGrow: 1,
+  },
   shadow: {
     boxShadow: '0px 7px 8px -4px rgba(0,0,0,0.2),0px 13px 19px 2px rgba(0,0,0,0.14),0px 5px 24px 4px rgba(0,0,0,0.12)',
   },
@@ -55,12 +65,51 @@ const useStyles = makeStyles(theme => ({
     top: 20,
     width: 1,
   },
-  prev: {
-    fontSize: 20
+  //Colors
+  dark: {
+    color: '#133655',
   },
-  next: {
-    fontSize: 20
+  light: {
+    color: '#6BB7D0',
   },
+  ghost: {
+    color: '#F4F5F9',
+  },
+  white: {
+    color: '#FFFFFF',
+  },
+  yellow: {
+    color: '#F2AE30',
+  },
+  active: {
+    color: '#F2AE30',
+    textDecoration: "none"
+  },
+  inactive: {
+    color: '#6BB7D0',
+    textDecoration: "none"
+  },
+  buttonBar: {
+    [theme.breakpoints.down("xs")]: {
+      display: "none"
+    },
+    margin: "10px",
+    paddingLeft: "16px",
+    right: 0,
+    position: "relative",
+    width: "100%",
+    background: "transparent"
+  },
+  buttonCollapse: {
+    [theme.breakpoints.up("sm")]: {
+      display: "none"
+    },
+    margin: "10px",
+    boxShadow: "none"
+  },
+  left: {
+    left: "100px"
+  }
 }));
 
 export { useStyles }

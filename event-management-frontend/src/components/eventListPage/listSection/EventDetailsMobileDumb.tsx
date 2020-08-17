@@ -3,7 +3,7 @@ import {Button} from "@material-ui/core";
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import {Link} from "react-router-dom";
-import Event from "../../../model/Event";
+import MobileEvent from "../../../model/MobileEvent";
 import {createStyles, Theme, withStyles} from "@material-ui/core/styles";
 import { useStyles } from '../../../styles/CommonStyles';
 
@@ -12,6 +12,7 @@ const StyledTableCell = withStyles((theme: Theme) =>
     createStyles({
         body: {
             fontSize: 14,
+            padding: 20,
         },
     }),
 )(TableCell);
@@ -26,28 +27,20 @@ const StyledTableRow = withStyles((theme: Theme) =>
     }),
 )(TableRow);
 
-const EventDetailsDumb = (props: Event) => {
+const EventDetailsMobileDumb = (props: MobileEvent) => {
     const commonClasses = useStyles()
 
     const id = props.id;
     const title = props.name;
-    const subtitle = props.subtitle;
-    const location = props.location;
-    const date = props.date;
-    const hour = props.hour;
-    const occRate = props.occRate;
+    const date = props.name;
 
     return (
         <StyledTableRow>
             <StyledTableCell>{title}</StyledTableCell>
-            <StyledTableCell>{subtitle}</StyledTableCell>
-            <StyledTableCell>{location}</StyledTableCell>
             <StyledTableCell>{date}</StyledTableCell>
-            <StyledTableCell>{hour}</StyledTableCell>
-            <StyledTableCell>{occRate}</StyledTableCell>
 
             <StyledTableCell>
-                <Link to={`/events/${id}`} style={{ textDecoration: 'none' }}>
+                <Link to={`/events/${id}`} style={{ textDecoration: 'none'}}>
                     <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3}`}>Details</Button>
                 </Link><br/><br/>
                 <Link to={`/validate/${id}`} style={{ textDecoration: 'none' }}>
@@ -58,6 +51,4 @@ const EventDetailsDumb = (props: Event) => {
     );
 }
 
-//TODO: gmail address instead of MyAccount
-
-export default EventDetailsDumb
+export default EventDetailsMobileDumb

@@ -55,6 +55,7 @@
   },
   "devDependencies": {
     "@types/react-datepicker": "^3.1.1",
-    "@types/react-redux": "^7.1.9"
+    "@types/react-redux": "^7.1.9",
+    "file-loader": "^6.0.0"
   }
 }

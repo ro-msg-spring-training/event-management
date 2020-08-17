@@ -8,6 +8,7 @@ import EventList from "./eventListPage/listSection/EventListSmart";
 // route will match any pathname that starts
 // with /events. The / route will only match
 // when the pathname is exactly the string "/"
+//TODO: i18n for all story admin page
 const Main = () => (
     <main>
         <Switch>
