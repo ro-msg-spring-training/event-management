@@ -4,6 +4,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import { Grid } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -75,6 +76,7 @@ interface EventProps {
 function Stepper(props: EventProps) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
+  const { t } = useTranslation();
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
@@ -94,10 +96,10 @@ function Stepper(props: EventProps) {
             className={classes.tabs}
             centered
           >
-            <Tab label="Overview"  {...a11yProps(0)} />
-            <Tab label="Location"  {...a11yProps(1)} />
-            <Tab label="Tickets" {...a11yProps(2)} />
-            <Tab label="Images" {...a11yProps(3)} />
+            <Tab label={t("welcome.overviewTab")}  {...a11yProps(0)} />
+            <Tab label={t("welcome.locationTab")}  {...a11yProps(1)} />
+            <Tab label={t("welcome.ticketsTab")} {...a11yProps(2)} />
+            <Tab label={t("welcome.imagesTab")} {...a11yProps(3)} />
 
           </Tabs>
         </Grid>

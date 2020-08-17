@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, makeStyles, Grid, Typography } from '@material-ui/core';
 import { useStyles } from '../../../styles/CommonStyles'
+import { useTranslation } from 'react-i18next';
 
 const useStyles2 = makeStyles({
   grid: {
@@ -41,13 +42,13 @@ interface Props {
 function HeaderDumb({ admin, title, handleDelete, handleSave}: Props) {
   const classes = useStyles();
   const classes2 = useStyles2();
+  const { t } = useTranslation();
 
   return (
     <>
       <header className={classes.shadow}>
         <Grid container spacing={2} className={classes2.grid} direction="row" justify="space-between" alignItems="center">
 
-          {/* <Grid item sm={6} xs={11}> */}
           <Grid item sm={4} xs={5}>
             <Typography align="left" className={`${classes.typography} ${classes2.position}`}> {title}</Typography>
           </Grid>
@@ -58,16 +59,16 @@ function HeaderDumb({ admin, title, handleDelete, handleSave}: Props) {
               <Grid item xs={6} md={5}>
                 {
                   admin === true ?
-                    title === "NEW EVENT" ?
-                      <Button variant="contained" className={`${classes.buttonStyle2} ${classes.buttonStyle3}`} onClick={handleDelete}> Cancel </Button> :
-                      <Button variant="contained" className={`${classes.buttonStyle2} ${classes.buttonStyle3}`} onClick={handleDelete}> Delete </Button>
+                    title === t("welcome.newEventTitle") ?
+                      <Button variant="contained" className={`${classes.buttonStyle2} ${classes.buttonStyle3}`} onClick={handleDelete}> {t("welcome.headerCRUDCancel")} </Button> :
+                      <Button variant="contained" className={`${classes.buttonStyle2} ${classes.buttonStyle3}`} onClick={handleDelete}> {t("welcome.headerCRUDDelete")} </Button>
                     : null
                 }
               </Grid>
 
               <Grid item xs={6} md={5}>
                 {admin === true ?
-                  <Button variant="contained" className={`${classes.buttonStyle2} ${classes.buttonStyle3}`} onClick={handleSave}> Save </Button>
+                  <Button variant="contained" className={`${classes.buttonStyle2} ${classes.buttonStyle3}`} onClick={handleSave}> {t("welcome.headerCRUDSave")} </Button>
                   : null}
               </Grid>
 

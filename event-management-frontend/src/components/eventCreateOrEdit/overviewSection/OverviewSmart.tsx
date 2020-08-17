@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import OverviewDumb from './OverviewDumb';
 import { EventCrud } from '../../../model/EventCrud';
+import { useTranslation } from 'react-i18next';
 
 interface EventObjectProps {
   title: string,
@@ -40,6 +41,7 @@ interface OverviewSmartProps {
 }
 
 function OverviewSmart(props: OverviewSmartProps) {
+  const { t } = useTranslation();
   let today = new Date(new Date().toString().split('GMT')[0] + ' UTC').toISOString().split('.')[0]
   const dateAndTime = today.split("T");
   const currDate = dateAndTime[0];
@@ -64,7 +66,7 @@ function OverviewSmart(props: OverviewSmartProps) {
   }, [])
 
   const handleChangeCheckboxState = (event: React.ChangeEvent<HTMLInputElement>) => {
-    props.setCheckboxStateOverview(event.target.checked );
+    props.setCheckboxStateOverview(event.target.checked);
   };
 
   const compareDates = (date_1: string, date_2: string): number => {
@@ -130,19 +132,19 @@ function OverviewSmart(props: OverviewSmartProps) {
     switch (name) {
       case "title":
         formErrors.title =
-          value.length < 3 ? "minimum 3 characters required" : "";
+          value.length < 3 ? t("welcome.errMsgOverviewMinCharacters") : "";
         break;
-      
+
       case "subtitle":
         formErrors.subtitle =
-          value.length < 3 ? "minimum 3 characters required" : "";
+          value.length < 3 ? t("welcome.errMsgOverviewMinCharacters") : "";
         break;
-      
+
       case "description":
         formErrors.description =
-          value.length < 3 ? "minimum 3 characters required" : "";
+          value.length < 3 ? t("welcome.errMsgOverviewMinCharacters") : "";
         break;
-      
+
       case "startDate":
         formErrors.startDate = ""
         formErrors.endDate = ""
@@ -151,26 +153,26 @@ function OverviewSmart(props: OverviewSmartProps) {
 
         formErrors.startDate =
           (compareDates(value, currDate) === -1) ?
-            ("the first day of the event can't be in the past") :
+            (t("welcome.errMsgOverviewFirstDayInPast")) :
             (compareDates(value, endDate) === 1 ?
-              "the first day of the event can't be after the last" : "")
+              t("welcome.errMsgOverviewFirstDayAfterLast") : "")
 
         formErrors.startTime =
           (compareDates(value, endDate) === 0) ?
             (
               (compareTimes(startTime, endTime) !== -1) ?
-                ("if it is a one day event, you must choose the start time to be earlier than the end time") : ""
+                (t("welcome.errMsgOverviewOneDayEventStartTimeErr")) : ""
             ) : ""
 
         formErrors.endTime =
           (compareDates(value, endDate) === 0) ?
             (
               (compareTimes(startTime, endTime) !== -1) ?
-                ("if it is a one day event, you must choose the end time to be earlier than the start time") : ""
+                (t("welcome.errMsgOverviewOneDayEventEndTimeErr")) : ""
             ) : ""
 
         break;
-      
+
       case "endDate":
         formErrors.startDate = ""
         formErrors.endDate = ""
@@ -179,30 +181,30 @@ function OverviewSmart(props: OverviewSmartProps) {
 
         formErrors.endDate =
           (compareDates(startDate, value) === 1) ?
-            ("the last day of the event can't be before the first") : ""
+            (t("welcome.errMsgOverviewLastDayBeforeFirst")) : ""
 
         formErrors.startDate =
           (compareDates(startDate, currDate) === -1) ?
-            ("the first day of the event can't be in the past") :
+            (t("welcome.errMsgOverviewFirstDayInPast")) :
             (compareDates(startDate, value) === 1 ?
-              "the first day of the event can't be after the last" : "")
+              t("welcome.errMsgOverviewFirstDayAfterLast") : "")
 
         formErrors.startTime =
           (compareDates(startDate, value) === 0) ?
             (
               (compareTimes(startTime, endTime) !== -1) ?
-                ("if it is a one day event, you must choose the start time to be earlier than the end time") : ""
+                (t("welcome.errMsgOverviewOneDayEventStartTimeErr")) : ""
             ) : ""
 
         formErrors.endTime =
           (compareDates(startDate, value) === 0) ?
             (
               (compareTimes(startTime, endTime) !== -1) ?
-                ("if it is a one day event, you must choose the end time to be earlier than the start time") : ""
+                (t("welcome.errMsgOverviewOneDayEventEndTimeErr")) : ""
             ) : ""
 
         break;
-      
+
       case "startTime":
         formErrors.startDate = ""
         formErrors.endDate = ""
@@ -213,24 +215,24 @@ function OverviewSmart(props: OverviewSmartProps) {
           (compareDates(startDate, endDate) === 0) ?
             (
               (compareTimes(value, endTime) !== -1) ?
-                ("if it is a one day event, you must choose the start time to be earlier than the end time") : ""
+                (t("welcome.errMsgOverviewOneDayEventStartTimeErr")) : ""
             ) : ""
 
         formErrors.startDate =
           (compareDates(startDate, currDate) === -1) ?
-            ("the first day of the event can't be in the past") :
+            (t("welcome.errMsgOverviewFirstDayInPast")) :
             (compareDates(startDate, endDate) === 1 ?
-              "the first day of the event can't be after the last" : "")
+              t("welcome.errMsgOverviewFirstDayAfterLast") : "")
 
         formErrors.endTime =
           (compareDates(startDate, endDate) === 0) ?
             (
               (compareTimes(value, endTime) !== -1) ?
-                ("if it is a one day event, you must choose the end time to be earlier than the start time") : ""
+                (t("welcome.errMsgOverviewOneDayEventEndTimeErr")) : ""
             ) : ""
 
         break;
-      
+
       case "endTime":
         formErrors.startDate = ""
         formErrors.endDate = ""
@@ -241,30 +243,30 @@ function OverviewSmart(props: OverviewSmartProps) {
           (compareDates(startDate, endDate) === 0) ?
             (
               (compareTimes(startTime, value) !== -1) ?
-                ("if it is a one day event, you must choose the end time to be earlier than the start time") : ""
+                (t("welcome.errMsgOverviewOneDayEventEndTimeErr")) : ""
             ) : ""
 
         formErrors.startDate =
           (compareDates(startDate, currDate) === -1) ?
-            ("the first day of the event can't be in the past") :
+            (t("welcome.errMsgOverviewFirstDayInPast")) :
             (compareDates(startDate, endDate) === 1 ?
-              "the first day of the event can't be after the last" : "")
+              t("welcome.errMsgOverviewFirstDayAfterLast") : "")
 
         formErrors.startTime =
           (compareDates(startDate, endDate) === 0) ?
             (
               (compareTimes(startTime, value) !== -1) ?
-                ("if it is a one day event, you must choose the start time to be earlier than the end time") : ""
+                (t("welcome.errMsgOverviewOneDayEventStartTimeErr")) : ""
             ) : ""
 
         break;
-      
+
       case "maxPeople":
         formErrors.maxPeople =
-          Number(value) < 2 ? "minimum of 2 people required" : "";
+          Number(value) < 2 ? t("welcome.errMsgOverviewMaxPpl") : "";
         break;
-      
-      
+
+
       default:
         break;
     }

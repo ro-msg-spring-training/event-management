@@ -24,7 +24,6 @@ function HeaderSmart({ saveEvent, deleteEvent, admin, title }: Props) {
 
   let handleSave = (): void => {
     saveEvent();
-    // history.push('/');
   }
 
   let handleDelete = (): void => {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid, Paper, makeStyles, Theme, Typography, TextField, FormControl, InputLabel, Select, MenuItem, withStyles, CheckboxProps, Checkbox, FormControlLabel } from '@material-ui/core';
 import { EventCrud } from '../../../model/EventCrud';
+import { useTranslation } from 'react-i18next';
 
 const YellowCheckbox = withStyles({
   root: {
@@ -86,6 +87,7 @@ interface OverviewDumbProps {
 
 function OverviewDumb(props: OverviewDumbProps) {
   const classes = useStyles();
+  const { t } = useTranslation();
 
   return (
     <>
@@ -102,7 +104,7 @@ function OverviewDumb(props: OverviewDumbProps) {
                   disabled={!props.admin}
                   name="title"
                   fullWidth
-                  label="Title"
+                  label={t("welcome.overviewTitle")}
                   variant="outlined"
                   onChange={props.handleChange}
                   defaultValue={props.newEvent === true ? "" : props.event.title}
@@ -119,7 +121,7 @@ function OverviewDumb(props: OverviewDumbProps) {
                   name="subtitle"
                   disabled={!props.admin}
                   fullWidth
-                  label="Subtitle"
+                  label={t("welcome.overviewSubtitle")}
                   variant="outlined"
                   onChange={props.handleChange}
                   defaultValue={props.newEvent === true ? "" : props.event.subtitle}
@@ -138,7 +140,7 @@ function OverviewDumb(props: OverviewDumbProps) {
                   disabled={!props.admin}
                   type="number"
                   fullWidth
-                  label="Max Number Of People"
+                  label={t("welcome.overviewMaxPpl")}
                   variant="outlined"
                   onChange={props.handleChange}
                   defaultValue={props.newEvent === true ? 0 : props.event.maxPeople}
@@ -158,7 +160,7 @@ function OverviewDumb(props: OverviewDumbProps) {
                 onKeyDown={props.handleEnterKey}
                 name="description"
                 disabled={!props.admin}
-                label="Description"
+                label={t("welcome.overviewDescription")}
                 variant="outlined"
                 multiline
                 rows='5'
@@ -179,7 +181,7 @@ function OverviewDumb(props: OverviewDumbProps) {
               <Grid item xl={2} lg={4} md={5} sm={7} xs={12}>
                 <form className={classes.root} autoComplete="off">
                   <TextField
-                    label="Start Date"
+                    label={t("welcome.overviewStartDate")}
                     name="startDate"
                     disabled={!props.admin}
                     type="date"
@@ -197,7 +199,7 @@ function OverviewDumb(props: OverviewDumbProps) {
               <Grid item xl={2} lg={4} md={5} sm={7} xs={12}>
                 <form className={classes.root} autoComplete="off">
                   <TextField
-                    label="Start Time"
+                    label={t("welcome.overviewStartTime")}
                     name="startTime"
                     disabled={!props.admin}
                     type="time"
@@ -220,7 +222,7 @@ function OverviewDumb(props: OverviewDumbProps) {
               <Grid item xl={2} lg={4} md={5} sm={7} xs={12}>
                 <form className={classes.root} autoComplete="off">
                   <TextField
-                    label="End Date"
+                    label={t("welcome.overviewEndDate")}
                     name="endDate"
                     disabled={!props.admin}
                     type="date"
@@ -238,7 +240,7 @@ function OverviewDumb(props: OverviewDumbProps) {
               <Grid item xl={2} lg={4} md={5} sm={7} xs={12}>
                 <form className={classes.root} autoComplete="off">
                   <TextField
-                    label="End Time"
+                    label={t("welcome.overviewEndTime")}
                     name="endTime"
                     disabled={!props.admin}
                     type="time"
@@ -265,7 +267,7 @@ function OverviewDumb(props: OverviewDumbProps) {
             <FormControlLabel
               disabled={!props.admin}
               control={<YellowCheckbox checked={props.highlighted} onChange={props.handleChangeCheckboxState} name="highlighted" />}
-              label="Highlighted"
+              label={t("welcome.overviewHighlighted")}
             />
           </Grid>
 
@@ -277,8 +279,8 @@ function OverviewDumb(props: OverviewDumbProps) {
                 value={props.status}
                 onChange={e => props.setStatus(e.target.value as string)}
               >
-                <MenuItem value={"active"}>ACTIVE</MenuItem>
-                <MenuItem value={"inactive"}>INACTIVE</MenuItem>
+                <MenuItem value={"active"}>{t("welcome.overviewStatusActive")}</MenuItem>
+                <MenuItem value={"inactive"}>{t("welcome.overviewStatusInactive")}</MenuItem>
               </Select>
             </FormControl>
           </Grid>

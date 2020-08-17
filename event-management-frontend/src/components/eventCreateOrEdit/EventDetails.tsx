@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { CircularProgress, Container } from '@material-ui/core';
+import { CircularProgress, Container, Button } from '@material-ui/core';
 import { loadEvent, deleteEvent, addEvent } from '../../actions/HeaderEventCrudActions';
 import { connect } from 'react-redux';
 import Header from './headerEditAndDelete/HeaderCrudSmart';
@@ -11,6 +11,7 @@ import Images from '../Images';
 import Tickets from '../Tickets';
 import Location from '../Location';
 import { EventCrud } from '../../model/EventCrud';
+import { useTranslation } from "react-i18next";
 
 const event: EventCrud = {
   id: "",
@@ -66,11 +67,14 @@ const initialEventOverview = {
 
 function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, fetchEvent }: Props) {
   const history = useHistory();
+  const { t, i18n } = useTranslation();
+
   let newEvent = match.path === "/newEvent" ? true : false;
+
   const [open, setOpen] = useState(false);
-  const [msgUndo, setMsgUndo] = useState("Take me back");
-  const [dialogTitle, setDialogTitle] = useState("Are you sure?");
-  const [dialogDescription, setDialogDescription] = useState("By choosing to cancel you will lose the progress");
+  const [msgUndo, setMsgUndo] = useState("");
+  const [dialogTitle, setDialogTitle] = useState("");
+  const [dialogDescription, setDialogDescription] = useState("");
 
   //-------| Overview states |------------
   const [finalEventOverview, setFinalEventOverview] = useState(initialEventOverview);
@@ -85,19 +89,19 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, fetc
 
   const verifyDateAndTimePeriods = (): boolean => {
     if (!(new Date(finalEventOverview.startDate) > new Date(finalEventOverview.endDate)) &&
-    !(new Date(finalEventOverview.startDate) < new Date(finalEventOverview.endDate))
+      !(new Date(finalEventOverview.startDate) < new Date(finalEventOverview.endDate))
     ) {
       if (finalEventOverview.startTime >= finalEventOverview.endTime) {
-        setMsgUndo("Try again");
-        setDialogTitle("Error");
-        setDialogDescription("The time period is not properly selected.\n If the event takes place in a single day, start time must be before end time.");
+        setMsgUndo(t("welcome.popupMsgTryAgain"));
+        setDialogTitle(t("welcome.popupMsgErrTitle"));
+        setDialogDescription(t("welcome.popupMsgTimeErrDescription"));
         setOpen(true);
         return false;
       }
     } else if (new Date(finalEventOverview.startDate) > new Date(finalEventOverview.endDate)) {
-      setMsgUndo("Try again");
-      setDialogTitle("Error");
-      setDialogDescription("The date period is not properly selected.\n Start date must be before end date.");
+      setMsgUndo(t("welcome.popupMsgTryAgain"));
+      setDialogTitle(t("welcome.popupMsgErrTitle"));
+      setDialogDescription(t("welcome.popupMsgDateErrDescription"));
       setOpen(true);
       return false;
     }
@@ -115,10 +119,12 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, fetc
       finalEventOverview.formErrors.endTime.length > 0 ||
       finalEventOverview.formErrors.maxPeople.length > 0
     ) {
-      setMsgUndo("I understand");
-      setDialogTitle("Error");
-      setDialogDescription("There are fields that have not been filled correctly. In order to move forward, please offer a valid input.");
+
+      setMsgUndo(t("welcome.popupErrMsgUnderstood"));
+      setDialogTitle(t("welcome.popupMsgErrTitle"));
+      setDialogDescription(t("welcome.popupErrMsgDescription"));
       setOpen(true);
+
       return false;
     }
     return true;
@@ -131,9 +137,9 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, fetc
       finalEventOverview.description.length === 0 ||
       finalEventOverview.maxPeople === 0) && newEvent
     ) {
-      setMsgUndo("I understand");
-      setDialogTitle("Error");
-      setDialogDescription("There are still fields that have not yet been filled. In order to move forward, please finish the form.");
+      setMsgUndo(t("welcome.popupErrMsgUnderstood"));
+      setDialogTitle(t("welcome.popupMsgErrTitle"));
+      setDialogDescription(t("welcome.popupErrMsgNotFilled"));
       setOpen(true);
       return false;
     }
@@ -170,9 +176,9 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, fetc
   let deleteEvent = (): void => {
 
     if (newEvent === true) {
-      setMsgUndo("Take me back");
-      setDialogTitle("Are you sure?");
-      setDialogDescription("By choosing to cancel you will lose the progress");
+      setMsgUndo(t("welcome.popupMsgCancelUndo"));
+      setDialogTitle(t("welcome.popupMsgCancelTitle"));
+      setDialogDescription(t("welcome.popupMsgCancelDescription"));
       setOpen(true);
     } else {
       deleteEventF(match.params.id);
@@ -203,15 +209,22 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, fetc
 
   if (fetchEvent.loading) {
     return (
-      <Container maxWidth="sm">
+      <Container maxWidth="lg">
         <CircularProgress />
       </Container>
     );
   }
 
-  let title = newEvent === false ? fetchEvent.event.title : "NEW EVENT";
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+  };
+
+
+  let title = newEvent === false ? fetchEvent.event.title : t("welcome.newEventTitle");
   return (
     <>
+      <Button onClick={() => changeLanguage("ro")}>ro</Button>
+      <Button onClick={() => changeLanguage("en")}>en</Button>
       <Header saveEvent={saveEvent} deleteEvent={deleteEvent} admin={admin} title={title} />
       <Stepper
         overviewComponent={overviewComponent}

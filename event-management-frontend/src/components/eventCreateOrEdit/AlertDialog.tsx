@@ -6,6 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { useHistory } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface AlertDialogProps {
   open: boolean,
@@ -17,6 +18,7 @@ interface AlertDialogProps {
 
 export default function AlertDialog({ open, setOpen, msgUndo, dialogTitle, dialogDescription }: AlertDialogProps) {
   const history = useHistory();
+  const { t } = useTranslation();
 
   const handleClose = () => {
     setOpen(false);
@@ -47,9 +49,9 @@ export default function AlertDialog({ open, setOpen, msgUndo, dialogTitle, dialo
         </DialogContent>
         <DialogActions>
           {
-            msgUndo === "Take me back" ?
+            msgUndo === t("welcome.popupMsgCancelUndo") ?
               <Button onClick={handleProceed} color="primary">
-                Proceed
+                {t("welcome.popupMsgContinueUndo")}
               </Button> : null
           }
           <Button onClick={handleCancel} color="primary" autoFocus>

@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import './App.css';
+import logo from "./logo.svg";
 import { createMuiTheme, MuiThemeProvider, makeStyles, Paper } from '@material-ui/core';
 import { Provider } from 'react-redux';
 import store from './store/store';
 import Main from './components/Main';
+
+// loading component for suspense fallback - needed for internationalization, leave it in the App as a wrapper component
+const Loader = () => (
+  <div className="App">
+    <img src={logo} className="App-logo" alt="logo" />
+    <div>loading...</div>
+  </div>
+);
 
 const themeDark = createMuiTheme({
   palette: {
@@ -39,15 +48,17 @@ const useStyles = makeStyles({
 function App() {
   const classes = useStyles();
   return (
-    <Provider store={store}>
-      <MuiThemeProvider theme={themeDark}>
-        <Paper className={classes.paper}>
-          <div className="App">
-            <Main/>
-          </div>
-        </Paper>
-      </MuiThemeProvider>
-    </Provider>
+    <div className="App">
+      <Suspense fallback={<Loader />}>
+        <Provider store={store}>
+          <MuiThemeProvider theme={themeDark}>
+            <Paper className={classes.paper}>
+              <Main />
+            </Paper>
+          </MuiThemeProvider>
+        </Provider>
+      </Suspense>
+    </div >
   );
 }
 
