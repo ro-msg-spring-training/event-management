@@ -1,4 +1,9 @@
-import { loadEventWatcher, deleteProductWatcher, addProductWatcher } from "../sagas/HeaderEventCrudSaga";
+import {
+  loadEventWatcher,
+  deleteProductWatcher,
+  addProductWatcher,
+  editProductWatcher
+} from "../sagas/HeaderEventCrudSaga";
 import { all } from "redux-saga/effects";
 
 export default function* rootSaga() {
@@ -6,5 +11,6 @@ export default function* rootSaga() {
     loadEventWatcher(),
     deleteProductWatcher(),
     addProductWatcher(),
+    editProductWatcher()
   ])
 }

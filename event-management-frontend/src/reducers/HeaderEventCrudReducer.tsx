@@ -1,4 +1,17 @@
-import { FETCH_EVENT_REQUEST, FETCH_EVENT_SUCCESS, FETCH_EVENT_FAILURE, DELETE_EVENT_REQUEST, DELETE_EVENT_SUCCESS, DELETE_EVENT_FAILURE, ADD_EVENT_REQUEST, ADD_EVENT_SUCCESS, ADD_EVENT_FAILURE } from "../actions/HeaderEventCrudActions"
+import {
+  FETCH_EVENT_REQUEST,
+  FETCH_EVENT_SUCCESS,
+  FETCH_EVENT_FAILURE,
+  DELETE_EVENT_REQUEST,
+  DELETE_EVENT_SUCCESS,
+  DELETE_EVENT_FAILURE,
+  ADD_EVENT_REQUEST,
+  ADD_EVENT_SUCCESS,
+  ADD_EVENT_FAILURE,
+  EDIT_EVENT_REQUEST,
+  EDIT_EVENT_SUCCESS,
+  EDIT_EVENT_FAILURE
+} from "../actions/HeaderEventCrudActions"
 import { EventCrud } from "../model/EventCrud"
 
 export interface EventState {
@@ -58,6 +71,20 @@ const HeaderReducer = (state = initialState, action: { type: string, payload: Ev
         loading: false,
       }
     case ADD_EVENT_FAILURE:
+      return {
+        loading: false,
+        newProduct: action.payload
+      }
+    case EDIT_EVENT_REQUEST:
+      return {
+        ...state,
+        loading: true
+      }
+    case EDIT_EVENT_SUCCESS:
+      return {
+        loading: false,
+      }
+    case EDIT_EVENT_FAILURE:
       return {
         loading: false,
         newProduct: action.payload

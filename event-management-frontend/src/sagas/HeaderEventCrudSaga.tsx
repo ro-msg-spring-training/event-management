@@ -1,6 +1,6 @@
 import { takeLatest, call, put } from "redux-saga/effects";
-import { LOAD_EVENT, fetchEventRequest, fetchEventSuccess, fetchEventFailure, DELETE_EVENT, deleteEventRequest, deleteEventSuccess, deleteEventFailure, ADD_EVENT, addEventRequest, addEventSuccess, addEventFailure } from "../actions/HeaderEventCrudActions";
-import { fetchEventAPI, deleteEventAPI, addEventAPI } from "../api/HeaderEventCrudAPI";
+import { LOAD_EVENT, fetchEventRequest, fetchEventSuccess, fetchEventFailure, DELETE_EVENT, deleteEventRequest, deleteEventSuccess, deleteEventFailure, ADD_EVENT, addEventRequest, addEventSuccess, addEventFailure, editEventRequest, editEventSuccess, editEventFailure, EDIT_EVENT } from "../actions/HeaderEventCrudActions";
+import { fetchEventAPI, deleteEventAPI, addEventAPI, editEventAPI } from "../api/HeaderEventCrudAPI";
 import { EventCrud } from "../model/EventCrud";
 
 interface Props {
@@ -56,4 +56,19 @@ function* addEventAsync(props: AddProps) {
 
 export function* addProductWatcher() {
   yield takeLatest(ADD_EVENT, addEventAsync)
+}
+
+//-----------------------------------------EDIT EVENT
+function* editEventAsync(props: AddProps) {
+  try {
+    yield put(editEventRequest());
+    yield call(() => editEventAPI(props.payload));
+    yield put(editEventSuccess())
+  } catch (e) {
+    yield put(editEventFailure(e))
+  }
+}
+
+export function* editProductWatcher() {
+  yield takeLatest(EDIT_EVENT, editEventAsync)
 }

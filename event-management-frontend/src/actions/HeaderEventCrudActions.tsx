@@ -3,6 +3,7 @@ import { EventCrud } from "../model/EventCrud"
 export const LOAD_EVENT = 'LOAD_EVENT'
 export const DELETE_EVENT = 'DELETE_EVENT'
 export const ADD_EVENT = 'ADD_EVENT'
+export const EDIT_EVENT = 'EDIT_EVENT'
 
 export const FETCH_EVENT_REQUEST = 'FETCH_EVENT_REQUEST'
 export const FETCH_EVENT_SUCCESS = 'FETCH_EVENT_SUCCESS'
@@ -15,6 +16,10 @@ export const DELETE_EVENT_FAILURE = 'DELETE_EVENT_FAILURE'
 export const ADD_EVENT_REQUEST = 'ADD_EVENT_REQUEST'
 export const ADD_EVENT_SUCCESS = 'ADD_EVENT_SUCCESS'
 export const ADD_EVENT_FAILURE = 'ADD_EVENT_FAILURE'
+
+export const EDIT_EVENT_REQUEST = 'EDIT_EVENT_REQUEST'
+export const EDIT_EVENT_SUCCESS = 'EDIT_EVENT_SUCCESS'
+export const EDIT_EVENT_FAILURE = 'EDIT_EVENT_FAILURE'
 
 //---------------------------------------------------for SAGA
 export const loadEvent = (id: string) => {
@@ -34,6 +39,13 @@ export const deleteEvent = (id: string) => {
 export const addEvent = (event: EventCrud) => {
   return {
     type: ADD_EVENT,
+    payload: event
+  }
+}
+
+export const editEvent = (event: EventCrud) => {
+  return {
+    type: EDIT_EVENT,
     payload: event
   }
 }
@@ -93,6 +105,25 @@ export const addEventSuccess = () => {
 export const addEventFailure = (error: string) => {
   return {
     type: ADD_EVENT_FAILURE,
+    payload: error
+  }
+}
+
+export const editEventRequest = () => {
+  return {
+    type: EDIT_EVENT_REQUEST,
+  }
+}
+
+export const editEventSuccess = () => {
+  return {
+    type: EDIT_EVENT_SUCCESS,
+  }
+}
+
+export const editEventFailure = (error: string) => {
+  return {
+    type: EDIT_EVENT_FAILURE,
     payload: error
   }
 }

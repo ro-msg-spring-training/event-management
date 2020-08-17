@@ -1,5 +1,6 @@
 import { EventCrud } from "../model/EventCrud";
 
+//TODO modify links
 export const fetchEventAPI = (id: string) => {
   return fetch(`http://localhost:4000/products/${id}`).then(response => response.json())
 }
@@ -11,6 +12,17 @@ export const deleteEventAPI = (id: string) => {
 export const addEventAPI = (event: EventCrud) => {
   return fetch('http://localhost:4000/products', {
     method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(event)
+  }).then(response => response.json())
+}
+
+export const editEventAPI = (event: EventCrud) => {
+  return fetch('http://localhost:4000/products', {
+    method: 'PUT',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
