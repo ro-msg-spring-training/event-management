@@ -26,7 +26,7 @@ public class EventConverter implements Converter<Event, EventDto> {
                 .description(event.getDescription())
                 .observations(event.getObservations())
                 .status(event.isStatus())
-                .noTicketEvent(event.isNoTicketEvent())
+                .ticketsPerUser(event.getTicketsPerUser())
                 .highlighted(event.isHighlighted())
                 .maxPeople(event.getMaxPeople())
                 .startDate(event.getStartDate())
@@ -36,5 +36,7 @@ public class EventConverter implements Converter<Event, EventDto> {
                 .creator(event.getCreator())
                 .picturesUrlSave(picturesUrl)
                 .build();
+
+
     }
 }

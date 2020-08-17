@@ -37,7 +37,7 @@ public class EventDto {
 
     private String observations;
 
-    private boolean noTicketEvent;
+    private int ticketsPerUser;
 
     private String creator;
 

@@ -65,5 +65,11 @@ public class Event extends BaseEntity {
             orphanRemoval = true)
     private List<Booking> bookings;
 
+    @OneToMany(mappedBy = "event",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<TicketCategory> ticketCategories;
+
 
 }

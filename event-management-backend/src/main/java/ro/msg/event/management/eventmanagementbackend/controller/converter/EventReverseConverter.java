@@ -17,7 +17,7 @@ public class EventReverseConverter implements Converter<EventDto, Event> {
                 .title(eventDTO.getTitle())
                 .subtitle(eventDTO.getSubtitle())
                 .observations(eventDTO.getObservations())
-                .noTicketEvent(eventDTO.isNoTicketEvent())
+                .ticketsPerUser(eventDTO.getTicketsPerUser())
                 .highlighted(eventDTO.isHighlighted())
                 .status(eventDTO.isStatus())
                 .maxPeople(eventDTO.getMaxPeople())
