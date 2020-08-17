@@ -140,5 +140,10 @@
         "imageDialogContent": "Dacă ștergeți imaginea nu o veți mai putea recupera mai târziu.",
         "imageDialogAgree": "Da",
         "imageDialogDisagree": "Nu"
-    }
+    },
+    "location": {
+        "selectButton": "Selecteaza",
+        "cancelButton": "Anuleaza",
+        "selectedLocationMessage": "Locatia selectata pentru eveniment"
+      }
 }

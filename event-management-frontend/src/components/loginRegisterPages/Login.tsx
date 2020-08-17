@@ -18,8 +18,8 @@ import "../../styles/Responsivity.css";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import { Trans } from "react-i18next";
-import { displaySuccessMessage } from "../../validation/RegistrationValidation";
 import useStylesLogin from "../../styles/LoginStyle";
+import { displaySuccessMessage } from "../../validation/RegistrationValidation";
 
 
 const Login = () => {

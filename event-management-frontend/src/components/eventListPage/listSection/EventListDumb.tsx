@@ -13,8 +13,8 @@ import { useStyles } from '../../../styles/CommonStyles';
 import { EventSort } from "../../../model/EventSort";
 import { useTranslation } from "react-i18next";
 import { useScrollPosition } from '@n8tb1t/use-scroll-position'
-import { useListStyles } from '../../../styles/EventListStyles';
 import {createStyles, Theme, withStyles} from "@material-ui/core/styles";
+import { useListStyles } from '../../../styles/eventListStyles';
 
 const StyledTableCell = withStyles((theme: Theme) =>
     createStyles({

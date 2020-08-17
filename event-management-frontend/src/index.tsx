@@ -8,7 +8,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import "./i18n";
-import themeDark from './styles/AppTheme';
+import themeDark from './styles/Apptheme';
 
 ReactDOM.render(
     <Provider store={store}>

@@ -140,5 +140,11 @@
         "imageDialogContent": "If you delete the image, you will not be able to recover it later.",
         "imageDialogAgree": "Yes",
         "imageDialogDisagree": "No"
+    },
+
+    "location": {
+        "selectButton": "Select",
+        "cancelButton": "Cancel",
+        "selectedLocationMessage": " Selected location for the event"
     }
 }
