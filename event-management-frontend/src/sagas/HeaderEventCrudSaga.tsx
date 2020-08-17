@@ -20,7 +20,6 @@ function* loadEventAsync(props: Props) {
     const event = yield call(() => fetchEventAPI(props.payload));
     yield put(fetchEventSuccess(event))
   } catch (e) {
-    console.log("Error");
     yield put(fetchEventFailure(e))
   }
 }

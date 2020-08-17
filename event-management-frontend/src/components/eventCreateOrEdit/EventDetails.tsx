@@ -78,17 +78,12 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, fetc
   const [checkBoxStateOverview, setCheckboxStateOverview] = useState(false);
   //--------------------------
 
-  // const [images, setImages] = useState(undefined);
-  // const [,] = useState(undefined);
-  // //-------------------
 
-  useEffect(() => {//called once when component mountes and once when it unmounts
+  useEffect(() => {
     newEvent === false && fetchEventF(match.params.id)
   }, [fetchEventF, match.params.id, newEvent])
 
   const verifyDateAndTimePeriods = (): boolean => {
-    console.log("VERIFICATION");
-
     if (!(new Date(finalEventOverview.startDate) > new Date(finalEventOverview.endDate)) &&
     !(new Date(finalEventOverview.startDate) < new Date(finalEventOverview.endDate))
     ) {
@@ -134,10 +129,6 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, fetc
       finalEventOverview.title.length === 0 ||
       finalEventOverview.subtitle.length === 0 ||
       finalEventOverview.description.length === 0 ||
-      // (
-      //   finalEventOverview.startDate === finalEventOverview.endDate &&
-      //   finalEventOverview.startTime === finalEventOverview.endTime
-      // ) ||
       finalEventOverview.maxPeople === 0) && newEvent
     ) {
       setMsgUndo("I understand");
@@ -157,21 +148,6 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, fetc
 
   const handleSaveOverviewEvent = (): void => {
     if (formValid()) {
-      console.log(`
-        --SUBMITTING--
-        Title: ${finalEventOverview.title}
-        subtitle: ${finalEventOverview.subtitle}
-        status: ${statusOverview}
-        startDate: ${finalEventOverview.startDate}
-        startTime: ${finalEventOverview.startTime}
-        endTime: ${finalEventOverview.endTime}
-        maxPeople: ${finalEventOverview.maxPeople}
-        highlighted: ${checkBoxStateOverview}
-      `);
-
-      console.log("saved");
-
-      //save in event
       event.title = finalEventOverview.title;
       event.subtitle = finalEventOverview.subtitle;
       event.maxPeople = finalEventOverview.maxPeople;
@@ -182,21 +158,13 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, fetc
       event.endTime = finalEventOverview.endTime;
       event.highlighted = checkBoxStateOverview;
       event.status = statusOverview;
-
-      console.log("EVENT: ");
-      console.log(event);
-    } else {
-      console.error("===== FORM INVALID =====");
     }
   };
 
   let saveEvent = (): void => {
-    //TODO instantiaza event-ul mare
-    //TODO verifica daca e save pentru NEW Product sau save pentru EDIT Product 
-    //TODO fa request ca sa primesti url-urile unde vor fi stocate imaginile------!!!!!!!
+    //TODO check if save for edit or for new event
 
     handleSaveOverviewEvent();
-    // history.push('/');
   }
 
   let deleteEvent = (): void => {

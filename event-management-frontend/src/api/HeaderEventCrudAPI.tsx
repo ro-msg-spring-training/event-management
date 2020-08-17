@@ -5,12 +5,10 @@ export const fetchEventAPI = (id: string) => {
 }
 
 export const deleteEventAPI = (id: string) => {
-  console.log("DELETED");
   return fetch(`http://localhost:4000/products/${id}`, { method: 'DELETE' })
 }
 
 export const addEventAPI = (event: EventCrud) => {
-  console.log("addEventAPI");
   return fetch('http://localhost:4000/products', {
     method: 'POST',
     headers: {

@@ -279,7 +279,6 @@ function OverviewSmart(props: OverviewSmartProps) {
 
   const handleEnterKey = (e: any): void => { e.keyCode === 13 && e.preventDefault(); }
 
-  //TODO get rid of all console.logs
   return (
     <>
       <OverviewDumb
