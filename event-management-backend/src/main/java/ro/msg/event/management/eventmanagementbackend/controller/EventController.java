@@ -47,6 +47,9 @@ public class EventController {
     private final Converter<EventView, CardsEventDto> converterToCardsEventDto;
     private final LocationService locationService;
 
+    private static final LocalDate MAX_DATE = LocalDate.parse("2999-12-31");
+    private static final LocalDate MIN_DATE = LocalDate.parse("1900-01-01");
+
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<EventDto> getEvent(@PathVariable long id) {
@@ -97,7 +100,7 @@ public class EventController {
         }
     }
 
-    @GetMapping("/{pageNumber}")
+    @GetMapping("filter/{pageNumber}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<EventFilteringDto>> getPaginatedFilteredEvents(@PathVariable("pageNumber") int pageNumber, @RequestParam(required = false) String title, @RequestParam(required = false) String subtitle,
                                                                               @RequestParam(required = false) Boolean status, @RequestParam(required = false) Boolean highlighted, @RequestParam(required = false) String location, @RequestParam(required = false) String startDate, @RequestParam(required = false) String endDate,
@@ -110,7 +113,7 @@ public class EventController {
         }
     }
 
-    @GetMapping("/sort/{pageNumber}")
+    @GetMapping("filter/sort/{pageNumber}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<EventFilteringDto>> getPaginatedFilteredAndSortedEvents(@PathVariable("pageNumber") int pageNumber, @RequestParam(required = false) String title, @RequestParam(required = false) String subtitle, @RequestParam(required = false) Boolean status, @RequestParam(required = false) Boolean highlighted, @RequestParam(required = false) String location,
                                                                                        @RequestParam(required = false) String startDate, @RequestParam(required = false) String endDate, @RequestParam(required = false) String startHour, @RequestParam(required = false) String endHour, @RequestParam(required = false) ComparisonSign rateSign,
@@ -160,11 +163,11 @@ public class EventController {
         }
     }
 
-    @GetMapping("/latest")
+    @GetMapping("/latest/{pageNumber}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<EventListingDto>> chronologicalPaginatedEvents(@RequestParam int pageNumber) {
+    public ResponseEntity<List<EventListingDto>> chronologicalPaginatedEvents(@PathVariable int pageNumber) {
         try {
-            List<EventView> eventViews = eventService.filterAndOrder(null, null, null, null, null, null, null, null, null, null, null, null, null, pageNumber, EVENTS_PER_LISTING_PAGE, SortCriteria.DATE, true);
+            List<EventView> eventViews = eventService.filterAndOrder(null, null, null, null, null, LocalDate.now(), MAX_DATE, null, null, null, null, null, null, pageNumber, EVENTS_PER_LISTING_PAGE, SortCriteria.DATE, true);
             return new ResponseEntity<>(converterToListingDto.convertAll(eventViews), HttpStatus.OK);
         } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, indexOutOfBoundsException.getMessage(), indexOutOfBoundsException);
@@ -175,7 +178,7 @@ public class EventController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<CardsEventDto>> upcomingEvents() {
         try {
-            List<EventView> eventViews = eventService.filterAndOrder(null, null, null, null, null, LocalDate.now(), LocalDate.MAX, null, null, null, null, null, null, 1, EVENTS_PER_CARD, SortCriteria.DATE, true);
+            List<EventView> eventViews = eventService.filterAndOrder(null, null, null, null, null, LocalDate.now(), MAX_DATE, null, null, null, null, null, null, 1, EVENTS_PER_CARD, SortCriteria.DATE, true);
             return new ResponseEntity<>(converterToCardsEventDto.convertAll(eventViews), HttpStatus.OK);
         } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, indexOutOfBoundsException.getMessage(), indexOutOfBoundsException);
@@ -186,7 +189,7 @@ public class EventController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<CardsEventDto>> historyEvents(){
         try {
-            List<EventView> eventViews = eventService.filterAndOrder(null, null, null, null, null, LocalDate.MIN, LocalDate.now(), null, null, null, null, null, null, 1, EVENTS_PER_CARD, SortCriteria.DATE, false);
+            List<EventView> eventViews = eventService.filterAndOrder(null, null, null, null, null, MIN_DATE, LocalDate.now(), null, null, null, null, null, null, 1, EVENTS_PER_CARD, SortCriteria.DATE, false);
             return new ResponseEntity<>(converterToCardsEventDto.convertAll(eventViews), HttpStatus.OK);
         } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, indexOutOfBoundsException.getMessage(), indexOutOfBoundsException);

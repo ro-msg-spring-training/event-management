@@ -82,7 +82,8 @@ public class FilterEventsIntegrationTests {
 
         List<EventView> eventViews = eventService.filterAndPaginate(null,null,null,null,null,null,null,null,null, ComparisonSign.GREATER,(float)0,null,null,1,10);
         assertThat(eventViews.size()).isEqualTo(2);
-
+        List<EventView> eventViews1 = eventService.filterAndPaginate(null,null,null,null,null,LocalDate.parse("2020-11-16"),LocalDate.parse("2020-11-30"),null,null, null,null,null,null,1,10);
+        assertThat(eventViews1.size()).isEqualTo(1);
     }
 
 }
