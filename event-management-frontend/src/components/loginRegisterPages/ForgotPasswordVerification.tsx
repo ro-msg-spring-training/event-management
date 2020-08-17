@@ -13,12 +13,12 @@ import {
 } from "@material-ui/core";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import useStylesLogin from "../styles/loginStyle";
-import { useStyles } from "../styles/CommonStyles";
+import useStylesLogin from "../../styles/LoginStyle";
+import { useStyles } from "../../styles/CommonStyles";
 import { useHistory } from "react-router-dom";
-import { validatePasswordRequirements, validateEmail, displayErrorMessage } from "../validation/LoginValidation";
+import { validatePasswordRequirements, validateEmail, displayErrorMessage } from "../../validation/LoginValidation";
 import { FormErrors } from "./FormErrors";
-import { Trans, useTranslation } from "react-i18next";
+import { Trans } from "react-i18next";
 
 const ForgotPasswordVerification = () => {
   const [email, setEmail] = useState("");
@@ -41,6 +41,7 @@ const ForgotPasswordVerification = () => {
 
   const onSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
+
     if (
       validatePasswordRequirements(newpassword, newpasswordError, setPasswordError) ||
       validateEmail(email, emailError, setEmailError)
@@ -50,9 +51,9 @@ const ForgotPasswordVerification = () => {
 
     try {
       await Auth.forgotPasswordSubmit(email, verificationCode, newpassword);
+
       history.push("/changepasswordconfirmation");
     } catch (error) {
-      console.log(error);
       displayErrorMessage(
         <Trans i18nKey="forgotPasswordVerification.errorMessage">Invalid verification code or email address!</Trans>,
         setError
@@ -66,6 +67,7 @@ const ForgotPasswordVerification = () => {
         <h1 className={classes.typography}>
           <Trans i18nKey="forgotPasswordVerification.title">Set new password</Trans>
         </h1>
+
         <p>
           <Trans i18nKey="forgotPasswordVerification.message">
             Please enter the verification code sent to your email address below, your email address and a new password.
@@ -81,6 +83,7 @@ const ForgotPasswordVerification = () => {
           variant="outlined"
           onChange={(e) => setVerificationCode(e.target.value)}
         />
+
         <TextField
           className={classesLogin.loginformItems}
           label="Email"
@@ -95,6 +98,7 @@ const ForgotPasswordVerification = () => {
             setEmailError("");
           }}
         />
+
         <FormControl className={classesLogin.loginformItems} required variant="outlined">
           <InputLabel htmlFor="outlined-adornment-password">
             <Trans i18nKey="forgotPasswordVerification.password">Password</Trans>
@@ -123,6 +127,7 @@ const ForgotPasswordVerification = () => {
           <FormHelperText>{newpasswordError}</FormHelperText>
           <FormErrors error={error} />
         </FormControl>
+
         <Button
           variant="contained"
           type="submit"

@@ -9,9 +9,11 @@ export const validateEmail = (email: string, emailError: string, setEmailError: 
   if (email.trim() === "" || /^[a-zA-Z0-9_.\-$]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email)) {
     return false;
   }
+
   if (!emailError) {
     setEmailError(<Trans i18nKey="login.emailError">Enter a valid email address!</Trans>);
   }
+
   return true;
 };
 

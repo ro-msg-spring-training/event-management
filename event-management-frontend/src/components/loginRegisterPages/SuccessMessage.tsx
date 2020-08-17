@@ -1,5 +1,5 @@
 import React from 'react';
-import useStylesSuccess from '../styles/FormSuccessStyle';
+import useStylesSuccess from '../../styles/FormSuccessStyle';
 import { Alert } from '@material-ui/lab';
 
 interface SuccessMessageProps {

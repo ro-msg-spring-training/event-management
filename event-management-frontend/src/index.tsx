@@ -5,10 +5,15 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter as Router } from 'react-router-dom';
 import './i18n';
+import { ThemeProvider } from '@material-ui/core';
+import themeDark from './styles/AppTheme';
+
 
 ReactDOM.render(
   <Router>
-    <App />
+    <ThemeProvider theme={themeDark}>
+      <App />
+    </ThemeProvider>
   </Router>,
   document.getElementById('root')
 );

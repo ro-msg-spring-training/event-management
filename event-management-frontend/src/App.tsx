@@ -2,9 +2,8 @@ import React, { Suspense } from "react";
 import "./App.css";
 import Amplify from "aws-amplify";
 import config from "./config";
-import themeDark from "./styles/theme";
-import { ThemeProvider } from "@material-ui/core";
-import AuthWrapper from "./components/AuthWrapper";
+import AuthWrapper from "./components/loginRegisterPages/AuthWrapper";
+
 
 // loading component for suspense fallback
 const Loader = () => (
@@ -26,11 +25,10 @@ function App() {
   return (
     <div className="App">
       <Suspense fallback={<Loader />}>
-        <ThemeProvider theme={themeDark}>
-          <AuthWrapper />
-        </ThemeProvider>
+        <AuthWrapper />
       </Suspense>
     </div>
   );
 }
+
 export default App;

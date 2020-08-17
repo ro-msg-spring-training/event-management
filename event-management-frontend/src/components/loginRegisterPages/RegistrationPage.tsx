@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Auth } from "aws-amplify";
+import { Trans } from "react-i18next";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import { RegistrationSucces } from "./SuccessfulRegistrationMessage";
 import { Link } from "react-router-dom";
 import { FormErrors } from "./FormErrors";
-import { Trans } from "react-i18next";
-import { useStyles } from "../styles/CommonStyles";
-import { useStylesRegistration } from "../styles/RegistrationPageStyle";
+import { useStyles } from "../../styles/CommonStyles";
+import { useStylesRegistration } from "../../styles/RegistrationPageStyle";
 import {
   TextField,
   Button,
@@ -29,7 +29,7 @@ import {
   displayUsernameError,
   displayErrorMessage,
   displaySuccessMessage,
-} from "../validation/registrationValidation";
+} from "../../validation/RegistrationValidation";
 
 const RegisterPage = () => {
   const [firstName, setFirstName] = useState("");
@@ -60,6 +60,7 @@ const RegisterPage = () => {
 
   const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
+
     if (
       validateFirstName(firstName, firstNameError, setFirstNameError) ||
       validateLastName(lastName, lastNameError, setLastNameError) ||
@@ -70,8 +71,9 @@ const RegisterPage = () => {
     ) {
       return;
     }
+
     try {
-      const user = await Auth.signUp({
+      await Auth.signUp({
         username: username,
         password: password,
         attributes: {
@@ -80,6 +82,7 @@ const RegisterPage = () => {
           email: email,
         },
       });
+
       setErrorMessage("");
       displaySuccessMessage(
         <Trans i18nKey="registration.successMessage">Registration successful</Trans>,

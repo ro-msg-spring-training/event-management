@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Auth } from "aws-amplify";
 import { FormGroup, TextField, Button } from "@material-ui/core";
-import useStylesLogin from "../styles/loginStyle";
-import { useStyles } from "../styles/CommonStyles";
+import useStylesLogin from "../../styles/LoginStyle";
+import { useStyles } from "../../styles/CommonStyles";
 import { useHistory } from "react-router-dom";
-import { validateEmail, displayErrorMessage } from "../validation/LoginValidation";
+import { validateEmail, displayErrorMessage } from "../../validation/LoginValidation";
 import { FormErrors } from "./FormErrors";
 import { Trans } from "react-i18next";
 
@@ -18,6 +18,7 @@ const ForgotPassword = () => {
 
   const onSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
+
     if (validateEmail(email, emailError, setEmailError)) {
       return;
     }
@@ -28,17 +29,20 @@ const ForgotPassword = () => {
       displayErrorMessage(<Trans i18nKey="forgotPassword.errorMessage">Enter your email address.</Trans>, setError);
     }
   };
+
   return (
     <div className={`${classesLogin.root} forgotPasswordResponsive`}>
       <FormGroup>
         <h1 className={classes.typography}>
           <Trans i18nKey="forgotPassword.title">Forgot your password?</Trans>
         </h1>
+
         <p>
           <Trans i18nKey="forgotPassword.message">
             Please enter the email address associated with your account and we'll email you a password reset link.
           </Trans>
         </p>
+
         <TextField
           className={classesLogin.loginformItems}
           label="Email"
@@ -51,15 +55,15 @@ const ForgotPassword = () => {
           onChange={(e) => {
             setEmail(e.target.value);
             setEmailError("");
-          }}
-        />
+          }} />
+
         <FormErrors error={error} />
+
         <Button
           variant="contained"
           type="submit"
           onClick={onSubmit}
-          className={`${classes.buttonStyle2} ${classes.buttonStyle3} ${classesLogin.loginButton}`}
-        >
+          className={`${classes.buttonStyle2} ${classes.buttonStyle3} ${classesLogin.loginButton}`}>
           <Trans i18nKey="forgotPassword.button">Submit</Trans>
         </Button>
       </FormGroup>

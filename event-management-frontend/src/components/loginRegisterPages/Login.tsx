@@ -10,44 +10,47 @@ import {
   IconButton,
   OutlinedInput,
 } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
-import useStylesLogin from "../styles/loginStyle";
-import { useStyles } from "../styles/CommonStyles";
+import { useStyles } from "../../styles/CommonStyles";
 import { FormErrors } from "./FormErrors";
-import { displayErrorMessage } from "../validation/LoginValidation";
+import { displayErrorMessage } from "../../validation/LoginValidation";
 import { SuccessMessage } from "./SuccessMessage";
-import "../styles/responsivity.css";
+import "../../styles/Responsivity.css";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import { useTranslation, Trans } from "react-i18next";
+import { Trans } from "react-i18next";
+import { displaySuccessMessage } from "../../validation/RegistrationValidation";
+import useStylesLogin from "../../styles/LoginStyle";
 
-import { displaySuccessMessage } from "../validation/registrationValidation";
+
 const Login = () => {
-  const [, setisLoading] = useState(false);
+  const [, setIsLoading] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const classesLogin = useStylesLogin();
-  const classes = useStyles();
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-
   const [values, setValues] = React.useState<{ showPassword: boolean }>({
     showPassword: false,
   });
+
+  const classesLogin = useStylesLogin();
+  const classes = useStyles();
 
   const handleClickShowPassword = () => {
     setValues({ showPassword: !values.showPassword });
   };
 
   const onSubmit = async () => {
-    setisLoading(true);
+    setIsLoading(true);
     try {
+      const user = await Auth.signIn(username, password);
+      console.log(user.signInUserSession.accessToken.jwtToken)
+      localStorage.setItem("accessToken", user.signInUserSession.accessToken.jwtToken)
+
       displaySuccessMessage(<Trans i18nKey="login.successMessage">Succesful login</Trans>, setSuccess);
       setError("");
     } catch (error) {
-      console.log(error);
       displayErrorMessage(<Trans i18nKey="login.errorMessage">Incorrect username or password.</Trans>, setError);
-      setisLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -57,9 +60,11 @@ const Login = () => {
         <h1 className={classes.typography}>
           <Trans i18nKey="login.title">Login</Trans>
         </h1>
+
         <div className={classesLogin.successDiv}>
           <SuccessMessage success={success} />
         </div>
+
         <TextField
           className={classesLogin.loginformItems}
           label={<Trans i18nKey="login.username">username</Trans>}
@@ -67,8 +72,8 @@ const Login = () => {
           value={username}
           required
           variant="outlined"
-          onChange={(e) => setUsername(e.target.value)}
-        ></TextField>
+          onChange={(e) => setUsername(e.target.value)} />
+
         <FormControl className={classesLogin.loginformItems} required variant="outlined">
           <InputLabel htmlFor="outlined-adornment-password">
             <Trans i18nKey="login.password">Password</Trans>
@@ -86,9 +91,10 @@ const Login = () => {
                   {values.showPassword ? <Visibility /> : <VisibilityOff />}
                 </IconButton>
               </InputAdornment>
-            }
-          />
+            } />
+
         </FormControl>
+
         <div className="field">
           <p className={classesLogin.alignLeftDiv}>
             <a href="/forgotpassword" className={classesLogin.link}>
@@ -96,6 +102,7 @@ const Login = () => {
             </a>
           </p>
         </div>
+
         <FormErrors error={error} />
         <Button
           variant="contained"
@@ -105,6 +112,7 @@ const Login = () => {
         >
           <Trans i18nKey="login.button">Login</Trans>
         </Button>
+
         <div className="field">
           <p className="control">
             <Trans i18nKey="login.registerLink">

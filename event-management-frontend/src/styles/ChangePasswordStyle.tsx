@@ -21,9 +21,6 @@ const useStylesChangePassword = makeStyles((theme: Theme)=>({
     link:{
         textDecoration:'none'
     }
-   
-       
-    
 }))
 
 export default useStylesChangePassword;

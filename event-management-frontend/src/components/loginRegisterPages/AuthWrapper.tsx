@@ -7,22 +7,21 @@ import ChangePasswordConfirm from "./ChangePasswordConfirm";
 import RegistrationPage from "./RegistrationPage";
 import { useTranslation } from "react-i18next";
 import { Button } from "@material-ui/core";
-import { useStylesAuth } from "../styles/authWrapperStyle";
-import "../styles/responsivity.css";
+import "../../styles/Responsivity.css";
 
 const AuthWrapper = () => {
   const { i18n } = useTranslation();
+
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
   };
-
-  const classes = useStylesAuth();
 
   return (
     <div className="authComponentsResponsive">
       <Button onClick={() => changeLanguage("en")}>en</Button>
       <Button onClick={() => changeLanguage("ro")}>ro</Button>
       <hr />
+
       <Switch>
         <Route exact path="/">
           <Redirect to="/login" />
