@@ -141,7 +141,7 @@ function FilterSectionDumb(props: Props) {
 
                             <Grid item xs={12} sm={12} md={4} className={classes.relationArea}>
                                 <Select
-                                    disableUnderline={true}
+                                    variant="outlined"
                                     className={classes.relationSelect}
                                     value={props.filters.maxPeopleSign}
                                     onChange={e => props.handleChangeMaxPeopleSign(e.target.value as MathRelation)}>
@@ -168,9 +168,9 @@ function FilterSectionDumb(props: Props) {
 
                             <Grid item xs={12} sm={12} md={4} className={classes.relationArea}>
                                 <Select
+                                    variant="outlined"
                                     className={classes.relationSelect}
                                     value={props.filters.rateSign}
-                                    disableUnderline={true}
                                     onChange={e => props.handleChangeRateSign(e.target.value as MathRelation)} >
 
                                     <MenuItem value={MathRelation.GREATER}>&gt;</MenuItem>
