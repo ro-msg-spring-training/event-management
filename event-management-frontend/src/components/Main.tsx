@@ -4,6 +4,7 @@ import Home from './homePage/Home'
 import EventList from "./eventListPage/listSection/EventListSmart";
 import { Container } from '@material-ui/core';
 import Header from './header/Header';
+import EventDetails from './eventCreateOrEdit/EventDetails';
 
 // The Main component renders one of the three provided
 // Routes (provided that one matches). The /events
@@ -17,6 +18,8 @@ const Main = () => (
         <Switch>
             <Route exact path='/admin' component={Home}/>
             <Route exact path='/admin/events' component={EventList}/>
+            <Route exact path='/admin/events/:id' render={props => <EventDetails match={props.match} admin={true} />}></Route>
+            <Route exact path='/admin/newEvent' render={props => <EventDetails match={props.match} admin={true} />}></Route>
         </Switch>
     </Container>
 )

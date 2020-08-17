@@ -84,5 +84,54 @@
         "password": "Parola",
         "button": "Confirmă",
         "errorMessage": "Cod de verificare sau adresă de email invalid!"
+    },
+    "welcome": {
+        "title": "Bine ai venit!",
+
+        "popupMsgCancelUndo": "Du-ma inapoi",
+        "popupMsgContinueUndo": "Continua",
+        "popupMsgCancelTitle": "Sunteti sigur?",
+        "popupMsgCancelDescription": "Daca alegeti sa renuntati veti pierde progresul.",
+
+        "popupMsgTryAgain": "Incercati inca o data",
+        "popupMsgErrTitle": "Eroare",
+        "popupMsgTimeErrDescription": "Perioada de timp nu este selectata corect. Daca evenimentul ia loc intr-o singura zi, timpul de inceput trebuie sa fie inaintea timpului de incheiere.",
+        "popupMsgDateErrDescription": "The date period is not properly selected. Ziua inceperii trebuie sa fie inaintea zilei incheierii",
+
+        "popupErrMsgUnderstood": "Am inteles",
+        "popupErrMsgDescription": "Exista campuri care nu au fost completate corect. Pentru a merge mai departe va rugam sa oferiti date valide.",
+
+        "popupErrMsgNotFilled": "Exista campuri care nu au fost completate. Pentru a merge mai departe va rugam sa terminati formularul.",
+
+        "overviewTab": "Detalii",
+        "locationTab": "Locatie",
+        "ticketsTab": "Bilete",
+        "imagesTab": "Imagini",
+
+        "errMsgOverviewMinCharacters": "minim 3 charactere necesare",
+        "errMsgOverviewFirstDayInPast": "prima zi a evenimentului nu poate fi in trecut",
+        "errMsgOverviewFirstDayAfterLast": "prima zi a evenimentului nu poate fi dupa ultima",
+        "errMsgOverviewLastDayBeforeFirst": "ultima zi a evenimentului nu poate fi inainte de prima",
+        "errMsgOverviewOneDayEventStartTimeErr": "daca evenimentul ia loc intr-o singura zi, timpul de inceput trebuie sa fie inaintea timpului de incheiere",
+        "errMsgOverviewOneDayEventEndTimeErr": "daca evenimentul ia loc intr-o singura zi, timpul incheierii trebuie sa fie dupa timpul de incepere",
+        "errMsgOverviewMaxPpl": "sunt necesare minim 2 persoane",
+
+        "overviewHighlighted": "Favorit",
+        "overviewStatusActive": "ACTIV",
+        "overviewStatusInactive": "INACTIV",
+        "overviewTitle": "Titlu",
+        "overviewSubtitle": "Subtitlu",
+        "overviewMaxPpl": "Numar maxim de persoane",
+        "overviewDescription": "Descriere",
+        "overviewStartDate": "Data de start",
+        "overviewEndDate": "Data de sfarsit",
+        "overviewStartTime": "Timpul de start",
+        "overviewEndTime": "Timpul de sfarsit",
+
+        "newEventTitle": "EVENIMENT NOU",
+
+        "headerCRUDDelete": "Sterge",
+        "headerCRUDCancel": "Renunta",
+        "headerCRUDSave": "Salveaza"
     }
 }

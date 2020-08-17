@@ -111,7 +111,13 @@ const useStyles = makeStyles(theme => ({
   },
   left: {
     left: "100px"
-  }
+  },
+  // typography: {
+  //   fontSize: 20,
+  //   fontFamily: 'Monospace',
+  //   color: theme.palette.secondary.main,
+  //   textTransform: "uppercase"
+  // },
 }));
 
 export { useStyles }

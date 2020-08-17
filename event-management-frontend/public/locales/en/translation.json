@@ -84,5 +84,55 @@
         "password": "Password",
         "button": "Submit",
         "errorMessage": "Invalid verification code or email address!"
+    },
+    "welcome": {
+        "title": "Welcome",
+
+        "popupMsgCancelUndo": "Take me back",
+        "popupMsgContinueUndo": "Proceed",
+        "popupMsgCancelTitle": "Are you sure?",
+        "popupMsgCancelDescription": "By choosing to cancel you will lose the progress.",
+
+        "popupMsgTryAgain": "Try again",
+        "popupMsgErrTitle": "Error",
+        "popupMsgTimeErrDescription": "The time period is not properly selected. If the event takes place in a single day, start time must be before end time.",
+        "popupMsgDateErrDescription": "The date period is not properly selected. Start date must be before end date.",
+
+        "popupErrMsgUnderstood": "I understand",
+        "popupErrMsgDescription": "There are fields that have not been filled correctly. In order to move forward, please offer a valid input.",
+
+        "popupErrMsgNotFilled": "There are still fields that have not yet been filled. In order to move forward, please finish the form.",
+
+        "overviewTab": "Overview",
+        "locationTab": "Location",
+        "ticketsTab": "Tickets",
+        "imagesTab": "Images",
+
+        "errMsgOverviewMinCharacters": "minimum 3 characters required",
+        "errMsgOverviewFirstDayInPast": "the first day of the event can't be in the past",
+        "errMsgOverviewFirstDayAfterLast": "the first day of the event can't be after the last",
+        "errMsgOverviewLastDayBeforeFirst": "the last day of the event can't be before the first",
+        "errMsgOverviewOneDayEventStartTimeErr": "if it is a one day event, you must choose the start time to be earlier than the end time",
+        "errMsgOverviewOneDayEventEndTimeErr": "if it is a one day event, you must choose the end time to be later than the start time",
+        "errMsgOverviewMaxPpl": "minimum of 2 people required",
+
+        "overviewHighlighted": "Highlighted",
+        "overviewStatusActive": "ACTIVE",
+        "overviewStatusInactive": "INACTIVE",
+        "overviewTitle": "Title",
+        "overviewSubtitle": "Subtitle",
+        "overviewMaxPpl": "Maximum number of people",
+        "overviewDescription": "Description",
+        "overviewStartDate": "StartDate",
+        "overviewEndDate": "EndDate",
+        "overviewStartTime": "StartTime",
+        "overviewEndTime": "EndTime",
+
+        "newEventTitle": "NEW EVENT",
+
+        "headerCRUDDelete": "Delete",
+        "headerCRUDCancel": "Cancel",
+        "headerCRUDSave": "Save"
+
     }
 }
