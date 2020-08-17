@@ -236,7 +236,7 @@ const EventListDumb = (props: Props) => {
                     <TableFooter>
                         <TableRow>
                             <PaginationCell>
-                                <Button onClick={goToPrevPage} color={"secondary"}><b>&laquo;{t("eventList.previous")}</b></Button>
+                                <Button onClick={goToPrevPage} style={{color: "#f2ac0a"}}><b>&laquo;{t("eventList.previous")}</b></Button>
                             </PaginationCell>
                             <PaginationCell/>
                             <PaginationCell/>
@@ -244,7 +244,7 @@ const EventListDumb = (props: Props) => {
                             <PaginationCell/>
                             <PaginationCell/>
                             <PaginationCell>
-                                <Button onClick={goToNextPage} color={"secondary"}><b>{t("eventList.next")}&raquo;</b></Button>
+                                <Button onClick={goToNextPage} style={{color: "#f2ac0a"}}><b>{t("eventList.next")}&raquo;</b></Button>
                             </PaginationCell>
                         </TableRow>
                     </TableFooter>

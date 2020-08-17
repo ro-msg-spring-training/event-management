@@ -6,8 +6,10 @@ import ForgotPasswordVerification from "./ForgotPasswordVerification";
 import ChangePasswordConfirm from "./ChangePasswordConfirm";
 import RegistrationPage from "./RegistrationPage";
 import { useTranslation } from "react-i18next";
-import { Button } from "@material-ui/core";
 import "../../styles/Responsivity.css";
+import Home from "../homePage/Home";
+import EventList from "../eventListPage/listSection/EventListSmart";
+import Main from "../Main";
 
 const AuthWrapper = () => {
   const { i18n } = useTranslation();
@@ -31,6 +33,7 @@ const AuthWrapper = () => {
         <Route path="/forgotpasswordverification" component={ForgotPasswordVerification}></Route>
         <Route path="/changepasswordconfirmation" component={ChangePasswordConfirm}></Route>
         <Route path="/register" component={RegistrationPage}></Route>
+        <Route path='/admin' component={Main} />
       </Switch>
     </div>
   );

@@ -19,22 +19,22 @@ const AppBarCollapse = (props: any) => {
     return (
         <div className={classes.root}>
             <ButtonAppBarCollapse>
-                <a href={"/"} className={classes.linkDecoration}><MenuItem>
+                <a href={"/admin"} className={classes.linkDecoration}><MenuItem>
                     <Typography variant="h6" className={classes.light}>
                         {t("eventList.home")}
                     </Typography>
                 </MenuItem></a>
-                <a href={"/buildings"} className={classes.linkDecoration}><MenuItem>
+                <a href={"/admin/buildings"} className={classes.linkDecoration}><MenuItem>
                     <Typography variant="h6" className={classes.light}>
                         {t("eventList.buildings")}&nbsp;&nbsp;
                     </Typography>
                 </MenuItem></a>
-                <a href={"/events"} className={classes.linkDecoration}><MenuItem>
+                <a href={"/admin/events"} className={classes.linkDecoration}><MenuItem>
                     <Typography variant="h6" className={classes.light}>
                         {t("eventList.events")}&nbsp;&nbsp;
                     </Typography>
                 </MenuItem></a>
-                <a href={"/statistics"} className={classes.linkDecoration}><MenuItem>
+                <a href={"/admin/statistics"} className={classes.linkDecoration}><MenuItem>
                     <Typography variant="h6" className={classes.light}>
                         {t("eventList.statistics")}&nbsp;&nbsp;
                     </Typography>
@@ -44,7 +44,7 @@ const AppBarCollapse = (props: any) => {
             <div className={classes.buttonBar}>
 
                 <Button>
-                <NavLink to="/"
+                <NavLink to="/admin/"
                          onClick={() => handleOnClick("home")}
                          className={activeIndex === "home" ? classes.active : classes.inactive}>
                     <Typography variant="h6">
@@ -54,7 +54,7 @@ const AppBarCollapse = (props: any) => {
                 </Button>
 
                 <Button>
-                <NavLink to="/buildings"
+                <NavLink to="/admin/buildings"
                          onClick={() => handleOnClick("buildings")}
                          className={activeIndex === "buildings" ? classes.active : classes.inactive}>
                     <Typography variant="h6">
@@ -64,7 +64,7 @@ const AppBarCollapse = (props: any) => {
                 </Button>
 
                 <Button>
-                    <NavLink to="/events"
+                    <NavLink to="/admin/events"
                              onClick={() => handleOnClick("events")}
                              className={activeIndex === "events" ? classes.active : classes.inactive}>
                         <Typography variant="h6">
@@ -74,7 +74,7 @@ const AppBarCollapse = (props: any) => {
                 </Button>
 
                 <Button>
-                    <NavLink to="/statistics"
+                    <NavLink to="/admin/statistics"
                              onClick={() => handleOnClick("statistics")}
                              className={activeIndex === "statistics" ? classes.active : classes.inactive}>
                         <Typography variant="h6">

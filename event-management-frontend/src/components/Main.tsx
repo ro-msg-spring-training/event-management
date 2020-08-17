@@ -2,6 +2,8 @@ import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import Home from './homePage/Home'
 import EventList from "./eventListPage/listSection/EventListSmart";
+import { Container } from '@material-ui/core';
+import Header from './Header';
 
 // The Main component renders one of the three provided
 // Routes (provided that one matches). The /events
@@ -10,12 +12,13 @@ import EventList from "./eventListPage/listSection/EventListSmart";
 // when the pathname is exactly the string "/"
 //TODO: i18n for all story admin page
 const Main = () => (
-    <main>
+    <Container>
+        <Header></Header>
         <Switch>
-            <Route exact path='/' component={Home}/>
-            <Route exact path='/events' component={EventList}/>
+            <Route exact path='/admin' component={Home}/>
+            <Route exact path='/admin/events' component={EventList}/>
         </Switch>
-    </main>
+    </Container>
 )
 
 export default Main
