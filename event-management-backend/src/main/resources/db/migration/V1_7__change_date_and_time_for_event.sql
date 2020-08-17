@@ -22,7 +22,7 @@ SELECT
   event.start_hour,
   event.end_hour,
   event.max_people,
-  CAST(CAST(COUNT(DISTINCT ticket.id) AS FLOAT)/CAST(event.max_people AS FLOAT) AS DECIMAL(16,2)) as rate
+  CAST(CAST(COUNT(DISTINCT ticket.id) AS FLOAT)/CAST(event.max_people AS FLOAT)*100 AS DECIMAL(16,2)) as rate
 FROM
   event
   LEFT OUTER JOIN event_sublocation ON event.id = event_sublocation.event_id
