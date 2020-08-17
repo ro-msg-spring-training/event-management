@@ -39,7 +39,7 @@ public class Event extends BaseEntity {
 
     private String observations;
 
-    private boolean noTicketEvent;
+    private int ticketsPerUser;
 
     private String creator;
 
@@ -66,4 +66,9 @@ public class Event extends BaseEntity {
     private List<Booking> bookings;
 
 
+    @OneToMany(mappedBy = "event",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<TicketCategory> ticketCategoryList;
 }

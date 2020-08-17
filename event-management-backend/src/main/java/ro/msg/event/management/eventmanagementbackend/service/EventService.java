@@ -119,7 +119,7 @@ public class EventService {
                     eventFromDB.setCreator(event.getCreator());
                     eventFromDB.setHighlighted(event.isHighlighted());
                     eventFromDB.setStatus(event.isStatus());
-                    eventFromDB.setNoTicketEvent(event.isNoTicketEvent());
+                    eventFromDB.setTicketsPerUser(event.getTicketsPerUser());
                     eventFromDB.setObservations(event.getObservations());
                     eventFromDB.getPictures().addAll(event.getPictures());
 

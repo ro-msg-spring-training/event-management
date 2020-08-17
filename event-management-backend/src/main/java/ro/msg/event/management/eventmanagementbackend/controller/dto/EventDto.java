@@ -37,8 +37,6 @@ public class EventDto {
 
     private String observations;
 
-    private boolean noTicketEvent;
-
     private String creator;
 
     private long location;
@@ -46,4 +44,8 @@ public class EventDto {
     private List<String> picturesUrlSave;
 
     private List<String> picturesUrlDelete;
+
+    private int ticketsPerUSer;
+
+    private List<TicketCategoryDto> ticketCategoryDtoList;
 }
