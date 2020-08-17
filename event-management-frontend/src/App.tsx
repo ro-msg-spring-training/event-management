@@ -17,11 +17,7 @@ function App() {
   return (
     <div className="App">
       <Suspense fallback={<Loader />}>
-        <ThemeProvider theme={themeDark}>
-          <Provider store={store}>
-            <Test />
-          </Provider>
-        </ThemeProvider>
+        <Test />
       </Suspense>
     </div>
   );

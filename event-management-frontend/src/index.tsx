@@ -4,11 +4,20 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import "./i18n";
+import { ThemeProvider } from "@material-ui/core";
+import { Provider } from "react-redux";
+import store from "./store/store";
+import themeDark from "./styles/theme";
+import { BrowserRouter as Router } from "react-router-dom";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Router>
+    <ThemeProvider theme={themeDark}>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </ThemeProvider>
+  </Router>,
   document.getElementById("root")
 );
 
