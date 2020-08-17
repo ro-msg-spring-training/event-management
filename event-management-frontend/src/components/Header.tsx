@@ -7,6 +7,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import AppBarCollapse from "./AppBarCollapse";
 import RO from '../languageImages/RO.png';
 import EN from '../languageImages/EN.png';
+import { useTranslation } from "react-i18next";
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -41,9 +42,12 @@ const useStyles = makeStyles((theme: Theme) =>
 
 // The Header creates links that can be used to navigate between routes.
 const Header = () => {
+    const { i18n } = useTranslation();
     const classes = useStyles();
-    const testFunction = () => {
-        alert("Language clicked");
+
+    const handleChangeAppLanguage = (language: string) => {
+        i18n.changeLanguage(language);
+        localStorage.setItem("i18nextLng", language)
     }
 
     return (
@@ -55,10 +59,10 @@ const Header = () => {
                     <Typography variant="h6" >&nbsp;My account</Typography>
                 </IconButton>
             </Link>
-            <div onClick={testFunction}>
+            <div onClick={()=>handleChangeAppLanguage("ro")}>
                 <Avatar alt="RO" variant="square" className={classes.small} src={RO} />
             </div>
-            <div onClick={testFunction}>
+            <div onClick={()=>handleChangeAppLanguage("en")}>
                 <Avatar alt="EN" variant="square" className={classes.small} src={EN} />
             </div>
 
