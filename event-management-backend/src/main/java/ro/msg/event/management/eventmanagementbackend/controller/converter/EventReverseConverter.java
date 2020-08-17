@@ -21,7 +21,7 @@ public class EventReverseConverter implements Converter<EventDto, Event> {
                 .title(eventDTO.getTitle())
                 .subtitle(eventDTO.getSubtitle())
                 .observations(eventDTO.getObservations())
-                .ticketsPerUser(eventDTO.getTicketsPerUSer())
+                .ticketsPerUser(eventDTO.getTicketsPerUser())
                 .highlighted(eventDTO.isHighlighted())
                 .status(eventDTO.isStatus())
                 .maxPeople(eventDTO.getMaxPeople())
@@ -47,7 +47,7 @@ public class EventReverseConverter implements Converter<EventDto, Event> {
             event.setPictures(pictures);
         }
 
-        event.setTicketCategoryList(ticketCategoryConverter.convertAll(eventDTO.getTicketCategoryDtoList()));
+        event.setTicketCategories(ticketCategoryConverter.convertAll(eventDTO.getTicketCategoryDtoList()));
 
         return event;
     }

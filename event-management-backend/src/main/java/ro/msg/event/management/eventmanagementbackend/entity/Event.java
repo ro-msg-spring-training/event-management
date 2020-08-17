@@ -43,21 +43,17 @@ public class Event extends BaseEntity {
 
     private String creator;
 
-
     @OneToMany(mappedBy = "event",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     private List<Picture> pictures;
 
-
     @OneToMany(mappedBy = "event",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     private List<EventSublocation> eventSublocations;
-
-
 
     @OneToMany(mappedBy = "event",
             fetch = FetchType.LAZY,
@@ -71,10 +67,4 @@ public class Event extends BaseEntity {
             orphanRemoval = true)
     private List<TicketCategory> ticketCategories;
 
-
-    @OneToMany(mappedBy = "event",
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
-            orphanRemoval = true)
-    private List<TicketCategory> ticketCategoryList;
 }

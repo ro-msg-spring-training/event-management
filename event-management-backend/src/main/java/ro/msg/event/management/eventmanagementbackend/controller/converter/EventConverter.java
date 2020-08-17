@@ -30,7 +30,7 @@ public class EventConverter implements Converter<Event, EventDto> {
                 .description(event.getDescription())
                 .observations(event.getObservations())
                 .status(event.isStatus())
-                .ticketsPerUSer(event.getTicketsPerUser())
+                .ticketsPerUser(event.getTicketsPerUser())
                 .highlighted(event.isHighlighted())
                 .maxPeople(event.getMaxPeople())
                 .startDate(event.getStartDate())
@@ -39,7 +39,7 @@ public class EventConverter implements Converter<Event, EventDto> {
                 .endHour(event.getEndHour())
                 .creator(event.getCreator())
                 .picturesUrlSave(picturesUrl)
-                .ticketCategoryDtoList(ticketCategoryReverseConverter.convertAll(event.getTicketCategoryList()))
+                .ticketCategoryDtoList(ticketCategoryReverseConverter.convertAll(event.getTicketCategories()))
                 .build();
     }
 }

@@ -45,7 +45,7 @@ public class EventDto {
 
     private List<String> picturesUrlDelete;
 
-    private int ticketsPerUSer;
+    private int ticketsPerUser;
 
     private List<TicketCategoryDto> ticketCategoryDtoList;
 }
