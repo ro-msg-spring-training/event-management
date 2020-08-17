@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { CircularProgress, Container } from '@material-ui/core';
+import { CircularProgress, Container, Paper, makeStyles } from '@material-ui/core';
 import { loadEvent, deleteEvent, addEvent } from '../../actions/HeaderEventCrudActions';
 import { connect } from 'react-redux';
 import Header from './headerEditAndDelete/HeaderCrudSmart';
@@ -65,11 +65,21 @@ const initialEventOverview = {
   }
 }
 
+const useStyles = makeStyles({
+  paper: {
+    width: "100%",
+    minHeight: "100vh",
+    background: 'linear-gradient(45deg, #21C6F3 50%, #1E5FA4 90%)',
+    // background: '#FFFFFF', 
+  },
+});
+
 function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, fetchEvent }: Props) {
   const history = useHistory();
+  const classes = useStyles();
   const { t } = useTranslation();
 
-  let newEvent = match.path === "/newEvent" ? true : false;
+  let newEvent = match.path === "/admin/newEvent" ? true : false;
 
   const [open, setOpen] = useState(false);
   const [msgUndo, setMsgUndo] = useState("");
@@ -217,7 +227,7 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, fetc
 
   let title = newEvent === false ? fetchEvent.event.title : t("welcome.newEventTitle");
   return (
-    <>
+    <Paper className={classes.paper}>
       <Header saveEvent={saveEvent} deleteEvent={deleteEvent} admin={admin} title={title} />
       <Stepper
         overviewComponent={overviewComponent}
@@ -232,7 +242,7 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, fetc
         dialogTitle={dialogTitle}
         dialogDescription={dialogDescription}
       />
-    </>
+    </Paper>
   );
 }
 

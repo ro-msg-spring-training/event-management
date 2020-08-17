@@ -19,23 +19,27 @@ const AuthWrapper = () => {
   };
 
   return (
-    <div className="authComponentsResponsive">
-      {/* <Button onClick={() => changeLanguage("en")}>en</Button>
+    <>
+      <div className="authComponentsResponsive">
+
+        {/* <Button onClick={() => changeLanguage("en")}>en</Button>
       <Button onClick={() => changeLanguage("ro")}>ro</Button>
       <hr /> */}
 
-      <Switch>
-        <Route exact path="/">
-          <Redirect to="/login" />
-        </Route>
-        <Route path="/login" component={Login}></Route>
-        <Route path="/forgotpassword" component={ForgotPassword}></Route>
-        <Route path="/forgotpasswordverification" component={ForgotPasswordVerification}></Route>
-        <Route path="/changepasswordconfirmation" component={ChangePasswordConfirm}></Route>
-        <Route path="/register" component={RegistrationPage}></Route>
-        <Route path='/admin' component={Main} />
-      </Switch>
-    </div>
+        <Switch>
+          <Route exact path="/">
+            <Redirect to="/login" />
+          </Route>
+          <Route path="/login" component={Login}></Route>
+          <Route path="/forgotpassword" component={ForgotPassword}></Route>
+          <Route path="/forgotpasswordverification" component={ForgotPasswordVerification}></Route>
+          <Route path="/changepasswordconfirmation" component={ChangePasswordConfirm}></Route>
+          <Route path="/register" component={RegistrationPage}></Route>
+          <Route path='/admin' component={Main} />
+        </Switch>
+      </div>
+
+    </>
   );
 };
 

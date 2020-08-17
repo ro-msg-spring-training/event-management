@@ -13,7 +13,7 @@ import { useStyles } from '../../../styles/CommonStyles';
 import { EventSort } from "../../../model/EventSort";
 import { useTranslation } from "react-i18next";
 import { useScrollPosition } from '@n8tb1t/use-scroll-position'
-import { useListStyles } from '../../../styles/eventListStyles';
+import { useListStyles } from '../../../styles/EventListStyles';
 import {createStyles, Theme, withStyles} from "@material-ui/core/styles";
 
 const StyledTableCell = withStyles((theme: Theme) =>
@@ -131,7 +131,7 @@ const EventListDumb = (props: Props) => {
         return (
             <TableContainer component={Paper}>
 
-                    <Link to={`/newEvent`} style={{ textDecoration: 'none' }}>
+                    <Link to={`/admin/newEvent`} style={{ textDecoration: 'none' }}>
                         <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3} ${commonClasses.buttonStyle4}`}>{t("eventList.createNewEventButton")}</Button>
                     </Link>
 

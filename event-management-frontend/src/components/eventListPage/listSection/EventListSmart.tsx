@@ -7,7 +7,7 @@ import EventListDumb from "./EventListDumb";
 import { EventSort } from "../../../model/EventSort";
 import { sortEvents, prevPage, nextPage } from "../../../actions/EventsPageActions";
 import { EventFilters } from "../../../model/EventFilters";
-import {CircularProgress, Grid} from "@material-ui/core";
+import { CircularProgress, Grid, Container } from "@material-ui/core";
 import ErrorIcon from '@material-ui/icons/Error';
 import EventDetailsMobileDumb from "./EventDetailsMobileDumb";
 
@@ -48,7 +48,7 @@ class EventListSmart extends React.Component<Props, State> {
         if (this.props.isLoading) {
             return (
                 <Grid container alignItems={"center"} justify={"center"}>
-                    <br/><br/><br/><br/><br/><CircularProgress />
+                    <br /><br /><br /><br /><br /><CircularProgress />
                 </Grid>
             );
         }
@@ -56,7 +56,7 @@ class EventListSmart extends React.Component<Props, State> {
         if (this.props.isError) {
             return (
                 <Grid container alignItems={"center"} justify={"center"}>
-                    <br/><br/><br/><br/><br/><ErrorIcon color={"primary"} fontSize={"large"}/>
+                    <br /><br /><br /><br /><br /><ErrorIcon color={"primary"} fontSize={"large"} />
                     Oops, there was an error
                 </Grid>
             );
@@ -98,15 +98,16 @@ class EventListSmart extends React.Component<Props, State> {
         const eventDetails = events
             .map((event: any) =>
                 <EventDetailsDumb key={event.id} id={event.id} title={event.title} subtitle={event.title}
-                                  location={event.location} date={event.date} hour={event.hour} occRate={event.occRate}
-                                  name={event.name} />);
+                    location={event.location} date={event.date} hour={event.hour} occRate={event.occRate}
+                    name={event.name} />);
         // On mobile we would like to keep only title and date
         const eventDetailsMobile = events
             .map((event: any) =>
                 <EventDetailsMobileDumb key={event.id} id={event.id}
-                                        title={event.title} location={event.location} date={event.date} name={event.name} />);
+                    title={event.title} location={event.location} date={event.date} name={event.name} />);
 
         return (
+            <Container>
                 <EventListDumb
                     eventsDetails={eventDetails}
                     eventsDetailsMobile={eventDetailsMobile}
@@ -114,6 +115,7 @@ class EventListSmart extends React.Component<Props, State> {
                     sort={this.props.eventsSort}
                     goToPrevPage={goToPrevPage}
                     goToNextPage={goToNextPage} />
+            </Container>
         );
     }
 }
