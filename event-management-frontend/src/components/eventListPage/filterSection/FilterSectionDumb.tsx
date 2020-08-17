@@ -179,7 +179,7 @@ function FilterSectionDumb(props: Props) {
                                 </Select>
 
                                 <TextField
-                                    label={ `${t("eventList.occupacyRate")} ${props.errorRate ? " - " + props.errorRate : ""}`}
+                                    label={ `${t("eventList.occupancyRate")} ${props.errorRate ? " - " + props.errorRate : ""}`}
                                     variant="outlined"
                                     type='number'
                                     error={props.errorRate !== ''}

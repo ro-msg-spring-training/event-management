@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 // The Header creates links that can be used to navigate between routes.
 const Header = () => {
-    const { i18n } = useTranslation();
+    const [ t, i18n ] = useTranslation();
     const classes = useStyles();
 
     const handleChangeAppLanguage = (language: string) => {
@@ -56,7 +56,7 @@ const Header = () => {
             <Link to='/account' style={{ textDecoration: 'none' }} >
                 <IconButton className={classes.yellow}>
                     <AccountCircle />
-                    <Typography variant="h6" >&nbsp;My account</Typography>
+                    <Typography variant="h6" >&nbsp;{t("eventList.account")}</Typography>
                 </IconButton>
             </Link>
             <div onClick={()=>handleChangeAppLanguage("ro")}>

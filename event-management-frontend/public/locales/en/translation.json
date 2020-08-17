@@ -1,10 +1,19 @@
 {
   "eventList": {
+    "account": "My account",
+    "home": "Home",
+    "buildings": "Buildings",
+    "events": "Events",
+    "statistics": "Statistics",
+    "previous": "Prev",
+    "next": "Next",
+    "details": "Details",
+    "validate": "Validate",
     "title": "Title",
     "subtitle": "Subtitle",
     "status": "Status",
-    "active": "Activ",
-    "inactive": "Inactiv",
+    "active": "Active",
+    "inactive": "Inactive",
     "notSet": "Not set",
     "location": "Location",
     "date": "Date",
@@ -13,15 +22,13 @@
     "endHour": "End time",
     "to": "to",
     "maxPeople": "Max number of people",
-    "occupacyRate": "Occupacy rate",
+    "occupancyRate": "Occupancy rate",
     "highlighted": "Highlighted",
     "createNewEventButton": "Create new event",
     "filterButton": "Filter",
     "seeMoreFilters": "See more filters",
     "seeLessFilters": "See less filters",
-    "previous": "Previous",
-    "next": "Next",
     "notANumber": "Invalid number",
-    "notAValidPErcent": "Invalid percent"
+    "notAValidPercent": "Invalid percent"
   }
 }

@@ -6,7 +6,7 @@ import {Link} from "react-router-dom";
 import MobileEvent from "../../../model/MobileEvent";
 import {createStyles, Theme, withStyles} from "@material-ui/core/styles";
 import { useStyles } from '../../../styles/CommonStyles';
-
+import { useTranslation } from "react-i18next";
 
 const StyledTableCell = withStyles((theme: Theme) =>
     createStyles({
@@ -29,6 +29,7 @@ const StyledTableRow = withStyles((theme: Theme) =>
 
 const EventDetailsMobileDumb = (props: MobileEvent) => {
     const commonClasses = useStyles()
+    const [t] = useTranslation()
 
     const id = props.id;
     const title = props.name;
@@ -41,10 +42,14 @@ const EventDetailsMobileDumb = (props: MobileEvent) => {
 
             <StyledTableCell>
                 <Link to={`/events/${id}`} style={{ textDecoration: 'none'}}>
-                    <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3}`}>Details</Button>
+                    <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3}`}>
+                        {t("eventList.details")}
+                    </Button>
                 </Link><br/><br/>
                 <Link to={`/validate/${id}`} style={{ textDecoration: 'none' }}>
-                    <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3}`}>Validate</Button>
+                    <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3}`}>
+                        {t("eventList.validate")}
+                    </Button>
                 </Link>
             </StyledTableCell>
         </StyledTableRow>

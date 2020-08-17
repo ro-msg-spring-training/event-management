@@ -4,11 +4,13 @@ import ButtonAppBarCollapse from "./ButtonAppBarCollapse";
 import Typography from "@material-ui/core/Typography";
 import { useStyles } from "../styles/CommonStyles";
 import { NavLink } from 'react-router-dom'
+import { useTranslation } from "react-i18next";
 
 
 const AppBarCollapse = (props: any) => {
     const classes = useStyles();
     const [activeIndex, setActiveIndex] = React.useState("home");
+    const [t] = useTranslation();
 
     const handleOnClick = (index: string) => {
         setActiveIndex(index);
@@ -19,22 +21,22 @@ const AppBarCollapse = (props: any) => {
             <ButtonAppBarCollapse>
                 <a href={"/"} className={classes.linkDecoration}><MenuItem>
                     <Typography variant="h6" className={classes.light}>
-                        Home
+                        {t("eventList.home")}
                     </Typography>
                 </MenuItem></a>
                 <a href={"/buildings"} className={classes.linkDecoration}><MenuItem>
                     <Typography variant="h6" className={classes.light}>
-                        Buildings&nbsp;&nbsp;
+                        {t("eventList.buildings")}&nbsp;&nbsp;
                     </Typography>
                 </MenuItem></a>
                 <a href={"/events"} className={classes.linkDecoration}><MenuItem>
                     <Typography variant="h6" className={classes.light}>
-                        Events&nbsp;&nbsp;
+                        {t("eventList.events")}&nbsp;&nbsp;
                     </Typography>
                 </MenuItem></a>
                 <a href={"/statistics"} className={classes.linkDecoration}><MenuItem>
                     <Typography variant="h6" className={classes.light}>
-                        Statistics&nbsp;&nbsp;
+                        {t("eventList.statistics")}&nbsp;&nbsp;
                     </Typography>
                 </MenuItem></a>
             </ButtonAppBarCollapse>
@@ -46,7 +48,7 @@ const AppBarCollapse = (props: any) => {
                          onClick={() => handleOnClick("home")}
                          className={activeIndex === "home" ? classes.active : classes.inactive}>
                     <Typography variant="h6">
-                        Home&nbsp;&nbsp;
+                        {t("eventList.home")}&nbsp;&nbsp;
                     </Typography>
                 </NavLink>
                 </Button>
@@ -56,7 +58,7 @@ const AppBarCollapse = (props: any) => {
                          onClick={() => handleOnClick("buildings")}
                          className={activeIndex === "buildings" ? classes.active : classes.inactive}>
                     <Typography variant="h6">
-                        Buildings&nbsp;&nbsp;
+                        {t("eventList.buildings")}&nbsp;&nbsp;
                     </Typography>
                 </NavLink>
                 </Button>
@@ -66,7 +68,7 @@ const AppBarCollapse = (props: any) => {
                              onClick={() => handleOnClick("events")}
                              className={activeIndex === "events" ? classes.active : classes.inactive}>
                         <Typography variant="h6">
-                            Events&nbsp;&nbsp;
+                            {t("eventList.events")}&nbsp;&nbsp;
                         </Typography>
                     </NavLink>
                 </Button>
@@ -76,7 +78,7 @@ const AppBarCollapse = (props: any) => {
                              onClick={() => handleOnClick("statistics")}
                              className={activeIndex === "statistics" ? classes.active : classes.inactive}>
                         <Typography variant="h6">
-                            Statistics&nbsp;&nbsp;
+                            {t("eventList.statistics")}&nbsp;&nbsp;
                         </Typography>
                     </NavLink>
                 </Button>
