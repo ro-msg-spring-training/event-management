@@ -10,14 +10,19 @@ import {
   ADD_EVENT_FAILURE,
   EDIT_EVENT_REQUEST,
   EDIT_EVENT_SUCCESS,
-  EDIT_EVENT_FAILURE
+  EDIT_EVENT_FAILURE,
+  UPDATE_EVENT_IMAGES
 } from "../actions/HeaderEventCrudActions"
 import { EventCrud } from "../model/EventCrud"
+import { EventImage } from "../model/EventImage"
 
 export interface EventState {
   loading: boolean,
   event: EventCrud,
-  error: string
+  error: string,
+  isError: boolean,
+  isLoading: boolean,
+  images: EventImage[]
 }
 
 const initialState: EventState = {
@@ -27,7 +32,14 @@ const initialState: EventState = {
     observations: "mock", location: "mock", startDate: "2019-08-03", endDate: "2019-08-03", startTime: "07:12", endTime: "07:12",
     maxPeople: 0, images: [""], maxNoTicketsPerUser: 0
   },
-  error: ''
+  error: '',
+  isError: false,
+  isLoading: false,
+  images: []
+}
+
+const getEventImages = (imagesStr: string[]) => {
+  return [] as EventImage[]
 }
 
 const HeaderReducer = (state = initialState, action: { type: string, payload: EventCrud }) => {
@@ -35,18 +47,24 @@ const HeaderReducer = (state = initialState, action: { type: string, payload: Ev
     case FETCH_EVENT_REQUEST:
       return {
         ...state,
-        loading: true
+        loading: true,
+        isLoading: true
       }
     case FETCH_EVENT_SUCCESS:
       return {
         loading: false,
-        product: action.payload,
-        error: ''
+        event: action.payload,
+        error: '',
+        isError: false,
+        isLoading: false,
+        images: getEventImages(action.payload.images)
       }
     case FETCH_EVENT_FAILURE:
       return {
         loading: false,
-        product: action.payload
+        event: action.payload,
+        isError: true,
+        isLoading: false
       }
     case DELETE_EVENT_REQUEST:
       return {
@@ -88,6 +106,13 @@ const HeaderReducer = (state = initialState, action: { type: string, payload: Ev
       return {
         loading: false,
         newProduct: action.payload
+      }
+    case UPDATE_EVENT_IMAGES:
+      console.log(action.payload)
+      return {
+        ...state,
+        images: action.payload,
+        isError: false,
       }
     default: return state
   }

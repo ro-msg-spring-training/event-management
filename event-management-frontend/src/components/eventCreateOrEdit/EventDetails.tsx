@@ -7,11 +7,12 @@ import Stepper from './Stepper';
 import { useHistory } from 'react-router-dom';
 import AlertDialog from './AlertDialog';
 import Overview from './overviewSection/OverviewSmart';
-import Images from '../Images';
 import Tickets from '../Tickets';
 import Location from '../Location';
 import { EventCrud } from '../../model/EventCrud';
 import { useTranslation } from "react-i18next";
+import ImagesSectionSmart from './imagesSection/ImagesSectionSmart';
+import { EventImage } from '../../model/EventImage';
 
 const event: EventCrud = {
   id: "",
@@ -36,11 +37,12 @@ interface Props {
   admin: boolean,
   fetchEventF: (id: string) => void,
   deleteEventF: (id: string) => void,
-  addEventF: (event: EventCrud) => void,
+  addEventF: (event: EventCrud, images: EventImage[]) => void,
   fetchEvent: {
     loading: boolean,
     event: EventCrud,
-    error: string
+    error: string,
+    images: EventImage[]
   },
 }
 
@@ -91,7 +93,6 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, fetc
   const [statusOverview, setStatusOverview] = useState("active");
   const [checkBoxStateOverview, setCheckboxStateOverview] = useState(false);
   //--------------------------
-
 
   useEffect(() => {
     newEvent === false && fetchEventF(match.params.id)
@@ -179,8 +180,13 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, fetc
 
   let saveEvent = (): void => {
     //TODO check if save for edit or for new event
-
+    
     handleSaveOverviewEvent();
+
+    // =================
+
+    newEvent && addEventF(event, fetchEvent.images) 
+
   }
 
   let deleteEvent = (): void => {
@@ -214,7 +220,7 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, fetc
     />
   const locationComponent = <Location />
   const ticketsComponent = <Tickets />
-  const imagesComponent = <Images />
+  const imagesComponent = <ImagesSectionSmart/>
 
 
   if (fetchEvent.loading) {
@@ -256,7 +262,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchEventF: (id: string) => dispatch(loadEvent(id)),
     deleteEventF: (id: string) => dispatch(deleteEvent(id)),
-    addEventF: (event: EventCrud) => dispatch(addEvent(event))
+    addEventF: (event: EventCrud, images: EventImage[]) => dispatch(addEvent(event, images)),
   }
 }
 

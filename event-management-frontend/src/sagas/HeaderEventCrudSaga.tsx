@@ -1,7 +1,8 @@
 import { takeLatest, call, put } from "redux-saga/effects";
 import { LOAD_EVENT, fetchEventRequest, fetchEventSuccess, fetchEventFailure, DELETE_EVENT, deleteEventRequest, deleteEventSuccess, deleteEventFailure, ADD_EVENT, addEventRequest, addEventSuccess, addEventFailure, editEventRequest, editEventSuccess, editEventFailure, EDIT_EVENT } from "../actions/HeaderEventCrudActions";
-import { fetchEventAPI, deleteEventAPI, addEventAPI, editEventAPI } from "../api/HeaderEventCrudAPI";
+import { fetchEventAPI, deleteEventAPI, addEventAPI, editEventAPI, updateImagesFromS3 } from "../api/HeaderEventCrudAPI";
 import { EventCrud } from "../model/EventCrud";
+import { EventImage } from "../model/EventImage";
 
 interface Props {
   type: string,
@@ -10,7 +11,7 @@ interface Props {
 
 interface AddProps {
   type: string,
-  payload: EventCrud
+  payload: {event: EventCrud, images: EventImage[]}
 }
 
 //-----------------------------------------LOAD EVENT
@@ -47,7 +48,10 @@ export function* deleteProductWatcher() {
 function* addEventAsync(props: AddProps) {
   try {
     yield put(addEventRequest());
-    yield call(() => addEventAPI(props.payload));
+    const imagesURL = yield call(() => updateImagesFromS3(props.payload.images));
+    const event: EventCrud = props.payload.event
+    event.images = imagesURL 
+    yield call(() => addEventAPI(event));
     yield put(addEventSuccess())
   } catch (e) {
     yield put(addEventFailure(e))
@@ -62,7 +66,10 @@ export function* addProductWatcher() {
 function* editEventAsync(props: AddProps) {
   try {
     yield put(editEventRequest());
-    yield call(() => editEventAPI(props.payload));
+    const imagesURL = yield call(() => updateImagesFromS3(props.payload.images));
+    const event: EventCrud = props.payload.event
+    event.images = imagesURL 
+    yield call(() => editEventAPI(event));
     yield put(editEventSuccess())
   } catch (e) {
     yield put(editEventFailure(e))

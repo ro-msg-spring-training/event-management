@@ -1,4 +1,5 @@
 import { EventCrud } from "../model/EventCrud"
+import { EventImage } from "../model/EventImage"
 
 export const LOAD_EVENT = 'LOAD_EVENT'
 export const DELETE_EVENT = 'DELETE_EVENT'
@@ -21,6 +22,8 @@ export const EDIT_EVENT_REQUEST = 'EDIT_EVENT_REQUEST'
 export const EDIT_EVENT_SUCCESS = 'EDIT_EVENT_SUCCESS'
 export const EDIT_EVENT_FAILURE = 'EDIT_EVENT_FAILURE'
 
+export const UPDATE_EVENT_IMAGES = "UPDATE_EVENT_IMAGES"
+
 //---------------------------------------------------for SAGA
 export const loadEvent = (id: string) => {
   return {
@@ -36,17 +39,17 @@ export const deleteEvent = (id: string) => {
   }
 }
 
-export const addEvent = (event: EventCrud) => {
+export const addEvent = (event: EventCrud, images: EventImage[]) => {
   return {
     type: ADD_EVENT,
-    payload: event
+    payload: {event: event, images: images}
   }
 }
 
-export const editEvent = (event: EventCrud) => {
+export const editEvent = (event: EventCrud, images: EventImage[]) => {
   return {
     type: EDIT_EVENT,
-    payload: event
+    payload:  {event: event, images: images}
   }
 }
 //------------------------------------------------------
@@ -125,5 +128,12 @@ export const editEventFailure = (error: string) => {
   return {
     type: EDIT_EVENT_FAILURE,
     payload: error
+  }
+}
+
+export const updateEventImages = (images: EventImage[]) => {
+  return {
+      type: UPDATE_EVENT_IMAGES,
+      payload: images
   }
 }
