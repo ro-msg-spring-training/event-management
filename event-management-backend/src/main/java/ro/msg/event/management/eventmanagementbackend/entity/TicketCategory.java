@@ -18,7 +18,7 @@ public class TicketCategory extends BaseEntity {
 
     private String subtitle;
 
-    private double price;
+    private float price;
 
     private String description;
 
@@ -33,4 +33,5 @@ public class TicketCategory extends BaseEntity {
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     private List<Ticket> tickets;
+
 }

@@ -22,6 +22,10 @@ public class Ticket extends BaseEntity {
     @JoinColumn(name = "booking")
     private Booking booking;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "ticket_category")
+    private TicketCategory ticketCategory;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ticket")
     private TicketDocument ticketDocument;
