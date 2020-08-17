@@ -1,0 +1,27 @@
+{
+  "eventList": {
+    "title": "Titlu",
+    "subtitle": "Subtitlu",
+    "status": "Status",
+    "active": "Activ",
+    "inactive": "Inactiv",
+    "notSet": "Nedeterminat",
+    "location": "Locație",
+    "date": "Data",
+    "hour": "Ora",
+    "startHour": "Momentul de începere",
+    "endHour": "Momentul de încheiere",
+    "to": "-",
+    "maxPeople": "Număr maxim de persoane",
+    "occupacyRate": "Rata de ocupare",
+    "highlighted": "Evidențiat",
+    "createNewEventButton": "Crează eveniment nou",
+    "filterButton": "Filtrare",
+    "seeMoreFilters": "Vezi mai multe filtre",
+    "seeLessFilters": "Vezi mai puține filtre",
+    "previous": "Anterior",
+    "next": "Următor",
+    "notANumber": "Număr invalid",
+    "notAValidPErcent": "Procent invalid"
+  }
+}

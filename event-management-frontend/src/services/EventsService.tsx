@@ -1,6 +1,6 @@
-import {EventFiltersProps} from "../types/EventFiltersProps";
+import {EventFilters} from "../model/EventFilters";
 import {EventSortProps} from "../types/EventSortProps";
-
+import moment from 'moment'
 const eventsUrl = 'http://localhost:8080/events/filter';
 const mockUrlProducts = 'http://localhost:4000/products';
 
@@ -13,7 +13,7 @@ const computeSortQueryString = (sort: EventSortProps) => {
     return sortToSend;
 }
 
-const computeFilterQueryString = (filters: EventFiltersProps) => {
+const computeFilterQueryString = (filters: EventFilters) => {
     let filtersToSend: any = {}
 
     if (filters.title !== '') {
@@ -29,10 +29,10 @@ const computeFilterQueryString = (filters: EventFiltersProps) => {
         filtersToSend['location'] = filters.location
     }
     if (filters.startDate !== null) {
-        filtersToSend['startDate'] = filters.startDate 
+        filtersToSend['startDate'] = moment(filters.startDate ).format("YYYY-MM-DD") 
     }
     if (filters.endDate !== null) {
-        filtersToSend['endDate'] = filters.endDate 
+        filtersToSend['endDate'] = moment(filters.endDate ).format("YYYY-MM-DD") 
     }
     if (filters.rate !== '') {
         filtersToSend['rate'] = filters.rate
@@ -49,7 +49,7 @@ const computeFilterQueryString = (filters: EventFiltersProps) => {
     return filtersToSend
 }
 
-export const fetchFilteredEvents = (filters: EventFiltersProps, page: number) => {
+export const fetchFilteredEvents = (filters: EventFilters, page: number) => {
     const filtersToSend = computeFilterQueryString(filters)
     const url = new URL(eventsUrl + "/" + page + "?")
 
@@ -63,7 +63,7 @@ export const fetchFilteredEvents = (filters: EventFiltersProps, page: number) =>
 }
 
 
-export const fetchSortedEvents = (sort: EventSortProps, filters: EventFiltersProps, page: number) => {
+export const fetchSortedEvents = (sort: EventSortProps, filters: EventFilters, page: number) => {
     const filtersToSend = computeFilterQueryString(filters)
     const sortToSend = computeSortQueryString(sort)
     const url = new URL(eventsUrl + "/sort/" + page + "?")
@@ -86,7 +86,7 @@ export const fetchEvents = () => {
 //TODO: error handling: go only to existent pages
 //TODO: get rid of event title and active header only
 //TODO: static filters and static header
-export const changePage = (filters: EventFiltersProps, sort: EventSortProps, page: number) => {
+export const changePage = (filters: EventFilters, sort: EventSortProps, page: number) => {
     const filtersToSend = computeFilterQueryString(filters)
     const sortToSend = computeSortQueryString(sort)
 

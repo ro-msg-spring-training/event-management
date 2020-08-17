@@ -1,0 +1,27 @@
+{
+  "eventList": {
+    "title": "Title",
+    "subtitle": "Subtitle",
+    "status": "Status",
+    "active": "Activ",
+    "inactive": "Inactiv",
+    "notSet": "Not set",
+    "location": "Location",
+    "date": "Date",
+    "hour": "Hour",
+    "startHour": "Start time",
+    "endHour": "End time",
+    "to": "to",
+    "maxPeople": "Max number of people",
+    "occupacyRate": "Occupacy rate",
+    "highlighted": "Highlighted",
+    "createNewEventButton": "Create new event",
+    "filterButton": "Filter",
+    "seeMoreFilters": "See more filters",
+    "seeLessFilters": "See less filters",
+    "previous": "Previous",
+    "next": "Next",
+    "notANumber": "Invalid number",
+    "notAValidPErcent": "Invalid percent"
+  }
+}

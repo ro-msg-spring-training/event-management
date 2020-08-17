@@ -1,25 +1,25 @@
 import React from 'react';
 import EventDetailsDumb from "./EventDetailsDumb";
 import { connect } from 'react-redux';
-import {fetchAllEvents} from '../../../actions/EventsPageActions'
+import { fetchAllEvents } from '../../../actions/EventsPageActions'
 import { AppState } from "../../../store/store";
 import EventListDumb from "./EventListDumb";
-import {EventSortProps} from "../../../types/EventSortProps";
+import { EventSortProps } from "../../../types/EventSortProps";
 import { sortEvents, prevPage, nextPage } from "../../../actions/EventsPageActions";
-import {EventFiltersProps} from "../../../types/EventFiltersProps";
+import { EventFilters } from "../../../model/EventFilters";
 
 
 interface Props {
     events: { Event: any; }[];
     eventsSort: EventSortProps;
-    filters: EventFiltersProps;
+    filters: EventFilters;
     isLoading: boolean;
     isError: boolean;
     fetchAllEvents: () => { type: string; };
     sortEvents: (sort: EventSortProps, page: number) => void;
     page: number;
-    prevPage: (filters: EventFiltersProps, sort: EventSortProps) => void;
-    nextPage: (filters: EventFiltersProps, sort: EventSortProps) => void;
+    prevPage: (filters: EventFilters, sort: EventSortProps) => void;
+    nextPage: (filters: EventFilters, sort: EventSortProps) => void;
 }
 
 interface State {
@@ -48,12 +48,12 @@ class EventListSmart extends React.Component<Props, State> {
                 criteria: criteria,
                 type: type
             }
-            if (sortParams.criteria === undefined || (criteria === this.state.sortCriteria && type === this.state.sortType)){
+            if (sortParams.criteria === undefined || (criteria === this.state.sortCriteria && type === this.state.sortType)) {
                 return
             } else {
                 this.props.sortEvents(sortParams, this.props.page);
             }
-            this.setState({sortCriteria: criteria, sortType: type});
+            this.setState({ sortCriteria: criteria, sortType: type });
         }
 
         const goToPrevPage = () => {
@@ -68,8 +68,8 @@ class EventListSmart extends React.Component<Props, State> {
         const eventDetails = events
             .map((event: any) =>
                 <EventDetailsDumb key={event.id} id={event.id} title={event.title} subtitle={event.title}
-                                  location={event.location} date={event.date} hour={event.hour} occRate={event.occRate}
-                                  name={event.name} />);
+                    location={event.location} date={event.date} hour={event.hour} occRate={event.occRate}
+                    name={event.name} />);
 
         return (
                 <EventListDumb
@@ -77,7 +77,7 @@ class EventListSmart extends React.Component<Props, State> {
                     handleSortEvent={handleSortEvent}
                     sort={this.props.eventsSort}
                     goToPrevPage={goToPrevPage}
-                    goToNextPage={goToNextPage}/>
+                    goToNextPage={goToNextPage} />
         );
     }
 }

@@ -1,6 +1,10 @@
 import { makeStyles } from "@material-ui/core";
 
 export const useFilterStyles = makeStyles({
+    filterArea:{
+        paddingTop: '30px',
+        paddingBottom: '10px'
+    },
     filterButtonsArea: {
         display: 'flex',
         flexDirection: 'column',
@@ -8,12 +12,12 @@ export const useFilterStyles = makeStyles({
     },
     relationArea: {
         display: 'flex',
-        alignItems: 'flex-end'
+        alignItems: 'center'
     },
     timeArea: {
         display: 'flex',
         justifyContent: 'space-between',
-        alignItems: 'flex-end'
+        alignItems: 'center'
     },
     relationSelect: {
         marginRight: '5px',
@@ -24,28 +28,22 @@ export const useFilterStyles = makeStyles({
     filterExpandText: {
         cursor: 'pointer',
         fontSize: 12,
-        marginTop: '5px'
+        marginTop: '5px',
     },
     highlightedCheckbox: {
         display: 'flex',
-        alignItems: 'flex-end'
-    },
-    extraFilterHeight: {
-        overflow: 'hidden',
-        transition: 'max-height 0.5s',
-        maxHeight: '100%'
-    },
-    extraFilterHeightZero: {
-        overflow: 'hidden',
-        transition: 'max-height 0.5s',
-        maxHeight: 0,
+        alignItems: 'center'
     },
     customDatePickerWidth: {
         '& .react-datepicker-wrapper': {
             width: '100%'
-        }
+        },
     },
     datePicker: {
-        width: '100%'
-    }
+        width: '100%',
+        zIndex: 200
+    },
+    collapseArea: {
+        paddingTop: '24px'
+    },
 }); 
