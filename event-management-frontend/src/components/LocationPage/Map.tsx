@@ -14,6 +14,7 @@ import { LocationType } from "../../types/LocationType";
 import { AppState } from "../../store/store";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
+import { useTranslation, Trans } from "react-i18next";
 import {
   locationFetch,
   locationFetchSucces,
@@ -206,6 +207,7 @@ interface OwnProps {
 const MapWrapper: React.FC<Props> = (props: Props) => {
   const classesMap = useStylesMapWrapper();
   const classes = useStyles();
+  const { t, i18n } = useTranslation();
   const [position, setPosition]: any = useState([46.77121, 23.623634]);
   const [searchValue, setsearchValue] = useState("");
   const [searchLocation, setsearchLocation] = useState({
@@ -289,7 +291,7 @@ const MapWrapper: React.FC<Props> = (props: Props) => {
                   }}
                   disabled={submitDisabled}
                 >
-                  Select
+                  {t("location.selectButton")}
                 </Button>
               </div>
             </Popup>
@@ -302,7 +304,7 @@ const MapWrapper: React.FC<Props> = (props: Props) => {
               <Popup>
                 <div className={classesMap.wrapperPopup}>
                   <p className={classesMap.text}>
-                    Selected location for the event
+                    {t("location.selectedLocationMessage")}
                   </p>
                   <Button
                     className={`${classes.buttonStyle2} ${classes.buttonStyle3} ${classesMap.buttonPopup}`}
@@ -310,7 +312,7 @@ const MapWrapper: React.FC<Props> = (props: Props) => {
                       return cancelSubmit(position);
                     }}
                   >
-                    Cancel
+                    {t("location.cancelButton")}
                   </Button>
                 </div>
               </Popup>
@@ -339,7 +341,7 @@ const MapWrapper: React.FC<Props> = (props: Props) => {
                     }}
                     disabled={submitDisabled}
                   >
-                    Select
+                    {t("location.selectButton")}
                   </Button>
                 </div>
               </Popup>

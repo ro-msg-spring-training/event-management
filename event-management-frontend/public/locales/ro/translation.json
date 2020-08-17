@@ -1,0 +1,10 @@
+{
+  "welcome": {
+    "title": "Bine ai venit!"
+  },
+  "location": {
+    "selectButton": "Selecteaza",
+    "cancelButton": "Anuleaza",
+    "selectedLocationMessage": "Locatia selectata pentru eveniment"
+  }
+}
