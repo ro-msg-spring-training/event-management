@@ -12,7 +12,7 @@ import {
 import { takeLatest, takeEvery, put } from "redux-saga/effects";
 import { EventFilters } from "../model/EventFilters";
 import { fetchEvents, fetchFilteredEvents } from "../services/EventsService";
-import { EventSortProps } from "../types/EventSortProps";
+import { EventSortProps } from "../model/EventSort";
 
 
 interface FilterEventsProps {

@@ -10,7 +10,7 @@ import TableRow from '@material-ui/core/TableRow';
 import { Link } from "react-router-dom";
 import FilterSectionSmart from "../filterSection/FilterSectionSmart";
 import { useStyles } from '../../../styles/CommonStyles';
-import { EventSortProps } from "../../../types/EventSortProps";
+import { EventSortProps } from "../../../model/EventSort";
 import { useTranslation } from "react-i18next";
 import { useScrollPosition } from '@n8tb1t/use-scroll-position'
 import { useListStyles } from '../../../styles/eventListStyles';

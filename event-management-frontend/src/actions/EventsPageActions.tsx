@@ -1,5 +1,5 @@
 import { EventFilters } from "../model/EventFilters"
-import {EventSortProps} from "../types/EventSortProps";
+import {EventSortProps} from "../model/EventSort";
 
 export const UPDATE_FILTERS = "UPDATE_FILTERS"
 export const FILTER_EVENTS = "FILTER_EVENTS"

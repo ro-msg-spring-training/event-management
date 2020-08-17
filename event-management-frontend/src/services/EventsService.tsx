@@ -1,5 +1,5 @@
 import {EventFilters} from "../model/EventFilters";
-import {EventSortProps} from "../types/EventSortProps";
+import {EventSortProps} from "../model/EventSort";
 import moment from 'moment'
 const eventsUrl = 'http://localhost:8080/events/filter';
 const mockUrlProducts = 'http://localhost:4000/products';

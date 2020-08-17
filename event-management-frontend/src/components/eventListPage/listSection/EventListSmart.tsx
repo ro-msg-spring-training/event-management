@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { fetchAllEvents } from '../../../actions/EventsPageActions'
 import { AppState } from "../../../store/store";
 import EventListDumb from "./EventListDumb";
-import { EventSortProps } from "../../../types/EventSortProps";
+import { EventSortProps } from "../../../model/EventSort";
 import { sortEvents, prevPage, nextPage } from "../../../actions/EventsPageActions";
 import { EventFilters } from "../../../model/EventFilters";
 

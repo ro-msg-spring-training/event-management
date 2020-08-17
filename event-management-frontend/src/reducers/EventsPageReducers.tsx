@@ -10,7 +10,7 @@ import {
 } from "../actions/EventsPageActions"
 import { MathRelation } from "../model/MathRelation"
 import { EventFilters } from "../model/EventFilters";
-import { EventSortProps } from "../types/EventSortProps";
+import { EventSortProps } from "../model/EventSort";
 import {fetchSortedEvents, changePage } from "../services/EventsService";
 
 
