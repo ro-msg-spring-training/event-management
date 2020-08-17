@@ -39,7 +39,7 @@ public class Event extends BaseEntity {
 
     private String observations;
 
-    private boolean noTicketEvent;
+    private int ticketsPerUser;
 
     private String creator;
 
