@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom'
 import Home from './homePage/Home'
 import EventList from "./eventListPage/listSection/EventListSmart";
 import { Container } from '@material-ui/core';
-import Header from './Header';
+import Header from './header/Header';
 
 // The Main component renders one of the three provided
 // Routes (provided that one matches). The /events

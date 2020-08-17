@@ -2,7 +2,7 @@ import React from "react";
 import { Menu } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import HomeIcon from "@material-ui/icons/Home";
-import {useStyles} from "../styles/CommonStyles";
+import {useStyles} from "../../styles/CommonStyles";
 
 const ButtonAppBarCollapse = (props: any) => {
     const classes = useStyles();

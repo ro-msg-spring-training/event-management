@@ -5,8 +5,8 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import AppBarCollapse from "./AppBarCollapse";
-import RO from '../languageImages/RO.png';
-import EN from '../languageImages/EN.png';
+import RO from '../../languageImages/RO.png';
+import EN from '../../languageImages/EN.png';
 import { useTranslation } from "react-i18next";
 
 
