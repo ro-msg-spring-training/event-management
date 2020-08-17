@@ -37,7 +37,6 @@ class EventListSmart extends React.Component<Props, State> {
     }
 
     render() {
-        console.log("State: ", this.state)
         let { events } = this.props;
 
         const rows = events.length;
