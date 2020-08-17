@@ -11,13 +11,13 @@ import themeDark from "./styles/theme";
 import { BrowserRouter as Router } from "react-router-dom";
 
 ReactDOM.render(
-  <Router>
-    <ThemeProvider theme={themeDark}>
-      <Provider store={store}>
+  <Provider store={store}>
+    <Router>
+      <ThemeProvider theme={themeDark}>
         <App />
-      </Provider>
-    </ThemeProvider>
-  </Router>,
+      </ThemeProvider>
+    </Router>
+  </Provider>,
   document.getElementById("root")
 );
 
