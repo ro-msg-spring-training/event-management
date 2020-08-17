@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class TicketCategoryDto {
     private String title;
     private String subtitle;
-    private double price;
+    private float price;
     private String description;
     private int ticketsPerCategory;
 }
