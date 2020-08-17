@@ -7,6 +7,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import AppBarCollapse from "./AppBarCollapse";
 import RO from '../languageImages/RO.png';
 import EN from '../languageImages/EN.png';
+import { useTranslation } from "react-i18next";
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -42,6 +43,8 @@ const useStyles = makeStyles((theme: Theme) =>
 // The Header creates links that can be used to navigate between routes.
 const Header = () => {
     const classes = useStyles();
+    const [t] = useTranslation();
+
     const testFunction = () => {
         alert("Language clicked");
     }
@@ -52,7 +55,7 @@ const Header = () => {
             <Link to='/account' style={{ textDecoration: 'none' }} >
                 <IconButton className={classes.yellow}>
                     <AccountCircle />
-                    <Typography variant="h6" >&nbsp;My account</Typography>
+                    <Typography variant="h6" >&nbsp;{t("eventList.account")}</Typography>
                 </IconButton>
             </Link>
             <div onClick={testFunction}>

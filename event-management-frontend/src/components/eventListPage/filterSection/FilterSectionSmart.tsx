@@ -122,7 +122,7 @@ function FilterSectionSmart({ filters, expanded, setExpanded, updateFilters, fil
                 setErrorRate(t("eventList.notANumber"))
             }
             else if (rateNumber > 100) {
-                setErrorRate(t("eventList.notAvalidPercent"))
+                setErrorRate(t("eventList.notAValidPercent"))
             }
             else {
                 setErrorRate('')

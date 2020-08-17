@@ -1,5 +1,14 @@
 {
   "eventList": {
+    "account": "Contul meu",
+    "home": "Acasă",
+    "buildings": "Clădiri",
+    "events": "Evenimente",
+    "statistics": "Statistici",
+    "previous": "Anterior",
+    "next": "Următor",
+    "details": "Detalii",
+    "validate": "Validează",
     "title": "Titlu",
     "subtitle": "Subtitlu",
     "status": "Status",
@@ -7,21 +16,19 @@
     "inactive": "Inactiv",
     "notSet": "Nedeterminat",
     "location": "Locație",
-    "date": "Data",
+    "date": "Dată",
     "hour": "Ora",
     "startHour": "Momentul de începere",
     "endHour": "Momentul de încheiere",
     "to": "-",
     "maxPeople": "Număr maxim de persoane",
-    "occupacyRate": "Rata de ocupare",
+    "occupancyRate": "Rata de ocupare",
     "highlighted": "Evidențiat",
     "createNewEventButton": "Crează eveniment nou",
     "filterButton": "Filtrare",
     "seeMoreFilters": "Vezi mai multe filtre",
     "seeLessFilters": "Vezi mai puține filtre",
-    "previous": "Anterior",
-    "next": "Următor",
     "notANumber": "Număr invalid",
-    "notAValidPErcent": "Procent invalid"
+    "notAValidPercent": "Procent invalid"
   }
 }
