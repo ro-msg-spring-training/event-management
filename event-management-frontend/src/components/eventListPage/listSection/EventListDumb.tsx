@@ -70,8 +70,8 @@ const EventListDumb = (props: Props) => {
     const goToPrevPage = props.goToPrevPage;
     const goToNextPage = props.goToNextPage;
 
-    const [criteria, setCriteria] = useState();
-    const [type, setType] = useState();
+    const [criteria, setCriteria] = useState<any>();
+    const [type, setType] = useState<any>();
     const [expanded, setExpanded] = useState(false)
     const [width, setWidth] = useState(window.innerWidth);
     const [t] = useTranslation();
@@ -84,7 +84,7 @@ const EventListDumb = (props: Props) => {
         { id: 'occRate', numeric: true, disablePadding: false, label: t("eventList.occupancyRate") },
     ];
 
-    const createSortHandler = (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
+    const createSortHandler = (property: any) => (event: React.MouseEvent<unknown>) => {
         setCriteria(property);
         if (type === "asc") {
             setType("desc");
