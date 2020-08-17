@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { CircularProgress, Container, Button } from '@material-ui/core';
+import { CircularProgress, Container } from '@material-ui/core';
 import { loadEvent, deleteEvent, addEvent } from '../../actions/HeaderEventCrudActions';
 import { connect } from 'react-redux';
 import Header from './headerEditAndDelete/HeaderCrudSmart';
@@ -67,7 +67,7 @@ const initialEventOverview = {
 
 function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, fetchEvent }: Props) {
   const history = useHistory();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   let newEvent = match.path === "/newEvent" ? true : false;
 
@@ -215,16 +215,9 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, fetc
     );
   }
 
-  const changeLanguage = (lng: string) => {
-    i18n.changeLanguage(lng);
-  };
-
-
   let title = newEvent === false ? fetchEvent.event.title : t("welcome.newEventTitle");
   return (
     <>
-      <Button onClick={() => changeLanguage("ro")}>ro</Button>
-      <Button onClick={() => changeLanguage("en")}>en</Button>
       <Header saveEvent={saveEvent} deleteEvent={deleteEvent} admin={admin} title={title} />
       <Stepper
         overviewComponent={overviewComponent}
