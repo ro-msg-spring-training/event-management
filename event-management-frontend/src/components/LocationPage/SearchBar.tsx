@@ -5,10 +5,6 @@ interface Props {
   myLocations: any[];
   searchValue: string;
   setSearchValue: any;
-  lat: string;
-  setLat: any;
-  long: string;
-  setLong: any;
   setLocation: any;
   location: {
     id: number;
@@ -21,11 +17,12 @@ interface Props {
   };
   position: any;
   setPosition: any;
+  searchMarker: any[];
+  setsearchMarker: any;
 }
 const SearchBar = (props: Props) => {
   const classesSearch = useStylesSearchBar();
   const [flag, setFlag] = useState(true);
-
   const [suggestions, setSuggestions]: any = useState([]);
 
   useEffect(() => {
@@ -44,10 +41,9 @@ const SearchBar = (props: Props) => {
     props.myLocations.map((location) => {
       console.log(value);
       if (location.name === value) {
-        props.setLat(location.latitude);
-        props.setLong(location.longitude);
         props.setLocation(location);
         props.setPosition([location.latitude, location.longitude]);
+        props.setsearchMarker([[location.latitude, location.longitude]]);
       }
     });
   };

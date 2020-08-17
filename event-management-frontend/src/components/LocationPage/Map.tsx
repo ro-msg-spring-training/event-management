@@ -208,8 +208,6 @@ const MapWrapper: React.FC<Props> = (props: Props) => {
   const classes = useStyles();
   const [position, setPosition]: any = useState([46.77121, 23.623634]);
   const [searchValue, setsearchValue] = useState("");
-  const [searchValueLat, setsearchValueLat] = useState("-300");
-  const [searchValueLong, setsearchValueLong] = useState("300");
   const [searchLocation, setsearchLocation] = useState({
     id: 0,
     name: "",
@@ -220,7 +218,7 @@ const MapWrapper: React.FC<Props> = (props: Props) => {
     program: [],
   });
   const [selectedMarker, setSelectedMarker]: any = useState([]);
-
+  const [searchMarker, setSearchMarker]: any = useState([]);
   const [submitDisabled, setsubmitDisable] = useState(false);
 
   useEffect(() => {
@@ -243,16 +241,6 @@ const MapWrapper: React.FC<Props> = (props: Props) => {
     setSelectedMarker([]);
     setsubmitDisable(false);
   };
-  const displaySearch = () => {
-    if (searchValueLong !== "0" && searchValueLat !== "0") {
-      return (
-        <Marker
-          position={[parseFloat(searchValueLat), parseFloat(searchValueLong)]}
-          icon={redMarkerPoint}
-        ></Marker>
-      );
-    } else return null;
-  };
 
   return (
     <div className={`${classesMap.mapWrapper} mapResponsive`}>
@@ -261,14 +249,12 @@ const MapWrapper: React.FC<Props> = (props: Props) => {
           myLocations={myLocations}
           searchValue={searchValue}
           setSearchValue={setsearchValue}
-          lat={searchValueLat}
-          setLat={setsearchValueLat}
-          long={searchValueLong}
-          setLong={setsearchValueLong}
           setLocation={setsearchLocation}
           location={searchLocation}
           position={position}
           setPosition={setPosition}
+          searchMarker={searchMarker}
+          setsearchMarker={setSearchMarker}
         ></SearchBar>
       </div>
 
@@ -331,35 +317,35 @@ const MapWrapper: React.FC<Props> = (props: Props) => {
             </Marker>
           );
         })}
-        {displaySearch}
 
-        <Marker
-          position={[parseFloat(searchValueLat), parseFloat(searchValueLong)]}
-          icon={redMarkerPoint}
-        >
-          <Popup>
-            <div className={classesMap.wrapperPopup}>
-              <h1 className={classesMap.locationTitle}>
-                {searchLocation.name}{" "}
-              </h1>
-              {searchLocation.address}
-              <br />{" "}
-              <Button
-                className={`${classes.buttonStyle2} ${classes.buttonStyle3} ${classesMap.buttonPopup}`}
-                onClick={(e) => {
-                  return submitLocation(
-                    searchLocation.id,
-                    searchLocation.latitude,
-                    searchLocation.longitude
-                  );
-                }}
-                disabled={submitDisabled}
-              >
-                Select
-              </Button>
-            </div>
-          </Popup>
-        </Marker>
+        {searchMarker.map((position: any, idx: number) => {
+          return (
+            <Marker key={idx} position={position} icon={redMarkerPoint}>
+              <Popup>
+                <div className={classesMap.wrapperPopup}>
+                  <h1 className={classesMap.locationTitle}>
+                    {searchLocation.name}{" "}
+                  </h1>
+                  {searchLocation.address}
+                  <br />{" "}
+                  <Button
+                    className={`${classes.buttonStyle2} ${classes.buttonStyle3} ${classesMap.buttonPopup}`}
+                    onClick={(e) => {
+                      return submitLocation(
+                        searchLocation.id,
+                        searchLocation.latitude,
+                        searchLocation.longitude
+                      );
+                    }}
+                    disabled={submitDisabled}
+                  >
+                    Select
+                  </Button>
+                </div>
+              </Popup>
+            </Marker>
+          );
+        })}
       </Map>
     </div>
   );
