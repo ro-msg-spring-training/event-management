@@ -19,7 +19,7 @@ const ButtonAppBarCollapse = (props: any) => {
 
     return (
         <div className={classes.buttonCollapse}>
-            <IconButton onClick={handleMenu} color={"secondary"}>
+            <IconButton onClick={handleMenu} style={{color: "#F9C929"}}>
                 <HomeIcon/>
             </IconButton>
             <Menu

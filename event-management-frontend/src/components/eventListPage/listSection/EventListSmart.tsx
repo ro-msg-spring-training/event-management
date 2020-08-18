@@ -7,7 +7,7 @@ import EventListDumb from "./EventListDumb";
 import { EventSort } from "../../../model/EventSort";
 import { sortEvents, prevPage, nextPage } from "../../../actions/EventsPageActions";
 import { EventFilters } from "../../../model/EventFilters";
-import { CircularProgress, Grid, Container } from "@material-ui/core";
+import { CircularProgress, Grid } from "@material-ui/core";
 import ErrorIcon from '@material-ui/icons/Error';
 import EventDetailsMobileDumb from "./EventDetailsMobileDumb";
 
@@ -107,7 +107,6 @@ class EventListSmart extends React.Component<Props, State> {
                     title={event.title} location={event.location} date={event.date} name={event.name} />);
 
         return (
-            <Container>
                 <EventListDumb
                     eventsDetails={eventDetails}
                     eventsDetailsMobile={eventDetailsMobile}
@@ -115,7 +114,6 @@ class EventListSmart extends React.Component<Props, State> {
                     sort={this.props.eventsSort}
                     goToPrevPage={goToPrevPage}
                     goToNextPage={goToNextPage} />
-            </Container>
         );
     }
 }

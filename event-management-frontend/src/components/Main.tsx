@@ -13,17 +13,17 @@ import EventDetails from './eventCreateOrEdit/EventDetails';
 // when the pathname is exactly the string "/"
 //TODO: i18n for all story admin page
 const Main = () => (
-    <>
-        <Container>
-            <Header />
-        </Container>
-        <Switch>
-            <Route exact path='/admin' component={Home} />
-            <Route exact path='/admin/events' component={EventList} />
-            <Route exact path='/admin/events/:id' render={props => <EventDetails match={props.match} admin={true} />}></Route>
-            <Route exact path='/admin/newEvent' render={props => <EventDetails match={props.match} admin={true} />}></Route>
-        </Switch>
-    </>
+    <Container>
+        <Header/>
+        <main>
+            <Switch>
+                <Route exact path='/admin' component={Home} />
+                <Route exact path='/admin/events' component={EventList} />
+                <Route exact path='/admin/events/:id' render={props => <EventDetails match={props.match} admin={true} />}></Route>
+                <Route exact path='/admin/newEvent' render={props => <EventDetails match={props.match} admin={true} />}></Route>
+            </Switch>
+        </main>
+    </Container>
 )
 
 export default Main
