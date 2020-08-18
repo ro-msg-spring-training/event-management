@@ -72,9 +72,8 @@ const initialEventOverview = {
 const useStyles = makeStyles({
   paper: {
     width: "100%",
-    minHeight: "100vh",
+    minHeight: "93.9vh",
     background: 'linear-gradient(45deg, #21C6F3 50%, #1E5FA4 90%)',
-    // background: '#FFFFFF', 
   },
 });
 

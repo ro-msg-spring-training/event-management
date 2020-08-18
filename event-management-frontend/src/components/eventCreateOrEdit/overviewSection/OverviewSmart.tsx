@@ -45,7 +45,7 @@ function OverviewSmart(props: OverviewSmartProps) {
   let today = new Date(new Date().toString().split('GMT')[0] + ' UTC').toISOString().split('.')[0]
   const dateAndTime = today.split("T");
   const currDate = dateAndTime[0];
-  const currTime = dateAndTime[1].replace(/:\d\d([ ap]|$)/,'$1');
+  const currTime = dateAndTime[1].replace(/:\d\d([ ap]|$)/, '$1');
 
   const updateFields = (): void => { props.setFinalEventOverview(props.event) }
 
@@ -282,22 +282,20 @@ function OverviewSmart(props: OverviewSmartProps) {
   const handleEnterKey = (e: any): void => { e.keyCode === 13 && e.preventDefault(); }
 
   return (
-    <>
-      <OverviewDumb
-        newEvent={props.newEvent}
-        event={props.event}
-        admin={props.admin}
-        handleEnterKey={handleEnterKey}
-        handleChange={handleChange}
-        formErrors={props.finalEventOverview.formErrors}
-        highlighted={props.checkBoxStateOverview}
-        handleChangeCheckboxState={handleChangeCheckboxState}
-        setStatus={props.setStatusOverview}
-        status={props.statusOverview}
-        currDate={currDate}
-        currTime={currTime}
-      />
-    </>
+    <OverviewDumb
+      newEvent={props.newEvent}
+      event={props.event}
+      admin={props.admin}
+      handleEnterKey={handleEnterKey}
+      handleChange={handleChange}
+      formErrors={props.finalEventOverview.formErrors}
+      highlighted={props.checkBoxStateOverview}
+      handleChangeCheckboxState={handleChangeCheckboxState}
+      setStatus={props.setStatusOverview}
+      status={props.statusOverview}
+      currDate={currDate}
+      currTime={currTime}
+    />
   );
 }
 
