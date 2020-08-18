@@ -4,7 +4,6 @@ import Amplify from "aws-amplify";
 import config from "./config";
 import AuthWrapper from "./components/Routes";
 
-
 // loading component for suspense fallback
 const Loader = () => (
   <div className="App">
@@ -24,12 +23,12 @@ Amplify.configure({
 // This component will be rendered by our <Router>
 const App = () => {
   return (
-    <div className="App">
+    <div>
       <Suspense fallback={<Loader />}>
         <AuthWrapper />
       </Suspense>
     </div>
   );
-}
+};
 
 export default App;

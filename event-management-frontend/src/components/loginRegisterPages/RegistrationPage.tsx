@@ -99,123 +99,125 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className={classes.root}>
-      <FormGroup className={`${classes.registrationform}`}>
-        <h1 className={` ${classes2.typography}`}>
-          <Trans i18nKey="registration.title">Registration</Trans>
-        </h1>
-        <RegistrationSucces successMessage={successMessage} />
-        <FormErrors error={errorMessage} />
-        <br />
-        <TextField
-          required
-          variant="outlined"
-          className={classes.registrationformItems}
-          label={<Trans i18nKey="registration.firstName">First Name</Trans>}
-          value={firstName}
-          onChange={(event) => {
-            setFirstName(event.target.value);
-            setFirstNameError("");
-          }}
-          error={firstNameError !== ""}
-          helperText={firstNameError}
-        />
-        <TextField
-          required
-          variant="outlined"
-          className={classes.registrationformItems}
-          label={<Trans i18nKey="registration.lastName">Last Name</Trans>}
-          value={lastName}
-          onChange={(event) => {
-            setLastName(event.target.value);
-            setLastNameError("");
-          }}
-          error={lastNameError !== ""}
-          helperText={lastNameError}
-        />
-        <TextField
-          required
-          variant="outlined"
-          className={classes.registrationformItems}
-          name="email"
-          label={<Trans i18nKey="registration.email">Email Address</Trans>}
-          value={email}
-          onChange={(event) => {
-            setEmail(event.target.value);
-            setEmailError("");
-          }}
-          error={validateEmail(email, emailError, setEmailError) || emailError !== ""}
-          helperText={emailError}
-        />
-        <TextField
-          required
-          variant="outlined"
-          className={classes.registrationformItems}
-          label={<Trans i18nKey="registration.username">Username</Trans>}
-          value={username}
-          onChange={(event) => {
-            setUsername(event.target.value);
-            setUsernameError("");
-          }}
-          error={usernameError !== ""}
-          helperText={usernameError}
-        />
-        <FormControl required variant="outlined" className={classes.registrationformItems}>
-          <InputLabel>
-            <Trans i18nKey="registration.password">Password</Trans>
-          </InputLabel>
-          <OutlinedInput
-            type={values.showPassword ? "text" : "password"}
-            labelWidth={80}
-            value={password}
+    <div className="App">
+      <div className={classes.root}>
+        <FormGroup className={`${classes.registrationform}`}>
+          <h1 className={` ${classes2.typography}`}>
+            <Trans i18nKey="registration.title">Registration</Trans>
+          </h1>
+          <RegistrationSucces successMessage={successMessage} />
+          <FormErrors error={errorMessage} />
+          <br />
+          <TextField
+            required
+            variant="outlined"
+            className={classes.registrationformItems}
+            label={<Trans i18nKey="registration.firstName">First Name</Trans>}
+            value={firstName}
             onChange={(event) => {
-              setPassword(event.target.value);
-              setPasswordError("");
+              setFirstName(event.target.value);
+              setFirstNameError("");
             }}
-            error={validatePassword(password, passwordError, setPasswordError) || passwordError !== ""}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword} edge="end">
-                  {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
-            }
+            error={firstNameError !== ""}
+            helperText={firstNameError}
           />
-          <FormHelperText>{passwordError}</FormHelperText>
-        </FormControl>
-        <FormControl required variant="outlined" className={classes.registrationformItems}>
-          <InputLabel>
-            <Trans i18nKey="registration.confirmPassword">Confirm Password</Trans>
-          </InputLabel>
-          <OutlinedInput
-            type="password"
-            labelWidth={145}
-            onPaste={() => {
-              return false;
-            }}
-            value={confirmPassword}
+          <TextField
+            required
+            variant="outlined"
+            className={classes.registrationformItems}
+            label={<Trans i18nKey="registration.lastName">Last Name</Trans>}
+            value={lastName}
             onChange={(event) => {
-              setConfirmPassword(event.target.value);
-              setConfirmPasswordError("");
+              setLastName(event.target.value);
+              setLastNameError("");
             }}
-            error={validateConfirmPassword(password, confirmPassword, confirmPasswordError, setConfirmPasswordError)}
+            error={lastNameError !== ""}
+            helperText={lastNameError}
           />
-          <FormHelperText>{confirmPasswordError}</FormHelperText>
-        </FormControl>
-        <Button
-          variant="contained"
-          className={`${classes2.buttonStyle2} ${classes2.buttonStyle3} ${classes.registrationButton}`}
-          type="submit"
-          onClick={handleSubmit}
-        >
-          <Trans i18nKey="registration.button">Register</Trans>
-        </Button>
-        <div className={classes.loginLink}>
-          <Trans i18nKey="registration.loginLink">
-            Already have an account? <Link to="/login">Sign in!</Link>
-          </Trans>
-        </div>
-      </FormGroup>
+          <TextField
+            required
+            variant="outlined"
+            className={classes.registrationformItems}
+            name="email"
+            label={<Trans i18nKey="registration.email">Email Address</Trans>}
+            value={email}
+            onChange={(event) => {
+              setEmail(event.target.value);
+              setEmailError("");
+            }}
+            error={validateEmail(email, emailError, setEmailError) || emailError !== ""}
+            helperText={emailError}
+          />
+          <TextField
+            required
+            variant="outlined"
+            className={classes.registrationformItems}
+            label={<Trans i18nKey="registration.username">Username</Trans>}
+            value={username}
+            onChange={(event) => {
+              setUsername(event.target.value);
+              setUsernameError("");
+            }}
+            error={usernameError !== ""}
+            helperText={usernameError}
+          />
+          <FormControl required variant="outlined" className={classes.registrationformItems}>
+            <InputLabel>
+              <Trans i18nKey="registration.password">Password</Trans>
+            </InputLabel>
+            <OutlinedInput
+              type={values.showPassword ? "text" : "password"}
+              labelWidth={80}
+              value={password}
+              onChange={(event) => {
+                setPassword(event.target.value);
+                setPasswordError("");
+              }}
+              error={validatePassword(password, passwordError, setPasswordError) || passwordError !== ""}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword} edge="end">
+                    {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+            <FormHelperText>{passwordError}</FormHelperText>
+          </FormControl>
+          <FormControl required variant="outlined" className={classes.registrationformItems}>
+            <InputLabel>
+              <Trans i18nKey="registration.confirmPassword">Confirm Password</Trans>
+            </InputLabel>
+            <OutlinedInput
+              type="password"
+              labelWidth={145}
+              onPaste={() => {
+                return false;
+              }}
+              value={confirmPassword}
+              onChange={(event) => {
+                setConfirmPassword(event.target.value);
+                setConfirmPasswordError("");
+              }}
+              error={validateConfirmPassword(password, confirmPassword, confirmPasswordError, setConfirmPasswordError)}
+            />
+            <FormHelperText>{confirmPasswordError}</FormHelperText>
+          </FormControl>
+          <Button
+            variant="contained"
+            className={`${classes2.buttonStyle2} ${classes2.buttonStyle3} ${classes.registrationButton}`}
+            type="submit"
+            onClick={handleSubmit}
+          >
+            <Trans i18nKey="registration.button">Register</Trans>
+          </Button>
+          <div className={classes.loginLink}>
+            <Trans i18nKey="registration.loginLink">
+              Already have an account? <Link to="/login">Sign in!</Link>
+            </Trans>
+          </div>
+        </FormGroup>
+      </div>
     </div>
   );
 };

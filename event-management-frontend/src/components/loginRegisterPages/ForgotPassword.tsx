@@ -31,42 +31,46 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className={`${classesLogin.root} forgotPasswordResponsive`}>
-      <FormGroup>
-        <h1 className={classes.typography}>
-          <Trans i18nKey="forgotPassword.title">Forgot your password?</Trans>
-        </h1>
+    <div className="App">
+      <div className={`${classesLogin.root} forgotPasswordResponsive`}>
+        <FormGroup>
+          <h1 className={classes.typography}>
+            <Trans i18nKey="forgotPassword.title">Forgot your password?</Trans>
+          </h1>
 
-        <p>
-          <Trans i18nKey="forgotPassword.message">
-            Please enter the email address associated with your account and we'll email you a password reset link.
-          </Trans>
-        </p>
+          <p>
+            <Trans i18nKey="forgotPassword.message">
+              Please enter the email address associated with your account and we'll email you a password reset link.
+            </Trans>
+          </p>
 
-        <TextField
-          className={classesLogin.loginformItems}
-          label="Email"
-          type="email"
-          value={email}
-          required
-          variant="outlined"
-          helperText={emailError}
-          error={emailError !== "" || validateEmail(email, emailError, setEmailError)}
-          onChange={(e) => {
-            setEmail(e.target.value);
-            setEmailError("");
-          }} />
+          <TextField
+            className={classesLogin.loginformItems}
+            label="Email"
+            type="email"
+            value={email}
+            required
+            variant="outlined"
+            helperText={emailError}
+            error={emailError !== "" || validateEmail(email, emailError, setEmailError)}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setEmailError("");
+            }}
+          />
 
-        <FormErrors error={error} />
+          <FormErrors error={error} />
 
-        <Button
-          variant="contained"
-          type="submit"
-          onClick={onSubmit}
-          className={`${classes.buttonStyle2} ${classes.buttonStyle3} ${classesLogin.loginButton}`}>
-          <Trans i18nKey="forgotPassword.button">Submit</Trans>
-        </Button>
-      </FormGroup>
+          <Button
+            variant="contained"
+            type="submit"
+            onClick={onSubmit}
+            className={`${classes.buttonStyle2} ${classes.buttonStyle3} ${classesLogin.loginButton}`}
+          >
+            <Trans i18nKey="forgotPassword.button">Submit</Trans>
+          </Button>
+        </FormGroup>
+      </div>
     </div>
   );
 };
