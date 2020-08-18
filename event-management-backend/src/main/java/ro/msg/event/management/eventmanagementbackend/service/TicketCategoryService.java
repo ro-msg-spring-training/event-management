@@ -24,6 +24,9 @@ public class TicketCategoryService {
             throw new NoSuchElementException("No ticket category with id= " + ticketCategoryId);
         } else {
             TicketCategory ticketCategory = ticketCategoryOptional.get();
+            if (ticketCategory.getTickets() == null) {
+                return true;
+            }
             return ticketCategory.getTickets().isEmpty();
         }
     }
@@ -48,9 +51,43 @@ public class TicketCategoryService {
         if (ticketCategoryOptional.isEmpty()) {
             throw new NoSuchElementException("No ticket category with id= " + id);
         }
+        if (this.checkIfNoTicketsForCategory(id)) {
+            TicketCategory ticketCategory = ticketCategoryOptional.get();
+            Event event = ticketCategory.getEvent();
+            event.getTicketCategories().remove(ticketCategory);
+            this.ticketCategoryRepository.deleteById((id));
+        } else {
+            throw new TicketCategoryException("Ticket category cannot be deleted! There are tickets belonging to this category.");
+        }
+    }
+
+    @Transactional
+    public TicketCategory updateTicketCategory(TicketCategory update) {
+        Optional<TicketCategory> ticketCategoryOptional = this.ticketCategoryRepository.findById(update.getId());
+        if (ticketCategoryOptional.isEmpty()) {
+            throw new NoSuchElementException("No ticket category with id= " + update.getId());
+        }
+
         TicketCategory ticketCategory = ticketCategoryOptional.get();
-        Event event = ticketCategory.getEvent();
-        event.getTicketCategories().remove(ticketCategory);
-        this.ticketCategoryRepository.deleteById((id));
+        long numberOfPurchasedTickets = ticketCategory.getTickets().size();
+        if (update.getTicketsPerCategory() < numberOfPurchasedTickets) {
+            throw new TicketCategoryException("Number of tickets per category cannot be smaller thant the number of purchased tickets!");
+        }
+
+        ticketCategory.setTicketsPerCategory(update.getTicketsPerCategory());
+        ticketCategory.setDescription(update.getDescription());
+        ticketCategory.setPrice(update.getPrice());
+        ticketCategory.setSubtitle(update.getSubtitle());
+        ticketCategory.setTitle(update.getTitle());
+
+        long sumNumberOfTicketsPerCategory = 0;
+        for (TicketCategory category : ticketCategory.getEvent().getTicketCategories()) {
+            sumNumberOfTicketsPerCategory += category.getTicketsPerCategory();
+        }
+        if (sumNumberOfTicketsPerCategory > ticketCategory.getEvent().getMaxPeople()) {
+            throw new TicketCategoryException("Sum of number of tickets per category exceeds the maximum number of people for the event!");
+        }
+
+        return this.ticketCategoryRepository.save(ticketCategory);
     }
 }
