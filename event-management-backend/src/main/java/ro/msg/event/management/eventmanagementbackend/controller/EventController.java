@@ -15,6 +15,7 @@ import ro.msg.event.management.eventmanagementbackend.entity.*;
 import ro.msg.event.management.eventmanagementbackend.entity.view.EventView;
 import ro.msg.event.management.eventmanagementbackend.exception.ExceededCapacityException;
 import ro.msg.event.management.eventmanagementbackend.exception.OverlappingEventsException;
+import ro.msg.event.management.eventmanagementbackend.exception.TicketCategoryException;
 import ro.msg.event.management.eventmanagementbackend.security.User;
 import ro.msg.event.management.eventmanagementbackend.service.EventService;
 import ro.msg.event.management.eventmanagementbackend.service.EventSublocationService;
@@ -93,6 +94,8 @@ public class EventController {
             throw new ResponseStatusException(HttpStatus.CONFLICT, overlappingEventsException.getMessage(), overlappingEventsException);
         } catch (DateTimeException dateTimeException) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, dateTimeException.getMessage(), dateTimeException);
+        } catch (TicketCategoryException ticketCategoryException){
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE,ticketCategoryException.getMessage(),ticketCategoryException);
         }
     }
 

@@ -36,10 +36,12 @@ public class EventService {
     private final EventRepository eventRepository;
     private final SublocationRepository sublocationRepository;
     private final PictureRepository pictureRepository;
+    private final TicketCategoryService ticketCategoryService;
 
     @PersistenceContext(type = PersistenceContextType.TRANSACTION)
     private final EntityManager entityManager;
 
+    @Transactional
     public long saveEvent(Event event, List<Long> sublocations) throws OverlappingEventsException, ExceededCapacityException {
 
         LocalDate startDate = event.getStartDate();
@@ -59,7 +61,9 @@ public class EventService {
         }
 
         if (validSublocations && sumCapacity >= event.getMaxPeople()) {
-            return eventRepository.save(event).getId();
+            Event eventSaved = eventRepository.save(event);
+            ticketCategoryService.saveTicketCategories(eventSaved.getTicketCategories(), eventSaved);
+            return eventSaved.getId();
         } else if (!validSublocations) {
             throw new OverlappingEventsException("Event overlaps another scheduled event");
         } else {

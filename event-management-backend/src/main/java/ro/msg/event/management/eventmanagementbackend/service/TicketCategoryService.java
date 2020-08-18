@@ -40,7 +40,6 @@ public class TicketCategoryService {
         if (sumNumberOfTicketsPerCategory > event.getMaxPeople()) {
             throw new TicketCategoryException("Sum of number of tickets per category exceeds the maximum number of people for the event!");
         }
-        event.setTicketCategories(savedCategories);
         return savedCategories;
     }
 

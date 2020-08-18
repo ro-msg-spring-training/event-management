@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import ro.msg.event.management.eventmanagementbackend.entity.*;
+import ro.msg.event.management.eventmanagementbackend.exception.ExceededCapacityException;
+import ro.msg.event.management.eventmanagementbackend.exception.OverlappingEventsException;
 import ro.msg.event.management.eventmanagementbackend.repository.*;
 import ro.msg.event.management.eventmanagementbackend.service.EventService;
-import ro.msg.event.management.eventmanagementbackend.service.ExceededCapacityException;
-import ro.msg.event.management.eventmanagementbackend.service.OverlappingEventsException;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
