@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS `ticket_category` (
                                          `subtitle` varchar(200),
                                          `price` real,
                                          `description` varchar(200),
-                                         `ticket_per_category` int,
+                                         `tickets_per_category` int,
                                          `event` long
 );
 

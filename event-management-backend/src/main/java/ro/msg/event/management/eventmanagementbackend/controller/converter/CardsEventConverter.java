@@ -1,0 +1,16 @@
+package ro.msg.event.management.eventmanagementbackend.controller.converter;
+
+import org.springframework.stereotype.Component;
+import ro.msg.event.management.eventmanagementbackend.controller.dto.CardsEventDto;
+import ro.msg.event.management.eventmanagementbackend.entity.view.EventView;
+
+@Component
+public class CardsEventConverter implements Converter<EventView, CardsEventDto> {
+    @Override
+    public CardsEventDto convert(EventView eventView) {
+        return CardsEventDto.builder()
+                .title(eventView.getTitle())
+                .occupancyRate(eventView.getRate())
+                .build();
+    }
+}
