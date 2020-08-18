@@ -12,27 +12,27 @@ import java.util.List;
 public class EventReverseConverter implements Converter<EventDto, Event> {
 
     @Override
-    public Event convert(EventDto eventDTO) {
+    public Event convert(EventDto eventDto) {
         Event event = Event.builder()
-                .title(eventDTO.getTitle())
-                .subtitle(eventDTO.getSubtitle())
-                .observations(eventDTO.getObservations())
-                .ticketsPerUser(eventDTO.getTicketsPerUser())
-                .highlighted(eventDTO.isHighlighted())
-                .status(eventDTO.isStatus())
-                .maxPeople(eventDTO.getMaxPeople())
-                .creator(eventDTO.getCreator())
-                .description(eventDTO.getDescription())
-                .startDate(eventDTO.getStartDate())
-                .endDate(eventDTO.getEndDate())
-                .startHour(eventDTO.getStartHour())
-                .endHour(eventDTO.getEndHour())
+                .title(eventDto.getTitle())
+                .subtitle(eventDto.getSubtitle())
+                .observations(eventDto.getObservations())
+                .ticketsPerUser(eventDto.getTicketsPerUser())
+                .highlighted(eventDto.isHighlighted())
+                .status(eventDto.isStatus())
+                .maxPeople(eventDto.getMaxPeople())
+                .creator(eventDto.getCreator())
+                .description(eventDto.getDescription())
+                .startDate(eventDto.getStartDate())
+                .endDate(eventDto.getEndDate())
+                .startHour(eventDto.getStartHour())
+                .endHour(eventDto.getEndHour())
                 .build();
 
-        if (eventDTO.getPicturesUrlSave() != null) {
+        if (eventDto.getPicturesUrlSave() != null) {
             List<Picture> pictures = new ArrayList<>();
 
-            for (String urlPicture : eventDTO.getPicturesUrlSave()) {
+            for (String urlPicture : eventDto.getPicturesUrlSave()) {
                 Picture picture = new Picture();
 
                 picture.setUrl(urlPicture);

@@ -58,7 +58,6 @@ public class Event extends BaseEntity {
     private List<EventSublocation> eventSublocations;
 
 
-
     @OneToMany(mappedBy = "event",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
@@ -70,6 +69,5 @@ public class Event extends BaseEntity {
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     private List<TicketCategory> ticketCategories;
-
 
 }
