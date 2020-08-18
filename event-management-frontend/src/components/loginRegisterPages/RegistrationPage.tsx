@@ -29,7 +29,7 @@ import {
   displayUsernameError,
   displayErrorMessage,
   displaySuccessMessage,
-} from "../../validation/registrationValidation";
+} from "../../validation/RegistrationValidation";
 
 const RegisterPage = () => {
   const [firstName, setFirstName] = useState("");

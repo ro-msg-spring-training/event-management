@@ -19,7 +19,7 @@ import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import { Trans } from "react-i18next";
 import useStylesLogin from "../../styles/LoginStyle";
-import { displaySuccessMessage } from "../../validation/registrationValidation";
+import { displaySuccessMessage } from "../../validation/RegistrationValidation";
 
 const Login = () => {
   const [, setIsLoading] = useState(false);
