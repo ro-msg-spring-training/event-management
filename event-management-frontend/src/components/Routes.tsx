@@ -20,7 +20,6 @@ const AuthWrapper = () => {
   return (
     <>
       <div className="authComponentsResponsive">
-
         {/* <Button onClick={() => changeLanguage("en")}>en</Button>
       <Button onClick={() => changeLanguage("ro")}>ro</Button>
       <hr /> */}
@@ -34,10 +33,9 @@ const AuthWrapper = () => {
           <Route path="/forgotpasswordverification" component={ForgotPasswordVerification}></Route>
           <Route path="/changepasswordconfirmation" component={ChangePasswordConfirm}></Route>
           <Route path="/register" component={RegistrationPage}></Route>
-          <Route path='/admin' component={Main} />
+          <Route path="/admin" component={Main} />
         </Switch>
       </div>
-
     </>
   );
 };
