@@ -9,14 +9,21 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ro.msg.event.management.eventmanagementbackend.controller.converter.Converter;
+import ro.msg.event.management.eventmanagementbackend.controller.converter.EventReverseConverter;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.CardsEventDto;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.EventDto;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.EventFilteringDto;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.EventListingDto;
 import ro.msg.event.management.eventmanagementbackend.entity.*;
 import ro.msg.event.management.eventmanagementbackend.entity.view.EventView;
+import ro.msg.event.management.eventmanagementbackend.exception.ExceededCapacityException;
+import ro.msg.event.management.eventmanagementbackend.exception.OverlappingEventsException;
+import ro.msg.event.management.eventmanagementbackend.exception.TicketCategoryException;
 import ro.msg.event.management.eventmanagementbackend.security.User;
-import ro.msg.event.management.eventmanagementbackend.service.*;
+import ro.msg.event.management.eventmanagementbackend.service.EventService;
+import ro.msg.event.management.eventmanagementbackend.service.EventSublocationService;
+import ro.msg.event.management.eventmanagementbackend.service.LocationService;
+import ro.msg.event.management.eventmanagementbackend.service.SublocationService;
 import ro.msg.event.management.eventmanagementbackend.utils.ComparisonSign;
 import ro.msg.event.management.eventmanagementbackend.utils.SortCriteria;
 
@@ -73,7 +80,8 @@ public class EventController {
                     .map(BaseEntity::getId)
                     .collect(Collectors.toList());
 
-            Event event = convertToEntity.convert(eventDTO);
+
+            Event event = ((EventReverseConverter) convertToEntity).convertForUpdate(eventDTO, false);
 
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = (User) auth.getPrincipal();
@@ -97,6 +105,8 @@ public class EventController {
             throw new ResponseStatusException(HttpStatus.CONFLICT, overlappingEventsException.getMessage(), overlappingEventsException);
         } catch (DateTimeException dateTimeException) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, dateTimeException.getMessage(), dateTimeException);
+        } catch (TicketCategoryException ticketCategoryException) {
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, ticketCategoryException.getMessage(), ticketCategoryException);
         }
     }
 
@@ -133,7 +143,7 @@ public class EventController {
         EventDto eventDto;
         Event eventUpdated;
 
-        Event event = convertToEntity.convert(eventUpdateDto);
+        Event event = ((EventReverseConverter) convertToEntity).convertForUpdate(eventUpdateDto, true);
         event.setId(id);
 
         List<String> picturesUrlDelete = eventUpdateDto.getPicturesUrlDelete();
@@ -147,6 +157,8 @@ public class EventController {
             throw new ResponseStatusException(HttpStatus.CONFLICT, overlappingEventsException.getMessage(), overlappingEventsException);
         } catch (DateTimeException dateTimeException) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, dateTimeException.getMessage(), dateTimeException);
+        } catch (TicketCategoryException ticketCategoryException) {
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, ticketCategoryException.getMessage(), ticketCategoryException);
         }
         return new ResponseEntity<>(eventDto, HttpStatus.OK);
     }

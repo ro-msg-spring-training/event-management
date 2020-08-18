@@ -11,6 +11,8 @@ import ro.msg.event.management.eventmanagementbackend.entity.Event;
 import ro.msg.event.management.eventmanagementbackend.entity.EventSublocation;
 import ro.msg.event.management.eventmanagementbackend.entity.Sublocation;
 import ro.msg.event.management.eventmanagementbackend.entity.view.EventView;
+import ro.msg.event.management.eventmanagementbackend.exception.ExceededCapacityException;
+import ro.msg.event.management.eventmanagementbackend.exception.OverlappingEventsException;
 import ro.msg.event.management.eventmanagementbackend.repository.EventRepository;
 import ro.msg.event.management.eventmanagementbackend.repository.PictureRepository;
 import ro.msg.event.management.eventmanagementbackend.repository.SublocationRepository;
@@ -37,10 +39,12 @@ public class EventService {
     private final EventRepository eventRepository;
     private final SublocationRepository sublocationRepository;
     private final PictureRepository pictureRepository;
+    private final TicketCategoryService ticketCategoryService;
 
     @PersistenceContext(type = PersistenceContextType.TRANSACTION)
     private final EntityManager entityManager;
 
+    @Transactional
     public long saveEvent(Event event, List<Long> sublocations) throws OverlappingEventsException, ExceededCapacityException {
 
         LocalDate startDate = event.getStartDate();
@@ -61,7 +65,9 @@ public class EventService {
         }
 
         if (validSublocations && sumCapacity >= event.getMaxPeople()) {
-            return eventRepository.save(event).getId();
+            Event eventSaved = eventRepository.save(event);
+            ticketCategoryService.saveTicketCategories(eventSaved.getTicketCategories(), eventSaved);
+            return eventSaved.getId();
         } else if (!validSublocations) {
             throw new OverlappingEventsException("Event overlaps another scheduled event");
         } else {
@@ -126,7 +132,11 @@ public class EventService {
                     eventFromDB.setObservations(event.getObservations());
                     eventFromDB.getPictures().addAll(event.getPictures());
 
-                    return eventRepository.save(eventFromDB);
+                    Event eventSaved = eventRepository.save(eventFromDB);
+
+                    event.getTicketCategories().forEach(ticketCategoryService::updateTicketCategory);
+
+                    return eventSaved;
 
                 } else throw new ExceededCapacityException("exceed capacity");
             } else throw new OverlappingEventsException("overlaps other events");

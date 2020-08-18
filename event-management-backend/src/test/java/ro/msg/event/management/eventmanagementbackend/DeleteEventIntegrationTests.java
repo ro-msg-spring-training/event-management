@@ -32,38 +32,28 @@ class DeleteEventIntegrationTests {
         this.eventRepository.save(event1);
         this.eventRepository.save(event2);
 
+        this.eventRepository.findAll();
+
         assertThat(this.eventRepository.count()).isEqualTo(2);
 
         this.eventService.deleteEvent(1);
 
-        assertThat(this.eventRepository.count()).isEqualTo(2);
+        assertThat(this.eventRepository.count()).isEqualTo(1);
     }
 
     @Test
     void deleteEvent_noEventWithSuchId_exceptionThrown() {
-        Event event1 = new Event();
-        event1.setTitle("event1");
-        Event event2 = new Event();
-        event2.setTitle("event2");
-
-        this.eventRepository.save(event1);
-        this.eventRepository.save(event2);
-
         try {
             this.eventService.deleteEvent(-1);
             assert false;
-        }
-        catch (NoSuchElementException noSuchElementException)
-        {
+        } catch (NoSuchElementException noSuchElementException) {
             assert true;
         }
 
         try {
-            this.eventService.deleteEvent(3);
+            this.eventService.deleteEvent(4);
             assert false;
-        }
-        catch (NoSuchElementException noSuchElementException)
-        {
+        } catch (NoSuchElementException noSuchElementException) {
             assert true;
         }
     }
