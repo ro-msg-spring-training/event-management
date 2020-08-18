@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Auth } from "aws-amplify";
 import { FormGroup, TextField, Button } from "@material-ui/core";
-import useStylesLogin from "../../styles/loginStyle";
+import useStylesLogin from "../../styles/LoginStyle";
 import { useStyles } from "../../styles/CommonStyles";
 import { useHistory } from "react-router-dom";
 import { validateEmail, displayErrorMessage } from "../../validation/LoginValidation";

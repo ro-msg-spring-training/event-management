@@ -6,7 +6,7 @@ import ForgotPasswordVerification from "./loginRegisterPages/ForgotPasswordVerif
 import ChangePasswordConfirm from "./loginRegisterPages/ChangePasswordConfirm";
 import RegistrationPage from "./loginRegisterPages/RegistrationPage";
 import { useTranslation } from "react-i18next";
-import "../styles/responsivity.css";
+import "../styles/Responsivity.css";
 
 import Main from "./Main";
 

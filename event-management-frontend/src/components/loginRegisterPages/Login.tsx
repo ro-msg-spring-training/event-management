@@ -14,11 +14,11 @@ import { useStyles } from "../../styles/CommonStyles";
 import { FormErrors } from "./FormErrors";
 import { displayErrorMessage } from "../../validation/LoginValidation";
 import { SuccessMessage } from "./SuccessMessage";
-import "../../styles/responsivity.css";
+import "../../styles/Responsivity.css";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import { Trans } from "react-i18next";
-import useStylesLogin from "../../styles/loginStyle";
+import useStylesLogin from "../../styles/LoginStyle";
 import { displaySuccessMessage } from "../../validation/registrationValidation";
 
 const Login = () => {
