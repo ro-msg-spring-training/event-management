@@ -18,7 +18,7 @@ const AuthWrapper = () => {
   };
 
   return (
-    <>
+    <div className="App">
       <div className="authComponentsResponsive">
         {/* <Button onClick={() => changeLanguage("en")}>en</Button>
       <Button onClick={() => changeLanguage("ro")}>ro</Button>
@@ -36,7 +36,7 @@ const AuthWrapper = () => {
           <Route path="/admin" component={Main} />
         </Switch>
       </div>
-    </>
+    </div>
   );
 };
 

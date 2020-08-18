@@ -10,32 +10,28 @@ const ChangePasswordConfirm = () => {
   const classesChangePassword = useStylesChangePassword();
 
   return (
-    <div className="App">
-      <div className={classesChangePassword.root}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <h1 className={classes.typography}>
-              <Trans i18nKey="changePassword.title">Change Password</Trans>
-            </h1>
-          </Grid>
-
-          <Grid item xs={12}>
-            <p className={classesChangePassword.onNewLine}>
-              <Trans i18nKey="changePassword.message">Your password has been successfully updated!</Trans>
-            </p>
-          </Grid>
-
-          <Grid item xs={12}>
-            <Link to={"/login"} className={classesChangePassword.link}>
-              <Button
-                className={`${classes.buttonStyle2} ${classes.buttonStyle3} ${classesChangePassword.loginButton}`}
-              >
-                <Trans i18nKey="changePassword.button">Login</Trans>
-              </Button>
-            </Link>
-          </Grid>
+    <div className={classesChangePassword.root}>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <h1 className={classes.typography}>
+            <Trans i18nKey="changePassword.title">Change Password</Trans>
+          </h1>
         </Grid>
-      </div>
+
+        <Grid item xs={12}>
+          <p className={classesChangePassword.onNewLine}>
+            <Trans i18nKey="changePassword.message">Your password has been successfully updated!</Trans>
+          </p>
+        </Grid>
+
+        <Grid item xs={12}>
+          <Link to={"/login"} className={classesChangePassword.link}>
+            <Button className={`${classes.buttonStyle2} ${classes.buttonStyle3} ${classesChangePassword.loginButton}`}>
+              <Trans i18nKey="changePassword.button">Login</Trans>
+            </Button>
+          </Link>
+        </Grid>
+      </Grid>
     </div>
   );
 };
