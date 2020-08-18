@@ -32,7 +32,7 @@ export interface EventState {
 const initialState: EventState = {
   loading: false,
   event: {
-    id: -1, title: "NEW EVENT", subtitle: "mock", status: "active", highlighted: false, description: "mock",
+    id: -1, title: "NEW EVENT", subtitle: "mock", status: true, highlighted: false, description: "mock",
     observations: "mock", location: "mock", startDate: "2019-08-03", endDate: "2019-08-03", startHour: "07:12", endHour: "07:12",
     maxPeople: 0, picturesUrlSave: [], picturesUrlDelete: [], maxNoTicketsPerUser: 0,
     noTicketEvent: true

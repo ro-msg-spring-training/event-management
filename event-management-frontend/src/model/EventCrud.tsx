@@ -4,7 +4,7 @@ export interface EventCrud {
   id: number | string,
   title: string,
   subtitle: string,
-  status: string,
+  status: boolean,
   highlighted: boolean,
   description: string,
   observations: string,
