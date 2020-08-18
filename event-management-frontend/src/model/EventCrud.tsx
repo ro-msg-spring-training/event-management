@@ -11,9 +11,11 @@ export interface EventCrud {
   location: string,
   startDate: string,
   endDate: string,
-  startTime: string,
-  endTime: string,
+  startHour: string,
+  endHour: string,
   maxPeople: number | string,
-  images: any[],
+  picturesUrlSave: any[],
+  picturesUrlDelete: any[],
   maxNoTicketsPerUser: number,
+  noTicketEvent: boolean
 }

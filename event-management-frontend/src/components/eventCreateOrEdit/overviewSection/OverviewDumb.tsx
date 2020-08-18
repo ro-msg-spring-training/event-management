@@ -279,8 +279,8 @@ function OverviewDumb(props: OverviewDumbProps) {
                 value={props.status}
                 onChange={e => props.setStatus(e.target.value as string)}
               >
-                <MenuItem value={"active"}>{t("welcome.overviewStatusActive")}</MenuItem>
-                <MenuItem value={"inactive"}>{t("welcome.overviewStatusInactive")}</MenuItem>
+                <MenuItem value={"true"}>{t("welcome.overviewStatusActive")}</MenuItem>
+                <MenuItem value={"false"}>{t("welcome.overviewStatusInactive")}</MenuItem>
               </Select>
             </FormControl>
           </Grid>

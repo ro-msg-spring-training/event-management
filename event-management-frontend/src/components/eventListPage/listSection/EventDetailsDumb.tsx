@@ -32,7 +32,7 @@ const EventDetailsDumb = (props: Event) => {
     const [t] = useTranslation();
 
     const id = props.id;
-    const title = props.name;
+    const title = props.title;
     const subtitle = props.subtitle;
     const location = props.location;
     const date = props.date;

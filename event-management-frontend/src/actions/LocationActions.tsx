@@ -75,10 +75,4 @@ export const locationFetch = (): LocationFetchAction => {
   };
 };
 
-export function fetchLocation() {
-  return fetch(locationUrl)
-    .then((response) => response.json())
-    .then((json) => {
-      return json;
-    });
-}
+

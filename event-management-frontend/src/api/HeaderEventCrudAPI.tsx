@@ -1,5 +1,8 @@
 import { EventCrud } from "../model/EventCrud";
 import { EventImage } from "../model/EventImage";
+import locationUrl from "./LocationUrl";
+const serverURL = 'http://ec2-54-154-96-2.eu-west-1.compute.amazonaws.com:8080'
+
 
 //TODO modify links
 export const fetchEventAPI = (id: string) => {
@@ -11,7 +14,8 @@ export const deleteEventAPI = (id: string) => {
 }
 
 export const addEventAPI = (event: EventCrud) => {
-  return fetch('http://localhost:4000/products', {
+  console.log('event to add', event)
+  return fetch(`${serverURL}/events`, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -22,7 +26,7 @@ export const addEventAPI = (event: EventCrud) => {
 }
 
 export const editEventAPI = (event: EventCrud) => {
-  return fetch('http://localhost:4000/products', {
+  return fetch(`${serverURL}/events`, {
     method: 'PUT',
     headers: {
       'Accept': 'application/json',
@@ -33,7 +37,7 @@ export const editEventAPI = (event: EventCrud) => {
 }
 
 const sendImagesToAddAndDeteteToServer = async (newAddedImagesNames: string[], imagesToDelete: string []) => {
-  return fetch('http://localhost:4000/products', {
+  return fetch(`${serverURL}/pictures`, {
       method: 'POST',
       body: JSON.stringify({picturesToSave: newAddedImagesNames, picturesToDelete: imagesToDelete})
   }).then(response => response.json(),) // return string[]
@@ -66,4 +70,12 @@ export const updateImagesFromS3 = async (images: EventImage[]) => {
   });
 
   return images
+}
+
+export function fetchLocation() {
+  return fetch(locationUrl)
+    .then((response) => response.json())
+    .then((json) => {
+      return json;
+    });
 }

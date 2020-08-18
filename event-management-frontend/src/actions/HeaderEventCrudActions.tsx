@@ -40,6 +40,7 @@ export const deleteEvent = (id: string) => {
 }
 
 export const addEvent = (event: EventCrud, images: EventImage[]) => {
+  console.log('alo action')
   return {
     type: ADD_EVENT,
     payload: {event: event, images: images}

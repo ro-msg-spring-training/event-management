@@ -20,6 +20,6 @@ export default function* rootSaga() {
         watchUploadEventImagesAsync(),
         watchFetchEventImagesAsync(),
 
-        fetchLocationsActionWatcher()
+        fetchLocationsActionWatcher(),
     ]);
  }

@@ -50,7 +50,7 @@ function* addEventAsync(props: AddProps) {
     yield put(addEventRequest());
     const imagesURL = yield call(() => updateImagesFromS3(props.payload.images));
     const event: EventCrud = props.payload.event
-    event.images = imagesURL 
+    event.picturesUrlSave = imagesURL 
     yield call(() => addEventAPI(event));
     yield put(addEventSuccess())
   } catch (e) {
@@ -68,7 +68,7 @@ function* editEventAsync(props: AddProps) {
     yield put(editEventRequest());
     const imagesURL = yield call(() => updateImagesFromS3(props.payload.images));
     const event: EventCrud = props.payload.event
-    event.images = imagesURL 
+    event.picturesUrlSave = imagesURL 
     yield call(() => editEventAPI(event));
     yield put(editEventSuccess())
   } catch (e) {

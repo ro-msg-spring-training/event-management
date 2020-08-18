@@ -35,7 +35,7 @@ const AuthWrapper = () => {
           <Route path="/forgotpasswordverification" component={ForgotPasswordVerification}></Route>
           <Route path="/changepasswordconfirmation" component={ChangePasswordConfirm}></Route>
           <Route path="/register" component={RegistrationPage}></Route>
-          <PrivateRoute admin path='/admin' component={Main} />
+          <Route path='/admin' component={Main} />
         </Switch>
       </div>
 

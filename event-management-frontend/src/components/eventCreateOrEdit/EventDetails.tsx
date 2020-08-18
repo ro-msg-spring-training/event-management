@@ -26,11 +26,13 @@ const event: EventCrud = {
   location: "",
   startDate: "",
   endDate: "",
-  startTime: "",
-  endTime: "",
+  startHour: "",
+  endHour: "",
   maxPeople: 0,
-  images: [""],
+  picturesUrlSave: [],
+  picturesUrlDelete: [],
   maxNoTicketsPerUser: 0,
+  noTicketEvent: true 
 }
 
 interface Props {
@@ -173,8 +175,8 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, fetc
       event.description = finalEventOverview.description;
       event.startDate = finalEventOverview.startDate;
       event.endDate = finalEventOverview.endDate;
-      event.startTime = finalEventOverview.startTime;
-      event.endTime = finalEventOverview.endTime;
+      event.startHour = finalEventOverview.startTime;
+      event.endHour = finalEventOverview.endTime;
       event.highlighted = checkBoxStateOverview;
       event.status = statusOverview;
     }
