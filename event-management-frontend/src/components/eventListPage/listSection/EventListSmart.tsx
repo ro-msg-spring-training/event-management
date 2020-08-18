@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import EventDetailsDumb from "./EventDetailsDumb";
 import { connect } from 'react-redux';
 import { fetchAllEvents } from '../../../actions/EventsPageActions'
@@ -125,7 +125,7 @@ class EventListSmart extends React.Component<Props, State> {
             }
         }
 
-
+        console.log(events)
         // Using the map function, we will get all the events from the array
         const eventDetails = events
             .map((event: any) =>

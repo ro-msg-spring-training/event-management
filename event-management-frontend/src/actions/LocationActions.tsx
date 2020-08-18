@@ -1,5 +1,4 @@
 import { LocationType } from "../types/LocationType";
-import locationUrl from "../api/LocationUrl";
 
 export enum LocationActionTypes {
   LOCATION_FETCH = "LOCATION_FETCH",

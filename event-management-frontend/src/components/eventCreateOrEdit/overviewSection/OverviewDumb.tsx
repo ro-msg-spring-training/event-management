@@ -88,7 +88,7 @@ interface OverviewDumbProps {
 function OverviewDumb(props: OverviewDumbProps) {
   const classes = useStyles();
   const { t } = useTranslation();
-
+  console.log('form errors', props.formErrors)
   return (
     <>
       <Paper className={classes.fundal}>

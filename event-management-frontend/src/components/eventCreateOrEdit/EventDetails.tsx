@@ -6,13 +6,14 @@ import Header from './headerEditAndDelete/HeaderCrudSmart';
 import Stepper from './Stepper';
 import { useHistory } from 'react-router-dom';
 import AlertDialog from './AlertDialog';
-import Overview from './overviewSection/OverviewSmart';
+import OverviewSmart from './overviewSection/OverviewSmart';
 import Tickets from '../Tickets';
 import { EventCrud } from '../../model/EventCrud';
 import { useTranslation } from "react-i18next";
 import ImagesSectionSmart from './imagesSection/ImagesSectionSmart';
 import { EventImage } from '../../model/EventImage';
 import MapWrapper from './locationSection/Map'
+import { EventFormErrors } from '../../model/EventFormErrors';
 
 
 const event: EventCrud = {
@@ -32,7 +33,7 @@ const event: EventCrud = {
   picturesUrlSave: [],
   picturesUrlDelete: [],
   maxNoTicketsPerUser: 0,
-  noTicketEvent: true 
+  noTicketEvent: true
 }
 
 interface Props {
@@ -47,6 +48,7 @@ interface Props {
     error: string,
     images: EventImage[]
   },
+
 }
 
 const initialEventOverview = {
@@ -79,7 +81,7 @@ const useStyles = makeStyles({
   },
 });
 
-function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, fetchEvent }: Props) {
+function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, fetchEvent}: Props) {
   const history = useHistory();
   const classes = useStyles();
   const { t } = useTranslation();
@@ -99,7 +101,9 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, fetc
   const [idLocation, setidLocation] = useState("");
 
   useEffect(() => {
-    newEvent === false && fetchEventF(match.params.id)
+    if (newEvent === false) {
+      fetchEventF(match.params.id)
+    }
   }, [fetchEventF, match.params.id, newEvent])
 
   const verifyDateAndTimePeriods = (): boolean => {
@@ -207,7 +211,7 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, fetc
   }
 
   const overviewComponent =
-    <Overview
+    <OverviewSmart
       event={fetchEvent.event}
       newEvent={newEvent}
       admin={admin}
@@ -261,7 +265,7 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, fetc
 
 const mapStateToProps = (state: any) => {
   return {
-    fetchEvent: state.event
+    fetchEvent: state.eventCrud,
   }
 }
 

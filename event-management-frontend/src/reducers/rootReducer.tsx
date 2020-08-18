@@ -6,7 +6,7 @@ import LocationPageReducer from "./LocationPageReducer";
 
 export default combineReducers({
     events: EventsPageReducer,
-    event: HeaderReducer,
+    eventCrud: HeaderReducer,
     eventImages: ImagesReducer,
     location: LocationPageReducer,
 })

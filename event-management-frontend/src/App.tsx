@@ -2,7 +2,7 @@ import React, { Suspense } from "react";
 import Amplify from "aws-amplify";
 import config from "./config";
 import AuthWrapper from "./components/Routes";
-import { Route, Redirect, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import Main from "./components/Main";
 import {CircularProgress, Grid} from "@material-ui/core";
 

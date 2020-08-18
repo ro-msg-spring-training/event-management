@@ -3,7 +3,7 @@ import moment from 'moment'
 import { EventSort } from "../model/EventSort";
 const serverURL = 'http://ec2-54-154-96-2.eu-west-1.compute.amazonaws.com:8080'
 
-const token = 'eyJraWQiOiJGQmJURFl2dldtZzlkM3pHRW1xMmZWS29oRDBuVzdUZFwveEZRTzVCR3BEdz0iLCJhbGciOiJSUzI1NiJ9.eyJhdF9oYXNoIjoiQjFmMzhkeEF1S2hxWEg0UFI1MVVyQSIsInN1YiI6IjllNjljNGU2LWY0MGEtNDNkNS1iNWI2LTA2MGQ0ODVlNDdkZCIsImNvZ25pdG86Z3JvdXBzIjpbIlJPTEVfQURNSU4iXSwiZW1haWxfdmVyaWZpZWQiOnRydWUsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC5ldS13ZXN0LTEuYW1hem9uYXdzLmNvbVwvZXUtd2VzdC0xX3AzMEFTbzh1QyIsImNvZ25pdG86dXNlcm5hbWUiOiJzdGVmYW5fYWRtaW4iLCJnaXZlbl9uYW1lIjoiYmIiLCJhdWQiOiIyanFjNDYxb2xhaXFkMmUxMTFzcmlyNHRrMyIsImV2ZW50X2lkIjoiYWE0NTVlZjYtNDk1ZS00NWRmLWE3NmItOWVkOTE3OTc5Yzc5IiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE1OTc3NjQzMDYsImV4cCI6MTU5Nzc2NzkwNiwiaWF0IjoxNTk3NzY0MzA2LCJmYW1pbHlfbmFtZSI6ImJiIiwiZW1haWwiOiJyYWR1c3RlZmFuMTEyMzU4QGdtYWlsLmNvbSJ9.E6isZ0Xf3Bwl5pdBChPwQ3fgRAwcITLG9wJylQu6_HaCZz3mkoaz_PFBddhY6wA_Y6ARabmlKH8wCs-aLM5BnOvmTiFhRruMoPETRYIHhdPxLjTzjyfd3qnOWbreGXYBudlgvYjYQCJfp4iGb9OvLeJypa39Fp3dE0mWsyDuGv4KpW2wfx36m1TiznepzTm3rkTj3fAPiDIeyEfopb8RuQTqx27xjx8ljpgFaWhjiXeHwzG43sB0ORTnAT04Sro9SIhNmskovIX75Y5aCdDpTdcW_phdxZ5nxC6QmNE49VXYRAx2u4bncvVJGDssGZ9zWaUXjv_wRptLg_cPlV-f5Q'
+const token = 'eyJraWQiOiJGQmJURFl2dldtZzlkM3pHRW1xMmZWS29oRDBuVzdUZFwveEZRTzVCR3BEdz0iLCJhbGciOiJSUzI1NiJ9.eyJhdF9oYXNoIjoiOUNWNzhSQjgxbkUteGp3WmdYYzNydyIsInN1YiI6IjllNjljNGU2LWY0MGEtNDNkNS1iNWI2LTA2MGQ0ODVlNDdkZCIsImNvZ25pdG86Z3JvdXBzIjpbIlJPTEVfQURNSU4iXSwiZW1haWxfdmVyaWZpZWQiOnRydWUsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC5ldS13ZXN0LTEuYW1hem9uYXdzLmNvbVwvZXUtd2VzdC0xX3AzMEFTbzh1QyIsImNvZ25pdG86dXNlcm5hbWUiOiJzdGVmYW5fYWRtaW4iLCJnaXZlbl9uYW1lIjoiYmIiLCJhdWQiOiIyanFjNDYxb2xhaXFkMmUxMTFzcmlyNHRrMyIsImV2ZW50X2lkIjoiMzc0ZTM0OTEtOTY2YS00MGIwLWJkNDctYTYwNDEyNmJkYThiIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE1OTc3NjgxMTksImV4cCI6MTU5Nzc3MTcxOSwiaWF0IjoxNTk3NzY4MTE5LCJmYW1pbHlfbmFtZSI6ImJiIiwiZW1haWwiOiJyYWR1c3RlZmFuMTEyMzU4QGdtYWlsLmNvbSJ9.XQmbdRyWRLshBL7kVHigEvqnYndynYf28QXRygCZXnFkBBds67VIy7OjgNQeZa3pRbjjyKT3g6zlKqgut_J3rLKwLfk0tsrj_83391jOXk19huTqEa0o5D_7mnjb0t0q0xa767HahxOhtm6B6taPulWIkjuvP1rV9J0g7IkR42MLS1M1JsLxQS7BwSdbcNevxXvNf318bY_NxCBVzPwMK0GcUCH3IzsfyXWfwj3p-TjeWw6x2t9-bLix9OCzodDJjRANjvEw1f9AOdDfVKTBpUrJdOo5x1LOZ8VDrDB1kn81tB-cOY6sySFTFAfK7DFV93QD8U5ANPCxqgmdVTGsiQ'
 
 const headersAuth = {
     'Authorization': `Bearer ${token}`
@@ -21,39 +21,39 @@ const computeSortQueryString = (sort: EventSort) => {
 const computeFilterQueryString = (filters: EventFilters) => {
     let filtersToSend: any = {}
 
-    if (filters.title !== '' && filters.title != undefined) {
+    if (filters.title !== '' && filters.title !== undefined) {
         filtersToSend['title'] = filters.title
     }
-    if (filters.subtitle !== '' && filters.subtitle != undefined) {
+    if (filters.subtitle !== '' && filters.subtitle !== undefined) {
         filtersToSend['subtitle'] = filters.subtitle
     }
-    if (filters.status !== 'none' && filters.status != undefined) {
+    if (filters.status !== 'none' && filters.status !== undefined) {
         filtersToSend['status'] = filters.status
     }
-    if (filters.location !== '' && filters.location != undefined) {
+    if (filters.location !== '' && filters.location !== undefined) {
         filtersToSend['location'] = filters.location
     }
-    if (filters.startDate !== null && filters.startDate != undefined) {
+    if (filters.startDate !== null && filters.startDate !== undefined) {
         filtersToSend['startDate'] = moment(filters.startDate).format("YYYY-MM-DD")
     }
-    if (filters.endDate !== null && filters.endDate != undefined) {
+    if (filters.endDate !== null && filters.endDate !== undefined) {
         filtersToSend['endDate'] = moment(filters.endDate).format("YYYY-MM-DD")
     }
-    if (filters.rate !== '' && filters.rate != undefined) {
+    if (filters.rate !== '' && filters.rate !== undefined) {
         filtersToSend['rate'] = filters.rate
         filtersToSend['rateSign'] = filters.rateSign
     }
-    if (filters.maxPeople !== '' && filters.maxPeople != undefined) {
+    if (filters.maxPeople !== '' && filters.maxPeople !== undefined) {
         filtersToSend['maxPeople'] = filters.maxPeople
         filtersToSend['maxPeopleSign'] = filters.maxPeopleSign
     }
-    if (filters.startHour != undefined) {
+    if (filters.startHour !== undefined) {
         filtersToSend['startHour'] = filters.startHour
     }
-    if (filters.endHour != undefined) {
+    if (filters.endHour !== undefined) {
         filtersToSend['endHour'] = filters.endHour
     }
-    if (filters.highlighted != undefined) {
+    if (filters.highlighted !== undefined) {
         filtersToSend['highlighted'] = filters.highlighted
     }
 

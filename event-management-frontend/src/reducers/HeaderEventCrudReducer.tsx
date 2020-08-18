@@ -11,10 +11,13 @@ import {
   EDIT_EVENT_REQUEST,
   EDIT_EVENT_SUCCESS,
   EDIT_EVENT_FAILURE,
-  UPDATE_EVENT_IMAGES
+  UPDATE_EVENT_IMAGES,
+  UPDATE_FORM_ERRORS,
+  UPDATE_EVENT
 } from "../actions/HeaderEventCrudActions"
 import { EventCrud } from "../model/EventCrud"
 import { EventImage } from "../model/EventImage"
+import { EventFormErrors } from "../model/EventFormErrors"
 
 export interface EventState {
   loading: boolean,
@@ -22,7 +25,8 @@ export interface EventState {
   error: string,
   isError: boolean,
   isLoading: boolean,
-  images: EventImage[]
+  images: EventImage[],
+  formErrors: EventFormErrors
 }
 
 const initialState: EventState = {
@@ -32,6 +36,16 @@ const initialState: EventState = {
     observations: "mock", location: "mock", startDate: "2019-08-03", endDate: "2019-08-03", startHour: "07:12", endHour: "07:12",
     maxPeople: 0, picturesUrlSave: [], picturesUrlDelete: [], maxNoTicketsPerUser: 0,
     noTicketEvent: true
+  },
+  formErrors: {
+    title: "",
+    subtitle: "",
+    description: "",
+    startDate: "",
+    endDate: "",
+    startTime: "",
+    endTime: "",
+    maxPeople: "",
   },
   error: '',
   isError: false,
@@ -52,7 +66,9 @@ const HeaderReducer = (state = initialState, action: { type: string, payload: Ev
         isLoading: true
       }
     case FETCH_EVENT_SUCCESS:
+      console.log('in reducere ajunge...', action.payload)
       return {
+        ...state,
         loading: false,
         event: action.payload,
         error: '',
@@ -62,6 +78,7 @@ const HeaderReducer = (state = initialState, action: { type: string, payload: Ev
       }
     case FETCH_EVENT_FAILURE:
       return {
+        ...state,
         loading: false,
         event: action.payload,
         isError: true,
@@ -74,10 +91,12 @@ const HeaderReducer = (state = initialState, action: { type: string, payload: Ev
       }
     case DELETE_EVENT_SUCCESS:
       return {
+        ...state,
         ...initialState,
       }
     case DELETE_EVENT_FAILURE:
       return {
+        ...state,
         error: action.payload
       }
     case ADD_EVENT_REQUEST:
@@ -87,10 +106,12 @@ const HeaderReducer = (state = initialState, action: { type: string, payload: Ev
       }
     case ADD_EVENT_SUCCESS:
       return {
+        ...state,
         loading: false,
       }
     case ADD_EVENT_FAILURE:
       return {
+        ...state,
         loading: false,
         newProduct: action.payload
       }
@@ -101,10 +122,12 @@ const HeaderReducer = (state = initialState, action: { type: string, payload: Ev
       }
     case EDIT_EVENT_SUCCESS:
       return {
+        ...state,
         loading: false,
       }
     case EDIT_EVENT_FAILURE:
       return {
+        ...state,
         loading: false,
         newProduct: action.payload
       }
@@ -113,6 +136,16 @@ const HeaderReducer = (state = initialState, action: { type: string, payload: Ev
         ...state,
         images: action.payload,
         isError: false,
+      }
+    case UPDATE_FORM_ERRORS:
+      return {
+        ...state,
+        formErrors: action.payload
+      }
+    case UPDATE_EVENT:
+      return {
+        ...state,
+        event: action.payload
       }
     default: return state
   }

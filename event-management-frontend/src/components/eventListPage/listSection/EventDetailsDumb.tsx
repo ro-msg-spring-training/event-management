@@ -30,7 +30,7 @@ const StyledTableRow = withStyles((theme: Theme) =>
 const EventDetailsDumb = (props: Event) => {
     const commonClasses = useStyles()
     const [t] = useTranslation();
-
+    console.log('event id', props.id)
     const id = props.id;
     const title = props.title;
     const subtitle = props.subtitle;
@@ -49,12 +49,12 @@ const EventDetailsDumb = (props: Event) => {
             <StyledTableCell>{occRate}</StyledTableCell>
 
             <StyledTableCell>
-                <Link to={`/events/${id}`} style={{ textDecoration: 'none' }}>
+                <Link to={`/admin/events/${id}`} style={{ textDecoration: 'none' }}>
                     <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3}`}>
                         {t("eventList.details")}
                     </Button>
                 </Link><br/><br/>
-                <Link to={`/validate/${id}`} style={{ textDecoration: 'none' }}>
+                <Link to={`/admin/validate/${id}`} style={{ textDecoration: 'none' }}>
                     <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3}`}>
                         {t("eventList.validate")}
                     </Button>

@@ -7,8 +7,6 @@ import ChangePasswordConfirm from "./loginRegisterPages/ChangePasswordConfirm";
 import RegistrationPage from "./loginRegisterPages/RegistrationPage";
 import { useTranslation } from "react-i18next";
 import "../styles/Responsivity.css";
-import Main from "./Main";
-import { PrivateRoute } from "./PrivateRoute";
 
 const AuthWrapper = () => {
   const { i18n } = useTranslation();

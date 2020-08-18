@@ -18,7 +18,9 @@ interface AddProps {
 function* loadEventAsync(props: Props) {
   try {
     yield put(fetchEventRequest());
+    console.log('event idddddddd', props.payload)
     const event = yield call(() => fetchEventAPI(props.payload));
+    console.log('event result', event)
     yield put(fetchEventSuccess(event))
   } catch (e) {
     yield put(fetchEventFailure(e))

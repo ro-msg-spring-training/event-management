@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -196,7 +196,7 @@ const EventListDumb = (props: Props) => {
                         className={classes.stickyArea}
                         ref={stickyDiv}>
 
-                        <Link to={`/newEvent`} style={{ textDecoration: 'none' }}>
+                        <Link to={`/admin/newEvent`} style={{ textDecoration: 'none' }}>
                             <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3} ${commonClasses.buttonStyle4}`}>{t("eventList.createNewEventButton")}</Button>
                         </Link>
 

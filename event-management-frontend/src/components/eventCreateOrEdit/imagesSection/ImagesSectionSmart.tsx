@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { connect } from 'react-redux';
 import ImagesSectionDumb from './ImagesSectionDumb'
 import { EventImage } from '../../../model/EventImage';
-import { updateEventImages } from '../../../actions/ImageActions';
+import { updateEventImages } from '../../../actions/ImageActions'; // to modify import
 
 interface ImagesSectionProps {
     isError: boolean,

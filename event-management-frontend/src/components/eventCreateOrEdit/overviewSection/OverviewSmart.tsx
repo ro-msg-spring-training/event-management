@@ -2,6 +2,10 @@ import React, { useEffect } from 'react';
 import OverviewDumb from './OverviewDumb';
 import { EventCrud } from '../../../model/EventCrud';
 import { useTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import { EventFormErrors } from '../../../model/EventFormErrors';
+import { updateFormErrors, updateEvent } from '../../../actions/HeaderEventCrudActions';
+import { FormErrors } from '../../loginRegisterPages/FormErrors';
 
 interface EventObjectProps {
   title: string,
@@ -38,6 +42,12 @@ interface OverviewSmartProps {
   setMsgUndo: any,
   setDialogTitle: any,
   setDialogDescription: any,
+
+
+  eventCrud: EventCrud,
+  formErrors: EventFormErrors,
+  updateEvent: (event: EventCrud) => void,
+  updateFormErrors: (errors: EventFormErrors) => void
 }
 
 function OverviewSmart(props: OverviewSmartProps) {
@@ -84,212 +94,402 @@ function OverviewSmart(props: OverviewSmartProps) {
     else return 0;
   }
 
-  const handleChange = (e: any): void => {
+  const handleChange = (e: any) => {
     e.preventDefault();
     const { name, value } = e.target;
 
-    props.setFinalEventOverview((prevEvent: any) => {
-      let newEvent = Object.assign({}, prevEvent);
-      switch (name) {
-        case "title":
-          newEvent.title = value;
-          break;
-        case "subtitle":
-          newEvent.subtitle = value;
-          break;
-        case "description":
-          newEvent.description = value;
-          break;
-        case "startDate":
-          newEvent.startDate = value;
-          break;
-        case "startTime":
-          newEvent.startTime = value;
-          break;
-        case "endDate":
-          newEvent.endDate = value;
-          break;
-        case "endTime":
-          newEvent.endTime = value;
-          break;
-        case "maxPeople":
-          newEvent.maxPeople = value;
-          break;
-        default:
-          break;
-      }
-
-      return newEvent;
-    });
-
-    let formErrors = { ...props.finalEventOverview.formErrors };
-
-    let startDate = props.finalEventOverview.startDate;
-    let endDate = props.finalEventOverview.endDate;
-    let startTime = props.finalEventOverview.startTime;
-    let endTime = props.finalEventOverview.endTime;
+    // update event
+    let newEvent = Object.assign({}, props.eventCrud);
 
     switch (name) {
       case "title":
-        formErrors.title =
+        newEvent.title = value;
+        break;
+      case "subtitle":
+        newEvent.subtitle = value;
+        break;
+      case "description":
+        newEvent.description = value;
+        break;
+      case "startDate":
+        newEvent.startDate = value;
+        break;
+      case "startTime":
+        newEvent.startHour = value;
+        break;
+      case "endDate":
+        newEvent.endDate = value;
+        break;
+      case "endTime":
+        newEvent.endHour = value;
+        break;
+      case "maxPeople":
+        newEvent.maxPeople = value;
+        break;
+      default:
+        break;
+    }
+    props.updateEvent(newEvent)
+
+    // update form errors
+
+    let newFormErrors = Object.assign({}, props.formErrors)
+
+    switch (name) {
+      case "title":
+        newFormErrors.title =
           value.length < 3 ? t("welcome.errMsgOverviewMinCharacters") : "";
         break;
 
       case "subtitle":
-        formErrors.subtitle =
+        newFormErrors.subtitle =
           value.length < 3 ? t("welcome.errMsgOverviewMinCharacters") : "";
         break;
 
       case "description":
-        formErrors.description =
+        newFormErrors.description =
           value.length < 3 ? t("welcome.errMsgOverviewMinCharacters") : "";
         break;
 
       case "startDate":
-        formErrors.startDate = ""
-        formErrors.endDate = ""
-        formErrors.startTime = ""
-        formErrors.endTime = ""
+        newFormErrors.startDate = ""
+        newFormErrors.endDate = ""
+        newFormErrors.startTime = ""
+        newFormErrors.endTime = ""
 
-        formErrors.startDate =
+        newFormErrors.startDate =
           (compareDates(value, currDate) === -1) ?
             (t("welcome.errMsgOverviewFirstDayInPast")) :
-            (compareDates(value, endDate) === 1 ?
+            (compareDates(value, props.eventCrud.endDate) === 1 ?
               t("welcome.errMsgOverviewFirstDayAfterLast") : "")
 
-        formErrors.startTime =
-          (compareDates(value, endDate) === 0) ?
+        newFormErrors.startTime =
+          (compareDates(value, props.eventCrud.endDate) === 0) ?
             (
-              (compareTimes(startTime, endTime) !== -1) ?
+              (compareTimes(props.eventCrud.startHour, props.eventCrud.endHour) !== -1) ?
                 (t("welcome.errMsgOverviewOneDayEventStartTimeErr")) : ""
             ) : ""
 
-        formErrors.endTime =
-          (compareDates(value, endDate) === 0) ?
+        newFormErrors.endTime =
+          (compareDates(value, props.eventCrud.endDate) === 0) ?
             (
-              (compareTimes(startTime, endTime) !== -1) ?
+              (compareTimes(props.eventCrud.startHour, props.eventCrud.endHour) !== -1) ?
                 (t("welcome.errMsgOverviewOneDayEventEndTimeErr")) : ""
             ) : ""
 
         break;
 
       case "endDate":
-        formErrors.startDate = ""
-        formErrors.endDate = ""
-        formErrors.startTime = ""
-        formErrors.endTime = ""
+        newFormErrors.startDate = ""
+        newFormErrors.endDate = ""
+        newFormErrors.startTime = ""
+        newFormErrors.endTime = ""
 
-        formErrors.endDate =
-          (compareDates(startDate, value) === 1) ?
+        newFormErrors.endDate =
+          (compareDates(props.eventCrud.startDate, value) === 1) ?
             (t("welcome.errMsgOverviewLastDayBeforeFirst")) : ""
 
-        formErrors.startDate =
-          (compareDates(startDate, currDate) === -1) ?
+        newFormErrors.startDate =
+          (compareDates(props.eventCrud.startDate, currDate) === -1) ?
             (t("welcome.errMsgOverviewFirstDayInPast")) :
-            (compareDates(startDate, value) === 1 ?
+            (compareDates(props.eventCrud.startDate, value) === 1 ?
               t("welcome.errMsgOverviewFirstDayAfterLast") : "")
 
-        formErrors.startTime =
-          (compareDates(startDate, value) === 0) ?
+        newFormErrors.startTime =
+          (compareDates(props.eventCrud.startDate, value) === 0) ?
             (
-              (compareTimes(startTime, endTime) !== -1) ?
+              (compareTimes(props.eventCrud.startHour, props.eventCrud.endHour) !== -1) ?
                 (t("welcome.errMsgOverviewOneDayEventStartTimeErr")) : ""
             ) : ""
 
-        formErrors.endTime =
-          (compareDates(startDate, value) === 0) ?
+        newFormErrors.endTime =
+          (compareDates(props.eventCrud.startDate, value) === 0) ?
             (
-              (compareTimes(startTime, endTime) !== -1) ?
+              (compareTimes(props.eventCrud.startHour, props.eventCrud.endHour) !== -1) ?
                 (t("welcome.errMsgOverviewOneDayEventEndTimeErr")) : ""
             ) : ""
 
         break;
 
       case "startTime":
-        formErrors.startDate = ""
-        formErrors.endDate = ""
-        formErrors.startTime = ""
-        formErrors.endTime = ""
+        newFormErrors.startDate = ""
+        newFormErrors.endDate = ""
+        newFormErrors.startTime = ""
+        newFormErrors.endTime = ""
 
-        formErrors.startTime =
-          (compareDates(startDate, endDate) === 0) ?
+        newFormErrors.startTime =
+          (compareDates(props.eventCrud.startDate, props.eventCrud.endDate) === 0) ?
             (
-              (compareTimes(value, endTime) !== -1) ?
+              (compareTimes(value, props.eventCrud.endHour) !== -1) ?
                 (t("welcome.errMsgOverviewOneDayEventStartTimeErr")) : ""
             ) : ""
 
-        formErrors.startDate =
-          (compareDates(startDate, currDate) === -1) ?
+        newFormErrors.startDate =
+          (compareDates(props.eventCrud.startDate, currDate) === -1) ?
             (t("welcome.errMsgOverviewFirstDayInPast")) :
-            (compareDates(startDate, endDate) === 1 ?
+            (compareDates(props.eventCrud.startDate, props.eventCrud.endDate) === 1 ?
               t("welcome.errMsgOverviewFirstDayAfterLast") : "")
 
-        formErrors.endTime =
-          (compareDates(startDate, endDate) === 0) ?
+        newFormErrors.endTime =
+          (compareDates(props.eventCrud.startDate, props.eventCrud.endDate) === 0) ?
             (
-              (compareTimes(value, endTime) !== -1) ?
+              (compareTimes(value, props.eventCrud.endHour) !== -1) ?
                 (t("welcome.errMsgOverviewOneDayEventEndTimeErr")) : ""
             ) : ""
 
         break;
 
       case "endTime":
-        formErrors.startDate = ""
-        formErrors.endDate = ""
-        formErrors.startTime = ""
-        formErrors.endTime = ""
+        newFormErrors.startDate = ""
+        newFormErrors.endDate = ""
+        newFormErrors.startTime = ""
+        newFormErrors.endTime = ""
 
-        formErrors.endTime =
-          (compareDates(startDate, endDate) === 0) ?
+        newFormErrors.endTime =
+          (compareDates(props.eventCrud.startDate, props.eventCrud.endDate) === 0) ?
             (
-              (compareTimes(startTime, value) !== -1) ?
+              (compareTimes(props.eventCrud.startHour, value) !== -1) ?
                 (t("welcome.errMsgOverviewOneDayEventEndTimeErr")) : ""
             ) : ""
 
-        formErrors.startDate =
-          (compareDates(startDate, currDate) === -1) ?
+        newFormErrors.startDate =
+          (compareDates(props.eventCrud.startDate, currDate) === -1) ?
             (t("welcome.errMsgOverviewFirstDayInPast")) :
-            (compareDates(startDate, endDate) === 1 ?
+            (compareDates(props.eventCrud.startDate, props.eventCrud.endDate) === 1 ?
               t("welcome.errMsgOverviewFirstDayAfterLast") : "")
 
-        formErrors.startTime =
-          (compareDates(startDate, endDate) === 0) ?
+        newFormErrors.startTime =
+          (compareDates(props.eventCrud.startDate, props.eventCrud.endDate) === 0) ?
             (
-              (compareTimes(startTime, value) !== -1) ?
+              (compareTimes(props.eventCrud.startHour, value) !== -1) ?
                 (t("welcome.errMsgOverviewOneDayEventStartTimeErr")) : ""
             ) : ""
 
         break;
 
       case "maxPeople":
-        formErrors.maxPeople =
+        newFormErrors.maxPeople =
           Number(value) < 2 ? t("welcome.errMsgOverviewMaxPpl") : "";
         break;
-
 
       default:
         break;
     }
 
-    props.setFinalEventOverview((prevEvent: any) => {
-      let newEvent = Object.assign({}, prevEvent);
-      newEvent.formErrors = formErrors;
-      return newEvent;
-    });
+    props.updateFormErrors(newFormErrors)
+  }
 
-  };
+  // const handleChange = (e: any): void => {
+  //   e.preventDefault();
+  //   const { name, value } = e.target;
+
+  //   props.setFinalEventOverview((prevEvent: any) => {
+  //     let newEvent = Object.assign({}, prevEvent);
+  //     switch (name) {
+  //       case "title":
+  //         newEvent.title = value;
+  //         break;
+  //       case "subtitle":
+  //         newEvent.subtitle = value;
+  //         break;
+  //       case "description":
+  //         newEvent.description = value;
+  //         break;
+  //       case "startDate":
+  //         newEvent.startDate = value;
+  //         break;
+  //       case "startTime":
+  //         newEvent.startTime = value;
+  //         break;
+  //       case "endDate":
+  //         newEvent.endDate = value;
+  //         break;
+  //       case "endTime":
+  //         newEvent.endTime = value;
+  //         break;
+  //       case "maxPeople":
+  //         newEvent.maxPeople = value;
+  //         break;
+  //       default:
+  //         break;
+  //     }
+  //     props.updateEvent(newEvent)
+  //     return newEvent;
+  //   });
+
+  //   let formErrors = { ...props.finalEventOverview.formErrors };
+
+  //   let startDate = props.finalEventOverview.startDate;
+  //   let endDate = props.finalEventOverview.endDate;
+  //   let startTime = props.finalEventOverview.startTime;
+  //   let endTime = props.finalEventOverview.endTime;
+
+  //   switch (name) {
+  //     case "title":
+  //       formErrors.title =
+  //         value.length < 3 ? t("welcome.errMsgOverviewMinCharacters") : "";
+  //       break;
+
+  //     case "subtitle":
+  //       formErrors.subtitle =
+  //         value.length < 3 ? t("welcome.errMsgOverviewMinCharacters") : "";
+  //       break;
+
+  //     case "description":
+  //       formErrors.description =
+  //         value.length < 3 ? t("welcome.errMsgOverviewMinCharacters") : "";
+  //       break;
+
+  //     case "startDate":
+  //       formErrors.startDate = ""
+  //       formErrors.endDate = ""
+  //       formErrors.startTime = ""
+  //       formErrors.endTime = ""
+
+  //       formErrors.startDate =
+  //         (compareDates(value, currDate) === -1) ?
+  //           (t("welcome.errMsgOverviewFirstDayInPast")) :
+  //           (compareDates(value, endDate) === 1 ?
+  //             t("welcome.errMsgOverviewFirstDayAfterLast") : "")
+
+  //       formErrors.startTime =
+  //         (compareDates(value, endDate) === 0) ?
+  //           (
+  //             (compareTimes(startTime, endTime) !== -1) ?
+  //               (t("welcome.errMsgOverviewOneDayEventStartTimeErr")) : ""
+  //           ) : ""
+
+  //       formErrors.endTime =
+  //         (compareDates(value, endDate) === 0) ?
+  //           (
+  //             (compareTimes(startTime, endTime) !== -1) ?
+  //               (t("welcome.errMsgOverviewOneDayEventEndTimeErr")) : ""
+  //           ) : ""
+
+  //       break;
+
+  //     case "endDate":
+  //       formErrors.startDate = ""
+  //       formErrors.endDate = ""
+  //       formErrors.startTime = ""
+  //       formErrors.endTime = ""
+
+  //       formErrors.endDate =
+  //         (compareDates(startDate, value) === 1) ?
+  //           (t("welcome.errMsgOverviewLastDayBeforeFirst")) : ""
+
+  //       formErrors.startDate =
+  //         (compareDates(startDate, currDate) === -1) ?
+  //           (t("welcome.errMsgOverviewFirstDayInPast")) :
+  //           (compareDates(startDate, value) === 1 ?
+  //             t("welcome.errMsgOverviewFirstDayAfterLast") : "")
+
+  //       formErrors.startTime =
+  //         (compareDates(startDate, value) === 0) ?
+  //           (
+  //             (compareTimes(startTime, endTime) !== -1) ?
+  //               (t("welcome.errMsgOverviewOneDayEventStartTimeErr")) : ""
+  //           ) : ""
+
+  //       formErrors.endTime =
+  //         (compareDates(startDate, value) === 0) ?
+  //           (
+  //             (compareTimes(startTime, endTime) !== -1) ?
+  //               (t("welcome.errMsgOverviewOneDayEventEndTimeErr")) : ""
+  //           ) : ""
+
+  //       break;
+
+  //     case "startTime":
+  //       formErrors.startDate = ""
+  //       formErrors.endDate = ""
+  //       formErrors.startTime = ""
+  //       formErrors.endTime = ""
+
+  //       formErrors.startTime =
+  //         (compareDates(startDate, endDate) === 0) ?
+  //           (
+  //             (compareTimes(value, endTime) !== -1) ?
+  //               (t("welcome.errMsgOverviewOneDayEventStartTimeErr")) : ""
+  //           ) : ""
+
+  //       formErrors.startDate =
+  //         (compareDates(startDate, currDate) === -1) ?
+  //           (t("welcome.errMsgOverviewFirstDayInPast")) :
+  //           (compareDates(startDate, endDate) === 1 ?
+  //             t("welcome.errMsgOverviewFirstDayAfterLast") : "")
+
+  //       formErrors.endTime =
+  //         (compareDates(startDate, endDate) === 0) ?
+  //           (
+  //             (compareTimes(value, endTime) !== -1) ?
+  //               (t("welcome.errMsgOverviewOneDayEventEndTimeErr")) : ""
+  //           ) : ""
+
+  //       break;
+
+  //     case "endTime":
+  //       formErrors.startDate = ""
+  //       formErrors.endDate = ""
+  //       formErrors.startTime = ""
+  //       formErrors.endTime = ""
+
+  //       formErrors.endTime =
+  //         (compareDates(startDate, endDate) === 0) ?
+  //           (
+  //             (compareTimes(startTime, value) !== -1) ?
+  //               (t("welcome.errMsgOverviewOneDayEventEndTimeErr")) : ""
+  //           ) : ""
+
+  //       formErrors.startDate =
+  //         (compareDates(startDate, currDate) === -1) ?
+  //           (t("welcome.errMsgOverviewFirstDayInPast")) :
+  //           (compareDates(startDate, endDate) === 1 ?
+  //             t("welcome.errMsgOverviewFirstDayAfterLast") : "")
+
+  //       formErrors.startTime =
+  //         (compareDates(startDate, endDate) === 0) ?
+  //           (
+  //             (compareTimes(startTime, value) !== -1) ?
+  //               (t("welcome.errMsgOverviewOneDayEventStartTimeErr")) : ""
+  //           ) : ""
+
+  //       break;
+
+  //     case "maxPeople":
+  //       formErrors.maxPeople =
+  //         Number(value) < 2 ? t("welcome.errMsgOverviewMaxPpl") : "";
+  //       break;
+
+
+  //     default:
+  //       break;
+  //   }
+
+  //   props.setFinalEventOverview((prevEvent: any) => {
+  //     let newEvent = Object.assign({}, prevEvent);
+  //     newEvent.formErrors = formErrors;
+  //     return newEvent;
+  //   });
+
+
+  //   props.updateFormErrors(formErrors)
+  // };
 
   const handleEnterKey = (e: any): void => { e.keyCode === 13 && e.preventDefault(); }
+  console.log("forrrrrrrm errrrrrrors smart", props.formErrors)
 
   return (
     <>
       <OverviewDumb
         newEvent={props.newEvent}
-        event={props.event}
+        event={props.eventCrud}
+        // event={props.event}
         admin={props.admin}
         handleEnterKey={handleEnterKey}
         handleChange={handleChange}
-        formErrors={props.finalEventOverview.formErrors}
+        formErrors={props.formErrors}
+        //formErrors={props.finalEventOverview.formErrors}
         highlighted={props.checkBoxStateOverview}
         handleChangeCheckboxState={handleChangeCheckboxState}
         setStatus={props.setStatusOverview}
@@ -301,4 +501,15 @@ function OverviewSmart(props: OverviewSmartProps) {
   );
 }
 
-export default OverviewSmart;
+const mapStateToProps = ({ eventCrud }: any) => {
+  console.log('stateul', eventCrud)
+  return({
+  eventCrud: eventCrud.event,
+  formErrors: eventCrud.formErrors,
+  error: eventCrud.error
+})};
+
+export default connect(
+  mapStateToProps,
+  { updateFormErrors, updateEvent }
+)(OverviewSmart);
