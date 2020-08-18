@@ -11,7 +11,7 @@ import {
 import { MathRelation } from "../model/MathRelation"
 import { EventFilters } from "../model/EventFilters";
 import { EventSort } from "../model/EventSort";
-import {fetchSortedEvents, changePage } from "../services/EventsService";
+import {fetchSortedEvents, changePage } from "../api/EventsServiceAPI";
 
 
 export interface EventsPageState {

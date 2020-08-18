@@ -3,7 +3,7 @@ import {EventSort} from "../model/EventSort";
 import moment from 'moment'
 const eventsUrl = 'http://localhost:8080/events/filter';
 const mockUrlProducts = 'http://localhost:4000/products';
-const serverURL = ''
+const serverURL = 'ec2-54-154-96-2.eu-west-1.compute.amazonaws.com:8080'
 
 
 const computeSortQueryString = (sort: EventSort) => {

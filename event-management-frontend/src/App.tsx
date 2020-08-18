@@ -2,7 +2,7 @@ import React, { Suspense } from "react";
 import "./App.css";
 import Amplify from "aws-amplify";
 import config from "./config";
-import AuthWrapper from "./components/loginRegisterPages/AuthWrapper";
+import AuthWrapper from "./components/Routes";
 
 
 // loading component for suspense fallback

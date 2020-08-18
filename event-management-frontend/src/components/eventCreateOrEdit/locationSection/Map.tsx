@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Map, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import useStylesMapWrapper from "../../styles/MapWrapperStyle";
-import "../../styles/Map.css";
+import useStylesMapWrapper from "../../../styles/MapWrapperStyle";
+import "../../../styles/Map.css";
 import L from "leaflet";
-import black_marker from "../../assets/marker_black.png";
-import green_marker from "../../assets/marker_green.png";
-import red_marker from "../../assets/marker_red.png";
-import marker_shadow from "../../assets/marker-shadow.png";
+import black_marker from "../../../assets/marker_black.png";
+import green_marker from "../../../assets/marker_green.png";
+import red_marker from "../../../assets/marker_red.png";
+import marker_shadow from "../../../assets/marker-shadow.png";
 import { Button } from "@material-ui/core";
-import { useStyles } from "../../styles/CommonStyles";
-import { LocationType } from "../../types/LocationType";
-import { AppState } from "../../store/store";
+import { useStyles } from "../../../styles/CommonStyles";
+import { LocationType } from "../../../types/LocationType";
+import { AppState } from "../../../store/store";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import { useTranslation, Trans } from "react-i18next";
@@ -19,7 +19,7 @@ import {
   locationFetch,
   locationFetchSucces,
   locationisLoading,
-} from "../../actions/LocationActions";
+} from "../../../actions/LocationActions";
 import SearchBar from "./SearchBar";
 
 const myLocations = [

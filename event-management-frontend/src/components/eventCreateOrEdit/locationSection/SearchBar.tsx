@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import useStylesSearchBar from "../../styles/SearchBarStyle";
+import useStylesSearchBar from "../../../styles/SearchBarStyle";
 
 interface Props {
   myLocations: any[];

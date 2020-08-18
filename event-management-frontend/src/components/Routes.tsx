@@ -1,15 +1,14 @@
 import React from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
-import Login from "./Login";
-import ForgotPassword from "./ForgotPassword";
-import ForgotPasswordVerification from "./ForgotPasswordVerification";
-import ChangePasswordConfirm from "./ChangePasswordConfirm";
-import RegistrationPage from "./RegistrationPage";
+import Login from "./loginRegisterPages/Login";
+import ForgotPassword from "./loginRegisterPages/ForgotPassword";
+import ForgotPasswordVerification from "./loginRegisterPages/ForgotPasswordVerification";
+import ChangePasswordConfirm from "./loginRegisterPages/ChangePasswordConfirm";
+import RegistrationPage from "./loginRegisterPages/RegistrationPage";
 import { useTranslation } from "react-i18next";
-import "../../styles/Responsivity.css";
-import Home from "../homePage/Home";
-import EventList from "../eventListPage/listSection/EventListSmart";
-import Main from "../Main";
+import "../styles/Responsivity.css";
+
+import Main from "./Main";
 
 const AuthWrapper = () => {
   const { i18n } = useTranslation();
