@@ -8,11 +8,12 @@ import { useHistory } from 'react-router-dom';
 import AlertDialog from './AlertDialog';
 import Overview from './overviewSection/OverviewSmart';
 import Tickets from '../Tickets';
-import Location from '../Location';
 import { EventCrud } from '../../model/EventCrud';
 import { useTranslation } from "react-i18next";
 import ImagesSectionSmart from './imagesSection/ImagesSectionSmart';
 import { EventImage } from '../../model/EventImage';
+import MapWrapper from '../locationSection/Map'
+
 
 const event: EventCrud = {
   id: "",
@@ -38,6 +39,7 @@ interface Props {
   fetchEventF: (id: string) => void,
   deleteEventF: (id: string) => void,
   addEventF: (event: EventCrud, images: EventImage[]) => void,
+  editEventF: (event: EventCrud, images: EventImage[]) => void,
   fetchEvent: {
     loading: boolean,
     event: EventCrud,
@@ -76,7 +78,7 @@ const useStyles = makeStyles({
   },
 });
 
-function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, fetchEvent }: Props) {
+function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, editEventF, fetchEvent }: Props) {
   const history = useHistory();
   const classes = useStyles();
   const { t } = useTranslation();
@@ -93,6 +95,7 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, fetc
   const [statusOverview, setStatusOverview] = useState("active");
   const [checkBoxStateOverview, setCheckboxStateOverview] = useState(false);
   //--------------------------
+  const [idLocation, setidLocation] = useState("");
 
   useEffect(() => {
     newEvent === false && fetchEventF(match.params.id)
@@ -180,12 +183,12 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, fetc
 
   let saveEvent = (): void => {
     //TODO check if save for edit or for new event
-    
+
     handleSaveOverviewEvent();
 
     // =================
 
-    newEvent && addEventF(event, fetchEvent.images) 
+    newEvent ? addEventF(event, fetchEvent.images) : editEventF(event, fetchEvent.images)
 
   }
 
@@ -218,9 +221,12 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, fetc
       setDialogTitle={setDialogTitle}
       setDialogDescription={setDialogDescription}
     />
-  const locationComponent = <Location />
+  const locationComponent = <MapWrapper
+    locationStatus={idLocation}
+    setlocationStatus={setidLocation}
+  />
   const ticketsComponent = <Tickets />
-  const imagesComponent = <ImagesSectionSmart/>
+  const imagesComponent = <ImagesSectionSmart />
 
 
   if (fetchEvent.loading) {
@@ -263,6 +269,7 @@ const mapDispatchToProps = (dispatch: any) => {
     fetchEventF: (id: string) => dispatch(loadEvent(id)),
     deleteEventF: (id: string) => dispatch(deleteEvent(id)),
     addEventF: (event: EventCrud, images: EventImage[]) => dispatch(addEvent(event, images)),
+    editEventF: (event: EventCrud, images: EventImage[]) => dispatch(addEvent(event, images)),
   }
 }
 

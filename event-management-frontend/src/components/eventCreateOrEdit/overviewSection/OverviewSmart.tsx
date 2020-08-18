@@ -45,7 +45,7 @@ function OverviewSmart(props: OverviewSmartProps) {
   let today = new Date(new Date().toString().split('GMT')[0] + ' UTC').toISOString().split('.')[0]
   const dateAndTime = today.split("T");
   const currDate = dateAndTime[0];
-  const currTime = dateAndTime[1];
+  const currTime = dateAndTime[1].replace(/:\d\d([ ap]|$)/,'$1');
 
   const updateFields = (): void => { props.setFinalEventOverview(props.event) }
 
