@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import useStylesSearchBar from "../../../styles/SearchBarStyle";
+import { Input, InputAdornment } from "@material-ui/core";
+import SearchIcon from "@material-ui/icons/Search";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   myLocations: any[];
@@ -24,6 +27,7 @@ const SearchBar = (props: Props) => {
   const classesSearch = useStylesSearchBar();
   const [flag, setFlag] = useState(true);
   const [suggestions, setSuggestions]: any = useState([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (props.searchValue.length > 0 && flag) {
@@ -61,10 +65,7 @@ const SearchBar = (props: Props) => {
       <div className={classesSearch.containerSuggestions}>
         <ul className={classesSearch.suggestionsText}>
           {suggestions.map((location: any) => (
-            <li
-              className={classesSearch.suggestedItem}
-              onClick={() => suggestionSelected(location.name)}
-            >
+            <li className={classesSearch.suggestedItem} onClick={() => suggestionSelected(location.name)}>
               {location.name}
             </li>
           ))}
@@ -83,12 +84,17 @@ const SearchBar = (props: Props) => {
 
   return (
     <div className={classesSearch.searchBar}>
-      <input
-        placeholder="Search Location "
+      <Input
+        placeholder={t("location.searchBarText")}
         className={classesSearch.searchBarInput}
         value={props.searchValue}
         onChange={(e) => props.setSearchValue(e.target.value)}
         type="text"
+        startAdornment={
+          <InputAdornment position="start">
+            <SearchIcon />
+          </InputAdornment>
+        }
       />
       {renderSuggestions()}
     </div>

@@ -18,7 +18,6 @@ const AuthWrapper = () => {
 
   return (
       <div className="authComponentsResponsive">
-
         {/* <Button onClick={() => changeLanguage("en")}>en</Button>
       <Button onClick={() => changeLanguage("ro")}>ro</Button>
       <hr /> */}
