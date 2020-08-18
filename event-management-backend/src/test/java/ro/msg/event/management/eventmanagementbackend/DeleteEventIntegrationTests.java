@@ -31,12 +31,12 @@ class DeleteEventIntegrationTests {
 
         this.eventRepository.save(event1);
         this.eventRepository.save(event2);
-
+        eventRepository.findAll();
         assertThat(this.eventRepository.count()).isEqualTo(2);
 
         this.eventService.deleteEvent(1);
 
-        assertThat(this.eventRepository.count()).isEqualTo(2);
+        assertThat(this.eventRepository.count()).isEqualTo(1);
     }
 
     @Test

@@ -75,8 +75,7 @@ public class EventService {
         Optional<Event> eventOptional;
         eventOptional = eventRepository.findById(event.getId());
 
-        for(String url : picturesUrlDelete)
-        {
+        for (String url : picturesUrlDelete) {
             pictureRepository.deleteByUrl(url);
         }
 
@@ -157,13 +156,13 @@ public class EventService {
         List<Predicate> predicate = new ArrayList<>();
         if (title != null) {
             Expression<String> path = c.get("title");
-            Expression<String> upper =criteriaBuilder.upper(path);
-            predicate.add(criteriaBuilder.like(upper,"%"+title.toUpperCase()+"%"));
+            Expression<String> upper = criteriaBuilder.upper(path);
+            predicate.add(criteriaBuilder.like(upper, "%" + title.toUpperCase() + "%"));
         }
         if (subtitle != null) {
             Expression<String> path = c.get("subtitle");
-            Expression<String> upper =criteriaBuilder.upper(path);
-            predicate.add(criteriaBuilder.like(upper,"%"+subtitle.toUpperCase()+"%"));
+            Expression<String> upper = criteriaBuilder.upper(path);
+            predicate.add(criteriaBuilder.like(upper, "%" + subtitle.toUpperCase() + "%"));
         }
         if (status != null) {
             predicate.add(criteriaBuilder.equal(c.get("status"), status));
@@ -175,8 +174,8 @@ public class EventService {
 
         if (location != null) {
             Expression<String> path = c.get("location");
-            Expression<String> upper =criteriaBuilder.upper(path);
-            predicate.add(criteriaBuilder.like(upper,"%"+location.toUpperCase()+"%"));
+            Expression<String> upper = criteriaBuilder.upper(path);
+            predicate.add(criteriaBuilder.like(upper, "%" + location.toUpperCase() + "%"));
         }
 
         if (startDate != null && endDate != null) {
@@ -185,25 +184,14 @@ public class EventService {
             predicate.add(criteriaBuilder.or(firstCase, secondCase));
 
         }
-        if (startHour != null && endHour != null){
+        if (startHour != null && endHour != null) {
             Predicate firstCase = criteriaBuilder.between(c.get("startHour"), startHour, endHour);
             Predicate secondCase = criteriaBuilder.between(c.get("endHour"), startHour, endHour);
             predicate.add(criteriaBuilder.or(firstCase, secondCase));
         }
-        if (maxPeopleSign != null) {
-            switch (maxPeopleSign) {
-                case GREATER:
-                    predicate.add(criteriaBuilder.gt(c.get("maxPeople"), maxPeople));
-                    break;
-                case LOWER:
-                    predicate.add(criteriaBuilder.le(c.get("maxPeople"), maxPeople));
-                    break;
-                case EQUAL:
-                    predicate.add(criteriaBuilder.equal(c.get("maxPeople"), maxPeople));
-                    break;
-                default:
-                    break;
-            }
+
+        if (maxPeople != null){
+            predicate.add(this.getPredicate(maxPeopleSign,"maxPeople",(float)maxPeople,criteriaBuilder,c));
         }
 
         if (rateSign != null) {
@@ -226,9 +214,21 @@ public class EventService {
         return entityManager.createQuery(q);
     }
 
+    public Predicate getPredicate(ComparisonSign comparisonSign,String criteria,Float value,CriteriaBuilder criteriaBuilder,Root<EventView> c){
+            switch (comparisonSign) {
+                case GREATER:
+                    return criteriaBuilder.gt(c.get(criteria), value);
+                case LOWER:
+                    return criteriaBuilder.le(c.get(criteria), value);
+                case EQUAL:
+                    return criteriaBuilder.equal(c.get(criteria), value);
+                default:
+                    return null;
+            }
+    }
+
     public List<EventView> filterAndPaginate(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople, int pageNumber, int eventPerPage) {
-        if(pageNumber < 1)
-        {
+        if (pageNumber < 1) {
             throw new IndexOutOfBoundsException("Invalid page number");
         }
         TypedQuery<EventView> typedQuery = filter(title, subtitle, status, highlighted, location, startDate, endDate, startHour, endHour, rateSign, rate, maxPeopleSign, maxPeople);
@@ -239,8 +239,7 @@ public class EventService {
     }
 
     public List<EventView> filterAndOrder(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople, int pageNumber, int eventPerPage, SortCriteria sortCriteria, Boolean sortType) {
-        if(pageNumber < 1)
-        {
+        if (pageNumber < 1) {
             throw new IndexOutOfBoundsException("Invalid page number");
         }
         TypedQuery<EventView> typedQuery = filter(title, subtitle, status, highlighted, location, startDate, endDate, startHour, endHour, rateSign, rate, maxPeopleSign, maxPeople);
@@ -262,13 +261,13 @@ public class EventService {
             Collections.reverse(eventViews);
         }
         int offset = (pageNumber - 1) * eventPerPage;
-        if (offset > eventViews.size()){
+        if (offset > eventViews.size()) {
             return new ArrayList<>();
         }
         if (offset + eventPerPage > eventViews.size()) {
             return eventViews.subList(offset, eventViews.size());
         }
-        if (offset + eventPerPage+1 == eventViews.size() || pageNumber <0){
+        if (offset + eventPerPage + 1 == eventViews.size() || pageNumber < 0) {
             return new ArrayList<>();
         }
         return eventViews.subList(offset, offset + eventPerPage);
@@ -279,15 +278,11 @@ public class EventService {
         return count / eventPerPage;
     }
 
-    public Event getEvent(long id)
-    {
+    public Event getEvent(long id) {
         Optional<Event> eventOptional = this.eventRepository.findById(id);
-        if(eventOptional.isPresent())
-        {
+        if (eventOptional.isPresent()) {
             return eventOptional.get();
-        }
-        else
-        {
+        } else {
             throw new NoSuchElementException("No event with id= " + id);
         }
     }
