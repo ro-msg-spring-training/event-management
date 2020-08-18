@@ -29,8 +29,9 @@ const initialState: EventState = {
   loading: false,
   event: {
     id: -1, title: "NEW EVENT", subtitle: "mock", status: "active", highlighted: false, description: "mock",
-    observations: "mock", location: "mock", startDate: "2019-08-03", endDate: "2019-08-03", startTime: "07:12", endTime: "07:12",
-    maxPeople: 0, images: [""], maxNoTicketsPerUser: 0
+    observations: "mock", location: "mock", startDate: "2019-08-03", endDate: "2019-08-03", startHour: "07:12", endHour: "07:12",
+    maxPeople: 0, picturesUrlSave: [], picturesUrlDelete: [], maxNoTicketsPerUser: 0,
+    noTicketEvent: true
   },
   error: '',
   isError: false,
@@ -57,7 +58,7 @@ const HeaderReducer = (state = initialState, action: { type: string, payload: Ev
         error: '',
         isError: false,
         isLoading: false,
-        images: getEventImages(action.payload.images)
+        images: getEventImages(action.payload.picturesUrlSave)
       }
     case FETCH_EVENT_FAILURE:
       return {

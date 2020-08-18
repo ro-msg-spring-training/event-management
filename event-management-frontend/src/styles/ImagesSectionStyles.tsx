@@ -1,12 +1,17 @@
 import { makeStyles } from "@material-ui/core";
 
 export const useStyle = makeStyles({
+    imagesArea: {
+        minHeight: '90vh', 
+        padding: '2% 5%'
+    },
     dragndrop: {
         border: '2px dashed #eeeeee',
         minHeight: '120px',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        textAlign:'center',
         marginBottom: '25px',
         cursor: 'pointer',
         '&:focus': {
@@ -34,5 +39,8 @@ export const useStyle = makeStyles({
         right: 5,
         top: 5,
         cursor: 'pointer'
+    },
+    imagesContainerWrapper: {
+        padding: '10px'
     }
 })

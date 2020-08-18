@@ -60,19 +60,19 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
             return {
                 ...state,
                 page: state.page - 1,
-            }
+            };
         case NEXT_PAGE:
             changePage(action.payload, action.sort, state.page + 1)
             return {
                 ...state,
                 page: state.page + 1
-            }
+            };
         case SORT_EVENTS:
             fetchSortedEvents(action.payload, state.filters, action.page)
             return {
                 ...state,
                 eventsSort: action.payload
-            }
+            };
         case UPDATE_FILTERS:
             return {
                 ...state,
@@ -86,7 +86,7 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
         case FILTER_EVENTS_SUCCESS:
             return {
                 ...state,
-                //allEvents: action.payload,
+                allEvents: action.payload,
             };
         case FILTER_EVENTS_ERROR:
             return {
@@ -98,6 +98,7 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
                 isLoading: true
             };
         case FETCH_EVENTS_SUCCESS:
+            console.log('in reducer', action.payload)
             return {
                 ...state,
                 allEvents: action.payload,

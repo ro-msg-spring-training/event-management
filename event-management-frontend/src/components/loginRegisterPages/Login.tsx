@@ -42,8 +42,7 @@ const Login = () => {
     setIsLoading(true);
     try {
       const user = await Auth.signIn(username, password);
-      console.log(user.signInUserSession.accessToken.jwtToken);
-      localStorage.setItem("accessToken", user.signInUserSession.accessToken.jwtToken);
+      localStorage.setItem("accessToken", user.signInUserSession.accessToken.jwtToken)
 
       displaySuccessMessage(<Trans i18nKey="login.successMessage">Succesful login</Trans>, setSuccess);
       setError("");

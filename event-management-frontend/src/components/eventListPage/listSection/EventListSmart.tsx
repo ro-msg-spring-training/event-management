@@ -45,6 +45,8 @@ class EventListSmart extends React.Component<Props, State> {
 
     render() {
         let { events } = this.props;
+        console.log('helo events', events)
+
         if (this.props.isLoading) {
             return (
                 <Grid container alignItems={"center"} justify={"center"}>
@@ -93,11 +95,12 @@ class EventListSmart extends React.Component<Props, State> {
                 this.props.nextPage(this.props.filters, this.props.eventsSort);
             }
         }
+        console.log('eventu vietii', events)
 
         // Using the map function, we will get all the events from the array
         const eventDetails = events
             .map((event: any) =>
-                <EventDetailsDumb key={event.id} id={event.id} title={event.title} subtitle={event.title}
+                <EventDetailsDumb key={event.id} id={event.id} title={event.title} subtitle={event.subtitle}
                     location={event.location} date={event.date} hour={event.hour} occRate={event.occRate}
                     name={event.name} />);
         // On mobile we would like to keep only title and date
@@ -118,12 +121,14 @@ class EventListSmart extends React.Component<Props, State> {
     }
 }
 
-const mapStateToProps = (state: AppState) => ({
+const mapStateToProps = (state: AppState) => {
+    console.log('state', state.events);
+    return ({
     events: state.events.allEvents,
     isLoading: state.events.isLoading,
     isError: state.events.isError,
     eventsSort: state.events.eventsSort,
     page: state.events.page,
     filters: state.events.filters
-});
+})};
 export default connect(mapStateToProps, { fetchAllEvents, sortEvents, prevPage, nextPage })(EventListSmart)

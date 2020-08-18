@@ -9,9 +9,9 @@ import {
     SORT_EVENTS, PREV_PAGE, NEXT_PAGE
 } from "../actions/EventsPageActions";
 
-import { takeLatest, takeEvery, put } from "redux-saga/effects";
+import { takeLatest, takeEvery, put, call } from "redux-saga/effects";
 import { EventFilters } from "../model/EventFilters";
-import { fetchEvents, fetchFilteredEvents } from "../api/EventsServiceAPI";
+import { fetchEvents, fetchFilteredEvents, changePage } from "../api/EventsServiceAPI";
 import { EventSort } from "../model/EventSort";
 
 
@@ -28,7 +28,7 @@ interface SortEventsProps {
 const delay = (ms: number) => new Promise(res => setTimeout(res, ms))
 function* fetchFilteredEventsAsync(action: any) {
     try {
-        const result = yield fetchFilteredEvents(action.payload, action.page)
+        const result = yield call(() => fetchFilteredEvents(action.payload, action.page))
         yield put(filterEventsSuccess(result))
     }
     catch (err) {
@@ -67,7 +67,9 @@ export function* watchNextPageAsync() {
 function* fetchEventsAsync() {
     yield put(fetchEventsRequest())
     try {
+        console.log('incepe sage')
         const result = yield fetchEvents()
+        console.log('rezultatul', result)
         yield put(fetchEventsSuccess(result))
     }
     catch (err) {

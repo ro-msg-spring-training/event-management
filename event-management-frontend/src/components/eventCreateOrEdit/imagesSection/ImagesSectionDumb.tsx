@@ -1,20 +1,11 @@
-import React, { useCallback, useState, useEffect } from "react";
-import { useDropzone } from "react-dropzone";
-import { ReactSortable } from "react-sortablejs";
-import {
-  Grid,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  Button,
-  LinearProgress,
-} from "@material-ui/core";
-import { useStyle } from "../../../styles/ImagesSectionStyles";
-import { EventImage } from "../../../model/EventImage";
-import CancelIcon from "@material-ui/icons/Cancel";
-import { useTranslation, Trans } from "react-i18next";
+import React, { useCallback, useState, useEffect } from 'react'
+import { useDropzone } from 'react-dropzone'
+import { ReactSortable } from 'react-sortablejs'
+import { Grid, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, LinearProgress, Paper } from '@material-ui/core'
+import { useStyle } from '../../../styles/ImagesSectionStyles'
+import { EventImage } from '../../../model/EventImage'
+import CancelIcon from '@material-ui/icons/Cancel';
+import { useTranslation } from "react-i18next";
 
 interface ImagesSectionProps {
   isError: boolean;
@@ -56,60 +47,78 @@ function ImagesSectionDumb({ isError, isLoading, eventImages, updateEventImages 
   };
 
   const handleClickOpen = (item: EventImage) => {
-    setItemToDelete(item);
+    setItemToDelete(item)
     setOpen(true);
   };
 
   const handleCloseConfirm = () => {
-    setImageAsDeleted(itemToDelete as EventImage);
-    setItemToDelete(undefined);
+    setImageAsDeleted(itemToDelete as EventImage)
+    setItemToDelete(undefined)
     setOpen(false);
   };
 
   const handleCloseDecline = () => {
-    setItemToDelete(undefined);
+    setItemToDelete(undefined)
     setOpen(false);
   };
 
   useEffect(() => {
-    updateEventImages(images);
+    updateEventImages(images)
   }, [images, updateEventImages]);
 
   return (
-    <>
+    <Paper className={classes.imagesArea}>
       <div {...getRootProps()} className={classes.dragndrop}>
         <input {...getInputProps()} />
         <p>{t("welcome.imageDragAndDrop")}</p>
       </div>
 
-      {isError ? (
-        <p>{t("welcome.imageErrorMessage")}</p>
-      ) : isLoading ? (
-        <LinearProgress />
-      ) : images.length !== 0 ? (
-        <ReactSortable
-          list={images}
-          setList={setImages}
-          direction="horizontal"
-          animation={150}
-          className={`${classes.imagesContainer} MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3`}
-        >
-          {images
-            .filter((item) => item.deleted === undefined)
-            .map((item) => (
-              <Grid item xs={12} sm={6} md={4} lg={2} key={item.id} className={classes.imageWrapper}>
-                <CancelIcon onClick={() => handleClickOpen(item)} className={classes.deleteButton} />
-                <img alt={item.name} src={item.url} className={classes.image} />
-              </Grid>
-            ))}
-        </ReactSortable>
-      ) : null}
+      <div className={classes.imagesContainerWrapper}>
+        {
+          isError ?
+            <p>{t("welcome.imageErrorMessage")}</p> :
+            isLoading ?
+              <LinearProgress /> :
+              images.length !== 0 ?
+                <ReactSortable
+                  list={images}
+                  setList={setImages}
+                  direction="horizontal"
+                  animation={150}
+                  className={`${classes.imagesContainer} MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3`}>
 
-      <Dialog open={open} onClose={handleCloseDecline}>
-        <DialogTitle>{t("welcome.imageDialogTitle")}</DialogTitle>
+                  {images.filter(item => item.deleted === undefined).map(item => (
+                    <Grid
+                      item
+                      xs={12} sm={6} md={4} lg={2}
+                      key={item.id}
+                      className={classes.imageWrapper}>
+
+                      <CancelIcon
+                        onClick={() => handleClickOpen(item)}
+                        className={classes.deleteButton} />
+
+                      <img alt={item.name} src={item.url} className={classes.image} />
+                    </Grid>
+                  ))}
+
+                </ReactSortable> :
+                null
+        }
+      </div>
+
+      <Dialog
+        open={open}
+        onClose={handleCloseDecline}>
+
+        <DialogTitle>
+          {t("welcome.imageDialogTitle")}
+        </DialogTitle>
 
         <DialogContent>
-          <DialogContentText>{t("welcome.imageDialogContent")}</DialogContentText>
+          <DialogContentText>
+            {t("welcome.imageDialogContent")}
+          </DialogContentText>
         </DialogContent>
 
         <DialogActions>
@@ -122,8 +131,8 @@ function ImagesSectionDumb({ isError, isLoading, eventImages, updateEventImages 
           </Button>
         </DialogActions>
       </Dialog>
-    </>
-  );
+    </Paper>
+  )
 }
 
 export default ImagesSectionDumb;
