@@ -14,7 +14,6 @@ export const deleteEventAPI = (id: string) => {
 };
 
 export const addEventAPI = (event: EventCrud) => {
-  console.log('event to add', event)
   return fetch(`${serverURL}/events`, {
     method: 'POST',
     headers: {

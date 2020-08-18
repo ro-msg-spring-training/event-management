@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import EventDetailsDumb from "./EventDetailsDumb";
 import { connect } from 'react-redux';
 import { fetchAllEvents } from '../../../actions/EventsPageActions'
 import { AppState } from "../../../store/store";
 import EventListDumb from "./EventListDumb";
-import { EventSort } from "../../../model/EventSort";
-import { sortEvents, prevPage, nextPage } from "../../../actions/EventsPageActions";
+import { sortEvents, prevPage, nextPage, fetchCustomEvents, updateSortCriteria, incrementPage, decrementPage } from "../../../actions/EventsPageActions";
 import { EventFilters } from "../../../model/EventFilters";
 import { CircularProgress, Grid } from "@material-ui/core";
 import ErrorIcon from '@material-ui/icons/Error';
 import EventDetailsMobileDumb from "./EventDetailsMobileDumb";
+import { EventSort } from '../../../model/EventSort';
+import { getLastNumber } from '../../../api/EventsServiceAPI';
 
 
 interface Props {
@@ -23,11 +24,17 @@ interface Props {
     page: number;
     prevPage: (filters: EventFilters, sort: EventSort) => void;
     nextPage: (filters: EventFilters, sort: EventSort) => void;
+    fetchCustomEvents: (filters: any, sort: any, page: number) => void;
+    updateSortCriteria: (sortCriteria: any) => void;
+    incrementPage: () => void;
+    decrementPage: () => void;
 }
 
 interface State {
     sortCriteria: any;
     sortType: any;
+    lastPage: number;
+    lastFilters:  EventFilters;
 }
 
 class EventListSmart extends React.Component<Props, State> {
@@ -36,16 +43,41 @@ class EventListSmart extends React.Component<Props, State> {
         this.state = {
             sortCriteria: '',
             sortType: '',
+            lastPage: 0,
+            lastFilters: {} as EventFilters
         };
     }
 
     componentWillMount() {
         this.props.fetchAllEvents();
+        getLastNumber(this.props.filters).then(result => {
+            this.setState({
+                lastPage: result
+            })
+        });
+    }
+
+    componentDidUpdate(prevProps: any, prevState: any) {
+        if (prevProps.eventsSort.criteria !== this.props.eventsSort.criteria ||
+            prevProps.eventsSort.type !== this.props.eventsSort.type ||
+            prevProps.page !== this.props.page) {
+            this.props.fetchCustomEvents(this.props.filters, this.props.eventsSort, this.props.page)
+        }
+    
+        if (Object.entries(this.props.filters).toString() !== Object.entries(this.state.lastFilters).toString()) {
+            this.setState({
+                lastFilters: Object.assign({}, this.props.filters)
+            })
+            getLastNumber(this.props.filters).then(result => {
+                this.setState({
+                    lastPage: result
+                })
+            })
+        }
     }
 
     render() {
         let { events } = this.props;
-        console.log('helo events', events)
 
         if (this.props.isLoading) {
             return (
@@ -64,9 +96,6 @@ class EventListSmart extends React.Component<Props, State> {
             );
         }
 
-        // TODO: get this from server
-        const lastPageFromServer = 5;
-
         const handleSortEvent = (criteria: string, type: string) => {
             const sortParams: EventSort = {
                 criteria: criteria,
@@ -75,7 +104,7 @@ class EventListSmart extends React.Component<Props, State> {
             if (sortParams.criteria === undefined || (criteria === this.state.sortCriteria && type === this.state.sortType)) {
                 return
             } else {
-                this.props.sortEvents(sortParams, this.props.page);
+                //this.props.sortEvents(sortParams, this.props.page);
             }
             this.setState({ sortCriteria: criteria, sortType: type });
         }
@@ -84,24 +113,24 @@ class EventListSmart extends React.Component<Props, State> {
             if (this.props.page <= 1) {
                 return
             } else {
-                this.props.prevPage(this.props.filters, this.props.eventsSort);
+                this.props.decrementPage();
             }
         }
 
         const goToNextPage = () => {
-            if (this.props.page >= lastPageFromServer) {
+            if (this.props.page >= this.state.lastPage) {
                 return
             } else {
-                this.props.nextPage(this.props.filters, this.props.eventsSort);
+                this.props.incrementPage();
             }
         }
-        console.log('eventu vietii', events)
+
 
         // Using the map function, we will get all the events from the array
         const eventDetails = events
             .map((event: any) =>
                 <EventDetailsDumb key={event.id} id={event.id} title={event.title} subtitle={event.subtitle}
-                    location={event.location} date={event.date} hour={event.hour} occRate={event.occRate}
+                    location={event.location} date={event.startDate} hour={event.startHour} occRate={event.occupancyRate}
                     name={event.name} />);
         // On mobile we would like to keep only title and date
         const eventDetailsMobile = events
@@ -109,26 +138,35 @@ class EventListSmart extends React.Component<Props, State> {
                 <EventDetailsMobileDumb key={event.id} id={event.id}
                     title={event.title} location={event.location} date={event.date} name={event.name} />);
 
+        // useEffect(() => {
+        //     this.props.fetchCustomEvents(this.props.filters, this.props.eventsSort, this.props.page)
+        // }, [this.props.eventsSort]);
+
         return (
-                <EventListDumb
-                    eventsDetails={eventDetails}
-                    eventsDetailsMobile={eventDetailsMobile}
-                    handleSortEvent={handleSortEvent}
-                    sort={this.props.eventsSort}
-                    goToPrevPage={goToPrevPage}
-                    goToNextPage={goToNextPage} />
+            <EventListDumb
+                updateSortCriteria={this.props.updateSortCriteria}
+                incrementPage={goToNextPage}
+                decrementPage={goToPrevPage}
+                sort={this.props.eventsSort}
+                filters={this.props.filters}
+                page={this.props.page}
+
+                eventsDetails={eventDetails}
+                eventsDetailsMobile={eventDetailsMobile}
+                handleSortEvent={handleSortEvent}
+                goToPrevPage={goToPrevPage}
+                goToNextPage={goToNextPage} />
         );
     }
 }
 
-const mapStateToProps = (state: AppState) => {
-    console.log('state', state.events);
-    return ({
+const mapStateToProps = (state: AppState) => ({
     events: state.events.allEvents,
     isLoading: state.events.isLoading,
     isError: state.events.isError,
     eventsSort: state.events.eventsSort,
     page: state.events.page,
     filters: state.events.filters
-})};
-export default connect(mapStateToProps, { fetchAllEvents, sortEvents, prevPage, nextPage })(EventListSmart)
+});
+
+export default connect(mapStateToProps, { fetchAllEvents, sortEvents, prevPage, nextPage, fetchCustomEvents, updateSortCriteria, incrementPage, decrementPage })(EventListSmart)

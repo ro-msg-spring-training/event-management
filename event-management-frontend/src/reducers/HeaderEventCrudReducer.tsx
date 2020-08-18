@@ -109,7 +109,6 @@ const HeaderReducer = (state = initialState, action: { type: string, payload: Ev
         newProduct: action.payload
       }
     case UPDATE_EVENT_IMAGES:
-      console.log(action.payload)
       return {
         ...state,
         images: action.payload,

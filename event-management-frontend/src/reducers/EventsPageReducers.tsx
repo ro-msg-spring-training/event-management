@@ -6,12 +6,20 @@ import {
     FETCH_EVENTS_ERROR,
     FETCH_EVENTS_REQUEST,
     SORT_EVENTS, FILTER_EVENTS,
-    PREV_PAGE, NEXT_PAGE
+    PREV_PAGE, NEXT_PAGE,
+    UPADTE_SORT_CRITERIA,
+    FETCH_CUSTOM_EVENTS,
+    FETCH_CUSTOM_EVENTS_REQUEST,
+    FETCH_CUSTOM_EVENTS_SUCCESS,
+    FETCH_CUSTOM_EVENTS_ERROR,
+    INCREMENT_PAGE,
+    DECREMENT_PAGE,
+    RESET_PAGE
 } from "../actions/EventsPageActions"
 import { MathRelation } from "../model/MathRelation"
 import { EventFilters } from "../model/EventFilters";
+import { fetchSortedEvents, changePage } from "../api/EventsServiceAPI";
 import { EventSort } from "../model/EventSort";
-import {fetchSortedEvents, changePage } from "../api/EventsServiceAPI";
 
 
 export interface EventsPageState {
@@ -42,7 +50,7 @@ const initialState: EventsPageState = {
     isLoading: true,
     isError: false,
     allEvents: [],
-    eventsSort: { criteria: '', type: ''},
+    eventsSort: { criteria: '', type: '' },
     page: 1
 }
 
@@ -55,6 +63,26 @@ interface ReducerActionProps {
 
 export const EventsPageReducer = (state = initialState, action: ReducerActionProps) => {
     switch (action.type) {
+        case INCREMENT_PAGE:
+            return {
+                ...state,
+                page: state.page + 1
+            }
+        case DECREMENT_PAGE:
+            return {
+                ...state,
+                page: state.page - 1
+            }
+        case RESET_PAGE:
+            return {
+                ... state,
+                page: 1
+            }
+        case UPADTE_SORT_CRITERIA:
+            return {
+                ...state,
+                eventsSort: action.payload
+            }
         case PREV_PAGE:
             changePage(action.payload, action.sort, state.page - 1)
             return {
@@ -81,7 +109,7 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
         case FILTER_EVENTS:
             return {
                 ...state,
-                eventsSort: { criteria: "", type: ""}
+                eventsSort: { criteria: "", type: "" }
             };
         case FILTER_EVENTS_SUCCESS:
             return {
@@ -98,7 +126,6 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
                 isLoading: true
             };
         case FETCH_EVENTS_SUCCESS:
-            console.log('in reducer', action.payload)
             return {
                 ...state,
                 allEvents: action.payload,
@@ -111,6 +138,23 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
                 isLoading: false,
                 isError: true
             };
+        case FETCH_CUSTOM_EVENTS_REQUEST:
+            return {
+                ...state,
+                isLoading: true
+            }
+        case FETCH_CUSTOM_EVENTS_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                allEvents: action.payload
+            }
+        case FETCH_CUSTOM_EVENTS_ERROR:
+            return {
+                ...state,
+                isLoading: false,
+                isError: true,
+            }
         default:
             return state
     }

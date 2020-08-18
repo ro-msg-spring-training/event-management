@@ -1,9 +1,9 @@
 import { put, takeLatest, call } from "redux-saga/effects";
 import { locationFetchSucces, LocationActionTypes } from "../actions/LocationActions";
-import { fetchLocationAPI } from "../api/HeaderEventCrudAPI";
+import { fetchLocation } from "../api/HeaderEventCrudAPI";
 
 function* fetchLocations() {
-  const response = yield call(() => fetchLocationAPI());
+  const response = yield call(() => fetchLocation());
   yield put(locationFetchSucces(response));
 }
 

@@ -6,12 +6,12 @@ import {
     fetchEventsError,
     filterEventsSuccess,
     filterEventsError,
-    SORT_EVENTS, PREV_PAGE, NEXT_PAGE
+    SORT_EVENTS, PREV_PAGE, NEXT_PAGE, FETCH_CUSTOM_EVENTS, fetchCustomEventsRequest, fetchCustomEventsSuccess, fetchCustomEventsError
 } from "../actions/EventsPageActions";
 
 import { takeLatest, takeEvery, put, call } from "redux-saga/effects";
 import { EventFilters } from "../model/EventFilters";
-import { fetchEvents, fetchFilteredEvents, changePage } from "../api/EventsServiceAPI";
+import { fetchEvents, fetchFilteredEvents, changePage, fetchSortedEvents } from "../api/EventsServiceAPI";
 import { EventSort } from "../model/EventSort";
 
 
@@ -67,9 +67,7 @@ export function* watchNextPageAsync() {
 function* fetchEventsAsync() {
     yield put(fetchEventsRequest())
     try {
-        console.log('incepe sage')
         const result = yield fetchEvents()
-        console.log('rezultatul', result)
         yield put(fetchEventsSuccess(result))
     }
     catch (err) {
@@ -81,3 +79,20 @@ export function* watchFetchEventsAsync() {
     yield takeEvery(FETCH_EVENTS, fetchEventsAsync)
 }
 
+// custom events
+
+
+function* fetchCustomEventsAsync(action: any) {
+    yield put(fetchCustomEventsRequest())
+    try {
+        const result = yield call (() => fetchSortedEvents(action.payload.sort, action.payload.filters, action.payload.page))
+        yield put(fetchCustomEventsSuccess(result))
+    }
+    catch (err) {
+        yield put(fetchCustomEventsError())
+    }
+}
+
+export function* watchFetchCustomEventsAsync() {
+    yield takeEvery(FETCH_CUSTOM_EVENTS, fetchCustomEventsAsync)
+}
