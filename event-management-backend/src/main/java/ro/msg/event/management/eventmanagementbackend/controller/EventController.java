@@ -81,7 +81,7 @@ public class EventController {
                     .collect(Collectors.toList());
 
 
-            Event event = ((EventReverseConverter)convertToEntity).convertForUpdate(eventDTO,false);
+            Event event = ((EventReverseConverter) convertToEntity).convertForUpdate(eventDTO, false);
 
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = (User) auth.getPrincipal();
@@ -105,8 +105,8 @@ public class EventController {
             throw new ResponseStatusException(HttpStatus.CONFLICT, overlappingEventsException.getMessage(), overlappingEventsException);
         } catch (DateTimeException dateTimeException) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, dateTimeException.getMessage(), dateTimeException);
-        } catch (TicketCategoryException ticketCategoryException){
-            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE,ticketCategoryException.getMessage(),ticketCategoryException);
+        } catch (TicketCategoryException ticketCategoryException) {
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, ticketCategoryException.getMessage(), ticketCategoryException);
         }
     }
 
@@ -143,7 +143,7 @@ public class EventController {
         EventDto eventDto;
         Event eventUpdated;
 
-        Event event = ((EventReverseConverter)convertToEntity).convertForUpdate(eventUpdateDto,true);
+        Event event = ((EventReverseConverter) convertToEntity).convertForUpdate(eventUpdateDto, true);
         event.setId(id);
 
         List<String> picturesUrlDelete = eventUpdateDto.getPicturesUrlDelete();
@@ -157,6 +157,8 @@ public class EventController {
             throw new ResponseStatusException(HttpStatus.CONFLICT, overlappingEventsException.getMessage(), overlappingEventsException);
         } catch (DateTimeException dateTimeException) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, dateTimeException.getMessage(), dateTimeException);
+        } catch (TicketCategoryException ticketCategoryException) {
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, ticketCategoryException.getMessage(), ticketCategoryException);
         }
         return new ResponseEntity<>(eventDto, HttpStatus.OK);
     }

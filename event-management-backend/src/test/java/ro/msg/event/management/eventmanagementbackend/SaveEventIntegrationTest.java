@@ -9,10 +9,10 @@ import ro.msg.event.management.eventmanagementbackend.entity.BaseEntity;
 import ro.msg.event.management.eventmanagementbackend.entity.Event;
 import ro.msg.event.management.eventmanagementbackend.entity.Location;
 import ro.msg.event.management.eventmanagementbackend.entity.Picture;
+import ro.msg.event.management.eventmanagementbackend.exception.ExceededCapacityException;
+import ro.msg.event.management.eventmanagementbackend.exception.OverlappingEventsException;
 import ro.msg.event.management.eventmanagementbackend.service.EventService;
-import ro.msg.event.management.eventmanagementbackend.service.ExceededCapacityException;
 import ro.msg.event.management.eventmanagementbackend.service.LocationService;
-import ro.msg.event.management.eventmanagementbackend.service.OverlappingEventsException;
 
 import javax.transaction.Transactional;
 import java.sql.Connection;

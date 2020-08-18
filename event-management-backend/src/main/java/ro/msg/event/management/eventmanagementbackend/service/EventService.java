@@ -132,9 +132,11 @@ public class EventService {
                     eventFromDB.setObservations(event.getObservations());
                     eventFromDB.getPictures().addAll(event.getPictures());
 
+                    Event eventSaved = eventRepository.save(eventFromDB);
+
                     event.getTicketCategories().forEach(ticketCategoryService::updateTicketCategory);
 
-                    return eventRepository.save(eventFromDB);
+                    return eventSaved;
 
                 } else throw new ExceededCapacityException("exceed capacity");
             } else throw new OverlappingEventsException("overlaps other events");
