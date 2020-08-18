@@ -77,8 +77,12 @@ class UpdateEventIntegrationTests {
         Ticket ticket = new Ticket("name", "address@yahoo.com", booking, ticketCategory, null);
         ticketRepository.save(ticket);
 
+        TicketCategory ticketCategoryToUpdate = new TicketCategory("NewTitleCategory", "subtitle", (float) 40, "desc", 3, event, null);
+        ticketCategoryToUpdate.setId(ticketCategory.getId());
+        List<TicketCategory> ticketCategoryList = new ArrayList<>();
+        ticketCategoryList.add(ticketCategoryToUpdate);
 
-        Event eventToUpdate = new Event("newTitle", "newSubtitle", true, LocalDate.parse("2020-02-15"), LocalDate.parse("2025-03-16"), LocalTime.parse("18:00"), LocalTime.parse("20:00"), 100, "desc", false, "obs", 10, "creator", null, null, null, null);
+        Event eventToUpdate = new Event("newTitle", "newSubtitle", true, LocalDate.parse("2020-02-15"), LocalDate.parse("2025-03-16"), LocalTime.parse("18:00"), LocalTime.parse("20:00"), 100, "desc", false, "obs", 10, "creator", null, null, null, ticketCategoryList);
         eventToUpdate.setId(event.getId());
 
         Picture pictureToUpdate = new Picture("NewImg_url", eventToUpdate);
