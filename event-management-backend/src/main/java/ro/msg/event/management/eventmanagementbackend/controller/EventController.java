@@ -187,7 +187,7 @@ public class EventController {
 
     @GetMapping("/last")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<CardsEventDto>> historyEvents(){
+    public ResponseEntity<List<CardsEventDto>> historyEvents() {
         try {
             List<EventView> eventViews = eventService.filterAndOrder(null, null, null, null, null, MIN_DATE, LocalDate.now(), null, null, null, null, null, null, 1, EVENTS_PER_CARD, SortCriteria.DATE, false);
             return new ResponseEntity<>(converterToCardsEventDto.convertAll(eventViews), HttpStatus.OK);

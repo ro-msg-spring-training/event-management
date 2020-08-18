@@ -41,7 +41,7 @@ public class FilterEventsIntegrationTests {
     @Autowired
     private EventService eventService;
     @Test
-    public void filter_by_date() {
+    public void filter_by_date_and_rate() {
         Event event1 = new Event("Tile", "Subtitle", true, LocalDate.parse("2020-11-11"), LocalDate.parse("2020-11-15"), LocalTime.parse("18:00"), LocalTime.parse("20:00"), 10, "descr", true, "no obs", 3, "someUser", null, null, null,null);
         Event event2 = new Event("Tile2", "Subtitle2", true, LocalDate.parse("2020-11-14"), LocalDate.parse("2020-11-19"), LocalTime.parse("10:00"), LocalTime.parse("12:00"), 12, "descr2", true, "no obs", 3, "someUser", null, null, null,null);
         Location location1 = new Location("Campus", "Obs 23", (float) 34.55, (float) 55.76, null, null);
