@@ -15,8 +15,7 @@ const useStylesMapWrapper = makeStyles(() => ({
     "&:disabled": {
       backgroundColor: "white !important",
       color: "black !important",
-      backgroundImage:
-        "linear-gradient(90deg, rgba(245,253,255,1) 0%, rgba(202,202,209,1) 1%)",
+      backgroundImage: "linear-gradient(90deg, rgba(245,253,255,1) 0%, rgba(202,202,209,1) 1%)",
     },
   },
   wrapperPopup: {

@@ -14,12 +14,8 @@ import { LocationType } from "../../../types/LocationType";
 import { AppState } from "../../../store/store";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
-import { useTranslation, Trans } from "react-i18next";
-import {
-  locationFetch,
-  locationFetchSucces,
-  locationisLoading,
-} from "../../../actions/LocationActions";
+import { useTranslation } from "react-i18next";
+import { locationFetch, locationFetchSucces, locationisLoading } from "../../../actions/LocationActions";
 import SearchBar from "./SearchBar";
 
 const myLocations = [
@@ -207,7 +203,7 @@ interface OwnProps {
 const MapWrapper: React.FC<Props> = (props: Props) => {
   const classesMap = useStylesMapWrapper();
   const classes = useStyles();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [position, setPosition]: any = useState([46.77121, 23.623634]);
   const [searchValue, setsearchValue] = useState("");
   const [searchLocation, setsearchLocation] = useState({
@@ -269,10 +265,7 @@ const MapWrapper: React.FC<Props> = (props: Props) => {
         {myLocations.map((location) => (
           <Marker
             key={location.id}
-            position={[
-              parseFloat(location.latitude),
-              parseFloat(location.longitude),
-            ]}
+            position={[parseFloat(location.latitude), parseFloat(location.longitude)]}
             icon={blackMarkerPoint}
           >
             <Popup>
@@ -283,11 +276,7 @@ const MapWrapper: React.FC<Props> = (props: Props) => {
                 <Button
                   className={`${classes.buttonStyle2} ${classes.buttonStyle3} ${classesMap.buttonPopup}`}
                   onClick={(e) => {
-                    return submitLocation(
-                      location.id,
-                      location.latitude,
-                      location.longitude
-                    );
+                    return submitLocation(location.id, location.latitude, location.longitude);
                   }}
                   disabled={submitDisabled}
                 >
@@ -303,9 +292,7 @@ const MapWrapper: React.FC<Props> = (props: Props) => {
             <Marker key={idx} position={position} icon={greenMarkerPoint}>
               <Popup>
                 <div className={classesMap.wrapperPopup}>
-                  <p className={classesMap.text}>
-                    {t("location.selectedLocationMessage")}
-                  </p>
+                  <p className={classesMap.text}>{t("location.selectedLocationMessage")}</p>
                   <Button
                     className={`${classes.buttonStyle2} ${classes.buttonStyle3} ${classesMap.buttonPopup}`}
                     onClick={(e) => {
@@ -325,19 +312,13 @@ const MapWrapper: React.FC<Props> = (props: Props) => {
             <Marker key={idx} position={position} icon={redMarkerPoint}>
               <Popup>
                 <div className={classesMap.wrapperPopup}>
-                  <h1 className={classesMap.locationTitle}>
-                    {searchLocation.name}{" "}
-                  </h1>
+                  <h1 className={classesMap.locationTitle}>{searchLocation.name} </h1>
                   {searchLocation.address}
                   <br />{" "}
                   <Button
                     className={`${classes.buttonStyle2} ${classes.buttonStyle3} ${classesMap.buttonPopup}`}
                     onClick={(e) => {
-                      return submitLocation(
-                        searchLocation.id,
-                        searchLocation.latitude,
-                        searchLocation.longitude
-                      );
+                      return submitLocation(searchLocation.id, searchLocation.latitude, searchLocation.longitude);
                     }}
                     disabled={submitDisabled}
                   >
@@ -360,11 +341,8 @@ const mapStateToProps = (state: AppState, ownProps: OwnProps) => ({
 });
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   locationFetch: () => dispatch(locationFetch()),
-  locationFetchSuccess: (locations: LocationType[]) =>
-    dispatch(locationFetchSucces(locations)),
-  locationisLoading: (loadingStatus: boolean) =>
-    dispatch(locationisLoading(loadingStatus)),
+  locationFetchSuccess: (locations: LocationType[]) => dispatch(locationFetchSucces(locations)),
+  locationisLoading: (loadingStatus: boolean) => dispatch(locationisLoading(loadingStatus)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MapWrapper);
-//export default MapWrapper;

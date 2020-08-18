@@ -13,7 +13,7 @@ import {
 } from "@material-ui/core";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import useStylesLogin from "../../styles/LoginStyle";
+import useStylesLogin from "../../styles/loginStyle";
 import { useStyles } from "../../styles/CommonStyles";
 import { useHistory } from "react-router-dom";
 import { validatePasswordRequirements, validateEmail, displayErrorMessage } from "../../validation/LoginValidation";
