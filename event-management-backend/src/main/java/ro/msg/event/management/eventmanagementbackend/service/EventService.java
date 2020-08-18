@@ -1,6 +1,8 @@
 package ro.msg.event.management.eventmanagementbackend.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ro.msg.event.management.eventmanagementbackend.comparator.EventViewDateComparator;
 import ro.msg.event.management.eventmanagementbackend.comparator.EventViewHourComparator;
@@ -14,6 +16,7 @@ import ro.msg.event.management.eventmanagementbackend.exception.OverlappingEvent
 import ro.msg.event.management.eventmanagementbackend.repository.EventRepository;
 import ro.msg.event.management.eventmanagementbackend.repository.PictureRepository;
 import ro.msg.event.management.eventmanagementbackend.repository.SublocationRepository;
+import ro.msg.event.management.eventmanagementbackend.security.User;
 import ro.msg.event.management.eventmanagementbackend.utils.ComparisonSign;
 import ro.msg.event.management.eventmanagementbackend.utils.SortCriteria;
 import ro.msg.event.management.eventmanagementbackend.utils.TimeValidation;
@@ -50,6 +53,7 @@ public class EventService {
         LocalTime endHour = event.getEndHour();
 
         TimeValidation.validateTime(startDate, endDate, startHour, endHour);
+
 
         boolean validSublocations = true;
         int sumCapacity = 0;
@@ -267,6 +271,9 @@ public class EventService {
             Collections.reverse(eventViews);
         }
         int offset = (pageNumber - 1) * eventPerPage;
+        if (offset > eventViews.size()){
+            return new ArrayList<>();
+        }
         if (offset + eventPerPage > eventViews.size()) {
             return eventViews.subList(offset, eventViews.size());
         }
@@ -276,7 +283,7 @@ public class EventService {
         return eventViews.subList(offset, offset + eventPerPage);
     }
 
-    public int getNumberOfPages(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople, int pageNumber, int eventPerPage) {
+    public int getNumberOfPages(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople, int eventPerPage) {
         int count = filter(title, subtitle, status, highlighted, location, startDate, endDate, startHour, endHour, rateSign, rate, maxPeopleSign, maxPeople).getResultList().size();
         return count / eventPerPage;
     }

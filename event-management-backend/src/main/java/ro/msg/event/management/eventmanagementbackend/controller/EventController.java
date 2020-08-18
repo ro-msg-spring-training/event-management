@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ro.msg.event.management.eventmanagementbackend.controller.converter.Converter;
 import ro.msg.event.management.eventmanagementbackend.controller.converter.EventReverseConverter;
+import ro.msg.event.management.eventmanagementbackend.controller.dto.CardsEventDto;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.EventDto;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.EventFilteringDto;
+import ro.msg.event.management.eventmanagementbackend.controller.dto.EventListingDto;
 import ro.msg.event.management.eventmanagementbackend.entity.*;
 import ro.msg.event.management.eventmanagementbackend.entity.view.EventView;
 import ro.msg.event.management.eventmanagementbackend.exception.ExceededCapacityException;
@@ -39,6 +41,8 @@ import java.util.stream.Collectors;
 public class EventController {
 
     private static final int EVENTS_PER_PAGE = 2;
+    private static final int EVENTS_PER_LISTING_PAGE = 5;
+    private static final int EVENTS_PER_CARD = 4;
 
     private final EventService eventService;
     private final SublocationService sublocationService;
@@ -46,7 +50,12 @@ public class EventController {
     private final Converter<Event, EventDto> convertToDto;
     private final Converter<EventDto, Event> convertToEntity;
     private final Converter<EventView, EventFilteringDto> converter;
+    private final Converter<EventView, EventListingDto> converterToListingDto;
+    private final Converter<EventView, CardsEventDto> converterToCardsEventDto;
     private final LocationService locationService;
+
+    private static final LocalDate MAX_DATE = LocalDate.parse("2999-12-31");
+    private static final LocalDate MIN_DATE = LocalDate.parse("1900-01-01");
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -101,7 +110,7 @@ public class EventController {
         }
     }
 
-    @GetMapping("/{pageNumber}")
+    @GetMapping("filter/{pageNumber}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<EventFilteringDto>> getPaginatedFilteredEvents(@PathVariable("pageNumber") int pageNumber, @RequestParam(required = false) String title, @RequestParam(required = false) String subtitle,
                                                                               @RequestParam(required = false) Boolean status, @RequestParam(required = false) Boolean highlighted, @RequestParam(required = false) String location, @RequestParam(required = false) String startDate, @RequestParam(required = false) String endDate,
@@ -114,7 +123,7 @@ public class EventController {
         }
     }
 
-    @GetMapping("/sort/{pageNumber}")
+    @GetMapping("filter/sort/{pageNumber}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<EventFilteringDto>> getPaginatedFilteredAndSortedEvents(@PathVariable("pageNumber") int pageNumber, @RequestParam(required = false) String title, @RequestParam(required = false) String subtitle, @RequestParam(required = false) Boolean status, @RequestParam(required = false) Boolean highlighted, @RequestParam(required = false) String location,
                                                                                        @RequestParam(required = false) String startDate, @RequestParam(required = false) String endDate, @RequestParam(required = false) String startHour, @RequestParam(required = false) String endHour, @RequestParam(required = false) ComparisonSign rateSign,
@@ -161,6 +170,39 @@ public class EventController {
             return new ResponseEntity<>("Event deleted", HttpStatus.OK);
         } catch (NoSuchElementException noSuchElementException) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, noSuchElementException.getMessage(), noSuchElementException);
+        }
+    }
+
+    @GetMapping("/latest/{pageNumber}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<List<EventListingDto>> chronologicalPaginatedEvents(@PathVariable int pageNumber) {
+        try {
+            List<EventView> eventViews = eventService.filterAndOrder(null, null, null, null, null, LocalDate.now(), MAX_DATE, null, null, null, null, null, null, pageNumber, EVENTS_PER_LISTING_PAGE, SortCriteria.DATE, true);
+            return new ResponseEntity<>(converterToListingDto.convertAll(eventViews), HttpStatus.OK);
+        } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, indexOutOfBoundsException.getMessage(), indexOutOfBoundsException);
+        }
+    }
+
+    @GetMapping("/upcoming")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<List<CardsEventDto>> upcomingEvents() {
+        try {
+            List<EventView> eventViews = eventService.filterAndOrder(null, null, null, null, null, LocalDate.now(), MAX_DATE, null, null, null, null, null, null, 1, EVENTS_PER_CARD, SortCriteria.DATE, true);
+            return new ResponseEntity<>(converterToCardsEventDto.convertAll(eventViews), HttpStatus.OK);
+        } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, indexOutOfBoundsException.getMessage(), indexOutOfBoundsException);
+        }
+    }
+
+    @GetMapping("/last")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<List<CardsEventDto>> historyEvents() {
+        try {
+            List<EventView> eventViews = eventService.filterAndOrder(null, null, null, null, null, MIN_DATE, LocalDate.now(), null, null, null, null, null, null, 1, EVENTS_PER_CARD, SortCriteria.DATE, false);
+            return new ResponseEntity<>(converterToCardsEventDto.convertAll(eventViews), HttpStatus.OK);
+        } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, indexOutOfBoundsException.getMessage(), indexOutOfBoundsException);
         }
     }
 }
