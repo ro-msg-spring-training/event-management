@@ -4,7 +4,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import ro.msg.event.management.eventmanagementbackend.controller.converter.Converter;
+import ro.msg.event.management.eventmanagementbackend.controller.converter.EventReverseConverter;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.EventDto;
+import ro.msg.event.management.eventmanagementbackend.controller.dto.TicketCategoryDto;
 import ro.msg.event.management.eventmanagementbackend.entity.BaseEntity;
 import ro.msg.event.management.eventmanagementbackend.entity.Event;
 import ro.msg.event.management.eventmanagementbackend.entity.Location;
@@ -55,6 +57,18 @@ public class SaveEventIntegrationTest {
         picturesUrlSave.add("url1");
         picturesUrlSave.add("url2");
 
+        TicketCategoryDto ticketCategoryDto = TicketCategoryDto.builder()
+                .title("titleCategory")
+                .subtitle("subtitle")
+                .price((float)3.4)
+                .description("desc")
+                .ticketsPerCategory(2)
+                .build();
+
+        List<TicketCategoryDto> ticketCategoryDtoList = new ArrayList<>();
+        ticketCategoryDtoList.add(ticketCategoryDto);
+
+
 
         EventDto eventDto = EventDto.builder()
                 .title("title")
@@ -71,6 +85,7 @@ public class SaveEventIntegrationTest {
                 .endHour(LocalTime.now().plusHours(3))
                 .creator("")
                 .picturesUrlSave(picturesUrlSave)
+                .ticketCategoryDtoList(ticketCategoryDtoList)
                 .location(1)
                 .build();
 
@@ -84,7 +99,7 @@ public class SaveEventIntegrationTest {
                 .map(BaseEntity::getId)
                 .collect(Collectors.toList());
 
-        Event event = convertToEntity.convert(eventDto);
+        Event event = ((EventReverseConverter) convertToEntity).convertForUpdate(eventDto, false);
 
 
         try {
