@@ -1,14 +1,18 @@
 import React, { Suspense } from "react";
-import "./App.css";
 import Amplify from "aws-amplify";
 import config from "./config";
 import AuthWrapper from "./components/Routes";
+import { Route, Redirect, Switch } from "react-router-dom";
+import Main from "./components/Main";
+import {CircularProgress, Grid} from "@material-ui/core";
 
 
 // loading component for suspense fallback
 const Loader = () => (
   <div className="App">
-    <div>loading...</div>
+      <Grid container alignItems={"center"} justify={"center"}>
+          <br /><br /><br /><br /><br /><CircularProgress /> &nbsp; Loading...
+      </Grid>
   </div>
 );
 
@@ -24,11 +28,12 @@ Amplify.configure({
 // This component will be rendered by our <Router>
 const App = () => {
   return (
-    <div className="App">
       <Suspense fallback={<Loader />}>
         <AuthWrapper />
+          <Switch>
+              <Route path='/admin' component={Main} />
+          </Switch>
       </Suspense>
-    </div>
   );
 }
 

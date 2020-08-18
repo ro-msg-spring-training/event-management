@@ -3,7 +3,7 @@ import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import { Button, TableFooter, TableSortLabel } from "@material-ui/core";
+import {Button, Container, TableFooter, TableSortLabel} from "@material-ui/core";
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
@@ -129,14 +129,13 @@ const EventListDumb = (props: Props) => {
 
     if (width <= 600) {
         return (
-            <TableContainer component={Paper}>
 
+            <TableContainer component={Paper}>
                     <Link to={`/admin/newEvent`} style={{ textDecoration: 'none' }}>
                         <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3} ${commonClasses.buttonStyle4}`}>{t("eventList.createNewEventButton")}</Button>
                     </Link>
 
                     <FilterSectionSmart expanded={expanded} setExpanded={setExpanded} />
-
 
                 <Table aria-label="customized table" className={commonClasses.left}>
                     <TableHead>
@@ -167,11 +166,11 @@ const EventListDumb = (props: Props) => {
                     <TableFooter>
                         <TableRow>
                             <PaginationCell>
-                                <Button onClick={goToPrevPage} color={"secondary"}><b>&laquo;&laquo;</b></Button>
+                                <Button onClick={goToPrevPage} style={{color: "#F9C929"}}><b>&laquo;&laquo;</b></Button>
                             </PaginationCell>
                             <PaginationCell/>
                             <PaginationCell>
-                                <Button onClick={goToNextPage} color={"secondary"}><b>&raquo;&raquo;</b></Button>
+                                <Button onClick={goToNextPage} style={{color: "#F9C929"}}><b>&raquo;&raquo;</b></Button>
                             </PaginationCell>
                         </TableRow>
                     </TableFooter>
@@ -180,6 +179,7 @@ const EventListDumb = (props: Props) => {
         );
     } else {
         return (
+            <Container>
             <TableContainer component={Paper} className={classes.pageContainer}>
                 <div
                     className={classes.stickyArea}
@@ -250,6 +250,7 @@ const EventListDumb = (props: Props) => {
                     </TableFooter>
                 </Table>
             </TableContainer>
+            </Container>
         );
     }
 }
