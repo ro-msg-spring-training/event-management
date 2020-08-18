@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class TicketCategoryDto {
+    private long id;
     private String title;
     private String subtitle;
     private float price;

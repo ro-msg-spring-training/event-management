@@ -128,6 +128,8 @@ public class EventService {
                     eventFromDB.setObservations(event.getObservations());
                     eventFromDB.getPictures().addAll(event.getPictures());
 
+                    event.getTicketCategories().forEach(ticketCategoryService::updateTicketCategory);
+
                     return eventRepository.save(eventFromDB);
 
                 } else throw new ExceededCapacityException("exceed capacity");

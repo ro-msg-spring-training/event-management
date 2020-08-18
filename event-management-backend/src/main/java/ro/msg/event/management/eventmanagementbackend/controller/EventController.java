@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ro.msg.event.management.eventmanagementbackend.controller.converter.Converter;
+import ro.msg.event.management.eventmanagementbackend.controller.converter.EventReverseConverter;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.EventDto;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.EventFilteringDto;
 import ro.msg.event.management.eventmanagementbackend.entity.*;
@@ -70,7 +71,8 @@ public class EventController {
                     .map(BaseEntity::getId)
                     .collect(Collectors.toList());
 
-            Event event = convertToEntity.convert(eventDTO);
+
+            Event event = ((EventReverseConverter)convertToEntity).convertForUpdate(eventDTO,false);
 
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = (User) auth.getPrincipal();
@@ -132,7 +134,7 @@ public class EventController {
         EventDto eventDto;
         Event eventUpdated;
 
-        Event event = convertToEntity.convert(eventUpdateDto);
+        Event event = ((EventReverseConverter)convertToEntity).convertForUpdate(eventUpdateDto,true);
         event.setId(id);
 
         List<String> picturesUrlDelete = eventUpdateDto.getPicturesUrlDelete();

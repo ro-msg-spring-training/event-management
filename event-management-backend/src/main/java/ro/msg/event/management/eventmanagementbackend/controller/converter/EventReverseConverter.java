@@ -47,8 +47,16 @@ public class EventReverseConverter implements Converter<EventDto, Event> {
             event.setPictures(pictures);
         }
 
-        event.setTicketCategories(ticketCategoryConverter.convertAll(eventDTO.getTicketCategoryDtoList()));
+        return event;
+    }
 
+    public Event convertForUpdate(EventDto eventDto, boolean update){
+        Event event = convert(eventDto);
+        if(update){
+            event.setTicketCategories(ticketCategoryConverter.convertAllForUpdate(eventDto.getTicketCategoryDtoList()));
+        }else{
+            event.setTicketCategories(ticketCategoryConverter.convertAll(eventDto.getTicketCategoryDtoList()));
+        }
         return event;
     }
 }
