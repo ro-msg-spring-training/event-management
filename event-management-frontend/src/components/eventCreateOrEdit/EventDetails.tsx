@@ -177,9 +177,9 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, edit
   let saveEvent = (): void => {
     if (formValid(fetchEvent.event, fetchEvent.formErrors)) {
       if (newEvent) {
-        addEventF(event, fetchEvent.images)
+        addEventF(fetchEvent.event, fetchEvent.images)
       } else {
-        editEventF(event, fetchEvent.images)
+        editEventF(fetchEvent.event, fetchEvent.images)
       }
     }
   }

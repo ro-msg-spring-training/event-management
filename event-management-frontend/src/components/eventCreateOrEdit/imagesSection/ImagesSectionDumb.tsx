@@ -28,7 +28,7 @@ function ImagesSectionDumb({ isError, isLoading, eventImages, updateEventImages 
       reader.readAsDataURL(file);
       reader.onload = () => {
         const byteArr = reader.result;
-        const id = `image-${file.name}-${file.size}-${Date.now()}`; // image id
+        const id = `image-${file.size}-${Date.now()}-${file.name}`; // image id
         const elem = { id: id, name: file.name, url: byteArr, file: file };
         setImages((prevState) => [...prevState, elem]);
       };

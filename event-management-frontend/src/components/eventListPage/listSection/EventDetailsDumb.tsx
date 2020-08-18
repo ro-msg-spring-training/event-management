@@ -30,7 +30,6 @@ const StyledTableRow = withStyles((theme: Theme) =>
 const EventDetailsDumb = (props: Event) => {
     const commonClasses = useStyles()
     const [t] = useTranslation();
-    console.log('event id', props.id)
     const id = props.id;
     const title = props.title;
     const subtitle = props.subtitle;

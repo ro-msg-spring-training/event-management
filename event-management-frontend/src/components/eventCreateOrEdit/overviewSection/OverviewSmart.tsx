@@ -304,7 +304,6 @@ function OverviewSmart(props: OverviewSmartProps) {
 }
 
 const mapStateToProps = ({ eventCrud }: any) => {
-  console.log('stateul', eventCrud)
   return({
   eventCrud: eventCrud.event,
   formErrors: eventCrud.formErrors,

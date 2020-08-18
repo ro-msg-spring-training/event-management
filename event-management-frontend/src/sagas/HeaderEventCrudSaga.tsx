@@ -18,9 +18,8 @@ interface AddProps {
 function* loadEventAsync(props: Props) {
   try {
     yield put(fetchEventRequest());
-    console.log('event idddddddd', props.payload)
     const event = yield call(() => fetchEventAPI(props.payload));
-    console.log('event result', event)
+    event.id = parseInt(props.payload)
     yield put(fetchEventSuccess(event))
   } catch (e) {
     yield put(fetchEventFailure(e))
@@ -52,7 +51,8 @@ function* addEventAsync(props: AddProps) {
     yield put(addEventRequest());
     const imagesURL = yield call(() => updateImagesFromS3(props.payload.images));
     const event: EventCrud = props.payload.event
-    event.picturesUrlSave = imagesURL 
+    event.picturesUrlSave = imagesURL
+    event.picturesUrlDelete = []
     yield call(() => addEventAPI(event));
     yield put(addEventSuccess())
   } catch (e) {
@@ -69,8 +69,10 @@ function* editEventAsync(props: AddProps) {
   try {
     yield put(editEventRequest());
     const imagesURL = yield call(() => updateImagesFromS3(props.payload.images));
+    console.log('imagesURL', imagesURL)
     const event: EventCrud = props.payload.event
     event.picturesUrlSave = imagesURL 
+    event.picturesUrlDelete = []
     yield call(() => editEventAPI(event));
     yield put(editEventSuccess())
   } catch (e) {

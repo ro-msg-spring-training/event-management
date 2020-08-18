@@ -54,7 +54,14 @@ const initialState: EventState = {
 }
 
 const getEventImages = (imagesStr: string[]) => {
-  return [] as EventImage[]
+  console.log('images str', imagesStr)
+  const images = imagesStr.map((img: string) => {
+    let fullName = img.split('/').pop();
+    let name = fullName?.split('.')[0]
+    return { id: name, name: name, url: img }
+  })
+  console.log('images obj', images)
+  return images as EventImage[]
 }
 
 const HeaderReducer = (state = initialState, action: { type: string, payload: EventCrud }) => {

@@ -1,7 +1,6 @@
 import { all } from "redux-saga/effects";
 import {watchFetchFilteredEventsAsync, watchFetchEventsAsync, watchSortEventsAsync, watchPrevPageAsync, watchNextPageAsync, watchFetchCustomEventsAsync} from "./EventsPageSaga";
 import { loadEventWatcher, deleteProductWatcher, addProductWatcher, editProductWatcher } from "./HeaderEventCrudSaga";
-import { watchUploadEventImagesAsync, watchFetchEventImagesAsync } from "./ImageSaga";
 import { fetchLocationsActionWatcher } from "./LocationPageSaga";
 
 export default function* rootSaga() {
@@ -17,9 +16,6 @@ export default function* rootSaga() {
         addProductWatcher(),
         editProductWatcher(),
         
-        watchUploadEventImagesAsync(),
-        watchFetchEventImagesAsync(),
-
         fetchLocationsActionWatcher(),
 
         watchFetchCustomEventsAsync()
