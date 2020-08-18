@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Redirect, Route } from 'react-router-dom'
 import { Auth } from 'aws-amplify'
 import { CircularProgress } from '@material-ui/core'
@@ -45,7 +45,7 @@ export class PrivateRoute extends React.Component<any, any> {
         {...rest}
         render={props =>
           (this.state.isAuthenticated ?
-            this.props.admin && this.state.isAdmin || !this.props.admin && !this.state.isAdmin ?
+            (this.props.admin && this.state.isAdmin) || (!this.props.admin && !this.state.isAdmin) ?
               <Component {...props} /> :
               <Redirect to={{ pathname: '/login', state: { from: this.props.location } }} /> :
             this.state.isLoading ?
