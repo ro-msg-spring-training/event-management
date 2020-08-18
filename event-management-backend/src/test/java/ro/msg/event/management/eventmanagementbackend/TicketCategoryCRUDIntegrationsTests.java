@@ -52,9 +52,10 @@ class TicketCategoryCRUDIntegrationsTests {
         ticketCategories.add(ticketCategory1);
         ticketCategories.add(ticketCategory2);
 
+        event.setTicketCategories(ticketCategories);
         this.eventRepository.save(event);
 
-        this.ticketCategoryService.saveTicketCategories(ticketCategories, event);
+        List<TicketCategory> savedCategories = this.ticketCategoryService.saveTicketCategories(ticketCategories, event);
 
         assert this.ticketCategoryRepository.findAll().size() == 2;
         assert this.eventRepository.findById(this.eventRepository.findAll().get(0).getId()).get().getTicketCategories().size() == 2;
@@ -142,6 +143,91 @@ class TicketCategoryCRUDIntegrationsTests {
             this.ticketCategoryService.deleteTicketCategory((long) 100);
             assert false;
         } catch (NoSuchElementException noSuchElementException) {
+            assert true;
+        }
+    }
+
+    @Test
+    void updateTicketCategory_validTicketCategory_ticketCategoryUpdated() {
+        Event event = new Event();
+        event.setMaxPeople(40);
+
+        TicketCategory ticketCategory1 = new TicketCategory();
+        ticketCategory1.setTicketsPerCategory(10);
+        ticketCategory1.setTitle("not updated");
+        ticketCategory1.setEvent(event);
+
+        List<TicketCategory> ticketCategories = new ArrayList<>();
+        ticketCategories.add(ticketCategory1);
+
+        event.setTicketCategories(ticketCategories);
+        this.eventRepository.save(event);
+
+        long categoryId = this.ticketCategoryRepository.findAll().get(0).getId();
+        TicketCategory update = new TicketCategory();
+        update.setId(categoryId);
+        update.setTitle("updated");
+
+        assert this.ticketCategoryRepository.findById(categoryId).get().getTitle().equals("not updated");
+        this.ticketCategoryService.updateTicketCategory(update);
+        assert this.ticketCategoryRepository.findById(categoryId).get().getTitle().equals("updated");
+    }
+
+    @Test
+    void updateTicketCategory_missingTicketCategory_exceptionThrown() {
+        Event event = new Event();
+        event.setMaxPeople(40);
+
+        TicketCategory ticketCategory1 = new TicketCategory();
+        ticketCategory1.setTicketsPerCategory(10);
+        ticketCategory1.setTitle("not updated");
+        ticketCategory1.setEvent(event);
+
+        List<TicketCategory> ticketCategories = new ArrayList<>();
+        ticketCategories.add(ticketCategory1);
+
+        event.setTicketCategories(ticketCategories);
+        this.eventRepository.save(event);
+
+        long categoryId = this.ticketCategoryRepository.findAll().get(0).getId() + 1;
+        TicketCategory update = new TicketCategory();
+        update.setId(categoryId);
+        update.setTitle("updated");
+
+        try {
+            this.ticketCategoryService.updateTicketCategory(update);
+            assert false;
+        } catch (NoSuchElementException noSuchElementException) {
+            assert true;
+        }
+    }
+
+    @Test
+    void updateTicketCategory_sumOfTicketsPerCategoryExceedsPeopleAtEvent_exceptionThrown() {
+        Event event = new Event();
+        event.setMaxPeople(10);
+
+        TicketCategory ticketCategory1 = new TicketCategory();
+        ticketCategory1.setTicketsPerCategory(10);
+        ticketCategory1.setTitle("not updated");
+        ticketCategory1.setEvent(event);
+
+        List<TicketCategory> ticketCategories = new ArrayList<>();
+        ticketCategories.add(ticketCategory1);
+
+        event.setTicketCategories(ticketCategories);
+        this.eventRepository.save(event);
+
+        long categoryId = this.ticketCategoryRepository.findAll().get(0).getId();
+        TicketCategory update = new TicketCategory();
+        update.setId(categoryId);
+        update.setTitle("updated");
+        update.setTicketsPerCategory(15);
+
+        try {
+            this.ticketCategoryService.updateTicketCategory(update);
+            assert false;
+        } catch (TicketCategoryException ticketCategoryException) {
             assert true;
         }
     }
