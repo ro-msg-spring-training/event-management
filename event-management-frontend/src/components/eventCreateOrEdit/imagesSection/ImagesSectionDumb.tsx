@@ -67,7 +67,7 @@ function ImagesSectionDumb({ isError, isLoading, eventImages, updateEventImages 
   }, [images, updateEventImages]);
 
   return (
-    <Paper className={classes.imagesArea}>
+    <div className={classes.imagesArea}>
       <div {...getRootProps()} className={classes.dragndrop}>
         <input {...getInputProps()} />
         <p>{t("welcome.imageDragAndDrop")}</p>
@@ -131,7 +131,7 @@ function ImagesSectionDumb({ isError, isLoading, eventImages, updateEventImages 
           </Button>
         </DialogActions>
       </Dialog>
-    </Paper>
+    </div>
   )
 }
 

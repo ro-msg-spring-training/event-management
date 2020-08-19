@@ -46,7 +46,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 
     // height: "100%",
     // minHeight: "93.5vh",
-    backgroundColor: theme.palette.background.default,
   },
   checkbox: {
     color: theme.palette.secondary.dark
@@ -81,16 +80,15 @@ interface OverviewDumbProps {
   handleChangeCheckboxState: any,
   setStatus: any,
   // status: string,
-  currDate: string,
-  currTime: string,
+  // currDate: string,
+  // currTime: string,
 }
 
 function OverviewDumb(props: OverviewDumbProps) {
   const classes = useStyles();
   const { t } = useTranslation();
   return (
-    <>
-      <Paper className={classes.fundal}>
+      <div className={classes.fundal}>
         <Typography className={classes.typography}></Typography>
 
         <Grid container direction="column" justify="center" alignItems="center">
@@ -106,7 +104,7 @@ function OverviewDumb(props: OverviewDumbProps) {
                   label={t("welcome.overviewTitle")}
                   variant="outlined"
                   onChange={props.handleChange}
-                  defaultValue={props.newEvent === true ? "" : props.event.title}
+                  defaultValue={ props.event.title}
                   error={props.formErrors.title.length > 0}
                   helperText={props.formErrors.title}
                   required />
@@ -123,7 +121,7 @@ function OverviewDumb(props: OverviewDumbProps) {
                   label={t("welcome.overviewSubtitle")}
                   variant="outlined"
                   onChange={props.handleChange}
-                  defaultValue={props.newEvent === true ? "" : props.event.subtitle}
+                  defaultValue={ props.event.subtitle}
                   error={props.formErrors.subtitle.length > 0}
                   helperText={props.formErrors.subtitle}
                   required
@@ -142,7 +140,7 @@ function OverviewDumb(props: OverviewDumbProps) {
                   label={t("welcome.overviewMaxPpl")}
                   variant="outlined"
                   onChange={props.handleChange}
-                  defaultValue={props.newEvent === true ? 0 : props.event.maxPeople}
+                  defaultValue={props.event.maxPeople}
                   error={props.formErrors.maxPeople.length > 0}
                   helperText={props.formErrors.maxPeople}
                   required
@@ -165,7 +163,7 @@ function OverviewDumb(props: OverviewDumbProps) {
                 rows='5'
                 rowsMax={7}
                 onChange={props.handleChange}
-                defaultValue={props.newEvent === true ? "" : props.event.description}
+                defaultValue={ props.event.description}
                 error={props.formErrors.description.length > 0}
                 helperText={props.formErrors.description}
                 required
@@ -185,7 +183,7 @@ function OverviewDumb(props: OverviewDumbProps) {
                     disabled={!props.admin}
                     type="date"
                     onChange={props.handleChange}
-                    defaultValue={props.newEvent === true ? props.currDate : props.event.startDate}
+                    defaultValue={props.event.startDate}
                     error={props.formErrors.startDate.length > 0}
                     helperText={props.formErrors.startDate}
                     InputLabelProps={{
@@ -203,7 +201,7 @@ function OverviewDumb(props: OverviewDumbProps) {
                     disabled={!props.admin}
                     type="time"
                     onChange={props.handleChange}
-                    defaultValue={props.newEvent === true ? props.currTime : props.event.startHour}
+                    defaultValue={props.event.startHour}
                     error={props.formErrors.startTime.length > 0}
                     helperText={props.formErrors.startTime}
                     InputLabelProps={{
@@ -226,7 +224,7 @@ function OverviewDumb(props: OverviewDumbProps) {
                     disabled={!props.admin}
                     type="date"
                     onChange={props.handleChange}
-                    defaultValue={props.newEvent === true ? props.currDate : props.event.endDate}
+                    defaultValue={ props.event.endDate}
                     error={props.formErrors.endDate.length > 0}
                     helperText={props.formErrors.endDate}
                     InputLabelProps={{
@@ -244,7 +242,7 @@ function OverviewDumb(props: OverviewDumbProps) {
                     disabled={!props.admin}
                     type="time"
                     onChange={props.handleChange}
-                    defaultValue={props.newEvent === true ? props.currTime : props.event.endHour}
+                    defaultValue={props.event.endHour}
                     error={props.formErrors.endTime.length > 0}
                     helperText={props.formErrors.endTime}
                     InputLabelProps={{
@@ -285,8 +283,7 @@ function OverviewDumb(props: OverviewDumbProps) {
           </Grid>
 
         </Grid>
-      </Paper>
-    </>
+      </div>
   );
 }
 

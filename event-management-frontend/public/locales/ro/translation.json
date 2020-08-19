@@ -29,7 +29,8 @@
     "seeMoreFilters": "Vezi mai multe filtre",
     "seeLessFilters": "Vezi mai puține filtre",
     "notANumber": "Număr invalid",
-    "notAValidPercent": "Procent invalid"
+    "notAValidPercent": "Procent invalid",
+    "error": "Oops, eroare"
   },
   "login": {
     "title": "Autentificare",

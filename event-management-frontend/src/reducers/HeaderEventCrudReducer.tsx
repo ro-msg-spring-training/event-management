@@ -31,11 +31,17 @@ export interface EventState {
   formErrors: EventFormErrors,
 }
 
+let today = new Date(new Date().toString().split('GMT')[0] + ' UTC').toISOString().split('.')[0]
+const dateAndTime = today.split("T");
+const currDate = dateAndTime[0];
+const currTime = dateAndTime[1].replace(/:\d\d([ ap]|$)/, '$1');
+
+
 const initialState: EventState = {
   loading: false,
   event: {
-    id: -1, title: "NEW EVENT", subtitle: "mock", status: true, highlighted: false, description: "mock",
-    observations: "mock", location: 1, startDate: "2019-08-03", endDate: "2019-08-03", startHour: "07:12", endHour: "07:12",
+    id: -1, title: "", subtitle: "", status: true, highlighted: false, description: "",
+    observations: "", location: 1, startDate: currDate, endDate: currDate, startHour: currTime, endHour: currTime,
     maxPeople: 0, picturesUrlSave: [], picturesUrlDelete: [], maxNoTicketsPerUser: 0,
     noTicketEvent: true
   },

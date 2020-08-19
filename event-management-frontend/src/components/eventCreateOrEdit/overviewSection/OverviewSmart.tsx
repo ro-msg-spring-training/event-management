@@ -295,8 +295,8 @@ function OverviewSmart(props: OverviewSmartProps) {
         handleChangeCheckboxState={handleChangeCheckboxState}
         setStatus={handleChangeStatus}
         // status={props.statusOverview}
-        currDate={currDate}
-        currTime={currTime}
+        // currDate={currDate}
+        // currTime={currTime}
       />
     </>
   );

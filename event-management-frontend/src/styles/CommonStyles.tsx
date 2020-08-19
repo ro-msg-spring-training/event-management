@@ -99,7 +99,7 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: "16px",
     right: 0,
     position: "relative",
-    width: "100%",
+    // width: "100%",
     background: "transparent"
   },
   buttonCollapse: {

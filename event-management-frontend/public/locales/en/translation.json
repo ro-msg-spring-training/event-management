@@ -29,7 +29,8 @@
     "seeMoreFilters": "See more filters",
     "seeLessFilters": "See less filters",
     "notANumber": "Invalid number",
-    "notAValidPercent": "Invalid percent"
+    "notAValidPercent": "Invalid percent",
+    "error": "Oops, there was an error"
   },
   "login": {
     "title": "Login",

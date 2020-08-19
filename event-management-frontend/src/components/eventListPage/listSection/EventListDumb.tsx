@@ -3,7 +3,7 @@ import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import { Button, Container, TableFooter, TableSortLabel } from "@material-ui/core";
+import { Button, Container, TableFooter, TableSortLabel, LinearProgress } from "@material-ui/core";
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
@@ -36,6 +36,8 @@ const PaginationCell = withStyles((theme: Theme) =>
 )(TableCell);
 
 interface Props {
+    isError: boolean,
+    isLoading: boolean,
     sort: EventSort;
     filters: EventFilters;
     page: number;
@@ -156,7 +158,7 @@ const EventListDumb = (props: Props) => {
                                 <TableSortLabel
                                     hideSortIcon={true}
                                     active={props.sort.criteria === 'date'}
-                                    direction={props.sort.criteria === 'date' ? props.sort.type as "asc" | "desc" | undefined  : 'asc'}
+                                    direction={props.sort.criteria === 'date' ? props.sort.type as "asc" | "desc" | undefined : 'asc'}
                                     onClick={createSortHandler('date')}>
                                     {props.sort.criteria === 'date' ? (
                                         <span className={`${commonClasses.visuallyHidden}`} >
@@ -202,64 +204,71 @@ const EventListDumb = (props: Props) => {
 
                         <FilterSectionSmart expanded={expanded} setExpanded={setExpanded} />
                     </div>
+                    {
+                        props.isError ?
+                            <p>{t("eventList.error")}</p> :
+                            props.isLoading ?
+                                <LinearProgress /> :
 
-                    <Table aria-label="customized table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell key={"title"} align={"left"} padding={"default"} size={"medium"}>{t("eventList.title")}</TableCell>
-                                <TableCell key={"subtitle"} align={"left"} padding={"default"} size={"medium"}>{t("eventList.subtitle")}</TableCell>
-                                <TableCell key={"location"} align={"left"} padding={"default"} size={"medium"}>{t("eventList.location")}</TableCell>
+                                <Table aria-label="customized table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell key={"title"} align={"left"} padding={"default"} size={"medium"}>{t("eventList.title")}</TableCell>
+                                            <TableCell key={"subtitle"} align={"left"} padding={"default"} size={"medium"}>{t("eventList.subtitle")}</TableCell>
+                                            <TableCell key={"location"} align={"left"} padding={"default"} size={"medium"}>{t("eventList.location")}</TableCell>
 
-                                {headCells.map((headCell) => (
-                                    <TableCell
-                                        key={headCell.id}
-                                        align={headCell.numeric ? 'right' : 'left'}
-                                        padding={headCell.disablePadding ? 'none' : 'default'}
-                                        sortDirection={props.sort.criteria === headCell.id && headCell.numeric ? props.sort.type as "asc" | "desc" | undefined  : false}
-                                        size={"medium"}>
+                                            {headCells.map((headCell) => (
+                                                <TableCell
+                                                    key={headCell.id}
+                                                    align={'left'}
+                                                    padding={headCell.disablePadding ? 'none' : 'default'}
+                                                    sortDirection={props.sort.criteria === headCell.id && headCell.numeric ? props.sort.type as "asc" | "desc" | undefined : false}
+                                                    size={"medium"}>
 
-                                        <TableSortLabel
-                                            hideSortIcon={!headCell.numeric}
-                                            active={props.sort.criteria === headCell.id && headCell.numeric}
-                                            direction={props.sort.criteria === headCell.id ? props.sort.type as "asc" | "desc" | undefined  : 'asc'}
-                                            onClick={createSortHandler(headCell.id)}>
+                                                    <TableSortLabel
+                                                        hideSortIcon={!headCell.numeric}
+                                                        active={props.sort.criteria === headCell.id && headCell.numeric}
+                                                        direction={props.sort.criteria === headCell.id ? props.sort.type as "asc" | "desc" | undefined : 'asc'}
+                                                        onClick={createSortHandler(headCell.id)}>
 
-                                            {headCell.label}
+                                                        {headCell.label}
 
-                                            {
-                                                props.sort.criteria === headCell.id && headCell.numeric ?
-                                                    (
-                                                        <span className={`${commonClasses.visuallyHidden}`} >
-                                                            {props.sort.type === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                                                        </span>
-                                                    ) : null
-                                            }
-                                        </TableSortLabel>
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                        </TableHead>
+                                                        {
+                                                            props.sort.criteria === headCell.id && headCell.numeric ?
+                                                                (
+                                                                    <span className={`${commonClasses.visuallyHidden}`} >
+                                                                        {props.sort.type === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                                                                    </span>
+                                                                ) : null
+                                                        }
+                                                    </TableSortLabel>
+                                                </TableCell>
+                                            ))}
+                                        </TableRow>
+                                    </TableHead>
 
-                        <TableBody>
-                            {eventsDetails}
-                        </TableBody>
-
-                        <TableFooter>
-                            <TableRow>
-                                <PaginationCell>
-                                    <Button onClick={goToPrevPage} style={{ color: "#f2ac0a" }}><b>&laquo;{t("eventList.previous")}</b></Button>
-                                </PaginationCell>
-                                <PaginationCell />
-                                <PaginationCell />
-                                <PaginationCell />
-                                <PaginationCell />
-                                <PaginationCell />
-                                <PaginationCell>
-                                    <Button onClick={goToNextPage} style={{ color: "#f2ac0a" }}><b>{t("eventList.next")}&raquo;</b></Button>
-                                </PaginationCell>
-                            </TableRow>
-                        </TableFooter>
-                    </Table>
+                                    <TableBody>
+                                        {
+                                            eventsDetails
+                                        }
+                                    </TableBody>
+                                    <TableFooter>
+                                        <TableRow>
+                                            <PaginationCell>
+                                                <Button onClick={goToPrevPage} style={{ color: "#f2ac0a" }}><b>&laquo;{t("eventList.previous")}</b></Button>
+                                            </PaginationCell>
+                                            <PaginationCell />
+                                            <PaginationCell />
+                                            <PaginationCell />
+                                            <PaginationCell />
+                                            <PaginationCell />
+                                            <PaginationCell>
+                                                <Button onClick={goToNextPage} style={{ color: "#f2ac0a" }}><b>{t("eventList.next")}&raquo;</b></Button>
+                                            </PaginationCell>
+                                        </TableRow>
+                                    </TableFooter>
+                                </Table>
+                    }
                 </TableContainer>
             </Container>
         );
