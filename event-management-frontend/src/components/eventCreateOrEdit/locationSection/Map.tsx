@@ -17,144 +17,145 @@ import { connect } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { locationFetch, locationFetchSucces, locationisLoading } from "../../../actions/LocationActions";
 import SearchBar from "./SearchBar";
+import { updateLocation } from "../../../actions/HeaderEventCrudActions";
 
-const myLocations = [
-  {
-    id: 1,
-    name: "The Office",
-    address: "Bd. 21 Decembrie",
-    latitude: "46.77603966",
-    longitude: "23.603966",
-    sublocations: [
-      {
-        id: 1,
-        name: "Floor 1",
-        maxCapacity: 200,
-      },
-      {
-        id: 2,
-        name: "Floor 2",
-        maxCapacity: 250,
-      },
-    ],
-    program: [
-      {
-        id: 1,
-        weekday: 1,
-        startHour: "10:00",
-        endHour: "18:00",
-      },
-    ],
-  },
-  {
-    id: 2,
-    name: "Campus Observator",
-    address: "str Observatorului nr 34",
-    latitude: "46.756132",
-    longitude: " 23.591557",
-    sublocations: [
-      {
-        id: 3,
-        name: "Camin 5",
-        maxCapacity: 300,
-      },
-      {
-        id: 4,
-        name: "Camin 7",
-        maxCapacity: 320,
-      },
-    ],
-    program: [
-      {
-        id: 2,
-        weekday: 1,
-        startHour: "10:00",
-        endHour: "18:00",
-      },
-    ],
-  },
-  {
-    id: 3,
-    name: "Hello",
-    address: "str Observatorului nr 34",
-    latitude: "46.756132",
-    longitude: " 23.591557",
-    sublocations: [
-      {
-        id: 3,
-        name: "Camin 5",
-        maxCapacity: 300,
-      },
-      {
-        id: 4,
-        name: "Camin 7",
-        maxCapacity: 320,
-      },
-    ],
-    program: [
-      {
-        id: 2,
-        weekday: 1,
-        startHour: "10:00",
-        endHour: "18:00",
-      },
-    ],
-  },
-  {
-    id: 4,
-    name: "Heii",
-    address: "str Observatorului nr 34",
-    latitude: "46.756132",
-    longitude: " 23.591557",
-    sublocations: [
-      {
-        id: 3,
-        name: "Camin 5",
-        maxCapacity: 300,
-      },
-      {
-        id: 4,
-        name: "Camin 7",
-        maxCapacity: 320,
-      },
-    ],
-    program: [
-      {
-        id: 2,
-        weekday: 1,
-        startHour: "10:00",
-        endHour: "18:00",
-      },
-    ],
-  },
-  {
-    id: 5,
-    name: "New place",
-    address: "str Observatorului nr 34",
-    latitude: "46.756132",
-    longitude: " 23.591557",
-    sublocations: [
-      {
-        id: 3,
-        name: "Camin 5",
-        maxCapacity: 300,
-      },
-      {
-        id: 4,
-        name: "Camin 7",
-        maxCapacity: 320,
-      },
-    ],
-    program: [
-      {
-        id: 2,
-        weekday: 1,
-        startHour: "10:00",
-        endHour: "18:00",
-      },
-    ],
-  },
-];
+// const myLocations = [
+//   {
+//     id: 1,
+//     name: "The Office",
+//     address: "Bd. 21 Decembrie",
+//     latitude: "46.77603966",
+//     longitude: "23.603966",
+//     sublocations: [
+//       {
+//         id: 1,
+//         name: "Floor 1",
+//         maxCapacity: 200,
+//       },
+//       {
+//         id: 2,
+//         name: "Floor 2",
+//         maxCapacity: 250,
+//       },
+//     ],
+//     program: [
+//       {
+//         id: 1,
+//         weekday: 1,
+//         startHour: "10:00",
+//         endHour: "18:00",
+//       },
+//     ],
+//   },
+//   {
+//     id: 2,
+//     name: "Campus Observator",
+//     address: "str Observatorului nr 34",
+//     latitude: "46.756132",
+//     longitude: " 23.591557",
+//     sublocations: [
+//       {
+//         id: 3,
+//         name: "Camin 5",
+//         maxCapacity: 300,
+//       },
+//       {
+//         id: 4,
+//         name: "Camin 7",
+//         maxCapacity: 320,
+//       },
+//     ],
+//     program: [
+//       {
+//         id: 2,
+//         weekday: 1,
+//         startHour: "10:00",
+//         endHour: "18:00",
+//       },
+//     ],
+//   },
+//   {
+//     id: 3,
+//     name: "Hello",
+//     address: "str Observatorului nr 34",
+//     latitude: "46.756132",
+//     longitude: " 23.591557",
+//     sublocations: [
+//       {
+//         id: 3,
+//         name: "Camin 5",
+//         maxCapacity: 300,
+//       },
+//       {
+//         id: 4,
+//         name: "Camin 7",
+//         maxCapacity: 320,
+//       },
+//     ],
+//     program: [
+//       {
+//         id: 2,
+//         weekday: 1,
+//         startHour: "10:00",
+//         endHour: "18:00",
+//       },
+//     ],
+//   },
+//   {
+//     id: 4,
+//     name: "Heii",
+//     address: "str Observatorului nr 34",
+//     latitude: "46.756132",
+//     longitude: " 23.591557",
+//     sublocations: [
+//       {
+//         id: 3,
+//         name: "Camin 5",
+//         maxCapacity: 300,
+//       },
+//       {
+//         id: 4,
+//         name: "Camin 7",
+//         maxCapacity: 320,
+//       },
+//     ],
+//     program: [
+//       {
+//         id: 2,
+//         weekday: 1,
+//         startHour: "10:00",
+//         endHour: "18:00",
+//       },
+//     ],
+//   },
+//   {
+//     id: 5,
+//     name: "New place",
+//     address: "str Observatorului nr 34",
+//     latitude: "46.756132",
+//     longitude: " 23.591557",
+//     sublocations: [
+//       {
+//         id: 3,
+//         name: "Camin 5",
+//         maxCapacity: 300,
+//       },
+//       {
+//         id: 4,
+//         name: "Camin 7",
+//         maxCapacity: 320,
+//       },
+//     ],
+//     program: [
+//       {
+//         id: 2,
+//         weekday: 1,
+//         startHour: "10:00",
+//         endHour: "18:00",
+//       },
+//     ],
+//   },
+// ];
 
 export const blackMarkerPoint = new L.Icon({
   iconUrl: black_marker,
@@ -192,8 +193,10 @@ interface Props {
   locationisLoading: (loadingStatus: boolean) => void;
   locationFetchSuccess: (locations: LocationType[]) => void;
   locationFetch: () => void;
+  updateLocation: (id: number) => void;
   locationStatus: string;
   setlocationStatus: any;
+  idLocation: number;
 }
 interface OwnProps {
   locationStatus: string;
@@ -206,6 +209,7 @@ const MapWrapper: React.FC<Props> = (props: Props) => {
   const { t } = useTranslation();
   const [position, setPosition]: any = useState([46.77121, 23.623634]);
   const [searchValue, setsearchValue] = useState("");
+  const [currentLocation, setcurrentLocation] = useState<LocationType>();
   const [searchLocation, setsearchLocation] = useState({
     id: 0,
     name: "",
@@ -224,27 +228,45 @@ const MapWrapper: React.FC<Props> = (props: Props) => {
     props.locationisLoading(false);
   }, []);
 
+  useEffect(() => {
+    const location = props.locations.find(loc => loc.id === props.idLocation)
+    console.log('my location', location)
+    console.log('locationssssss', props.locations)
+
+    if (location !== undefined) {
+      const markers: any[] = [];
+      markers.push([location.latitude, location.longitude]);
+      setSelectedMarker(markers);
+      setcurrentLocation(location)
+    }
+  }, [props.locations])
+
   const submitLocation = (id: number, lat: string, long: string) => {
-    const markers: any[] = selectedMarker;
+    const markers: any[] = [];
 
     markers.push([lat, long]);
     setSelectedMarker(markers);
 
+    props.updateLocation(id);
+
     const ids = String(id);
 
     props.setlocationStatus(ids);
-    setsubmitDisable(true);
+
+    const location = props.locations.find(loc => loc.id === props.idLocation)
+    setcurrentLocation(location)
   };
+
   const cancelSubmit = (position: number[]) => {
     setSelectedMarker([]);
-    setsubmitDisable(false);
+    // setsubmitDisable(false);
   };
 
   return (
     <div className={`${classesMap.mapWrapper} mapResponsive`}>
       <div className={classesMap.searchBar}>
         <SearchBar
-          myLocations={myLocations}
+          myLocations={props.locations}
           searchValue={searchValue}
           setSearchValue={setsearchValue}
           setLocation={setsearchLocation}
@@ -261,8 +283,7 @@ const MapWrapper: React.FC<Props> = (props: Props) => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
-        {console.log(props.locationStatus)}
-        {myLocations.map((location) => (
+        {props.locations.map((location) => (
           <Marker
             key={location.id}
             position={[parseFloat(location.latitude), parseFloat(location.longitude)]}
@@ -292,15 +313,8 @@ const MapWrapper: React.FC<Props> = (props: Props) => {
             <Marker key={idx} position={position} icon={greenMarkerPoint}>
               <Popup>
                 <div className={classesMap.wrapperPopup}>
+                  <h1 className={classesMap.locationTitle}> {currentLocation?.name} </h1>
                   <p className={classesMap.text}>{t("location.selectedLocationMessage")}</p>
-                  <Button
-                    className={`${classes.buttonStyle2} ${classes.buttonStyle3} ${classesMap.buttonPopup}`}
-                    onClick={(e) => {
-                      return cancelSubmit(position);
-                    }}
-                  >
-                    {t("location.cancelButton")}
-                  </Button>
                 </div>
               </Popup>
             </Marker>
@@ -338,11 +352,13 @@ const mapStateToProps = (state: AppState, ownProps: OwnProps) => ({
   isLoading: state.location.isLoading,
   locationStatus: ownProps.locationStatus,
   setlocationStatus: ownProps.setlocationStatus,
+  idLocation: state.eventCrud.event.location
 });
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   locationFetch: () => dispatch(locationFetch()),
   locationFetchSuccess: (locations: LocationType[]) => dispatch(locationFetchSucces(locations)),
   locationisLoading: (loadingStatus: boolean) => dispatch(locationisLoading(loadingStatus)),
+  updateLocation: (idLocation: number) => dispatch(updateLocation(idLocation))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MapWrapper);

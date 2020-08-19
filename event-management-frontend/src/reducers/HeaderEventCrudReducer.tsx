@@ -13,7 +13,8 @@ import {
   EDIT_EVENT_FAILURE,
   UPDATE_EVENT_IMAGES,
   UPDATE_FORM_ERRORS,
-  UPDATE_EVENT
+  UPDATE_EVENT,
+  UPDATE_LOCATION
 } from "../actions/HeaderEventCrudActions"
 import { EventCrud } from "../model/EventCrud"
 import { EventImage } from "../model/EventImage"
@@ -26,14 +27,14 @@ export interface EventState {
   isError: boolean,
   isLoading: boolean,
   images: EventImage[],
-  formErrors: EventFormErrors
+  formErrors: EventFormErrors,
 }
 
 const initialState: EventState = {
   loading: false,
   event: {
     id: -1, title: "NEW EVENT", subtitle: "mock", status: true, highlighted: false, description: "mock",
-    observations: "mock", location: "mock", startDate: "2019-08-03", endDate: "2019-08-03", startHour: "07:12", endHour: "07:12",
+    observations: "mock", location: 1, startDate: "2019-08-03", endDate: "2019-08-03", startHour: "07:12", endHour: "07:12",
     maxPeople: 0, picturesUrlSave: [], picturesUrlDelete: [], maxNoTicketsPerUser: 0,
     noTicketEvent: true
   },
@@ -50,15 +51,14 @@ const initialState: EventState = {
   error: '',
   isError: false,
   isLoading: false,
-  images: []
+  images: [],
 }
 
 const getEventImages = (imagesStr: string[]) => {
   console.log('images str', imagesStr)
   const images = imagesStr.map((img: string) => {
     let fullName = img.split('/').pop();
-    let name = fullName?.split('.')[0]
-    return { id: name, name: name, url: img }
+    return { id: fullName, name: fullName, url: img }
   })
   console.log('images obj', images)
   return images as EventImage[]
@@ -66,6 +66,13 @@ const getEventImages = (imagesStr: string[]) => {
 
 const HeaderReducer = (state = initialState, action: { type: string, payload: EventCrud }) => {
   switch (action.type) {
+    case UPDATE_LOCATION:
+      const newEvent = JSON.parse(JSON.stringify(state.event))
+      newEvent.location = action.payload
+      return {
+        ... state,
+        event: newEvent
+      }
     case FETCH_EVENT_REQUEST:
       return {
         ...state,

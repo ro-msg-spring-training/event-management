@@ -56,6 +56,7 @@ function* addEventAsync(props: AddProps) {
     yield call(() => addEventAPI(event));
     yield put(addEventSuccess())
   } catch (e) {
+    console.log(e)
     yield put(addEventFailure(e))
   }
 }

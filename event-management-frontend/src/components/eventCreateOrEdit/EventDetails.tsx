@@ -16,25 +16,6 @@ import MapWrapper from './locationSection/Map'
 import { EventFormErrors } from '../../model/EventFormErrors';
 
 
-const event: EventCrud = {
-  id: "",
-  title: "",
-  subtitle: "",
-  status: true,
-  highlighted: false,
-  description: "",
-  observations: "",
-  location: "",
-  startDate: "",
-  endDate: "",
-  startHour: "",
-  endHour: "",
-  maxPeople: 0,
-  picturesUrlSave: [],
-  picturesUrlDelete: [],
-  maxNoTicketsPerUser: 0,
-  noTicketEvent: true
-}
 
 interface Props {
   match: any,
@@ -51,27 +32,6 @@ interface Props {
     formErrors: EventFormErrors
   },
 
-}
-
-const initialEventOverview = {
-  title: "",
-  subtitle: "",
-  description: "",
-  startDate: "",
-  startTime: "",
-  endDate: "",
-  endTime: "",
-  maxPeople: 0,
-  formErrors: {
-    title: "",
-    subtitle: "",
-    description: "",
-    startDate: "",
-    endDate: "",
-    startTime: "",
-    endTime: "",
-    maxPeople: "",
-  }
 }
 
 const useStyles = makeStyles({
@@ -95,11 +55,6 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, edit
   const [dialogTitle, setDialogTitle] = useState("");
   const [dialogDescription, setDialogDescription] = useState("");
 
-  //-------| Overview states |------------
-  // const [finalEventOverview, setFinalEventOverview] = useState(initialEventOverview);
-  // const [statusOverview, setStatusOverview] = useState("active");
-  // const [checkBoxStateOverview, setCheckboxStateOverview] = useState(false);
-  //--------------------------
   const [idLocation, setidLocation] = useState("");
 
   useEffect(() => {
