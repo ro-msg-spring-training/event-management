@@ -73,7 +73,7 @@ const EventListDumb = (props: Props) => {
     // const sort = props.sort;
     const eventsDetails = props.eventsDetails;
     const eventsDetailsMobile = props.eventsDetailsMobile;
-    const handleSortEvent = props.handleSortEvent;
+    // const handleSortEvent = props.handleSortEvent;
     const goToPrevPage = props.goToPrevPage;
     const goToNextPage = props.goToNextPage;
 

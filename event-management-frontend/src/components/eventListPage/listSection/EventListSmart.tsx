@@ -125,7 +125,6 @@ class EventListSmart extends React.Component<Props, State> {
             }
         }
 
-        console.log(events)
         // Using the map function, we will get all the events from the array
         const eventDetails = events
             .map((event: any) =>
@@ -137,10 +136,6 @@ class EventListSmart extends React.Component<Props, State> {
             .map((event: any) =>
                 <EventDetailsMobileDumb key={event.id} id={event.id}
                     title={event.title} location={event.location} date={event.date} name={event.name} />);
-
-        // useEffect(() => {
-        //     this.props.fetchCustomEvents(this.props.filters, this.props.eventsSort, this.props.page)
-        // }, [this.props.eventsSort]);
 
         return (
             <EventListDumb

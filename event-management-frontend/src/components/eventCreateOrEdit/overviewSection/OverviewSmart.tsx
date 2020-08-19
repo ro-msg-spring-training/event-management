@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { EventFormErrors } from '../../../model/EventFormErrors';
 import { updateFormErrors, updateEvent } from '../../../actions/HeaderEventCrudActions';
-import { FormErrors } from '../../loginRegisterPages/FormErrors';
 
 interface EventObjectProps {
   title: string,

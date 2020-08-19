@@ -1,8 +1,6 @@
 import { EventCrud } from "../model/EventCrud";
 import { EventImage } from "../model/EventImage";
-import locationUrl from "./LocationUrl";
 import { headersAuth, serverURL, token, s3URL } from "./Api";
-import { compose } from "redux";
 
 
 //TODO modify links

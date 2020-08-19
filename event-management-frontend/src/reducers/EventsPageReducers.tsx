@@ -36,7 +36,7 @@ const initialState: EventsPageState = {
         title: '',
         subtitle: '',
         status: 'none',
-        highlighted: true,
+        highlighted: false,
         location: '',
         startDate: null,
         endDate: null,

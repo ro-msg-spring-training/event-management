@@ -27,6 +27,8 @@ export const UPDATE_EVENT_IMAGES = "UPDATE_EVENT_IMAGES"
 export const UPDATE_FORM_ERRORS = "UPDATE_FORM_ERRORS"
 export const UPDATE_EVENT = "UPDATE_EVENT"
 export const UPDATE_LOCATION = "UPDATE_LOCATION"
+export const RESET_STORE = "RESET_STORE"
+
 
 //---------------------------------------------------for SAGA
 export const loadEvent = (id: string) => {
@@ -160,5 +162,11 @@ export const updateLocation = (idLocation: number) => {
   return {
     type: UPDATE_LOCATION,
     payload: idLocation
+  }
+}
+
+export const resetStore = () => {
+  return {
+    type: RESET_STORE
   }
 }

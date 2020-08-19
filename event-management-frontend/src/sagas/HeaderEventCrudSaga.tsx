@@ -77,6 +77,7 @@ function* editEventAsync(props: AddProps) {
     yield call(() => editEventAPI(event));
     yield put(editEventSuccess())
   } catch (e) {
+    console.log(e)
     yield put(editEventFailure(e))
   }
 }

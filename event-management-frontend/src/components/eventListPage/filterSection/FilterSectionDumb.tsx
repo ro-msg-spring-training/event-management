@@ -8,6 +8,7 @@ import { useFilterStyles } from '../../../styles/filterStyles';
 import { useStyles } from '../../../styles/CommonStyles';
 import { EventFilters } from '../../../model/EventFilters';
 import { useTranslation } from "react-i18next";
+import { YellowCheckbox } from '../../YellowCheckbox';
 
 
 interface Props {
@@ -32,6 +33,8 @@ interface Props {
     handleChangeRate: (rate: string) => void,
     handleChangeRateSign: (rateSign: MathRelation) => void,
 }
+
+
 
 
 function FilterSectionDumb(props: Props) {
@@ -202,7 +205,7 @@ function FilterSectionDumb(props: Props) {
                                 <FormControlLabel
                                     control=
                                     {
-                                        <Checkbox onChange={(e) => props.handleChangeHighlighted(e.target.checked)} />
+                                        <YellowCheckbox onChange={(e) => props.handleChangeHighlighted(e.target.checked)} />
                                     }
                                     label={t("eventList.highlighted")}
                                     labelPlacement="end"

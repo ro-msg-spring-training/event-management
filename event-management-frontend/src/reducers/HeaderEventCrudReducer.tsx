@@ -14,7 +14,8 @@ import {
   UPDATE_EVENT_IMAGES,
   UPDATE_FORM_ERRORS,
   UPDATE_EVENT,
-  UPDATE_LOCATION
+  UPDATE_LOCATION,
+  RESET_STORE
 } from "../actions/HeaderEventCrudActions"
 import { EventCrud } from "../model/EventCrud"
 import { EventImage } from "../model/EventImage"
@@ -55,22 +56,24 @@ const initialState: EventState = {
 }
 
 const getEventImages = (imagesStr: string[]) => {
-  console.log('images str', imagesStr)
   const images = imagesStr.map((img: string) => {
     let fullName = img.split('/').pop();
     return { id: fullName, name: fullName, url: img }
   })
-  console.log('images obj', images)
   return images as EventImage[]
 }
 
 const HeaderReducer = (state = initialState, action: { type: string, payload: EventCrud }) => {
   switch (action.type) {
+    case RESET_STORE:
+      return {
+        ...initialState
+      }
     case UPDATE_LOCATION:
       const newEvent = JSON.parse(JSON.stringify(state.event))
       newEvent.location = action.payload
       return {
-        ... state,
+        ...state,
         event: newEvent
       }
     case FETCH_EVENT_REQUEST:
@@ -146,6 +149,7 @@ const HeaderReducer = (state = initialState, action: { type: string, payload: Ev
         newProduct: action.payload
       }
     case UPDATE_EVENT_IMAGES:
+      console.log('in update images reducer', action.payload)
       return {
         ...state,
         images: action.payload,
