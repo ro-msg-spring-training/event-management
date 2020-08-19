@@ -2,8 +2,9 @@ import { EventFilters } from "../model/EventFilters";
 import moment from 'moment'
 import { EventSort } from "../model/EventSort";
 const serverURL = 'http://ec2-54-154-96-2.eu-west-1.compute.amazonaws.com:8080'
+const productsURL = 'http://localhost:4000/products'
 
-const token = 'eyJraWQiOiJGQmJURFl2dldtZzlkM3pHRW1xMmZWS29oRDBuVzdUZFwveEZRTzVCR3BEdz0iLCJhbGciOiJSUzI1NiJ9.eyJhdF9oYXNoIjoiRG1KZnJCeWRHa2Q0dXNDRHVZQlkxdyIsInN1YiI6IjllNjljNGU2LWY0MGEtNDNkNS1iNWI2LTA2MGQ0ODVlNDdkZCIsImNvZ25pdG86Z3JvdXBzIjpbIlJPTEVfQURNSU4iXSwiZW1haWxfdmVyaWZpZWQiOnRydWUsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC5ldS13ZXN0LTEuYW1hem9uYXdzLmNvbVwvZXUtd2VzdC0xX3AzMEFTbzh1QyIsImNvZ25pdG86dXNlcm5hbWUiOiJzdGVmYW5fYWRtaW4iLCJnaXZlbl9uYW1lIjoiYmIiLCJhdWQiOiIyanFjNDYxb2xhaXFkMmUxMTFzcmlyNHRrMyIsImV2ZW50X2lkIjoiMzNmYTYzNjYtYjhiZi00MWJmLWE3OTctY2FhZjNkNzExYWI4IiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE1OTc3NzcyOTEsImV4cCI6MTU5Nzc4MDg5MSwiaWF0IjoxNTk3Nzc3MjkxLCJmYW1pbHlfbmFtZSI6ImJiIiwiZW1haWwiOiJyYWR1c3RlZmFuMTEyMzU4QGdtYWlsLmNvbSJ9.R-Z5T2kLwNYIO5QVZV0GWCY1t6UgYK0DBi9FHXwOcJSgGlvJjC-PKGSF6Cf8nekRboryid3Gj6eclIF-ZF48SJR0u-cTl5vjBdG269A5lGNoDyfFqVcwbmm0Xvgszsfb2xymTyphWdG25mEGm2VJX8erl1dzgrUhc0f9gUGr70MXte8WLmZPwgmznb4mAV4RtzS70VgCqIfPF0xQ0MyjOFpiL6MyW1bG0TkPw1n0YtNZIn48MbkuVk5kV4aUl-FpX3V1f2mNbXjyF4M7D8GTCSyhvuD8yQYNFcOn0WR7gXXNwt4ClnrjmkNx1y2E5i8iYiFYy51TRTLmU0STo62LlQ'
+const token = 'eyJraWQiOiJGQmJURFl2dldtZzlkM3pHRW1xMmZWS29oRDBuVzdUZFwveEZRTzVCR3BEdz0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI5ZTY5YzRlNi1mNDBhLTQzZDUtYjViNi0wNjBkNDg1ZTQ3ZGQiLCJjb2duaXRvOmdyb3VwcyI6WyJST0xFX0FETUlOIl0sImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAuZXUtd2VzdC0xLmFtYXpvbmF3cy5jb21cL2V1LXdlc3QtMV9wMzBBU284dUMiLCJjb2duaXRvOnVzZXJuYW1lIjoic3RlZmFuX2FkbWluIiwiZ2l2ZW5fbmFtZSI6ImJiIiwiYXVkIjoiNDVmYzdsYXJnbzkyZ29xNnR1bDJ2ZGZoYmYiLCJldmVudF9pZCI6IjRiNGE5MzUyLWU3YmYtNDZhNi1hZGM5LTVhZjM0ZDJkNjNkNyIsInRva2VuX3VzZSI6ImlkIiwiYXV0aF90aW1lIjoxNTk3ODIxMjAyLCJleHAiOjE1OTc4MjQ4MDIsImlhdCI6MTU5NzgyMTIwMiwiZmFtaWx5X25hbWUiOiJiYiIsImVtYWlsIjoicmFkdXN0ZWZhbjExMjM1OEBnbWFpbC5jb20ifQ.SBBDBzgTQsSruxcuNi_O_PjUAc6Fqu14P011jCFn1JOC1k0-6A54j1x3G65fj4rWBdNcoReqhNe3E3_QKrwFqTfR4z6cpz5QpCv1eCBzBSp5nvF-uUYTjQ8EK3wYW2jidUwOhFI4DZYG6PiBHj_JFtDdaJ3qQhkTei1ruQCgim4j8ItCntoi20lQZqXOzRWenW0o1q4n-uYlYrbPAa9nEbuRJKTfqnmJc90Ve6GzixdZDR0OcMdbhyBoX5T8e_7VGO-P77dsr11s8GvRQM1jQLwaoc98L72AGOXYRW5tgirEeq7WW515HB7S-_3z0fDfFLniMDTqwwidaepiXg-HRg'
 
 const headersAuth = {
     'Authorization': `Bearer ${token}`
@@ -118,6 +119,15 @@ export const fetchEvents = () => {
         })
 }
 
+export const fetchHomeEvents = () => {
+    //return fetch(`${serverURL}/latest/1`, { headers: headersAuth })
+    return fetch(`${productsURL}`)
+        .then(response => response.json())
+        .then(json => {
+            return json;
+        })
+}
+
 export const changePage = (filters: EventFilters, sort: EventSort, page: number) => {
     const filtersToSend = computeFilterQueryString(filters)
     const sortToSend = computeSortQueryString(sort)
@@ -152,4 +162,24 @@ export const getLastNumber =  (filters: EventFilters) => {
         .then((json) => {
             return json
         });
+}
+
+export const changePageHome = (page: number) => {
+    const url = new URL(serverURL + "/events/filter/" + page + "?")
+
+    fetch(`${url}`, { headers: headersAuth })
+        .then((response) => response.json())
+        .then((json) => {
+            return json;
+        });
+}
+
+export const getLastNumberHome =  () => {
+    /*const url = new URL(serverURL + "/events/lastPage/")
+
+    return fetch(`${url}`, {headers: headersAuth})
+        .then((response) => response.json())
+        .then((json) => {
+            return json
+        });*/
 }

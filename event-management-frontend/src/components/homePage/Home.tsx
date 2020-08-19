@@ -1,10 +1,11 @@
 import React from 'react'
-import { Typography, Container } from '@material-ui/core'
+import { Container } from '@material-ui/core'
+import HomeEventListSmart from "./HomeEventListSmart";
 
 const Home = () => (
     <Container>
-        <br/><br/><br/>
-        <Typography variant="h1" color="primary">Home page works</Typography>
+        <br />
+        <HomeEventListSmart />
     </Container>
 )
 
