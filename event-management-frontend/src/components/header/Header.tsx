@@ -37,6 +37,11 @@ const useStyles = makeStyles((theme: Theme) =>
         yellow: {
             color: '#F2AE30',
         },
+        flags: {
+            '&:hover': {
+                cursor: "pointer",
+            }
+        }
     }),
 );
 
@@ -59,10 +64,10 @@ const Header = () => {
                     <Typography variant="h6" >&nbsp;{t("eventList.account")}</Typography>
                 </IconButton>
             </Link>
-            <div onClick={()=>handleChangeAppLanguage("ro")}>
+            <div onClick={()=>handleChangeAppLanguage("ro")} className={classes.flags}>
                 <Avatar alt="RO" variant="square" className={classes.small} src={RO} />
             </div>
-            <div onClick={()=>handleChangeAppLanguage("en")}>
+            <div onClick={()=>handleChangeAppLanguage("en")} className={classes.flags}>
                 <Avatar alt="EN" variant="square" className={classes.small} src={EN} />
             </div>
 

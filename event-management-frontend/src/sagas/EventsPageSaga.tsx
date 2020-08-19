@@ -11,7 +11,7 @@ import {
 
 import { takeLatest, takeEvery, put, call } from "redux-saga/effects";
 import { EventFilters } from "../model/EventFilters";
-import { fetchEvents, fetchFilteredEvents, changePage, fetchSortedEvents } from "../api/EventsServiceAPI";
+import { fetchEvents, fetchFilteredEvents, fetchSortedEvents } from "../api/EventsServiceAPI";
 import { EventSort } from "../model/EventSort";
 
 
