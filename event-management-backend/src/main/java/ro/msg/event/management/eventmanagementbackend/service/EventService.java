@@ -195,20 +195,8 @@ public class EventService {
         }
 
         if (rateSign != null) {
-            switch (rateSign) {
-                case GREATER:
-                    predicate.add(criteriaBuilder.gt(c.get("rate"), rate));
-                    break;
-                case LOWER:
-                    predicate.add(criteriaBuilder.le(c.get("rate"), rate));
-                    break;
-                case EQUAL:
-                    predicate.add(criteriaBuilder.equal(c.get("rate"), rate));
-                    break;
-                default:
-                    break;
+            predicate.add(this.getPredicate(rateSign,"rate",rate, criteriaBuilder,c));
             }
-        }
         Predicate finalPredicate = criteriaBuilder.and(predicate.toArray(new Predicate[0]));
         q.where(finalPredicate);
         return entityManager.createQuery(q);
@@ -267,7 +255,7 @@ public class EventService {
         if (offset + eventPerPage > eventViews.size()) {
             return eventViews.subList(offset, eventViews.size());
         }
-        if (offset + eventPerPage + 1 == eventViews.size() || pageNumber < 0) {
+        if (pageNumber < 0) {
             return new ArrayList<>();
         }
         return eventViews.subList(offset, offset + eventPerPage);

@@ -89,7 +89,5 @@ public class AdminHomepageIntegrationTests {
 
         List<EventView> eventViewList = eventService.filterAndOrder(null, null, null, null, null, LocalDate.now(), MAX_DATE, null, null, null, null, null, null, 1, 4, SortCriteria.DATE, true);
         assertThat(eventViewList.size()).isEqualTo(3);
-
-
     }
 }
