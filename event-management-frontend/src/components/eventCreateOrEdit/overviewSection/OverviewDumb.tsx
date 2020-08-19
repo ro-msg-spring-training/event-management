@@ -152,6 +152,7 @@ function OverviewDumb(props: OverviewDumbProps) {
 
           <Grid item container className={classes.grid} direction="row" justify="center" alignItems="center">
             <Grid item xl={7} lg={7} sm={8} xs={7}>
+            <form className={classes.root}>
               <TextField
                 className={classes.margin}
                 onKeyDown={props.handleEnterKey}
@@ -169,6 +170,7 @@ function OverviewDumb(props: OverviewDumbProps) {
                 required
                 fullWidth
               />
+              </form>
             </Grid>
           </Grid>
 

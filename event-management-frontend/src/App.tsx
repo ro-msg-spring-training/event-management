@@ -5,7 +5,7 @@ import AuthWrapper from "./components/Routes";
 import { Route, Switch } from "react-router-dom";
 import Main from "./components/Main";
 import {CircularProgress, Grid} from "@material-ui/core";
-
+import "./App.css"
 
 // loading component for suspense fallback
 const Loader = () => (

@@ -242,6 +242,8 @@ const MapWrapper: React.FC<Props> = (props: Props) => {
   }, [props.locations])
 
   const submitLocation = (id: number, lat: string, long: string) => {
+    setSearchMarker([])
+
     const markers: any[] = [];
 
     markers.push([lat, long]);

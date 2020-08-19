@@ -20,7 +20,7 @@
     "hour": "Ora",
     "startHour": "Momentul de începere",
     "endHour": "Momentul de încheiere",
-    "to": "-",
+    "to": " - ",
     "maxPeople": "Număr maxim de persoane",
     "occupancyRate": "Rata de ocupare",
     "highlighted": "Evidențiat",
