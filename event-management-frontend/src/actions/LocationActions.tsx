@@ -1,5 +1,4 @@
 import { LocationType } from "../types/LocationType";
-import locationUrl from "../api/LocationUrl";
 
 export enum LocationActionTypes {
   LOCATION_FETCH = "LOCATION_FETCH",
@@ -44,9 +43,7 @@ export type LocationAction =
   | LocationErrorAction
   | LocationFetchSuccessAction;
 
-export const locationisLoading = (
-  loadingStatus: boolean
-): LocationLoadingStatusAction => {
+export const locationisLoading = (loadingStatus: boolean): LocationLoadingStatusAction => {
   return {
     type: LocationActionTypes.LOCATION_LOADING,
     loadingStatus: loadingStatus,
@@ -60,9 +57,7 @@ export const locationError = (errorStatus: string): LocationErrorAction => {
   };
 };
 
-export const locationFetchSucces = (
-  locations: LocationType[]
-): LocationFetchSuccessAction => {
+export const locationFetchSucces = (locations: LocationType[]): LocationFetchSuccessAction => {
   return {
     type: LocationActionTypes.LOCATION_FETCH_SUCCESS,
     locations: locations,
@@ -74,11 +69,3 @@ export const locationFetch = (): LocationFetchAction => {
     type: LocationActionTypes.LOCATION_FETCH,
   };
 };
-
-export function fetchLocation() {
-  return fetch(locationUrl)
-    .then((response) => response.json())
-    .then((json) => {
-      return json;
-    });
-}

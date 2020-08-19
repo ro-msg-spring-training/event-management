@@ -11,10 +11,15 @@ import {
   EDIT_EVENT_REQUEST,
   EDIT_EVENT_SUCCESS,
   EDIT_EVENT_FAILURE,
-  UPDATE_EVENT_IMAGES
+  UPDATE_EVENT_IMAGES,
+  UPDATE_FORM_ERRORS,
+  UPDATE_EVENT,
+  UPDATE_LOCATION,
+  RESET_STORE
 } from "../actions/HeaderEventCrudActions"
 import { EventCrud } from "../model/EventCrud"
 import { EventImage } from "../model/EventImage"
+import { EventFormErrors } from "../model/EventFormErrors"
 
 export interface EventState {
   loading: boolean,
@@ -22,28 +27,61 @@ export interface EventState {
   error: string,
   isError: boolean,
   isLoading: boolean,
-  images: EventImage[]
+  images: EventImage[],
+  formErrors: EventFormErrors,
 }
+
+let today = new Date(new Date().toString().split('GMT')[0] + ' UTC').toISOString().split('.')[0]
+const dateAndTime = today.split("T");
+const currDate = dateAndTime[0];
+const currTime = dateAndTime[1].replace(/:\d\d([ ap]|$)/, '$1');
+
 
 const initialState: EventState = {
   loading: false,
   event: {
-    id: -1, title: "NEW EVENT", subtitle: "mock", status: "active", highlighted: false, description: "mock",
-    observations: "mock", location: "mock", startDate: "2019-08-03", endDate: "2019-08-03", startTime: "07:12", endTime: "07:12",
-    maxPeople: 0, images: [""], maxNoTicketsPerUser: 0
+    id: -1, title: "", subtitle: "", status: true, highlighted: false, description: "",
+    observations: "", location: 1, startDate: currDate, endDate: currDate, startHour: currTime, endHour: currTime,
+    maxPeople: 0, picturesUrlSave: [], picturesUrlDelete: [], maxNoTicketsPerUser: 0,
+    noTicketEvent: true
+  },
+  formErrors: {
+    title: "",
+    subtitle: "",
+    description: "",
+    startDate: "",
+    endDate: "",
+    startTime: "",
+    endTime: "",
+    maxPeople: "",
   },
   error: '',
   isError: false,
   isLoading: false,
-  images: []
+  images: [],
 }
 
 const getEventImages = (imagesStr: string[]) => {
-  return [] as EventImage[]
+  const images = imagesStr.map((img: string) => {
+    let fullName = img.split('/').pop();
+    return { id: fullName, name: fullName, url: img }
+  })
+  return images as EventImage[]
 }
 
 const HeaderReducer = (state = initialState, action: { type: string, payload: EventCrud }) => {
   switch (action.type) {
+    case RESET_STORE:
+      return {
+        ...initialState
+      }
+    case UPDATE_LOCATION:
+      const newEvent = JSON.parse(JSON.stringify(state.event))
+      newEvent.location = action.payload
+      return {
+        ...state,
+        event: newEvent
+      }
     case FETCH_EVENT_REQUEST:
       return {
         ...state,
@@ -51,16 +89,19 @@ const HeaderReducer = (state = initialState, action: { type: string, payload: Ev
         isLoading: true
       }
     case FETCH_EVENT_SUCCESS:
+      console.log('in reducere ajunge...', action.payload)
       return {
+        ...state,
         loading: false,
         event: action.payload,
         error: '',
         isError: false,
         isLoading: false,
-        images: getEventImages(action.payload.images)
+        images: getEventImages(action.payload.picturesUrlSave)
       }
     case FETCH_EVENT_FAILURE:
       return {
+        ...state,
         loading: false,
         event: action.payload,
         isError: true,
@@ -73,10 +114,12 @@ const HeaderReducer = (state = initialState, action: { type: string, payload: Ev
       }
     case DELETE_EVENT_SUCCESS:
       return {
+        ...state,
         ...initialState,
       }
     case DELETE_EVENT_FAILURE:
       return {
+        ...state,
         error: action.payload
       }
     case ADD_EVENT_REQUEST:
@@ -86,10 +129,12 @@ const HeaderReducer = (state = initialState, action: { type: string, payload: Ev
       }
     case ADD_EVENT_SUCCESS:
       return {
+        ...state,
         loading: false,
       }
     case ADD_EVENT_FAILURE:
       return {
+        ...state,
         loading: false,
         newProduct: action.payload
       }
@@ -100,19 +145,31 @@ const HeaderReducer = (state = initialState, action: { type: string, payload: Ev
       }
     case EDIT_EVENT_SUCCESS:
       return {
+        ...state,
         loading: false,
       }
     case EDIT_EVENT_FAILURE:
       return {
+        ...state,
         loading: false,
         newProduct: action.payload
       }
     case UPDATE_EVENT_IMAGES:
-      console.log(action.payload)
+      console.log('in update images reducer', action.payload)
       return {
         ...state,
         images: action.payload,
         isError: false,
+      }
+    case UPDATE_FORM_ERRORS:
+      return {
+        ...state,
+        formErrors: action.payload
+      }
+    case UPDATE_EVENT:
+      return {
+        ...state,
+        event: action.payload
       }
     default: return state
   }

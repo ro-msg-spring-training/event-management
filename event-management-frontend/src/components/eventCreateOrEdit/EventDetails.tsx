@@ -1,37 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { CircularProgress, Container, Paper, makeStyles } from '@material-ui/core';
-import { loadEvent, deleteEvent, addEvent } from '../../actions/HeaderEventCrudActions';
+import { loadEvent, deleteEvent, addEvent, editEvent, resetStore } from '../../actions/HeaderEventCrudActions';
 import { connect } from 'react-redux';
 import Header from './headerEditAndDelete/HeaderCrudSmart';
 import Stepper from './Stepper';
 import { useHistory } from 'react-router-dom';
 import AlertDialog from './AlertDialog';
-import Overview from './overviewSection/OverviewSmart';
+import OverviewSmart from './overviewSection/OverviewSmart';
 import Tickets from '../Tickets';
 import { EventCrud } from '../../model/EventCrud';
 import { useTranslation } from "react-i18next";
 import ImagesSectionSmart from './imagesSection/ImagesSectionSmart';
 import { EventImage } from '../../model/EventImage';
-import MapWrapper from '../locationSection/Map'
+import MapWrapper from './locationSection/Map'
+import { EventFormErrors } from '../../model/EventFormErrors';
 
 
-const event: EventCrud = {
-  id: "",
-  title: "",
-  subtitle: "",
-  status: "",
-  highlighted: false,
-  description: "",
-  observations: "",
-  location: "",
-  startDate: "",
-  endDate: "",
-  startTime: "",
-  endTime: "",
-  maxPeople: 0,
-  images: [""],
-  maxNoTicketsPerUser: 0,
-}
 
 interface Props {
   match: any,
@@ -40,33 +24,15 @@ interface Props {
   deleteEventF: (id: string) => void,
   addEventF: (event: EventCrud, images: EventImage[]) => void,
   editEventF: (event: EventCrud, images: EventImage[]) => void,
+  resetStoreF: () => void,
   fetchEvent: {
     loading: boolean,
     event: EventCrud,
     error: string,
-    images: EventImage[]
+    images: EventImage[],
+    formErrors: EventFormErrors
   },
-}
 
-const initialEventOverview = {
-  title: "",
-  subtitle: "",
-  description: "",
-  startDate: "",
-  startTime: "",
-  endDate: "",
-  endTime: "",
-  maxPeople: 0,
-  formErrors: {
-    title: "",
-    subtitle: "",
-    description: "",
-    startDate: "",
-    endDate: "",
-    startTime: "",
-    endTime: "",
-    maxPeople: "",
-  }
 }
 
 const useStyles = makeStyles({
@@ -77,7 +43,7 @@ const useStyles = makeStyles({
   },
 });
 
-function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, editEventF, fetchEvent }: Props) {
+function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, editEventF, resetStoreF, fetchEvent }: Props) {
   const history = useHistory();
   const classes = useStyles();
   const { t } = useTranslation();
@@ -89,29 +55,29 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, edit
   const [dialogTitle, setDialogTitle] = useState("");
   const [dialogDescription, setDialogDescription] = useState("");
 
-  //-------| Overview states |------------
-  const [finalEventOverview, setFinalEventOverview] = useState(initialEventOverview);
-  const [statusOverview, setStatusOverview] = useState("active");
-  const [checkBoxStateOverview, setCheckboxStateOverview] = useState(false);
-  //--------------------------
   const [idLocation, setidLocation] = useState("");
 
   useEffect(() => {
-    newEvent === false && fetchEventF(match.params.id)
-  }, [fetchEventF, match.params.id, newEvent])
+    if (newEvent === false) {
+      fetchEventF(match.params.id)
+    }
+    return () => {
+      resetStoreF()
+    }
+  }, [fetchEventF, resetStoreF, match.params.id, newEvent])
 
-  const verifyDateAndTimePeriods = (): boolean => {
-    if (!(new Date(finalEventOverview.startDate) > new Date(finalEventOverview.endDate)) &&
-      !(new Date(finalEventOverview.startDate) < new Date(finalEventOverview.endDate))
+  const verifyDateAndTimePeriods = (event: EventCrud): boolean => {
+    if (!(new Date(event.startDate) > new Date(event.endDate)) &&
+      !(new Date(event.startDate) < new Date(event.endDate))
     ) {
-      if (finalEventOverview.startTime >= finalEventOverview.endTime) {
+      if (event.startHour >= event.endHour) {
         setMsgUndo(t("welcome.popupMsgTryAgain"));
         setDialogTitle(t("welcome.popupMsgErrTitle"));
         setDialogDescription(t("welcome.popupMsgTimeErrDescription"));
         setOpen(true);
         return false;
       }
-    } else if (new Date(finalEventOverview.startDate) > new Date(finalEventOverview.endDate)) {
+    } else if (new Date(event.startDate) > new Date(event.endDate)) {
       setMsgUndo(t("welcome.popupMsgTryAgain"));
       setDialogTitle(t("welcome.popupMsgErrTitle"));
       setDialogDescription(t("welcome.popupMsgDateErrDescription"));
@@ -121,16 +87,16 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, edit
     return true;
   }
 
-  const verifyErrorMessages = (): boolean => {
+  const verifyErrorMessages = (errors: EventFormErrors): boolean => {
     if (
-      finalEventOverview.formErrors.title.length > 0 ||
-      finalEventOverview.formErrors.subtitle.length > 0 ||
-      finalEventOverview.formErrors.description.length > 0 ||
-      finalEventOverview.formErrors.startDate.length > 0 ||
-      finalEventOverview.formErrors.endDate.length > 0 ||
-      finalEventOverview.formErrors.startTime.length > 0 ||
-      finalEventOverview.formErrors.endTime.length > 0 ||
-      finalEventOverview.formErrors.maxPeople.length > 0
+      errors.title.length > 0 ||
+      errors.subtitle.length > 0 ||
+      errors.description.length > 0 ||
+      errors.startDate.length > 0 ||
+      errors.endDate.length > 0 ||
+      errors.startTime.length > 0 ||
+      errors.endTime.length > 0 ||
+      errors.maxPeople.length > 0
     ) {
 
       setMsgUndo(t("welcome.popupErrMsgUnderstood"));
@@ -143,12 +109,12 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, edit
     return true;
   }
 
-  const verifyNullFields = (): boolean => {
+  const verifyNullFields = (event: EventCrud): boolean => {
     if ((
-      finalEventOverview.title.length === 0 ||
-      finalEventOverview.subtitle.length === 0 ||
-      finalEventOverview.description.length === 0 ||
-      finalEventOverview.maxPeople === 0) && newEvent
+      event.title.length === 0 ||
+      event.subtitle.length === 0 ||
+      event.description.length === 0 ||
+      event.maxPeople === 0) && newEvent
     ) {
       setMsgUndo(t("welcome.popupErrMsgUnderstood"));
       setDialogTitle(t("welcome.popupMsgErrTitle"));
@@ -159,62 +125,43 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, edit
     return true;
   }
 
-  const formValid = (): boolean => {
-    if (true === verifyDateAndTimePeriods() && true === verifyErrorMessages() && true === verifyNullFields())
+  const formValid = (event: EventCrud, errors: EventFormErrors): boolean => {
+    if (true === verifyDateAndTimePeriods(event) && true === verifyErrorMessages(errors) && true === verifyNullFields(event))
       return true;
     return false;
   };
 
-  const handleSaveOverviewEvent = (): void => {
-    if (formValid()) {
-      event.title = finalEventOverview.title;
-      event.subtitle = finalEventOverview.subtitle;
-      event.maxPeople = finalEventOverview.maxPeople;
-      event.description = finalEventOverview.description;
-      event.startDate = finalEventOverview.startDate;
-      event.endDate = finalEventOverview.endDate;
-      event.startTime = finalEventOverview.startTime;
-      event.endTime = finalEventOverview.endTime;
-      event.highlighted = checkBoxStateOverview;
-      event.status = statusOverview;
-    }
-  };
 
   let saveEvent = (): void => {
-    //TODO check if save for edit or for new event
-
-    handleSaveOverviewEvent();
-
-    // =================
-
-    newEvent ? addEventF(event, fetchEvent.images) : editEventF(event, fetchEvent.images)
-
+    if (formValid(fetchEvent.event, fetchEvent.formErrors)) {
+      if (newEvent) {
+        addEventF(fetchEvent.event, fetchEvent.images)
+      } else {
+        editEventF(fetchEvent.event, fetchEvent.images)
+      }
+      if (fetchEvent.error === "") {
+        history.push('/admin/events');
+      }
+    }
   }
 
   let deleteEvent = (): void => {
-
     if (newEvent === true) {
       setMsgUndo(t("welcome.popupMsgCancelUndo"));
       setDialogTitle(t("welcome.popupMsgCancelTitle"));
       setDialogDescription(t("welcome.popupMsgCancelDescription"));
       setOpen(true);
+      resetStoreF()
     } else {
       deleteEventF(match.params.id);
-      history.push('/');
+      history.push('/admin/events');
     }
   }
 
   const overviewComponent =
-    <Overview
-      event={fetchEvent.event}
+    <OverviewSmart
       newEvent={newEvent}
       admin={admin}
-      finalEventOverview={finalEventOverview}
-      setFinalEventOverview={setFinalEventOverview}
-      statusOverview={statusOverview}
-      setStatusOverview={setStatusOverview}
-      checkBoxStateOverview={checkBoxStateOverview}
-      setCheckboxStateOverview={setCheckboxStateOverview}
       setOpen={setOpen}
       setMsgUndo={setMsgUndo}
       setDialogTitle={setDialogTitle}
@@ -259,7 +206,7 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, edit
 
 const mapStateToProps = (state: any) => {
   return {
-    fetchEvent: state.event
+    fetchEvent: state.eventCrud,
   }
 }
 
@@ -268,7 +215,8 @@ const mapDispatchToProps = (dispatch: any) => {
     fetchEventF: (id: string) => dispatch(loadEvent(id)),
     deleteEventF: (id: string) => dispatch(deleteEvent(id)),
     addEventF: (event: EventCrud, images: EventImage[]) => dispatch(addEvent(event, images)),
-    editEventF: (event: EventCrud, images: EventImage[]) => dispatch(addEvent(event, images)),
+    editEventF: (event: EventCrud, images: EventImage[]) => dispatch(editEvent(event, images)),
+    resetStoreF: () => dispatch(resetStore())
   }
 }
 

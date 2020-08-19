@@ -41,12 +41,12 @@ const EventDetailsMobileDumb = (props: MobileEvent) => {
             <StyledTableCell>{date}</StyledTableCell>
 
             <StyledTableCell>
-                <Link to={`/events/${id}`} style={{ textDecoration: 'none'}}>
+                <Link to={`/admin/events/${id}`} style={{ textDecoration: 'none'}}>
                     <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3}`}>
                         {t("eventList.details")}
                     </Button>
                 </Link><br/><br/>
-                <Link to={`/validate/${id}`} style={{ textDecoration: 'none' }}>
+                <Link to={`/admin/validate/${id}`} style={{ textDecoration: 'none' }}>
                     <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3}`}>
                         {t("eventList.validate")}
                     </Button>

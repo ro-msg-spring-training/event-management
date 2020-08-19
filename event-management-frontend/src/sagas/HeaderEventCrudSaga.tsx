@@ -19,6 +19,7 @@ function* loadEventAsync(props: Props) {
   try {
     yield put(fetchEventRequest());
     const event = yield call(() => fetchEventAPI(props.payload));
+    event.id = parseInt(props.payload)
     yield put(fetchEventSuccess(event))
   } catch (e) {
     yield put(fetchEventFailure(e))
@@ -50,10 +51,12 @@ function* addEventAsync(props: AddProps) {
     yield put(addEventRequest());
     const imagesURL = yield call(() => updateImagesFromS3(props.payload.images));
     const event: EventCrud = props.payload.event
-    event.images = imagesURL 
+    event.picturesUrlSave = imagesURL
+    event.picturesUrlDelete = []
     yield call(() => addEventAPI(event));
     yield put(addEventSuccess())
   } catch (e) {
+    console.log(e)
     yield put(addEventFailure(e))
   }
 }
@@ -67,11 +70,14 @@ function* editEventAsync(props: AddProps) {
   try {
     yield put(editEventRequest());
     const imagesURL = yield call(() => updateImagesFromS3(props.payload.images));
+    console.log('imagesURL', imagesURL)
     const event: EventCrud = props.payload.event
-    event.images = imagesURL 
+    event.picturesUrlSave = imagesURL 
+    event.picturesUrlDelete = []
     yield call(() => editEventAPI(event));
     yield put(editEventSuccess())
   } catch (e) {
+    console.log(e)
     yield put(editEventFailure(e))
   }
 }

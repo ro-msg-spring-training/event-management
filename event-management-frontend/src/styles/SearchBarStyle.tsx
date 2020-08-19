@@ -2,11 +2,14 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStylesSearchBar = makeStyles((themeDark) => ({
   searchBar: {
-    width: "100%",
+    width: "70%",
     border: "1px solid grey",
     fontSize: "14px",
     color: "rgba(0,0,0,0.73)",
     position: "relative",
+    display: "block",
+    marginLeft: "auto",
+    marginRight: "auto",
   },
   searchBarInput: {
     width: "100%",
@@ -16,6 +19,8 @@ const useStylesSearchBar = makeStyles((themeDark) => ({
     padding: "10px 5px",
     boxSizing: "border-box",
     outline: "none",
+    backgroundColor: "white",
+    alignContent: "center",
   },
   suggestionsText: {
     listStyleType: "none",

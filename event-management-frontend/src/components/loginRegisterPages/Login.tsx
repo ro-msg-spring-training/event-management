@@ -20,7 +20,7 @@ import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import { Trans } from "react-i18next";
 import useStylesLogin from "../../styles/LoginStyle";
 import { displaySuccessMessage } from "../../validation/RegistrationValidation";
-
+import { useHistory } from "react-router-dom";
 
 const Login = () => {
   const [, setIsLoading] = useState(false);
@@ -34,6 +34,7 @@ const Login = () => {
 
   const classesLogin = useStylesLogin();
   const classes = useStyles();
+  const history = useHistory();
 
   const handleClickShowPassword = () => {
     setValues({ showPassword: !values.showPassword });
@@ -43,9 +44,8 @@ const Login = () => {
     setIsLoading(true);
     try {
       const user = await Auth.signIn(username, password);
-      console.log(user.signInUserSession.accessToken.jwtToken)
-      localStorage.setItem("accessToken", user.signInUserSession.accessToken.jwtToken)
-
+      localStorage.setItem("idToken", user.signInUserSession.idToken.jwtToken)
+      history.push('/admin/')
       displaySuccessMessage(<Trans i18nKey="login.successMessage">Succesful login</Trans>, setSuccess);
       setError("");
     } catch (error) {
@@ -72,7 +72,8 @@ const Login = () => {
           value={username}
           required
           variant="outlined"
-          onChange={(e) => setUsername(e.target.value)} />
+          onChange={(e) => setUsername(e.target.value)}
+        />
 
         <FormControl className={classesLogin.loginformItems} required variant="outlined">
           <InputLabel htmlFor="outlined-adornment-password">
@@ -91,8 +92,8 @@ const Login = () => {
                   {values.showPassword ? <Visibility /> : <VisibilityOff />}
                 </IconButton>
               </InputAdornment>
-            } />
-
+            }
+          />
         </FormControl>
 
         <div className="field">

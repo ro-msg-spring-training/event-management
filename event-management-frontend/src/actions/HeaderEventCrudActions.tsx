@@ -1,5 +1,6 @@
 import { EventCrud } from "../model/EventCrud"
 import { EventImage } from "../model/EventImage"
+import { EventFormErrors } from "../model/EventFormErrors"
 
 export const LOAD_EVENT = 'LOAD_EVENT'
 export const DELETE_EVENT = 'DELETE_EVENT'
@@ -23,6 +24,11 @@ export const EDIT_EVENT_SUCCESS = 'EDIT_EVENT_SUCCESS'
 export const EDIT_EVENT_FAILURE = 'EDIT_EVENT_FAILURE'
 
 export const UPDATE_EVENT_IMAGES = "UPDATE_EVENT_IMAGES"
+export const UPDATE_FORM_ERRORS = "UPDATE_FORM_ERRORS"
+export const UPDATE_EVENT = "UPDATE_EVENT"
+export const UPDATE_LOCATION = "UPDATE_LOCATION"
+export const RESET_STORE = "RESET_STORE"
+
 
 //---------------------------------------------------for SAGA
 export const loadEvent = (id: string) => {
@@ -135,5 +141,32 @@ export const updateEventImages = (images: EventImage[]) => {
   return {
       type: UPDATE_EVENT_IMAGES,
       payload: images
+  }
+}
+
+export const updateFormErrors = (errors: EventFormErrors) => {
+  return {
+    type: UPDATE_FORM_ERRORS,
+    payload: errors
+  }
+}
+
+export const updateEvent = (event: EventCrud) => {
+  return {
+    type: UPDATE_EVENT,
+    payload: event
+  }
+}
+
+export const updateLocation = (idLocation: number) => {
+  return {
+    type: UPDATE_LOCATION,
+    payload: idLocation
+  }
+}
+
+export const resetStore = () => {
+  return {
+    type: RESET_STORE
   }
 }

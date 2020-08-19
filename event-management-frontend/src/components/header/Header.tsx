@@ -51,7 +51,7 @@ const Header = () => {
     }
 
     return (
-    <AppBar position="sticky" className={classes.dark}>
+    <AppBar position="sticky" style={{backgroundColor: "#133655"}}>
         <Toolbar>
             <Link to='/account' style={{ textDecoration: 'none' }} >
                 <IconButton className={classes.yellow}>

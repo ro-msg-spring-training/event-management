@@ -39,14 +39,13 @@ const useStyles = makeStyles((theme: Theme) => ({
     // height: "100vh",
     // width: window.outerWidth,
     // height: (window.innerHeight - 70), //70 is height of header
-
+    
     padding: "3.9%",
     display: "flex",
     flexWrap: "wrap",
 
     // height: "100%",
     // minHeight: "93.5vh",
-    backgroundColor: theme.palette.background.default,
   },
   checkbox: {
     color: theme.palette.secondary.dark
@@ -77,215 +76,216 @@ interface OverviewDumbProps {
     endTime: string,
     maxPeople: string,
   },
-  highlighted: boolean,
+  // highlighted: boolean,
   handleChangeCheckboxState: any,
   setStatus: any,
-  status: string,
-  currDate: string,
-  currTime: string,
+  // status: string,
+  // currDate: string,
+  // currTime: string,
 }
 
 function OverviewDumb(props: OverviewDumbProps) {
   const classes = useStyles();
   const { t } = useTranslation();
-
   return (
-    <Paper className={classes.fundal}>
-      <Typography className={classes.typography}></Typography>
+      <div className={classes.fundal}>
+        <Typography className={classes.typography}></Typography>
 
-      <Grid container direction="column" justify="center" alignItems="center">
+        <Grid container direction="column" justify="center" alignItems="center">
 
-        <Grid item container direction="row" justify="center" alignItems="center">
-          <Grid item xl={8} lg={4} sm={8} xs={11}>
-            <form className={classes.root} autoComplete="off">
-              <TextField
-                onKeyDown={props.handleEnterKey}
-                disabled={!props.admin}
-                name="title"
-                fullWidth
-                label={t("welcome.overviewTitle")}
-                variant="outlined"
-                onChange={props.handleChange}
-                defaultValue={props.newEvent === true ? "" : props.event.title}
-                error={props.formErrors.title.length > 0}
-                helperText={props.formErrors.title}
-                required />
-            </form>
+          <Grid item container direction="row" justify="center" alignItems="center">
+            <Grid item xl={8} lg={4} sm={8} xs={11}>
+              <form className={classes.root} autoComplete="off">
+                <TextField
+                  onKeyDown={props.handleEnterKey}
+                  disabled={!props.admin}
+                  name="title"
+                  fullWidth
+                  label={t("welcome.overviewTitle")}
+                  variant="outlined"
+                  onChange={props.handleChange}
+                  defaultValue={ props.event.title}
+                  error={props.formErrors.title.length > 0}
+                  helperText={props.formErrors.title}
+                  required />
+              </form>
+            </Grid>
+
+            <Grid item xl={8} lg={4} sm={8} xs={11}>
+              <form className={classes.root} autoComplete="off">
+                <TextField
+                  onKeyDown={props.handleEnterKey}
+                  name="subtitle"
+                  disabled={!props.admin}
+                  fullWidth
+                  label={t("welcome.overviewSubtitle")}
+                  variant="outlined"
+                  onChange={props.handleChange}
+                  defaultValue={ props.event.subtitle}
+                  error={props.formErrors.subtitle.length > 0}
+                  helperText={props.formErrors.subtitle}
+                  required
+                />
+              </form>
+            </Grid>
+
+            <Grid item xl={8} lg={4} sm={8} xs={11}>
+              <form className={classes.root} autoComplete="off">
+                <TextField
+                  onKeyDown={props.handleEnterKey}
+                  name="maxPeople"
+                  disabled={!props.admin}
+                  type="number"
+                  fullWidth
+                  label={t("welcome.overviewMaxPpl")}
+                  variant="outlined"
+                  onChange={props.handleChange}
+                  defaultValue={props.event.maxPeople}
+                  error={props.formErrors.maxPeople.length > 0}
+                  helperText={props.formErrors.maxPeople}
+                  required
+                />
+              </form>
+            </Grid>
+
           </Grid>
 
-          <Grid item xl={8} lg={4} sm={8} xs={11}>
-            <form className={classes.root} autoComplete="off">
+          <Grid item container className={classes.grid} direction="row" justify="center" alignItems="center">
+            <Grid item xl={7} lg={7} sm={8} xs={7}>
+            <form className={classes.root}>
               <TextField
+                className={classes.margin}
                 onKeyDown={props.handleEnterKey}
-                name="subtitle"
+                name="description"
                 disabled={!props.admin}
-                fullWidth
-                label={t("welcome.overviewSubtitle")}
+                label={t("welcome.overviewDescription")}
                 variant="outlined"
+                multiline
+                rows='5'
+                rowsMax={7}
                 onChange={props.handleChange}
-                defaultValue={props.newEvent === true ? "" : props.event.subtitle}
-                error={props.formErrors.subtitle.length > 0}
-                helperText={props.formErrors.subtitle}
+                defaultValue={ props.event.description}
+                error={props.formErrors.description.length > 0}
+                helperText={props.formErrors.description}
                 required
+                fullWidth
               />
-            </form>
+              </form>
+            </Grid>
           </Grid>
 
-          <Grid item xl={8} lg={4} sm={8} xs={11}>
-            <form className={classes.root} autoComplete="off">
-              <TextField
-                onKeyDown={props.handleEnterKey}
-                name="maxPeople"
-                disabled={!props.admin}
-                type="number"
-                fullWidth
-                label={t("welcome.overviewMaxPpl")}
-                variant="outlined"
-                onChange={props.handleChange}
-                defaultValue={props.newEvent === true ? 0 : props.event.maxPeople}
-                error={props.formErrors.maxPeople.length > 0}
-                helperText={props.formErrors.maxPeople}
-                required
-              />
-            </form>
+          <Grid item container spacing={2} className={classes.grid} direction="row" justify="center" alignItems="center">
+
+            <Grid item container spacing={2} className={classes.grid} direction="row" justify="center" alignItems="center">
+              <Grid item xl={2} lg={4} md={5} sm={7} xs={12}>
+                <form className={classes.root} autoComplete="off">
+                  <TextField
+                    label={t("welcome.overviewStartDate")}
+                    name="startDate"
+                    disabled={!props.admin}
+                    type="date"
+                    onChange={props.handleChange}
+                    defaultValue={props.event.startDate}
+                    error={props.formErrors.startDate.length > 0}
+                    helperText={props.formErrors.startDate}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                </form>
+              </Grid>
+
+              <Grid item xl={2} lg={4} md={5} sm={7} xs={12}>
+                <form className={classes.root} autoComplete="off">
+                  <TextField
+                    label={t("welcome.overviewStartTime")}
+                    name="startTime"
+                    disabled={!props.admin}
+                    type="time"
+                    onChange={props.handleChange}
+                    defaultValue={props.event.startHour}
+                    error={props.formErrors.startTime.length > 0}
+                    helperText={props.formErrors.startTime}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    inputProps={{
+                      step: 300, // 5 min
+                    }}
+                  />
+                </form>
+              </Grid>
+            </Grid>
+
+            <Grid item container spacing={2} className={classes.grid} direction="row" justify="center" alignItems="center">
+              <Grid item xl={2} lg={4} md={5} sm={7} xs={12}>
+                <form className={classes.root} autoComplete="off">
+                  <TextField
+                    label={t("welcome.overviewEndDate")}
+                    name="endDate"
+                    disabled={!props.admin}
+                    type="date"
+                    onChange={props.handleChange}
+                    defaultValue={ props.event.endDate}
+                    error={props.formErrors.endDate.length > 0}
+                    helperText={props.formErrors.endDate}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                </form>
+              </Grid>
+
+              <Grid item xl={2} lg={4} md={5} sm={7} xs={12}>
+                <form className={classes.root} autoComplete="off">
+                  <TextField
+                    label={t("welcome.overviewEndTime")}
+                    name="endTime"
+                    disabled={!props.admin}
+                    type="time"
+                    onChange={props.handleChange}
+                    defaultValue={props.event.endHour}
+                    error={props.formErrors.endTime.length > 0}
+                    helperText={props.formErrors.endTime}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    inputProps={{
+                      step: 300, // 5 min
+                    }}
+                  />
+                </form>
+              </Grid>
+            </Grid>
           </Grid>
 
         </Grid>
 
         <Grid item container className={classes.grid} direction="row" justify="center" alignItems="center">
-          <Grid item xl={7} lg={7} sm={8} xs={7}>
-            <TextField
-              className={classes.margin}
-              onKeyDown={props.handleEnterKey}
-              name="description"
+          <Grid item xl={1} lg={2} md={2} sm={3} xs={7}>
+            <FormControlLabel
               disabled={!props.admin}
-              label={t("welcome.overviewDescription")}
-              variant="outlined"
-              multiline
-              rows='5'
-              rowsMax={7}
-              onChange={props.handleChange}
-              defaultValue={props.newEvent === true ? "" : props.event.description}
-              error={props.formErrors.description.length > 0}
-              helperText={props.formErrors.description}
-              required
-              fullWidth
+              control={<YellowCheckbox checked={props.event.highlighted} onChange={props.handleChangeCheckboxState} name="highlighted" />}
+              label={t("welcome.overviewHighlighted")}
             />
           </Grid>
-        </Grid>
 
-        <Grid item container spacing={2} className={classes.grid} direction="row" justify="center" alignItems="center">
-
-          <Grid item container spacing={2} className={classes.grid} direction="row" justify="center" alignItems="center">
-            <Grid item xl={2} lg={4} md={5} sm={7} xs={12}>
-              <form className={classes.root} autoComplete="off">
-                <TextField
-                  label={t("welcome.overviewStartDate")}
-                  name="startDate"
-                  disabled={!props.admin}
-                  type="date"
-                  onChange={props.handleChange}
-                  defaultValue={props.newEvent === true ? props.currDate : props.currDate}
-                  error={props.formErrors.startDate.length > 0}
-                  helperText={props.formErrors.startDate}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </form>
-            </Grid>
-
-            <Grid item xl={2} lg={4} md={5} sm={7} xs={12}>
-              <form className={classes.root} autoComplete="off">
-                <TextField
-                  label={t("welcome.overviewStartTime")}
-                  name="startTime"
-                  disabled={!props.admin}
-                  type="time"
-                  onChange={props.handleChange}
-                  defaultValue={props.newEvent === true ? props.currTime : props.currTime}
-                  error={props.formErrors.startTime.length > 0}
-                  helperText={props.formErrors.startTime}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  inputProps={{
-                    step: 300, // 5 min
-                  }}
-                />
-              </form>
-            </Grid>
+          <Grid item xl={1} lg={2} md={2} sm={3} xs={7}>
+            <FormControl className={classes.formControl}>
+              <InputLabel>Status</InputLabel>
+              <Select
+                disabled={!props.admin}
+                value={props.event.status? "true": "false"}
+                onChange={e => props.setStatus(e.target.value as string)}
+              >
+                <MenuItem value={"true"}>{t("welcome.overviewStatusActive")}</MenuItem>
+                <MenuItem value={"false"}>{t("welcome.overviewStatusInactive")}</MenuItem>
+              </Select>
+            </FormControl>
           </Grid>
 
-          <Grid item container spacing={2} className={classes.grid} direction="row" justify="center" alignItems="center">
-            <Grid item xl={2} lg={4} md={5} sm={7} xs={12}>
-              <form className={classes.root} autoComplete="off">
-                <TextField
-                  label={t("welcome.overviewEndDate")}
-                  name="endDate"
-                  disabled={!props.admin}
-                  type="date"
-                  onChange={props.handleChange}
-                  defaultValue={props.newEvent === true ? props.currDate : props.currDate}
-                  error={props.formErrors.endDate.length > 0}
-                  helperText={props.formErrors.endDate}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </form>
-            </Grid>
-
-            <Grid item xl={2} lg={4} md={5} sm={7} xs={12}>
-              <form className={classes.root} autoComplete="off">
-                <TextField
-                  label={t("welcome.overviewEndTime")}
-                  name="endTime"
-                  disabled={!props.admin}
-                  type="time"
-                  onChange={props.handleChange}
-                  defaultValue={props.newEvent === true ? props.currTime : props.currTime}
-                  error={props.formErrors.endTime.length > 0}
-                  helperText={props.formErrors.endTime}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  inputProps={{
-                    step: 300, // 5 min
-                  }}
-                />
-              </form>
-            </Grid>
-          </Grid>
         </Grid>
-
-      </Grid>
-
-      <Grid item container className={classes.grid} direction="row" justify="center" alignItems="center">
-        <Grid item xl={1} lg={2} md={2} sm={3} xs={7}>
-          <FormControlLabel
-            disabled={!props.admin}
-            control={<YellowCheckbox checked={props.highlighted} onChange={props.handleChangeCheckboxState} name="highlighted" />}
-            label={t("welcome.overviewHighlighted")}
-          />
-        </Grid>
-
-        <Grid item xl={1} lg={2} md={2} sm={3} xs={7}>
-          <FormControl className={classes.formControl}>
-            <InputLabel>Status</InputLabel>
-            <Select
-              disabled={!props.admin}
-              value={props.status}
-              onChange={e => props.setStatus(e.target.value as string)}
-            >
-              <MenuItem value={"active"}>{t("welcome.overviewStatusActive")}</MenuItem>
-              <MenuItem value={"inactive"}>{t("welcome.overviewStatusInactive")}</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-
-      </Grid>
-    </Paper>
+      </div>
   );
 }
 

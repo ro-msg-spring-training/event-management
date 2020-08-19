@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import useStylesSearchBar from "../../styles/SearchBarStyle";
+import useStylesSearchBar from "../../../styles/SearchBarStyle";
 import { Input, InputAdornment } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import { useTranslation } from "react-i18next";

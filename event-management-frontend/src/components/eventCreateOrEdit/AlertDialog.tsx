@@ -26,7 +26,7 @@ export default function AlertDialog({ open, setOpen, msgUndo, dialogTitle, dialo
 
   const handleProceed = (): void => {
     setOpen(false);
-    history.push('/');
+    history.push('/admin/events');
   }
 
   const handleCancel = (): void => {

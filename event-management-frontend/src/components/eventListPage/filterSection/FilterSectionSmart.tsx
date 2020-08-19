@@ -1,7 +1,7 @@
 import React, { useState, FormEvent, KeyboardEvent } from 'react';
 import FilterSectionDumb from './FilterSectionDumb';
 import { Container } from '@material-ui/core';
-import { updateFilters, filterEvents } from '../../../actions/EventsPageActions';
+import { updateFilters, filterEvents, resetPage } from '../../../actions/EventsPageActions';
 import { connect } from 'react-redux';
 import { MathRelation } from '../../../model/MathRelation';
 import { EventFilters } from '../../../model/EventFilters';
@@ -13,10 +13,11 @@ interface Props {
     expanded: boolean,
     setExpanded: (exp: boolean) => void,
     updateFilters: (filters: EventFilters) => void,
+    resetPage: () => void,
     filterEvents: (filters: EventFilters, page: number) => void,
 }
 
-function FilterSectionSmart({ filters, expanded, setExpanded, updateFilters, filterEvents, page }: Props) {
+function FilterSectionSmart({ filters, expanded, setExpanded, updateFilters, filterEvents, resetPage, page }: Props) {
     const fakeDateForComparation = '01/01/2020'
 
     const [errorRate, setErrorRate] = useState('')
@@ -140,6 +141,7 @@ function FilterSectionSmart({ filters, expanded, setExpanded, updateFilters, fil
     const submitForm = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         filterEvents(filters, page)
+        resetPage()
         setExpanded(false)
     }
 
@@ -188,7 +190,8 @@ const mapStateToProps = ({events}: any) => ({
 const mapDispatchToProps = (dispatch: any) => {
     return {
         updateFilters: (filters: EventFilters) => dispatch(updateFilters(filters)),
-        filterEvents: (filters: EventFilters, page: number) => dispatch(filterEvents(filters, page))
+        filterEvents: (filters: EventFilters, page: number) => dispatch(filterEvents(filters, page)),
+        resetPage: () => dispatch(resetPage())
     }
 }
 

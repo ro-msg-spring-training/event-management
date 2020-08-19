@@ -55,7 +55,8 @@ const ForgotPassword = () => {
           onChange={(e) => {
             setEmail(e.target.value);
             setEmailError("");
-          }} />
+          }}
+        />
 
         <FormErrors error={error} />
 
@@ -63,7 +64,8 @@ const ForgotPassword = () => {
           variant="contained"
           type="submit"
           onClick={onSubmit}
-          className={`${classes.buttonStyle2} ${classes.buttonStyle3} ${classesLogin.loginButton}`}>
+          className={`${classes.buttonStyle2} ${classes.buttonStyle3} ${classesLogin.loginButton}`}
+        >
           <Trans i18nKey="forgotPassword.button">Submit</Trans>
         </Button>
       </FormGroup>

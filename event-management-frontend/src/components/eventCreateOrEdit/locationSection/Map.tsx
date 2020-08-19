@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Map, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import useStylesMapWrapper from "../../styles/MapWrapperStyle";
+import useStylesMapWrapper from "../../../styles/MapWrapperStyle";
 import "../../../styles/Map.css";
 import L from "leaflet";
 import black_marker from "../../../assets/marker_black.png";
@@ -9,15 +9,15 @@ import green_marker from "../../../assets/marker_green.png";
 import red_marker from "../../../assets/marker_red.png";
 import marker_shadow from "../../../assets/marker-shadow.png";
 import { Button } from "@material-ui/core";
-import { LocationType } from "../../types/LocationType";
-import { AppState } from "../../store/store";
+import { useStyles } from "../../../styles/CommonStyles";
+import { LocationType } from "../../../types/LocationType";
+import { AppState } from "../../../store/store";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { locationFetch, locationFetchSucces, locationisLoading } from "../../actions/LocationActions";
+import { locationFetch, locationFetchSucces, locationisLoading } from "../../../actions/LocationActions";
 import SearchBar from "./SearchBar";
-import { updateLocation } from "../../actions/HeaderEventCrudActions";
-import { useStyles } from "../../styles/CommonStyles";
+import { updateLocation } from "../../../actions/HeaderEventCrudActions";
 
 // const myLocations = [
 //   {
