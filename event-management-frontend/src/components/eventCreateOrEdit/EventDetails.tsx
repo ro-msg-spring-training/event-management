@@ -15,8 +15,6 @@ import { EventImage } from '../../model/EventImage';
 import MapWrapper from './locationSection/Map'
 import { EventFormErrors } from '../../model/EventFormErrors';
 
-
-
 interface Props {
   match: any,
   admin: boolean,
@@ -38,9 +36,8 @@ interface Props {
 const useStyles = makeStyles({
   paper: {
     width: "100%",
-    minHeight: "100vh",
+    minHeight: "93.9vh",
     background: 'linear-gradient(45deg, #21C6F3 50%, #1E5FA4 90%)',
-    // background: '#FFFFFF', 
   },
 });
 
@@ -132,7 +129,6 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, edit
     return false;
   };
 
-
   let saveEvent = (): void => {
     if (formValid(fetchEvent.event, fetchEvent.formErrors)) {
       if (newEvent) {
@@ -173,7 +169,7 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, edit
     setlocationStatus={setidLocation}
   />
   const ticketsComponent = <Tickets />
-  const imagesComponent = <ImagesSectionSmart/>
+  const imagesComponent = <ImagesSectionSmart />
 
 
   if (fetchEvent.loading) {

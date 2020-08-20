@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Paper, makeStyles, Theme, Typography, TextField, FormControl, InputLabel, Select, MenuItem, withStyles, CheckboxProps, Checkbox, FormControlLabel } from '@material-ui/core';
+import { Grid, makeStyles, Theme, Typography, TextField, FormControl, InputLabel, Select, MenuItem, withStyles, CheckboxProps, Checkbox, FormControlLabel } from '@material-ui/core';
 import { EventCrud } from '../../../model/EventCrud';
 import { useTranslation } from 'react-i18next';
 
@@ -23,7 +23,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   grid: {
     width: '100%',
     margin: '0px',
-    // marginTop: '3%'
   },
   typography: {
     padding: "1%",
@@ -35,17 +34,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginBottom: '1.2em'
   },
   fundal: {
-    // width: "91vw",
-    // height: "100vh",
-    // width: window.outerWidth,
-    // height: (window.innerHeight - 70), //70 is height of header
-    
-    padding: "3.9%",
     display: "flex",
     flexWrap: "wrap",
-
-    // height: "100%",
-    // minHeight: "93.5vh",
+    marginTop: "5%",
+    marginBottom: "5%",
+    marginLeft: "5%"
   },
   checkbox: {
     color: theme.palette.secondary.dark
@@ -76,12 +69,8 @@ interface OverviewDumbProps {
     endTime: string,
     maxPeople: string,
   },
-  // highlighted: boolean,
   handleChangeCheckboxState: any,
   setStatus: any,
-  // status: string,
-  // currDate: string,
-  // currTime: string,
 }
 
 function OverviewDumb(props: OverviewDumbProps) {
@@ -94,7 +83,7 @@ function OverviewDumb(props: OverviewDumbProps) {
         <Grid container direction="column" justify="center" alignItems="center">
 
           <Grid item container direction="row" justify="center" alignItems="center">
-            <Grid item xl={8} lg={4} sm={8} xs={11}>
+            <Grid item xl={4} lg={4} sm={8} xs={11}>
               <form className={classes.root} autoComplete="off">
                 <TextField
                   onKeyDown={props.handleEnterKey}
@@ -111,7 +100,7 @@ function OverviewDumb(props: OverviewDumbProps) {
               </form>
             </Grid>
 
-            <Grid item xl={8} lg={4} sm={8} xs={11}>
+            <Grid item xl={4} lg={4} sm={8} xs={11}>
               <form className={classes.root} autoComplete="off">
                 <TextField
                   onKeyDown={props.handleEnterKey}
@@ -129,7 +118,7 @@ function OverviewDumb(props: OverviewDumbProps) {
               </form>
             </Grid>
 
-            <Grid item xl={8} lg={4} sm={8} xs={11}>
+            <Grid item xl={4} lg={4} sm={8} xs={11}>
               <form className={classes.root} autoComplete="off">
                 <TextField
                   onKeyDown={props.handleEnterKey}
@@ -262,7 +251,7 @@ function OverviewDumb(props: OverviewDumbProps) {
         </Grid>
 
         <Grid item container className={classes.grid} direction="row" justify="center" alignItems="center">
-          <Grid item xl={1} lg={2} md={2} sm={3} xs={7}>
+          <Grid item xl={1} lg={2} md={2} sm={4} xs={7}>
             <FormControlLabel
               disabled={!props.admin}
               control={<YellowCheckbox checked={props.event.highlighted} onChange={props.handleChangeCheckboxState} name="highlighted" />}
@@ -270,7 +259,7 @@ function OverviewDumb(props: OverviewDumbProps) {
             />
           </Grid>
 
-          <Grid item xl={1} lg={2} md={2} sm={3} xs={7}>
+          <Grid item xl={1} lg={2} md={2} sm={4} xs={7}>
             <FormControl className={classes.formControl}>
               <InputLabel>Status</InputLabel>
               <Select

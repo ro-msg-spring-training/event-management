@@ -27,7 +27,7 @@ const Main = () => {
 
     if (width <= 600) {
         return (
-            <Container>
+            <>
                 <Header />
                 <main>
                     <Switch>
@@ -39,7 +39,7 @@ const Main = () => {
                             render={(props: any) => <EventDetails match={props.match} admin={true} />} />
                     </Switch>
                 </main>
-            </Container>
+            </>
         );
     } else {
         return (
