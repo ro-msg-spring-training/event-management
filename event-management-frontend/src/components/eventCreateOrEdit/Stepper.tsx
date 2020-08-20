@@ -16,15 +16,6 @@ const useStyles = makeStyles((theme: Theme) => ({
       minWidth: "20px",
       padding: "0px"
     },
-    // "& .MuiTab-wrapper": {
-    //   maxWidth: "60px",
-    //   display: "inline-flex",
-    //   minWidth: "50vw",
-    // },
-    // "& .MuiTabs-fixed": {
-    //   maxWidth: "90px",
-    //   minWidth: "40px",
-    // },
     "& .MuiGrid-grid-xs": {
       maxWidth: "50%",
     },
