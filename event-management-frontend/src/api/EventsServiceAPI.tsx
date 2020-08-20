@@ -2,6 +2,7 @@ import { EventFilters } from "../model/EventFilters";
 import moment from 'moment'
 import { EventSort } from "../model/EventSort";
 import { headersAuth, serverURL } from "./Api";
+import { fetchWrapper } from "./FetchWrapper";
 
 
 const computeSortQueryString = (sort: EventSort) => {
@@ -62,12 +63,8 @@ export const fetchFilteredEvents = (filters: EventFilters, page: number) => {
     url.search = new URLSearchParams(filtersToSend).toString();
 
     console.log("Sending data to: " + url.toString())
-    // UNCOMMENT THIS ONLY IF ALL URLS ARE RIGHT
-    return fetch(`${url}`,
-        {
-            headers: headersAuth
-        }
-    )
+
+    return fetchWrapper(`${url}`, { headers: headersAuth })
         .then((response) => response.json())
         .then((json) => {
             return json;
@@ -81,7 +78,7 @@ export const fetchSortedEvents = (sort: EventSort, filters: EventFilters, page: 
     if (sort.criteria === undefined || sort.criteria === "") {
         customUrl += "/events/filter/" + page + "?"
     }
-    else{
+    else {
         customUrl += "/events/filter/sort/" + page + "?"
     }
 
@@ -97,8 +94,7 @@ export const fetchSortedEvents = (sort: EventSort, filters: EventFilters, page: 
 
     console.log("Sending data to: " + url)
 
-    // UNCOMMENT THIS ONLY IF ALL URLS ARE RIGHT
-    return fetch(`${url}`, { headers: headersAuth })
+    return fetchWrapper(`${url}`, { headers: headersAuth })
         .then((response) => response.json())
         .then((json) => {
             return json;
@@ -106,7 +102,7 @@ export const fetchSortedEvents = (sort: EventSort, filters: EventFilters, page: 
 }
 
 export const fetchEvents = () => {
-    return fetch(`${serverURL}/events/filter/1`, { headers: headersAuth })
+    return fetchWrapper(`${serverURL}/events/filter/1`, { headers: headersAuth })
         .then(response => response.json())
         .then(json => {
             return json;
@@ -129,20 +125,19 @@ export const changePage = (filters: EventFilters, sort: EventSort, page: number)
         console.log("Sending data to: " + url.toString())
     }
 
-    // UNCOMMENT THIS ONLY IF ALL URLS ARE RIGHT
-    fetch(`${url}`, { headers: headersAuth })
+    fetchWrapper(`${url}`, { headers: headersAuth })
         .then((response) => response.json())
         .then((json) => {
             return json;
         });
 }
 
-export const getLastNumber =  (filters: EventFilters) => {
+export const getLastNumber = (filters: EventFilters) => {
     const filtersToSend = computeFilterQueryString(filters)
     const url = new URL(serverURL + "/events/lastPage/")
     url.search = new URLSearchParams(filtersToSend).toString();
 
-    return fetch(`${url}`, { headers: headersAuth })
+    return fetchWrapper(`${url}`, { headers: headersAuth })
         .then((response) => response.json())
         .then((json) => {
             return json
