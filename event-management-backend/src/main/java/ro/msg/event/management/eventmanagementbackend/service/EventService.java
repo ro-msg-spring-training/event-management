@@ -146,19 +146,22 @@ public class EventService {
                                 throw new NoSuchElementException("No location with id=" + updatedLocation);
                             });
 
-                    for (Long sublocationID : location.getSublocation().stream().map(BaseEntity::getId).collect(Collectors.toList())) {
-                        EventSublocationID esID = new EventSublocationID(event.getId(), sublocationID);
-                        EventSublocation eventSublocation = new EventSublocation();
-                        eventSublocation.setEventSublocationID(esID);
-                        eventSublocation.setEvent(eventFromDB);
-                        eventSublocation.setSublocation(this.sublocationRepository.findById(sublocationID).orElseThrow(() -> {
-                            throw new NoSuchElementException("No sublocation with id=" + sublocationID);
-                        }));
-                        eventSublocations.add(eventSublocation);
-                    }
+                    if(eventFromDB.getEventSublocations().get(0).getEventSublocationID() != location.getSublocation().get(0).getEventSublocationList().get(0).getEventSublocationID())
+                    {
+                        for (Long sublocationID : location.getSublocation().stream().map(BaseEntity::getId).collect(Collectors.toList())) {
+                            EventSublocationID esID = new EventSublocationID(event.getId(), sublocationID);
+                            EventSublocation eventSublocation = new EventSublocation();
+                            eventSublocation.setEventSublocationID(esID);
+                            eventSublocation.setEvent(eventFromDB);
+                            eventSublocation.setSublocation(this.sublocationRepository.findById(sublocationID).orElseThrow(() -> {
+                                throw new NoSuchElementException("No sublocation with id=" + sublocationID);
+                            }));
+                            eventSublocations.add(eventSublocation);
+                        }
 
-                    eventFromDB.getEventSublocations().clear();
-                    eventSublocations.forEach(eventSublocation -> eventFromDB.getEventSublocations().add(eventSublocation));
+                        eventFromDB.getEventSublocations().clear();
+                        eventSublocations.forEach(eventSublocation -> eventFromDB.getEventSublocations().add(eventSublocation));
+                    }
 
                     List<TicketCategory> categoriesToSave = new ArrayList<>();
                     event.getTicketCategories().forEach(ticketCategory ->
