@@ -15,7 +15,6 @@ export const deleteEventAPI = (id: string) => {
 };
 
 export const addEventAPI = (event: EventCrud) => {
-  console.log('event to add', event)
   return fetch(`${serverURL}/events`, {
     method: 'POST',
     headers: {
@@ -28,7 +27,6 @@ export const addEventAPI = (event: EventCrud) => {
 };
 
 export const editEventAPI = (event: EventCrud) => {
-  console.log('editEventAPI', event)
   return fetch(`${serverURL}/events/${event.id}`, {
     method: 'PUT',
     headers: {
@@ -42,7 +40,6 @@ export const editEventAPI = (event: EventCrud) => {
 
 const sendImagesToAddAndDeteteToServer = async (newAddedImagesIds: string[], imagesToDelete: string[]) => {
   const pictures = { picturesToSave: newAddedImagesIds, picturesToDelete: imagesToDelete }
-  console.log('to deleteeeeeeee', pictures)
   return fetch(`${serverURL}/pictures`, {
     method: 'POST',
     body: JSON.stringify(pictures),
@@ -62,7 +59,6 @@ const saveEventImage = async (newAddedImages: File, newAddedImagesURLsToUpload: 
     },
     body: newAddedImages,
   }).then((res) => {
-    console.log('result AWS', res)
     return res.url
   }); // the URL where the image was saved on S3
 };
@@ -76,17 +72,13 @@ export const updateImagesFromS3 = async (images: EventImage[]) => {
   // get presigned URLs from the server to upload on S3 and send images server have to delete from s3
   const newAddedImagesURLsToUpload = await sendImagesToAddAndDeteteToServer(newAddedImagesIds, imagesToDelete);
 
-  console.log('e promise sau nu??', newAddedImagesURLsToUpload)
-
   // upload images on S3 and save the images URL in order to send them back to server
   newAddedImages.forEach((newImage: EventImage, index: number) => {
     const urlS3 = newAddedImagesURLsToUpload[index];
     const indexImage = images.findIndex((im) => im.id === newImage.id);
     saveEventImage(newImage.file as File, urlS3);
     images[indexImage].url = `${s3URL}/${images[indexImage].id}`
-    console.log('url de poze', images[indexImage].url)
   });
-  console.log('dupa for each', images)
   return images.filter(img => img.deleted === undefined).map(img => img.url)
 }
 

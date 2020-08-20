@@ -32,8 +32,8 @@ const EventDetailsMobileDumb = (props: MobileEvent) => {
     const [t] = useTranslation()
 
     const id = props.id;
-    const title = props.name;
-    const date = props.name;
+    const title = props.title;
+    const date = props.date;
 
     return (
         <StyledTableRow>

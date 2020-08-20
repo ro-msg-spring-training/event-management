@@ -7,8 +7,7 @@ import {
     FETCH_EVENTS_REQUEST,
     SORT_EVENTS, FILTER_EVENTS,
     PREV_PAGE, NEXT_PAGE,
-    UPADTE_SORT_CRITERIA,
-    FETCH_CUSTOM_EVENTS,
+    UPDATE_SORT_CRITERIA,
     FETCH_CUSTOM_EVENTS_REQUEST,
     FETCH_CUSTOM_EVENTS_SUCCESS,
     FETCH_CUSTOM_EVENTS_ERROR,
@@ -75,10 +74,10 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
             }
         case RESET_PAGE:
             return {
-                ... state,
+                ...state,
                 page: 1
             }
-        case UPADTE_SORT_CRITERIA:
+        case UPDATE_SORT_CRITERIA:
             return {
                 ...state,
                 eventsSort: action.payload
