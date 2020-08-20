@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { MathRelation } from '../../../model/MathRelation';
 import { EventFilters } from '../../../model/EventFilters';
 import { useTranslation } from "react-i18next";
-import { equalDate, startTimeGreaterThenEndTime, startDateBeforeEndDate } from '../../../utils/compareDateTimes';
+import { equalDate, startTimeGreaterThenEndTime, startDateBeforeEndDate } from '../../../utils/CompareDateTimes';
 
 interface Props {
     page: number,

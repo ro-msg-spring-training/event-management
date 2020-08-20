@@ -2,7 +2,7 @@ import React, { FormEvent, KeyboardEvent } from 'react';
 import { Grid, TextField, Button, Select, MenuItem, FormControlLabel, InputAdornment, Collapse } from '@material-ui/core'
 import "react-datepicker/dist/react-datepicker.css";
 import { MathRelation } from '../../../model/MathRelation';
-import { useFilterStyles } from '../../../styles/filterStyles';
+import { useFilterStyles } from '../../../styles/FilterStyles';
 import { useStyles } from '../../../styles/CommonStyles';
 import { EventFilters } from '../../../model/EventFilters';
 import { useTranslation } from "react-i18next";
