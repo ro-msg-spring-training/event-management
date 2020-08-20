@@ -14,7 +14,6 @@ export class PrivateRoute extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    console.log('component will mount')
     Auth.currentAuthenticatedUser()
       .then((user) => {
         this.setState({
@@ -34,7 +33,6 @@ export class PrivateRoute extends React.Component<any, any> {
 
   componentWillUnmount() {
     // return null when escapse component, it will no longer hold any data in memory
-    console.log('component unmount')
     this.setState = (state, callback) => {
       return;
     };

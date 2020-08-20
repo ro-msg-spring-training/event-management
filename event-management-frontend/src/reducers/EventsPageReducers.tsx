@@ -13,7 +13,8 @@ import {
     FETCH_CUSTOM_EVENTS_ERROR,
     INCREMENT_PAGE,
     DECREMENT_PAGE,
-    RESET_PAGE
+    RESET_PAGE,
+    RESET_FILTERS
 } from "../actions/EventsPageActions"
 import { MathRelation } from "../model/MathRelation"
 import { EventFilters } from "../model/EventFilters";
@@ -35,12 +36,12 @@ const initialState: EventsPageState = {
         title: '',
         subtitle: '',
         status: 'none',
-        highlighted: false,
+        highlighted: undefined,
         location: '',
-        startDate: null,
-        endDate: null,
-        startHour: '00:00',
-        endHour: '23:59',
+        startDate: undefined,
+        endDate: undefined,
+        startHour: undefined,
+        endHour: undefined,
         rate: '',
         rateSign: MathRelation.GREATER,
         maxPeople: '',
@@ -77,7 +78,26 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
                 ...state,
                 page: 1
             }
-        case UPDATE_SORT_CRITERIA:
+        case RESET_FILTERS:
+            return {
+                ... state,
+                filters: {
+                    title: '',
+                    subtitle: '',
+                    status: 'none',
+                    highlighted: undefined,
+                    location: '',
+                    startDate: undefined,
+                    endDate: undefined,
+                    startHour: undefined,
+                    endHour: undefined,
+                    rate: '',
+                    rateSign: MathRelation.GREATER,
+                    maxPeople: '',
+                    maxPeopleSign: MathRelation.GREATER
+                }
+            }
+        case UPADTE_SORT_CRITERIA:
             return {
                 ...state,
                 eventsSort: action.payload

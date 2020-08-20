@@ -3,32 +3,23 @@ import { makeStyles } from "@material-ui/core";
 export const useFilterStyles = makeStyles({
     filterArea:{
         paddingTop: '30px',
-        paddingBottom: '10px'
+        paddingBottom: '10px',
     },
     filterButtonsArea: {
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     relationArea: {
         display: 'flex',
-        alignItems: 'center'
-    },
-    timeArea: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     relationSelect: {
         marginRight: '5px',
     },
-    timeInput: {
-        width: '40%'
-    },
     filterExpandText: {
         cursor: 'pointer',
         fontSize: 12,
-        marginTop: '5px',
     },
     highlightedCheckbox: {
         display: 'flex',
@@ -46,4 +37,8 @@ export const useFilterStyles = makeStyles({
     collapseArea: {
         paddingTop: '24px'
     },
+    filterButtons: {
+        width: '100%',
+        marginBottom: '10px'
+    }
 }); 

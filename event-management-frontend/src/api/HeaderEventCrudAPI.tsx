@@ -1,21 +1,22 @@
 import { EventCrud } from "../model/EventCrud";
 import { EventImage } from "../model/EventImage";
 import { headersAuth, serverURL, token, s3URL } from "./Api";
+import { fetchWrapper } from "./FetchWrapper";
 
 
 //TODO modify links
 export const fetchEventAPI = (id: string) => {
-  return fetch(`${serverURL}/events/${id}`, {
+  return fetchWrapper(`${serverURL}/events/${id}`, {
     headers: headersAuth
   }).then((response) => response.json());
 };
 
 export const deleteEventAPI = (id: string) => {
-  return fetch(`${serverURL}/events/${id}`, { method: "DELETE", headers: headersAuth });
+  return fetchWrapper(`${serverURL}/events/${id}`, { method: "DELETE", headers: headersAuth });
 };
 
 export const addEventAPI = (event: EventCrud) => {
-  return fetch(`${serverURL}/events`, {
+  return fetchWrapper(`${serverURL}/events`, {
     method: 'POST',
     headers: {
       Accept: "application/json",
@@ -27,7 +28,7 @@ export const addEventAPI = (event: EventCrud) => {
 };
 
 export const editEventAPI = (event: EventCrud) => {
-  return fetch(`${serverURL}/events/${event.id}`, {
+  return fetchWrapper(`${serverURL}/events/${event.id}`, {
     method: 'PUT',
     headers: {
       Accept: "application/json",
@@ -40,7 +41,7 @@ export const editEventAPI = (event: EventCrud) => {
 
 const sendImagesToAddAndDeteteToServer = async (newAddedImagesIds: string[], imagesToDelete: string[]) => {
   const pictures = { picturesToSave: newAddedImagesIds, picturesToDelete: imagesToDelete }
-  return fetch(`${serverURL}/pictures`, {
+  return fetchWrapper(`${serverURL}/pictures`, {
     method: 'POST',
     body: JSON.stringify(pictures),
     headers: {
@@ -52,7 +53,7 @@ const sendImagesToAddAndDeteteToServer = async (newAddedImagesIds: string[], ima
 }
 
 const saveEventImage = async (newAddedImages: File, newAddedImagesURLsToUpload: string) => {
-  return fetch(newAddedImagesURLsToUpload, {
+  return fetchWrapper(newAddedImagesURLsToUpload, {
     method: "PUT",
     headers: {
       "Content-Type": "image/*",
@@ -76,16 +77,16 @@ export const updateImagesFromS3 = async (images: EventImage[]) => {
   newAddedImages.forEach((newImage: EventImage, index: number) => {
     const urlS3 = newAddedImagesURLsToUpload[index];
     const indexImage = images.findIndex((im) => im.id === newImage.id);
+
     saveEventImage(newImage.file as File, urlS3);
+    
     images[indexImage].url = `${s3URL}/${images[indexImage].id}`
   });
   return images.filter(img => img.deleted === undefined).map(img => img.url)
 }
 
 export function fetchLocation() {
-  return fetch(`${serverURL}/locations`, {
-    headers: headersAuth
-  })
+  return fetchWrapper(`${serverURL}/locations`, { headers: headersAuth })
     .then((response) => response.json())
     .then((json) => {
       return json;

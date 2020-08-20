@@ -89,7 +89,6 @@ const HeaderReducer = (state = initialState, action: { type: string, payload: Ev
         isLoading: true
       }
     case FETCH_EVENT_SUCCESS:
-      console.log('in reducere ajunge...', action.payload)
       return {
         ...state,
         loading: false,
@@ -155,7 +154,6 @@ const HeaderReducer = (state = initialState, action: { type: string, payload: Ev
         newProduct: action.payload
       }
     case UPDATE_EVENT_IMAGES:
-      console.log('in update images reducer', action.payload)
       return {
         ...state,
         images: action.payload,

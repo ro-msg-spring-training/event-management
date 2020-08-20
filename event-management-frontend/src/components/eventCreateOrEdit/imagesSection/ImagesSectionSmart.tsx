@@ -5,13 +5,13 @@ import { EventImage } from '../../../model/EventImage';
 import { updateEventImages } from '../../../actions/HeaderEventCrudActions'; // to modify import
 import { AppState } from '../../../store/store';
 
+
 interface ImagesSectionProps {
     isError: boolean,
     isLoading: boolean,
     eventImages: EventImage[],
     updateEventImages: (images: EventImage[]) => void,
 }
-
 
 function ImagesSectionSmart({ isError, isLoading, eventImages, updateEventImages }: ImagesSectionProps) {
     return (
