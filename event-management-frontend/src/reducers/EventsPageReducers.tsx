@@ -7,14 +7,14 @@ import {
     FETCH_EVENTS_REQUEST,
     SORT_EVENTS, FILTER_EVENTS,
     PREV_PAGE, NEXT_PAGE,
-    UPADTE_SORT_CRITERIA,
-    FETCH_CUSTOM_EVENTS,
+    UPDATE_SORT_CRITERIA,
     FETCH_CUSTOM_EVENTS_REQUEST,
     FETCH_CUSTOM_EVENTS_SUCCESS,
     FETCH_CUSTOM_EVENTS_ERROR,
     INCREMENT_PAGE,
     DECREMENT_PAGE,
-    RESET_PAGE
+    RESET_PAGE,
+    RESET_FILTERS
 } from "../actions/EventsPageActions"
 import { MathRelation } from "../model/MathRelation"
 import { EventFilters } from "../model/EventFilters";
@@ -36,12 +36,12 @@ const initialState: EventsPageState = {
         title: '',
         subtitle: '',
         status: 'none',
-        highlighted: false,
+        highlighted: undefined,
         location: '',
-        startDate: null,
-        endDate: null,
-        startHour: '00:00',
-        endHour: '23:59',
+        startDate: undefined,
+        endDate: undefined,
+        startHour: undefined,
+        endHour: undefined,
         rate: '',
         rateSign: MathRelation.GREATER,
         maxPeople: '',
@@ -75,10 +75,29 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
             }
         case RESET_PAGE:
             return {
-                ... state,
+                ...state,
                 page: 1
             }
-        case UPADTE_SORT_CRITERIA:
+        case RESET_FILTERS:
+            return {
+                ... state,
+                filters: {
+                    title: '',
+                    subtitle: '',
+                    status: 'none',
+                    highlighted: undefined,
+                    location: '',
+                    startDate: undefined,
+                    endDate: undefined,
+                    startHour: undefined,
+                    endHour: undefined,
+                    rate: '',
+                    rateSign: MathRelation.GREATER,
+                    maxPeople: '',
+                    maxPeopleSign: MathRelation.GREATER
+                }
+            }
+        case UPDATE_SORT_CRITERIA:
             return {
                 ...state,
                 eventsSort: action.payload

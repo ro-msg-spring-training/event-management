@@ -56,7 +56,6 @@ function* addEventAsync(props: AddProps) {
     yield call(() => addEventAPI(event));
     yield put(addEventSuccess())
   } catch (e) {
-    console.log(e)
     yield put(addEventFailure(e))
   }
 }
@@ -70,14 +69,12 @@ function* editEventAsync(props: AddProps) {
   try {
     yield put(editEventRequest());
     const imagesURL = yield call(() => updateImagesFromS3(props.payload.images));
-    console.log('imagesURL', imagesURL)
     const event: EventCrud = props.payload.event
     event.picturesUrlSave = imagesURL 
     event.picturesUrlDelete = []
     yield call(() => editEventAPI(event));
     yield put(editEventSuccess())
   } catch (e) {
-    console.log(e)
     yield put(editEventFailure(e))
   }
 }

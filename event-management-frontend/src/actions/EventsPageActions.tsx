@@ -18,12 +18,14 @@ export const FETCH_CUSTOM_EVENTS_REQUEST = 'FETCH_EVENTS_CUSTOM_REQUEST'
 export const FETCH_CUSTOM_EVENTS_SUCCESS = 'FETCH_EVENTS_CUSTOM_SUCCESS'
 export const FETCH_CUSTOM_EVENTS_ERROR = 'FETCH_EVENTS_CUSTOM_ERROR'
 
-export const UPADTE_SORT_CRITERIA = 'UPADTE_SORT_CRITERIA'
+export const UPDATE_SORT_CRITERIA = 'UPDATE_SORT_CRITERIA'
 
 export const INCREMENT_PAGE = 'INCREMENT_PAGE'
 export const DECREMENT_PAGE = 'DECREMENT_PAGE'
 
 export const RESET_PAGE = 'RESET_PAGE'
+export const RESET_FILTERS = "RESET_FILTERS"
+
 
 export const prevPage = (filters: EventFilters, sort: EventSort) => {
     return {
@@ -133,7 +135,7 @@ export const fetchCustomEventsError = () => {
 
 export const updateSortCriteria = (criteria:  any) => {
     return {
-        type: UPADTE_SORT_CRITERIA,
+        type: UPDATE_SORT_CRITERIA,
         payload: criteria
     }
 }
@@ -153,5 +155,11 @@ export const decrementPage = () => {
 export const resetPage = () => {
     return {
         type: RESET_PAGE
+    }
+}
+
+export const resetFilters = () => {
+    return {
+        type: RESET_FILTERS
     }
 }

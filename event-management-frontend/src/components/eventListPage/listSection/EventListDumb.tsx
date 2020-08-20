@@ -13,7 +13,7 @@ import { useStyles } from '../../../styles/CommonStyles';
 import { useTranslation } from "react-i18next";
 import { useScrollPosition } from '@n8tb1t/use-scroll-position'
 import { createStyles, Theme, withStyles } from "@material-ui/core/styles";
-import { useListStyles } from '../../../styles/eventListStyles';
+import { useListStyles } from '../../../styles/EventListStyles';
 import { EventSort } from '../../../model/EventSort';
 import { EventFilters } from '../../../model/EventFilters';
 
@@ -41,6 +41,7 @@ interface Props {
     sort: EventSort;
     filters: EventFilters;
     page: number;
+    lastPage: number;
     updateSortCriteria: (sortCriteria: any) => void;
     incrementPage: () => void;
     decrementPage: () => void;
@@ -72,15 +73,14 @@ const EventListDumb = (props: Props) => {
     const commonClasses = useStyles()
     const classes = useListStyles()
 
-    // const sort = props.sort;
     const eventsDetails = props.eventsDetails;
     const eventsDetailsMobile = props.eventsDetailsMobile;
-    // const handleSortEvent = props.handleSortEvent;
     const goToPrevPage = props.goToPrevPage;
     const goToNextPage = props.goToNextPage;
 
-    // const [criteria, setCriteria] = useState<any>("");
-    // const [type, setType] = useState<any>("");
+    const page = props.page;
+    const lastPage = props.lastPage;
+
     const [expanded, setExpanded] = useState(false)
     const [width, setWidth] = useState(window.innerWidth);
     const [t] = useTranslation();
@@ -90,7 +90,7 @@ const EventListDumb = (props: Props) => {
     const headCells: HeadCell[] = [
         { id: 'date', numeric: true, disablePadding: false, label: t("eventList.date") },
         { id: 'hour', numeric: true, disablePadding: false, label: t("eventList.hour") },
-        { id: 'occRate', numeric: true, disablePadding: false, label: t("eventList.occupancyRate") },
+        { id: 'occRate', numeric: true, disablePadding: false, label: t("eventList.occupancyRate") + " (%) " },
     ];
 
     const createSortHandler = (property: any) => (event: React.MouseEvent<unknown>) => {
@@ -103,11 +103,6 @@ const EventListDumb = (props: Props) => {
         }
         props.updateSortCriteria({ criteria: property, type: type })
     }
-
-    // useEffect(() => {
-    //     handleSortEvent(criteria, type);
-    // }, [criteria, type, handleSortEvent]);
-
 
     useLayoutEffect(() => {
         function updateSize() {
@@ -178,13 +173,19 @@ const EventListDumb = (props: Props) => {
 
                     <TableFooter>
                         <TableRow>
-                            <PaginationCell>
-                                <Button onClick={props.decrementPage} style={{ color: "#F9C929" }}><b>&laquo;&laquo;</b></Button>
-                            </PaginationCell>
-                            <PaginationCell />
-                            <PaginationCell>
-                                <Button onClick={props.incrementPage} style={{ color: "#F9C929" }}><b>&raquo;&raquo;</b></Button>
-                            </PaginationCell>
+                            {page > 1 ?
+                                <PaginationCell>
+                                    <Button onClick={props.decrementPage} style={{ color: "#F9C929" }}><b>&laquo;&laquo;</b></Button>
+                                </PaginationCell> :
+                                <PaginationCell/>
+                            }
+                            <PaginationCell style={{textAlign: "center"}}>{page + "/" + lastPage}</PaginationCell>
+                            {page < lastPage ?
+                                <PaginationCell>
+                                    <Button onClick={props.incrementPage} style={{ color: "#F9C929" }}><b>&raquo;&raquo;</b></Button>
+                                </PaginationCell> :
+                                <PaginationCell/>
+                            }
                         </TableRow>
                     </TableFooter>
                 </Table>
@@ -244,6 +245,7 @@ const EventListDumb = (props: Props) => {
                                                     </TableSortLabel>
                                                 </TableCell>
                                             ))}
+                                            <TableCell/>
                                         </TableRow>
                                     </TableHead>
 
@@ -254,17 +256,24 @@ const EventListDumb = (props: Props) => {
                                     </TableBody>
                                     <TableFooter>
                                         <TableRow>
-                                            <PaginationCell>
-                                                <Button onClick={goToPrevPage} style={{ color: "#f2ac0a" }}><b>&laquo;{t("eventList.previous")}</b></Button>
-                                            </PaginationCell>
+                                            {page > 1 ?
+                                                <PaginationCell>
+                                                <Button onClick={goToPrevPage} style={{color: "#f2ac0a"}}><b>&laquo;{t("eventList.previous")}</b></Button>
+                                                </PaginationCell> :
+                                                <PaginationCell/>
+                                            }
                                             <PaginationCell />
                                             <PaginationCell />
+                                            <PaginationCell>{page + "/" + lastPage}</PaginationCell>
                                             <PaginationCell />
                                             <PaginationCell />
-                                            <PaginationCell />
-                                            <PaginationCell>
-                                                <Button onClick={goToNextPage} style={{ color: "#f2ac0a" }}><b>{t("eventList.next")}&raquo;</b></Button>
-                                            </PaginationCell>
+                                            {page < lastPage ?
+                                                <PaginationCell>
+                                                    <Button onClick={goToNextPage}
+                                                            style={{color: "#f2ac0a"}}><b>{t("eventList.next")}&raquo;</b></Button>
+                                                </PaginationCell> :
+                                                <PaginationCell/>
+                                            }
                                         </TableRow>
                                     </TableFooter>
                                 </Table>
