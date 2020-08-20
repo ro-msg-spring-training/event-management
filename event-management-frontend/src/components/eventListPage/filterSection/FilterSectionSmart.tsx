@@ -1,39 +1,37 @@
-import React, { useState, FormEvent, KeyboardEvent } from 'react';
+import React, { useState, FormEvent, KeyboardEvent, useEffect } from 'react';
 import FilterSectionDumb from './FilterSectionDumb';
 import { Container } from '@material-ui/core';
-import { updateFilters, filterEvents, resetPage } from '../../../actions/EventsPageActions';
+import { updateFilters, filterEvents, resetPage, resetFilters } from '../../../actions/EventsPageActions';
 import { connect } from 'react-redux';
 import { MathRelation } from '../../../model/MathRelation';
 import { EventFilters } from '../../../model/EventFilters';
 import { useTranslation } from "react-i18next";
+import moment from 'moment';
+import { equalDate, startTimeGreaterThenEndTime, startDateBeforeEndDate } from '../../../utils/compareDateTimes';
 
 interface Props {
-    filters: EventFilters,
     page: number,
     expanded: boolean,
+    filters: EventFilters,
+    resetPage: () => void,
+    resetFilters: () => void
     setExpanded: (exp: boolean) => void,
     updateFilters: (filters: EventFilters) => void,
-    resetPage: () => void,
     filterEvents: (filters: EventFilters, page: number) => void,
 }
 
-function FilterSectionSmart({ filters, expanded, setExpanded, updateFilters, filterEvents, resetPage, page }: Props) {
-    const fakeDateForComparation = '01/01/2020'
-
+function FilterSectionSmart({ page, filters, expanded, setExpanded, updateFilters, filterEvents, resetPage, resetFilters }: Props) {
     const [errorRate, setErrorRate] = useState('')
     const [errorMaxPeople, setErrorMaxPeople] = useState('')
-    const [ t ] = useTranslation();
+    const [errorStartDate, setErrorStartDate] = useState('')
+    const [errorEndDate, setErrorEndDate] = useState('')
+    const [errorStartHour, setErrorStartHour] = useState('')
+    const [errorEndHour, setErrorEndHour] = useState('')
+    const [t] = useTranslation();
 
     const handleChange = () => {
         const newFilters = Object.assign({}, filters)
         updateFilters(newFilters)
-    }
-
-    const handleChangeDate = (value: any) => {
-        const [dateStart, dateEnd] = value;
-        filters.startDate = dateStart
-        filters.endDate = dateEnd
-        handleChange();
     }
 
     const handleChangeTitle = (title: string) => {
@@ -62,26 +60,92 @@ function FilterSectionSmart({ filters, expanded, setExpanded, updateFilters, fil
     }
 
     const handleChangeStartHour = (startHour: string) => {
-        if (Date.parse(`${fakeDateForComparation} ${startHour}`)
-            > Date.parse(`${fakeDateForComparation} ${filters.endHour}`)) {
-                filters.startHour = filters.endHour
-                filters.endHour = startHour
+        filters.startHour = startHour
+
+        if (filters.endDate !== undefined && filters.startDate !== undefined) {
+            if (equalDate(filters.startDate, filters.endDate)) {
+                if (filters.startHour !== undefined && filters.endHour !== undefined) {
+                    if (startTimeGreaterThenEndTime(filters.startHour, filters.endHour)) {
+                        setErrorStartHour(t('eventList.invalidHour'))
+                        return;
+                    }
+                }
+            }
         }
-        else {
-            filters.startHour = startHour
-        }
+
+        setErrorEndHour('')
+        setErrorStartHour('')
         handleChange()
     }
 
     const handleChangeEndHour = (endHour: string) => {
-        if (Date.parse(`${fakeDateForComparation} ${endHour}`)
-            < Date.parse(`${fakeDateForComparation} ${filters.startHour}`)) {
-                filters.endHour = filters.startHour
-                filters.startHour = endHour
+        filters.endHour = endHour
+
+        if (filters.endDate !== undefined && filters.startDate !== undefined) {
+            if (equalDate(filters.startDate, filters.endDate)) {
+                if (filters.startHour !== undefined && filters.endHour !== undefined) {
+                    if (startTimeGreaterThenEndTime(filters.startHour, filters.endHour)) {
+                        setErrorEndHour(t('eventList.invalidHour'))
+                        return;
+                    }
+                }
+            }
         }
-        else {
-            filters.endHour = endHour
+
+        setErrorStartHour('')
+        setErrorEndHour('')
+        handleChange()
+    }
+
+    const handleChangeStartDate = (startDate: string) => {
+        filters.startDate = new Date(startDate)
+
+        if (filters.endDate !== undefined) {
+            if (equalDate(filters.startDate, filters.endDate)) {
+                if (filters.startHour !== undefined && filters.endHour !== undefined) {
+                    if (startTimeGreaterThenEndTime(filters.startHour, filters.endHour)) {
+                        setErrorEndHour(t('eventList.invalidHour'))
+                        setErrorStartHour(t('eventList.invalidHour'))
+                        return;
+                    }
+                }
+            }
+            else if (startDateBeforeEndDate(filters.startDate, filters.endDate)) {
+                setErrorStartDate(t('eventList.invalidDate'))
+                return;
+            }
         }
+
+        setErrorStartDate('')
+        setErrorEndHour('')
+        setErrorStartHour('')
+        setErrorEndDate('')
+        handleChange()
+    }
+
+    const handleChangeEndDate = (endDate: string) => {
+        filters.endDate = new Date(endDate)
+
+        if (filters.startDate !== undefined) {
+            if (equalDate(filters.startDate, filters.endDate)) {
+                if (filters.startHour !== undefined && filters.endHour !== undefined) {
+                    if (startTimeGreaterThenEndTime(filters.startHour, filters.endHour)) {
+                        setErrorEndHour(t('eventList.invalidHour'))
+                        setErrorStartHour(t('eventList.invalidHour'))
+                        return;
+                    }
+                }
+            }
+            else if (startDateBeforeEndDate(filters.startDate, filters.endDate)) {
+                setErrorEndDate(t('eventList.invalidDate'))
+                return;
+            }
+        }
+
+        setErrorStartDate('')
+        setErrorEndHour('')
+        setErrorStartHour('')
+        setErrorEndDate('')
         handleChange()
     }
 
@@ -158,11 +222,18 @@ function FilterSectionSmart({ filters, expanded, setExpanded, updateFilters, fil
     return (
         <Container>
             <FilterSectionDumb
+                handleChangeStartDate={handleChangeStartDate}
+                handleChangeEndDate={handleChangeEndDate}
                 toggle={toggle}
                 isExpanded={expanded}
                 filters={filters}
+                errorStartHour={errorStartHour}
+                errorEndHour={errorEndHour}
                 errorRate={errorRate}
                 errorMaxPeople={errorMaxPeople}
+                errorEndDate={errorEndDate}
+                errorStartDate={errorStartDate}
+                resetFilters={resetFilters}
                 restrictNumberInput={restrictNumberInput}
                 updateFilters={updateFilters}
                 submitForm={submitForm}
@@ -173,7 +244,6 @@ function FilterSectionSmart({ filters, expanded, setExpanded, updateFilters, fil
                 handleChangeHighlighted={handleChangeHighlighted}
                 handleChangeStartHour={handleChangeStartHour}
                 handleChangeEndHour={handleChangeEndHour}
-                handleChangeDate={handleChangeDate}
                 handleChangeMaxPeople={handleChangeMaxPeople}
                 handleChangeMaxPeopleSign={handleChangeMaxPeopleSign}
                 handleChangeRate={handleChangeRate}
@@ -182,7 +252,7 @@ function FilterSectionSmart({ filters, expanded, setExpanded, updateFilters, fil
     )
 }
 
-const mapStateToProps = ({events}: any) => ({
+const mapStateToProps = ({ events }: any) => ({
     filters: events.filters,
     page: events.page
 });
@@ -191,7 +261,8 @@ const mapDispatchToProps = (dispatch: any) => {
     return {
         updateFilters: (filters: EventFilters) => dispatch(updateFilters(filters)),
         filterEvents: (filters: EventFilters, page: number) => dispatch(filterEvents(filters, page)),
-        resetPage: () => dispatch(resetPage())
+        resetPage: () => dispatch(resetPage()),
+        resetFilters: () => dispatch(resetFilters())
     }
 }
 

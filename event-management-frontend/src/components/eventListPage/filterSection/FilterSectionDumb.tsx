@@ -9,6 +9,7 @@ import { useStyles } from '../../../styles/CommonStyles';
 import { EventFilters } from '../../../model/EventFilters';
 import { useTranslation } from "react-i18next";
 import { YellowCheckbox } from '../../YellowCheckbox';
+import moment from 'moment';
 
 
 interface Props {
@@ -16,6 +17,11 @@ interface Props {
     filters: EventFilters,
     errorRate: string,
     errorMaxPeople: string,
+    errorEndDate: string,
+    errorStartDate: string,
+    errorStartHour: string,
+    errorEndHour: string,
+    resetFilters: () => void,
     updateFilters: (filters: EventFilters) => void,
     toggle: () => void,
     submitForm: (event: FormEvent<HTMLFormElement>) => void,
@@ -27,11 +33,12 @@ interface Props {
     handleChangeHighlighted: (highlighted: boolean) => void,
     handleChangeStartHour: (startHour: string) => void,
     handleChangeEndHour: (endHour: string) => void,
-    handleChangeDate: (date: Date | [Date, Date] | null) => void,
     handleChangeMaxPeople: (maxPeople: string) => void,
     handleChangeMaxPeopleSign: (maxPeopleSign: MathRelation) => void,
     handleChangeRate: (rate: string) => void,
     handleChangeRateSign: (rateSign: MathRelation) => void,
+    handleChangeStartDate: (startDate: string) => void,
+    handleChangeEndDate: (startDate: string) => void
 }
 
 
@@ -41,30 +48,17 @@ function FilterSectionDumb(props: Props) {
     const classes = useFilterStyles()
     const commonClasses = useStyles()
 
-    const [ t ] = useTranslation();
-
-    const displayDate = () => {
-        let result = ''
-
-        if (props.filters.startDate !== null) {
-            result += formatDate(props.filters.startDate, '/')
-        }
-
-        if (props.filters.endDate !== null) {
-            result += t("eventList.to") + formatDate(props.filters.endDate, '/')
-        }
-
-        return result
-    }
+    const [t] = useTranslation();
 
     return (
         <form onSubmit={event => props.submitForm(event)} className={classes.filterArea}>
             <Grid container spacing={3}>
-                <Grid item xs={12} sm={10}>
+                <Grid item xs={12} sm={9} md={10}>
                     <Grid container spacing={3}>
                         <Grid item xs={12} sm={12} md={4}>
                             <TextField
                                 label={t("eventList.title")}
+                                value={props.filters.title}
                                 onChange={(e) => props.handleChangeTitle(e.target.value)}
                                 fullWidth
                                 variant="outlined" />
@@ -73,6 +67,7 @@ function FilterSectionDumb(props: Props) {
                         <Grid item xs={12} sm={12} md={4}>
                             <TextField
                                 label={t("eventList.subtitle")}
+                                value={props.filters.subtitle}
                                 onChange={(e) => props.handleChangeSubtitle(e.target.value)}
                                 fullWidth
                                 variant="outlined" />
@@ -80,66 +75,63 @@ function FilterSectionDumb(props: Props) {
 
                         <Grid item xs={12} sm={12} md={4}>
                             <TextField
-                                select
-                                variant="outlined"
-                                label={t("eventList.status")}
-                                value={props.filters.status}
-                                onChange={(e) => props.handleChangeStatus(e.target.value as string)}
-                                fullWidth>
-
-                                <MenuItem value={'true'}>{t("eventList.active")}</MenuItem>
-                                <MenuItem value={'false'}>{t("eventList.inactive")}</MenuItem>
-                                <MenuItem value={'none'}>{t("eventList.notSet")}</MenuItem>
-                            </TextField>
+                                label={t("eventList.location")}
+                                value={props.filters.location}
+                                onChange={(e) => props.handleChangeLocation(e.target.value)}
+                                fullWidth
+                                variant="outlined" />
                         </Grid>
+
                     </Grid>
 
                     <Collapse in={props.isExpanded} timeout={500} className={classes.collapseArea}>
                         <Grid container spacing={3}>
                             <Grid item xs={12} sm={12} md={4}>
                                 <TextField
-                                    label={t("eventList.location")}
-                                    onChange={(e) => props.handleChangeLocation(e.target.value)}
+                                    variant="outlined"
+                                    type="date"
+                                    error={props.errorStartDate !== ''}
+                                    label={t("eventList.startDate")}
+                                    helperText={props.errorStartDate}
+                                    value={moment(props.filters.startDate ? props.filters.startDate : Date.now()).format("YYYY-MM-DD")}
+                                    onChange={(e) => props.handleChangeStartDate(e.target.value)}
                                     fullWidth
-                                    variant="outlined" />
+                                />
                             </Grid>
 
                             <Grid item xs={12} sm={12} md={4}>
-                                <div className={classes.customDatePickerWidth}>
-                                    <DatePicker
-                                        className={classes.datePicker}
-                                        selected={props.filters.startDate}
-                                        startDate={props.filters.startDate}
-                                        endDate={props.filters.endDate}
-                                        selectsRange
-                                        value={displayDate()}
-                                        onChange={(e) => props.handleChangeDate(e)}
-                                        customInput={<TextField label={t("eventList.date")} variant="outlined" />} />
-                                </div>
+                                <TextField
+                                    variant="outlined"
+                                    type="date"
+                                    value={moment(props.filters.endDate ? props.filters.endDate : Date.now()).format("YYYY-MM-DD")}
+                                    onChange={(e) => props.handleChangeEndDate(e.target.value)}
+                                    error={props.errorEndDate !== ''}
+                                    label={t("eventList.endDate")}
+                                    helperText={props.errorEndDate}
+                                    fullWidth
+                                />
                             </Grid>
 
-                            <Grid item xs={12} sm={12} md={4} className={classes.timeArea}>
+                            <Grid item xs={12} sm={12} md={2}>
                                 <TextField
-                                    className={classes.timeInput}
+                                    error={props.errorStartHour !== ''}
                                     label={t("eventList.startHour")}
+                                    helperText={props.errorStartHour}
                                     variant="outlined"
                                     type="time"
-                                    value={props.filters.startHour}
-                                    onChange={(e) => props.handleChangeStartHour(e.target.value)} />
+                                    value={props.filters.startHour ? props.filters.startHour : '00:00'}
+                                    onChange={(e) => props.handleChangeStartHour(e.target.value)} fullWidth />
+                            </Grid>
 
-                                <div>
-                                    {
-                                        t("eventList.to")
-                                    }
-                                </div>
-
+                            <Grid item xs={12} sm={12} md={2}>
                                 <TextField
-                                    className={classes.timeInput}
+                                    error={props.errorEndHour !== ''}
                                     label={t("eventList.endHour")}
+                                    helperText={props.errorEndHour}
                                     variant="outlined"
                                     type="time"
-                                    value={props.filters.endHour}
-                                    onChange={(e) => props.handleChangeEndHour(e.target.value)} />
+                                    value={props.filters.endHour ? props.filters.endHour : '23:59'}
+                                    onChange={(e) => props.handleChangeEndHour(e.target.value)} fullWidth />
                             </Grid>
 
                             <Grid item xs={12} sm={12} md={4} className={classes.relationArea}>
@@ -155,9 +147,11 @@ function FilterSectionDumb(props: Props) {
                                 </Select>
 
                                 <TextField
+                                    className={classes.numberInput}
+                                    value={props.filters.maxPeople}
                                     variant="outlined"
                                     error={props.errorMaxPeople !== ''}
-                                    label={ `${t("eventList.maxPeople")} ${props.errorMaxPeople ? " - " + props.errorMaxPeople : ""}`}
+                                    label={`${t("eventList.maxPeople")} ${props.errorMaxPeople ? " - " + props.errorMaxPeople : ""}`}
                                     type='number'
                                     InputProps={{
                                         inputProps: {
@@ -182,7 +176,9 @@ function FilterSectionDumb(props: Props) {
                                 </Select>
 
                                 <TextField
-                                    label={ `${t("eventList.occupancyRate")} ${props.errorRate ? " - " + props.errorRate : ""}`}
+                                    className={classes.numberInput}
+                                    value={props.filters.rate}
+                                    label={`${t("eventList.occupancyRate")} ${props.errorRate ? " - " + props.errorRate : ""}`}
                                     variant="outlined"
                                     type='number'
                                     error={props.errorRate !== ''}
@@ -201,11 +197,28 @@ function FilterSectionDumb(props: Props) {
                                     fullWidth />
                             </Grid>
 
-                            <Grid item xs={12} sm={12} md={4} className={classes.highlightedCheckbox}>
+                            <Grid item xs={12} sm={12} md={2}>
+                                <TextField
+                                    select
+                                    variant="outlined"
+                                    label={t("eventList.status")}
+                                    value={props.filters.status}
+                                    onChange={(e) => props.handleChangeStatus(e.target.value as string)}
+                                    fullWidth>
+
+                                    <MenuItem value={'true'}>{t("eventList.active")}</MenuItem>
+                                    <MenuItem value={'false'}>{t("eventList.inactive")}</MenuItem>
+                                    <MenuItem value={'none'}>{t("eventList.notSet")}</MenuItem>
+                                </TextField>
+                            </Grid>
+
+                            <Grid item xs={12} sm={12} md={2} className={classes.highlightedCheckbox}>
                                 <FormControlLabel
                                     control=
                                     {
-                                        <YellowCheckbox onChange={(e) => props.handleChangeHighlighted(e.target.checked)} />
+                                        <YellowCheckbox
+                                            checked={props.filters.highlighted}
+                                            onChange={(e) => props.handleChangeHighlighted(e.target.checked)} />
                                     }
                                     label={t("eventList.highlighted")}
                                     labelPlacement="end"
@@ -215,12 +228,19 @@ function FilterSectionDumb(props: Props) {
                     </Collapse>
                 </Grid>
 
-                <Grid item xs={12} sm={2} className={classes.filterButtonsArea}>
+                <Grid item xs={12} sm={3} md={2} className={classes.filterButtonsArea}>
+                    <Button
+                        className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3}  ${classes.filterButtons}`}
+                        onClick={props.resetFilters}>
+                        {t("eventList.clearButton")}
+                    </Button>
+
                     <Button
                         type='submit'
-                        disabled={props.errorRate !== '' || props.errorMaxPeople !== ""}
-                        className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3}`}>
-                            {t("eventList.filterButton")}
+                        disabled={props.errorRate !== "" || props.errorMaxPeople !== "" || props.errorStartDate !== ""
+                            || props.errorEndDate !== "" || props.errorStartHour !== "" || props.errorEndHour !== ""}
+                        className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3} ${classes.filterButtons}`}>
+                        {t("eventList.filterButton")}
                     </Button>
 
                     <div onClick={props.toggle} className={classes.filterExpandText}>
@@ -230,7 +250,7 @@ function FilterSectionDumb(props: Props) {
                     </div>
                 </Grid>
             </Grid>
-        </form>
+        </form >
     )
 }
 

@@ -24,6 +24,8 @@ export const INCREMENT_PAGE = 'INCREMENT_PAGE'
 export const DECREMENT_PAGE = 'DECREMENT_PAGE'
 
 export const RESET_PAGE = 'RESET_PAGE'
+export const RESET_FILTERS = "RESET_FILTERS"
+
 
 export const prevPage = (filters: EventFilters, sort: EventSort) => {
     return {
@@ -153,5 +155,11 @@ export const decrementPage = () => {
 export const resetPage = () => {
     return {
         type: RESET_PAGE
+    }
+}
+
+export const resetFilters = () => {
+    return {
+        type: RESET_FILTERS
     }
 }
