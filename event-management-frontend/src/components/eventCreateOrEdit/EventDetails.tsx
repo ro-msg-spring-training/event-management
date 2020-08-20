@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { CircularProgress, Container, Paper, makeStyles } from '@material-ui/core';
-import { loadEvent, deleteEvent, addEvent, editEvent } from '../../actions/HeaderEventCrudActions';
+import { loadEvent, deleteEvent, addEvent, editEvent, resetStore } from '../../actions/HeaderEventCrudActions';
 import { connect } from 'react-redux';
 import Header from './headerEditAndDelete/HeaderCrudSmart';
 import Stepper from './Stepper';
@@ -16,25 +16,6 @@ import MapWrapper from './locationSection/Map'
 import { EventFormErrors } from '../../model/EventFormErrors';
 
 
-const event: EventCrud = {
-  id: "",
-  title: "",
-  subtitle: "",
-  status: true,
-  highlighted: false,
-  description: "",
-  observations: "",
-  location: "",
-  startDate: "",
-  endDate: "",
-  startHour: "",
-  endHour: "",
-  maxPeople: 0,
-  picturesUrlSave: [],
-  picturesUrlDelete: [],
-  maxNoTicketsPerUser: 0,
-  noTicketEvent: true
-}
 
 interface Props {
   match: any,
@@ -43,6 +24,7 @@ interface Props {
   deleteEventF: (id: string) => void,
   addEventF: (event: EventCrud, images: EventImage[]) => void,
   editEventF: (event: EventCrud, images: EventImage[]) => void,
+  resetStoreF: () => void,
   fetchEvent: {
     loading: boolean,
     event: EventCrud,
@@ -51,27 +33,6 @@ interface Props {
     formErrors: EventFormErrors
   },
 
-}
-
-const initialEventOverview = {
-  title: "",
-  subtitle: "",
-  description: "",
-  startDate: "",
-  startTime: "",
-  endDate: "",
-  endTime: "",
-  maxPeople: 0,
-  formErrors: {
-    title: "",
-    subtitle: "",
-    description: "",
-    startDate: "",
-    endDate: "",
-    startTime: "",
-    endTime: "",
-    maxPeople: "",
-  }
 }
 
 const useStyles = makeStyles({
@@ -83,7 +44,7 @@ const useStyles = makeStyles({
   },
 });
 
-function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, editEventF, fetchEvent }: Props) {
+function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, editEventF, resetStoreF, fetchEvent }: Props) {
   const history = useHistory();
   const classes = useStyles();
   const { t } = useTranslation();
@@ -95,18 +56,16 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, edit
   const [dialogTitle, setDialogTitle] = useState("");
   const [dialogDescription, setDialogDescription] = useState("");
 
-  //-------| Overview states |------------
-  // const [finalEventOverview, setFinalEventOverview] = useState(initialEventOverview);
-  // const [statusOverview, setStatusOverview] = useState("active");
-  // const [checkBoxStateOverview, setCheckboxStateOverview] = useState(false);
-  //--------------------------
   const [idLocation, setidLocation] = useState("");
 
   useEffect(() => {
     if (newEvent === false) {
       fetchEventF(match.params.id)
     }
-  }, [fetchEventF, match.params.id, newEvent])
+    return () => {
+      resetStoreF()
+    }
+  }, [fetchEventF, resetStoreF, match.params.id, newEvent])
 
   const verifyDateAndTimePeriods = (event: EventCrud): boolean => {
     if (!(new Date(event.startDate) > new Date(event.endDate)) &&
@@ -181,19 +140,22 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, edit
       } else {
         editEventF(fetchEvent.event, fetchEvent.images)
       }
+      if (fetchEvent.error === "") {
+        history.push('/admin/events');
+      }
     }
   }
 
   let deleteEvent = (): void => {
-
     if (newEvent === true) {
       setMsgUndo(t("welcome.popupMsgCancelUndo"));
       setDialogTitle(t("welcome.popupMsgCancelTitle"));
       setDialogDescription(t("welcome.popupMsgCancelDescription"));
       setOpen(true);
+      resetStoreF()
     } else {
       deleteEventF(match.params.id);
-      history.push('/');
+      history.push('/admin/events');
     }
   }
 
@@ -211,7 +173,7 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, edit
     setlocationStatus={setidLocation}
   />
   const ticketsComponent = <Tickets />
-  const imagesComponent = <ImagesSectionSmart />
+  const imagesComponent = <ImagesSectionSmart/>
 
 
   if (fetchEvent.loading) {
@@ -255,6 +217,7 @@ const mapDispatchToProps = (dispatch: any) => {
     deleteEventF: (id: string) => dispatch(deleteEvent(id)),
     addEventF: (event: EventCrud, images: EventImage[]) => dispatch(addEvent(event, images)),
     editEventF: (event: EventCrud, images: EventImage[]) => dispatch(editEvent(event, images)),
+    resetStoreF: () => dispatch(resetStore())
   }
 }
 

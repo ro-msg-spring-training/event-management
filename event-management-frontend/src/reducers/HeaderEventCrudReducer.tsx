@@ -13,7 +13,9 @@ import {
   EDIT_EVENT_FAILURE,
   UPDATE_EVENT_IMAGES,
   UPDATE_FORM_ERRORS,
-  UPDATE_EVENT
+  UPDATE_EVENT,
+  UPDATE_LOCATION,
+  RESET_STORE
 } from "../actions/HeaderEventCrudActions"
 import { EventCrud } from "../model/EventCrud"
 import { EventImage } from "../model/EventImage"
@@ -26,14 +28,20 @@ export interface EventState {
   isError: boolean,
   isLoading: boolean,
   images: EventImage[],
-  formErrors: EventFormErrors
+  formErrors: EventFormErrors,
 }
+
+let today = new Date(new Date().toString().split('GMT')[0] + ' UTC').toISOString().split('.')[0]
+const dateAndTime = today.split("T");
+const currDate = dateAndTime[0];
+const currTime = dateAndTime[1].replace(/:\d\d([ ap]|$)/, '$1');
+
 
 const initialState: EventState = {
   loading: false,
   event: {
-    id: -1, title: "NEW EVENT", subtitle: "mock", status: true, highlighted: false, description: "mock",
-    observations: "mock", location: "mock", startDate: "2019-08-03", endDate: "2019-08-03", startHour: "07:12", endHour: "07:12",
+    id: -1, title: "", subtitle: "", status: true, highlighted: false, description: "",
+    observations: "", location: 1, startDate: currDate, endDate: currDate, startHour: currTime, endHour: currTime,
     maxPeople: 0, picturesUrlSave: [], picturesUrlDelete: [], maxNoTicketsPerUser: 0,
     noTicketEvent: true
   },
@@ -50,22 +58,30 @@ const initialState: EventState = {
   error: '',
   isError: false,
   isLoading: false,
-  images: []
+  images: [],
 }
 
 const getEventImages = (imagesStr: string[]) => {
-  console.log('images str', imagesStr)
   const images = imagesStr.map((img: string) => {
     let fullName = img.split('/').pop();
-    let name = fullName?.split('.')[0]
-    return { id: name, name: name, url: img }
+    return { id: fullName, name: fullName, url: img }
   })
-  console.log('images obj', images)
   return images as EventImage[]
 }
 
 const HeaderReducer = (state = initialState, action: { type: string, payload: EventCrud }) => {
   switch (action.type) {
+    case RESET_STORE:
+      return {
+        ...initialState
+      }
+    case UPDATE_LOCATION:
+      const newEvent = JSON.parse(JSON.stringify(state.event))
+      newEvent.location = action.payload
+      return {
+        ...state,
+        event: newEvent
+      }
     case FETCH_EVENT_REQUEST:
       return {
         ...state,
@@ -73,7 +89,6 @@ const HeaderReducer = (state = initialState, action: { type: string, payload: Ev
         isLoading: true
       }
     case FETCH_EVENT_SUCCESS:
-      console.log('in reducere ajunge...', action.payload)
       return {
         ...state,
         loading: false,

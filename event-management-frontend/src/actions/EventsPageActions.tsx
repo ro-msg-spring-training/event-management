@@ -38,6 +38,8 @@ export const DECREMENT_PAGE_HOME = 'DECREMENT_PAGE_HOME'
 
 export const RESET_PAGE = 'RESET_PAGE'
 export const RESET_PAGE_HOME = 'RESET_PAGE_HOME'
+export const RESET_FILTERS = "RESET_FILTERS"
+
 
 export const prevPage = (filters: EventFilters, sort: EventSort) => {
     return {
@@ -238,5 +240,11 @@ export const decrementPageHome = () => {
 export const resetPageHome = () => {
     return {
         type: RESET_PAGE_HOME
+    }
+}
+
+export const resetFilters = () => {
+    return {
+        type: RESET_FILTERS
     }
 }

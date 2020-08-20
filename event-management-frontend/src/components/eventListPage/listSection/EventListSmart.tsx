@@ -6,8 +6,6 @@ import { AppState } from "../../../store/store";
 import EventListDumb from "./EventListDumb";
 import { sortEvents, prevPage, nextPage, fetchCustomEvents, updateSortCriteria, incrementPage, decrementPage } from "../../../actions/EventsPageActions";
 import { EventFilters } from "../../../model/EventFilters";
-import { CircularProgress, Grid } from "@material-ui/core";
-import ErrorIcon from '@material-ui/icons/Error';
 import EventDetailsMobileDumb from "./EventDetailsMobileDumb";
 import { EventSort } from '../../../model/EventSort';
 import { getLastNumber } from '../../../api/EventsServiceAPI';
@@ -43,7 +41,7 @@ class EventListSmart extends React.Component<Props, State> {
         this.state = {
             sortCriteria: '',
             sortType: '',
-            lastPage: 0,
+            lastPage: -1,
             lastFilters: {} as EventFilters
         };
     }
@@ -51,6 +49,7 @@ class EventListSmart extends React.Component<Props, State> {
     componentWillMount() {
         this.props.fetchAllEvents();
         getLastNumber(this.props.filters).then(result => {
+            console.log("Server last page: ", result)
             this.setState({
                 lastPage: result
             })
@@ -69,6 +68,7 @@ class EventListSmart extends React.Component<Props, State> {
                 lastFilters: Object.assign({}, this.props.filters)
             })
             getLastNumber(this.props.filters).then(result => {
+                console.log("Server last page: ", result)
                 this.setState({
                     lastPage: result
                 })
@@ -79,22 +79,22 @@ class EventListSmart extends React.Component<Props, State> {
     render() {
         let { events } = this.props;
 
-        if (this.props.isLoading) {
-            return (
-                <Grid container alignItems={"center"} justify={"center"}>
-                    <br /><br /><br /><br /><br /><CircularProgress />
-                </Grid>
-            );
-        }
+        // if (this.props.isLoading) {
+        //     return (
+        //         <Grid container alignItems={"center"} justify={"center"}>
+        //             <br /><br /><br /><br /><br /><CircularProgress />
+        //         </Grid>
+        //     );
+        // }
 
-        if (this.props.isError) {
-            return (
-                <Grid container alignItems={"center"} justify={"center"}>
-                    <br /><br /><br /><br /><br /><ErrorIcon color={"primary"} fontSize={"large"} />
-                    Oops, there was an error
-                </Grid>
-            );
-        }
+        // if (this.props.isError) {
+        //     return (
+        //         <Grid container alignItems={"center"} justify={"center"}>
+        //             <br /><br /><br /><br /><br /><ErrorIcon color={"primary"} fontSize={"large"} />
+        //             Oops, there was an error
+        //         </Grid>
+        //     );
+        // }
 
         const handleSortEvent = (criteria: string, type: string) => {
             const sortParams: EventSort = {
@@ -111,6 +111,7 @@ class EventListSmart extends React.Component<Props, State> {
 
         const goToPrevPage = () => {
             if (this.props.page <= 1) {
+                console.log("First page")
                 return
             } else {
                 this.props.decrementPage();
@@ -119,13 +120,13 @@ class EventListSmart extends React.Component<Props, State> {
 
         const goToNextPage = () => {
             if (this.props.page >= this.state.lastPage) {
+                console.log("Last page")
                 return
             } else {
                 this.props.incrementPage();
             }
         }
 
-        console.log(events)
         // Using the map function, we will get all the events from the array
         const eventDetails = events
             .map((event: any) =>
@@ -136,20 +137,20 @@ class EventListSmart extends React.Component<Props, State> {
         const eventDetailsMobile = events
             .map((event: any) =>
                 <EventDetailsMobileDumb key={event.id} id={event.id}
-                    title={event.title} location={event.location} date={event.date} name={event.name} />);
-
-        // useEffect(() => {
-        //     this.props.fetchCustomEvents(this.props.filters, this.props.eventsSort, this.props.page)
-        // }, [this.props.eventsSort]);
+                    title={event.title} location={event.location} date={event.startDate} name={event.name} />);
 
         return (
             <EventListDumb
+            isLoading={this.props.isLoading}
+            isError={this.props.isError}
+
                 updateSortCriteria={this.props.updateSortCriteria}
                 incrementPage={goToNextPage}
                 decrementPage={goToPrevPage}
                 sort={this.props.eventsSort}
                 filters={this.props.filters}
                 page={this.props.page}
+                lastPage={this.state.lastPage}
 
                 eventsDetails={eventDetails}
                 eventsDetailsMobile={eventDetailsMobile}

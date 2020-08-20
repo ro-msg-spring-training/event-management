@@ -69,7 +69,6 @@ function* editEventAsync(props: AddProps) {
   try {
     yield put(editEventRequest());
     const imagesURL = yield call(() => updateImagesFromS3(props.payload.images));
-    console.log('imagesURL', imagesURL)
     const event: EventCrud = props.payload.event
     event.picturesUrlSave = imagesURL 
     event.picturesUrlDelete = []

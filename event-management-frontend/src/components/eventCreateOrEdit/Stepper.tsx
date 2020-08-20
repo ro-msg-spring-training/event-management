@@ -104,7 +104,7 @@ function Stepper(props: EventProps) {
           </Tabs>
         </Grid>
 
-        <Grid item xl={11} lg={10} md={10} sm={9} xs={9}>
+        <Grid item xl={11} lg={10} md={10} sm={9} xs={9} style={{minHeight: '93vh', backgroundColor: 'white'}}>
           <TabPanel value={value} index={0}>
             {props.overviewComponent}
           </TabPanel>

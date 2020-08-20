@@ -1,5 +1,5 @@
 export enum MathRelation {
-  GREATER,
-  LOWER,
-  EQUAL
+  GREATER="GREATER",
+  LOWER="LOWER",
+  EQUAL="EQUAL"
 }

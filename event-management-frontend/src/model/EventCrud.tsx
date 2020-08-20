@@ -8,7 +8,7 @@ export interface EventCrud {
   highlighted: boolean,
   description: string,
   observations: string,
-  location: string,
+  location: number,
   startDate: string,
   endDate: string,
   startHour: string,
