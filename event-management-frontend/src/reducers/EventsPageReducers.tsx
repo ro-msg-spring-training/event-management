@@ -82,7 +82,21 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
         case RESET_FILTERS:
             return {
                 ... state,
-                filters: initialState
+                filters: {
+                    title: '',
+                    subtitle: '',
+                    status: 'none',
+                    highlighted: undefined,
+                    location: '',
+                    startDate: undefined,
+                    endDate: undefined,
+                    startHour: undefined,
+                    endHour: undefined,
+                    rate: '',
+                    rateSign: MathRelation.GREATER,
+                    maxPeople: '',
+                    maxPeopleSign: MathRelation.GREATER
+                }
             }
         case UPADTE_SORT_CRITERIA:
             return {

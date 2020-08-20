@@ -1,5 +1,5 @@
 import React, { FormEvent, KeyboardEvent } from 'react';
-import { Grid, TextField, Button, Select, MenuItem, FormControlLabel, InputAdornment, Collapse } from '@material-ui/core'
+import { Grid, TextField, Button, MenuItem, FormControlLabel, InputAdornment, Collapse } from '@material-ui/core'
 import "react-datepicker/dist/react-datepicker.css";
 import { MathRelation } from '../../../model/MathRelation';
 import { useFilterStyles } from '../../../styles/FilterStyles';
@@ -38,9 +38,6 @@ interface Props {
     handleChangeStartDate: (startDate: string) => void,
     handleChangeEndDate: (startDate: string) => void
 }
-
-
-
 
 function FilterSectionDumb(props: Props) {
     const classes = useFilterStyles()
@@ -133,7 +130,8 @@ function FilterSectionDumb(props: Props) {
                             </Grid>
 
                             <Grid item xs={12} sm={12} md={4} className={classes.relationArea}>
-                                <Select
+                                <TextField
+                                    select
                                     variant="outlined"
                                     className={classes.relationSelect}
                                     value={props.filters.maxPeopleSign}
@@ -142,7 +140,7 @@ function FilterSectionDumb(props: Props) {
                                     <MenuItem value={MathRelation.GREATER}>&gt;</MenuItem>
                                     <MenuItem value={MathRelation.LOWER}>&lt;</MenuItem>
                                     <MenuItem value={MathRelation.EQUAL}>=</MenuItem>
-                                </Select>
+                                </TextField>
 
                                 <TextField
                                     className={classes.numberInput}
@@ -162,7 +160,8 @@ function FilterSectionDumb(props: Props) {
                             </Grid>
 
                             <Grid item xs={12} sm={12} md={4} className={classes.relationArea}>
-                                <Select
+                                <TextField
+                                    select
                                     variant="outlined"
                                     className={classes.relationSelect}
                                     value={props.filters.rateSign}
@@ -171,7 +170,7 @@ function FilterSectionDumb(props: Props) {
                                     <MenuItem value={MathRelation.GREATER}>&gt;</MenuItem>
                                     <MenuItem value={MathRelation.LOWER}>&lt;</MenuItem>
                                     <MenuItem value={MathRelation.EQUAL}>=</MenuItem>
-                                </Select>
+                                </TextField>
 
                                 <TextField
                                     className={classes.numberInput}

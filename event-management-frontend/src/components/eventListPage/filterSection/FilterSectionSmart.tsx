@@ -7,6 +7,7 @@ import { MathRelation } from '../../../model/MathRelation';
 import { EventFilters } from '../../../model/EventFilters';
 import { useTranslation } from "react-i18next";
 import { equalDate, startTimeGreaterThenEndTime, startDateBeforeEndDate } from '../../../utils/CompareDateTimes';
+import { AppState } from '../../../store/store';
 
 interface Props {
     page: number,
@@ -251,7 +252,7 @@ function FilterSectionSmart({ page, filters, expanded, setExpanded, updateFilter
     )
 }
 
-const mapStateToProps = ({ events }: any) => ({
+const mapStateToProps = ({ events }: AppState) => ({
     filters: events.filters,
     page: events.page
 });
