@@ -87,7 +87,7 @@ public class AdminHomepageIntegrationTests {
         ticketRepository.save(ticket112);
         ticketRepository.save(ticket121);
 
-        List<EventView> eventViewList = eventService.filterAndOrder(null, null, null, null, null, LocalDate.now(), MAX_DATE, null, null, null, null, null, null, 1, 4, SortCriteria.DATE, true);
+        List<EventView> eventViewList = eventService.filterAndPaginate(null, null, null, null, null, LocalDate.now(), MAX_DATE, null, null, null, null, null, null, 1, 4, SortCriteria.DATE, true);
         assertThat(eventViewList.size()).isEqualTo(3);
     }
 }

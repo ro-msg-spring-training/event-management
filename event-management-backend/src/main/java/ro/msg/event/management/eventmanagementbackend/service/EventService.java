@@ -1,12 +1,7 @@
 package ro.msg.event.management.eventmanagementbackend.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import ro.msg.event.management.eventmanagementbackend.comparator.EventViewDateComparator;
-import ro.msg.event.management.eventmanagementbackend.comparator.EventViewHourComparator;
-import ro.msg.event.management.eventmanagementbackend.comparator.EventViewOccupancyRateComparator;
 import ro.msg.event.management.eventmanagementbackend.entity.Event;
 import ro.msg.event.management.eventmanagementbackend.entity.EventSublocation;
 import ro.msg.event.management.eventmanagementbackend.entity.Sublocation;
@@ -16,7 +11,6 @@ import ro.msg.event.management.eventmanagementbackend.exception.OverlappingEvent
 import ro.msg.event.management.eventmanagementbackend.repository.EventRepository;
 import ro.msg.event.management.eventmanagementbackend.repository.PictureRepository;
 import ro.msg.event.management.eventmanagementbackend.repository.SublocationRepository;
-import ro.msg.event.management.eventmanagementbackend.security.User;
 import ro.msg.event.management.eventmanagementbackend.utils.ComparisonSign;
 import ro.msg.event.management.eventmanagementbackend.utils.SortCriteria;
 import ro.msg.event.management.eventmanagementbackend.utils.TimeValidation;
@@ -28,6 +22,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -53,7 +48,6 @@ public class EventService {
         LocalTime endHour = event.getEndHour();
 
         TimeValidation.validateTime(startDate, endDate, startHour, endHour);
-
 
         boolean validSublocations = true;
         int sumCapacity = 0;
@@ -162,7 +156,7 @@ public class EventService {
         this.eventRepository.deleteById(id);
     }
 
-    public TypedQuery<EventView> filter(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople) {
+    public TypedQuery<EventView> filter(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople, SortCriteria sortCriteria, Boolean sortType) {
 
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<EventView> q = criteriaBuilder.createQuery(EventView.class);
@@ -195,90 +189,79 @@ public class EventService {
         if (startDate != null && endDate != null) {
             Predicate firstCase = criteriaBuilder.between(c.get("startDate"), startDate, endDate);
             Predicate secondCase = criteriaBuilder.between(c.get("endDate"), startDate, endDate);
-            predicate.add(criteriaBuilder.or(firstCase, secondCase));
+            Predicate thirdCase = criteriaBuilder.greaterThan(c.get("endDate"), endDate);
+            Predicate fourthCase = criteriaBuilder.lessThan(c.get("startDate"), startDate);
+            Predicate fifthCase = criteriaBuilder.and(thirdCase, fourthCase);
+            predicate.add(criteriaBuilder.or(firstCase, secondCase, fifthCase));
 
         }
         if (startHour != null && endHour != null) {
             Predicate firstCase = criteriaBuilder.between(c.get("startHour"), startHour, endHour);
             Predicate secondCase = criteriaBuilder.between(c.get("endHour"), startHour, endHour);
-            predicate.add(criteriaBuilder.or(firstCase, secondCase));
+            Predicate thirdCase = criteriaBuilder.greaterThan(c.get("endHour"), endHour);
+            Predicate fourthCase = criteriaBuilder.lessThan(c.get("startHour"), startHour);
+            Predicate fifthCase = criteriaBuilder.and(thirdCase, fourthCase);
+            predicate.add(criteriaBuilder.or(firstCase, secondCase, fifthCase));
         }
 
-        if (maxPeople != null){
-            predicate.add(this.getPredicate(maxPeopleSign,"maxPeople",(float)maxPeople,criteriaBuilder,c));
+        if (maxPeople != null) {
+            predicate.add(this.getPredicate(maxPeopleSign, "maxPeople", (float) maxPeople, criteriaBuilder, c));
         }
 
         if (rateSign != null) {
-            predicate.add(this.getPredicate(rateSign,"rate",rate, criteriaBuilder,c));
-            }
+            predicate.add(this.getPredicate(rateSign, "rate", rate, criteriaBuilder, c));
+        }
         Predicate finalPredicate = criteriaBuilder.and(predicate.toArray(new Predicate[0]));
         q.where(finalPredicate);
-        return entityManager.createQuery(q);
-    }
-
-    public Predicate getPredicate(ComparisonSign comparisonSign,String criteria,Float value,CriteriaBuilder criteriaBuilder,Root<EventView> c){
-            switch (comparisonSign) {
-                case GREATER:
-                    return criteriaBuilder.gt(c.get(criteria), value);
-                case LOWER:
-                    return criteriaBuilder.le(c.get(criteria), value);
-                case EQUAL:
-                    return criteriaBuilder.equal(c.get(criteria), value);
+        String criteria = null;
+        if (sortCriteria != null) {
+            switch (sortCriteria) {
+                case DATE:
+                    criteria = "startDate";
+                    break;
+                case HOUR:
+                    criteria = "startHour";
+                    break;
+                case OCCUPANCY_RATE:
+                    criteria = "rate";
+                    break;
                 default:
-                    return null;
+                    break;
             }
+        }
+        if (sortType != null) {
+            if (sortType == true) q.orderBy(criteriaBuilder.asc(c.get(criteria)));
+            else q.orderBy(criteriaBuilder.desc(c.get(criteria)));
+        }
+        return entityManager.createQuery(q);
+
     }
 
-    public List<EventView> filterAndPaginate(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople, int pageNumber, int eventPerPage) {
-        if (pageNumber < 1) {
-            throw new IndexOutOfBoundsException("Invalid page number");
-        }
-        TypedQuery<EventView> typedQuery = filter(title, subtitle, status, highlighted, location, startDate, endDate, startHour, endHour, rateSign, rate, maxPeopleSign, maxPeople);
+    public List<EventView> filterAndPaginate(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople, int pageNumber, int eventPerPage, SortCriteria sortCriteria, Boolean sortType) {
+        TypedQuery<EventView> typedQuery = this.filter(title, subtitle, status, highlighted, location, startDate, endDate, startHour, endHour, rateSign, rate, maxPeopleSign, maxPeople, sortCriteria, sortType);
         int offset = (pageNumber - 1) * eventPerPage;
         typedQuery.setFirstResult(offset);
         typedQuery.setMaxResults(eventPerPage);
         return typedQuery.getResultList();
+
     }
 
-    public List<EventView> filterAndOrder(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople, int pageNumber, int eventPerPage, SortCriteria sortCriteria, Boolean sortType) {
-        if (pageNumber < 1) {
-            throw new IndexOutOfBoundsException("Invalid page number");
-        }
-        TypedQuery<EventView> typedQuery = filter(title, subtitle, status, highlighted, location, startDate, endDate, startHour, endHour, rateSign, rate, maxPeopleSign, maxPeople);
-        List<EventView> eventViews = typedQuery.getResultList();
-        switch (sortCriteria) {
-            case DATE:
-                eventViews.sort(new EventViewDateComparator());
-                break;
-            case HOUR:
-                eventViews.sort(new EventViewHourComparator());
-                break;
-            case OCCUPANCY_RATE:
-                eventViews.sort(new EventViewOccupancyRateComparator());
-                break;
+    public Predicate getPredicate(ComparisonSign comparisonSign, String criteria, Float value, CriteriaBuilder criteriaBuilder, Root<EventView> c) {
+        switch (comparisonSign) {
+            case GREATER:
+                return criteriaBuilder.gt(c.get(criteria), value);
+            case LOWER:
+                return criteriaBuilder.le(c.get(criteria), value);
+            case EQUAL:
+                return criteriaBuilder.equal(c.get(criteria), value);
             default:
-                break;
+                return null;
         }
-        if (!sortType) {
-            Collections.reverse(eventViews);
-        }
-        int offset = (pageNumber - 1) * eventPerPage;
-        if (offset > eventViews.size()) {
-            return new ArrayList<>();
-        }
-        if (offset + eventPerPage > eventViews.size()) {
-            return eventViews.subList(offset, eventViews.size());
-        }
-        if (pageNumber < 0) {
-        if (offset + eventPerPage + 1 == eventViews.size() || pageNumber < 0) {
-            return new ArrayList<>();
-        }
-        return eventViews.subList(offset, offset + eventPerPage);
     }
 
     public int getNumberOfPages(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople, int eventPerPage) {
-        int count = filter(title, subtitle, status, highlighted, location, startDate, endDate, startHour, endHour, rateSign, rate, maxPeopleSign, maxPeople).getResultList().size();
-        return (int)Math.ceil((float)count / (float)eventPerPage);
+        int count = filter(title, subtitle, status, highlighted, location, startDate, endDate, startHour, endHour, rateSign, rate, maxPeopleSign, maxPeople, null, null).getResultList().size();
+        return (int) Math.ceil((float) count / (float) eventPerPage);
     }
 
     public Event getEvent(long id) {
