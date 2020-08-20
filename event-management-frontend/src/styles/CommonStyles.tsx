@@ -121,6 +121,18 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#6BB7D0',
     color: "#FFFFFF"
   },
+  blueButton: {
+    backgroundColor: '#6BB7D0',
+    color: "#FFFFFF",
+    '&:hover': {
+      backgroundColor: '#6BB7D0',
+      color: "#FFFFFF",
+    },
+  },
+  mainCardRoot: {
+    width: '25%',
+    float: 'right'
+  },
 }));
 
 export { useStyles }

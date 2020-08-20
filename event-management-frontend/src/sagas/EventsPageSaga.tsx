@@ -17,7 +17,13 @@ import {
 
 import { takeLatest, takeEvery, put, call } from "redux-saga/effects";
 import { EventFilters } from "../model/EventFilters";
-import { fetchEvents, fetchFilteredEvents, fetchSortedEvents, fetchHomeEvents } from "../api/EventsServiceAPI";
+import {
+    fetchEvents,
+    fetchFilteredEvents,
+    fetchSortedEvents,
+    fetchHomeEvents,
+    fetchPaginatedHomeEvents
+} from "../api/EventsServiceAPI";
 import { EventSort } from "../model/EventSort";
 
 
@@ -121,7 +127,7 @@ export function* watchFetchCustomEventsAsync() {
 function* fetchCustomHomeEventsAsync(action: any) {
     yield put(fetchCustomEventsRequestHome())
     try {
-        const result = yield call (() => fetchCustomEventsHome(action.payload.page))
+        const result = yield call (() => fetchPaginatedHomeEvents(action.payload.page))
         yield put(fetchCustomEventsSuccessHome(result))
     }
     catch (err) {

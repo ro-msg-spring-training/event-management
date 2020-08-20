@@ -119,15 +119,6 @@ export const fetchEvents = () => {
         })
 }
 
-export const fetchHomeEvents = () => {
-    //return fetch(`${serverURL}/latest/1`, { headers: headersAuth })
-    return fetch(`${productsURL}`)
-        .then(response => response.json())
-        .then(json => {
-            return json;
-        })
-}
-
 export const changePage = (filters: EventFilters, sort: EventSort, page: number) => {
     const filtersToSend = computeFilterQueryString(filters)
     const sortToSend = computeSortQueryString(sort)
@@ -164,10 +155,26 @@ export const getLastNumber =  (filters: EventFilters) => {
         });
 }
 
-export const changePageHome = (page: number) => {
-    const url = new URL(serverURL + "/events/filter/" + page + "?")
+// Requests for home events
 
-    fetch(`${url}`, { headers: headersAuth })
+export const fetchHomeEvents = () => {
+    // All home events
+    return fetch(`${serverURL}/latest/1`, { headers: headersAuth })
+        .then(response => response.json())
+        .then(json => {
+            return json;
+        })
+}
+
+export const fetchPaginatedHomeEvents = (page: number) => {
+    // Paginated home events requests
+    let url = serverURL
+    url += "/homeEvents/" + page
+
+    console.log("Sending data to: " + url)
+
+    // UNCOMMENT THIS ONLY IF ALL URLS ARE RIGHT
+    return fetch(`${url}`, { headers: headersAuth })
         .then((response) => response.json())
         .then((json) => {
             return json;
@@ -175,11 +182,13 @@ export const changePageHome = (page: number) => {
 }
 
 export const getLastNumberHome =  () => {
-    /*const url = new URL(serverURL + "/events/lastPage/")
+    // Last number from home
+    const url = serverURL + "/events/lastPage/"
 
-    return fetch(`${url}`, {headers: headersAuth})
+    /*return fetch(`${url}`, {headers: headersAuth})
         .then((response) => response.json())
         .then((json) => {
             return json
         });*/
+    return 5;
 }

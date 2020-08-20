@@ -5,7 +5,7 @@ import { fetchAllEventsHome} from "../../actions/EventsPageActions";
 import { AppState} from "../../store/store";
 import HomeEventListDumb from "./HomeEventListDumb";
 import { incrementPageHome, decrementPageHome, fetchCustomEventsHome } from "../../actions/EventsPageActions";
-//TODO: here isError and isLoading
+import { getLastNumberHome } from "../../api/EventsServiceAPI";
 
 
 interface Props {
@@ -15,6 +15,8 @@ interface Props {
     page: number;
     incrementPageHome: () => void;
     decrementPageHome: () => void;
+    isLoading: boolean;
+    isError: boolean
 }
 
 interface State {
@@ -25,50 +27,26 @@ class HomeEventListSmart extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            lastPage: 5,
+            lastPage: 0,
         };
     }
 
     componentWillMount() {
         this.props.fetchAllEventsHome();
-        /*getLastNumberHome().then(result => {
-            this.setState({
-                lastPage: result
-            })
-        });*/
+        this.setState({
+            lastPage: getLastNumberHome()
+        })
+
     }
 
     componentDidUpdate(prevProps: any, prevState: any) {
         if (prevProps.page !== this.props.page) {
             this.props.fetchCustomEventsHome(this.props.page)
         }
-
-            /*getLastNumberHome().then(result => {
-                this.setState({
-                    lastPage: result
-                })
-            })*/
     }
 
     render() {
         let { events } = this.props;
-
-        /*if (this.props.isLoading) {
-            return (
-                <Grid container alignItems={"center"} justify={"center"}>
-                    <br /><br /><br /><br /><br /><CircularProgress />
-                </Grid>
-            );
-        }
-
-        if (this.props.isError) {
-            return (
-                <Grid container alignItems={"center"} justify={"center"}>
-                    <br /><br /><br /><br /><br /><ErrorIcon color={"primary"} fontSize={"large"} />
-                    Oops, there was an error
-                </Grid>
-            );
-        }*/
 
         const goToPrevPage = () => {
             if (this.props.page <= 1) {
@@ -98,16 +76,21 @@ class HomeEventListSmart extends React.Component<Props, State> {
                 incrementPage={goToNextPage}
                 decrementPage={goToPrevPage}
                 page={this.props.page}
+                lastPage={this.state.lastPage}
                 eventsDetails={eventDetails}
                 goToPrevPage={goToPrevPage}
-                goToNextPage={goToNextPage} />
+                goToNextPage={goToNextPage}
+                isLoading={this.props.isLoading}
+                isError={this.props.isError}/>
         );
     }
 }
 
 const mapStateToProps = (state: AppState) => ({
     events: state.events.allEventsHome,
-    page: state.events.page,
+    page: state.events.homePage,
+    isLoading: state.events.isLoadingHome,
+    isError: state.events.isErrorHome
 });
 
 export default connect(mapStateToProps,

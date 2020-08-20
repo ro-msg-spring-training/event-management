@@ -38,6 +38,8 @@ export interface EventsPageState {
     allEventsHome: [],
     isLoading: boolean,
     isError: boolean,
+    isLoadingHome: boolean,
+    isErrorHome: boolean,
     eventsSort: EventSort,
     page: number,
     homePage: number
@@ -61,6 +63,8 @@ const initialState: EventsPageState = {
     },
     isLoading: true,
     isError: false,
+    isLoadingHome: true,
+    isErrorHome: false,
     allEvents: [],
     allEventsHome: [],
     eventsSort: { criteria: '', type: '' },
@@ -91,12 +95,12 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
         case INCREMENT_PAGE_HOME:
             return {
                 ...state,
-                page: state.homePage + 1
+                homePage: state.homePage + 1
             }
         case DECREMENT_PAGE_HOME:
             return {
                 ...state,
-                page: state.homePage - 1
+                homePage: state.homePage - 1
             }
         case RESET_PAGE:
             return {
@@ -178,6 +182,7 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
             return {
                 ...state,
                 isLoading: false,
+                isError: false,
                 allEvents: action.payload
             }
         case FETCH_CUSTOM_EVENTS_ERROR:
@@ -189,29 +194,44 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
 
         case FETCH_HOME_EVENTS_REQUEST:
             return {
-                ...state
+                ...state,
+                isLoadingHome: true,
             };
         case FETCH_HOME_EVENTS_SUCCESS:
             return {
                 ...state,
+                isLoadingHome: false,
+                isErrorHome: false,
                 allEventsHome: action.payload,
             };
         case FETCH_HOME_EVENTS_ERROR:
             return {
                 ...state,
+                isLoadingHome: false,
+                isErrorHome: true
             };
         case FETCH_CUSTOM_EVENTS_REQUEST_HOME:
             return {
                 ...state,
+                isLoadingHome: true,
+                isErrorHome: false
             }
-        case FETCH_CUSTOM_EVENTS_SUCCESS_HOME:
+        case FETCH_CUSTOM_EVENTS_HOME:
             return {
                 ...state,
+            }
+        case FETCH_CUSTOM_EVENTS_SUCCESS_HOME:
+            return  {
+                ...state,
+                isLoadingHome: false,
+                isErrorHome: false,
                 allEventsHome: action.payload
             }
         case FETCH_CUSTOM_EVENTS_ERROR_HOME:
             return {
                 ...state,
+                isLoadingHome: false,
+                isErrorHome: true
             }
         default:
             return state
