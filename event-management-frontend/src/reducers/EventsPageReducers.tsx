@@ -97,7 +97,7 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
                     maxPeopleSign: MathRelation.GREATER
                 }
             }
-        case UPADTE_SORT_CRITERIA:
+        case UPDATE_SORT_CRITERIA:
             return {
                 ...state,
                 eventsSort: action.payload
