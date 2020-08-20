@@ -52,18 +52,14 @@ class DeleteEventIntegrationTests {
         try {
             this.eventService.deleteEvent(-1);
             assert false;
-        }
-        catch (NoSuchElementException noSuchElementException)
-        {
+        } catch (NoSuchElementException noSuchElementException) {
             assert true;
         }
 
         try {
-            this.eventService.deleteEvent(3);
+            this.eventService.deleteEvent(4);
             assert false;
-        }
-        catch (NoSuchElementException noSuchElementException)
-        {
+        } catch (NoSuchElementException noSuchElementException) {
             assert true;
         }
     }

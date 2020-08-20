@@ -1,5 +1,6 @@
 package ro.msg.event.management.eventmanagementbackend.controller.converter;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.EventDto;
 import ro.msg.event.management.eventmanagementbackend.entity.Event;
@@ -9,7 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@AllArgsConstructor
 public class EventConverter implements Converter<Event, EventDto> {
+
+    private final TicketCategoryReverseConverter ticketCategoryReverseConverter;
 
     @Override
     public EventDto convert(Event event) {
@@ -26,7 +30,7 @@ public class EventConverter implements Converter<Event, EventDto> {
                 .description(event.getDescription())
                 .observations(event.getObservations())
                 .status(event.isStatus())
-                .noTicketEvent(event.isNoTicketEvent())
+                .ticketsPerUser(event.getTicketsPerUser())
                 .highlighted(event.isHighlighted())
                 .maxPeople(event.getMaxPeople())
                 .startDate(event.getStartDate())
@@ -35,6 +39,8 @@ public class EventConverter implements Converter<Event, EventDto> {
                 .endHour(event.getEndHour())
                 .creator(event.getCreator())
                 .picturesUrlSave(picturesUrl)
+                .ticketCategoryDtoList(ticketCategoryReverseConverter.convertAll(event.getTicketCategories()))
+                .location(event.getEventSublocations().get(0).getSublocation().getLocation().getId())
                 .build();
     }
 }
