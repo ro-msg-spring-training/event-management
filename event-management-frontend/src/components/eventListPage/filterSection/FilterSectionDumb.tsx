@@ -7,7 +7,7 @@ import { EventFilters } from '../../../model/EventFilters';
 import { useTranslation } from "react-i18next";
 import { YellowCheckbox } from '../../YellowCheckbox';
 import moment from 'moment';
-import { useFilterStyles } from '../../../styles/filterStyles';
+import { useFilterStyles } from '../../../styles/FilterStyles';
 
 
 interface Props {
