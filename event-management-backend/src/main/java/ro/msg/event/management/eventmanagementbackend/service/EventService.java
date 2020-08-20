@@ -263,7 +263,7 @@ public class EventService {
 
     public int getNumberOfPages(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople, int eventPerPage) {
         int count = filter(title, subtitle, status, highlighted, location, startDate, endDate, startHour, endHour, rateSign, rate, maxPeopleSign, maxPeople).getResultList().size();
-        return count / eventPerPage;
+        return (int)Math.ceil((float)count / (float)eventPerPage);
     }
 
     public Event getEvent(long id) {
