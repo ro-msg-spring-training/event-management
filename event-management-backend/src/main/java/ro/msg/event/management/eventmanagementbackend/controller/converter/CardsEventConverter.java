@@ -9,6 +9,7 @@ public class CardsEventConverter implements Converter<EventView, CardsEventDto> 
     @Override
     public CardsEventDto convert(EventView eventView) {
         return CardsEventDto.builder()
+                .id(eventView.getId())
                 .title(eventView.getTitle())
                 .occupancyRate(eventView.getRate())
                 .build();
