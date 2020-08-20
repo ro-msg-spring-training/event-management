@@ -1,6 +1,8 @@
 package ro.msg.event.management.eventmanagementbackend.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ro.msg.event.management.eventmanagementbackend.comparator.EventViewDateComparator;
 import ro.msg.event.management.eventmanagementbackend.comparator.EventViewHourComparator;
@@ -9,9 +11,12 @@ import ro.msg.event.management.eventmanagementbackend.entity.Event;
 import ro.msg.event.management.eventmanagementbackend.entity.EventSublocation;
 import ro.msg.event.management.eventmanagementbackend.entity.Sublocation;
 import ro.msg.event.management.eventmanagementbackend.entity.view.EventView;
+import ro.msg.event.management.eventmanagementbackend.exception.ExceededCapacityException;
+import ro.msg.event.management.eventmanagementbackend.exception.OverlappingEventsException;
 import ro.msg.event.management.eventmanagementbackend.repository.EventRepository;
 import ro.msg.event.management.eventmanagementbackend.repository.PictureRepository;
 import ro.msg.event.management.eventmanagementbackend.repository.SublocationRepository;
+import ro.msg.event.management.eventmanagementbackend.security.User;
 import ro.msg.event.management.eventmanagementbackend.utils.ComparisonSign;
 import ro.msg.event.management.eventmanagementbackend.utils.SortCriteria;
 import ro.msg.event.management.eventmanagementbackend.utils.TimeValidation;
@@ -34,10 +39,12 @@ public class EventService {
     private final EventRepository eventRepository;
     private final SublocationRepository sublocationRepository;
     private final PictureRepository pictureRepository;
+    private final TicketCategoryService ticketCategoryService;
 
     @PersistenceContext(type = PersistenceContextType.TRANSACTION)
     private final EntityManager entityManager;
 
+    @Transactional
     public long saveEvent(Event event, List<Long> sublocations) throws OverlappingEventsException, ExceededCapacityException {
 
         LocalDate startDate = event.getStartDate();
@@ -46,6 +53,7 @@ public class EventService {
         LocalTime endHour = event.getEndHour();
 
         TimeValidation.validateTime(startDate, endDate, startHour, endHour);
+
 
         boolean validSublocations = true;
         int sumCapacity = 0;
@@ -57,7 +65,9 @@ public class EventService {
         }
 
         if (validSublocations && sumCapacity >= event.getMaxPeople()) {
-            return eventRepository.save(event).getId();
+            Event eventSaved = eventRepository.save(event);
+            ticketCategoryService.saveTicketCategories(eventSaved.getTicketCategories(), eventSaved);
+            return eventSaved.getId();
         } else if (!validSublocations) {
             throw new OverlappingEventsException("Event overlaps another scheduled event");
         } else {
@@ -122,7 +132,11 @@ public class EventService {
                     eventFromDB.setObservations(event.getObservations());
                     eventFromDB.getPictures().addAll(event.getPictures());
 
-                    return eventRepository.save(eventFromDB);
+                    Event eventSaved = eventRepository.save(eventFromDB);
+
+                    event.getTicketCategories().forEach(ticketCategoryService::updateTicketCategory);
+
+                    return eventSaved;
 
                 } else throw new ExceededCapacityException("exceed capacity");
             } else throw new OverlappingEventsException("overlaps other events");
@@ -256,6 +270,7 @@ public class EventService {
             return eventViews.subList(offset, eventViews.size());
         }
         if (pageNumber < 0) {
+        if (offset + eventPerPage + 1 == eventViews.size() || pageNumber < 0) {
             return new ArrayList<>();
         }
         return eventViews.subList(offset, offset + eventPerPage);

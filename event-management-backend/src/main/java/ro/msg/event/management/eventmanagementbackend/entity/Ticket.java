@@ -26,6 +26,9 @@ public class Ticket extends BaseEntity {
     @JoinColumn(name = "ticket_category")
     private TicketCategory ticketCategory;
 
-    @OneToOne(mappedBy = "ticket", cascade = CascadeType.ALL, optional= true, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "ticket",
+            cascade = CascadeType.ALL,
+            optional = true,
+            fetch = FetchType.LAZY)
     private TicketDocument ticketDocument;
 }
