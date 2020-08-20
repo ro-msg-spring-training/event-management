@@ -1,7 +1,7 @@
 import React from "react";
 import { Menu } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
-import HomeIcon from "@material-ui/icons/Home";
+import DehazeIcon from '@material-ui/icons/Dehaze';
 import {useStyles} from "../../styles/CommonStyles";
 
 const ButtonAppBarCollapse = (props: any) => {
@@ -20,7 +20,7 @@ const ButtonAppBarCollapse = (props: any) => {
     return (
         <div className={classes.buttonCollapse}>
             <IconButton onClick={handleMenu} style={{color: "#F9C929"}}>
-                <HomeIcon/>
+                <DehazeIcon/>
             </IconButton>
             <Menu
                 anchorEl={anchorEl}

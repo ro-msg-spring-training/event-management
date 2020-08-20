@@ -82,7 +82,6 @@ export const updateImagesFromS3 = async (images: EventImage[]) => {
     
     images[indexImage].url = `${s3URL}/${images[indexImage].id}`
   });
-
   return images.filter(img => img.deleted === undefined).map(img => img.url)
 }
 
