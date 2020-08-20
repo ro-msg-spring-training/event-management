@@ -38,6 +38,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/events")
 @RequiredArgsConstructor
+@CrossOrigin
 public class EventController {
 
     private static final int EVENTS_PER_PAGE = 2;
@@ -89,18 +90,9 @@ public class EventController {
             String creator = user.getIdentificationString();
             event.setCreator(creator);
 
-            long eventID = eventService.saveEvent(event, sublocationIDs);
+            Event savedEvent = eventService.saveEvent(event, sublocationIDs);
 
-            sublocationIDs.forEach(sublocationID -> {
-                EventSublocationID esID = new EventSublocationID(eventID, sublocationID);
-                EventSublocation eventSublocation = new EventSublocation();
-                eventSublocation.setEventSublocationID(esID);
-                eventSublocation.setEvent(event);
-                eventSublocation.setSublocation(sublocationService.findById(sublocationID));
-                eventSublocationService.saveES(eventSublocation);
-            });
-
-            return new ResponseEntity<>(convertToDto.convert(event), HttpStatus.OK);
+            return new ResponseEntity<>(convertToDto.convert(savedEvent), HttpStatus.OK);
         } catch (OverlappingEventsException | ExceededCapacityException overlappingEventsException) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, overlappingEventsException.getMessage(), overlappingEventsException);
         } catch (DateTimeException dateTimeException) {
@@ -146,10 +138,9 @@ public class EventController {
         Event event = ((EventReverseConverter) convertToEntity).convertForUpdate(eventUpdateDto, true);
         event.setId(id);
 
-        List<String> picturesUrlDelete = eventUpdateDto.getPicturesUrlDelete();
-
         try {
-            eventUpdated = eventService.updateEvent(event, picturesUrlDelete);
+            List<Long> ticketCategoryToDelete = eventUpdateDto.getTicketCategoryToDelete();
+            eventUpdated = eventService.updateEvent(event, ticketCategoryToDelete, eventUpdateDto.getLocation());
             eventDto = convertToDto.convert(eventUpdated);
         } catch (NoSuchElementException noSuchElementException) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, noSuchElementException.getMessage(), noSuchElementException);
