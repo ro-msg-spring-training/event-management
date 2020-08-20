@@ -17,10 +17,6 @@ export const useFilterStyles = makeStyles({
     relationSelect: {
         marginRight: '5px',
     },
-    numberInput: {
-        // overflowX: 'hidden',
-        // overflowY: 'visible'
-    },
     filterExpandText: {
         cursor: 'pointer',
         fontSize: 12,
