@@ -15,8 +15,6 @@ import { EventImage } from '../../model/EventImage';
 import MapWrapper from './locationSection/Map'
 import { EventFormErrors } from '../../model/EventFormErrors';
 
-
-
 interface Props {
   match: any,
   admin: boolean,
@@ -130,7 +128,6 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, edit
       return true;
     return false;
   };
-
 
   let saveEvent = (): void => {
     if (formValid(fetchEvent.event, fetchEvent.formErrors)) {
