@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { connect } from 'react-redux';
 import ImagesSectionDumb from './ImagesSectionDumb'
 import { EventImage } from '../../../model/EventImage';
 import { updateEventImages } from '../../../actions/HeaderEventCrudActions'; // to modify import
 import { AppState } from '../../../store/store';
+
 
 interface ImagesSectionProps {
     isError: boolean,
@@ -11,7 +12,6 @@ interface ImagesSectionProps {
     eventImages: EventImage[],
     updateEventImages: (images: EventImage[]) => void,
 }
-
 
 function ImagesSectionSmart({ isError, isLoading, eventImages, updateEventImages }: ImagesSectionProps) {
     return (

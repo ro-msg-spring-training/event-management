@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useEffect } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { ReactSortable } from 'react-sortablejs'
-import { Grid, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, LinearProgress, Paper } from '@material-ui/core'
+import { Grid, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, LinearProgress } from '@material-ui/core'
 import { useStyle } from '../../../styles/ImagesSectionStyles'
 import { EventImage } from '../../../model/EventImage'
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -16,11 +16,11 @@ interface ImagesSectionProps {
 
 function ImagesSectionDumb({ isError, isLoading, eventImages, updateEventImages }: ImagesSectionProps) {
   const classes = useStyle();
-  const { t, i18n } = useTranslation();
 
   const [images, setImages] = useState<EventImage[]>(eventImages);
   const [open, setOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<EventImage>();
+  const [t] = useTranslation();
 
   const onDrop = useCallback((acceptedFiles) => {
     acceptedFiles.forEach((file: File) => {

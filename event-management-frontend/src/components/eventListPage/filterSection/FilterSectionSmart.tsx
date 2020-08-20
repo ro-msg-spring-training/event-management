@@ -1,4 +1,4 @@
-import React, { useState, FormEvent, KeyboardEvent, useEffect } from 'react';
+import React, { useState, FormEvent, KeyboardEvent } from 'react';
 import FilterSectionDumb from './FilterSectionDumb';
 import { Container } from '@material-ui/core';
 import { updateFilters, filterEvents, resetPage, resetFilters } from '../../../actions/EventsPageActions';
@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import { MathRelation } from '../../../model/MathRelation';
 import { EventFilters } from '../../../model/EventFilters';
 import { useTranslation } from "react-i18next";
-import moment from 'moment';
 import { equalDate, startTimeGreaterThenEndTime, startDateBeforeEndDate } from '../../../utils/compareDateTimes';
 
 interface Props {
