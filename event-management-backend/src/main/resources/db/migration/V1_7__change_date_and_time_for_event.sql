@@ -31,6 +31,6 @@ FROM
   LEFT OUTER JOIN booking ON event.id = booking.event
   LEFT OUTER JOIN ticket ON booking.id = ticket.booking
 GROUP BY
-  ticket.booking,
+--  ticket.booking,
   event.id;
 
