@@ -143,7 +143,6 @@ function FilterSectionDumb(props: Props) {
                                 </TextField>
 
                                 <TextField
-                                    className={classes.numberInput}
                                     value={props.filters.maxPeople}
                                     variant="outlined"
                                     error={props.errorMaxPeople !== ''}
@@ -173,7 +172,6 @@ function FilterSectionDumb(props: Props) {
                                 </TextField>
 
                                 <TextField
-                                    className={classes.numberInput}
                                     value={props.filters.rate}
                                     label={`${t("eventList.occupancyRate")} ${props.errorRate ? " - " + props.errorRate : ""}`}
                                     variant="outlined"
