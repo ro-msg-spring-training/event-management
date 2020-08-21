@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 @SpringBootTest
 class TicketCategoryCRUDIntegrationsTests {
     private final EventRepository eventRepository;
@@ -78,13 +80,10 @@ class TicketCategoryCRUDIntegrationsTests {
         ticketCategories.add(ticketCategory2);
 
         this.eventRepository.save(event);
-
-        try {
-            this.ticketCategoryService.saveTicketCategories(ticketCategories, event);
-            assert false;
-        } catch (TicketCategoryException ticketCategoryException) {
-            assert true;
-        }
+        assertThrows(TicketCategoryException.class,
+                () -> {
+                    this.ticketCategoryService.saveTicketCategories(ticketCategories, event);
+                });
     }
 
     @Test
@@ -132,19 +131,14 @@ class TicketCategoryCRUDIntegrationsTests {
         event.setTicketCategories(ticketCategories);
         this.eventRepository.save(event);
 
-        try {
-            this.ticketCategoryService.deleteTicketCategory((long) -2);
-            assert false;
-        } catch (NoSuchElementException noSuchElementException) {
-            assert true;
-        }
-
-        try {
-            this.ticketCategoryService.deleteTicketCategory((long) 100);
-            assert false;
-        } catch (NoSuchElementException noSuchElementException) {
-            assert true;
-        }
+        assertThrows(NoSuchElementException.class,
+                () -> {
+                    this.ticketCategoryService.deleteTicketCategory(-2);
+                });
+        assertThrows(NoSuchElementException.class,
+                () -> {
+                    this.ticketCategoryService.deleteTicketCategory(100);
+                });
     }
 
     @Test
@@ -194,12 +188,10 @@ class TicketCategoryCRUDIntegrationsTests {
         update.setId(categoryId);
         update.setTitle("updated");
 
-        try {
-            this.ticketCategoryService.updateTicketCategory(update);
-            assert false;
-        } catch (NoSuchElementException noSuchElementException) {
-            assert true;
-        }
+        assertThrows(NoSuchElementException.class,
+                () -> {
+                    this.ticketCategoryService.updateTicketCategory(update);
+                });
     }
 
     @Test
@@ -224,11 +216,10 @@ class TicketCategoryCRUDIntegrationsTests {
         update.setTitle("updated");
         update.setTicketsPerCategory(15);
 
-        try {
-            this.ticketCategoryService.updateTicketCategory(update);
-            assert false;
-        } catch (TicketCategoryException ticketCategoryException) {
-            assert true;
-        }
+        assertThrows(TicketCategoryException.class,
+                () -> {
+                    this.ticketCategoryService.updateTicketCategory(update);
+                });
+
     }
 }

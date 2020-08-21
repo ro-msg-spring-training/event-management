@@ -26,7 +26,8 @@ public class JWTAuthentication extends AbstractAuthenticationToken {
         return this.principal;
     }
 
-    public JWTClaimsSet getJwtClaimsSet() {
+    //could be removed
+    /*public JWTClaimsSet getJwtClaimsSet() {
         return this.jwtClaimsSet;
-    }
+    }*/
 }

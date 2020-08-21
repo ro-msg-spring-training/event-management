@@ -1,5 +1,7 @@
 package ro.msg.event.management.eventmanagementbackend.security;
 
+import com.nimbusds.jose.JOSEException;
+import com.nimbusds.jose.proc.BadJOSEException;
 import com.nimbusds.jose.proc.SecurityContext;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.proc.ConfigurableJWTProcessor;
@@ -9,8 +11,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
+import ro.msg.event.management.eventmanagementbackend.exception.InvalidJWTException;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
 import java.util.List;
 
 import static java.util.List.of;
@@ -27,7 +31,7 @@ public class AWSCognitoIdTokenProcessor {
         this.configurableJWTProcessor = configurableJWTProcessor;
     }
 
-    public Authentication authenticate(HttpServletRequest request) throws Exception {
+    public Authentication authenticate(HttpServletRequest request) throws ParseException, JOSEException, BadJOSEException {
         String idToken = request.getHeader(this.jwtConfiguration.getHttpHeader());
         if (idToken != null) {
             JWTClaimsSet claims = this.configurableJWTProcessor.process(this.getBearerToken(idToken), null);
@@ -73,15 +77,15 @@ public class AWSCognitoIdTokenProcessor {
         return claims.getClaims().get("sub").toString();
     }
 
-    private void verifyIfIdToken(JWTClaimsSet claims) throws Exception {
+    private void verifyIfIdToken(JWTClaimsSet claims) {
         if (!claims.getIssuer().equals(this.jwtConfiguration.getCognitoIdentityPoolUrl())) {
-            throw new Exception("JWT is not an ID Token");
+            throw new InvalidJWTException("JWT is not an ID Token");
         }
     }
 
-    private void validateIssuer(JWTClaimsSet claims) throws Exception {
+    private void validateIssuer(JWTClaimsSet claims) {
         if (!claims.getIssuer().equals(this.jwtConfiguration.getCognitoIdentityPoolUrl())) {
-            throw new Exception(String.format("Issuer %s does not match Cognito idp %s", claims.getIssuer(), this.jwtConfiguration.getCognitoIdentityPoolUrl()));
+            throw new InvalidJWTException(String.format("Issuer %s does not match Cognito idp %s", claims.getIssuer(), this.jwtConfiguration.getCognitoIdentityPoolUrl()));
         }
     }
 

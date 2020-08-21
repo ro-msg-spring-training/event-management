@@ -10,6 +10,7 @@ import ro.msg.event.management.eventmanagementbackend.service.EventService;
 import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 class DeleteEventIntegrationTests {
@@ -49,18 +50,13 @@ class DeleteEventIntegrationTests {
         this.eventRepository.save(event1);
         this.eventRepository.save(event2);
 
-        try {
-            this.eventService.deleteEvent(-1);
-            assert false;
-        } catch (NoSuchElementException noSuchElementException) {
-            assert true;
-        }
-
-        try {
-            this.eventService.deleteEvent(4);
-            assert false;
-        } catch (NoSuchElementException noSuchElementException) {
-            assert true;
-        }
+        assertThrows(NoSuchElementException.class,
+                () -> {
+                    this.eventService.deleteEvent(-1);
+                });
+        assertThrows(NoSuchElementException.class,
+                () -> {
+                    this.eventService.deleteEvent(1000);
+                });
     }
 }
