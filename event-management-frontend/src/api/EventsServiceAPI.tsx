@@ -5,7 +5,6 @@ import { headersAuth, serverURL, serverEventsURL } from "./Api";
 import {fetchWrapper} from "./FetchWrapper";
 
 
-const url = new URL(serverEventsURL)
 const computeLimit = () => {
     let limit: any = {}
 
@@ -78,6 +77,7 @@ export const fetchFilteredEvents = (filters: EventFilters, page: number) => {
     const pageToSend = computePage(page)
     const limitToSend = computeLimit()
 
+    const url = new URL(serverEventsURL)
     url.search = new URLSearchParams(filtersToSend).toString();
     url.search += "&"
     url.search += new URLSearchParams(pageToSend).toString();
@@ -97,10 +97,15 @@ export const fetchSortedEvents = (sort: EventSort, filters: EventFilters, page: 
     const limitToSend = computeLimit()
     const pageToSend = computePage(page)
 
-    url.search = new URLSearchParams(filtersToSend).toString();
-    url.search += "&"
-    url.search += new URLSearchParams(sortToSend).toString();
-    url.search += "&"
+    const url = new URL(serverEventsURL)
+    if (filtersToSend.length !== undefined) {
+        url.search = new URLSearchParams(filtersToSend).toString();
+        url.search += "&"
+    } else if (sortToSend.length !== undefined) {
+        url.search += new URLSearchParams(sortToSend).toString();
+        url.search += "&"
+    }
+
     url.search += new URLSearchParams(limitToSend).toString();
     url.search += "&"
     url.search += new URLSearchParams(pageToSend).toString();
@@ -126,6 +131,7 @@ export const changePage = (filters: EventFilters, sort: EventSort, page: number)
     const limitToSend = computeLimit()
     const pageToSend = computePage(page)
 
+    const url = new URL(serverEventsURL)
     url.search = new URLSearchParams(filtersToSend).toString();
     url.search += "&"
     url.search += new URLSearchParams(sortToSend).toString();
