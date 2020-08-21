@@ -3,7 +3,6 @@ package ro.msg.event.management.eventmanagementbackend.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import ro.msg.event.management.eventmanagementbackend.entity.AvailableTicketsPerCategory;
 import ro.msg.event.management.eventmanagementbackend.entity.Event;
 
 import java.time.LocalDate;

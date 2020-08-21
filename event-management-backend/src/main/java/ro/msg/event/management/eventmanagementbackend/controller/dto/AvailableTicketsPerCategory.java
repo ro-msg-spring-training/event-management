@@ -1,4 +1,4 @@
-package ro.msg.event.management.eventmanagementbackend.entity;
+package ro.msg.event.management.eventmanagementbackend.controller.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
