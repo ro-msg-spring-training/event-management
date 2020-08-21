@@ -49,7 +49,6 @@ class EventListSmart extends React.Component<Props, State> {
     componentWillMount() {
         this.props.fetchAllEvents();
         getLastNumber(this.props.filters).then(result => {
-            console.log("Server last page: ", result)
             this.setState({
                 lastPage: result
             })
@@ -68,7 +67,6 @@ class EventListSmart extends React.Component<Props, State> {
                 lastFilters: Object.assign({}, this.props.filters)
             })
             getLastNumber(this.props.filters).then(result => {
-                console.log("Server last page: ", result)
                 this.setState({
                     lastPage: result
                 })
