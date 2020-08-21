@@ -93,5 +93,9 @@ const mapStateToProps = (state: AppState) => ({
     isError: state.events.isErrorHome
 });
 
+
 export default connect(mapStateToProps,
-    { fetchAllEventsHome, fetchCustomEventsHome, incrementPageHome, decrementPageHome })(HomeEventListSmart)
+    { fetchAllEventsHome,
+        fetchCustomEventsHome,
+        incrementPageHome,
+        decrementPageHome })(HomeEventListSmart)

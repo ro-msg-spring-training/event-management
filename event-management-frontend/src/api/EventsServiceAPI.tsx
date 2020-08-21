@@ -67,7 +67,6 @@ export const fetchFilteredEvents = (filters: EventFilters, page: number) => {
 
     url.search = new URLSearchParams(filtersToSend).toString();
 
-    console.log("Sending data to: " + url.toString())
     // UNCOMMENT THIS ONLY IF ALL URLS ARE RIGHT
     return fetch(`${url}`,
         {
@@ -101,8 +100,6 @@ export const fetchSortedEvents = (sort: EventSort, filters: EventFilters, page: 
         url.search += new URLSearchParams(sortToSend).toString();
     }
 
-    console.log("Sending data to: " + url)
-
     // UNCOMMENT THIS ONLY IF ALL URLS ARE RIGHT
     return fetch(`${url}`, { headers: headersAuth })
         .then((response) => response.json())
@@ -128,11 +125,9 @@ export const changePage = (filters: EventFilters, sort: EventSort, page: number)
 
     if (sort.criteria === "") {
         url.search = new URLSearchParams(filtersToSend).toString();
-        console.log("Sending data to: " + url.toString())
     } else {
         url.search = new URLSearchParams(filtersToSend).toString();
         url.search += new URLSearchParams(sortToSend).toString();
-        console.log("Sending data to: " + url.toString())
     }
 
     // UNCOMMENT THIS ONLY IF ALL URLS ARE RIGHT
@@ -171,8 +166,6 @@ export const fetchPaginatedHomeEvents = (page: number) => {
     let url = serverURL
     url += "/homeEvents/" + page
 
-    console.log("Sending data to: " + url)
-
     // UNCOMMENT THIS ONLY IF ALL URLS ARE RIGHT
     return fetch(`${url}`, { headers: headersAuth })
         .then((response) => response.json())
@@ -190,5 +183,7 @@ export const getLastNumberHome =  () => {
         .then((json) => {
             return json
         });*/
+
+    // Hardcoded
     return 5;
 }
