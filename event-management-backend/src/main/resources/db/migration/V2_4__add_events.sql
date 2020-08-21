@@ -14,3 +14,8 @@ insert into event_sublocation values(3,5);
 insert into event_sublocation values(2,6);
 insert into event_sublocation values(4,7);
 insert into event_sublocation values(2,8);
+insert into ticket_category values(1, 'VIP','best', 50,'really good', 5, 1);
+insert into ticket_category values(2, 'OK','ok', 40,'kind of ok', 10,1);
+insert into ticket_category values(3, 'VIP','best', 50,'really good', 2, 2);
+insert into ticket_category values(4, 'Medium','not so good', 100,'for you', 3,2);
+insert into ticket_category values(5, 'Cheap','good deal', 10,'really good',4,2);
