@@ -190,15 +190,12 @@ export const fetchPaginatedHomeEvents = (page: number) => {
 }
 
 export const getLastNumberHome =  () => {
-    // Last number from home
-    const url = serverURL + "/events/lastPage/"
+    // Last number from home events
+    const url = serverEventsURL + "/latest/lastPage/"
 
-    /*return fetchWrapper(`${url}`, {headers: headersAuth})
+    return fetch(`${url}`, {headers: headersAuth})
         .then((response) => response.json())
         .then((json) => {
             return json
-        });*/
-
-    // Hardcoded
-    return 5;
+        });
 }

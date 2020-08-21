@@ -1,9 +1,9 @@
 import React from 'react';
-import {Button} from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import {Link} from "react-router-dom";
-import Event from "../../../model/Event";
+import { Link } from "react-router-dom";
+import Ticket from "../../../model/Ticket";
 import {createStyles, Theme, withStyles} from "@material-ui/core/styles";
 import { useStyles } from '../../../styles/CommonStyles';
 import { useTranslation } from "react-i18next";
@@ -27,35 +27,25 @@ const StyledTableRow = withStyles((theme: Theme) =>
     }),
 )(TableRow);
 
-const EventDetailsDumb = (props: Event) => {
+const TicketDetailsDumb = (props: Ticket) => {
     const commonClasses = useStyles()
     const [t] = useTranslation();
     const id = props.id;
-    const title = props.title;
-    const subtitle = props.subtitle;
-    const location = props.location;
     const date = props.date;
-    const hour = props.hour;
-    const occRate = props.occRate;
+    const category = props.category;
+    const name = props.name;
 
     return (
         <StyledTableRow>
-            <StyledTableCell>{title}</StyledTableCell>
-            <StyledTableCell>{subtitle}</StyledTableCell>
-            <StyledTableCell>{location}</StyledTableCell>
+            <StyledTableCell>{id}</StyledTableCell>
             <StyledTableCell>{date}</StyledTableCell>
-            <StyledTableCell>{hour}</StyledTableCell>
-            <StyledTableCell>{occRate}</StyledTableCell>
+            <StyledTableCell>{category}</StyledTableCell>
+            <StyledTableCell>{name}</StyledTableCell>
 
             <StyledTableCell>
-                <Link to={`/admin/events/${id}`} style={{ textDecoration: 'none' }}>
+                <Link to={`/pdf/${id}`} style={{ textDecoration: 'none' }}>
                     <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3}`}>
-                        {t("eventList.details")}
-                    </Button>
-                </Link><br/><br/>
-                <Link to={`/admin/validate/${id}`} style={{ textDecoration: 'none' }}>
-                    <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3}`}>
-                        {t("eventList.validate")}
+                        {t("eventList.open")}
                     </Button>
                 </Link>
             </StyledTableCell>
@@ -63,4 +53,4 @@ const EventDetailsDumb = (props: Event) => {
     );
 }
 
-export default EventDetailsDumb
+export default TicketDetailsDumb

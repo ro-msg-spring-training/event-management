@@ -1,14 +1,23 @@
 {
+    "ticketList": {
+        "id": "ID",
+        "date": "Dată",
+        "category": "Categorie",
+        "name" : "Nume",
+        "pdf": "PDF"
+    },
     "eventList": {
         "account": "Contul meu",
         "home": "Acasă",
         "buildings": "Clădiri",
         "events": "Evenimente",
         "statistics": "Statistici",
+        "tickets": "Bilete",
         "previous": "Anterior",
         "next": "Următor",
         "details": "Detalii",
         "validate": "Validează",
+        "open": "Deschide",
         "title": "Titlu",
         "subtitle": "Subtitlu",
         "status": "Status",
