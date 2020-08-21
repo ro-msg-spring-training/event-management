@@ -49,6 +49,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const Header = () => {
     const [ t, i18n ] = useTranslation();
     const classes = useStyles();
+    const userName = localStorage.getItem("username");
 
     const handleChangeAppLanguage = (language: string) => {
         i18n.changeLanguage(language);
@@ -61,7 +62,7 @@ const Header = () => {
             <Link to='/account' style={{ textDecoration: 'none' }} >
                 <IconButton className={classes.yellow}>
                     <AccountCircle />
-                    <Typography variant="h6" >&nbsp;{t("eventList.account")}</Typography>
+                    <Typography variant="h6" >&nbsp;{userName}</Typography>
                 </IconButton>
             </Link>
             <div onClick={()=>handleChangeAppLanguage("ro")} className={classes.flags}>

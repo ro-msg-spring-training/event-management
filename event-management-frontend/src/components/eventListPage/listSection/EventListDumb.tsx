@@ -3,7 +3,15 @@ import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import { Button, Container, TableFooter, TableSortLabel, LinearProgress } from "@material-ui/core";
+import {
+    Button,
+    Container,
+    TableFooter,
+    TableSortLabel,
+    LinearProgress,
+    CircularProgress,
+    Grid
+} from "@material-ui/core";
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
@@ -16,6 +24,7 @@ import { createStyles, Theme, withStyles } from "@material-ui/core/styles";
 import { useListStyles } from '../../../styles/eventListStyles';
 import { EventSort } from '../../../model/EventSort';
 import { EventFilters } from '../../../model/EventFilters';
+import ErrorIcon from "@material-ui/icons/Error";
 
 const StyledTableCell = withStyles((theme: Theme) =>
     createStyles({
@@ -144,50 +153,65 @@ const EventListDumb = (props: Props) => {
 
                 <FilterSectionSmart expanded={expanded} setExpanded={setExpanded} />
 
-                <Table aria-label="customized table" className={commonClasses.left}>
-                    <TableHead>
-                        <TableRow>
-                            <StyledTableCell>{t("eventList.title")}</StyledTableCell>
-                            <StyledTableCell sortDirection={props.sort.criteria === 'date' ? props.sort.type as "asc" | "desc" | undefined : false}>
-                                <TableSortLabel
-                                    hideSortIcon={true}
-                                    active={props.sort.criteria === 'date'}
-                                    direction={props.sort.criteria === 'date' ? props.sort.type as "asc" | "desc" | undefined : 'asc'}
-                                    onClick={createSortHandler('date')}>
-                                    {props.sort.criteria === 'date' ? (
-                                        <span className={`${commonClasses.visuallyHidden}`} >
+                {props.isError ?
+                    <Grid container alignItems={"center"} justify={"center"}>
+                        <br /><br /><br /><br /><br /><ErrorIcon color={"primary"} fontSize={"large"} />
+                        Oops, there was an error
+                    </Grid> :
+                        props.isLoading ?
+                            <Grid container alignItems={"center"} justify={"center"}>
+                                <br /><br /><br /><br /><br /><CircularProgress />
+                            </Grid> :
+
+                        <Table aria-label="customized table" className={commonClasses.left}>
+                            <TableHead>
+                                <TableRow>
+                                    <StyledTableCell>{t("eventList.title")}</StyledTableCell>
+                                    <StyledTableCell
+                                        sortDirection={props.sort.criteria === 'date' ? props.sort.type as "asc" | "desc" | undefined : false}>
+                                        <TableSortLabel
+                                            hideSortIcon={true}
+                                            active={props.sort.criteria === 'date'}
+                                            direction={props.sort.criteria === 'date' ? props.sort.type as "asc" | "desc" | undefined : 'asc'}
+                                            onClick={createSortHandler('date')}>
+                                            {props.sort.criteria === 'date' ? (
+                                                <span className={`${commonClasses.visuallyHidden}`}>
                                             {props.sort.type === 'desc' ? 'sorted descending' : 'sorted ascending'}
                                         </span>
-                                    ) : null}
-                                    {t("eventList.date")}
-                                </TableSortLabel>
-                            </StyledTableCell>
-                            <StyledTableCell />
-                        </TableRow>
-                    </TableHead>
+                                            ) : null}
+                                            {t("eventList.date")}
+                                        </TableSortLabel>
+                                    </StyledTableCell>
+                                    <StyledTableCell/>
+                                </TableRow>
+                            </TableHead>
 
-                    <TableBody>
-                        {eventsDetailsMobile}
-                    </TableBody>
+                            <TableBody>
+                                {eventsDetailsMobile}
+                            </TableBody>
 
-                    <TableFooter>
-                        <TableRow>
-                            {page > 1 ?
-                                <PaginationCell>
-                                    <Button onClick={props.decrementPage} style={{ color: "#F9C929" }}><b>&laquo;&laquo;</b></Button>
-                                </PaginationCell> :
-                                <PaginationCell/>
-                            }
-                            <PaginationCell style={{textAlign: "center"}}>{page + "/" + lastPage}</PaginationCell>
-                            {page < lastPage ?
-                                <PaginationCell>
-                                    <Button onClick={props.incrementPage} style={{ color: "#F9C929" }}><b>&raquo;&raquo;</b></Button>
-                                </PaginationCell> :
-                                <PaginationCell/>
-                            }
-                        </TableRow>
-                    </TableFooter>
-                </Table>
+                            <TableFooter>
+                                <TableRow>
+                                    {page > 1 ?
+                                        <PaginationCell>
+                                            <Button onClick={props.decrementPage}
+                                                    style={{color: "#F9C929"}}><b>&laquo;&laquo;</b></Button>
+                                        </PaginationCell> :
+                                        <PaginationCell/>
+                                    }
+                                    <PaginationCell
+                                        style={{textAlign: "center"}}>{page + "/" + lastPage}</PaginationCell>
+                                    {page < lastPage ?
+                                        <PaginationCell>
+                                            <Button onClick={props.incrementPage}
+                                                    style={{color: "#F9C929"}}><b>&raquo;&raquo;</b></Button>
+                                        </PaginationCell> :
+                                        <PaginationCell/>
+                                    }
+                                </TableRow>
+                            </TableFooter>
+                        </Table>
+                }
             </TableContainer>
         );
     } else {
@@ -204,11 +228,16 @@ const EventListDumb = (props: Props) => {
 
                         <FilterSectionSmart expanded={expanded} setExpanded={setExpanded} />
                     </div>
-                    {
-                        props.isError ?
-                            <p>{t("eventList.error")}</p> :
+
+                    { props.isError ?
+                            <Grid container alignItems={"center"} justify={"center"}>
+                                <br /><br /><br /><br /><br /><ErrorIcon color={"primary"} fontSize={"large"} />
+                                Oops, there was an error
+                            </Grid> :
                             props.isLoading ?
-                                <LinearProgress /> :
+                                <Grid container alignItems={"center"} justify={"center"}>
+                                    <br /><br /><br /><br /><br /><CircularProgress />
+                                </Grid> :
 
                                 <Table aria-label="customized table">
                                     <TableHead>

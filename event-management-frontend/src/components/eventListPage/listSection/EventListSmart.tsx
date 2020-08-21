@@ -77,23 +77,6 @@ class EventListSmart extends React.Component<Props, State> {
     render() {
         let { events } = this.props;
 
-        // if (this.props.isLoading) {
-        //     return (
-        //         <Grid container alignItems={"center"} justify={"center"}>
-        //             <br /><br /><br /><br /><br /><CircularProgress />
-        //         </Grid>
-        //     );
-        // }
-
-        // if (this.props.isError) {
-        //     return (
-        //         <Grid container alignItems={"center"} justify={"center"}>
-        //             <br /><br /><br /><br /><br /><ErrorIcon color={"primary"} fontSize={"large"} />
-        //             Oops, there was an error
-        //         </Grid>
-        //     );
-        // }
-
         const handleSortEvent = (criteria: string, type: string) => {
             const sortParams: EventSort = {
                 criteria: criteria,

@@ -22,6 +22,7 @@ import useStylesLogin from "../../styles/LoginStyle";
 import { displaySuccessMessage } from "../../validation/RegistrationValidation";
 import { useHistory } from "react-router-dom";
 
+
 const Login = () => {
   const [, setIsLoading] = useState(false);
   const [username, setUsername] = useState("");
@@ -45,8 +46,15 @@ const Login = () => {
     try {
       const user = await Auth.signIn(username, password);
       localStorage.setItem("idToken", user.signInUserSession.idToken.jwtToken)
-      history.push('/admin/')
-      displaySuccessMessage(<Trans i18nKey="login.successMessage">Succesful login</Trans>, setSuccess);
+      localStorage.setItem("username", username)
+      if (user.signInUserSession.accessToken.payload['cognito:groups'] !== undefined) {
+        localStorage.setItem("role", "admin")
+        history.push('/admin/')
+      } else {
+        localStorage.setItem("role", "user")
+        history.push('/user/')
+      }
+      displaySuccessMessage(<Trans i18nKey="login.successMessage">Successful login</Trans>, setSuccess);
       setError("");
     } catch (error) {
       displayErrorMessage(<Trans i18nKey="login.errorMessage">Incorrect username or password.</Trans>, setError);

@@ -6,6 +6,7 @@ import { Route, Switch } from "react-router-dom";
 import Main from "./components/Main";
 import {CircularProgress, Grid} from "@material-ui/core";
 import "./App.css"
+import MainUser from "./components/MainUser";
 
 // loading component for suspense fallback
 const Loader = () => (
@@ -32,6 +33,7 @@ const App = () => {
         <AuthWrapper />
           <Switch>
               <Route path='/admin' component={Main} />
+              <Route path='/user' component={MainUser} />
           </Switch>
       </Suspense>
   );

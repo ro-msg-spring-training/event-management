@@ -66,10 +66,11 @@ class HomeEventListSmart extends React.Component<Props, State> {
 
         // Using the map function, we will get all the events from the array
         const eventDetails = events
-            .map((event: any) =>
-                <HomeEventDetailsDumb key={event.id} id={event.id} title={event.title} subtitle={event.subtitle}
+            .map((event: any) => {
+                return (<HomeEventDetailsDumb key={event.title} id={event.id} title={event.title} subtitle={event.subtitle}
                                   location={event.location} date={event.startDate} hour={event.startHour} occRate={event.occupancyRate}
                                   name={event.name} />);
+            })
 
         return (
             <HomeEventListDumb
