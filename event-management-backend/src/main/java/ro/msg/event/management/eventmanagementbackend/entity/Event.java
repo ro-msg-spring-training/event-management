@@ -43,6 +43,8 @@ public class Event extends BaseEntity {
 
     private String creator;
 
+    private String ticketInfo;
+
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "event",

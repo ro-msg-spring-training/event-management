@@ -3,6 +3,7 @@ package ro.msg.event.management.eventmanagementbackend;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import ro.msg.event.management.eventmanagementbackend.controller.dto.AvailableTicketsPerCategory;
 import ro.msg.event.management.eventmanagementbackend.entity.*;
 import ro.msg.event.management.eventmanagementbackend.repository.*;
 import ro.msg.event.management.eventmanagementbackend.service.EventService;
@@ -46,8 +47,8 @@ public class NumberOfAvailableTicketsIntegrationTests {
 
     @Test
     public void test_number_ticket_per_category_for_event(){
-        Event event1 = new Event("Tile", "Subtitle", true, LocalDate.parse("2020-11-11"), LocalDate.parse("2020-11-15"), LocalTime.parse("18:00"), LocalTime.parse("20:00"), 10, "descr", true, "no obs", 3, "someUser", null, null, null,null);
-        Event event2 = new Event("Tile2", "Subtitle2", true, LocalDate.parse("2020-11-14"), LocalDate.parse("2020-11-19"), LocalTime.parse("10:00"), LocalTime.parse("12:00"), 12, "descr2", true, "no obs", 3, "someUser", null, null, null,null);
+        Event event1 = new Event("Tile", "Subtitle", true, LocalDate.parse("2020-11-11"), LocalDate.parse("2020-11-15"), LocalTime.parse("18:00"), LocalTime.parse("20:00"), 10, "descr", true, "no obs", 3, "someUser","ticket info", null, null, null,null);
+        Event event2 = new Event("Tile2", "Subtitle2", true, LocalDate.parse("2020-11-14"), LocalDate.parse("2020-11-19"), LocalTime.parse("10:00"), LocalTime.parse("12:00"), 12, "descr2", true, "no obs", 3, "someUser", "ticket info", null, null, null,null);
         Location location1 = new Location("Campus", "Obs 23", (float) 34.55, (float) 55.76, null, null);
         Location location2 = new Location("Centru", "Ferdinand 45", (float) 44.6, (float) 99.0, null, null);
         Sublocation sublocation1 = new Sublocation("same", 15, location1, null);

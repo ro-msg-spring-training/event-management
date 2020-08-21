@@ -10,20 +10,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ro.msg.event.management.eventmanagementbackend.controller.converter.Converter;
 import ro.msg.event.management.eventmanagementbackend.controller.converter.EventReverseConverter;
-import ro.msg.event.management.eventmanagementbackend.controller.dto.CardsEventDto;
-import ro.msg.event.management.eventmanagementbackend.controller.dto.EventDto;
-import ro.msg.event.management.eventmanagementbackend.controller.dto.EventFilteringDto;
-import ro.msg.event.management.eventmanagementbackend.controller.dto.EventListingDto;
+import ro.msg.event.management.eventmanagementbackend.controller.dto.*;
 import ro.msg.event.management.eventmanagementbackend.entity.*;
 import ro.msg.event.management.eventmanagementbackend.entity.view.EventView;
 import ro.msg.event.management.eventmanagementbackend.exception.ExceededCapacityException;
 import ro.msg.event.management.eventmanagementbackend.exception.OverlappingEventsException;
 import ro.msg.event.management.eventmanagementbackend.exception.TicketCategoryException;
 import ro.msg.event.management.eventmanagementbackend.security.User;
-import ro.msg.event.management.eventmanagementbackend.service.EventService;
-import ro.msg.event.management.eventmanagementbackend.service.EventSublocationService;
-import ro.msg.event.management.eventmanagementbackend.service.LocationService;
-import ro.msg.event.management.eventmanagementbackend.service.SublocationService;
+import ro.msg.event.management.eventmanagementbackend.service.*;
 import ro.msg.event.management.eventmanagementbackend.utils.ComparisonSign;
 import ro.msg.event.management.eventmanagementbackend.utils.SortCriteria;
 
@@ -53,16 +47,22 @@ public class EventController {
     private final Converter<EventView, EventListingDto> converterToListingDto;
     private final Converter<EventView, CardsEventDto> converterToCardsEventDto;
     private final LocationService locationService;
+    private final TicketService ticketService;
 
     private static final LocalDate MAX_DATE = LocalDate.parse("2999-12-31");
     private static final LocalDate MIN_DATE = LocalDate.parse("1900-01-01");
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<EventDto> getEvent(@PathVariable long id) {
+    public ResponseEntity<EventWithRemainingTicketsDto> getEvent(@PathVariable long id) {
         try {
             EventDto eventDto = convertToDto.convert(this.eventService.getEvent(id));
-            return new ResponseEntity<>(eventDto, HttpStatus.OK);
+            List<AvailableTicketsPerCategory> availableTicketsPerCategories = ticketService.getRemainingTickets(id);
+            EventWithRemainingTicketsDto eventWithRemainingTicketsDto = EventWithRemainingTicketsDto.builder()
+                    .eventDto(eventDto)
+                    .availableTicketsPerCategoryList(availableTicketsPerCategories)
+                    .build();
+            return new ResponseEntity<>(eventWithRemainingTicketsDto, HttpStatus.OK);
         } catch (NoSuchElementException noSuchElementException) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, noSuchElementException.getMessage(), noSuchElementException);
         }
