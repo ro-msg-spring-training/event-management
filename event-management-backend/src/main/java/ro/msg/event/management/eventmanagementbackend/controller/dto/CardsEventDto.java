@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,4 +15,6 @@ public class CardsEventDto {
     private Long id;
     private String title;
     private Float occupancyRate;
+    private LocalDate startDate;
+    private LocalDate endDate;
 }

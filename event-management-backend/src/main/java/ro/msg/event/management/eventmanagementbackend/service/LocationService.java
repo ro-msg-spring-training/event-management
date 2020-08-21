@@ -6,6 +6,8 @@ import ro.msg.event.management.eventmanagementbackend.entity.Location;
 import ro.msg.event.management.eventmanagementbackend.repository.LocationRepository;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -14,7 +16,12 @@ public class LocationService {
     private final LocationRepository locationRepository;
 
     public Location findByID(long id) {
-        return locationRepository.getOne(id);
+        Optional<Location> locationOptional = this.locationRepository.findById(id);
+        if(locationOptional.isEmpty())
+        {
+            throw new NoSuchElementException("No location with id= " + id);
+        }
+        return locationOptional.get();
     }
 
     public List<Location> getLocations() {
