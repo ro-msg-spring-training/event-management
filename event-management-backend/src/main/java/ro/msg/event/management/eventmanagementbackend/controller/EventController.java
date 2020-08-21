@@ -171,6 +171,10 @@ public class EventController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, indexOutOfBoundsException.getMessage(), indexOutOfBoundsException);
         }
     }
+    @GetMapping("latest/lastPage")
+    public Integer getNumberOgPagesOnAdminHomepage(){
+        return eventService.getNumberOfPages(null, null, null, null, null, LocalDate.now(), MAX_DATE, null, null, null, null, null, null, EVENTS_PER_LISTING_PAGE);
+    }
 
     @GetMapping("/upcoming")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
