@@ -40,6 +40,7 @@ public class EventConverter implements Converter<Event, EventDto> {
                 .creator(event.getCreator())
                 .picturesUrlSave(picturesUrl)
                 .ticketCategoryDtoList(ticketCategoryReverseConverter.convertAll(event.getTicketCategories()))
+                .location(event.getEventSublocations().get(0).getSublocation().getLocation().getId())
                 .build();
     }
 }

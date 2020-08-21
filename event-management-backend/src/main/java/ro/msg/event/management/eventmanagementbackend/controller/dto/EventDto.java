@@ -43,9 +43,9 @@ public class EventDto {
 
     private List<String> picturesUrlSave;
 
-    private List<String> picturesUrlDelete;
-
     private int ticketsPerUser;
 
     private List<TicketCategoryDto> ticketCategoryDtoList;
+
+    private List<Long> ticketCategoryToDelete;
 }

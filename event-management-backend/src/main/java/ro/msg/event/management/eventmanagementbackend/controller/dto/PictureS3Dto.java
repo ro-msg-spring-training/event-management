@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class PictureDTO {
+public class PictureS3Dto {
     private List<String> picturesToDelete;
     private List<String> picturesToSave;
 }

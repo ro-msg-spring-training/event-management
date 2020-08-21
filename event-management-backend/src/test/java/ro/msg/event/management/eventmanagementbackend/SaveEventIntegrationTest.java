@@ -44,14 +44,14 @@ public class SaveEventIntegrationTest {
 
     @Test
     void testSaveEvent() throws SQLException {
-        String query = "insert into `location` values(1,'The Office','Bd. 21 Decembrie', 46.24,24.3);\n" +
+        /*String query = "insert into `location` values(1,'The Office','Bd. 21 Decembrie', 46.24,24.3);\n" +
                 "insert into `location` values(2,'Campus Observator','str Observatorului nr 34', 46.21,24.3);\n" +
                 "insert into `sublocation` values(1,'Floor 1',200,1);\n" +
-                "insert into `sublocation` values(2,'Camin 5',300,2);";
+                "insert into `sublocation` values(2,'Camin 5',300,2);";*/
 
-        Connection conn = DriverManager.getConnection("jdbc:h2:mem:test", "sa", "");
+        /*Connection conn = DriverManager.getConnection("jdbc:h2:mem:test", "sa", "");
         Statement statement = conn.createStatement();
-        statement.execute(query);
+        statement.execute(query);*/
 
         List<String> picturesUrlSave = new ArrayList<>();
         picturesUrlSave.add("url1");
@@ -103,9 +103,7 @@ public class SaveEventIntegrationTest {
 
 
         try {
-            long eventId = eventService.saveEvent(event, sublocationIDs);
-
-            Event testEvent = eventService.getEvent(eventId);
+            Event testEvent = eventService.saveEvent(event, sublocationIDs);
 
             assertEquals(event, testEvent);
 

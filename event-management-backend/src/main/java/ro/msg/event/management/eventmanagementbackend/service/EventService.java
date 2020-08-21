@@ -2,15 +2,11 @@ package ro.msg.event.management.eventmanagementbackend.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ro.msg.event.management.eventmanagementbackend.entity.Event;
-import ro.msg.event.management.eventmanagementbackend.entity.EventSublocation;
-import ro.msg.event.management.eventmanagementbackend.entity.Sublocation;
+import ro.msg.event.management.eventmanagementbackend.entity.*;
 import ro.msg.event.management.eventmanagementbackend.entity.view.EventView;
 import ro.msg.event.management.eventmanagementbackend.exception.ExceededCapacityException;
 import ro.msg.event.management.eventmanagementbackend.exception.OverlappingEventsException;
-import ro.msg.event.management.eventmanagementbackend.repository.EventRepository;
-import ro.msg.event.management.eventmanagementbackend.repository.PictureRepository;
-import ro.msg.event.management.eventmanagementbackend.repository.SublocationRepository;
+import ro.msg.event.management.eventmanagementbackend.repository.*;
 import ro.msg.event.management.eventmanagementbackend.utils.ComparisonSign;
 import ro.msg.event.management.eventmanagementbackend.utils.SortCriteria;
 import ro.msg.event.management.eventmanagementbackend.utils.TimeValidation;
@@ -22,9 +18,11 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,12 +33,14 @@ public class EventService {
     private final SublocationRepository sublocationRepository;
     private final PictureRepository pictureRepository;
     private final TicketCategoryService ticketCategoryService;
+    private final EventSublocationRepository eventSublocationRepository;
+    private final LocationRepository locationRepository;
 
     @PersistenceContext(type = PersistenceContextType.TRANSACTION)
     private final EntityManager entityManager;
 
     @Transactional
-    public long saveEvent(Event event, List<Long> sublocations) throws OverlappingEventsException, ExceededCapacityException {
+    public Event saveEvent(Event event, List<Long> sublocationIDs) throws OverlappingEventsException, ExceededCapacityException {
 
         LocalDate startDate = event.getStartDate();
         LocalDate endDate = event.getEndDate();
@@ -51,7 +51,7 @@ public class EventService {
 
         boolean validSublocations = true;
         int sumCapacity = 0;
-        for (Long l : sublocations) {
+        for (Long l : sublocationIDs) {
             if (!checkOverlappingEvents(startDate, endDate, startHour, endHour, l)) {
                 validSublocations = false;
             }
@@ -59,9 +59,21 @@ public class EventService {
         }
 
         if (validSublocations && sumCapacity >= event.getMaxPeople()) {
-            Event eventSaved = eventRepository.save(event);
-            ticketCategoryService.saveTicketCategories(eventSaved.getTicketCategories(), eventSaved);
-            return eventSaved.getId();
+            Event savedEvent = eventRepository.save(event);
+            List<EventSublocation> eventSublocations = new ArrayList<>();
+            sublocationIDs.forEach(sublocationID -> {
+                EventSublocationID esID = new EventSublocationID(event.getId(), sublocationID);
+                EventSublocation eventSublocation = new EventSublocation();
+                eventSublocation.setEventSublocationID(esID);
+                eventSublocation.setEvent(event);
+                eventSublocation.setSublocation(this.sublocationRepository.findById(sublocationID).orElseThrow(() -> {
+                    throw new NoSuchElementException("No sublocation with id=" + sublocationID);
+                }));
+                eventSublocations.add(eventSublocation);
+            });
+            event.setEventSublocations(eventSublocations);
+            ticketCategoryService.saveTicketCategories(savedEvent.getTicketCategories(), savedEvent);
+            return savedEvent;
         } else if (!validSublocations) {
             throw new OverlappingEventsException("Event overlaps another scheduled event");
         } else {
@@ -75,15 +87,15 @@ public class EventService {
     }
 
     @Transactional
-    public Event updateEvent(Event event, List<String> picturesUrlDelete) throws OverlappingEventsException, ExceededCapacityException {
+    public Event updateEvent(Event event, List<Long> ticketCategoryToDelete, Long updatedLocation) throws OverlappingEventsException, ExceededCapacityException {
         Optional<Event> eventOptional;
         eventOptional = eventRepository.findById(event.getId());
-
-        for (String url : picturesUrlDelete) {
-            pictureRepository.deleteByUrl(url);
+        for (Long ticketCategoryId : ticketCategoryToDelete) {
+            this.ticketCategoryService.deleteTicketCategory(ticketCategoryId);
         }
 
         if (eventOptional.isPresent()) {
+            this.pictureRepository.deleteByEvent(eventOptional.get());
             Event eventFromDB = eventOptional.get();
 
             LocalDate startDate = event.getStartDate();
@@ -126,11 +138,44 @@ public class EventService {
                     eventFromDB.setObservations(event.getObservations());
                     eventFromDB.getPictures().addAll(event.getPictures());
 
-                    Event eventSaved = eventRepository.save(eventFromDB);
+                    this.eventSublocationRepository.deleteByEvent(eventFromDB);
 
-                    event.getTicketCategories().forEach(ticketCategoryService::updateTicketCategory);
+                    List<EventSublocation> eventSublocations = new ArrayList<>();
+                    Location location = this.locationRepository.findById(updatedLocation)
+                            .orElseThrow(() -> {
+                                throw new NoSuchElementException("No location with id=" + updatedLocation);
+                            });
 
-                    return eventSaved;
+                    if(eventFromDB.getEventSublocations().get(0).getEventSublocationID() != location.getSublocation().get(0).getEventSublocationList().get(0).getEventSublocationID())
+                    {
+                        for (Long sublocationID : location.getSublocation().stream().map(BaseEntity::getId).collect(Collectors.toList())) {
+                            EventSublocationID esID = new EventSublocationID(event.getId(), sublocationID);
+                            EventSublocation eventSublocation = new EventSublocation();
+                            eventSublocation.setEventSublocationID(esID);
+                            eventSublocation.setEvent(eventFromDB);
+                            eventSublocation.setSublocation(this.sublocationRepository.findById(sublocationID).orElseThrow(() -> {
+                                throw new NoSuchElementException("No sublocation with id=" + sublocationID);
+                            }));
+                            eventSublocations.add(eventSublocation);
+                        }
+
+                        eventFromDB.getEventSublocations().clear();
+                        eventSublocations.forEach(eventSublocation -> eventFromDB.getEventSublocations().add(eventSublocation));
+                    }
+
+                    List<TicketCategory> categoriesToSave = new ArrayList<>();
+                    event.getTicketCategories().forEach(ticketCategory ->
+                    {
+                        if (ticketCategory.getId() == -1) {
+                            categoriesToSave.add(ticketCategory);
+                        } else {
+                            this.ticketCategoryService.updateTicketCategory(ticketCategory);
+                        }
+                    });
+
+                    this.ticketCategoryService.saveTicketCategories(categoriesToSave, eventFromDB);
+
+                    return eventFromDB;
 
                 } else throw new ExceededCapacityException("exceed capacity");
             } else throw new OverlappingEventsException("overlaps other events");
