@@ -112,12 +112,28 @@ const useStyles = makeStyles(theme => ({
   left: {
     left: "100px"
   },
-  // typography: {
-  //   fontSize: 20,
-  //   fontFamily: 'Monospace',
-  //   color: theme.palette.secondary.main,
-  //   textTransform: "uppercase"
-  // },
+  floatRight: {
+    float: "right",
+    position: "relative"
+  },
+  cardRoot: {
+    minWidth: 275,
+    backgroundColor: '#6BB7D0',
+    color: "#FFFFFF"
+  },
+  blueButton: {
+    backgroundColor: '#6BB7D0',
+    color: "#FFFFFF",
+    '&:hover': {
+      backgroundColor: '#6BB7D0',
+      color: "#FFFFFF",
+    },
+  },
+  mainCardRoot: {
+    width: '25%',
+    float: 'right'
+  },
 }));
+
 
 export { useStyles }

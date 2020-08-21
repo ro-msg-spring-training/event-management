@@ -137,7 +137,6 @@ const EventListDumb = (props: Props) => {
 
     if (width <= 600) {
         return (
-
             <TableContainer component={Paper}>
                 <Link to={`/admin/newEvent`} style={{ textDecoration: 'none' }}>
                     <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3} ${commonClasses.buttonStyle4}`}>{t("eventList.createNewEventButton")}</Button>

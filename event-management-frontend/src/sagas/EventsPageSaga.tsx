@@ -1,17 +1,29 @@
 import {
     FILTER_EVENTS,
     FETCH_EVENTS,
+    FETCH_HOME_EVENTS,
     fetchEventsRequest,
     fetchEventsSuccess,
     fetchEventsError,
+    fetchEventsRequestHome,
+    fetchEventsSuccessHome,
+    fetchEventsErrorHome,
     filterEventsSuccess,
     filterEventsError,
-    SORT_EVENTS, PREV_PAGE, NEXT_PAGE, FETCH_CUSTOM_EVENTS, fetchCustomEventsRequest, fetchCustomEventsSuccess, fetchCustomEventsError
+    SORT_EVENTS, PREV_PAGE, NEXT_PAGE, FETCH_CUSTOM_EVENTS, FETCH_CUSTOM_EVENTS_HOME,
+    fetchCustomEventsRequest, fetchCustomEventsSuccess, fetchCustomEventsError,
+    fetchCustomEventsRequestHome, fetchCustomEventsSuccessHome, fetchCustomEventsErrorHome, fetchCustomEventsHome
 } from "../actions/EventsPageActions";
 
 import { takeLatest, takeEvery, put, call } from "redux-saga/effects";
 import { EventFilters } from "../model/EventFilters";
-import { fetchEvents, fetchFilteredEvents, fetchSortedEvents } from "../api/EventsServiceAPI";
+import {
+    fetchEvents,
+    fetchFilteredEvents,
+    fetchSortedEvents,
+    fetchHomeEvents,
+    fetchPaginatedHomeEvents
+} from "../api/EventsServiceAPI";
 import { EventSort } from "../model/EventSort";
 
 
@@ -79,6 +91,21 @@ export function* watchFetchEventsAsync() {
     yield takeEvery(FETCH_EVENTS, fetchEventsAsync)
 }
 
+function* fetchHomeEventsAsync() {
+    yield put(fetchEventsRequestHome())
+    try {
+        const result = yield fetchHomeEvents()
+        yield put(fetchEventsSuccessHome(result))
+    }
+    catch (err) {
+        yield put(fetchEventsErrorHome())
+    }
+}
+
+export function* watchFetchHomeEventsAsync() {
+    yield takeEvery(FETCH_HOME_EVENTS, fetchHomeEventsAsync)
+}
+
 // custom events
 
 
@@ -95,4 +122,19 @@ function* fetchCustomEventsAsync(action: any) {
 
 export function* watchFetchCustomEventsAsync() {
     yield takeEvery(FETCH_CUSTOM_EVENTS, fetchCustomEventsAsync)
+}
+
+function* fetchCustomHomeEventsAsync(action: any) {
+    yield put(fetchCustomEventsRequestHome())
+    try {
+        const result = yield call (() => fetchPaginatedHomeEvents(action.payload.page))
+        yield put(fetchCustomEventsSuccessHome(result))
+    }
+    catch (err) {
+        yield put(fetchCustomEventsErrorHome())
+    }
+}
+
+export function* watchFetchCustomHomeEventsAsync() {
+    yield takeEvery(FETCH_CUSTOM_EVENTS_HOME, fetchCustomHomeEventsAsync)
 }

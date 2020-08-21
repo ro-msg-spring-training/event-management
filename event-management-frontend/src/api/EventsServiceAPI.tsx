@@ -62,8 +62,6 @@ export const fetchFilteredEvents = (filters: EventFilters, page: number) => {
 
     url.search = new URLSearchParams(filtersToSend).toString();
 
-    console.log("Sending data to: " + url.toString())
-
     return fetchWrapper(`${url}`, { headers: headersAuth })
         .then((response) => response.json())
         .then((json) => {
@@ -92,8 +90,6 @@ export const fetchSortedEvents = (sort: EventSort, filters: EventFilters, page: 
         url.search += new URLSearchParams(sortToSend).toString();
     }
 
-    console.log("Sending data to: " + url)
-
     return fetchWrapper(`${url}`, { headers: headersAuth })
         .then((response) => response.json())
         .then((json) => {
@@ -118,11 +114,9 @@ export const changePage = (filters: EventFilters, sort: EventSort, page: number)
 
     if (sort.criteria === "") {
         url.search = new URLSearchParams(filtersToSend).toString();
-        console.log("Sending data to: " + url.toString())
     } else {
         url.search = new URLSearchParams(filtersToSend).toString();
         url.search += new URLSearchParams(sortToSend).toString();
-        console.log("Sending data to: " + url.toString())
     }
 
     fetchWrapper(`${url}`, { headers: headersAuth })
@@ -142,4 +136,42 @@ export const getLastNumber = (filters: EventFilters) => {
         .then((json) => {
             return json
         });
+}
+
+// Requests for home events
+
+export const fetchHomeEvents = () => {
+    // All home events
+    return fetchWrapper(`${serverURL}/latest/1`, { headers: headersAuth })
+        .then(response => response.json())
+        .then(json => {
+            return json;
+        })
+}
+
+export const fetchPaginatedHomeEvents = (page: number) => {
+    // Paginated home events requests
+    let url = serverURL
+    url += "/homeEvents/" + page
+
+    // UNCOMMENT THIS ONLY IF ALL URLS ARE RIGHT
+    return fetchWrapper(`${url}`, { headers: headersAuth })
+        .then((response) => response.json())
+        .then((json) => {
+            return json;
+        });
+}
+
+export const getLastNumberHome =  () => {
+    // Last number from home
+    const url = serverURL + "/events/lastPage/"
+
+    /*return fetchWrapper(`${url}`, {headers: headersAuth})
+        .then((response) => response.json())
+        .then((json) => {
+            return json
+        });*/
+
+    // Hardcoded
+    return 5;
 }
