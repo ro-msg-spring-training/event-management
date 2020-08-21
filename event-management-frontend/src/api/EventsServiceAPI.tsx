@@ -162,7 +162,9 @@ export const getLastNumber = (filters: EventFilters) => {
 
 export const fetchHomeEvents = () => {
     // All home events
-    return fetchWrapper(`${serverURL}/latest/1`, { headers: headersAuth })
+    const homeUrl = new URL(serverEventsURL + "/latest/1")
+
+    return fetchWrapper(`${homeUrl}`, { headers: headersAuth })
         .then(response => response.json())
         .then(json => {
             return json;
@@ -171,11 +173,10 @@ export const fetchHomeEvents = () => {
 
 export const fetchPaginatedHomeEvents = (page: number) => {
     // Paginated home events requests
-    let url = serverURL
-    url += "/homeEvents/" + page
+    const paginatedUrl = new URL(serverEventsURL + "/latest/" + page)
 
     // UNCOMMENT THIS ONLY IF ALL URLS ARE RIGHT
-    return fetchWrapper(`${url}`, { headers: headersAuth })
+    return fetchWrapper(`${paginatedUrl}`, { headers: headersAuth })
         .then((response) => response.json())
         .then((json) => {
             return json;
@@ -184,7 +185,7 @@ export const fetchPaginatedHomeEvents = (page: number) => {
 
 export const getLastNumberHome =  () => {
     // Last number from home
-    // const url = serverURL + "/events/lastPage/"
+    const url = serverURL + "/events/lastPage/"
 
     /*return fetchWrapper(`${url}`, {headers: headersAuth})
         .then((response) => response.json())
