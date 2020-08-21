@@ -31,6 +31,7 @@ public class EventReverseConverter implements Converter<EventDto, Event> {
                 .endDate(eventDto.getEndDate())
                 .startHour(eventDto.getStartHour())
                 .endHour(eventDto.getEndHour())
+                .ticketInfo(eventDto.getTicketInfo())
                 .build();
 
         if (eventDto.getPicturesUrlSave() != null) {

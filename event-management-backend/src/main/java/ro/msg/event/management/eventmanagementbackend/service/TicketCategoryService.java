@@ -35,12 +35,17 @@ public class TicketCategoryService {
     public List<TicketCategory> saveTicketCategories(List<TicketCategory> ticketCategories, Event event) {
         List<TicketCategory> savedCategories = new ArrayList<>();
         long sumNumberOfTicketsPerCategory = 0;
+        int nrOfTicketsForCategoryInDB = 0;
+        List<TicketCategory> ticketCategoriesInDB = ticketCategoryRepository.findByEvent(event);
+        if(!ticketCategoriesInDB.isEmpty()){
+            nrOfTicketsForCategoryInDB = ticketCategoriesInDB.stream().mapToInt(TicketCategory::getTicketsPerCategory).sum();
+        }
         for (TicketCategory ticketCategory : ticketCategories) {
             ticketCategory.setEvent(event);
             sumNumberOfTicketsPerCategory += ticketCategory.getTicketsPerCategory();
             savedCategories.add(this.ticketCategoryRepository.save(ticketCategory));
         }
-        if (sumNumberOfTicketsPerCategory > event.getMaxPeople()) {
+        if (sumNumberOfTicketsPerCategory + nrOfTicketsForCategoryInDB > event.getMaxPeople()) {
             throw new TicketCategoryException("Sum of number of tickets per category exceeds the maximum number of people for the event!");
         }
         return savedCategories;

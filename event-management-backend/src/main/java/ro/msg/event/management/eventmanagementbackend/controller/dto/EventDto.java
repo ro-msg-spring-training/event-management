@@ -48,4 +48,6 @@ public class EventDto {
     private List<TicketCategoryDto> ticketCategoryDtoList;
 
     private List<Long> ticketCategoryToDelete;
+
+    private String ticketInfo;
 }
