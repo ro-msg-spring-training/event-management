@@ -4,22 +4,19 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import ro.msg.event.management.eventmanagementbackend.entity.*;
-import ro.msg.event.management.eventmanagementbackend.entity.view.EventView;
 import ro.msg.event.management.eventmanagementbackend.repository.*;
 import ro.msg.event.management.eventmanagementbackend.service.EventService;
-import ro.msg.event.management.eventmanagementbackend.utils.ComparisonSign;
+import ro.msg.event.management.eventmanagementbackend.service.TicketService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-public class FilterEventsIntegrationTests {
-
+public class NumberOfAvailableTicketsIntegrationTests {
     @Autowired
     private EventRepository eventRepository;
 
@@ -40,8 +37,15 @@ public class FilterEventsIntegrationTests {
 
     @Autowired
     private EventService eventService;
+
+    @Autowired
+    private TicketCategoryRepository ticketCategoryRepository;
+
+    @Autowired
+    private TicketService ticketService;
+
     @Test
-    public void filter_by_date_and_rate() {
+    public void test_number_ticket_per_category_for_event(){
         Event event1 = new Event("Tile", "Subtitle", true, LocalDate.parse("2020-11-11"), LocalDate.parse("2020-11-15"), LocalTime.parse("18:00"), LocalTime.parse("20:00"), 10, "descr", true, "no obs", 3, "someUser", null, null, null,null);
         Event event2 = new Event("Tile2", "Subtitle2", true, LocalDate.parse("2020-11-14"), LocalDate.parse("2020-11-19"), LocalTime.parse("10:00"), LocalTime.parse("12:00"), 12, "descr2", true, "no obs", 3, "someUser", null, null, null,null);
         Location location1 = new Location("Campus", "Obs 23", (float) 34.55, (float) 55.76, null, null);
@@ -70,31 +74,42 @@ public class FilterEventsIntegrationTests {
         Booking booking11 = new Booking(LocalDateTime.now(), "someUser", event1, null);
         Booking booking12 = new Booking(LocalDateTime.now(), "otherUser", event2, null);
 
-        Ticket ticket111 = new Ticket("Andrei", "email@yahoo.com", booking11, null,null);
-        Ticket ticket112 = new Ticket("Ioana", "ioa@yahoo.com", booking11, null,null);
-        Ticket ticket121 = new Ticket("Maria","ma@yahoo.com",booking12,null,null);
+        TicketCategory ticketCategory1 = new TicketCategory("VIP","subtitle", (float)10.0, "descr",10,event1,null);
+        TicketCategory ticketCategory2 = new TicketCategory("Normal","subtitle", (float)5.0, "descr",10,event1,null);
+        TicketCategory ticketCategory3 = new TicketCategory("Cheap","subtitle", (float)1.0, "descr",10,event1,null);
+        TicketCategory ticketCategory4 = new TicketCategory("VIP","subtitle", (float)10.0, "descr",10,event2,null);
+        TicketCategory ticketCategory5 = new TicketCategory("VIP","subtitle", (float)10.0, "descr",10,event2,null);
+        ticketCategoryRepository.save(ticketCategory1);
+        ticketCategoryRepository.save(ticketCategory2);
+        ticketCategoryRepository.save(ticketCategory3);
+        ticketCategoryRepository.save(ticketCategory4);
+        ticketCategoryRepository.save(ticketCategory5);
+
+        Ticket ticket111 = new Ticket("Andrei", "email@yahoo.com", booking11, ticketCategory1,null);
+        Ticket ticket112 = new Ticket("Ioana", "ioa@yahoo.com", booking11, ticketCategory1,null);
+        Ticket ticket113 = new Ticket("Maria","ma@yahoo.com",booking11,ticketCategory2,null);
+        Ticket ticket114 = new Ticket("Maria","ma@yahoo.com",booking11,ticketCategory3,null);
 
         bookingRepository.save(booking11);
         bookingRepository.save(booking12);
         ticketRepository.save(ticket111);
         ticketRepository.save(ticket112);
-        ticketRepository.save(ticket121);
-
-        List<EventView> eventViews = eventService.filterAndPaginate(null,null,null,null,null,null,null,null,null, ComparisonSign.GREATER,(float)0,null,null,1,10,null,null);
-        for (EventView eventView : eventViews){
-            if (eventView.getRate() ==0 ){
-                assert(false);
+        ticketRepository.save(ticket113);
+        ticketRepository.save(ticket114);
+        long id =1;
+        List<AvailableTicketsPerCategory> list = ticketService.getRemainingTickets(id);
+        List<TicketCategory> categories = ticketCategoryRepository.getAllForEvent(id);
+        for (AvailableTicketsPerCategory availableTicketsPerCategory: list){
+            for (TicketCategory ticketCategory : categories){
+                if (availableTicketsPerCategory.getTitle().equals(ticketCategory.getTitle())){
+                    assertThat(ticketCategory.getTicketsPerCategory());
+                }
             }
+            assertThat(ticketCategory1.getTicketsPerCategory()).isGreaterThan(availableTicketsPerCategory.getRemaining().intValue());
         }
 
-        LocalDate startDate = LocalDate.parse("2020-11-16");
-        LocalDate endDate = LocalDate.parse("2020-11-30");
-        List<EventView> eventViews1 = eventService.filterAndPaginate(null,null,null,null,null,startDate,endDate,null,null, null,null,null,null,1,10,null,null);
-        for (EventView eventView : eventViews1){
-            if ((eventView.getStartDate().isBefore(startDate) && eventView.getEndDate().isBefore(startDate)) || (eventView.getStartDate().isAfter(startDate) && eventView.getEndDate().isAfter(startDate))){
-                assert(false);
-            }
-        }
     }
+
+
 
 }
