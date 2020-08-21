@@ -1,13 +1,10 @@
 import React, { useLayoutEffect, useState } from 'react';
-import TableBody from '@material-ui/core/TableBody';
-import {Box, Button, CircularProgress, Container, Grid, TableCell, Typography} from "@material-ui/core";
+import {Box, Button, CircularProgress, Grid, Typography} from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { useStyles } from "../../styles/CommonStyles";
 import { useTranslation } from "react-i18next";
-import { useListStyles} from "../../styles/eventListStyles";
 import CardContent from "@material-ui/core/CardContent";
 import Card from "@material-ui/core/Card";
-import TableRow from "@material-ui/core/TableRow";
 import ErrorIcon from "@material-ui/icons/Error";
 
 

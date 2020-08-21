@@ -83,7 +83,7 @@ const MapWrapper: React.FC<Props> = (props: Props) => {
   });
   const [selectedMarker, setSelectedMarker]: any = useState([]);
   const [searchMarker, setSearchMarker]: any = useState([]);
-  const [submitDisabled, setsubmitDisable] = useState(false);
+  const [submitDisabled, setSubmitDisable] = useState(false);
 
   useEffect(() => {
     props.locationFetch();

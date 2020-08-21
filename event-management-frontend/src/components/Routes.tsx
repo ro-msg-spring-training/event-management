@@ -5,22 +5,17 @@ import ForgotPassword from "./loginRegisterPages/ForgotPassword";
 import ForgotPasswordVerification from "./loginRegisterPages/ForgotPasswordVerification";
 import ChangePasswordConfirm from "./loginRegisterPages/ChangePasswordConfirm";
 import RegistrationPage from "./loginRegisterPages/RegistrationPage";
-import { useTranslation } from "react-i18next";
 import "../styles/Responsivity.css";
 import "../App.css"
 
 const AuthWrapper = () => {
-  // const changeLanguage = (lng: string) => {
-  //   i18n.changeLanguage(lng);
-  // };
-
   return (
   <div className="App">
 
       <div className="authComponentsResponsive">
         {/* <Button onClick={() => changeLanguage("en")}>en</Button>
-      <Button onClick={() => changeLanguage("ro")}>ro</Button>
-      <hr /> */}
+        <Button onClick={() => changeLanguage("ro")}>ro</Button>
+        <hr /> */}
         <Switch>
           <Route exact path="/">
             <Redirect to="/login" />

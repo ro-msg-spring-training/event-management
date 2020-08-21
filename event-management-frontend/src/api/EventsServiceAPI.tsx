@@ -2,7 +2,7 @@ import { EventFilters } from "../model/EventFilters";
 import moment from 'moment'
 import { EventSort } from "../model/EventSort";
 import { headersAuth, serverURL } from "./Api";
-import { fetchWrapper } from "./FetchWrapper";
+import { fetchWrapper} from "./FetchWrapper";
 
 
 const computeSortQueryString = (sort: EventSort) => {
@@ -164,7 +164,7 @@ export const fetchPaginatedHomeEvents = (page: number) => {
 
 export const getLastNumberHome =  () => {
     // Last number from home
-    const url = serverURL + "/events/lastPage/"
+    // const url = serverURL + "/events/lastPage/"
 
     /*return fetchWrapper(`${url}`, {headers: headersAuth})
         .then((response) => response.json())

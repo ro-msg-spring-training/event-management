@@ -1,13 +1,8 @@
 import React from 'react';
-import {Button} from "@material-ui/core";
-import TableCell from '@material-ui/core/TableCell';
-import TableRow from '@material-ui/core/TableRow';
-import {Link} from "react-router-dom";
 import Event from "../../model/Event";
-import {createStyles, makeStyles, Theme, withStyles} from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { useTranslation } from "react-i18next";
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 

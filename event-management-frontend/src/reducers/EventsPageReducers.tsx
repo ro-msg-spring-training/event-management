@@ -11,7 +11,6 @@ import {
     SORT_EVENTS, FILTER_EVENTS,
     PREV_PAGE, NEXT_PAGE,
     UPDATE_SORT_CRITERIA,
-    FETCH_CUSTOM_EVENTS,
     FETCH_CUSTOM_EVENTS_REQUEST,
     FETCH_CUSTOM_EVENTS_SUCCESS,
     FETCH_CUSTOM_EVENTS_ERROR,
@@ -25,7 +24,6 @@ import {
     DECREMENT_PAGE_HOME,
     RESET_PAGE,
     RESET_PAGE_HOME,
-    RESET_PAGE,
     RESET_FILTERS
 } from "../actions/EventsPageActions"
 import { MathRelation } from "../model/MathRelation"
@@ -111,12 +109,12 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
             }
         case RESET_PAGE_HOME:
             return {
-                ... state,
+                ...state,
                 homePage: 1
             }
         case RESET_FILTERS:
             return {
-                ... state,
+                ...state,
                 filters: {
                     title: '',
                     subtitle: '',

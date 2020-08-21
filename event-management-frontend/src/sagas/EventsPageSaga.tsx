@@ -12,7 +12,7 @@ import {
     filterEventsError,
     SORT_EVENTS, PREV_PAGE, NEXT_PAGE, FETCH_CUSTOM_EVENTS, FETCH_CUSTOM_EVENTS_HOME,
     fetchCustomEventsRequest, fetchCustomEventsSuccess, fetchCustomEventsError,
-    fetchCustomEventsRequestHome, fetchCustomEventsSuccessHome, fetchCustomEventsErrorHome, fetchCustomEventsHome
+    fetchCustomEventsRequestHome, fetchCustomEventsSuccessHome, fetchCustomEventsErrorHome
 } from "../actions/EventsPageActions";
 
 import { takeLatest, takeEvery, put, call } from "redux-saga/effects";
