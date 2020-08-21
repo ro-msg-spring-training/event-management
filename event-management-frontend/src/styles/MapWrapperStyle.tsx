@@ -41,12 +41,12 @@ const useStylesMapWrapper = makeStyles(() => ({
     height: "20px",
     padding: "5px",
   },
-  greenCheckbox: {
-    color: "green",
-    "&$checked": {
-      color: "green",
-    },
-  },
+  // greenCheckbox: {
+  //   color: "green",
+  //   "&$checked": {
+  //     color: "green",
+  //   },
+  // },
   text: {
     margin: "0px !important",
   },

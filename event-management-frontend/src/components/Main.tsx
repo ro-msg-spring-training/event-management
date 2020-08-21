@@ -33,9 +33,9 @@ const Main = () => {
                     <Switch>
                         <PrivateRoute admin exact path='/admin' component={Home} />
                         <PrivateRoute admin exact path='/admin/events' component={EventList} />
-                        <PrivateRoute admin exact path='/admin/events/:id'
-                            render={(props: any) => <EventDetails match={props.match} admin={true} />} />
-                        <PrivateRoute admin exact path='/admin/newEvent'
+                        <Route exact path='/admin/events/:id'
+                            render={(props: any) => <EventDetails match={props.match} admin={true} />} /> 
+                        <Route exact path='/admin/newEvent'
                             render={(props: any) => <EventDetails match={props.match} admin={true} />} />
                     </Switch>
                 </main>

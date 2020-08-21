@@ -7,20 +7,20 @@ import ChangePasswordConfirm from "./loginRegisterPages/ChangePasswordConfirm";
 import RegistrationPage from "./loginRegisterPages/RegistrationPage";
 import { useTranslation } from "react-i18next";
 import "../styles/Responsivity.css";
+import "../App.css"
 
 const AuthWrapper = () => {
-  const { i18n } = useTranslation();
-
-  const changeLanguage = (lng: string) => {
-    i18n.changeLanguage(lng);
-  };
+  // const changeLanguage = (lng: string) => {
+  //   i18n.changeLanguage(lng);
+  // };
 
   return (
+  <div className="App">
+
       <div className="authComponentsResponsive">
         {/* <Button onClick={() => changeLanguage("en")}>en</Button>
       <Button onClick={() => changeLanguage("ro")}>ro</Button>
       <hr /> */}
-
         <Switch>
           <Route exact path="/">
             <Redirect to="/login" />
@@ -31,6 +31,7 @@ const AuthWrapper = () => {
           <Route path="/changepasswordconfirmation" component={ChangePasswordConfirm}></Route>
           <Route path="/register" component={RegistrationPage}></Route>
         </Switch>
+      </div>
       </div>
   );
 };

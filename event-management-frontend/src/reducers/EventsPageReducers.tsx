@@ -24,7 +24,9 @@ import {
     INCREMENT_PAGE_HOME,
     DECREMENT_PAGE_HOME,
     RESET_PAGE,
-    RESET_PAGE_HOME
+    RESET_PAGE_HOME,
+    RESET_PAGE,
+    RESET_FILTERS
 } from "../actions/EventsPageActions"
 import { MathRelation } from "../model/MathRelation"
 import { EventFilters } from "../model/EventFilters";
@@ -50,12 +52,12 @@ const initialState: EventsPageState = {
         title: '',
         subtitle: '',
         status: 'none',
-        highlighted: true,
+        highlighted: undefined,
         location: '',
-        startDate: null,
-        endDate: null,
-        startHour: '00:00',
-        endHour: '23:59',
+        startDate: undefined,
+        endDate: undefined,
+        startHour: undefined,
+        endHour: undefined,
         rate: '',
         rateSign: MathRelation.GREATER,
         maxPeople: '',
@@ -104,7 +106,7 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
             }
         case RESET_PAGE:
             return {
-                ... state,
+                ...state,
                 page: 1
             }
         case RESET_PAGE_HOME:
@@ -112,7 +114,25 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
                 ... state,
                 homePage: 1
             }
-
+        case RESET_FILTERS:
+            return {
+                ... state,
+                filters: {
+                    title: '',
+                    subtitle: '',
+                    status: 'none',
+                    highlighted: undefined,
+                    location: '',
+                    startDate: undefined,
+                    endDate: undefined,
+                    startHour: undefined,
+                    endHour: undefined,
+                    rate: '',
+                    rateSign: MathRelation.GREATER,
+                    maxPeople: '',
+                    maxPeopleSign: MathRelation.GREATER
+                }
+            }
         case UPDATE_SORT_CRITERIA:
             return {
                 ...state,

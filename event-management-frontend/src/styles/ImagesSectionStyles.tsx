@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core";
 
 export const useStyle = makeStyles({
     imagesArea: {
-        minHeight: '90vh', 
+        // minHeight: '90vh', 
         padding: '2% 5%'
     },
     dragndrop: {
