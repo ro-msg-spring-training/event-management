@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 public class EventListingDto {
+    private Long id;
     private String title;
     private String location;
     private LocalDate startDate;
