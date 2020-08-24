@@ -25,7 +25,7 @@ export default function* rootSaga() {
     watchFetchCustomEventsAsync(),
     watchFetchCustomHomeEventsAsync(),
 
-    watchFetchTicketsAsync()
+    watchFetchTicketsAsync(),
     
     loadEventWatcher(),
     deleteProductWatcher(),
