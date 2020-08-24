@@ -1,14 +1,23 @@
 {
+  "ticketList": {
+    "id": "ID",
+    "date": "Date",
+    "category": "Category",
+    "name" : "Name",
+    "pdf": "PDF"
+  },
   "eventList": {
     "account": "My account",
     "home": "Home",
     "buildings": "Buildings",
     "events": "Events",
     "statistics": "Statistics",
+    "tickets": "Tickets",
     "previous": "Prev",
     "next": "Next",
     "details": "Details",
     "validate": "Validate",
+    "open": "Open",
     "title": "Title",
     "subtitle": "Subtitle",
     "status": "Status",

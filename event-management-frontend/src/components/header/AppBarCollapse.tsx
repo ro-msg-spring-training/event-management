@@ -43,7 +43,13 @@ const AppBarCollapse = (props: any) => {
                             {t("eventList.statistics")}&nbsp;&nbsp;
                         </Typography>
                     </MenuItem></a>
-                    : <div/>}
+                    :
+                    <a href={"/user/tickets"} className={classes.linkDecoration}><MenuItem>
+                        <Typography variant="h6" className={classes.light}>
+                            {t("eventList.tickets")}&nbsp;&nbsp;
+                        </Typography>
+                    </MenuItem></a>
+                }
             </ButtonAppBarCollapse>
 
             <div className={classes.buttonBar}>
@@ -86,7 +92,17 @@ const AppBarCollapse = (props: any) => {
                                 {t("eventList.statistics")}&nbsp;&nbsp;
                             </Typography>
                         </NavLink>
-                    </Button> : <div/>
+                    </Button> :
+
+                    <Button>
+                        <NavLink to="/user/tickets"
+                                 onClick={() => handleOnClick("tickets")}
+                                 className={activeIndex === "tickets" ? classes.active : classes.inactive}>
+                            <Typography variant="h6">
+                                {t("eventList.tickets")}&nbsp;&nbsp;
+                            </Typography>
+                        </NavLink>
+                    </Button>
                 }
             </div>
         </div>

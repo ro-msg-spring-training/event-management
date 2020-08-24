@@ -92,7 +92,6 @@ class EventListSmart extends React.Component<Props, State> {
 
         const goToPrevPage = () => {
             if (this.props.page <= 1) {
-                console.log("First page")
                 return
             } else {
                 this.props.decrementPage();
@@ -101,7 +100,6 @@ class EventListSmart extends React.Component<Props, State> {
 
         const goToNextPage = () => {
             if (this.props.page >= this.state.lastPage) {
-                console.log("Last page")
                 return
             } else {
                 this.props.incrementPage();

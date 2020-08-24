@@ -44,13 +44,13 @@ const HomeEventDetailsDumb = (props: Event) => {
         <Card className={classes.root} variant="outlined">
             <CardContent>
                 <Typography className={classes.title}>
-                    {bull}Title{bull}
+                    {bull}{title}{bull}
                 </Typography>
                 <Typography className={classes.date}>
-                    Date
+                    {date}
                 </Typography>
                 <Typography className={classes.location} >
-                    Location
+                    {location}
                 </Typography>
             </CardContent>
         </Card>
