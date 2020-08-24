@@ -13,7 +13,7 @@ const OccupancyListDumb = (props: Props) => {
     <div className={classCardStyle.list}>
       {console.log(props.eventsList)}
       {props.eventsList.map((event: any) => (
-        <div className={classCardStyle.block}>
+        <div className={classCardStyle.block} key={event.id}>
           <Box component="div" display="inline">
             <Avatar className={classCardStyle.avatar}>{event.title.charAt(0).toUpperCase()}</Avatar>
           </Box>
@@ -21,7 +21,7 @@ const OccupancyListDumb = (props: Props) => {
             <ListItem className={classCardStyle.listItem}>
               <Typography className={classCardStyle.title}>{event.title}</Typography>
               <Typography className={classCardStyle.occupancyRate}>Occupancy Rate: {event.occupancyRate} %</Typography>
-              <Typography className={classCardStyle.dateRange}>
+              <Typography component={"div"} className={classCardStyle.dateRange}>
                 <DateRangeIcon className={classCardStyle.dateIcon}></DateRangeIcon>
                 {event.startDate} <p className={classCardStyle.dateText}>to</p>{" "}
                 <p className={classCardStyle.dateEnd}>{event.endDate}</p>
