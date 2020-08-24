@@ -3,8 +3,6 @@ import { EventImage } from "../model/EventImage";
 import { headersAuth, serverURL, token, s3URL } from "./Api";
 import { fetchWrapper } from "./FetchWrapper";
 
-
-//TODO modify links
 export const fetchEventAPI = (id: string) => {
   return fetchWrapper(`${serverURL}/events/${id}`, {
     headers: headersAuth
