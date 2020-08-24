@@ -152,5 +152,9 @@
     "cancelButton": "Cancel",
     "selectedLocationMessage": " Selected location for the event",
     "searchBarText": "Search location"
+  },
+  "userEventList": {
+    "detailsButton": "Details",
+    "errorMessage": "Error"
   }
 }
