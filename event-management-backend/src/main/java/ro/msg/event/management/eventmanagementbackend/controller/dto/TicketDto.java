@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class TicketDto {
+    private long ticketId;
     private String name;
     private String emailAddress;
     private long ticketCategoryId;

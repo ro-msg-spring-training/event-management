@@ -1,5 +1,6 @@
 package ro.msg.event.management.eventmanagementbackend.controller;
 
+import com.itextpdf.text.DocumentException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import ro.msg.event.management.eventmanagementbackend.exception.TicketBuyingExce
 import ro.msg.event.management.eventmanagementbackend.security.User;
 import ro.msg.event.management.eventmanagementbackend.service.BookingService;
 
+import java.io.FileNotFoundException;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -42,11 +44,14 @@ public class BookingController {
             categoryAndTicketsMapReverseConverter.setBookingEmail(bookingSaveDto.getEmail());
 
             Booking savedBooking = this.bookingService.saveBooking(booking, categoryAndTicketsMapReverseConverter.convert(bookingSaveDto.getTickets()), bookingSaveDto.getEventId());
+            this.bookingService.createPdf(savedBooking);
             return new ResponseEntity<>(this.bookingConverter.convert(savedBooking), HttpStatus.OK);
         } catch (TicketBuyingException ticketBuyingException) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, ticketBuyingException.getMessage(), ticketBuyingException);
         } catch (NoSuchElementException noSuchElementException) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, noSuchElementException.getMessage(), noSuchElementException);
+        } catch (FileNotFoundException | DocumentException documentException) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, documentException.getMessage(), documentException);
         }
     }
 }
