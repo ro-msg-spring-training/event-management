@@ -3,7 +3,6 @@ import { FETCH_USER_EVENTS_SUCCESS, FETCH_USER_EVENTS_REQUEST, FETCH_USER_EVENTS
 
 export interface UserEventsPageState {
     events: UserEventList[],
-    isLoading: boolean,
     isError: boolean,
     isFetching: boolean,
     page: number,
@@ -13,7 +12,6 @@ export interface UserEventsPageState {
 
 const initialState = {
     events: [],
-    isLoading: false,
     isError: false,
     isFetching: false,
     page: 1,
@@ -31,7 +29,7 @@ export const UserEventsReducer = (state = initialState, action: ReducerActionPro
         case FETCH_USER_EVENTS_REQUEST:
             return {
                 ...state,
-                isLoading: true,
+                isFatching: true,
             }
         case FETCH_USER_EVENTS_SUCCESS:
             console.log('reducer suceess', action.payload)
@@ -39,15 +37,14 @@ export const UserEventsReducer = (state = initialState, action: ReducerActionPro
                 ...state,
                 events: state.events.concat(action.payload.events),
                 isMore: action.payload.more,
-                isLoading: false,
-                isFetching: false
+                isFetching: false,
+                page: state.page + 1
             }
         case FETCH_USER_EVENTS_ERROR:
             return {
                 ...state,
-                isLoading: false,
                 isError: true,
-                // isMore: false,
+                isMore: false,
                 isFetching: false
             }
         case UPDATE_IS_FETCHING:
