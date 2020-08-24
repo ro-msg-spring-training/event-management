@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { EventCrud } from '../../model/EventCrud';
 import { EventImage } from '../../model/EventImage';
-import { Button, Grid, Paper, makeStyles, Typography, List, ListItem, ListItemText, TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core';
+import { Button, Grid, makeStyles, Typography, TableContainer, Table, TableRow, TableCell, TableBody } from '@material-ui/core';
 import { useStyles } from '../../styles/CommonStyles';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { generateKeyPair } from 'crypto';
 import CarouselSlide from './CarouselSlide';
-import Arrow from './Arrow';
 
 const useStyles2 = makeStyles(theme => ({
   grid: {
@@ -38,15 +36,19 @@ function UserEventDetailsDumb(props: UserEventDetailsDumbProps) {
   const history = useHistory();
   const { t } = useTranslation();
 
-  let handleBackButon = (): void => {
-    // history.push("aici vine pagina lui teofana");
+  let handleBackButton = (): void => {
+    history.push("/user/events");
+  }
+
+  let handleJoinButton = (): void => {
+    //history.push("pagina pt join");
   }
 
   return (
     <>
 
       <Grid container spacing={0} direction="column" justify="space-between" alignItems="center">
-        <CarouselSlide images={props.images}/>
+        <CarouselSlide images={props.images} />
 
         <Grid item container justify="center">
           <Grid item>
@@ -66,34 +68,43 @@ function UserEventDetailsDumb(props: UserEventDetailsDumbProps) {
               <Table aria-label="simple table">
                 <TableBody>
                   <TableRow>
-                    <TableCell component="th" scope="row"> Start Date </TableCell>
+                    <TableCell component="th" scope="row"> {t("welcome.overviewStartDate")} </TableCell>
                     <TableCell align="right">{props.event.startDate}</TableCell>
                   </TableRow>
 
                   <TableRow>
-                    <TableCell component="th" scope="row"> End Date </TableCell>
+                    <TableCell component="th" scope="row"> {t("welcome.overviewEndDate")} </TableCell>
                     <TableCell align="right">{props.event.endDate}</TableCell>
                   </TableRow>
 
                   <TableRow>
-                    <TableCell component="th" scope="row"> Start Hour </TableCell>
+                    <TableCell component="th" scope="row"> {t("welcome.overviewStartTime")} </TableCell>
                     <TableCell align="right">{props.event.startHour}</TableCell>
                   </TableRow>
 
                   <TableRow>
-                    <TableCell component="th" scope="row"> Location </TableCell>
+                    <TableCell component="th" scope="row"> {t("welcome.overviewEndTime")} </TableCell>
+                    <TableCell align="right">{props.event.endHour}</TableCell>
+                  </TableRow>
+
+                  <TableRow>
+                    <TableCell component="th" scope="row"> {t("welcome.locationTab")} </TableCell>
                     <TableCell align="right">{props.event.location}</TableCell>
                   </TableRow>
 
                   <TableRow>
-                    <TableCell component="th" scope="row"> Max People </TableCell>
+                    <TableCell component="th" scope="row"> {t("welcome.overviewMaxPpl")} </TableCell>
                     <TableCell align="right">{props.event.maxPeople}</TableCell>
                   </TableRow>
 
-                  {/* <TableRow>
-                      <TableCell component="th" scope="row"> Status </TableCell>
-                      <TableCell align="right">{props.event.status}</TableCell>
-                    </TableRow> */}
+                  <TableRow>
+                    <TableCell component="th" scope="row"> {t("welcome.overviewStatus")} </TableCell>
+                    {
+                      props.event.status ?
+                        <TableCell align="right"> {t("welcome.overviewStatusActive")}</TableCell> :
+                        <TableCell align="right">{t("welcome.overviewStatusInactive")}</TableCell>
+                    }
+                  </TableRow>
 
                 </TableBody>
               </Table>
@@ -103,11 +114,11 @@ function UserEventDetailsDumb(props: UserEventDetailsDumbProps) {
 
         <Grid item container justify="center" alignItems="flex-end" direction="row" className={classes.position}>
           <Grid item xs={3} sm={2} md={2} lg={1} xl={1}>
-            <Button className={`${classes2.buttonStyle2} ${classes2.buttonStyle3}`} onClick={handleBackButon}> BACK </Button>
+            <Button className={`${classes2.buttonStyle2} ${classes2.buttonStyle3}`} onClick={handleBackButton}>  {t("welcome.backButton")} </Button>
           </Grid>
 
-          <Grid item xs={3} sm={2} md={2} lg={1} xl={1} >
-            <Button className={`${classes2.buttonStyle2} ${classes2.buttonStyle3}`} onClick={handleBackButon}> JOIN </Button>
+          <Grid item xs={5} sm={2} md={2} lg={1} xl={1} >
+            <Button className={`${classes2.buttonStyle2} ${classes2.buttonStyle3}`} onClick={handleJoinButton}>  {t("welcome.joinButton")} </Button>
           </Grid>
         </Grid>
       </Grid>
