@@ -173,7 +173,7 @@ public class EventService {
                     List<TicketCategory> categoriesToSave = new ArrayList<>();
                     event.getTicketCategories().forEach(ticketCategory ->
                     {
-                        if (ticketCategory.getId() == -1) {
+                        if (ticketCategory.getId() < 0) {
                             categoriesToSave.add(ticketCategory);
                         } else {
                             eventFromDB.getTicketCategories().forEach(ticketCategoryFromDB ->{
