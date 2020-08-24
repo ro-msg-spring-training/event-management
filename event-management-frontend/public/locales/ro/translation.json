@@ -101,7 +101,7 @@
         "popupMsgTryAgain": "Incercați încă o data",
         "popupMsgErrTitle": "Eroare",
         "popupMsgTimeErrDescription": "Perioada de timp nu este selectată corect. Dacă evenimentul ia loc intr-o singură zi, timpul de început trebuie să fie inaintea timpului de încheiere.",
-        "popupMsgDateErrDescription": "Perioada de timp nu este selectată corect. Ziua inceperii trebuie să fie înaintea zilei de încheiere",
+        "popupMsgDateErrDescription": "Perioada de timp nu este selectată corect. Ziua începerii trebuie să fie înaintea zilei de încheiere",
 
         "popupErrMsgUnderstood": "Am ințeles",
         "popupErrMsgDescription": "Există câmpuri care nu au fost completate corect. Pentru a merge mai departe vă rugăm să oferiți date valide.",

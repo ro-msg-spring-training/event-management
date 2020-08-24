@@ -1,29 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { EventCrud } from '../../model/EventCrud';
 import { EventImage } from '../../model/EventImage';
-import { Button, Grid, makeStyles, Typography, TableContainer, Table, TableRow, TableCell, TableBody } from '@material-ui/core';
+import { Button, Grid, Typography, TableContainer, Table, TableRow, TableCell, TableBody } from '@material-ui/core';
 import { useStyles } from '../../styles/CommonStyles';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import CarouselSlide from './CarouselSlide';
-
-const useStyles2 = makeStyles(theme => ({
-  grid: {
-    background: 'linear-gradient(45deg, #21C6F3 10%, #1E5FA4 90%)',
-    width: '100%',
-    margin: '0px',
-    flexGrow: 1,
-  },
-  typography: {
-    fontSize: 25,
-    fontFamily: 'Monospace',
-    textTransform: "uppercase"
-  },
-  position: {
-    marginTop: "2vh"
-  }
-
-}));
+import { useStyles2 } from '../../styles/UserEventDetailsStyles';
 
 interface UserEventDetailsDumbProps {
   event: EventCrud,
@@ -41,12 +24,10 @@ function UserEventDetailsDumb(props: UserEventDetailsDumbProps) {
   }
 
   let handleJoinButton = (): void => {
-    //history.push("pagina pt join");
+    //TODO goto Tickets page
   }
 
   return (
-    <>
-
       <Grid container spacing={0} direction="column" justify="space-between" alignItems="center">
         <CarouselSlide images={props.images} />
 
@@ -122,7 +103,6 @@ function UserEventDetailsDumb(props: UserEventDetailsDumbProps) {
           </Grid>
         </Grid>
       </Grid>
-    </>
   );
 };
 
