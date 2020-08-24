@@ -53,7 +53,7 @@ public class EventController {
     private static final LocalDate MIN_DATE = LocalDate.parse("1900-01-01");
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<EventWithRemainingTicketsDto> getEvent(@PathVariable long id) {
         try {
             EventDto eventDto = convertToDto.convert(this.eventService.getEvent(id));
