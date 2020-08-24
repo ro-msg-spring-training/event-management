@@ -17,10 +17,7 @@ import ro.msg.event.management.eventmanagementbackend.service.EventService;
 import ro.msg.event.management.eventmanagementbackend.service.LocationService;
 
 import javax.transaction.Transactional;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -60,14 +57,13 @@ public class SaveEventIntegrationTest {
         TicketCategoryDto ticketCategoryDto = TicketCategoryDto.builder()
                 .title("titleCategory")
                 .subtitle("subtitle")
-                .price((float)3.4)
+                .price((float) 3.4)
                 .description("desc")
                 .ticketsPerCategory(2)
                 .build();
 
         List<TicketCategoryDto> ticketCategoryDtoList = new ArrayList<>();
         ticketCategoryDtoList.add(ticketCategoryDto);
-
 
 
         EventDto eventDto = EventDto.builder()
