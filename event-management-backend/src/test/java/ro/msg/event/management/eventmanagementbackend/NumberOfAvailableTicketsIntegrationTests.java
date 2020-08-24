@@ -98,7 +98,7 @@ public class NumberOfAvailableTicketsIntegrationTests {
         ticketRepository.save(ticket113);
         ticketRepository.save(ticket114);
         long id =1;
-        List<AvailableTicketsPerCategory> list = ticketService.getRemainingTickets(id);
+        List<AvailableTicketsPerCategory> list = ticketService.getAvailableTickets(id);
         List<TicketCategory> categories = ticketCategoryRepository.getAllForEvent(id);
         for (AvailableTicketsPerCategory availableTicketsPerCategory: list){
             for (TicketCategory ticketCategory : categories){

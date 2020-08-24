@@ -20,4 +20,8 @@ insert into ticket_category values(3, 'VIP','best', 50,'really good', 2, 2);
 insert into ticket_category values(4, 'Medium','not so good', 100,'for you', 3,2);
 insert into ticket_category values(5, 'Cheap','good deal', 10,'really good',4,2);
 insert into `booking` values(1,timestamp '2020-09-17 18:47:52.69', 121,1);
+insert into `booking` values(2,timestamp '2020-09-17 18:47:52.69',121,2);
 insert into `ticket` values (1,'Andrew','a@yahoo.com',1,1);
+insert into `ticket` values (2,'AndrewC','aC@yahoo.com',1,1);
+insert into `ticket` values (3,'AndrewM','aM@yahoo.com',2,3);
+insert into `ticket` values (4,'AndrewS','aS@yahoo.com',2,3);
