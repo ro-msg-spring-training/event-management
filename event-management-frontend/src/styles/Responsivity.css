@@ -11,3 +11,36 @@
     margin-right: 10%;
   }
 }
+
+@media (max-width: 900px) {
+  .categoryCardResponsive {
+    margin-left: 30%;
+    margin-right: 30%;
+  }
+}
+
+@media (min-width: 800px) {
+  .addButtonResponsive {
+  }
+}
+
+@media (max-width: 600px) {
+  .marginBasicResponsive {
+    width: "100%";
+    margin-left: "0";
+    margin-right: "0";
+  }
+}
+
+@media (max-width: 600px) {
+  .maxTicketsResponsive {
+    margin-right: 0;
+    width: 200px;
+  }
+}
+
+@media (max-width: 600px) {
+  .headerResponsive {
+    width: 200px;
+  }
+}
