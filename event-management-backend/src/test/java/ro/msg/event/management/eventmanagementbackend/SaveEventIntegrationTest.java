@@ -87,7 +87,6 @@ public class SaveEventIntegrationTest {
                 .picturesUrlSave(picturesUrlSave)
                 .ticketCategoryDtoList(ticketCategoryDtoList)
                 .location(1)
-                .ticketInfo("ticket info")
                 .build();
 
 

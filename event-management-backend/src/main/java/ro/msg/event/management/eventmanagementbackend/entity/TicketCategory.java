@@ -12,7 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "ticket_category")
 public class TicketCategory extends BaseEntity {
 
     private String title;

@@ -42,8 +42,8 @@ public class FilterEventsIntegrationTests {
     private EventService eventService;
     @Test
     public void filter_by_date_and_rate() {
-        Event event1 = new Event("Tile", "Subtitle", true, LocalDate.parse("2020-11-11"), LocalDate.parse("2020-11-15"), LocalTime.parse("18:00"), LocalTime.parse("20:00"), 10, "descr", true, "no obs", 3, "someUser","ticket info", null, null, null,null);
-        Event event2 = new Event("Tile2", "Subtitle2", true, LocalDate.parse("2020-11-14"), LocalDate.parse("2020-11-19"), LocalTime.parse("10:00"), LocalTime.parse("12:00"), 12, "descr2", true, "no obs", 3, "someUser","ticket info", null, null, null,null);
+        Event event1 = new Event("Tile", "Subtitle", true, LocalDate.parse("2020-11-11"), LocalDate.parse("2020-11-15"), LocalTime.parse("18:00"), LocalTime.parse("20:00"), 10, "descr", true, "no obs", 3, "someUser", null, null, null,null);
+        Event event2 = new Event("Tile2", "Subtitle2", true, LocalDate.parse("2020-11-14"), LocalDate.parse("2020-11-19"), LocalTime.parse("10:00"), LocalTime.parse("12:00"), 12, "descr2", true, "no obs", 3, "someUser", null, null, null,null);
         Location location1 = new Location("Campus", "Obs 23", (float) 34.55, (float) 55.76, null, null);
         Location location2 = new Location("Centru", "Ferdinand 45", (float) 44.6, (float) 99.0, null, null);
         Sublocation sublocation1 = new Sublocation("same", 15, location1, null);
@@ -81,20 +81,9 @@ public class FilterEventsIntegrationTests {
         ticketRepository.save(ticket121);
 
         List<EventView> eventViews = eventService.filterAndPaginate(null,null,null,null,null,null,null,null,null, ComparisonSign.GREATER,(float)0,null,null,1,10,null,null);
-        for (EventView eventView : eventViews){
-            if (eventView.getRate() ==0 ){
-                assert(false);
-            }
-        }
-
-        LocalDate startDate = LocalDate.parse("2020-11-16");
-        LocalDate endDate = LocalDate.parse("2020-11-30");
-        List<EventView> eventViews1 = eventService.filterAndPaginate(null,null,null,null,null,startDate,endDate,null,null, null,null,null,null,1,10,null,null);
-        for (EventView eventView : eventViews1){
-            if ((eventView.getStartDate().isBefore(startDate) && eventView.getEndDate().isBefore(startDate)) || (eventView.getStartDate().isAfter(startDate) && eventView.getEndDate().isAfter(startDate))){
-                assert(false);
-            }
-        }
+        assertThat(eventViews.size()).isEqualTo(2);
+        List<EventView> eventViews1 = eventService.filterAndPaginate(null,null,null,null,null,LocalDate.parse("2020-11-16"),LocalDate.parse("2020-11-30"),null,null, null,null,null,null,1,10,null,null);
+        assertThat(eventViews1.size()).isEqualTo(1);
     }
 
 }

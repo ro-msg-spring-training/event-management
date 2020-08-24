@@ -9,6 +9,7 @@ SELECT
     event.start_date,
     event.end_date,
     event.max_people,
+
     CAST(CAST(COUNT(DISTINCT ticket.id) AS FLOAT)/CAST(event.max_people AS FLOAT) AS DECIMAL(16,2)) as rate
 FROM
     event

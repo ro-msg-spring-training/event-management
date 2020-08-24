@@ -9,7 +9,6 @@ public class EventListingConverter implements Converter<EventView, EventListingD
     @Override
     public EventListingDto convert(EventView eventView) {
         return EventListingDto.builder()
-                .id(eventView.getId())
                 .title(eventView.getTitle())
                 .startDate(eventView.getStartDate())
                 .endDate(eventView.getEndDate())

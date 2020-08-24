@@ -2,7 +2,6 @@ package ro.msg.event.management.eventmanagementbackend.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ro.msg.event.management.eventmanagementbackend.entity.*;
 import ro.msg.event.management.eventmanagementbackend.entity.view.EventView;
 import ro.msg.event.management.eventmanagementbackend.exception.ExceededCapacityException;
@@ -17,7 +16,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
-
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -40,7 +39,7 @@ public class EventService {
     @PersistenceContext(type = PersistenceContextType.TRANSACTION)
     private final EntityManager entityManager;
 
-    @Transactional(rollbackFor = {OverlappingEventsException.class,ExceededCapacityException.class})
+    @Transactional
     public Event saveEvent(Event event, List<Long> sublocationIDs) throws OverlappingEventsException, ExceededCapacityException {
 
         LocalDate startDate = event.getStartDate();
@@ -87,10 +86,13 @@ public class EventService {
         return overlappingEvents.isEmpty();
     }
 
-    @Transactional(rollbackFor = {OverlappingEventsException.class,ExceededCapacityException.class})
+    @Transactional
     public Event updateEvent(Event event, List<Long> ticketCategoryToDelete, Long updatedLocation) throws OverlappingEventsException, ExceededCapacityException {
         Optional<Event> eventOptional;
         eventOptional = eventRepository.findById(event.getId());
+        for (Long ticketCategoryId : ticketCategoryToDelete) {
+            this.ticketCategoryService.deleteTicketCategory(ticketCategoryId);
+        }
 
         if (eventOptional.isPresent()) {
             this.pictureRepository.deleteByEvent(eventOptional.get());
@@ -136,19 +138,15 @@ public class EventService {
                     eventFromDB.setObservations(event.getObservations());
                     eventFromDB.getPictures().addAll(event.getPictures());
 
-                    //update sublocation
+                    this.eventSublocationRepository.deleteByEvent(eventFromDB);
+
                     List<EventSublocation> eventSublocations = new ArrayList<>();
                     Location location = this.locationRepository.findById(updatedLocation)
                             .orElseThrow(() -> {
                                 throw new NoSuchElementException("No location with id=" + updatedLocation);
                             });
 
-                    this.eventSublocationRepository.deleteByEvent(eventFromDB);
-                    long idSublocation = eventFromDB.getEventSublocations().get(0).getEventSublocationID().getSublocation();
-
-                    if(!this.sublocationRepository.findById(idSublocation).orElseThrow(() -> {
-                        throw new NoSuchElementException("No sublocation with id=" + idSublocation);
-                    }).getLocation().getId().equals(updatedLocation))
+                    if(eventFromDB.getEventSublocations().get(0).getEventSublocationID() != location.getSublocation().get(0).getEventSublocationList().get(0).getEventSublocationID())
                     {
                         for (Long sublocationID : location.getSublocation().stream().map(BaseEntity::getId).collect(Collectors.toList())) {
                             EventSublocationID esID = new EventSublocationID(event.getId(), sublocationID);
@@ -165,22 +163,13 @@ public class EventService {
                         eventSublocations.forEach(eventSublocation -> eventFromDB.getEventSublocations().add(eventSublocation));
                     }
 
-                    //update ticket category
-                    for (Long ticketCategoryId : ticketCategoryToDelete) {
-                        this.ticketCategoryService.deleteTicketCategory(ticketCategoryId);
-                    }
-
                     List<TicketCategory> categoriesToSave = new ArrayList<>();
                     event.getTicketCategories().forEach(ticketCategory ->
                     {
-                        if (ticketCategory.getId() < 0) {
+                        if (ticketCategory.getId() == -1) {
                             categoriesToSave.add(ticketCategory);
                         } else {
-                            eventFromDB.getTicketCategories().forEach(ticketCategoryFromDB ->{
-                                if(ticketCategoryFromDB.getId().equals(ticketCategory.getId())){
-                                    this.ticketCategoryService.updateTicketCategory(ticketCategory);
-                                }
-                            } );
+                            this.ticketCategoryService.updateTicketCategory(ticketCategory);
                         }
                     });
 
@@ -299,7 +288,6 @@ public class EventService {
         typedQuery.setFirstResult(offset);
         typedQuery.setMaxResults(eventPerPage);
         return typedQuery.getResultList();
-
     }
 
     public Predicate getPredicate(ComparisonSign comparisonSign, String criteria, Float value, CriteriaBuilder criteriaBuilder, Root<EventView> c) {
