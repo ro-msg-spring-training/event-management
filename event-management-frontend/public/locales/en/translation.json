@@ -152,5 +152,12 @@
     "cancelButton": "Cancel",
     "selectedLocationMessage": " Selected location for the event",
     "searchBarText": "Search location"
+  },
+
+  "occupancyCards": {
+    "toDateText": "to",
+    "occupancyRate": "Occupancy Rate:",
+    "historyEvents": "Last events",
+    "upcomingEvents": "Upcoming Events"
   }
 }
