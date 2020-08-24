@@ -51,12 +51,8 @@ class DeleteEventIntegrationTests {
         this.eventRepository.save(event2);
 
         assertThrows(NoSuchElementException.class,
-                () -> {
-                    this.eventService.deleteEvent(-1);
-                });
+                () -> this.eventService.deleteEvent(-1));
         assertThrows(NoSuchElementException.class,
-                () -> {
-                    this.eventService.deleteEvent(1000);
-                });
+                () -> this.eventService.deleteEvent(1000));
     }
 }
