@@ -57,7 +57,7 @@ public class EventController {
     public ResponseEntity<EventWithRemainingTicketsDto> getEvent(@PathVariable long id) {
         try {
             EventDto eventDto = convertToDto.convert(this.eventService.getEvent(id));
-            List<AvailableTicketsPerCategory> availableTicketsPerCategories = ticketService.getRemainingTickets(id);
+            List<AvailableTicketsPerCategory> availableTicketsPerCategories = ticketService.getAvailableTickets(id);
             EventWithRemainingTicketsDto eventWithRemainingTicketsDto = EventWithRemainingTicketsDto.builder()
                     .eventDto(eventDto)
                     .availableTicketsPerCategoryList(availableTicketsPerCategories)

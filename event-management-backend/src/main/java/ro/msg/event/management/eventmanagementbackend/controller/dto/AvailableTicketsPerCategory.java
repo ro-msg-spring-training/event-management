@@ -11,5 +11,6 @@ import java.io.Serializable;
 @Data
 public class AvailableTicketsPerCategory implements Serializable {
     private String title;
+    private Long sold;
     private Long remaining;
 }

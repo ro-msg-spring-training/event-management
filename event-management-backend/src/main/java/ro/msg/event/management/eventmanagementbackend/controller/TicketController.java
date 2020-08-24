@@ -20,7 +20,7 @@ public class TicketController {
 
     @GetMapping("/remaining/{id}")
     public ResponseEntity<AvailableTicketsPerCategory> getAvailableTickets(@PathVariable Long id){
-        List<AvailableTicketsPerCategory> list = ticketService.getRemainingTickets(id);
+        List<AvailableTicketsPerCategory> list = ticketService.getAvailableTickets(id);
         return new ResponseEntity(list, HttpStatus.OK);
     }
 
