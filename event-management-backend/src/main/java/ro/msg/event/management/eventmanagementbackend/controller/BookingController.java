@@ -8,18 +8,16 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import ro.msg.event.management.eventmanagementbackend.controller.converter.CategoryAndTicketsMapReverseConverter;
 import ro.msg.event.management.eventmanagementbackend.controller.converter.Converter;
+import ro.msg.event.management.eventmanagementbackend.controller.dto.BookingDto;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.BookingSaveDto;
 import ro.msg.event.management.eventmanagementbackend.entity.Booking;
-import ro.msg.event.management.eventmanagementbackend.entity.Ticket;
 import ro.msg.event.management.eventmanagementbackend.exception.TicketBuyingException;
 import ro.msg.event.management.eventmanagementbackend.security.User;
 import ro.msg.event.management.eventmanagementbackend.service.BookingService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/bookings")
@@ -28,10 +26,11 @@ import java.util.Map;
 public class BookingController {
     private BookingService bookingService;
     private Converter<BookingSaveDto, Booking> bookingSaveReverseConverter;
+    private Converter<Booking, BookingDto> bookingConverter;
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
-    public ResponseEntity<String> saveBooking(@RequestBody BookingSaveDto bookingSaveDto) {
+    public ResponseEntity<BookingDto> saveBooking(@RequestBody BookingSaveDto bookingSaveDto) {
         try {
             Booking booking = bookingSaveReverseConverter.convert(bookingSaveDto);
 
@@ -39,26 +38,15 @@ public class BookingController {
             User user = (User) auth.getPrincipal();
             booking.setUser(user.getIdentificationString());
 
-            //a new converter could be created that deals with this map
-            Map<Long, List<Ticket>> categoryIdsWithTickets = new HashMap<>();
-            bookingSaveDto.getTickets().forEach(ticketSaveDto ->
-            {
-                Ticket ticket = Ticket.builder()
-                        .name(ticketSaveDto.getName())
-                        .emailAddress(bookingSaveDto.getEmail())
-                        .build();
-                if (categoryIdsWithTickets.containsKey(ticketSaveDto.getTicketCategoryId())) {
-                    categoryIdsWithTickets.get(ticketSaveDto.getTicketCategoryId()).add(ticket);
-                } else {
-                    List<Ticket> tickets = new ArrayList<>();
-                    tickets.add(ticket);
-                    categoryIdsWithTickets.put(ticketSaveDto.getTicketCategoryId(), tickets);
-                }
-            });
-            Booking savedBooking = this.bookingService.saveBooking(booking, categoryIdsWithTickets, bookingSaveDto.getEventId());
-            return new ResponseEntity<>("saved", HttpStatus.OK);
+            CategoryAndTicketsMapReverseConverter categoryAndTicketsMapReverseConverter = new CategoryAndTicketsMapReverseConverter();
+            categoryAndTicketsMapReverseConverter.setBookingEmail(bookingSaveDto.getEmail());
+
+            Booking savedBooking = this.bookingService.saveBooking(booking, categoryAndTicketsMapReverseConverter.convert(bookingSaveDto.getTickets()), bookingSaveDto.getEventId());
+            return new ResponseEntity<>(this.bookingConverter.convert(savedBooking), HttpStatus.OK);
         } catch (TicketBuyingException ticketBuyingException) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, ticketBuyingException.getMessage(), ticketBuyingException);
+        } catch (NoSuchElementException noSuchElementException) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, noSuchElementException.getMessage(), noSuchElementException);
         }
     }
 }

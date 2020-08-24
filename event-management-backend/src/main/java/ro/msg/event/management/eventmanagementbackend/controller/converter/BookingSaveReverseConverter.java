@@ -9,21 +9,9 @@ public class BookingSaveReverseConverter implements Converter<BookingSaveDto, Bo
 
     @Override
     public Booking convert(BookingSaveDto bookingSaveDto) {
-        Booking booking = Booking.builder()
+
+        return Booking.builder()
                 .bookingDate(bookingSaveDto.getBookingDate())
                 .build();
-
-        /*List<Ticket> tickets = new ArrayList<>();
-        bookingSaveDto.getTickets().forEach(ticketAddDto ->
-        {
-            Ticket ticket = Ticket.builder()
-                    .emailAddress(bookingSaveDto.getEmail())
-                    .name(ticketAddDto.getName())
-                    .booking(booking)
-                    .build();
-            tickets.add(ticket);
-        });
-        booking.setTickets(tickets);*/
-        return booking;
     }
 }
