@@ -1,9 +1,8 @@
 import React from "react";
-import { Card, CardContent, Typography, Grid, CardHeader, Avatar, CircularProgress } from "@material-ui/core";
+import { Card, CardContent, Typography, CircularProgress } from "@material-ui/core";
 import OccupancyListDumb from "./OccupancyListDumb";
 import { useStyles } from "../../styles/CommonStyles";
 import useStylesCards from "../../styles/OccupancyCardsStyle";
-import OccupancyListSmart from "./OccupancyListSmart";
 import { OccupancyCardType } from "../../types/OcuupancyCardsType";
 import "../../styles/OccupancyCards.css";
 import ErrorIcon from "@material-ui/icons/Error";

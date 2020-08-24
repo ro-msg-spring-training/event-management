@@ -11,8 +11,6 @@ import {
   historyEventsisLoading,
 } from "../../actions/AdminHomePageActions";
 import { connect } from "react-redux";
-import OccupancyListDumb from "./OccupancyListDumb";
-import { updateEvent } from "../../actions/HeaderEventCrudActions";
 import CardsOccupancyDumb from "./CardsOcuppancyDumb";
 
 interface Props {

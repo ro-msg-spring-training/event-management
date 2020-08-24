@@ -13,7 +13,6 @@ const useStylesCards = makeStyles(() => ({
     },
   },
   cardContainer: {
-    //marginLeft: "auto",
     marginRight: "700px",
   },
   title: {
@@ -28,7 +27,6 @@ const useStylesCards = makeStyles(() => ({
     fontSize: "1.75rem",
     color: "#fff",
     marginBottom: "10px",
-    //backgroundColor: "white",
     textTransform: "uppercase",
   },
   listItem: {
@@ -36,9 +34,6 @@ const useStylesCards = makeStyles(() => ({
   },
   list: {
     listStyleType: "none !important ",
-  },
-  cardHeader: {
-    //backgroundColor: "white",
   },
   card: {
     borderRadius: 16,
@@ -49,7 +44,6 @@ const useStylesCards = makeStyles(() => ({
     padding: "3px",
     margin: "3px",
     marginRight: "20px",
-    //marginTop: "16px !important",
     marginTop: "30px !important",
   },
   event: {

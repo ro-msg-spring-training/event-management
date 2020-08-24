@@ -1,5 +1,5 @@
 import React from "react";
-import { List, ListItem, Typography, Divider, Avatar, Box } from "@material-ui/core";
+import { ListItem, Typography, Divider, Avatar, Box } from "@material-ui/core";
 import { OccupancyCardType } from "../../types/OcuupancyCardsType";
 import useStylesCards from "../../styles/OccupancyCardsStyle";
 import DateRangeIcon from "@material-ui/icons/DateRange";
