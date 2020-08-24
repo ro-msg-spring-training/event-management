@@ -60,8 +60,8 @@ const HomeEventListDumb = (props: Props) => {
       <Box>
         <Card className={commonClasses.cardRoot} variant="outlined">
           <CardContent>
-            <Typography variant="h2" component="h2">
-              Events
+            <Typography variant="h3" component="h3">
+              {t("eventList.events")}
             </Typography>
           </CardContent>
         </Card>
