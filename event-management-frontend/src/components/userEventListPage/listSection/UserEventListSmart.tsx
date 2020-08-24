@@ -30,26 +30,21 @@ function UserEventListSmart({ events, isLoading, isError, isMore, page, limit, f
     useEffect(() => {
         if (!isFetching) return;
 
-        setTimeout(() => {
-            if (isMore) {
-                fetchUserEvents(page + 1, limit);
-            }
-            setIsFetching(false);
-        }, 3000)
-
-
+        if (isMore) {
+            fetchUserEvents(page + 1, limit);
+        }
+        setIsFetching(false);
     }, [isFetching]);
 
     function handleScroll() {
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-            console.log("you're at the bottom of the page");
             setIsFetching(true);
         }
     }
     const history = useHistory()
 
     useEffect(() => {
-        // fetchUserEvents(1, limit);
+        fetchUserEvents(1, limit);
     }, [page, limit]);
 
 
