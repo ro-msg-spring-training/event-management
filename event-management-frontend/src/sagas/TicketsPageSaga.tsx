@@ -4,7 +4,7 @@ import {
     FETCH_TICKETS,
     fetchTicketsError,
     fetchTicketsRequest,
-    fetchTicketsSuccess
+    fetchTicketsSuccess, UPDATE_TICKETS
 } from "../actions/TicketsPageActions";
 
 
@@ -21,5 +21,14 @@ function* fetchTicketsAsync() {
 
 export function* watchFetchTicketsAsync() {
     yield takeEvery(FETCH_TICKETS, fetchTicketsAsync)
+}
+
+const delay = (ms: number) => new Promise(res => setTimeout(res, ms))
+function* ticketUpdateAsync() {
+    //console.log("saga")
+}
+
+export function* watchTicketUpdateAsync() {
+    yield takeEvery(UPDATE_TICKETS, ticketUpdateAsync)
 }
 

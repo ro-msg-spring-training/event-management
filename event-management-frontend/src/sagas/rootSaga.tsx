@@ -11,7 +11,7 @@ import {
 } from "./EventsPageSaga";
 import { loadEventWatcher, deleteProductWatcher, addProductWatcher, editProductWatcher } from "./HeaderEventCrudSaga";
 import { fetchLocationsActionWatcher } from "./LocationPageSaga";
-import { watchFetchTicketsAsync } from "./TicketsPageSaga";
+import {watchFetchTicketsAsync, watchTicketUpdateAsync} from "./TicketsPageSaga";
 import { fetchUpcomingEventsActionWatcher, fetchHistoryEventsActionWatcher } from "./AdminHomePageSaga";
 
 export default function* rootSaga() {
@@ -39,6 +39,8 @@ export default function* rootSaga() {
 
     fetchUpcomingEventsActionWatcher(),
     fetchHistoryEventsActionWatcher(),
+
+    watchTicketUpdateAsync()
    ]);
  }
    

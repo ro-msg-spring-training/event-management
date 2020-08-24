@@ -4,53 +4,33 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import {
-    Button,
     Container,
-    TableFooter,
-    TableSortLabel,
     CircularProgress,
     Grid
 } from "@material-ui/core";
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { Link } from "react-router-dom";
-import { useStyles } from '../../../styles/CommonStyles';
 import { useTranslation } from "react-i18next";
-import { useScrollPosition } from '@n8tb1t/use-scroll-position'
-import { createStyles, Theme, withStyles } from "@material-ui/core/styles";
 import { useListStyles } from '../../../styles/eventListStyles';
 import ErrorIcon from "@material-ui/icons/Error";
 
-
-const StyledTableCell = withStyles((theme: Theme) =>
-    createStyles({
-        body: {
-            fontSize: 14,
-            padding: 10,
-        },
-    }),
-)(TableCell);
-
-const PaginationCell = withStyles((theme: Theme) =>
-    createStyles({
-        body: {
-            fontSize: 50,
-            padding: 10,
-        },
-    }),
-)(TableCell);
 
 interface Props {
     isError: boolean,
     isLoading: boolean,
     ticketsDetails: any[];
+    handleSubmit: any;
+    handleChange: any;
+    value: any;
 }
 
 
 const TicketListDumb = (props: Props) => {
-    const commonClasses = useStyles()
     const classes = useListStyles()
+    const handleSubmit = props.handleSubmit
+    const handleChange = props.handleChange
+    const value = props.value
 
     const [width, setWidth] = useState(window.innerWidth);
     const [t] = useTranslation();
@@ -67,6 +47,14 @@ const TicketListDumb = (props: Props) => {
 
     return (
             <Container>
+                <form onSubmit={handleSubmit}>
+                    <label>
+                        Name:
+                        <input type="text" value={value} onChange={handleChange} />
+                    </label>
+                    <input type="submit" value="Submit" />
+                </form>
+
                 <TableContainer component={Paper} className={classes.pageContainer}>
 
                     { props.isError ?

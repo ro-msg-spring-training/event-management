@@ -1,48 +1,81 @@
-import React from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import { connect } from 'react-redux';
 import { AppState } from "../../../store/store";
-import { fetchAllTickets } from '../../../actions/TicketsPageActions';
+import {fetchAllTickets, updateTickets} from '../../../actions/TicketsPageActions';
 import TicketDetailsDumb from "./TicketDetailsDumb";
 import TicketListDumb from "./TicketListDumb";
+import TicketView from "../filterSection/TicketView";
+import useBookSearch from "../filterSection/TicketSearch";
 
 
 interface Props {
-    tickets: { Ticket: any; }[];
+    tickets: any;
     isLoading: boolean;
     isError: boolean;
     fetchAllTickets: () => { type: string; };
+    updateTickets: (arg0: any) => {type: string,
+        payload: any};
 }
 
-interface State {
-}
+const TicketListSmart = (props: Props) => {
 
-class TicketListSmart extends React.Component<Props, State> {
-    constructor(props: Props) {
-        super(props);
-        this.state = {};
+    const [query, setQuery] = useState('')
+    const [pageNumber, setPageNumber] = useState(1)
+
+    const {
+        books,
+        hasMore,
+        loading,
+        error
+    } = useBookSearch(query, pageNumber)
+
+    const observer = useRef<any>()
+    const lastBookElementRef = useCallback(node => {
+        if (loading) return
+        if (observer.current) observer.current.disconnect()
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && hasMore) {
+                setPageNumber(prevPageNumber => prevPageNumber + 1)
+            }
+        })
+        if (node) observer.current.observe(node)
+    }, [loading, hasMore])
+
+    const handleChange = (event: any) => {
+        setQuery(event.target.value);
     }
 
-    componentWillMount() {
-        this.props.fetchAllTickets();
+    const handleSubmit = (event: any) => {
+        event.preventDefault();
+        setPageNumber(1);
     }
 
-    render() {
-        let { tickets } = this.props;
+    useEffect(() => {
+        console.log("fetch")
+        props.fetchAllTickets();
+    }, [props.tickets === []]);
 
-        // Using the map function, we will get all the tickets from the array
-        const ticketDetails = tickets
-            .map((ticket: any) =>
-                <TicketDetailsDumb key={ticket.id}
-                                   id={ticket.id} date={ticket.date}
-                                   category={ticket.category} name={ticket.name} />);
+    const tickets = props.tickets;
+    //console.log(tickets)
 
-        return (
-            <TicketListDumb
-                isLoading={this.props.isLoading}
-                isError={this.props.isError}
-                ticketsDetails={ticketDetails}/>
-        );
-    }
+    // Using the map function, we will get all the tickets from the array
+    const ticketDetails = tickets !== undefined ? tickets
+        .map((ticket: any, index: number) => {
+            if (books.length === index + 1) {
+                return <div ref={lastBookElementRef} key={ticket.id}>{ticket.category}</div>
+            } else {
+                return <div key={ticket.id}>{ticket.category}</div>
+            }
+        }) : [];
+
+    return (
+        <>
+            <p>Tickets</p>
+            {ticketDetails}
+            <div>{loading && 'Loading...'}</div>
+            <div>{error && 'Error'}</div>
+        </>
+    );
 }
 
 const mapStateToProps = (state: AppState) => ({
@@ -52,4 +85,4 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 export default connect(mapStateToProps,
-    { fetchAllTickets })(TicketListSmart)
+    { fetchAllTickets, updateTickets })(TicketListSmart)

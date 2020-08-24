@@ -1,7 +1,7 @@
 import {
     FETCH_TICKETS_SUCCESS,
     FETCH_TICKETS_ERROR,
-    FETCH_TICKETS_REQUEST,
+    FETCH_TICKETS_REQUEST, UPDATE_TICKETS,
 } from "../actions/TicketsPageActions"
 
 
@@ -43,6 +43,11 @@ export const TicketsPageReducer = (state = initialState, action: ReducerActionPr
                 isLoading: false,
                 isError: true
             };
+        case UPDATE_TICKETS:
+            return {
+                ...state,
+                allTickets: action.payload
+            }
         default:
             return state
     }
