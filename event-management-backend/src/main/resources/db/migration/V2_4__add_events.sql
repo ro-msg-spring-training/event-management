@@ -25,3 +25,12 @@ insert into `ticket` values (1,'Andrew','a@yahoo.com',1,1);
 insert into `ticket` values (2,'AndrewC','aC@yahoo.com',1,1);
 insert into `ticket` values (3,'AndrewM','aM@yahoo.com',2,3);
 insert into `ticket` values (4,'AndrewS','aS@yahoo.com',2,3);
+
+insert into picture values(1,'https://event-management-pictures.s3-eu-west-1.amazonaws.com/image-88200-1597822468303-pizza.jpg',1);
+insert into picture values(2,'https://event-management-pictures.s3-eu-west-1.amazonaws.com/image-142400-1598019891841-typescript_print.png',2);
+insert into picture values(3, 'https://event-management-pictures.s3-eu-west-1.amazonaws.com/image-142400-1598019891841-typescript_print.png',3);
+insert into picture values(4,'https://event-management-pictures.s3-eu-west-1.amazonaws.com/image-135725-1597848333216-tr30-June-Ibiza.jpg',4);
+insert into picture values(5,'https://event-management-pictures.s3-eu-west-1.amazonaws.com/image-135725-1597848333216-tr30-June-Ibiza.jpg',5);
+insert into picture values(6,'https://event-management-pictures.s3-eu-west-1.amazonaws.com/image-257420-1597822468246-MicrosoftTeams-image.png',6);
+insert into picture values(7,'https://event-management-pictures.s3-eu-west-1.amazonaws.com/image-71686-1597835305734-untold.jpg',7);
+insert into picture values(8,'https://event-management-pictures.s3-eu-west-1.amazonaws.com/image-85790-1597922834259-despicable_me_2_minions_wallpaper1_96776.jpg',8);
