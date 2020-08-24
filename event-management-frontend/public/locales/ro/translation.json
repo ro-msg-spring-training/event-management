@@ -151,5 +151,9 @@
         "cancelButton": "Anuleaza",
         "selectedLocationMessage": "Locatia selectata pentru eveniment",
         "searchBarText": "Cauta locatie"
-    }
+    },
+    "userEventList": {
+        "detailsButton": "Detalii",
+        "errorMessage": "Eroare"
+      }
 }
