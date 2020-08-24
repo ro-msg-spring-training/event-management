@@ -1,11 +1,10 @@
-const serverURL = 'http://google.com'
+import { headersAuth, serverURL } from "./Api";
 
 export const fetchEvents = (page: number, limit: number) => {
-    const url = `${serverURL}/events/?page=${page}&limit=${limit}`
+    const url = `${serverURL}/events/user/upcoming/?page=${page}&limit=${limit}`;
+    const urlOptions = {headers: headersAuth};
 
-    console.log('URL', url)
-
-    return fetch(url)
+    return fetch(url, urlOptions)
         .then((response) => response.json())
         .then((json) => {
             return json;

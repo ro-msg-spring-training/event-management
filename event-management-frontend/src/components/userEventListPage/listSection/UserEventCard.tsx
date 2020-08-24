@@ -29,7 +29,7 @@ function UserEventCard({ event, translation, goToEventDetails }: UserEventCardPr
                     <div
                         className={classes.imageWrapper}
                         style={{
-                            backgroundImage: 'url(' + (event.images.length > 0 ? event.images[0] : noImageAvailableSrc) + ')',
+                            backgroundImage: 'url(' + (event.picture? event.picture : noImageAvailableSrc) + ')',
                         }} />
                 </Link>
 

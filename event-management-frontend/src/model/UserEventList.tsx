@@ -7,5 +7,5 @@ export interface UserEventList {
     startHour: string,
     endHour: string,
     rate: number,
-    images: string[]
+    picture: string
 }
