@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import UserEventListDumb from './UserEventListDumb';
-import { Container, CircularProgress } from '@material-ui/core';
+import { CircularProgress } from '@material-ui/core';
 import { useHistory } from 'react-router-dom'
 import { UserEventList } from '../../../model/UserEventList';
 import { fetchUserEvents } from '../../../actions/UserEventListActions';
 import { AppState } from '../../../store/store';
+import { useTranslation } from 'react-i18next';
 
 interface UserEventListProps {
     events: UserEventList[],
@@ -19,6 +20,7 @@ interface UserEventListProps {
 
 function UserEventListSmart({ events, isLoading, isError, isMore, page, limit, fetchUserEvents }: UserEventListProps) {
     const [isFetching, setIsFetching] = useState(false);
+    const [t] = useTranslation();
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
@@ -30,7 +32,7 @@ function UserEventListSmart({ events, isLoading, isError, isMore, page, limit, f
 
         setTimeout(() => {
             if (isMore) {
-                fetchUserEvents(page + 1, limit)
+                fetchUserEvents(page + 1, limit);
             }
             setIsFetching(false);
         }, 3000)
@@ -47,18 +49,18 @@ function UserEventListSmart({ events, isLoading, isError, isMore, page, limit, f
     const history = useHistory()
 
     useEffect(() => {
-        // fetchUserEvents(1, limit)
+        // fetchUserEvents(1, limit);
     }, [page, limit]);
 
 
     const goToEventDetails = (eventId: number) => {
-        console.log(`merg pe ruta: /user/events/${eventId}`)
-        // history.push(`/user/events/${eventId}`)
+        history.push(`/user/events/${eventId}`);
     }
 
     return (
         <>
             <UserEventListDumb
+                translation={t}
                 events={events}
                 isLoading={isLoading}
                 isError={isError}

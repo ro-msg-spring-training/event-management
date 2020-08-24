@@ -2,14 +2,14 @@ import { makeStyles } from "@material-ui/core";
 
 export const useCardStyle = makeStyles({
     root: {
-        minHeight: '50vh',
+        minHeight: '64vh',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between'
     },
     imageWrapper: {
         width: '100%',
-        height: '25vh',
+        height: '32vh',
         backgroundSize: 'cover'
     },
     eventInfo: {
@@ -32,5 +32,8 @@ export const useCardStyle = makeStyles({
     iconInfo: {
         marginRight: '8px', 
         color: '#f2ac0a'
+    },
+    link: {
+        textDecoration: 'none'
     }
 })

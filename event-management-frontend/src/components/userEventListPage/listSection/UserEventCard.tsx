@@ -7,30 +7,38 @@ import GroupIcon from '@material-ui/icons/Group';
 import { UserEventList } from '../../../model/UserEventList';
 import { useCardStyle } from '../../../styles/userEventsPage/UserEventCardStyle';
 import { useStyles } from '../../../styles/CommonStyles';
+import { Link } from 'react-router-dom';
+import { TFunction } from 'i18next';
 
 interface UserEventCardProps {
     event: UserEventList,
+    translation: TFunction,
     goToEventDetails: (eventId: number) => void
 }
 
 export const noImageAvailableSrc = 'https://www.thegreensheet.com/Public/build/images.min/nophoto.png'
 
-function UserEventCard({ event, goToEventDetails }: UserEventCardProps) {
+function UserEventCard({ event, translation, goToEventDetails }: UserEventCardProps) {
     const classes = useCardStyle();
     const communStyles = useStyles();
 
     return (
         <Paper className={classes.root}>
             <div>
-                <div
-                    className={classes.imageWrapper}
-                    style={{
-                        backgroundImage: 'url(' + (event.images.length > 0 ? event.images[0] : noImageAvailableSrc) + ')',
-                    }} />
+                <Link to={`/user/event/${event.id}`}>
+                    <div
+                        className={classes.imageWrapper}
+                        style={{
+                            backgroundImage: 'url(' + (event.images.length > 0 ? event.images[0] : noImageAvailableSrc) + ')',
+                        }} />
+                </Link>
+
                 <div className={classes.eventInfo}>
-                    <Typography variant="h6" color={"primary"}>
-                        {event.title}
-                    </Typography>
+                    <Link to={`/user/event/${event.id}`} className={classes.link}>
+                        <Typography variant="h6" color={"primary"}>
+                            {event.title}
+                        </Typography>
+                    </Link>
 
                     <div>
                         <LocationOnIcon className={classes.iconInfo} />
@@ -53,10 +61,11 @@ function UserEventCard({ event, goToEventDetails }: UserEventCardProps) {
                     </div>
                 </div>
             </div>
+
             <Button
                 className={`${communStyles.buttonStyle2} ${communStyles.buttonStyle3} ${classes.detailsButton}`}
                 onClick={(e) => goToEventDetails(event.id)}>
-                Details
+                {translation("userEventList.detailsButton")}
             </Button>
         </Paper>
     )
