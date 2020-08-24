@@ -13,26 +13,27 @@ const OccupancyListDumb = (props: Props) => {
   const { t } = useTranslation();
   return (
     <div className={classCardStyle.list}>
-      {console.log(props.eventsList)}
       {props.eventsList.map((event: any) => (
         <div className={classCardStyle.block} key={event.id}>
           <Box component="div" display="inline">
             <Avatar className={classCardStyle.avatar}>{event.title.charAt(0).toUpperCase()}</Avatar>
           </Box>
+
           <Box component="div" display="inline">
             <ListItem className={classCardStyle.listItem}>
               <Typography className={classCardStyle.title}>{event.title}</Typography>
               <Typography className={classCardStyle.occupancyRate}>
                 {t("occupancyCards.occupancyRate")} {event.occupancyRate} %
               </Typography>
+
               <Typography component={"div"} className={classCardStyle.dateRange}>
                 <DateRangeIcon className={classCardStyle.dateIcon}></DateRangeIcon>
-                {event.startDate} <p className={classCardStyle.dateText}>{t("occupancyCards.toDateText")}</p>{" "}
+                {event.startDate} <p className={classCardStyle.dateText}>{t("occupancyCards.toDateText")}</p>
                 <p className={classCardStyle.dateEnd}>{event.endDate}</p>
               </Typography>
             </ListItem>
           </Box>
-          <div className={classCardStyle.event}></div>
+
           <Divider variant={"middle"} />
         </div>
       ))}

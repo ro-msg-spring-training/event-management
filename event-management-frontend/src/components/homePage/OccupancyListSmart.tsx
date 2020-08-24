@@ -29,8 +29,6 @@ const OccupancyListSmart: React.FC<Props> = (props: Props) => {
   useEffect(() => {
     props.upcomingEventsFetch();
     props.historyEventsFetch();
-    //props.upcomingEventsisLoading(false);
-    //props.historyEventsisLoading(false);
   }, []);
   return (
     <CardsOccupancyDumb
