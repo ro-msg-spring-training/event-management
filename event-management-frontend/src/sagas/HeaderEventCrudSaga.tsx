@@ -19,8 +19,8 @@ function* loadEventAsync(props: Props) {
   try {
     yield put(fetchEventRequest());
     const event = yield call(() => fetchEventAPI(props.payload));
-    event.id = parseInt(props.payload)
-    yield put(fetchEventSuccess(event))
+    event.eventDto.id = parseInt(props.payload)
+    yield put(fetchEventSuccess(event.eventDto))
   } catch (e) {
     yield put(fetchEventFailure(e))
   }
