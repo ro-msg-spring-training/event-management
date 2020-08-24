@@ -47,12 +47,12 @@ function UserEventCard({ event, translation, goToEventDetails }: UserEventCardPr
 
                     <div>
                         <EventIcon className={classes.iconInfo} />
-                        {event.startDate.toDateString()} - {event.endDate.toDateString()}
+                        {event.startDate} - {event.endDate}
                     </div>
 
                     <div>
                         <QueryBuilderIcon className={classes.iconInfo} />
-                        {event.startHour} - {event.endHour}
+                        {event.startTime} - {event.endTime}
                     </div>
 
                     <div>

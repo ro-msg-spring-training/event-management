@@ -4,8 +4,8 @@ export interface UserEventList {
     location: string,
     startDate: Date,
     endDate: Date,
-    startHour: string,
-    endHour: string,
+    startTime: string,
+    endTime: string,
     rate: number,
     picture: string
 }

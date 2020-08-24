@@ -6,6 +6,7 @@ function* fetchUserEventsAsync(action: any) {
     yield put(fetchUserEventsRequest());
     try {
         const result = yield call (() => fetchEvents(action.payload.page, action.payload.limit));
+        console.log('rezultatul de la server', result)
         yield put(fetchUserEventsSuccess(result));
     }
     catch (err) {
