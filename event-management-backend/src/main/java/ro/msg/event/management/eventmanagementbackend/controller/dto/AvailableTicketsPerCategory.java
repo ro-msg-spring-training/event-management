@@ -1,20 +1,16 @@
 package ro.msg.event.management.eventmanagementbackend.controller.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.io.Serializable;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class CardsEventDto {
-    private Long id;
+@Data
+public class AvailableTicketsPerCategory implements Serializable {
     private String title;
-    private Float occupancyRate;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private Long sold;
+    private Long remaining;
 }

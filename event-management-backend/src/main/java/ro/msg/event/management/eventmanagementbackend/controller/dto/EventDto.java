@@ -15,6 +15,8 @@ import java.util.List;
 @Builder
 public class EventDto {
 
+    private long id;
+
     private String title;
 
     private String subtitle;
@@ -48,4 +50,6 @@ public class EventDto {
     private List<TicketCategoryDto> ticketCategoryDtoList;
 
     private List<Long> ticketCategoryToDelete;
+
+    private String ticketInfo;
 }

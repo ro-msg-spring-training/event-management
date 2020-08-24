@@ -55,4 +55,7 @@ public class EventView {
     @Column
     private Float rate;
 
+    @Column
+    private String pictureUrl;
+
 }

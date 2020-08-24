@@ -5,16 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CardsEventDto {
-    private Long id;
-    private String title;
-    private Float occupancyRate;
-    private LocalDate startDate;
-    private LocalDate endDate;
+public class EventWithRemainingTicketsDto {
+    EventDto eventDto;
+    List<AvailableTicketsPerCategory> availableTicketsPerCategoryList;
 }
