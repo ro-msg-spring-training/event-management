@@ -1,6 +1,7 @@
 package ro.msg.event.management.eventmanagementbackend.controller;
 
 import lombok.RequiredArgsConstructor;
+import net.minidev.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -46,6 +47,7 @@ public class EventController {
     private final Converter<EventView, EventFilteringDto> converter;
     private final Converter<EventView, EventListingDto> converterToListingDto;
     private final Converter<EventView, CardsEventDto> converterToCardsEventDto;
+    private final Converter<EventView,CardsUserEventDto> converterToUserCardsEventDto;
     private final LocationService locationService;
     private final TicketService ticketService;
 
@@ -196,6 +198,44 @@ public class EventController {
         } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, indexOutOfBoundsException.getMessage(), indexOutOfBoundsException);
         }
+    }
+
+    @GetMapping("/user/upcoming")
+    public ResponseEntity<JSONObject> userUpcomingEvents(@RequestParam int pageNumber,
+                                                         @RequestParam(required = false) String title,
+                                                         @RequestParam(required = false) String location,
+                                                         @RequestParam(required = false) ComparisonSign rateSign,
+                                                         @RequestParam(required = false) Float rate,
+                                                         @RequestParam int limit) {
+        List<EventView> eventViews = eventService.filterAndPaginate(title, null, null, null, location, LocalDate.now(), MAX_DATE, null, null, rateSign, rate, null, null, pageNumber, limit, SortCriteria.DATE, true);
+
+        List<CardsUserEventDto> returnList = converterToUserCardsEventDto.convertAll(eventViews);
+
+        List<EventView> checkLastPage = eventService.filterAndPaginate(title, null, null, null, location, LocalDate.now(), MAX_DATE, null, null, rateSign, rate, null, null, pageNumber + 1, limit, SortCriteria.DATE, true);
+        boolean more = !checkLastPage.isEmpty();
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("events", returnList);
+        responseBody.put("more", more);
+        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+    }
+
+    @GetMapping("/user/history")
+    public ResponseEntity<JSONObject> userPastEvents(@RequestParam int pageNumber,
+                                                     @RequestParam(required = false) String title,
+                                                     @RequestParam(required = false) String location,
+                                                     @RequestParam(required = false) ComparisonSign rateSign,
+                                                     @RequestParam(required = false) Float rate,
+                                                     @RequestParam int limit) {
+        List<EventView> eventViews = eventService.filterAndPaginate(title, null, null, null, location, MIN_DATE, LocalDate.now(), null, null, rateSign, rate, null, null, pageNumber, limit, SortCriteria.DATE, false);
+
+        List<CardsUserEventDto> returnList = converterToUserCardsEventDto.convertAll(eventViews);
+
+        List<EventView> checkLastPage = eventService.filterAndPaginate(title, null, null, null, location, MIN_DATE, LocalDate.now(), null, null, rateSign, rate, null, null, pageNumber + 1, limit, SortCriteria.DATE, false);
+        boolean more = !checkLastPage.isEmpty();
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("events", returnList);
+        responseBody.put("more", more);
+        return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
 }
 
