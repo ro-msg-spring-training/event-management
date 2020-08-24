@@ -30,6 +30,7 @@ export const AdminHomePageReducer = (
       return {
         ...state,
         upcomingEvents: action.upcomingEvents,
+        isLoading: false,
       };
     }
     case AdminHomePageActionTypes.UPCOMING_EVENTS_ERROR: {
@@ -48,6 +49,7 @@ export const AdminHomePageReducer = (
       return {
         ...state,
         historyEvents: action.historyEvents,
+        isLoading: false,
       };
     }
     case AdminHomePageActionTypes.HISTORY_EVENTS_ERROR: {

@@ -28,12 +28,14 @@ const CardsOccupancyDumb = (props: Props) => {
         <CardContent>
           <Typography className={occupancyClasses.cardTitle}>{t("occupancyCards.upcomingEvents")}</Typography>
           {props.isLoading ? (
-            <CircularProgress />
+            <Grid container alignItems={"center"} justify={"center"}>
+              <CircularProgress />
+            </Grid>
           ) : props.isError ? (
-            <div>
+            <Grid container alignItems={"center"} justify={"center"}>
               <ErrorIcon color={"primary"} fontSize={"large"} />
               Oops, there was an error
-            </div>
+            </Grid>
           ) : (
             <OccupancyListDumb eventsList={props.upcomingEvents} />
           )}
@@ -47,12 +49,14 @@ const CardsOccupancyDumb = (props: Props) => {
         <CardContent>
           <Typography className={occupancyClasses.cardTitle}>{t("occupancyCards.historyEvents")}</Typography>
           {props.isLoading ? (
-            <CircularProgress />
+            <Grid container alignItems={"center"} justify={"center"}>
+              <CircularProgress />
+            </Grid>
           ) : props.isError ? (
-            <div>
+            <Grid container alignItems={"center"} justify={"center"}>
               <ErrorIcon color={"primary"} fontSize={"large"} />
               Oops, there was an error
-            </div>
+            </Grid>
           ) : (
             <OccupancyListDumb eventsList={props.historyEvents} />
           )}
