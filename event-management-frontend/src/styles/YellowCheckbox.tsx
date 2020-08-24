@@ -7,5 +7,5 @@ export const YellowCheckbox = withStyles({
         color: "#f2ac0a",
       },
     },
-    checked: {},
   })(Checkbox);
+  

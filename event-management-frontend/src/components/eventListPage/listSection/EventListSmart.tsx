@@ -108,7 +108,8 @@ class EventListSmart extends React.Component<Props, State> {
             }
         }
 
-        // Using the map function, we will get all the events from the array
+        // Using the map function, we will get all the events from the array 
+        // to move this code!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         const eventDetails = events
             .map((event: any) =>
                 <EventDetailsDumb key={event.id} id={event.id} title={event.title} subtitle={event.subtitle}
