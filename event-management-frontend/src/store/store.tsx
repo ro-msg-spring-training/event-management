@@ -6,19 +6,17 @@ import { EventsPageState } from "../reducers/EventsPageReducer";
 import { EventState } from "../reducers/HeaderEventCrudReducer";
 import { LocationPageState } from "../reducers/LocationPageReducer";
 import { TicketsPageState } from "../reducers/TicketsPageReducer";
+import { OccupancyCardsState } from "../reducers/AdminHomePageReducer";
 
+const sagaMiddleware = createSagaMiddleware();
 
-const sagaMiddleware = createSagaMiddleware()
-
-export const store = createStore(
-    rootReducer,
-    applyMiddleware(sagaMiddleware)
-)
-sagaMiddleware.run(rootSaga)
+export const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
+sagaMiddleware.run(rootSaga);
 
 export interface AppState {
     events: EventsPageState,
     eventCrud: EventState,
     location: LocationPageState,
-    tickets: TicketsPageState
+    tickets: TicketsPageState,
+    adminHomeCard: OccupancyCardsState;
 }
