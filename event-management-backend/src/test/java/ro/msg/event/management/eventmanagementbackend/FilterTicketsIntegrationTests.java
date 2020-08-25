@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.AvailableTicketsPerCategory;
 import ro.msg.event.management.eventmanagementbackend.entity.*;
+import ro.msg.event.management.eventmanagementbackend.entity.view.TicketView;
 import ro.msg.event.management.eventmanagementbackend.repository.*;
 import ro.msg.event.management.eventmanagementbackend.service.EventService;
 import ro.msg.event.management.eventmanagementbackend.service.TicketService;
@@ -18,9 +19,9 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
 @Transactional
-public class NumberOfAvailableTicketsIntegrationTests {
+@SpringBootTest
+public class FilterTicketsIntegrationTests {
     @Autowired
     private EventRepository eventRepository;
 
@@ -58,15 +59,13 @@ public class NumberOfAvailableTicketsIntegrationTests {
         Sublocation sublocation2 = new Sublocation("sameCentru", 20, location2, null);
         TicketCategory ticketCategory1 = new TicketCategory("VIP","subtitle", (float)10.0, "descr",10,event1,null);
         TicketCategory ticketCategory2 = new TicketCategory("Normal","subtitle", (float)5.0, "descr",10,event1,null);
-        TicketCategory ticketCategory3 = new TicketCategory("Cheap","subtitle", (float)1.0, "descr",10,event1,null);
         TicketCategory ticketCategory4 = new TicketCategory("VIP","subtitle", (float)10.0, "descr",10,event2,null);
         TicketCategory ticketCategory5 = new TicketCategory("VIP","subtitle", (float)10.0, "descr",10,event2,null);
         ticketCategoryRepository.save(ticketCategory1);
         ticketCategoryRepository.save(ticketCategory2);
-        ticketCategoryRepository.save(ticketCategory3);
         ticketCategoryRepository.save(ticketCategory4);
         ticketCategoryRepository.save(ticketCategory5);
-        List<TicketCategory> ticketCategories = new ArrayList<>(List.of(ticketCategory1,ticketCategory2,ticketCategory3));
+        List<TicketCategory> ticketCategories = new ArrayList<>(List.of(ticketCategory1,ticketCategory2));
         event1.setTicketCategories(ticketCategories);
         eventRepository.save(event1);
         eventRepository.save(event2);
@@ -94,11 +93,10 @@ public class NumberOfAvailableTicketsIntegrationTests {
         Ticket ticket111 = new Ticket("Andrei", "email@yahoo.com", booking11, ticketCategory1,null);
         Ticket ticket112 = new Ticket("Ioana", "ioa@yahoo.com", booking11, ticketCategory1,null);
         Ticket ticket113 = new Ticket("Maria","ma@yahoo.com",booking11,ticketCategory2,null);
-        Ticket ticket114 = new Ticket("Maria","ma@yahoo.com",booking11,ticketCategory3,null);
+        Ticket ticket114 = new Ticket("Maria","ma@yahoo.com",booking11,ticketCategory2,null);
         List<Ticket> tickets = new ArrayList<>(List.of(ticket111,ticket112));
         ticketCategory1.setTickets(tickets);
         ticketCategory2.setTickets(new ArrayList<>(List.of(ticket113)));
-        ticketCategory3.setTickets(new ArrayList<>(List.of(ticket114)));
         bookingRepository.save(booking11);
         bookingRepository.save(booking12);
         ticketRepository.save(ticket111);
@@ -106,20 +104,17 @@ public class NumberOfAvailableTicketsIntegrationTests {
         ticketRepository.save(ticket113);
         ticketRepository.save(ticket114);
 
-
-        long id = event1.getId();
-        List<AvailableTicketsPerCategory> list = ticketService.getAvailableTickets(id);
-        List<TicketCategory> categories = ticketCategoryRepository.getAllForEvent(id);
-        for (AvailableTicketsPerCategory availableTicketsPerCategory: list){
-            for (TicketCategory ticketCategory : categories){
-                if (availableTicketsPerCategory.getTitle().equals(ticketCategory.getTitle())){
-                    assertThat(ticketCategory.getTicketsPerCategory()).isGreaterThan(availableTicketsPerCategory.getRemaining().intValue());
-                }
+        List<TicketView> ticketViewList = ticketService.getFilteredAndPaginated("someUser",null,null,null,1,10);
+        for (TicketView ticketView :ticketViewList){
+            if (!ticketView.getUser().equals("someUser")){
+                assert(false);
             }
         }
-
+        List<TicketView> ticketViewList2 = ticketService.getFilteredAndPaginated("someUser","Title",null,null,1,10);
+        for (TicketView ticketView : ticketViewList2){
+            if (!ticketView.getEvent_title().contains("Title")){
+                assert(false);
+            }
+        }
     }
-
-
-
 }

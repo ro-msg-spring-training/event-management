@@ -11,9 +11,11 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Data
 @Builder
-public class TicketDto {
+public class TicketListingDto {
+    private Long bookingId;
+    private LocalDate bookingDate;
+    private String eventName;
+    private String ticketCategory;
     private String name;
-    private String emailAddress;
-    private long ticketCategoryId;
-
+    private String pdfUrl;
 }
