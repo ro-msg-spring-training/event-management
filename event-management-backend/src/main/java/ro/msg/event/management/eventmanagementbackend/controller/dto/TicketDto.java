@@ -5,12 +5,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
+import java.time.LocalDate;
+
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 @Builder
 public class TicketDto {
+
+    private Long bookingId;
+    private LocalDate bookingDate;
+    private String eventName;
+    private String ticketCategory;
     private String name;
-    private String emailAddress;
-    private long ticketCategoryId;
+    private String pdfUrl;
 }
