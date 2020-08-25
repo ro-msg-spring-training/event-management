@@ -9,7 +9,7 @@ import config from "../../config"
 import { Auth } from "aws-amplify";
 
 
-const AppBarCollapse = (props: any) => {
+const AppBarCollapse = () => {
     const classes = useStyles();
     const [activeIndex, setActiveIndex] = React.useState("home");
     const [t] = useTranslation();

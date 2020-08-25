@@ -2,10 +2,12 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { AppState } from "../../../store/store";
 import { fetchTickets, incrementPage } from "../../../actions/TicketsPageActions";
+import { Ticket } from "../../../model/Ticket"
+import TicketListDumb from "./TicketListDumb";
 
 
 interface Props {
-    tickets: any;
+    tickets: [];
     page: number;
     isLoading: boolean;
     isError: boolean;
@@ -43,7 +45,7 @@ const TicketListSmart = (props: Props) => {
     }, [hasMore])
 
     const ticketReferences = tickets !== undefined ? tickets
-        .map((ticket: any, index: number) => {
+        .map((ticket: Ticket, index: number) => {
             if (tickets.length === index + 1) {
                 return <div ref={lastTicketRef} key={ticket.id}/>
             } else {
@@ -53,18 +55,10 @@ const TicketListSmart = (props: Props) => {
 
     return (
             <>
-                <p>Tickets</p>
                 {ticketReferences}
-
-                { props.isLoading ?
-                    <div> Loading... </div> :
-
-                    props.isError ?
-                        <div> Error :( </div> :
-                            concatTickets.map((ticket: any) => {
-                                return <div key={ticket.id}>{ticket.title}</div>
-                            })
-                }
+                <TicketListDumb isError={props.isError}
+                                isLoading={props.isLoading}
+                                ticketsDetails={concatTickets} />
             </>
     );
 }

@@ -23,7 +23,7 @@ const initialState: TicketsPageState = {
 
 interface ReducerActionProps {
     type: string,
-    payload: any
+    payload: []
 }
 
 export const TicketsPageReducer = (state = initialState, action: ReducerActionProps) => {

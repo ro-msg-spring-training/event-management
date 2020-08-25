@@ -8,7 +8,6 @@ import {
     Container,
     TableFooter,
     TableSortLabel,
-    LinearProgress,
     CircularProgress,
     Grid
 } from "@material-ui/core";
@@ -24,6 +23,7 @@ import { createStyles, Theme, withStyles } from "@material-ui/core/styles";
 import { useListStyles } from '../../../styles/eventListStyles';
 import { EventSort } from '../../../model/EventSort';
 import { EventFilters } from '../../../model/EventFilters';
+import { Event } from '../../../model/Event';
 import ErrorIcon from "@material-ui/icons/Error";
 
 const StyledTableCell = withStyles((theme: Theme) =>
@@ -51,7 +51,7 @@ interface Props {
     filters: EventFilters;
     page: number;
     lastPage: number;
-    updateSortCriteria: (sortCriteria: any) => void;
+    updateSortCriteria: (sortCriteria: { criteria: string, type: string }) => void;
     incrementPage: () => void;
     decrementPage: () => void;
 

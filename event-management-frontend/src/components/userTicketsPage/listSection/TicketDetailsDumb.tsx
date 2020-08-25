@@ -3,7 +3,7 @@ import { Button } from "@material-ui/core";
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import { Link } from "react-router-dom";
-import Ticket from "../../../model/Ticket";
+import { Ticket } from "../../../model/Ticket";
 import {createStyles, Theme, withStyles} from "@material-ui/core/styles";
 import { useStyles } from '../../../styles/CommonStyles';
 import { useTranslation } from "react-i18next";
@@ -27,13 +27,17 @@ const StyledTableRow = withStyles((theme: Theme) =>
     }),
 )(TableRow);
 
-const TicketDetailsDumb = (props: Ticket) => {
+interface Props {
+    ticket: Ticket;
+}
+
+const TicketDetailsDumb = (props: Props) => {
     const commonClasses = useStyles()
     const [t] = useTranslation();
-    const id = props.id;
-    const date = props.date;
-    const category = props.category;
-    const name = props.name;
+    const id = props.ticket.id;
+    const date = props.ticket.startDate;
+    const category = props.ticket.startHour;
+    const name = props.ticket.occupancyRate;
 
     return (
         <StyledTableRow>

@@ -14,23 +14,19 @@ import TableRow from '@material-ui/core/TableRow';
 import { useTranslation } from "react-i18next";
 import { useListStyles } from '../../../styles/eventListStyles';
 import ErrorIcon from "@material-ui/icons/Error";
+import {Ticket} from "../../../model/Ticket";
+import TicketDetailsDumb from "./TicketDetailsDumb";
 
 
 interface Props {
     isError: boolean,
     isLoading: boolean,
-    ticketsDetails: any[];
-    handleSubmit: any;
-    handleChange: any;
-    value: any;
+    ticketsDetails: Ticket[];
 }
 
 
 const TicketListDumb = (props: Props) => {
     const classes = useListStyles()
-    const handleSubmit = props.handleSubmit
-    const handleChange = props.handleChange
-    const value = props.value
 
     const [width, setWidth] = useState(window.innerWidth);
     const [t] = useTranslation();
@@ -47,24 +43,17 @@ const TicketListDumb = (props: Props) => {
 
     return (
             <Container>
-                <form onSubmit={handleSubmit}>
-                    <label>
-                        Name:
-                        <input type="text" value={value} onChange={handleChange} />
-                    </label>
-                    <input type="submit" value="Submit" />
-                </form>
 
                 <TableContainer component={Paper} className={classes.pageContainer}>
 
                     { props.isError ?
                         <Grid container alignItems={"center"} justify={"center"}>
-                            <br /><br /><br /><br /><br /><ErrorIcon color={"primary"} fontSize={"large"} />
+                            <ErrorIcon color={"primary"} fontSize={"large"} />
                             Oops, there was an error
                         </Grid> :
                         props.isLoading ?
                             <Grid container alignItems={"center"} justify={"center"}>
-                                <br /><br /><br /><br /><br /><CircularProgress />
+                                <CircularProgress />
                             </Grid> :
 
                             <Table aria-label="customized table">
@@ -100,7 +89,11 @@ const TicketListDumb = (props: Props) => {
                                 </TableHead>
 
                                 <TableBody>
-                                    {ticketsDetails}
+                                    {
+                                        ticketsDetails.map((ticket: Ticket) => {
+                                            return <TicketDetailsDumb ticket={ticket}/>
+                                        })
+                                    }
                                 </TableBody>
                             </Table>
                     }

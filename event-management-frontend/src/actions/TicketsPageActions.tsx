@@ -1,8 +1,11 @@
+import { Event } from "../model/Event";
+
 export const FETCH_TICKETS = 'FETCH_TICKETS'
 export const FETCH_TICKETS_REQUEST = 'FETCH_TICKETS_REQUEST'
 export const FETCH_TICKETS_SUCCESS = 'FETCH_TICKETS_SUCCESS'
 export const FETCH_TICKETS_ERROR = 'FETCH_TICKETS_ERROR'
 export const INCREMENT_PAGE = 'INCREMENT_PAGE'
+
 
 export const fetchTickets = (page: number) => {
     return {
@@ -19,7 +22,7 @@ export const fetchTicketsRequest = () => {
     }
 }
 
-export const fetchTicketsSuccess = (events: any) => {
+export const fetchTicketsSuccess = (events: Array<Event>) => {
     return {
         type: FETCH_TICKETS_SUCCESS,
         payload: events

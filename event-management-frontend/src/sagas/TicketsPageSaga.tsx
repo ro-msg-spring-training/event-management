@@ -7,8 +7,12 @@ import {
     fetchTicketsSuccess
 } from "../actions/TicketsPageActions";
 
+interface ActionType {
+    payload: { page: number };
+    type: string;
+}
 
-function* fetchTicketsAsync(action: any) {
+function* fetchTicketsAsync(action: ActionType) {
     yield put(fetchTicketsRequest())
     try {
         const result = yield call (() => fetchTicketsPaginated(action.payload.page))

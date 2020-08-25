@@ -1,5 +1,5 @@
 import React from 'react';
-import Event from "../../model/Event";
+import { Event } from "../../model/Event";
 import { makeStyles } from "@material-ui/core/styles";
 import { useTranslation } from "react-i18next";
 import Card from '@material-ui/core/Card';
@@ -27,17 +27,16 @@ const useStyles = makeStyles({
     },
 });
 
-const HomeEventDetailsDumb = (props: Event) => {
+interface Props {
+    events: Event
+}
+
+const HomeEventDetailsDumb = (props: Props) => {
     const classes = useStyles()
-    const [t] = useTranslation();
-    const id = props.id;
-    const title = props.title;
-    const subtitle = props.subtitle;
-    const location = props.location;
-    const date = props.date;
-    const hour = props.hour;
-    const occRate = props.occRate;
-    const name = props.name;
+
+    const title = props.events.title;
+    const location = props.events.location;
+    const date = props.events.startDate;
     const bull = <span className={classes.bullet}>•</span>;
 
     return (

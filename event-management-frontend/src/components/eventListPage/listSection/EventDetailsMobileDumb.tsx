@@ -7,6 +7,7 @@ import MobileEvent from "../../../model/MobileEvent";
 import {createStyles, Theme, withStyles} from "@material-ui/core/styles";
 import { useStyles } from '../../../styles/CommonStyles';
 import { useTranslation } from "react-i18next";
+import {Event} from "../../../model/Event";
 
 const StyledTableCell = withStyles((theme: Theme) =>
     createStyles({
@@ -27,13 +28,17 @@ const StyledTableRow = withStyles((theme: Theme) =>
     }),
 )(TableRow);
 
-const EventDetailsMobileDumb = (props: MobileEvent) => {
+interface Props {
+    event: Event;
+}
+
+const EventDetailsMobileDumb = (props: Props) => {
     const commonClasses = useStyles()
     const [t] = useTranslation()
 
-    const id = props.id;
-    const title = props.title;
-    const date = props.date;
+    const id = props.event.id;
+    const title = props.event.title;
+    const date = props.event.startDate;
 
     return (
         <StyledTableRow>
