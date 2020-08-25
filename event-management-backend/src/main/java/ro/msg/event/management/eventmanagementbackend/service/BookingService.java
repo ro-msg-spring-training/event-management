@@ -8,7 +8,6 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BarcodeQRCode;
 import com.itextpdf.text.pdf.PdfWriter;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +29,7 @@ public class BookingService {
 
     private final BookingRepository bookingRepository;
     private final EventRepository eventRepository;
-    private static String ticketsBucketName = "event-management-tickets";
+    private static final String ticketsBucketName = "event-management-tickets";
     private final TicketDocumentRepository ticketDocumentRepository;
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
