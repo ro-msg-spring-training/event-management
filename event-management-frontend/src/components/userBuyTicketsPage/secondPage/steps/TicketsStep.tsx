@@ -2,7 +2,6 @@ import React from 'react';
 import { Button, Grid, TextField, makeStyles, Theme, Typography } from '@material-ui/core';
 import { useStyles } from '../../../../styles/CommonStyles';
 import { userBuyTicketsStyle } from '../../../../styles/UserBuyTicketsStyle';
-import "../../secondPage/BuyTicketsStepper.css"
 
 interface TicketsStepProps {
   nextStep: () => void,
@@ -21,7 +20,7 @@ function TicketsStep({ nextStep, handleEnterKey, handleStepperChange }: TicketsS
     //     transform: 'translate(-50%, -50%)'
     // }}
     // >
-    <div className="form-wrapper">
+    <>
       <Typography className={classes.typography}>Choose the number of tickets</Typography>
       <Grid container justify="center" alignItems="center">
         <Grid item xs={7} sm={7} md={7} lg={7} xl={7}>
@@ -61,7 +60,7 @@ function TicketsStep({ nextStep, handleEnterKey, handleStepperChange }: TicketsS
           </Grid>
         </Grid>
       </Grid>
-    </div>
+    </>
   );
 };
 

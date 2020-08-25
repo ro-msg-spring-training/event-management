@@ -43,6 +43,8 @@ function BuyTicketsStepper() {
         <EmailStep
           nextStep={nextStep}
           prevStep={prevStep}
+          handleEnterKey={handleEnterKey}
+          handleStepperChange={handleStepperChange}
         />
       );
     case 3:
