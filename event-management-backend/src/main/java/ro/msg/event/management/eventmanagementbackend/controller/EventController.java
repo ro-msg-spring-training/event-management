@@ -51,7 +51,6 @@ public class EventController {
     private final LocationService locationService;
     private final TicketService ticketService;
     private final Converter<Event, EventDetailsForBookingDto> eventDetailsForBookingDtoConverter;
-    private final Converter<Event, EventDetailsForUserDto> eventDetailsForUserDtoConverter;
 
     private static final LocalDate MAX_DATE = LocalDate.parse("2999-12-31");
     private static final LocalDate MIN_DATE = LocalDate.parse("1900-01-01");
@@ -64,7 +63,12 @@ public class EventController {
             switch(type)
             {
                 case("userEventDetails"):
-                    EventDetailsForUserDto eventDetailsForUserDto = this.eventDetailsForUserDtoConverter.convert(event);
+                    EventDto eventDtoForUserEventDetails = convertToDto.convert(event);
+                    EventDetailsForUserDto eventDetailsForUserDto = EventDetailsForUserDto.builder()
+                            .eventDto(eventDtoForUserEventDetails)
+                            .locationAddress(event.getEventSublocations().get(0).getSublocation().getLocation().getAddress())
+                            .locationName(event.getEventSublocations().get(0).getSublocation().getLocation().getName())
+                            .build();
                     return new ResponseEntity<>(eventDetailsForUserDto, HttpStatus.OK);
                 case("bookingEventDetails"):
                     EventDetailsForBookingDto eventDetailsForBookingDto = this.eventDetailsForBookingDtoConverter.convert(event);
