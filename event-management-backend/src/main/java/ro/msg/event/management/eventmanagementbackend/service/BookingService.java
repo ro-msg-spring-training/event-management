@@ -1,9 +1,14 @@
 package ro.msg.event.management.eventmanagementbackend.service;
 
+import com.amazonaws.auth.InstanceProfileCredentialsProvider;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BarcodeQRCode;
 import com.itextpdf.text.pdf.PdfWriter;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,12 +16,13 @@ import ro.msg.event.management.eventmanagementbackend.entity.*;
 import ro.msg.event.management.eventmanagementbackend.exception.TicketBuyingException;
 import ro.msg.event.management.eventmanagementbackend.repository.BookingRepository;
 import ro.msg.event.management.eventmanagementbackend.repository.EventRepository;
-import ro.msg.event.management.eventmanagementbackend.repository.TicketRepository;
+import ro.msg.event.management.eventmanagementbackend.repository.TicketDocumentRepository;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +30,8 @@ public class BookingService {
 
     private final BookingRepository bookingRepository;
     private final EventRepository eventRepository;
-    private final TicketRepository ticketRepository;
+    private static String ticketsBucketName = "event-management-tickets";
+    private final TicketDocumentRepository ticketDocumentRepository;
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public TicketCategory validateAndReturnTicketCategory(Event event, Map.Entry<Long, List<Ticket>> categoryWithTickets) throws TicketBuyingException {
@@ -87,8 +94,13 @@ public class BookingService {
         {
             TicketCategory ticketCategory = ticket.getTicketCategory();
             Document document = new Document();
-            PdfWriter.getInstance(document, new FileOutputStream("C:\\Users\\radus\\Desktop\\" + ticket.getId() + ".pdf"));
+            String fileName = ticket.getId() + ".pdf";
+            PdfWriter.getInstance(document, new FileOutputStream(fileName));
             document.open();
+
+            Paragraph beforeTextSpacing = new Paragraph("\n");
+            beforeTextSpacing.setSpacingAfter(100);
+            document.add(beforeTextSpacing);
 
             Font headerFont = FontFactory.getFont(FontFactory.TIMES_BOLD, 17, BaseColor.BLACK);
             Font bodyFont = FontFactory.getFont(FontFactory.TIMES, 17, BaseColor.BLACK);
@@ -106,7 +118,7 @@ public class BookingService {
                     "Event ticket information: " + event.getTicketInfo();
 
             Paragraph bodyParagraph = new Paragraph(pdfBodyString, bodyFont);
-            bodyParagraph.setSpacingAfter(200);
+            bodyParagraph.setSpacingAfter(50);
             document.add(bodyParagraph);
 
             BarcodeQRCode qrCode = new BarcodeQRCode(savedBooking.getUser() + " " + ticket.getId().toString(), 1, 1, null);
@@ -117,6 +129,30 @@ public class BookingService {
 
             document.setPageSize(PageSize.A4);
             document.close();
+
+            File file = new File(fileName);
+            String ticketUrl = this.saveDocumentToS3(file, fileName);
+            this.saveTicketDocument(ticketUrl, ticket);
+            file.delete();
         }
+    }
+
+    private void saveTicketDocument(String ticketUrl, Ticket ticket) {
+        TicketDocument ticketDocument = new TicketDocument();
+        ticketDocument.setPdfUrl(ticketUrl);
+        ticketDocument.setTicket(ticket);
+        ticketDocument.setValidate(false);
+        this.ticketDocumentRepository.save(ticketDocument);
+    }
+
+    public String saveDocumentToS3(File file, String fileName)
+    {
+        AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
+                .withCredentials(new InstanceProfileCredentialsProvider(false))
+                .build();
+
+        final PutObjectRequest putObjectRequest = new PutObjectRequest(ticketsBucketName, fileName, file);
+        s3Client.putObject(putObjectRequest);
+        return s3Client.getUrl(ticketsBucketName, fileName).toString();
     }
 }
