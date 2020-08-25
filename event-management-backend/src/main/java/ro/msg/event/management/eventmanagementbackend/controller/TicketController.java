@@ -24,6 +24,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/tickets")
+@CrossOrigin
 public class TicketController {
 
     private static final int TICKETS_PER_PAGE = 5;
