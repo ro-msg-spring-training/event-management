@@ -309,6 +309,10 @@ public class EventService {
                 return criteriaBuilder.le(c.get(criteria), value);
             case EQUAL:
                 return criteriaBuilder.equal(c.get(criteria), value);
+            case GREATEROREQUAL:
+                return criteriaBuilder.greaterThanOrEqualTo(c.get(criteria),value);
+            case LOWEROREQUAL:
+                return criteriaBuilder.lessThanOrEqualTo(c.get(criteria),value);
             default:
                 return null;
         }

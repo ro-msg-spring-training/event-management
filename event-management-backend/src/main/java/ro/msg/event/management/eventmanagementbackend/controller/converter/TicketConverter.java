@@ -2,13 +2,14 @@ package ro.msg.event.management.eventmanagementbackend.controller.converter;
 
 import org.springframework.stereotype.Component;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.TicketDto;
+import ro.msg.event.management.eventmanagementbackend.controller.dto.TicketListingDto;
 import ro.msg.event.management.eventmanagementbackend.entity.view.TicketView;
 
 @Component
-public class TicketConverter implements Converter<TicketView, TicketDto> {
+public class TicketConverter implements Converter<TicketView, TicketListingDto> {
     @Override
-    public TicketDto convert(TicketView obj) {
-        return TicketDto.builder()
+    public TicketListingDto convert(TicketView obj) {
+        return TicketListingDto.builder()
                 .bookingId(obj.getBookingId())
                 .bookingDate(obj.getBookingDate())
                 .eventName(obj.getEvent_title())
