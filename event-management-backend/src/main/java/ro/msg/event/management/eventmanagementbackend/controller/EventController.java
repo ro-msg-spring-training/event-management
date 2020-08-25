@@ -42,8 +42,6 @@ public class EventController {
     private static final int EVENTS_PER_CARD = 4;
 
     private final EventService eventService;
-    private final SublocationService sublocationService;
-    private final EventSublocationService eventSublocationService;
     private final Converter<Event, EventDto> convertToDto;
     private final Converter<EventDto, Event> convertToEntity;
     private final Converter<EventView, EventFilteringDto> converter;
@@ -52,21 +50,38 @@ public class EventController {
     private final Converter<EventView,CardsUserEventDto> converterToUserCardsEventDto;
     private final LocationService locationService;
     private final TicketService ticketService;
+    private final Converter<Event, EventDetailsForBookingDto> eventDetailsForBookingDtoConverter;
 
     private static final LocalDate MAX_DATE = LocalDate.parse("2999-12-31");
     private static final LocalDate MIN_DATE = LocalDate.parse("1900-01-01");
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-    public ResponseEntity<EventWithRemainingTicketsDto> getEvent(@PathVariable long id) {
+    public ResponseEntity<Object> getEvent(@PathVariable long id, @RequestParam(defaultValue = "") String type) {
         try {
-            EventDto eventDto = convertToDto.convert(this.eventService.getEvent(id));
-            List<AvailableTicketsPerCategory> availableTicketsPerCategories = ticketService.getAvailableTickets(id);
-            EventWithRemainingTicketsDto eventWithRemainingTicketsDto = EventWithRemainingTicketsDto.builder()
-                    .eventDto(eventDto)
-                    .availableTicketsPerCategoryList(availableTicketsPerCategories)
-                    .build();
-            return new ResponseEntity<>(eventWithRemainingTicketsDto, HttpStatus.OK);
+            Event event = this.eventService.getEvent(id);
+            switch(type)
+            {
+                case("userEventDetails"):
+                    EventDto eventDtoForUserEventDetails = convertToDto.convert(event);
+                    EventDetailsForUserDto eventDetailsForUserDto = EventDetailsForUserDto.builder()
+                            .eventDto(eventDtoForUserEventDetails)
+                            .locationAddress(event.getEventSublocations().get(0).getSublocation().getLocation().getAddress())
+                            .locationName(event.getEventSublocations().get(0).getSublocation().getLocation().getName())
+                            .build();
+                    return new ResponseEntity<>(eventDetailsForUserDto, HttpStatus.OK);
+                case("bookingEventDetails"):
+                    EventDetailsForBookingDto eventDetailsForBookingDto = this.eventDetailsForBookingDtoConverter.convert(event);
+                    return new ResponseEntity<>(eventDetailsForBookingDto, HttpStatus.OK);
+                default:
+                    EventDto eventDto = convertToDto.convert(event);
+                    List<AvailableTicketsPerCategory> availableTicketsPerCategories = ticketService.getAvailableTickets(id);
+                    EventWithRemainingTicketsDto eventWithRemainingTicketsDto = EventWithRemainingTicketsDto.builder()
+                            .eventDto(eventDto)
+                            .availableTicketsPerCategoryList(availableTicketsPerCategories)
+                            .build();
+                    return new ResponseEntity<>(eventWithRemainingTicketsDto, HttpStatus.OK);
+            }
         } catch (NoSuchElementException noSuchElementException) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, noSuchElementException.getMessage(), noSuchElementException);
         }
