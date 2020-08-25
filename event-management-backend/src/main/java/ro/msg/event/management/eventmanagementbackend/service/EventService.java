@@ -8,6 +8,7 @@ import ro.msg.event.management.eventmanagementbackend.entity.view.EventView;
 import ro.msg.event.management.eventmanagementbackend.exception.ExceededCapacityException;
 import ro.msg.event.management.eventmanagementbackend.exception.OverlappingEventsException;
 import ro.msg.event.management.eventmanagementbackend.repository.*;
+import ro.msg.event.management.eventmanagementbackend.security.User;
 import ro.msg.event.management.eventmanagementbackend.utils.ComparisonSign;
 import ro.msg.event.management.eventmanagementbackend.utils.SortCriteria;
 import ro.msg.event.management.eventmanagementbackend.utils.TimeValidation;
@@ -28,6 +29,8 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class EventService {
+
+    private static final LocalDate MIN_DATE = LocalDate.parse("1900-01-01");
 
     private final EventRepository eventRepository;
     private final SublocationRepository sublocationRepository;
@@ -134,6 +137,7 @@ public class EventService {
                     eventFromDB.setTicketsPerUser(event.getTicketsPerUser());
                     eventFromDB.setObservations(event.getObservations());
                     eventFromDB.getPictures().addAll(event.getPictures());
+                    eventFromDB.setTicketInfo(event.getTicketInfo());
 
                     //update sublocation
                     List<EventSublocation> eventSublocations = new ArrayList<>();
@@ -330,5 +334,18 @@ public class EventService {
         } else {
             throw new NoSuchElementException("No event with id= " + id);
         }
+    }
+
+    public List<EventView> filterAndPaginateEventsAttendedByUser(User user, int pageNumber, int limit){
+        List<EventView> userEventList = new ArrayList<>();
+
+        List<EventView> eventViews = filterAndPaginate(null, null, null, null, null, MIN_DATE, LocalDate.now(), null, null, null, null, null, null, pageNumber, limit, SortCriteria.DATE, false);
+        eventViews.forEach(eventView ->{
+                this.getEvent(eventView.getId()).getBookings().forEach(booking -> {
+                    if (user.getIdentificationString().equals(booking.getUser())) {
+                        userEventList.add(eventView);
+                    }
+                });});
+        return userEventList;
     }
 }

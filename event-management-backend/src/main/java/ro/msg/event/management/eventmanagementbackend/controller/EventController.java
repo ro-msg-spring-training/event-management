@@ -263,27 +263,11 @@ public class EventController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) auth.getPrincipal();
 
-        List<EventView> userEventList = new ArrayList<>();
-        List<EventView> checkLastPageUser = new ArrayList<>();
+        List<EventView> userEventList = eventService.filterAndPaginateEventsAttendedByUser(user,pageNumber,limit);
+        List<CardsEventDto> returnList = converterToCardsEventDto.convertAll(userEventList);
 
-        List<EventView> eventViews = eventService.filterAndPaginate(null, null, null, null, null, MIN_DATE, LocalDate.now(), null, null, null, null, null, null, pageNumber, limit, SortCriteria.DATE, false);
-        eventViews.forEach(eventView ->
-                eventService.getEvent(eventView.getId()).getBookings().forEach(booking -> {
-                    if (user.getIdentificationString().equals(booking.getUser())) {
-                        userEventList.add(eventView);
-                    }
-                }));
-
-        List<CardsUserEventDto> returnList = converterToUserCardsEventDto.convertAll(userEventList);
-
-        List<EventView> checkLastPage = eventService.filterAndPaginate(null, null, null, null, null, MIN_DATE, LocalDate.now(), null, null, null, null, null, null, pageNumber + 1, limit, SortCriteria.DATE, false);
-        checkLastPage.forEach(eventView ->
-                eventService.getEvent(eventView.getId()).getBookings().forEach(booking -> {
-                    if (user.getIdentificationString().equals(booking.getUser())) {
-                        checkLastPageUser.add(eventView);
-                    }
-                }));
-        boolean more = !checkLastPageUser.isEmpty();
+        List<EventView> checkLastPage = eventService.filterAndPaginateEventsAttendedByUser(user,pageNumber+1,limit);
+        boolean more = !checkLastPage.isEmpty();
 
         JSONObject responseBody = new JSONObject();
         responseBody.put("events", returnList);
