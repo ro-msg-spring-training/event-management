@@ -5,7 +5,7 @@ import {
     watchNextPageAsync, watchFetchCustomEventsAsync, watchFetchHomeEventsAsync,
     watchFetchCustomHomeEventsAsync
 } from "./EventsPageSaga";
-import { loadEventWatcher, deleteProductWatcher, addProductWatcher, editProductWatcher } from "./HeaderEventCrudSaga";
+import { loadEventWatcher, deleteProductWatcher, addProductWatcher, editProductWatcher, loadEventWithLocationsWatcher } from "./HeaderEventCrudSaga";
 import { fetchLocationsActionWatcher } from "./LocationPageSaga";
 
 export default function* rootSaga() {
@@ -18,6 +18,7 @@ export default function* rootSaga() {
         watchPrevPageAsync(),
         
         loadEventWatcher(),
+        loadEventWithLocationsWatcher(),
         deleteProductWatcher(),
         addProductWatcher(),
         editProductWatcher(),

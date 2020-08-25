@@ -11,6 +11,8 @@ import { useStyles2 } from '../../styles/UserEventDetailsStyles';
 interface UserEventDetailsDumbProps {
   event: EventCrud,
   images: EventImage[],
+  locationAddress: string,
+  locationName: string
 }
 
 function UserEventDetailsDumb(props: UserEventDetailsDumbProps) {
@@ -60,17 +62,22 @@ function UserEventDetailsDumb(props: UserEventDetailsDumbProps) {
 
                   <TableRow>
                     <TableCell component="th" scope="row"> {t("welcome.overviewStartTime")} </TableCell>
-                    <TableCell align="right">{props.event.startHour}</TableCell>
+                    <TableCell align="right">{props.event.startHour.replace(/:\d\d([ ap]|$)/, '$1')}</TableCell>
                   </TableRow>
 
                   <TableRow>
                     <TableCell component="th" scope="row"> {t("welcome.overviewEndTime")} </TableCell>
-                    <TableCell align="right">{props.event.endHour}</TableCell>
+                    <TableCell align="right">{props.event.endHour.replace(/:\d\d([ ap]|$)/, '$1')}</TableCell>
                   </TableRow>
 
                   <TableRow>
-                    <TableCell component="th" scope="row"> {t("welcome.locationTab")} </TableCell>
-                    <TableCell align="right">{props.event.location}</TableCell>
+                    <TableCell component="th" scope="row"> {t("welcome.locationName")} </TableCell>
+                    <TableCell align="right">{props.locationName}</TableCell>
+                </TableRow>
+                
+                <TableRow>
+                    <TableCell component="th" scope="row"> {t("welcome.locationAddress")} </TableCell>
+                    <TableCell align="right">{props.locationAddress}</TableCell>
                   </TableRow>
 
                   <TableRow>

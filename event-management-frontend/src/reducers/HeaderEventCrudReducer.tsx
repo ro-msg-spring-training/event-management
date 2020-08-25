@@ -15,11 +15,13 @@ import {
   UPDATE_FORM_ERRORS,
   UPDATE_EVENT,
   UPDATE_LOCATION,
-  RESET_STORE
+  RESET_STORE,
+  FETCH_EVENT_WITH_LOCATION_SUCCESS
 } from "../actions/HeaderEventCrudActions"
 import { EventCrud } from "../model/EventCrud"
 import { EventImage } from "../model/EventImage"
 import { EventFormErrors } from "../model/EventFormErrors"
+import { EventWithLocation } from "../model/EventWithLocation"
 
 export interface EventState {
   loading: boolean,
@@ -29,6 +31,9 @@ export interface EventState {
   isLoading: boolean,
   images: EventImage[],
   formErrors: EventFormErrors,
+
+  locationAddress: string,
+  locationName: string,
 }
 
 let today = new Date(new Date().toString().split('GMT')[0] + ' UTC').toISOString().split('.')[0]
@@ -59,6 +64,9 @@ const initialState: EventState = {
   isError: false,
   isLoading: false,
   images: [],
+
+  locationAddress: "",
+  locationName: "",
 }
 
 const getEventImages = (imagesStr: string[]) => {
@@ -69,7 +77,7 @@ const getEventImages = (imagesStr: string[]) => {
   return images as EventImage[]
 }
 
-const HeaderReducer = (state = initialState, action: { type: string, payload: EventCrud }) => {
+const HeaderReducer = (state = initialState, action: { type: string, payload: EventCrud | EventWithLocation}) => {
   switch (action.type) {
     case RESET_STORE:
       return {
@@ -96,7 +104,19 @@ const HeaderReducer = (state = initialState, action: { type: string, payload: Ev
         error: '',
         isError: false,
         isLoading: false,
-        images: getEventImages(action.payload.picturesUrlSave)
+        images: getEventImages((action.payload as EventCrud).picturesUrlSave)
+      }
+    case FETCH_EVENT_WITH_LOCATION_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        event: (action.payload as EventWithLocation).eventDto,
+        locationAddress: (action.payload as EventWithLocation).locationAddress,
+        locationName: (action.payload as EventWithLocation).locationName,
+        error: '',
+        isError: false,
+        isLoading: false,
+        images: getEventImages((action.payload as EventWithLocation).eventDto.picturesUrlSave)
       }
     case FETCH_EVENT_FAILURE:
       return {

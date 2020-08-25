@@ -1,6 +1,6 @@
 import { takeLatest, call, put } from "redux-saga/effects";
-import { LOAD_EVENT, fetchEventRequest, fetchEventSuccess, fetchEventFailure, DELETE_EVENT, deleteEventRequest, deleteEventSuccess, deleteEventFailure, ADD_EVENT, addEventRequest, addEventSuccess, addEventFailure, editEventRequest, editEventSuccess, editEventFailure, EDIT_EVENT } from "../actions/HeaderEventCrudActions";
-import { fetchEventAPI, deleteEventAPI, addEventAPI, editEventAPI, updateImagesFromS3 } from "../api/HeaderEventCrudAPI";
+import { LOAD_EVENT, fetchEventRequest, fetchEventSuccess, fetchEventFailure, DELETE_EVENT, deleteEventRequest, deleteEventSuccess, deleteEventFailure, ADD_EVENT, addEventRequest, addEventSuccess, addEventFailure, editEventRequest, editEventSuccess, editEventFailure, EDIT_EVENT, LOAD_EVENT_WITH_LOCATIONS, fetchEventWithLocationSuccess } from "../actions/HeaderEventCrudActions";
+import { fetchEventAPI, deleteEventAPI, addEventAPI, editEventAPI, updateImagesFromS3, fetchEventWithLocationsAPI } from "../api/HeaderEventCrudAPI";
 import { EventCrud } from "../model/EventCrud";
 import { EventImage } from "../model/EventImage";
 
@@ -11,7 +11,7 @@ interface Props {
 
 interface AddProps {
   type: string,
-  payload: {event: EventCrud, images: EventImage[]}
+  payload: { event: EventCrud, images: EventImage[] }
 }
 
 //-----------------------------------------LOAD EVENT
@@ -28,6 +28,22 @@ function* loadEventAsync(props: Props) {
 
 export function* loadEventWatcher() {
   yield takeLatest(LOAD_EVENT, loadEventAsync)
+}
+
+//-----------------------------------------LOAD EVENT WITH LOCATIONS
+function* loadEventWithLocationsAsync(props: Props) {
+  try {
+    yield put(fetchEventRequest());
+    const event = yield call(() => fetchEventWithLocationsAPI(props.payload));
+    event.eventDto.id = parseInt(props.payload)
+    yield put(fetchEventWithLocationSuccess(event))
+  } catch (e) {
+    yield put(fetchEventFailure(e))
+  }
+}
+
+export function* loadEventWithLocationsWatcher() {
+  yield takeLatest(LOAD_EVENT_WITH_LOCATIONS, loadEventWithLocationsAsync)
 }
 
 //-----------------------------------------DELETE EVENT
@@ -70,7 +86,7 @@ function* editEventAsync(props: AddProps) {
     yield put(editEventRequest());
     const imagesURL = yield call(() => updateImagesFromS3(props.payload.images));
     const event: EventCrud = props.payload.event
-    event.picturesUrlSave = imagesURL 
+    event.picturesUrlSave = imagesURL
     event.picturesUrlDelete = []
     yield call(() => editEventAPI(event));
     yield put(editEventSuccess())
