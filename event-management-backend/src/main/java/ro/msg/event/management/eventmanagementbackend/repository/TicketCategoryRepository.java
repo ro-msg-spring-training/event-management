@@ -1,10 +1,9 @@
 package ro.msg.event.management.eventmanagementbackend.repository;
 
-import org.hibernate.sql.Select;
 import org.springframework.data.jpa.repository.JpaRepository;
-import ro.msg.event.management.eventmanagementbackend.entity.Event;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import ro.msg.event.management.eventmanagementbackend.entity.Event;
 import ro.msg.event.management.eventmanagementbackend.entity.TicketCategory;
 
 import java.util.List;

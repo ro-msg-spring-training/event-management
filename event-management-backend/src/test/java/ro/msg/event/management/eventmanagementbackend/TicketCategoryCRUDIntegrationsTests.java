@@ -81,9 +81,7 @@ class TicketCategoryCRUDIntegrationsTests {
 
         this.eventRepository.save(event);
         assertThrows(TicketCategoryException.class,
-                () -> {
-                    this.ticketCategoryService.saveTicketCategories(ticketCategories, event);
-                });
+                () -> this.ticketCategoryService.saveTicketCategories(ticketCategories, event));
     }
 
     @Test
@@ -132,13 +130,9 @@ class TicketCategoryCRUDIntegrationsTests {
         this.eventRepository.save(event);
 
         assertThrows(NoSuchElementException.class,
-                () -> {
-                    this.ticketCategoryService.deleteTicketCategory(-2);
-                });
+                () -> this.ticketCategoryService.deleteTicketCategory(-2));
         assertThrows(NoSuchElementException.class,
-                () -> {
-                    this.ticketCategoryService.deleteTicketCategory(100);
-                });
+                () -> this.ticketCategoryService.deleteTicketCategory(100));
     }
 
     @Test
@@ -189,9 +183,7 @@ class TicketCategoryCRUDIntegrationsTests {
         update.setTitle("updated");
 
         assertThrows(NoSuchElementException.class,
-                () -> {
-                    this.ticketCategoryService.updateTicketCategory(update);
-                });
+                () -> this.ticketCategoryService.updateTicketCategory(update));
     }
 
     @Test
@@ -217,9 +209,7 @@ class TicketCategoryCRUDIntegrationsTests {
         update.setTicketsPerCategory(15);
 
         assertThrows(TicketCategoryException.class,
-                () -> {
-                    this.ticketCategoryService.updateTicketCategory(update);
-                });
+                () -> this.ticketCategoryService.updateTicketCategory(update));
 
     }
 }

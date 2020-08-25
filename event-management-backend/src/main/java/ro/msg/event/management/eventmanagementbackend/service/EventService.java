@@ -17,7 +17,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -319,6 +318,10 @@ public class EventService {
                 return criteriaBuilder.le(c.get(criteria), value);
             case EQUAL:
                 return criteriaBuilder.equal(c.get(criteria), value);
+            case GREATEROREQUAL:
+                return criteriaBuilder.greaterThanOrEqualTo(c.get(criteria),value);
+            case LOWEROREQUAL:
+                return criteriaBuilder.lessThanOrEqualTo(c.get(criteria),value);
             default:
                 return null;
         }
