@@ -14,6 +14,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 @SpringBootTest
 public class AdminHomepageIntegrationTests {
 
@@ -86,7 +88,7 @@ public class AdminHomepageIntegrationTests {
         ticketRepository.save(ticket121);
 
 
-        List<EventView> eventViewList = eventService.filterAndPaginate(null, null, null, null, null, LocalDate.now(), MAX_DATE, null, null, null, null, null, null, 1, 4, SortCriteria.DATE, true);
+        List<EventView> eventViewList = eventService.filterAndPaginate(null, null, null, null, null, LocalDate.now(), MAX_DATE, null, null, null, null, null, null, 1, 4, SortCriteria.DATE, true,null);
         EventView eventViewBefore = eventViewList.get(0);
         for (EventView eventView : eventViewList){
             if (eventView.getStartDate().isBefore(eventViewBefore.getStartDate()) && !(eventView.getStartDate().isEqual(eventViewBefore.getStartDate()))){

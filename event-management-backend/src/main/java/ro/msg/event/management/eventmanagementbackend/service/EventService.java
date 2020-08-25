@@ -211,7 +211,7 @@ public class EventService {
         this.eventRepository.deleteById(id);
     }
 
-    public TypedQuery<EventView> filter(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople, SortCriteria sortCriteria, Boolean sortType) {
+    public TypedQuery<EventView> filter(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople, SortCriteria sortCriteria, Boolean sortType, List<String> multipleLocations) {
 
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<EventView> q = criteriaBuilder.createQuery(EventView.class);
@@ -239,6 +239,13 @@ public class EventService {
             Expression<String> path = c.get("location");
             Expression<String> upper = criteriaBuilder.upper(path);
             predicate.add(criteriaBuilder.like(upper, "%" + location.toUpperCase() + "%"));
+
+        }
+
+        if (multipleLocations != null){
+            Expression<String> path = c.get("location");
+            predicate.add(path.in(multipleLocations));
+
         }
 
         if (startDate != null && endDate != null) {
@@ -285,15 +292,17 @@ public class EventService {
             }
         }
         if (sortType != null) {
-            if (sortType == true) q.orderBy(criteriaBuilder.asc(c.get(criteria)));
+            if (sortType) q.orderBy(criteriaBuilder.asc(c.get(criteria)));
             else q.orderBy(criteriaBuilder.desc(c.get(criteria)));
         }
+
+
         return entityManager.createQuery(q);
 
     }
 
-    public List<EventView> filterAndPaginate(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople, int pageNumber, int eventPerPage, SortCriteria sortCriteria, Boolean sortType) {
-        TypedQuery<EventView> typedQuery = this.filter(title, subtitle, status, highlighted, location, startDate, endDate, startHour, endHour, rateSign, rate, maxPeopleSign, maxPeople, sortCriteria, sortType);
+    public List<EventView> filterAndPaginate(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople, int pageNumber, int eventPerPage, SortCriteria sortCriteria, Boolean sortType,List<String> multipleLocations) {
+        TypedQuery<EventView> typedQuery = this.filter(title, subtitle, status, highlighted, location, startDate, endDate, startHour, endHour, rateSign, rate, maxPeopleSign, maxPeople, sortCriteria, sortType,multipleLocations);
         int offset = (pageNumber - 1) * eventPerPage;
         typedQuery.setFirstResult(offset);
         typedQuery.setMaxResults(eventPerPage);
@@ -318,8 +327,8 @@ public class EventService {
         }
     }
 
-    public int getNumberOfPages(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople, int eventPerPage) {
-        int count = filter(title, subtitle, status, highlighted, location, startDate, endDate, startHour, endHour, rateSign, rate, maxPeopleSign, maxPeople, null, null).getResultList().size();
+    public int getNumberOfPages(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople, int eventPerPage, List<String> multipleLocations) {
+        int count = filter(title, subtitle, status, highlighted, location, startDate, endDate, startHour, endHour, rateSign, rate, maxPeopleSign, maxPeople, null, null,multipleLocations).getResultList().size();
         return (int) Math.ceil((float) count / (float) eventPerPage);
     }
 
@@ -330,5 +339,9 @@ public class EventService {
         } else {
             throw new NoSuchElementException("No event with id= " + id);
         }
+    }
+
+    public int getHighlightedEventCount(){
+        return eventRepository.findAllByHighlighted(true).size();
     }
 }

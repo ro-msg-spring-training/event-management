@@ -78,7 +78,7 @@ public class FilterEventsIntegrationTests {
         ticketRepository.save(ticket112);
         ticketRepository.save(ticket121);
 
-        List<EventView> eventViews = eventService.filterAndPaginate(null,null,null,null,null,null,null,null,null, ComparisonSign.GREATER,(float)0,null,null,1,10,null,null);
+        List<EventView> eventViews = eventService.filterAndPaginate(null,null,null,null,null,null,null,null,null, ComparisonSign.GREATER,(float)0,null,null,1,10,null,null,null);
         for (EventView eventView : eventViews){
             if (eventView.getRate() ==0 ){
                 assert(false);
@@ -87,7 +87,7 @@ public class FilterEventsIntegrationTests {
 
         LocalDate startDate = LocalDate.parse("2020-11-16");
         LocalDate endDate = LocalDate.parse("2020-11-30");
-        List<EventView> eventViews1 = eventService.filterAndPaginate(null,null,null,null,null,startDate,endDate,null,null, null,null,null,null,1,10,null,null);
+        List<EventView> eventViews1 = eventService.filterAndPaginate(null,null,null,null,null,startDate,endDate,null,null, null,null,null,null,1,10,null,null,null);
         for (EventView eventView : eventViews1){
             if ((eventView.getStartDate().isBefore(startDate) && eventView.getEndDate().isBefore(startDate)) || (eventView.getStartDate().isAfter(endDate) && eventView.getEndDate().isAfter(endDate))){
                 assert(false);
