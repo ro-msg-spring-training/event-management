@@ -21,4 +21,6 @@ public interface EventRepository extends JpaRepository<Event, Long> {
                                       @Param("endHour") LocalTime endHour,
                                       @Param("sublocation") long sublocation);
 
+    List<Event> findAllByHighlighted(boolean highlighted);
+
 }
