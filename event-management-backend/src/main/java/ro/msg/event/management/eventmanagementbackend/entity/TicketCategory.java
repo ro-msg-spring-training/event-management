@@ -29,6 +29,7 @@ public class TicketCategory extends BaseEntity {
     @JoinColumn(name = "event")
     private Event event;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "ticketCategory",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,

@@ -12,7 +12,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class EventWithLocationDto{
+public class EventDetailsForBookingDto {
     private long id;
     private String title;
     private String subtitle;

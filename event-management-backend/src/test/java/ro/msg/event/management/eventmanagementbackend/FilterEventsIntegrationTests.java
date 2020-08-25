@@ -89,7 +89,7 @@ public class FilterEventsIntegrationTests {
         LocalDate endDate = LocalDate.parse("2020-11-30");
         List<EventView> eventViews1 = eventService.filterAndPaginate(null,null,null,null,null,startDate,endDate,null,null, null,null,null,null,1,10,null,null);
         for (EventView eventView : eventViews1){
-            if ((eventView.getStartDate().isBefore(startDate) && eventView.getEndDate().isBefore(startDate)) || (eventView.getStartDate().isAfter(startDate) && eventView.getEndDate().isAfter(startDate))){
+            if ((eventView.getStartDate().isBefore(startDate) && eventView.getEndDate().isBefore(startDate)) || (eventView.getStartDate().isAfter(endDate) && eventView.getEndDate().isAfter(endDate))){
                 assert(false);
             }
         }
