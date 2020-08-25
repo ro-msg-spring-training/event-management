@@ -48,13 +48,6 @@ export const noCardError: CategoryCardErrors = {
   description: "",
   ticketsPerCategory: "",
 };
-export const noCardError2: CategoryCardErrors = {
-  title: "",
-  subtitle: "",
-  price: "",
-  description: "",
-  ticketsPerCategory: "",
-};
 
 export const emptyCard: CategoryCardItem = {
   id: 1,
@@ -106,7 +99,8 @@ export const initialState: EventState = {
     endTime: "",
     maxPeople: "",
     ticketsPerUser: "",
-    ticketCategoryDtoList: [noCardError, noCardError2],
+    ticketInfo: "",
+    ticketCategoryDtoList: [noCardError],
   },
   error: "",
   isError: false,

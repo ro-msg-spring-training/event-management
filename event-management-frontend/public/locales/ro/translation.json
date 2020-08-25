@@ -159,6 +159,7 @@
     "ticketsPerCategoryExceedsError": "Depășește numărul maxim de persoane",
     "ticketsPerCategoryTooSmallError": "Minim 1 bilet/categorie",
     "ticketsPerCategoryAlreadySoldError": "Biletele sunt deja vândute",
+    "ticketPerUserError": "Minim 1 bilet necesar",
     "removeTitle": "Șterge categoria",
     "removePurchased": "Această categorie nu poate fi ștearsă. Unele bilete sunt deja achiziționate.",
     "removeEmpty": "Sunteți sigur? Prin ștergerea acestei categorii, datele introduse vor fi dispărute.",
@@ -169,7 +170,8 @@
     "nrOfTickets": "Număr de bilete",
     "remove": "Șterge",
     "nevermind": "Anulare",
-    "addCategory": "Adaugă categorie nouă",
-    "maxTicketPerUser": "Maxim bilete per utilizator"
+    "addCategory": "Adaugă categorie",
+    "maxTicketPerUser": "Maxim bilete per utilizator",
+    "ticketInfo": "Informații despre bilete"
   }
 }

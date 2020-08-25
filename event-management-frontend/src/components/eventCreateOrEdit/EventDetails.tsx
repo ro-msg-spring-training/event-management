@@ -104,7 +104,8 @@ function EventDetails({
       errors.startTime.length > 0 ||
       errors.endTime.length > 0 ||
       errors.maxPeople.length > 0 ||
-      errors.ticketsPerUser.length > 0
+      errors.ticketsPerUser.length > 0 ||
+      errors.ticketInfo.length > 0
     ) {
       setMsgUndo(t("welcome.popupErrMsgUnderstood"));
       setDialogTitle(t("welcome.popupMsgErrTitle"));
@@ -138,8 +139,8 @@ function EventDetails({
       event.description.length === 0 ||
       event.maxPeople === 0 ||
       event.ticketCategoryDtoList.length === 0 ||
-      event.ticketsPerUser === 0 //&&
-      //newEvent
+      event.ticketsPerUser === 0 ||
+      event.ticketInfo.length === 0
     ) {
       setMsgUndo(t("welcome.popupErrMsgUnderstood"));
       setDialogTitle(t("welcome.popupMsgErrTitle"));

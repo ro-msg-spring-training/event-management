@@ -1,55 +1,75 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AppState } from "../../../../store/store";
 import { connect } from "react-redux";
 import CategoryPageDumb from "./CategoryPageDumb";
 import { EventCrud } from "../../../../model/EventCrud";
 import { addEmptyCategoryCard, updateEvent, updateFormErrors } from "../../../../actions/HeaderEventCrudActions";
 import { EventFormErrors } from "../../../../model/EventFormErrors";
+import { useTranslation } from "react-i18next";
 
-interface Props {
+type Props = {
   newEvent: boolean;
   event: EventCrud;
   formErrors: EventFormErrors;
   addEmptyCategoryCard: () => void;
   updateEvent: (event: EventCrud) => void;
   updateFormErrors: (errors: EventFormErrors) => void;
-}
+};
 
-const CategoryPageSmart: React.FC<Props> = (props: Props) => {
-  const handleChange = (e: any) => {
+const CategoryPageSmart: React.FC<Props> = ({
+  newEvent,
+  event,
+  formErrors,
+  addEmptyCategoryCard,
+  updateEvent,
+  updateFormErrors,
+}: Props) => {
+  const { t } = useTranslation();
+  const handleChange = (e: { preventDefault: () => void; target: { name: string; value: any } }) => {
     e.preventDefault();
     const { name, value } = e.target;
+
     // update event
-    let newEvent = Object.assign({}, props.event);
+    let newEvent = Object.assign({}, event);
 
     switch (name) {
       case "ticketsPerUser":
         newEvent.ticketsPerUser = parseInt(value);
         break;
+
+      case "ticketInfo":
+        newEvent.ticketInfo = value;
+        break;
+
       default:
         break;
     }
-    props.updateEvent(newEvent);
+    updateEvent(newEvent);
 
-    let newFormErrors = Object.assign({}, props.formErrors);
+    let newFormErrors = Object.assign({}, formErrors);
 
     switch (name) {
       case "ticketsPerUser":
-        newFormErrors.ticketsPerUser = value <= 0 ? "Add more people!" : "";
+        newFormErrors.ticketsPerUser = value <= 0 ? t("categoryCard.ticketPerUserError") : "";
         break;
+
+      case "ticketInfo":
+        newFormErrors.ticketInfo = value.length < 3 ? t("categoryCard.lengthError") : "";
+        break;
+
       default:
         break;
     }
 
-    props.updateFormErrors(newFormErrors);
+    updateFormErrors(newFormErrors);
   };
 
   return (
     <CategoryPageDumb
-      newEvent={props.newEvent}
-      event={props.event}
-      formErrors={props.formErrors}
-      addCard={props.addEmptyCategoryCard}
+      newEvent={newEvent}
+      event={event}
+      formErrors={formErrors}
+      addCard={addEmptyCategoryCard}
       handleChange={handleChange}
     />
   );

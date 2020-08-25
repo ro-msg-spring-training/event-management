@@ -70,7 +70,6 @@ export const fetchEventRequest = () => {
 };
 
 export const fetchEventSuccess = (product: EventCrud, ticketData: TicketAvailabilityData[]) => {
-  console.log("product: ", product, "/n ticketData: ", ticketData);
   return {
     type: FETCH_EVENT_SUCCESS,
     payload: product,

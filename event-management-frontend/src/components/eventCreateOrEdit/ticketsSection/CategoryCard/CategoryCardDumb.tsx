@@ -7,20 +7,13 @@ import {
   OutlinedInput,
   InputAdornment,
   Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
   FormHelperText,
   Grid,
 } from "@material-ui/core";
-import { useState } from "react";
 import { useStylesCategoryCard } from "../../../../styles/CategoryCardStyle";
 import React from "react";
 import "../../../../styles/Responsivity.css";
 import { EventCrud } from "../../../../model/EventCrud";
-import { TicketAvailabilityData } from "../../../../model/TicketAvailabilityData";
 import { useTranslation } from "react-i18next";
 import { CategoryCardErrors } from "../../../../model/EventFormErrors";
 
@@ -33,60 +26,32 @@ type Props = {
   description: string;
   ticketsPerCategory: number;
   handleChange: any;
-  ticketData: TicketAvailabilityData[];
   formErrors: {
     ticketCategoryDtoList: CategoryCardErrors[];
   };
-  removeCard: (id: number) => void;
+  removeThisCard: () => void;
 };
 
-const CategoryCardDumb: React.FC<Props> = (props: Props) => {
-  const [open, setOpen] = useState(false);
-  const [disableMessage, setDisableMessage] = useState("");
-  const [dialogTitle, setDialogTitle] = useState("");
-  const [dialogDescription, setDialogDescription] = useState("");
-
+const CategoryCardDumb: React.FC<Props> = ({
+  event,
+  id,
+  title,
+  subtitle,
+  price,
+  description,
+  ticketsPerCategory,
+  handleChange,
+  formErrors,
+  removeThisCard,
+}: Props) => {
   const { t } = useTranslation();
   const classes = useStylesCategoryCard();
-
-  let categoryData = props.ticketData.filter((data) => data.title === props.title)[0];
-  let index = props.event.ticketCategoryDtoList.findIndex((card) => card.id === props.id);
-
-  const removeThisCard = () => {
-    if (categoryData && categoryData.sold !== 0) {
-      setDisableMessage("Disable");
-      setDialogTitle(t("categoryCard.removeTitle"));
-      setDialogDescription(t("categoryCard.removePurchased"));
-      setOpen(true);
-    } else if (
-      props.title.trim() !== "" ||
-      props.subtitle.trim() !== "" ||
-      props.price !== 0 ||
-      props.description.trim() !== "" ||
-      props.ticketsPerCategory !== 0
-    ) {
-      setDisableMessage("");
-      setDialogTitle(t("categoryCard.removeTitle"));
-      setDialogDescription(t("categoryCard.removeEmpty"));
-      setOpen(true);
-    } else {
-      removalApproved();
-    }
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const removalApproved = () => {
-    props.removeCard(props.id);
-    console.log("torles: ", props.event.ticketCategoryToDelete);
-  };
+  let index = event.ticketCategoryDtoList.findIndex((card) => card.id === id);
 
   return (
     <div>
       <Grid item xl={12} lg={12} md={10} sm={12} xs={10}>
-        <Card variant="outlined" className={`${classes.root} `}>
+        <Card variant="outlined" className={classes.root}>
           <CardContent className={classes.cardStyle}>
             <Grid item xl={4} sm={7} xs={11} className={classes.marginBasic2}>
               <TextField
@@ -101,16 +66,17 @@ const CategoryCardDumb: React.FC<Props> = (props: Props) => {
                 name="title"
                 variant="outlined"
                 label={t("categoryCard.title")}
-                error={props.formErrors.ticketCategoryDtoList[index].title.length > 0}
-                helperText={props.formErrors.ticketCategoryDtoList[index].title}
-                defaultValue={props.title}
-                onChange={props.handleChange}
+                error={formErrors.ticketCategoryDtoList[index].title.length > 0}
+                helperText={formErrors.ticketCategoryDtoList[index].title}
+                defaultValue={title}
+                onChange={handleChange}
               />
             </Grid>
-            <Grid item xl={4} sm={7} xs={11} className={classes.marginBasic2} justify="center" alignItems="center">
+
+            <Grid item xl={4} sm={7} xs={11} className={classes.marginBasic2}>
               <TextField
                 variant="outlined"
-                className={`${classes.marginBasic}`}
+                className={classes.marginBasic}
                 InputProps={{
                   className: classes.inputBasic,
                 }}
@@ -119,10 +85,10 @@ const CategoryCardDumb: React.FC<Props> = (props: Props) => {
                 }}
                 name="subtitle"
                 label={t("categoryCard.subtitle")}
-                defaultValue={props.subtitle}
-                onChange={props.handleChange}
-                error={props.formErrors.ticketCategoryDtoList[index].subtitle.length > 0}
-                helperText={props.formErrors.ticketCategoryDtoList[index].subtitle}
+                defaultValue={subtitle}
+                onChange={handleChange}
+                error={formErrors.ticketCategoryDtoList[index].subtitle.length > 0}
+                helperText={formErrors.ticketCategoryDtoList[index].subtitle}
               />
             </Grid>
 
@@ -131,22 +97,22 @@ const CategoryCardDumb: React.FC<Props> = (props: Props) => {
                 <InputLabel>{t("categoryCard.price")}</InputLabel>
                 <OutlinedInput
                   id="outlined-adornment-weight"
-                  defaultValue={props.price}
-                  onChange={props.handleChange}
+                  defaultValue={price}
+                  onChange={handleChange}
                   name="price"
                   type="number"
                   endAdornment={<InputAdornment position="end">RON</InputAdornment>}
                   inputProps={{ className: classes.inputPrice }}
                   labelWidth={50}
-                  error={props.formErrors.ticketCategoryDtoList[index].price.length > 0}
+                  error={formErrors.ticketCategoryDtoList[index].price.length > 0}
                 />
-                <FormHelperText>{props.formErrors.ticketCategoryDtoList[index].price}</FormHelperText>
+                <FormHelperText>{formErrors.ticketCategoryDtoList[index].price}</FormHelperText>
               </FormControl>
             </Grid>
             <br />
             <TextField
               required
-              className={`${classes.marginLong}`}
+              className={classes.marginLong}
               InputProps={{
                 className: classes.inputLong,
               }}
@@ -160,11 +126,12 @@ const CategoryCardDumb: React.FC<Props> = (props: Props) => {
               rowsMax="4"
               variant="outlined"
               label={t("categoryCard.description")}
-              defaultValue={props.description}
-              onChange={props.handleChange}
-              error={props.formErrors.ticketCategoryDtoList[index].description.length > 0}
-              helperText={props.formErrors.ticketCategoryDtoList[index].description}
+              defaultValue={description}
+              onChange={handleChange}
+              error={formErrors.ticketCategoryDtoList[index].description.length > 0}
+              helperText={formErrors.ticketCategoryDtoList[index].description}
             />
+
             <Grid item container spacing={1}>
               <Grid item lg={9} md={9} sm={9} xs={7}>
                 <TextField
@@ -180,36 +147,18 @@ const CategoryCardDumb: React.FC<Props> = (props: Props) => {
                   variant="outlined"
                   label={t("categoryCard.nrOfTickets")}
                   type="number"
-                  defaultValue={props.ticketsPerCategory === 0 ? "" : props.ticketsPerCategory}
-                  onChange={props.handleChange}
-                  error={props.formErrors.ticketCategoryDtoList[index].ticketsPerCategory.length > 0}
-                  helperText={props.formErrors.ticketCategoryDtoList[index].ticketsPerCategory}
+                  defaultValue={ticketsPerCategory === 0 ? "" : ticketsPerCategory}
+                  onChange={handleChange}
+                  error={formErrors.ticketCategoryDtoList[index].ticketsPerCategory.length > 0}
+                  helperText={formErrors.ticketCategoryDtoList[index].ticketsPerCategory}
                 />
               </Grid>
+
               <Grid item lg={3} md={3} sm={3} xs={4}>
                 <Button className={classes.removeButton} onClick={removeThisCard} size="small">
                   {t("categoryCard.remove")}
                 </Button>
               </Grid>
-              <Dialog
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-              >
-                <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
-                <DialogContent>
-                  <DialogContentText id="alert-dialog-description">{dialogDescription}</DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={removalApproved} disabled={disableMessage.length > 0} color="primary">
-                    {t("categoryCard.remove")}
-                  </Button>
-                  <Button onClick={handleClose} color="primary" autoFocus>
-                    {t("categoryCard.nevermind")}
-                  </Button>
-                </DialogActions>
-              </Dialog>
             </Grid>
           </CardContent>
         </Card>

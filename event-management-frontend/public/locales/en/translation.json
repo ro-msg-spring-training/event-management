@@ -160,6 +160,7 @@
     "ticketsPerCategoryExceedsError": "Exceeds number of max people",
     "ticketsPerCategoryTooSmallError": "Min. 1 ticket/category",
     "ticketsPerCategoryAlreadySoldError": "Tickets already sold",
+    "ticketPerUserError": "Min. 1 ticket required",
     "removeTitle": "Remove Category",
     "removePurchased": "This category cannot be removed. Some tickets are already purchased.",
     "removeEmpty": "Are you sure? By removing this category, it's data will be gone.",
@@ -170,7 +171,8 @@
     "nrOfTickets": "Number of tickets",
     "remove": "Remove",
     "nevermind": "Nevermind",
-    "addCategory": "Add Ticket Category",
-    "maxTicketPerUser": "Max Tickets Per User"
+    "addCategory": "Add Category",
+    "maxTicketPerUser": "Max Tickets Per User",
+    "ticketInfo": "Tickets Info"
   }
 }

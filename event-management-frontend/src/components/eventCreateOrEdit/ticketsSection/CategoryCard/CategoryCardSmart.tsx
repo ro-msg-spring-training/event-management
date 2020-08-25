@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { AppState } from "../../../../store/store";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -8,6 +8,8 @@ import { updateEvent, removeCategoryCard, updateFormErrors } from "../../../../a
 import { EventFormErrors } from "../../../../model/EventFormErrors";
 import { TicketAvailabilityData } from "../../../../model/TicketAvailabilityData";
 import { useTranslation } from "react-i18next";
+import TicketDialog from "../TicketDialog";
+
 type Props = {
   id: number;
   title: string;
@@ -24,44 +26,93 @@ type Props = {
   updateFormErrors: (errors: EventFormErrors) => void;
 };
 
-const CategoryCardSmart: React.FC<Props> = (props: Props) => {
+const CategoryCardSmart: React.FC<Props> = ({
+  id,
+  title,
+  subtitle,
+  price,
+  description,
+  ticketsPerCategory,
+  ticketData,
+  event,
+  formErrors,
+  removeCard,
+  updateEvent,
+  updateFormErrors,
+}: Props) => {
   const { t } = useTranslation();
+  const [open, setOpen] = useState(false);
+  const [disableMessage, setDisableMessage] = useState("");
+  const [dialogTitle, setDialogTitle] = useState("");
+  const [dialogDescription, setDialogDescription] = useState("");
 
-  const handleChange = (e: any) => {
+  let categoryData = ticketData.filter((data) => data.title === title)[0];
+
+  const removeThisCard = () => {
+    if (categoryData && categoryData.sold !== 0) {
+      setDisableMessage("Disable");
+      setDialogTitle(t("categoryCard.removeTitle"));
+      setDialogDescription(t("categoryCard.removePurchased"));
+      setOpen(true);
+    } else if (
+      title.trim() !== "" ||
+      subtitle.trim() !== "" ||
+      price !== 0 ||
+      description.trim() !== "" ||
+      ticketsPerCategory !== 0
+    ) {
+      setDisableMessage("");
+      setDialogTitle(t("categoryCard.removeTitle"));
+      setDialogDescription(t("categoryCard.removeEmpty"));
+      setOpen(true);
+    } else {
+      removalApproved();
+    }
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const removalApproved = () => {
+    removeCard(id);
+  };
+
+  const handleChange = (e: { preventDefault: () => void; target: { name: string; value: any } }) => {
     e.preventDefault();
     const { name, value } = e.target;
 
     // update event
-    let newEvent = Object.assign({}, props.event);
+    let newEvent = Object.assign({}, event);
 
     switch (name) {
       case "title":
-        newEvent.ticketCategoryDtoList.filter((data) => data.id === props.id)[0].title = value;
+        newEvent.ticketCategoryDtoList.filter((data) => data.id === id)[0].title = value;
         break;
 
       case "subtitle":
-        newEvent.ticketCategoryDtoList.filter((data) => data.id === props.id)[0].subtitle = value;
+        newEvent.ticketCategoryDtoList.filter((data) => data.id === id)[0].subtitle = value;
         break;
 
       case "description":
-        newEvent.ticketCategoryDtoList.filter((data) => data.id === props.id)[0].description = value;
+        newEvent.ticketCategoryDtoList.filter((data) => data.id === id)[0].description = value;
         break;
 
       case "price":
-        newEvent.ticketCategoryDtoList.filter((data) => data.id === props.id)[0].price = value;
+        newEvent.ticketCategoryDtoList.filter((data) => data.id === id)[0].price = value;
         break;
 
       case "ticketsPerCategory":
-        newEvent.ticketCategoryDtoList.filter((data) => data.id === props.id)[0].ticketsPerCategory = value;
+        newEvent.ticketCategoryDtoList.filter((data) => data.id === id)[0].ticketsPerCategory = value;
         break;
 
       default:
         break;
     }
-    props.updateEvent(newEvent);
+    updateEvent(newEvent);
 
-    let newFormErrors = Object.assign({}, props.formErrors);
-    let index = props.event.ticketCategoryDtoList.findIndex((card) => card.id === props.id);
+    let newFormErrors = Object.assign({}, formErrors);
+    let index = event.ticketCategoryDtoList.findIndex((card) => card.id === id);
 
     switch (name) {
       case "title":
@@ -80,9 +131,9 @@ const CategoryCardSmart: React.FC<Props> = (props: Props) => {
         break;
 
       case "ticketsPerCategory":
-        let nrOfMaxPeople = props.event.maxPeople;
+        let nrOfMaxPeople = event.maxPeople;
         let ticketsToSell = 0;
-        for (let fields of props.event.ticketCategoryDtoList) {
+        for (let fields of event.ticketCategoryDtoList) {
           ticketsToSell += Number(fields.ticketsPerCategory);
         }
         if (ticketsToSell > nrOfMaxPeople) {
@@ -92,7 +143,7 @@ const CategoryCardSmart: React.FC<Props> = (props: Props) => {
           break;
         }
 
-        let categoryData = props.ticketData.filter((data) => data.title === props.title)[0];
+        let categoryData = ticketData.filter((data) => data.title === title)[0];
 
         if (categoryData && categoryData.sold >= value && value > 0) {
           newFormErrors.ticketCategoryDtoList[index].ticketsPerCategory = t(
@@ -108,10 +159,33 @@ const CategoryCardSmart: React.FC<Props> = (props: Props) => {
         break;
     }
 
-    props.updateFormErrors(newFormErrors);
+    updateFormErrors(newFormErrors);
   };
 
-  return <CategoryCardDumb {...props} handleChange={handleChange} />;
+  return (
+    <div>
+      <CategoryCardDumb
+        event={event}
+        id={id}
+        title={title}
+        subtitle={subtitle}
+        price={price}
+        description={description}
+        ticketsPerCategory={ticketsPerCategory}
+        formErrors={formErrors}
+        removeThisCard={removeThisCard}
+        handleChange={handleChange}
+      />
+      <TicketDialog
+        open={open}
+        dialogTitle={dialogTitle}
+        dialogDescription={dialogDescription}
+        disableMessage={disableMessage}
+        removalApproved={removalApproved}
+        handleClose={handleClose}
+      />
+    </div>
+  );
 };
 
 const mapStateToProps = (

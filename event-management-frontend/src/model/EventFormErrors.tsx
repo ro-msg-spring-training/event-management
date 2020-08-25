@@ -9,6 +9,7 @@ export interface EventFormErrors {
   maxPeople: string;
   ticketsPerUser: string;
   ticketCategoryDtoList: CategoryCardErrors[];
+  ticketInfo: string;
 }
 
 export interface CategoryCardErrors {

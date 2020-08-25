@@ -11,6 +11,7 @@ export const useStylesCategoryPage = makeStyles((theme: Theme) => ({
   },
   maxTickets: {
     marginLeft: "3%",
+    width: "100%",
   },
   inlineHeader: {
     display: "inline-flex",
@@ -26,7 +27,16 @@ export const useStylesCategoryPage = makeStyles((theme: Theme) => ({
   gridStyleHeader: {
     marginLeft: "9%",
   },
+  ticketInfoStyle: {
+    width: "100%",
+    marginLeft: "3%",
+  },
+
   button: {
+    width: "90%",
+    marginLeft: "5%",
+    marginTop: "20px",
+    height: "50px",
     textAlign: "center",
     color: theme.palette.secondary.main,
     textTransform: "uppercase",

@@ -11,26 +11,27 @@ import { CategoryCardErrors } from "../../../../model/EventFormErrors";
 type Props = {
   newEvent: boolean;
   event: EventCrud;
-  addCard: () => void;
   handleChange: any;
   formErrors: {
     ticketsPerUser: string;
+    ticketInfo: string;
     ticketCategoryDtoList: CategoryCardErrors[];
   };
+  addCard: () => void;
 };
 
-const CategoryPageDumb: React.FC<Props> = (props: Props) => {
+const CategoryPageDumb: React.FC<Props> = ({ newEvent, event, addCard, handleChange, formErrors }: Props) => {
   const classes = useStylesCategoryPage();
   const { t } = useTranslation();
-
   const addNewCard = () => {
-    props.addCard();
+    addCard();
   };
+
   return (
     <div>
       <h1 className={classes.title}>General</h1>
       <Grid className={classes.gridStyleHeader} container spacing={5}>
-        <Grid container item xl={8} lg={6} md={6} sm={4} xs={4}>
+        <Grid container item xl={2} lg={2} md={2} sm={9} xs={10}>
           <TextField
             required
             name="ticketsPerUser"
@@ -41,13 +42,35 @@ const CategoryPageDumb: React.FC<Props> = (props: Props) => {
             type="number"
             variant="outlined"
             label={t("categoryCard.maxTicketPerUser")}
-            error={props.formErrors.ticketsPerUser.length > 0}
-            helperText={props.formErrors.ticketsPerUser}
-            defaultValue={props.event.ticketsPerUser}
-            onChange={props.handleChange}
+            error={formErrors.ticketsPerUser.length > 0}
+            helperText={formErrors.ticketsPerUser}
+            defaultValue={event.ticketsPerUser}
+            onChange={handleChange}
           />
         </Grid>
-        <Grid container item xl={5} lg={3} md={6} sm={7} xs={6}>
+
+        <Grid container item xl={5} lg={5} md={5} sm={9} xs={10}>
+          <TextField
+            required
+            className={classes.ticketInfoStyle}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            name="ticketInfo"
+            multiline
+            rows="3"
+            fullWidth
+            rowsMax="4"
+            variant="outlined"
+            label={t("categoryCard.ticketInfo")}
+            defaultValue={event.ticketInfo}
+            onChange={handleChange}
+            error={formErrors.ticketInfo.length > 0}
+            helperText={formErrors.ticketInfo}
+          />
+        </Grid>
+
+        <Grid container item xl={2} lg={2} md={3} sm={8} xs={8}>
           <Button className={`${classes.button} addButtonResponsive`} onClick={addNewCard}>
             {t("categoryCard.addCategory")}
           </Button>
@@ -55,7 +78,7 @@ const CategoryPageDumb: React.FC<Props> = (props: Props) => {
       </Grid>
       <br /> <br /> <br />
       <Grid className={classes.gridStyle} container spacing={4}>
-        {props.event.ticketCategoryDtoList.map((category: CategoryCardItem) => (
+        {event.ticketCategoryDtoList.map((category: CategoryCardItem) => (
           <Grid container item xl={6} lg={6} md={7}>
             <CategoryCard
               key={category.id}
