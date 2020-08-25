@@ -25,6 +25,7 @@ import ro.msg.event.management.eventmanagementbackend.utils.SortCriteria;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -47,7 +48,7 @@ public class EventController {
     private final Converter<EventView, EventFilteringDto> converter;
     private final Converter<EventView, EventListingDto> converterToListingDto;
     private final Converter<EventView, CardsEventDto> converterToCardsEventDto;
-    private final Converter<EventView,CardsUserEventDto> converterToUserCardsEventDto;
+    private final Converter<EventView, CardsUserEventDto> converterToUserCardsEventDto;
     private final LocationService locationService;
     private final TicketService ticketService;
 
@@ -173,8 +174,9 @@ public class EventController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, indexOutOfBoundsException.getMessage(), indexOutOfBoundsException);
         }
     }
+
     @GetMapping("latest/lastPage")
-    public Integer getNumberOgPagesOnAdminHomepage(){
+    public Integer getNumberOgPagesOnAdminHomepage() {
         return eventService.getNumberOfPages(null, null, null, null, null, LocalDate.now(), MAX_DATE, null, null, null, null, null, null, EVENTS_PER_LISTING_PAGE);
     }
 
@@ -235,6 +237,41 @@ public class EventController {
         JSONObject responseBody = new JSONObject();
         responseBody.put("events", returnList);
         responseBody.put("more", more);
+        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+    }
+
+    @GetMapping("user/past")
+    public ResponseEntity<JSONObject> userEventsAttended(@RequestParam int pageNumber, @RequestParam int limit) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) auth.getPrincipal();
+
+        List<EventView> userEventList = new ArrayList<>();
+        List<EventView> checkLastPageUser = new ArrayList<>();
+
+        List<EventView> eventViews = eventService.filterAndPaginate(null, null, null, null, null, MIN_DATE, LocalDate.now(), null, null, null, null, null, null, pageNumber, limit, SortCriteria.DATE, false);
+        eventViews.forEach(eventView ->
+                eventService.getEvent(eventView.getId()).getBookings().forEach(booking -> {
+                    if (user.getIdentificationString().equals(booking.getUser())) {
+                        userEventList.add(eventView);
+                    }
+                }));
+
+        List<CardsUserEventDto> returnList = converterToUserCardsEventDto.convertAll(userEventList);
+
+        List<EventView> checkLastPage = eventService.filterAndPaginate(null, null, null, null, null, MIN_DATE, LocalDate.now(), null, null, null, null, null, null, pageNumber + 1, limit, SortCriteria.DATE, false);
+        checkLastPage.forEach(eventView ->
+                eventService.getEvent(eventView.getId()).getBookings().forEach(booking -> {
+                    if (user.getIdentificationString().equals(booking.getUser())) {
+                        checkLastPageUser.add(eventView);
+                    }
+                }));
+        boolean more = !checkLastPageUser.isEmpty();
+
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("events", returnList);
+        responseBody.put("more", more);
+
         return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
 }
