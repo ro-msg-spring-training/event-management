@@ -10,6 +10,7 @@ import {
   reserveEventFetchSucces,
   reserveEventFetch,
 } from "../../../actions/ReserveTicketsActions";
+import BuyTicketFirstPageDumb from "./BuyTicketFirstPageDumb";
 
 interface Props {
   eventReserve: EventReserveTicketType;
@@ -44,10 +45,8 @@ const BuyTicketFirstPageSmart: React.FC<Props> = (props: Props) => {
   return (
     <div>
       {console.log(props.eventReserve)}
-      Hellllllo
-      <h1>heyyyyyy</h1>
+      <BuyTicketFirstPageDumb event={props.eventReserve}></BuyTicketFirstPageDumb>
     </div>
-    // <ProductDetailsPageDumb product={props.productDetail}></ProductDetailsPageDumb>
   );
 };
 

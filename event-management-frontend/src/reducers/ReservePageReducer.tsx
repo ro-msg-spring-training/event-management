@@ -9,7 +9,18 @@ export interface ReserveFirstPageState {
 
 const initialState: ReserveFirstPageState = {
   isLoading: true,
-  event: { id: 0, name: "", location: "", startDate: "", endDate: "", startTime: "", endTime: "", ticketInfo: "" },
+  event: {
+    id: 0,
+    title: "",
+    subtitle: "",
+    locationAddress: "",
+    locationName: "",
+    startDate: "",
+    endDate: "",
+    startHour: "",
+    endHour: "",
+    ticketInfo: "",
+  },
   error: "",
 };
 

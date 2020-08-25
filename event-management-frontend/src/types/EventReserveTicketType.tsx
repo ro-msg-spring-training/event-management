@@ -1,10 +1,12 @@
 export interface EventReserveTicketType {
   id: number;
-  name: string;
-  location: string;
+  title: string;
+  subtitle: string;
+  locationName: string;
+  locationAddress: string;
   startDate: string;
   endDate: string;
-  startTime: string;
-  endTime: string;
+  startHour: string;
+  endHour: string;
   ticketInfo: string;
 }
