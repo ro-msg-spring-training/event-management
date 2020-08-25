@@ -3,7 +3,6 @@ import {Button} from "@material-ui/core";
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import {Link} from "react-router-dom";
-import MobileEvent from "../../../model/MobileEvent";
 import {createStyles, Theme, withStyles} from "@material-ui/core/styles";
 import { useStyles } from '../../../styles/CommonStyles';
 import { useTranslation } from "react-i18next";

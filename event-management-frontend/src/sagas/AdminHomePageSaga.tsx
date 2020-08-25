@@ -1,8 +1,6 @@
 import { put, takeLatest, call } from "redux-saga/effects";
 import {
   AdminHomePageActionTypes,
-  upcomingEventsFetch,
-  historyEventsFetch,
   upcomingEventsFetchSucces,
   historyEventsFetchSucces,
 } from "../actions/AdminHomePageActions";

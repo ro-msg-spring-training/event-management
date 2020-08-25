@@ -1,12 +1,10 @@
-import React, {useEffect} from "react";
+import React from "react";
 import { Button, MenuItem } from "@material-ui/core";
 import ButtonAppBarCollapse from "./ButtonAppBarCollapse";
 import Typography from "@material-ui/core/Typography";
 import { useStyles } from "../../styles/CommonStyles";
 import { NavLink } from 'react-router-dom'
 import { useTranslation } from "react-i18next";
-import config from "../../config"
-import { Auth } from "aws-amplify";
 
 
 const AppBarCollapse = () => {

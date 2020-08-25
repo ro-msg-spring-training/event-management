@@ -1,13 +1,9 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import {
-    Container,
-    CircularProgress,
-    Grid
-} from "@material-ui/core";
+import { Container, CircularProgress, Grid } from "@material-ui/core";
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
@@ -24,26 +20,14 @@ interface Props {
     ticketsDetails: Ticket[];
 }
 
-
 const TicketListDumb = (props: Props) => {
     const classes = useListStyles()
-
-    const [width, setWidth] = useState(window.innerWidth);
     const [t] = useTranslation();
 
     const ticketsDetails = props.ticketsDetails;
-    useLayoutEffect(() => {
-        function updateSize() {
-            setWidth(window.innerWidth);
-        }
-        window.addEventListener('resize', updateSize);
-        updateSize();
-        return () => window.removeEventListener('resize', updateSize);
-    }, []);
 
     return (
             <Container>
-
                 <TableContainer component={Paper} className={classes.pageContainer}>
 
                     { props.isError ?
@@ -51,6 +35,7 @@ const TicketListDumb = (props: Props) => {
                             <ErrorIcon color={"primary"} fontSize={"large"} />
                             Oops, there was an error
                         </Grid> :
+
                         props.isLoading ?
                             <Grid container alignItems={"center"} justify={"center"}>
                                 <CircularProgress />
@@ -91,7 +76,7 @@ const TicketListDumb = (props: Props) => {
                                 <TableBody>
                                     {
                                         ticketsDetails.map((ticket: Ticket) => {
-                                            return <TicketDetailsDumb ticket={ticket}/>
+                                            return <TicketDetailsDumb key={ticket.id} ticket={ticket} />
                                         })
                                     }
                                 </TableBody>
@@ -102,4 +87,4 @@ const TicketListDumb = (props: Props) => {
         );
 }
 
-export default TicketListDumb;
+export default TicketListDumb

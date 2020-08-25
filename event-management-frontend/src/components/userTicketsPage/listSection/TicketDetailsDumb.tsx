@@ -34,6 +34,7 @@ interface Props {
 const TicketDetailsDumb = (props: Props) => {
     const commonClasses = useStyles()
     const [t] = useTranslation();
+
     const id = props.ticket.id;
     const date = props.ticket.startDate;
     const category = props.ticket.startHour;

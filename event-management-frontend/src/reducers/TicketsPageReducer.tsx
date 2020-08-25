@@ -4,7 +4,6 @@ import {
     FETCH_TICKETS_SUCCESS,
     FETCH_TICKETS_ERROR, INCREMENT_PAGE,
 } from "../actions/TicketsPageActions"
-import {INCREMENT_PAGE_HOME} from "../actions/EventsPageActions";
 
 
 export interface TicketsPageState {

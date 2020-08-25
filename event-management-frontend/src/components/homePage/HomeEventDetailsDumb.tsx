@@ -1,7 +1,6 @@
 import React from 'react';
 import { Event } from "../../model/Event";
 import { makeStyles } from "@material-ui/core/styles";
-import { useTranslation } from "react-i18next";
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';

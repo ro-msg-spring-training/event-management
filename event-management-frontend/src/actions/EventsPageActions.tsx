@@ -105,7 +105,6 @@ export const fetchEventsRequest = () => {
 }
 
 export const fetchEventsSuccess = (result: Array<Event>) => {
-    console.log("success fetch" ,result)
     return {
         type: FETCH_EVENTS_SUCCESS,
         payload: result
