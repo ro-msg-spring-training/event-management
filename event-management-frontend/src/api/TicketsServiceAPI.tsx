@@ -3,9 +3,7 @@ import { fetchWrapper } from "./FetchWrapper";
 
 
 export const fetchTicketsPaginated = (page: number) => {
-    // Paginated home events requests
-    // TODO: Test with ticket backend :D
-    const paginatedUrl = new URL(serverURL + "/events/latest/" + page);
+    const paginatedUrl = new URL(serverURL + "/tickets/filter/" + page);
 
     return fetchWrapper(`${paginatedUrl}`, { headers: headersAuth })
         .then((response) => response.json())

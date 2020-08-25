@@ -4,7 +4,9 @@
     "date": "Date",
     "category": "Category",
     "name" : "Name",
-    "pdf": "PDF"
+    "pdf": "PDF",
+    "eventName": "Event name",
+    "myTickets": "My tickets"
   },
   "eventList": {
     "account": "My account",

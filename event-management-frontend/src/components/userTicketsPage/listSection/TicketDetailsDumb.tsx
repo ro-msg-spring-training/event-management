@@ -35,20 +35,39 @@ const TicketDetailsDumb = (props: Props) => {
     const commonClasses = useStyles()
     const [t] = useTranslation();
 
-    const id = props.ticket.id;
-    const date = props.ticket.startDate;
-    const category = props.ticket.startHour;
-    const name = props.ticket.occupancyRate;
+    const id = props.ticket.bookingId;
+    const date = props.ticket.bookingDate;
+    const eventName = props.ticket.eventName;
+    const category = props.ticket.ticketCategory;
+    const name = props.ticket.name;
+    const pdfUrl = props.ticket.pdfUrl;
 
     return (
         <StyledTableRow>
-            <StyledTableCell>{id}</StyledTableCell>
-            <StyledTableCell>{date}</StyledTableCell>
-            <StyledTableCell>{category}</StyledTableCell>
-            <StyledTableCell>{name}</StyledTableCell>
+            <StyledTableCell
+                key={"id"} align={"center"}
+                padding={"default"} size={"small"}>{id}
+            </StyledTableCell>
+            <StyledTableCell
+                key={"date"} align={"center"}
+                padding={"default"} size={"small"}>{date}
+            </StyledTableCell>
+            <StyledTableCell
+                key={"eventName"} align={"center"}
+                padding={"default"} size={"small"}>{eventName}
+            </StyledTableCell>
+            <StyledTableCell
+                key={"category"} align={"center"}
+                padding={"default"} size={"small"}>{category}
+            </StyledTableCell>
+            <StyledTableCell
+                key={"name"} align={"center"}
+                padding={"default"} size={"small"}>{name}
+            </StyledTableCell>
 
-            <StyledTableCell>
-                <Link to={`/pdf/${id}`} style={{ textDecoration: 'none' }}>
+            <StyledTableCell key={"pdfUrl"} align={"center"}
+                             padding={"default"} size={"medium"}>
+                <Link to={pdfUrl} style={{ textDecoration: 'none' }}>
                     <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3}`}>
                         {t("eventList.open")}
                     </Button>

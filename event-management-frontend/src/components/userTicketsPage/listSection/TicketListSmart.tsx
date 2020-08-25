@@ -47,9 +47,9 @@ const TicketListSmart = (props: Props) => {
     const ticketReferences = tickets !== undefined ? tickets
         .map((ticket: Ticket, index: number) => {
             if (tickets.length === index + 1) {
-                return <div ref={lastTicketRef} key={ticket.id}/>
+                return <div ref={lastTicketRef} key={ticket.bookingId}/>
             } else {
-                return <div key={ticket.id}/>
+                return <div key={ticket.bookingId}/>
             }
         }) : [];
 

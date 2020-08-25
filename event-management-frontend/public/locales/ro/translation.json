@@ -4,7 +4,9 @@
         "date": "Dată",
         "category": "Categorie",
         "name" : "Nume",
-        "pdf": "PDF"
+        "pdf": "PDF",
+        "eventName": "Numele evenimentului",
+        "myTickets": "Biletele mele"
     },
     "eventList": {
         "account": "Contul meu",
