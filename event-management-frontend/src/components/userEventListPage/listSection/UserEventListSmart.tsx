@@ -68,7 +68,7 @@ function UserEventListSmart({ events, isError, isMore, isFetching, isFilter, fil
                             events={events}
                             goToEventDetails={goToEventDetails}
                         /> :
-                        <p>No results</p>
+                        <p style={{ textAlign: 'center' }}>{translation("userEventList.noResults")}</p>
             }
             {isFetching && <CircularProgress style={{ alignSelf: 'center', margin: '30px' }} />}
         </>

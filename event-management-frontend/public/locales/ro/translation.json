@@ -154,6 +154,13 @@
     },
     "userEventList": {
         "detailsButton": "Detalii",
-        "errorMessage": "Eroare"
+        "errorMessage": "Eroare",
+        "noResults": "Nu există rezultate",
+        "name": "Nume",
+        "locations": "Locații",
+        "rate": "Rată ocupare",
+        "pastEvents": "Evenimente din trecut",
+        "filterButton": "Filtrare",
+        "clearButton": "Resetare"
       }
 }

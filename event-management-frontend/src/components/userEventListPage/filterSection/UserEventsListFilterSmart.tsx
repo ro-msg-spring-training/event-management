@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { UserEventFilters } from '../../../model/UserEventFilters';
 import { updateUserFilters, fetchUserEventsLocations, resetUserFilters, setUserFilterMode } from '../../../actions/UserEventListActions'
 import { UserEventType } from '../../../model/UserEventType';
+import { useTranslation } from 'react-i18next';
 
 interface UserEventFilterProps {
     filters: UserEventFilters,
@@ -16,7 +17,8 @@ interface UserEventFilterProps {
 }
 
 function UserEventsListFilterSmart({ filters, locations, updateUserFilters, fetchUserEventsLocations, resetUserFilters, setUserFilterMode }: UserEventFilterProps) {
-
+    const [translation] = useTranslation();
+    
     useEffect(() => {
         fetchUserEventsLocations();
     }, [fetchUserEventsLocations]);
@@ -64,6 +66,7 @@ function UserEventsListFilterSmart({ filters, locations, updateUserFilters, fetc
         <UserEventsListFilterDumb
             filters={filters}
             locations={locations}
+            translation={translation}
             submitForm={submitForm}
             onChangeInput={onChangeInput}
             resetUserFilters={resetFilters}

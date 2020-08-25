@@ -9,17 +9,19 @@ import { Autocomplete } from '@material-ui/lab';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import { useUserFilterStyles } from '../../../styles/userEventsPage/UserFilterStyle';
+import { TFunction } from 'i18next';
 
 interface UserEventFilterProps {
     filters: UserEventFilters,
     locations: string[],
+    translation: TFunction,
     onChangeInput: (event: any) => void,
     onChangeLocation: (event: any, value: string | string[], reason: string) => void,
     submitForm: (event: any) => void,
     resetUserFilters: () => void
 }
 
-function UserEventsListFilterDumb({ filters, locations, onChangeInput, onChangeLocation, submitForm, resetUserFilters }: UserEventFilterProps) {
+function UserEventsListFilterDumb({ filters, locations, translation, onChangeInput, onChangeLocation, submitForm, resetUserFilters }: UserEventFilterProps) {
     const commonClasses = useStyles();
     const classes = useUserFilterStyles();
 
@@ -31,7 +33,7 @@ function UserEventsListFilterDumb({ filters, locations, onChangeInput, onChangeL
                         <Grid item xs={12} sm={12} md={4} xl={4} >
                             <TextField
                                 name='title'
-                                label='Name'
+                                label={translation('userEventList.name')}
                                 variant='outlined'
                                 value={filters.title}
                                 onChange={onChangeInput}
@@ -63,7 +65,7 @@ function UserEventsListFilterDumb({ filters, locations, onChangeInput, onChangeL
                                     </React.Fragment>
                                 )}
                                 renderInput={(params) => (
-                                    <TextField {...params} variant="outlined" label="Locations" />
+                                    <TextField {...params} variant="outlined" label={translation('userEventList.locations')} />
                                 )}
                             />
                         </Grid>
@@ -85,7 +87,7 @@ function UserEventsListFilterDumb({ filters, locations, onChangeInput, onChangeL
 
                             <TextField
                                 name='rate'
-                                label='Occupancy'
+                                label={translation('userEventList.rate')}
                                 value={filters.rate}
                                 variant='outlined'
                                 type='number'
@@ -112,7 +114,7 @@ function UserEventsListFilterDumb({ filters, locations, onChangeInput, onChangeL
                                         checked={filters.type === UserEventType.PAST}
                                         onChange={onChangeInput} />
                                 }
-                                label='Past events'
+                                label={translation('userEventList.pastEvents')}
                                 labelPlacement='end'
                             />
                         </Grid>
@@ -124,7 +126,7 @@ function UserEventsListFilterDumb({ filters, locations, onChangeInput, onChangeL
                                 className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3} ${classes.filterButtons}`}
                                 type='submit'
                             >
-                                Filter
+                                {translation('userEventList.filterButton')}
                         </Button>
                         </Grid>
 
@@ -133,7 +135,7 @@ function UserEventsListFilterDumb({ filters, locations, onChangeInput, onChangeL
                                 className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3} ${classes.filterButtons}`}
                                 onClick={resetUserFilters}
                             >
-                                Reset
+                                {translation('userEventList.clearButton')}
                         </Button>
                         </Grid>
                     </Grid>
