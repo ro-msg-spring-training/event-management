@@ -6,9 +6,8 @@ import UserEventsListFilterSmart from './filterSection/UserEventsListFilterSmart
 
 function UserEventsPage() {
     return (
-        <Container style={{ display: 'flex', flexDirection: 'column' }}>
+        <Container>
             <UserEventsListFilterSmart />
-
             <UserEventListSmart />
         </Container>
     )

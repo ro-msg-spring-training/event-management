@@ -19,7 +19,7 @@ function UserEventsListFilterSmart({ filters, locations, updateUserFilters, fetc
 
     useEffect(() => {
         fetchUserEventsLocations();
-    }, []);
+    }, [fetchUserEventsLocations]);
 
     const onChangeInput = (event: any) => {
         const { name, value, checked } = event.target;

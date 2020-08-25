@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import UserEventListDumb from './UserEventListDumb';
 import { CircularProgress, LinearProgress } from '@material-ui/core';
@@ -17,10 +17,10 @@ interface UserEventListProps {
     isFetching: boolean,
     page: number,
     limit: number,
-    isFilter: UserEventIsFilterType,
     filters: UserEventFilters,
+    isFilter: UserEventIsFilterType,
+    setIsFetching: (isLoading: boolean) => void,
     fetchUserEvents: (page: number, limit: number, isFilter: UserEventIsFilterType, filters: UserEventFilters) => void
-    setIsFetching: (isLoading: boolean) => void
 }
 
 function UserEventListSmart({ events, isError, isMore, isFetching, isFilter, filters, page, limit, fetchUserEvents, setIsFetching }: UserEventListProps) {

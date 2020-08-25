@@ -97,12 +97,12 @@ export const UserEventsReducer = (state = initialState, action: ReducerActionPro
                 ...state,
                 page: 1,
                 isMore: false,
+                events: [],
                 isFilter: state.isFilter === UserEventIsFilterType.NOT_IN_USE ?
                     UserEventIsFilterType.IN_USE_STATE_1 :
-                    UserEventIsFilterType.IN_USE_STATE_1 ?
+                    state.isFilter === UserEventIsFilterType.IN_USE_STATE_1 ?
                         UserEventIsFilterType.IN_USE_STATE_2 :
                         UserEventIsFilterType.IN_USE_STATE_1,
-                events: [],
             }
         default:
             return state
