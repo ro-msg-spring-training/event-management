@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import UserEventListDumb from './UserEventListDumb';
 import { CircularProgress, LinearProgress } from '@material-ui/core';
@@ -7,6 +7,8 @@ import { UserEventList } from '../../../model/UserEventList';
 import { fetchUserEvents, setIsFetching } from '../../../actions/UserEventListActions';
 import { AppState } from '../../../store/store';
 import { useTranslation } from 'react-i18next';
+import { UserEventFilters } from '../../../model/UserEventFilters';
+import { UserEventIsFilterType } from '../../../model/UserEventIsFilterType';
 
 interface UserEventListProps {
     events: UserEventList[],
@@ -15,11 +17,13 @@ interface UserEventListProps {
     isFetching: boolean,
     page: number,
     limit: number,
-    fetchUserEvents: (page: number, limit: number) => void
+    isFilter: UserEventIsFilterType,
+    filters: UserEventFilters,
+    fetchUserEvents: (page: number, limit: number, isFilter: UserEventIsFilterType, filters: UserEventFilters) => void
     setIsFetching: (isLoading: boolean) => void
 }
 
-function UserEventListSmart({ events, isError, isMore, isFetching, page, limit, fetchUserEvents, setIsFetching }: UserEventListProps) {
+function UserEventListSmart({ events, isError, isMore, isFetching, isFilter, filters, page, limit, fetchUserEvents, setIsFetching }: UserEventListProps) {
     const history = useHistory();
     const [translation] = useTranslation();
 
@@ -27,7 +31,7 @@ function UserEventListSmart({ events, isError, isMore, isFetching, page, limit, 
         if (!isFetching) return;
 
         if (isMore) {
-            fetchUserEvents(page, limit);
+            fetchUserEvents(page, limit, isFilter, filters);
         }
     }, [isFetching]);
 
@@ -40,8 +44,8 @@ function UserEventListSmart({ events, isError, isMore, isFetching, page, limit, 
     }
 
     useEffect(() => {
-        fetchUserEvents(page, limit);
-    }, []);
+        fetchUserEvents(page, limit, isFilter, filters);
+    }, [isFilter]);
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
@@ -58,11 +62,13 @@ function UserEventListSmart({ events, isError, isMore, isFetching, page, limit, 
                 <p style={{ textAlign: 'center' }} > {translation("userEventList.errorMessage")} </p> :
                 isFetching && page === 1 ?
                     <LinearProgress /> :
-                    <UserEventListDumb
-                        translation={translation}
-                        events={events}
-                        goToEventDetails={goToEventDetails}
-                    />
+                    events.length ?
+                        <UserEventListDumb
+                            translation={translation}
+                            events={events}
+                            goToEventDetails={goToEventDetails}
+                        /> :
+                        <p>No results</p>
             }
             {isFetching && <CircularProgress style={{ alignSelf: 'center', margin: '30px' }} />}
         </>
@@ -75,11 +81,13 @@ const mapStateToProps = (state: AppState) => ({
     page: state.userEvents.page,
     limit: state.userEvents.limit,
     isMore: state.userEvents.isMore,
-    isFetching: state.userEvents.isFetching
+    isFetching: state.userEvents.isFetching,
+    isFilter: state.userEvents.isFilter,
+    filters: state.userEvents.filters
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-    fetchUserEvents: (page: number, limit: number) => dispatch(fetchUserEvents(page, limit)),
+    fetchUserEvents: (page: number, limit: number, isFilter: UserEventIsFilterType, filters: UserEventFilters) => dispatch(fetchUserEvents(page, limit, isFilter, filters)),
     setIsFetching: (isFetching: boolean) => dispatch(setIsFetching(isFetching))
 })
 

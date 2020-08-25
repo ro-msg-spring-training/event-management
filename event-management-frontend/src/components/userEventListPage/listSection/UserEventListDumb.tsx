@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, LinearProgress } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import UserEventCard from './UserEventCard';
 import { UserEventList } from '../../../model/UserEventList';
 import { TFunction } from 'i18next';

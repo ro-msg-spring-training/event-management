@@ -7,7 +7,7 @@ import {
 } from "./EventsPageSaga";
 import { loadEventWatcher, deleteProductWatcher, addProductWatcher, editProductWatcher } from "./HeaderEventCrudSaga";
 import { fetchLocationsActionWatcher } from "./LocationPageSaga";
-import { watchFetchUserEventsAsync } from "./UserEventListSaga";
+import { watchFetchUserEventsAsync, watchFetchUserEventsLocationsAsync } from "./UserEventListSaga";
 
 export default function* rootSaga() {
     yield all([
@@ -28,6 +28,7 @@ export default function* rootSaga() {
         watchFetchCustomEventsAsync(),
         watchFetchCustomHomeEventsAsync(),
 
-        watchFetchUserEventsAsync()
+        watchFetchUserEventsAsync(),
+        watchFetchUserEventsLocationsAsync()
     ]);
  }

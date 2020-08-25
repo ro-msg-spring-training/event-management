@@ -1,5 +1,9 @@
 import { UserEventList } from '../model/UserEventList'
-import { FETCH_USER_EVENTS_SUCCESS, FETCH_USER_EVENTS_REQUEST, FETCH_USER_EVENTS_ERROR, UPDATE_IS_FETCHING } from '../actions/UserEventListActions'
+import { FETCH_USER_EVENTS_SUCCESS, FETCH_USER_EVENTS_REQUEST, FETCH_USER_EVENTS_ERROR, UPDATE_IS_FETCHING, UPDATE_USER_FILTERS, FETCH_USER_EVENTS_LOCATIONS_SUCCESS, RESET_USER_FILTERS, SET_FILTER_USER_EVENTS_MODE } from '../actions/UserEventListActions'
+import { UserEventFilters } from '../model/UserEventFilters'
+import { UserEventType } from '../model/UserEventType'
+import { UserMathRelation } from '../model/UserMathRelation'
+import { UserEventIsFilterType } from '../model/UserEventIsFilterType'
 
 export interface UserEventsPageState {
     events: UserEventList[],
@@ -7,7 +11,10 @@ export interface UserEventsPageState {
     isFetching: boolean,
     page: number,
     limit: number,
-    isMore: boolean
+    isMore: boolean,
+    filters: UserEventFilters,
+    locations: string[],
+    isFilter: UserEventIsFilterType
 }
 
 const initialState = {
@@ -15,8 +22,17 @@ const initialState = {
     isError: false,
     isFetching: false,
     page: 1,
-    limit: 6,
-    isMore: false
+    limit: 4,
+    isMore: false,
+    filters: {
+        title: '',
+        locations: [],
+        rate: '',
+        rateSign: UserMathRelation.GREATER,
+        type: UserEventType.UPCOMING
+    },
+    locations: [],
+    isFilter: UserEventIsFilterType.NOT_IN_USE
 }
 
 interface ReducerActionProps {
@@ -32,7 +48,6 @@ export const UserEventsReducer = (state = initialState, action: ReducerActionPro
                 isFatching: true,
             }
         case FETCH_USER_EVENTS_SUCCESS:
-            console.log('reducer suceess', action.payload)
             return {
                 ...state,
                 events: state.events.concat(action.payload.events),
@@ -47,11 +62,48 @@ export const UserEventsReducer = (state = initialState, action: ReducerActionPro
                 isMore: false,
                 isFetching: false
             }
+        case FETCH_USER_EVENTS_LOCATIONS_SUCCESS:
+            return {
+                ...state,
+                locations: action.payload
+            }
         case UPDATE_IS_FETCHING:
             return {
                 ...state,
                 isFetching: action.payload
-        }
+            }
+        case UPDATE_USER_FILTERS:
+            return {
+                ...state,
+                filters: action.payload
+            }
+        case RESET_USER_FILTERS:
+            return {
+                ...state,
+                events: [],
+                page: 1,
+                isMore: false,
+                isFilter: UserEventIsFilterType.NOT_IN_USE,
+                filters: {
+                    title: '',
+                    locations: [],
+                    rate: '',
+                    rateSign: UserMathRelation.GREATER,
+                    type: UserEventType.UPCOMING
+                }
+            }
+        case SET_FILTER_USER_EVENTS_MODE:
+            return {
+                ...state,
+                page: 1,
+                isMore: false,
+                isFilter: state.isFilter === UserEventIsFilterType.NOT_IN_USE ?
+                    UserEventIsFilterType.IN_USE_STATE_1 :
+                    UserEventIsFilterType.IN_USE_STATE_1 ?
+                        UserEventIsFilterType.IN_USE_STATE_2 :
+                        UserEventIsFilterType.IN_USE_STATE_1,
+                events: [],
+            }
         default:
             return state
     }
