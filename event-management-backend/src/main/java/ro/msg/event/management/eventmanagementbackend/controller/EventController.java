@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ro.msg.event.management.eventmanagementbackend.controller.converter.Converter;
 import ro.msg.event.management.eventmanagementbackend.controller.converter.EventReverseConverter;
-import ro.msg.event.management.eventmanagementbackend.controller.converter.EventWithLocationConverter;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.*;
 import ro.msg.event.management.eventmanagementbackend.entity.BaseEntity;
 import ro.msg.event.management.eventmanagementbackend.entity.Event;
@@ -30,7 +29,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -52,30 +50,33 @@ public class EventController {
     private final Converter<EventView,CardsUserEventDto> converterToUserCardsEventDto;
     private final LocationService locationService;
     private final TicketService ticketService;
-    private final Converter<Event, EventWithLocationDto> eventWithLocationConverter;
+    private final Converter<Event, EventDetailsForBookingDto> eventDetailsForBookingDtoConverter;
+    private final Converter<Event, EventDetailsForUserDto> eventDetailsForUserDtoConverter;
 
     private static final LocalDate MAX_DATE = LocalDate.parse("2999-12-31");
     private static final LocalDate MIN_DATE = LocalDate.parse("1900-01-01");
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-    public ResponseEntity<Object> getEvent(@PathVariable long id, @RequestParam(defaultValue = "false") boolean forBooking) {
+    public ResponseEntity<Object> getEvent(@PathVariable long id, @RequestParam(defaultValue = "") String type) {
         try {
             Event event = this.eventService.getEvent(id);
-            if(!forBooking)
+            switch(type)
             {
-                EventDto eventDto = convertToDto.convert(event);
-                List<AvailableTicketsPerCategory> availableTicketsPerCategories = ticketService.getAvailableTickets(id);
-                EventWithRemainingTicketsDto eventWithRemainingTicketsDto = EventWithRemainingTicketsDto.builder()
-                        .eventDto(eventDto)
-                        .availableTicketsPerCategoryList(availableTicketsPerCategories)
-                        .build();
-                return new ResponseEntity<>(eventWithRemainingTicketsDto, HttpStatus.OK);
-            }
-            else
-            {
-                EventWithLocationDto eventDto = this.eventWithLocationConverter.convert(event);
-                return new ResponseEntity<>(eventDto, HttpStatus.OK);
+                case("userEventDetails"):
+                    EventDetailsForUserDto eventDetailsForUserDto = this.eventDetailsForUserDtoConverter.convert(event);
+                    return new ResponseEntity<>(eventDetailsForUserDto, HttpStatus.OK);
+                case("bookingEventDetails"):
+                    EventDetailsForBookingDto eventDetailsForBookingDto = this.eventDetailsForBookingDtoConverter.convert(event);
+                    return new ResponseEntity<>(eventDetailsForBookingDto, HttpStatus.OK);
+                default:
+                    EventDto eventDto = convertToDto.convert(event);
+                    List<AvailableTicketsPerCategory> availableTicketsPerCategories = ticketService.getAvailableTickets(id);
+                    EventWithRemainingTicketsDto eventWithRemainingTicketsDto = EventWithRemainingTicketsDto.builder()
+                            .eventDto(eventDto)
+                            .availableTicketsPerCategoryList(availableTicketsPerCategories)
+                            .build();
+                    return new ResponseEntity<>(eventWithRemainingTicketsDto, HttpStatus.OK);
             }
         } catch (NoSuchElementException noSuchElementException) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, noSuchElementException.getMessage(), noSuchElementException);

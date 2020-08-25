@@ -1,17 +1,17 @@
 package ro.msg.event.management.eventmanagementbackend.controller.converter;
 
 import org.springframework.stereotype.Component;
-import ro.msg.event.management.eventmanagementbackend.controller.dto.EventWithLocationDto;
+import ro.msg.event.management.eventmanagementbackend.controller.dto.EventDetailsForBookingDto;
 import ro.msg.event.management.eventmanagementbackend.entity.Event;
 import ro.msg.event.management.eventmanagementbackend.entity.Location;
 
 @Component
-public class EventWithLocationConverter implements Converter<Event, EventWithLocationDto> {
+public class EventDetailsForBookingConverter implements Converter<Event, EventDetailsForBookingDto> {
 
     @Override
-    public EventWithLocationDto convert(Event obj) {
+    public EventDetailsForBookingDto convert(Event obj) {
         Location location = obj.getEventSublocations().get(0).getSublocation().getLocation();
-        return EventWithLocationDto.builder()
+        return EventDetailsForBookingDto.builder()
                 .id(obj.getId())
                 .title(obj.getTitle())
                 .subtitle(obj.getSubtitle())
