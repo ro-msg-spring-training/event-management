@@ -8,15 +8,21 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useStyles } from '../../../styles/CommonStyles';
+import { Checkbox, Grid, FormControlLabel, makeStyles, Theme, CheckboxProps, withStyles } from '@material-ui/core';
+import { userBuyTicketsStyle } from '../../../styles/UserBuyTicketsStyle';
+import { YellowCheckbox } from '../../YellowCheckbox';
 
 interface PopupProps {
   open: boolean,
-  setOpen: any
+  setOpen: any,
+  checked: boolean,
+  handleCheckboxChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
 }
 
-export default function BuyTicketsPopup({ open, setOpen }: PopupProps) {
+export default function BuyTicketsPopup({ open, setOpen, checked, handleCheckboxChange }: PopupProps) {
   const history = useHistory();
   const buttonClass = useStyles();
+  const classes = userBuyTicketsStyle();
   const { t } = useTranslation();
 
   const handleClose = () => {
@@ -25,7 +31,7 @@ export default function BuyTicketsPopup({ open, setOpen }: PopupProps) {
 
   const handleProceed = (): void => {
     setOpen(false);
-    history.push('/admin/events');
+    console.log("VERIFY IF STILL AVAILABLE");
   }
 
   const handleCancel = (): void => {
@@ -91,8 +97,26 @@ export default function BuyTicketsPopup({ open, setOpen }: PopupProps) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCancel} color="primary" autoFocus> Cancel </Button>
-          <Button onClick={handleProceed} className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3}`}> BUY TICKETS </Button>
+          <Grid container justify="center" direction="column" alignItems="center">
+            <FormControlLabel
+              control={
+                <YellowCheckbox
+                  checked={checked}
+                  onChange={handleCheckboxChange}
+                  inputProps={{ 'aria-label': 'primary checkbox' }} />
+              }
+              label="I agree"
+            />
+
+            <Grid item container direction="row">
+              <Grid item xs={4}>
+                <Button onClick={handleCancel} color="primary" className={classes.buttonPosition} > Cancel </Button>
+              </Grid>
+              <Grid item xs={8}>
+                <Button onClick={handleProceed} className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition}`}> BUY TICKETS </Button>
+              </Grid>
+            </Grid>
+          </Grid>
         </DialogActions>
       </Dialog>
     </div>

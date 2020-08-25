@@ -6,9 +6,11 @@ import BuyTicketsPopup from '../BuyTicketsPopup';
 
 interface TermsAndConditionsStepProps {
   prevStep: () => void,
+  checked: boolean,
+  handleCheckboxChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
 }
 
-function TermsAndConditionsStep({ prevStep }: TermsAndConditionsStepProps) {
+function TermsAndConditionsStep({ prevStep, checked, handleCheckboxChange }: TermsAndConditionsStepProps) {
   const [open, setOpen] = useState(false);
   const buttonClass = useStyles();
   const classes = userBuyTicketsStyle();
@@ -25,7 +27,7 @@ function TermsAndConditionsStep({ prevStep }: TermsAndConditionsStepProps) {
 
         <Grid item container direction="row" justify="center" alignItems="center" className={classes.button}>
           <Grid item xs={4} sm={3} md={2} lg={1} xl={1}>
-            <Button variant="contained" className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3}`} onClick={prevStep}> PREV </Button>
+            <Button variant="contained" className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition}`} onClick={prevStep}> PREV </Button>
           </Grid>
           <Grid item xs={4} sm={3} md={2} lg={1} xl={1} />
         </Grid>
@@ -34,6 +36,8 @@ function TermsAndConditionsStep({ prevStep }: TermsAndConditionsStepProps) {
       <BuyTicketsPopup
         open={open}
         setOpen={setOpen}
+        checked={checked}
+        handleCheckboxChange={handleCheckboxChange}
       />
     </>
   );

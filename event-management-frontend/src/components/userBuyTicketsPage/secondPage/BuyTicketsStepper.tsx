@@ -29,6 +29,11 @@ function BuyTicketsStepper() {
     
   }
 
+  const [checked, setChecked] = useState(false);
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked);
+  };
+
   switch (step) {
     case 1:
       return (
@@ -52,12 +57,16 @@ function BuyTicketsStepper() {
         <NamesStep
           nextStep={nextStep}
           prevStep={prevStep}
+          handleEnterKey={handleEnterKey}
+          handleStepperChange={handleStepperChange}
         />
       );
     case 4:
       return (
         <TermsAndConditionsStep
           prevStep={prevStep}
+          checked={checked}
+          handleCheckboxChange={handleCheckboxChange}
         />
       );
     default:

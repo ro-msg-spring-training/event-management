@@ -9,7 +9,7 @@ function BuyTicketsSecondPageSmart({ match }: BuyTicketsSecondPageSmartProps) {
 
   return (
     <>
-      <BuyTicketsSecondPageDumb />
+      <BuyTicketsSecondPageDumb eventId={match.params.id}/>
     </>
   );
 };

@@ -14,12 +14,6 @@ function TicketsStep({ nextStep, handleEnterKey, handleStepperChange }: TicketsS
   const classes = userBuyTicketsStyle();
 
   return (
-    // <div
-    // style={{
-    //     position: 'absolute', left: '50%', top: '50%',
-    //     transform: 'translate(-50%, -50%)'
-    // }}
-    // >
     <>
       <Typography className={classes.typography}>Choose the number of tickets</Typography>
       <Grid container justify="center" alignItems="center">
@@ -35,7 +29,7 @@ function TicketsStep({ nextStep, handleEnterKey, handleStepperChange }: TicketsS
             onChange={handleStepperChange}
             // error={formErrors.title.length > 0}
             // helperText={formErrors.title}
-            required />
+            />
         </Grid>
 
         <Grid item xs={7} sm={7} md={7} lg={7} xl={7}>
@@ -50,13 +44,13 @@ function TicketsStep({ nextStep, handleEnterKey, handleStepperChange }: TicketsS
             onChange={handleStepperChange}
             // error={formErrors.title.length > 0}
             // helperText={formErrors.title}
-            required />
+            />
         </Grid>
 
         <Grid item container direction="row" justify="center" alignItems="center" className={classes.button}>
           <Grid item xs={4} sm={3} md={2} lg={1} xl={1} />
           <Grid item xs={4} sm={3} md={2} lg={1} xl={1} >
-            <Button variant="contained" className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3}`} onClick={nextStep}> NEXT </Button>
+            <Button variant="contained" className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition}`} onClick={nextStep}> NEXT </Button>
           </Grid>
         </Grid>
       </Grid>

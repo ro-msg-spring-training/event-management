@@ -8,7 +8,7 @@ export const userBuyTicketsStyle = makeStyles((theme: Theme) => ({
   },
   button: {
     position: 'absolute',
-    bottom: "1%",
+    bottom: "2%",
     left: 0,
   },
   typography: {
@@ -16,4 +16,7 @@ export const userBuyTicketsStyle = makeStyles((theme: Theme) => ({
     fontSize: "1.6em",
     color: theme.palette.primary.dark,
   },
+  buttonPosition: {
+    left:"7%"
+  }
 }));
