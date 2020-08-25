@@ -64,8 +64,12 @@ public class EventController {
             switch(type)
             {
                 case("userEventDetails"):
-                    /*EventDetailsForUserDto eventDetailsForUserDto = this.eventDetailsForUserDtoConverter.convert(event);
-                    return new ResponseEntity<>(eventDetailsForUserDto, HttpStatus.OK);*/
+                    EventDetailsForUserDto eventDetailsForUserDto = this.eventDetailsForUserDtoConverter.convert(event);
+                    return new ResponseEntity<>(eventDetailsForUserDto, HttpStatus.OK);
+                case("bookingEventDetails"):
+                    EventDetailsForBookingDto eventDetailsForBookingDto = this.eventDetailsForBookingDtoConverter.convert(event);
+                    return new ResponseEntity<>(eventDetailsForBookingDto, HttpStatus.OK);
+                default:
                     EventDto eventDto = convertToDto.convert(event);
                     List<AvailableTicketsPerCategory> availableTicketsPerCategories = ticketService.getAvailableTickets(id);
                     EventWithRemainingTicketsDto eventWithRemainingTicketsDto = EventWithRemainingTicketsDto.builder()
@@ -73,18 +77,6 @@ public class EventController {
                             .availableTicketsPerCategoryList(availableTicketsPerCategories)
                             .build();
                     return new ResponseEntity<>(eventWithRemainingTicketsDto, HttpStatus.OK);
-                case("bookingEventDetails"):
-                    EventDetailsForBookingDto eventDetailsForBookingDto = this.eventDetailsForBookingDtoConverter.convert(event);
-                    return new ResponseEntity<>(eventDetailsForBookingDto, HttpStatus.OK);
-                default:
-                    /*EventDto eventDto = convertToDto.convert(event);
-                    List<AvailableTicketsPerCategory> availableTicketsPerCategories = ticketService.getAvailableTickets(id);
-                    EventWithRemainingTicketsDto eventWithRemainingTicketsDto = EventWithRemainingTicketsDto.builder()
-                            .eventDto(eventDto)
-                            .availableTicketsPerCategoryList(availableTicketsPerCategories)
-                            .build();
-                    return new ResponseEntity<>(eventWithRemainingTicketsDto, HttpStatus.OK);*/
-                    return new ResponseEntity<>("", HttpStatus.OK);
             }
         } catch (NoSuchElementException noSuchElementException) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, noSuchElementException.getMessage(), noSuchElementException);
