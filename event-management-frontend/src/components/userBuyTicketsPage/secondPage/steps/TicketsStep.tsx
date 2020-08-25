@@ -1,12 +1,8 @@
 import React from 'react';
-import { Button, Grid, TextField, makeStyles, Theme } from '@material-ui/core';
+import { Button, Grid, TextField, makeStyles, Theme, Typography } from '@material-ui/core';
 import { useStyles } from '../../../../styles/CommonStyles';
-
-const useStylesTermsAndConditions = makeStyles((theme: Theme) => ({
-  position: {
-    margin: "1%"
-  }
-}));
+import { userBuyTicketsStyle } from '../../../../styles/UserBuyTicketsStyle';
+import "../../secondPage/BuyTicketsStepper.css"
 
 interface TicketsStepProps {
   nextStep: () => void,
@@ -16,16 +12,23 @@ interface TicketsStepProps {
 
 function TicketsStep({ nextStep, handleEnterKey, handleStepperChange }: TicketsStepProps) {
   const buttonClass = useStyles();
-  const classes = useStylesTermsAndConditions();
+  const classes = userBuyTicketsStyle();
 
   return (
-    <>
-      <h1>Tickets Step (1)</h1>
+    // <div
+    // style={{
+    //     position: 'absolute', left: '50%', top: '50%',
+    //     transform: 'translate(-50%, -50%)'
+    // }}
+    // >
+    <div className="form-wrapper">
+      <Typography className={classes.typography}>Choose the number of tickets</Typography>
       <Grid container justify="center" alignItems="center">
         <Grid item xs={7} sm={7} md={7} lg={7} xl={7}>
           <TextField
             className={classes.position}
             onKeyDown={handleEnterKey}
+            type="number"
             name="VIP"
             fullWidth
             label="VIP"
@@ -40,6 +43,7 @@ function TicketsStep({ nextStep, handleEnterKey, handleStepperChange }: TicketsS
           <TextField
             className={classes.position}
             onKeyDown={handleEnterKey}
+            type="number"
             name="Standard"
             fullWidth
             label="Standard"
@@ -50,14 +54,14 @@ function TicketsStep({ nextStep, handleEnterKey, handleStepperChange }: TicketsS
             required />
         </Grid>
 
-        <Grid item container direction="row" justify="center" alignItems="center">
+        <Grid item container direction="row" justify="center" alignItems="center" className={classes.button}>
           <Grid item xs={4} sm={3} md={2} lg={1} xl={1} />
-          <Grid item xs={4} sm={3} md={2} lg={1} xl={1}>
+          <Grid item xs={4} sm={3} md={2} lg={1} xl={1} >
             <Button variant="contained" className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3}`} onClick={nextStep}> NEXT </Button>
           </Grid>
         </Grid>
       </Grid>
-    </>
+    </div>
   );
 };
 

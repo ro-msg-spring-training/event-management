@@ -3,7 +3,6 @@ import TicketsStep from './steps/TicketsStep';
 import EmailStep from './steps/EmailStep';
 import NamesStep from './steps/NamesStep';
 import TermsAndConditionsStep from './steps/TermsAndConditionsStep';
-import { useStyles } from '../../../styles/CommonStyles';
 import Booking from '../../../model/Booking';
 
 function BuyTicketsStepper() {
