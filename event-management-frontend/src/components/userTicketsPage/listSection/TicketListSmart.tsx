@@ -1,88 +1,80 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { AppState } from "../../../store/store";
-import {fetchAllTickets, updateTickets} from '../../../actions/TicketsPageActions';
-import TicketDetailsDumb from "./TicketDetailsDumb";
-import TicketListDumb from "./TicketListDumb";
-import TicketView from "../filterSection/TicketView";
-import useBookSearch from "../filterSection/TicketSearch";
+import { fetchTickets, incrementPage } from "../../../actions/TicketsPageActions";
 
 
 interface Props {
     tickets: any;
+    page: number;
     isLoading: boolean;
     isError: boolean;
-    fetchAllTickets: () => { type: string; };
-    updateTickets: (arg0: any) => {type: string,
-        payload: any};
+    fetchTickets: (page: number) => void;
+    incrementPage: () => void;
 }
 
 const TicketListSmart = (props: Props) => {
 
-    const [query, setQuery] = useState('')
-    const [pageNumber, setPageNumber] = useState(1)
+    const [hasMore, setHasMore] = useState(false)
+    const [concatTickets, setConcatTickets] = useState(Array(0))
 
-    const {
-        books,
-        hasMore,
-        loading,
-        error
-    } = useBookSearch(query, pageNumber)
+    useEffect(() => {
+        async function addTicketsTogether() {
+            await props.fetchTickets(props.page)
+            await setHasMore(props.page === 1 ? true : props.tickets.length > 0)
+
+            await setConcatTickets([...concatTickets, ...props.tickets])
+        }
+        addTicketsTogether();
+    }, [props.page])
+
+    let tickets = props.tickets;
 
     const observer = useRef<any>()
-    const lastBookElementRef = useCallback(node => {
-        if (loading) return
+    const lastTicketRef = useCallback(node => {
         if (observer.current) observer.current.disconnect()
         observer.current = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting && hasMore) {
-                setPageNumber(prevPageNumber => prevPageNumber + 1)
+                // Increment page in redux
+                props.incrementPage();
             }
         })
         if (node) observer.current.observe(node)
-    }, [loading, hasMore])
+    }, [hasMore])
 
-    const handleChange = (event: any) => {
-        setQuery(event.target.value);
-    }
-
-    const handleSubmit = (event: any) => {
-        event.preventDefault();
-        setPageNumber(1);
-    }
-
-    useEffect(() => {
-        console.log("fetch")
-        props.fetchAllTickets();
-    }, [props.tickets === []]);
-
-    const tickets = props.tickets;
-    //console.log(tickets)
-
-    // Using the map function, we will get all the tickets from the array
-    const ticketDetails = tickets !== undefined ? tickets
+    const ticketReferences = tickets !== undefined ? tickets
         .map((ticket: any, index: number) => {
-            if (books.length === index + 1) {
-                return <div ref={lastBookElementRef} key={ticket.id}>{ticket.category}</div>
+            if (tickets.length === index + 1) {
+                return <div ref={lastTicketRef} key={ticket.id}/>
             } else {
-                return <div key={ticket.id}>{ticket.category}</div>
+                return <div key={ticket.id}/>
             }
         }) : [];
 
     return (
-        <>
-            <p>Tickets</p>
-            {ticketDetails}
-            <div>{loading && 'Loading...'}</div>
-            <div>{error && 'Error'}</div>
-        </>
+            <>
+                <p>Tickets</p>
+                {ticketReferences}
+
+                { props.isLoading ?
+                    <div> Loading... </div> :
+
+                    props.isError ?
+                        <div> Error :( </div> :
+                            concatTickets.map((ticket: any) => {
+                                return <div key={ticket.id}>{ticket.title}</div>
+                            })
+                }
+            </>
     );
 }
 
 const mapStateToProps = (state: AppState) => ({
     tickets: state.tickets.allTickets,
+    page: state.tickets.page,
     isLoading: state.tickets.isLoading,
-    isError: state.tickets.isError,
+    isError: state.tickets.isError
 });
 
 export default connect(mapStateToProps,
-    { fetchAllTickets, updateTickets })(TicketListSmart)
+    { fetchTickets, incrementPage })(TicketListSmart)

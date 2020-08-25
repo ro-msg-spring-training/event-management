@@ -30,6 +30,7 @@ import { MathRelation } from "../model/MathRelation"
 import { EventFilters } from "../model/EventFilters";
 import { fetchSortedEvents, changePage } from "../api/EventsServiceAPI";
 import { EventSort } from "../model/EventSort";
+import {act} from "react-dom/test-utils";
 
 
 export interface EventsPageState {

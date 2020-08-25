@@ -5,7 +5,7 @@ import { fetchAllEventsHome} from "../../actions/EventsPageActions";
 import { AppState} from "../../store/store";
 import HomeEventListDumb from "./HomeEventListDumb";
 import { incrementPageHome, decrementPageHome, fetchCustomEventsHome } from "../../actions/EventsPageActions";
-import {getLastNumber, getLastNumberHome} from "../../api/EventsServiceAPI";
+import { getLastNumberHome} from "../../api/EventsServiceAPI";
 
 
 interface Props {

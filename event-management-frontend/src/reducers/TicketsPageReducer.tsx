@@ -1,18 +1,22 @@
 import {
+    FETCH_TICKETS,
+    FETCH_TICKETS_REQUEST,
     FETCH_TICKETS_SUCCESS,
-    FETCH_TICKETS_ERROR,
-    FETCH_TICKETS_REQUEST, UPDATE_TICKETS,
+    FETCH_TICKETS_ERROR, INCREMENT_PAGE,
 } from "../actions/TicketsPageActions"
+import {INCREMENT_PAGE_HOME} from "../actions/EventsPageActions";
 
 
 export interface TicketsPageState {
     allTickets: [],
+    page: number,
     isLoading: boolean,
     isError: boolean
 }
 
 const initialState: TicketsPageState = {
     allTickets: [],
+    page: 1,
     isLoading: true,
     isError: false
 }
@@ -28,25 +32,30 @@ export const TicketsPageReducer = (state = initialState, action: ReducerActionPr
         case FETCH_TICKETS_REQUEST:
             return {
                 ...state,
-                isLoading: true
-            };
-        case FETCH_TICKETS_SUCCESS:
+                isLoading: true,
+                isError: false
+            }
+        case FETCH_TICKETS:
             return {
                 ...state,
-                allTickets: action.payload,
+            }
+        case FETCH_TICKETS_SUCCESS:
+            return  {
+                ...state,
                 isLoading: false,
-                isError: false
-            };
+                isError: false,
+                allTickets: action.payload
+            }
         case FETCH_TICKETS_ERROR:
             return {
                 ...state,
                 isLoading: false,
                 isError: true
-            };
-        case UPDATE_TICKETS:
+            }
+        case INCREMENT_PAGE:
             return {
                 ...state,
-                allTickets: action.payload
+                page: state.page + 1
             }
         default:
             return state
