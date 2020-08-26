@@ -82,6 +82,7 @@ const EventListDumb = (props: Props) => {
     const commonClasses = useStyles()
     const classes = useListStyles()
 
+
     const eventsDetails = props.eventsDetails;
     const eventsDetailsMobile = props.eventsDetailsMobile;
     const goToPrevPage = props.goToPrevPage;

@@ -5,6 +5,8 @@ export const FETCH_TICKETS_REQUEST = 'FETCH_TICKETS_REQUEST'
 export const FETCH_TICKETS_SUCCESS = 'FETCH_TICKETS_SUCCESS'
 export const FETCH_TICKETS_ERROR = 'FETCH_TICKETS_ERROR'
 export const INCREMENT_PAGE = 'INCREMENT_PAGE'
+export const OPEN = 'OPEN'
+export const CLOSE = 'CLOSE'
 
 
 export const fetchTickets = (page: number) => {
@@ -38,5 +40,17 @@ export const fetchTicketsError = () => {
 export const incrementPage = () => {
     return {
         type: INCREMENT_PAGE,
+    }
+}
+
+export const openDetails = () => {
+    return {
+        type: OPEN,
+    }
+}
+
+export const closeDetails = () => {
+    return {
+        type: CLOSE,
     }
 }

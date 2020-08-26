@@ -4,7 +4,8 @@ import {
     FETCH_TICKETS,
     fetchTicketsError,
     fetchTicketsRequest,
-    fetchTicketsSuccess
+    fetchTicketsSuccess,
+    OPEN, CLOSE, openDetails, closeDetails
 } from "../actions/TicketsPageActions";
 
 interface ActionType {
@@ -25,6 +26,22 @@ function* fetchTicketsAsync(action: ActionType) {
 
 export function* watchFetchTicketsAsync() {
     yield takeEvery(FETCH_TICKETS, fetchTicketsAsync)
+}
+
+function *openAsync() {
+    //yield put(openDetails())
+}
+
+export function* watchOpenAsync() {
+  //  yield takeEvery(OPEN, openAsync)
+}
+
+function *closeAsync() {
+//    yield put(closeDetails())
+}
+
+export function* watchCloseAsync() {
+    //yield takeEvery(CLOSE, closeAsync)
 }
 
 

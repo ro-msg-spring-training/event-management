@@ -3,11 +3,13 @@ import {
     FETCH_TICKETS_REQUEST,
     FETCH_TICKETS_SUCCESS,
     FETCH_TICKETS_ERROR, INCREMENT_PAGE,
+    OPEN, CLOSE
 } from "../actions/TicketsPageActions"
 
 
 export interface TicketsPageState {
     allTickets: [],
+    open: boolean,
     page: number,
     isLoading: boolean,
     isError: boolean
@@ -15,6 +17,7 @@ export interface TicketsPageState {
 
 const initialState: TicketsPageState = {
     allTickets: [],
+    open: false,
     page: 1,
     isLoading: true,
     isError: false
@@ -55,6 +58,18 @@ export const TicketsPageReducer = (state = initialState, action: ReducerActionPr
             return {
                 ...state,
                 page: state.page + 1
+            }
+        case OPEN:
+            console.log("reducer open")
+            return {
+                ...state,
+                open: true
+            }
+        case CLOSE:
+            console.log("reducer close")
+            return {
+                ...state,
+                open: false
             }
         default:
             return state

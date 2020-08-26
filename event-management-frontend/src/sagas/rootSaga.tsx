@@ -11,35 +11,37 @@ import {
 } from "./EventsPageSaga";
 import { loadEventWatcher, deleteProductWatcher, addProductWatcher, editProductWatcher } from "./HeaderEventCrudSaga";
 import { fetchLocationsActionWatcher } from "./LocationPageSaga";
-import { watchFetchTicketsAsync } from "./TicketsPageSaga";
+import { watchFetchTicketsAsync, watchOpenAsync, watchCloseAsync } from "./TicketsPageSaga";
 import { fetchUpcomingEventsActionWatcher, fetchHistoryEventsActionWatcher } from "./AdminHomePageSaga";
 
 export default function* rootSaga() {
   yield all([
-    watchFetchFilteredEventsAsync(),
-    watchFetchEventsAsync(),
-    watchFetchHomeEventsAsync(),
-    watchSortEventsAsync(),
-    watchNextPageAsync(),
-    watchPrevPageAsync(),
-    watchFetchCustomEventsAsync(),
-    watchFetchCustomHomeEventsAsync(),
+      watchFetchFilteredEventsAsync(),
+      watchFetchEventsAsync(),
+      watchFetchHomeEventsAsync(),
+      watchSortEventsAsync(),
+      watchNextPageAsync(),
+      watchPrevPageAsync(),
+      watchFetchCustomEventsAsync(),
+      watchFetchCustomHomeEventsAsync(),
 
-    watchFetchTicketsAsync(),
-    
-    loadEventWatcher(),
-    deleteProductWatcher(),
-    addProductWatcher(),
-    editProductWatcher(),
+      watchFetchTicketsAsync(),
 
-    fetchLocationsActionWatcher(),
+      loadEventWatcher(),
+      deleteProductWatcher(),
+      addProductWatcher(),
+      editProductWatcher(),
 
-    watchFetchCustomEventsAsync(),
-    watchFetchCustomHomeEventsAsync(),
+      fetchLocationsActionWatcher(),
 
-    fetchUpcomingEventsActionWatcher(),
-    fetchHistoryEventsActionWatcher(),
+      watchFetchCustomEventsAsync(),
+      watchFetchCustomHomeEventsAsync(),
 
+      fetchUpcomingEventsActionWatcher(),
+      fetchHistoryEventsActionWatcher(),
+
+      watchOpenAsync(),
+      watchCloseAsync()
    ]);
  }
    

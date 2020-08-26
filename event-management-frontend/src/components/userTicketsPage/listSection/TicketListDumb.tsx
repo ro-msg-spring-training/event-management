@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { useStylesTickets } from '../../../styles/ticketsListStyles';
 import ErrorIcon from "@material-ui/icons/Error";
 import {Ticket} from "../../../model/Ticket";
-import TicketDetailsDumb from "./TicketDetailsDumb";
+import TicketGroupDumb from "./TicketGroupDumb";
 import Typography from "@material-ui/core/Typography";
 
 
@@ -22,10 +22,47 @@ interface Props {
 }
 
 const TicketListDumb = (props: Props) => {
-    const classes = useStylesTickets()
+    const classes = useStylesTickets();
     const [t] = useTranslation();
 
     const ticketsDetails = props.ticketsDetails;
+    const groupBy = (array: Ticket[]) => {
+        return array.reduce((result: any, currentValue: Ticket) => {
+            (result[currentValue.bookingId] = result[currentValue.bookingId] || []).push(
+                currentValue
+            );
+            return result;
+        }, {});
+    };
+
+    const ticketsGroupedById = groupBy(ticketsDetails);
+    const ticketDictionary = [];
+    for (let [key, value] of Object.entries(ticketsGroupedById)) {
+        ticketDictionary.push([key, value])
+    }
+    const numberOfArrows = ticketDictionary.length
+    const openInitialState = []
+    for (let i = 0; i < numberOfArrows; i ++) {
+        openInitialState.push(false);
+    }
+    const [open, setOpen] = React.useState(openInitialState)
+
+    const handleChange = (index: number) => {
+        const newStateForOpen = open
+        if (newStateForOpen[index] === undefined) {
+            newStateForOpen[index] = true
+        } else {
+            newStateForOpen[index] = !newStateForOpen[index]
+        }
+        // TODO: states here
+        console.log(newStateForOpen[0])
+        console.log([newStateForOpen[0]] === [true])
+        setOpen(newStateForOpen)
+    }
+
+    useEffect(() => {
+      console.log("mount")
+    }, [open])
 
     return (
             <div className={`${classes.pageContainer} ticketResponsive`}>
@@ -46,6 +83,7 @@ const TicketListDumb = (props: Props) => {
                             <Table aria-label="customized table">
                                 <TableHead>
                                     <TableRow>
+                                        <TableCell/>
                                         <TableCell key={"id"} align={"center"}
                                                    padding={"default"} size={"medium"}>
                                             {t("ticketList.id")}
@@ -83,8 +121,12 @@ const TicketListDumb = (props: Props) => {
 
                                 <TableBody>
                                     {
-                                        ticketsDetails.map((ticket: Ticket) => {
-                                            return <TicketDetailsDumb key={ticket.bookingId} ticket={ticket} />
+                                        ticketDictionary.map((groupTicket, index) => {
+                                            return <TicketGroupDumb key={Number(groupTicket[0])}
+                                                                    ticket={groupTicket[1]}
+                                                                    open={open}
+                                                                    index={index}
+                                                                    handleChange={handleChange}/>
                                         })
                                     }
                                 </TableBody>
