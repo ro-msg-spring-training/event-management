@@ -158,7 +158,7 @@
     "priceError": "Trebuie să fie pozitiv",
     "ticketsPerCategoryExceedsError": "Depășește numărul maxim de persoane",
     "ticketsPerCategoryTooSmallError": "Minim 1 bilet/categorie",
-    "ticketsPerCategoryAlreadySoldError": "Biletele sunt deja vândute",
+    "ticketsPerCategoryAlreadySoldError": "bilete sunt deja vândute",
     "ticketPerUserError": "Minim 1 bilet necesar",
     "removeTitle": "Șterge categoria",
     "removePurchased": "Această categorie nu poate fi ștearsă. Unele bilete sunt deja achiziționate.",
@@ -167,11 +167,12 @@
     "subtitle": "Subtitlu",
     "price": "Preț",
     "description": "Descriere",
-    "nrOfTickets": "Număr de bilete",
+    "nrOfTickets": "Nr de bilete",
     "remove": "Șterge",
     "nevermind": "Anulare",
     "addCategory": "Adaugă categorie",
     "maxTicketPerUser": "Maxim bilete per utilizator",
-    "ticketInfo": "Informații despre bilete"
+    "ticketInfo": "Informații despre bilete",
+    "available": "Disponibil"
   }
 }

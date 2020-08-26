@@ -10,8 +10,9 @@ export const useStylesCategoryPage = makeStyles((theme: Theme) => ({
     marginLeft: "12%",
   },
   maxTickets: {
-    marginLeft: "3%",
+    // marginLeft: "3%",
     width: "100%",
+    margin: theme.spacing(1),
   },
   inlineHeader: {
     display: "inline-flex",
@@ -20,28 +21,28 @@ export const useStylesCategoryPage = makeStyles((theme: Theme) => ({
     width: "100%",
   },
   gridStyle: {
-    marginLeft: "10%",
-    marginRight: "10%",
-    width: "80%",
+    marginLeft: "5%",
+    marginRight: "5%",
+    width: "90%",
   },
   gridStyleHeader: {
     marginLeft: "9%",
   },
   ticketInfoStyle: {
     width: "100%",
-    marginLeft: "3%",
+    margin: theme.spacing(1),
   },
 
   button: {
+    margin: theme.spacing(1),
     width: "90%",
-    marginLeft: "5%",
-    marginTop: "20px",
+    marginBottom: "20px",
     height: "50px",
     textAlign: "center",
     color: theme.palette.secondary.main,
     textTransform: "uppercase",
     background: "linear-gradient(90deg, #f9c929 20%, #f2ac0a 90%)",
-    borderRadius: "20px",
+    borderRadius: "30px",
     boxShadow: "0 1px 7px 1px #133C55",
   },
 }));

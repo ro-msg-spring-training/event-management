@@ -5,6 +5,7 @@ export interface CategoryCardItem {
   price: number;
   description: string;
   ticketsPerCategory: number;
+  available: boolean;
 }
 
 export interface CategoryPageState {

@@ -17,6 +17,7 @@ type Props = {
   price: number;
   description: string;
   ticketsPerCategory: number;
+  available: boolean;
 
   ticketData: TicketAvailabilityData[];
   event: EventCrud;
@@ -33,6 +34,7 @@ const CategoryCardSmart: React.FC<Props> = ({
   price,
   description,
   ticketsPerCategory,
+  available,
   ticketData,
   event,
   formErrors,
@@ -78,7 +80,7 @@ const CategoryCardSmart: React.FC<Props> = ({
     removeCard(id);
   };
 
-  const handleChange = (e: { preventDefault: () => void; target: { name: string; value: any } }) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const { name, value } = e.target;
 
@@ -99,11 +101,15 @@ const CategoryCardSmart: React.FC<Props> = ({
         break;
 
       case "price":
-        newEvent.ticketCategoryDtoList.filter((data) => data.id === id)[0].price = value;
+        newEvent.ticketCategoryDtoList.filter((data) => data.id === id)[0].price = parseInt(value);
         break;
 
       case "ticketsPerCategory":
-        newEvent.ticketCategoryDtoList.filter((data) => data.id === id)[0].ticketsPerCategory = value;
+        newEvent.ticketCategoryDtoList.filter((data) => data.id === id)[0].ticketsPerCategory = parseInt(value);
+        break;
+
+      case "available":
+        newEvent.ticketCategoryDtoList.filter((data) => data.id === id)[0].available = e.target.checked;
         break;
 
       default:
@@ -145,10 +151,9 @@ const CategoryCardSmart: React.FC<Props> = ({
 
         let categoryData = ticketData.filter((data) => data.title === title)[0];
 
-        if (categoryData && categoryData.sold >= value && value > 0) {
-          newFormErrors.ticketCategoryDtoList[index].ticketsPerCategory = t(
-            "categoryCard.ticketsPerCategoryAlreadySoldError"
-          );
+        if (categoryData && categoryData.sold >= parseInt(value) && parseInt(value) > 0) {
+          newFormErrors.ticketCategoryDtoList[index].ticketsPerCategory =
+            categoryData.sold + " " + t("categoryCard.ticketsPerCategoryAlreadySoldError");
         } else {
           newFormErrors.ticketCategoryDtoList[index].ticketsPerCategory =
             Number(value) <= 0 ? t("categoryCard.ticketsPerCategoryTooSmallError") : "";
@@ -172,6 +177,7 @@ const CategoryCardSmart: React.FC<Props> = ({
         price={price}
         description={description}
         ticketsPerCategory={ticketsPerCategory}
+        available={available}
         formErrors={formErrors}
         removeThisCard={removeThisCard}
         handleChange={handleChange}

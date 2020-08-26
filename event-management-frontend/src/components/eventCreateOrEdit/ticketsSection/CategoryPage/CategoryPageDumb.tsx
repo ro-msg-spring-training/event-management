@@ -30,7 +30,7 @@ const CategoryPageDumb: React.FC<Props> = ({ newEvent, event, addCard, handleCha
   return (
     <div>
       <h1 className={classes.title}>General</h1>
-      <Grid className={classes.gridStyleHeader} container spacing={5}>
+      <Grid className={classes.gridStyleHeader} container spacing={1} sm={12} xs={12}>
         <Grid container item xl={2} lg={2} md={2} sm={9} xs={10}>
           <TextField
             required
@@ -70,16 +70,16 @@ const CategoryPageDumb: React.FC<Props> = ({ newEvent, event, addCard, handleCha
           />
         </Grid>
 
-        <Grid container item xl={2} lg={2} md={3} sm={8} xs={8}>
+        <Grid container item xl={2} lg={2} md={3} sm={8} xs={10}>
           <Button className={`${classes.button} addButtonResponsive`} onClick={addNewCard}>
             {t("categoryCard.addCategory")}
           </Button>
         </Grid>
       </Grid>
-      <br /> <br /> <br />
+      <br />
       <Grid className={classes.gridStyle} container spacing={4}>
         {event.ticketCategoryDtoList.map((category: CategoryCardItem) => (
-          <Grid container item xl={6} lg={6} md={7}>
+          <Grid container item xl={6} lg={6} md={7} sm={12} xs={12}>
             <CategoryCard
               key={category.id}
               id={category.id}
@@ -88,6 +88,7 @@ const CategoryPageDumb: React.FC<Props> = ({ newEvent, event, addCard, handleCha
               price={category.price}
               description={category.description}
               ticketsPerCategory={category.ticketsPerCategory}
+              available={category.available}
             />
           </Grid>
         ))}

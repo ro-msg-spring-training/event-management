@@ -3,56 +3,44 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 export const useStylesCategoryCard = makeStyles((theme: Theme) => ({
   root: {
     maxWidth: "135%",
-    width: "135%",
+    width: "100%",
     maxHeight: "400px",
   },
 
   cardStyle: {
     float: "left",
     width: "100%",
+    paddingRight: "5%",
   },
 
   marginBasic: {
-    margin: theme.spacing(1),
-    width: "90%",
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
   },
 
-  marginBasic2: {
-    marginLeft: "-2%",
-    marginRight: "20%",
-  },
-
-  marginBasic3: {
-    marginLeft: "-2%",
-    marginRight: "50%",
-  },
-
-  marginShortPrice: {
-    margin: theme.spacing(1),
-    width: "80%",
-  },
-
-  marginLong: {
-    paddingBottom: "1.250em",
-    marginRight: "4%",
-    width: "92%",
+  availableStyle: {
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+    marginRight: theme.spacing(1),
   },
 
   marginShort: {
-    width: "60%",
+    width: "100%",
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+  },
+
+  marginShortTicketNr: {
+    width: "100%",
+    marginTop: theme.spacing(1),
   },
 
   inputLong: {
     height: "5em",
   },
 
-  inputShort: {
-    height: "40px",
-  },
-
   inputBasic: {
     height: "40px",
-    width: "120%",
   },
 
   inputPrice: {
@@ -60,13 +48,15 @@ export const useStylesCategoryCard = makeStyles((theme: Theme) => ({
   },
 
   removeButton: {
-    width: "40px",
+    width: "80px",
     textAlign: "center",
     color: theme.palette.secondary.main,
     textTransform: "uppercase",
     background: "linear-gradient(90deg, #f9c929 20%, #f2ac0a 90%)",
-    borderRadius: "10px",
-    height: "40px",
+    borderRadius: "20px",
+    height: "35px",
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(1),
   },
 
   footerDiv: {

@@ -50,12 +50,13 @@ export const noCardError: CategoryCardErrors = {
 };
 
 export const emptyCard: CategoryCardItem = {
-  id: 1,
+  id: -1,
   title: "",
   subtitle: "",
   price: 0,
   description: "",
   ticketsPerCategory: 0,
+  available: true,
 };
 
 export const newTicket: TicketAvailabilityData = {
