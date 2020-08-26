@@ -1,5 +1,5 @@
 import React from "react";
-import useStylesbuyTicketFirstPage from "../../styles/BuyTicketsFirstPageStyle";
+import useStylesbuyTicketFirstPage from "../../../styles/BuyTicketsFirstPageStyle";
 
 interface Props {
   startDate: string;

@@ -8,14 +8,12 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
     marginLeft: "10%",
     minHeight: "150px",
     padding: "3%",
-    // marginTop: "3%",
   },
   iconStyle: {
     width: 30,
     height: 30,
     color: "black",
     paddingRight: "2%",
-    //paddingTop: "1%",
     verticalAlign: "middle",
   },
   iconStyleLocation: {
@@ -23,22 +21,23 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
     height: 30,
     color: "black",
     paddingRight: "2%",
-    //paddingTop: "1%",
-    //verticalAlign: "middle",
-    //float: "left",
   },
   radioGroup: {
     maxWidth: "900px",
     fontFamily: "Monospace !important",
   },
   nextButton: {
-    //maxWidth: "200px",
     float: "right",
     marginRight: "10%",
     fontSize: "large !important ",
     background: themeDark.palette.secondary.dark,
     "&:hover": {
       backgroundImage: "linear-gradient(45deg, #f9c929 10%, #f2ac0a 50%, #ed4d6e 90%)",
+    },
+    "&:disabled": {
+      backgroundColor: "white !important",
+      color: "black !important",
+      backgroundImage: "linear-gradient(90deg, rgba(245,253,255,1) 0%, rgba(202,202,209,1) 1%)",
     },
   },
 
@@ -48,7 +47,7 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
   title: { fontSize: 50, fontFamily: "Monospace !important", margin: "5px" },
   pagecontainer: {
     background: "linear-gradient(45deg, #21C6F3 10%, #1E5FA4 90%)",
-    minHeight: "120vh",
+    minHeight: "100vh",
     paddingTop: "4%",
   },
   generalInfoContainer: {
@@ -66,9 +65,7 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
   spacing: {
     margin: " 10px ",
   },
-  align: {
-    //paddingTop: "10px !important",
-  },
+
   locationName: {
     fontWeight: 700,
     fontSize: "1.05rem",
@@ -83,15 +80,14 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
   tag: {
     width: "50%",
     height: "50px",
-    //background: "#21749a",
+
     background: themeDark.palette.primary.dark,
-    //background: "linear-gradient(90deg, rgba(245,253,255,1) 9%, rgba(140,210,246,1) 51%, rgba(245,253,255,1) 88%)",
-    //left: "-8px",
+
     marginLeft: "-5.4%",
-    //zIndex: 2,
+
     "&:after": {
       marginTop: "0.5em",
-      //content: "",
+
       float: "left",
       border: "1.5em solid #fff",
       borderRightColor: "transparent",

@@ -9,6 +9,7 @@ import {
   reserveEventisLoading,
   reserveEventFetchSucces,
   reserveEventFetch,
+  updateRadioButton,
 } from "../../../actions/ReserveTicketsActions";
 import BuyTicketFirstPageDumb from "./BuyTicketFirstPageDumb";
 
@@ -19,7 +20,9 @@ interface Props {
   reserveEventFetchSucces: (eventReserve: EventReserveTicketType) => void;
   matching: RouteComponentProps<any>;
   reserveEventFetch: (id: number) => void;
-  error: string;
+  error: boolean;
+  radioButtonState: string;
+  updateRadioButton: (radioButtonState: string) => void;
 }
 interface OwnProps {
   matching: RouteComponentProps<any>;
@@ -27,25 +30,32 @@ interface OwnProps {
 
 const BuyTicketFirstPageSmart: React.FC<Props> = (props: Props) => {
   useEffect(() => {
-    console.log("heloo");
-
     props.reserveEventFetch(props.matching.match.params.id);
     props.reserveEventisLoading(false);
     console.log(props.eventReserve);
   }, []);
 
+  const handleChangeRadioButtonState = (value: string) => {
+    props.updateRadioButton(value);
+  };
+
   if (props.isLoading) {
     return (
       <Container>
-        {console.log("heloo")}
         <CircularProgress />
       </Container>
     );
   }
+
   return (
     <div>
-      {console.log(props.eventReserve)}
-      <BuyTicketFirstPageDumb event={props.eventReserve}></BuyTicketFirstPageDumb>
+      <BuyTicketFirstPageDumb
+        event={props.eventReserve}
+        isError={props.error}
+        isLoading={props.isLoading}
+        radioButtonState={props.radioButtonState}
+        handleChangeRadioButtonState={handleChangeRadioButtonState}
+      ></BuyTicketFirstPageDumb>
     </div>
   );
 };
@@ -53,14 +63,16 @@ const BuyTicketFirstPageSmart: React.FC<Props> = (props: Props) => {
 const mapStateToProps = (state: AppState, ownProps: OwnProps) => ({
   eventReserve: state.reserveTicket.event,
   isLoading: state.reserveTicket.isLoading,
-  error: state.reserveTicket.error,
+  error: state.reserveTicket.isError,
   matching: ownProps.matching,
+  radioButtonState: state.reserveTicket.radioButtonState,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   reserveEventFetchSucces: (eventReserve: EventReserveTicketType) => dispatch(reserveEventFetchSucces(eventReserve)),
   reserveEventisLoading: (loadingStatus: boolean) => dispatch(reserveEventisLoading(loadingStatus)),
   reserveEventFetch: (id: number) => dispatch(reserveEventFetch(id)),
+  updateRadioButton: (radioButtonState: string) => dispatch(updateRadioButton(radioButtonState)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BuyTicketFirstPageSmart);

@@ -5,6 +5,7 @@ export enum ReserveTicketActionTypes {
   RESERVE_EVENT_LOADING = " RESERVE_EVENT_LOADING",
   RESERVE_EVENT_FETCH_SUCCESS = " RESERVE_EVENT_FETCH_SUCCESS",
   RESERVE_EVENT_ERROR = " RESERVE_EVENT_ERROR",
+  UPDATE_RADIOBUTTON = "UPDATE_RADIOBUTTON",
 }
 
 export class ReserveEventFetchAction {
@@ -25,9 +26,9 @@ export class ReserveEventLoadingStatusAction {
 
 export class ReserveEventErrorAction {
   public readonly type = ReserveTicketActionTypes.RESERVE_EVENT_ERROR;
-  public errorStatus: string;
+  public errorStatus: boolean;
 
-  constructor(errorStatus: string) {
+  constructor(errorStatus: boolean) {
     this.errorStatus = errorStatus;
   }
 }
@@ -40,12 +41,21 @@ export class ReserveEventFetchSuccessAction {
     this.event = event;
   }
 }
+export class UpdateRadioButtonAction {
+  public readonly type = ReserveTicketActionTypes.UPDATE_RADIOBUTTON;
+  public radioButton: string;
+
+  constructor(radioButton: string) {
+    this.radioButton = radioButton;
+  }
+}
 
 export type ReserveTicketAction =
   | ReserveEventFetchAction
   | ReserveEventLoadingStatusAction
   | ReserveEventErrorAction
-  | ReserveEventFetchSuccessAction;
+  | ReserveEventFetchSuccessAction
+  | UpdateRadioButtonAction;
 
 export const reserveEventisLoading = (loadingStatus: boolean): ReserveEventLoadingStatusAction => {
   return {
@@ -54,7 +64,7 @@ export const reserveEventisLoading = (loadingStatus: boolean): ReserveEventLoadi
   };
 };
 
-export const reserveEventError = (errorStatus: string): ReserveEventErrorAction => {
+export const reserveEventError = (errorStatus: boolean): ReserveEventErrorAction => {
   return {
     type: ReserveTicketActionTypes.RESERVE_EVENT_ERROR,
     errorStatus: errorStatus,
@@ -72,5 +82,12 @@ export const reserveEventFetch = (id: number): ReserveEventFetchAction => {
   return {
     type: ReserveTicketActionTypes.RESERVE_EVENT_FETCH,
     id: id,
+  };
+};
+
+export const updateRadioButton = (radioButton: string): UpdateRadioButtonAction => {
+  return {
+    type: ReserveTicketActionTypes.UPDATE_RADIOBUTTON,
+    radioButton: radioButton,
   };
 };

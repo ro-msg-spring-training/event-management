@@ -4,7 +4,8 @@ import { ReserveTicketAction, ReserveTicketActionTypes } from "../actions/Reserv
 export interface ReserveFirstPageState {
   event: EventReserveTicketType;
   isLoading: boolean;
-  error: string;
+  isError: boolean;
+  radioButtonState: string;
 }
 
 const initialState: ReserveFirstPageState = {
@@ -21,7 +22,8 @@ const initialState: ReserveFirstPageState = {
     endHour: "",
     ticketInfo: "",
   },
-  error: "",
+  radioButtonState: "seat",
+  isError: false,
 };
 
 export const ReservePageReducer = (
@@ -39,14 +41,21 @@ export const ReservePageReducer = (
       return {
         ...state,
         event: action.event,
+        isLoading: false,
+        isError: false,
       };
     }
     case ReserveTicketActionTypes.RESERVE_EVENT_ERROR: {
       return {
         ...state,
-        error: action.errorStatus,
+        isError: action.errorStatus,
       };
     }
+    case ReserveTicketActionTypes.UPDATE_RADIOBUTTON:
+      return {
+        ...state,
+        radioButtonState: action.radioButton,
+      };
     default:
       return state;
   }
