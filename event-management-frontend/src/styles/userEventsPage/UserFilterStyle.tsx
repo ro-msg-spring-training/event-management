@@ -37,5 +37,12 @@ export const useUserFilterStyles = makeStyles({
         width: 'calc(100%)',
         textOverflow: 'ellipsis',
         whiteSpace: 'nowrap'
+    },
+    checkboxOverflow: {
+        display: 'block',
+        width: 'calc(100%)',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden'
     }
 }); 

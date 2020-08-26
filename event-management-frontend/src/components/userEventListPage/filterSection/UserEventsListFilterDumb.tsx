@@ -139,7 +139,7 @@ function UserEventsListFilterDumb({
 
                         <Grid item xs={12} sm={6} md={4} xl={4}>
                             <FormControlLabel
-                                className={classes.textOverflow}
+                                className={classes.checkboxOverflow}
                                 label={translation('userEventList.pastEvents')}
                                 labelPlacement='end'
                                 control=
