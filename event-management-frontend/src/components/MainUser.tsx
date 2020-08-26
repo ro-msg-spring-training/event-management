@@ -11,7 +11,7 @@ const MainUser = () => {
             <main>
                 <Switch>
                     <Route exact path='/user' component={HomeUser} />
-                    <Route exact path='/user/reserveTickets/secondPage/:id'
+                    <Route exact path='/user/reserve-tickets/second-page/:id'
                         render={props => <BuyTicketsSecondPageSmart match={props.match} />} />
                 </Switch>
             </main>

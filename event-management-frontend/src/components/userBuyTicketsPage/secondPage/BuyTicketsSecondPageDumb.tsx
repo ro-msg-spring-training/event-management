@@ -1,8 +1,11 @@
-import React from 'react';
-import BuyTicketsStepper from './BuyTicketsStepper';
-import "../secondPage/BuyTicketsStepper"
-import { IconButton, makeStyles, Theme, Grid, Tooltip } from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
+import React, { useState } from 'react';
+import TicketsStep from './steps/TicketsStep';
+import EmailStep from './steps/EmailStep';
+import NamesStep from './steps/NamesStep';
+import TermsAndConditionsStep from './steps/TermsAndConditionsStep';
+import Booking from '../../../model/Booking';
+import classes from '*.module.css';
+import { Tooltip, IconButton, makeStyles, Theme } from '@material-ui/core';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import CloseIcon from '@material-ui/icons/Close';
 
@@ -27,29 +30,44 @@ const BuyTicketsSecondPageDumbStyle = makeStyles((theme: Theme) => ({
   }
 }))
 
+
 interface BuyTicketsSecondPageDumbProps {
-  eventId: string,
+  gotoFirstPage: any,
+  gotoEventListPage: any
 }
 
-function BuyTicketsSecondPageDumb({ eventId }: BuyTicketsSecondPageDumbProps) {
+function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, }: BuyTicketsSecondPageDumbProps) {
+  const [step, setStep] = useState(1);
+  const [booking, setBooking] = useState<Booking>();
   const classes = BuyTicketsSecondPageDumbStyle();
-  const history = useHistory();
 
-  const gotoFirstPage = (): void => {
-    history.push(`user/reserve-tickets/first-page/${eventId}`);
+  // Proceed to next step
+  const nextStep = () => { setStep(step + 1); };
+
+  // Go back to prev step
+  const prevStep = () => { setStep(step - 1); };
+
+  // // Handle fields change
+  // const handleChange = (input) => (e) => {
+  //   setState({ [input]: e.target.value });
+  // };
+
+  // // const { step } = state;
+  // const { firstName, lastName, email, occupation, city, bio } = state;
+  // const values = { firstName, lastName, email, occupation, city, bio };
+  const handleEnterKey = (e: any): void => { e.keyCode === 13 && e.preventDefault(); }
+
+  const handleStepperChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+
   }
 
-  const gotoEventListPage = (): void => {
-    //TODO redirect to events list
-    history.push(`user/events`);
-  }
+  const [checked, setChecked] = useState(false);
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked);
+  };
 
-  return (
+  const buttons =
     <>
-      <div className="wrapper">
-        <BuyTicketsStepper />
-      </div>
-
       <div className={classes.positionLeft}>
         <Tooltip title="Go to first page">
           <IconButton onClick={gotoFirstPage}><NavigateNextIcon fontSize="large" className={classes.prevButtonStyle} /></IconButton>
@@ -62,7 +80,54 @@ function BuyTicketsSecondPageDumb({ eventId }: BuyTicketsSecondPageDumbProps) {
         </Tooltip>
       </div>
     </>
+
+  let currentPage = <></>
+
+  switch (step) {
+    case 1:
+      currentPage =
+        <TicketsStep
+          nextStep={nextStep}
+          handleEnterKey={handleEnterKey}
+          handleStepperChange={handleStepperChange}
+        />
+      break;
+    case 2:
+      currentPage =
+        <EmailStep
+          nextStep={nextStep}
+          prevStep={prevStep}
+          handleEnterKey={handleEnterKey}
+          handleStepperChange={handleStepperChange}
+        />
+      break;
+    case 3:
+      currentPage =
+        <NamesStep
+          nextStep={nextStep}
+          prevStep={prevStep}
+          handleEnterKey={handleEnterKey}
+          handleStepperChange={handleStepperChange}
+        />
+      break;
+    case 4:
+      currentPage =
+        <TermsAndConditionsStep
+          prevStep={prevStep}
+          checked={checked}
+          handleCheckboxChange={handleCheckboxChange}
+        />
+      break;
+    default:
+      (console.log('Wrong step'))
+  }
+
+  return (
+    <>
+      {currentPage}
+      {buttons}
+    </>
   );
-};
+}
 
 export default BuyTicketsSecondPageDumb;
