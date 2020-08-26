@@ -3,11 +3,11 @@ import UserEventsListFilterDumb from './UserEventsListFilterDumb'
 import { Dispatch } from "redux";
 import { AppState } from '../../../store/store';
 import { connect } from 'react-redux';
-import { UserEventFilters } from '../../../model/UserEventFilters';
+import { UserEventFilters } from '../../../model/userEventList/UserEventFilters';
 import { updateUserFilters, fetchUserEventsLocations, resetUserFilters, setUserFilterMode } from '../../../actions/UserEventListActions'
-import { UserEventType } from '../../../model/UserEventType';
+import { UserEventType } from '../../../model/userEventList/UserEventType';
 import { useTranslation } from 'react-i18next';
-import { UserMathRelation } from '../../../model/UserMathRelation';
+import { UserMathRelation } from '../../../model/userEventList/UserMathRelation';
 
 interface UserEventFilterProps {
     filters: UserEventFilters,

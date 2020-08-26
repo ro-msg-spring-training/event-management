@@ -4,12 +4,12 @@ import { Dispatch } from "redux";
 import UserEventListDumb from './UserEventListDumb';
 import { CircularProgress, LinearProgress } from '@material-ui/core';
 import { useHistory } from 'react-router-dom'
-import { UserEventList } from '../../../model/UserEventList';
+import { UserEventList } from '../../../model/userEventList/UserEventList';
 import { fetchUserEvents, setIsFetching } from '../../../actions/UserEventListActions';
 import { AppState } from '../../../store/store';
 import { useTranslation } from 'react-i18next';
-import { UserEventFilters } from '../../../model/UserEventFilters';
-import { UserEventIsFilterType } from '../../../model/UserEventIsFilterType';
+import { UserEventFilters } from '../../../model/userEventList/UserEventFilters';
+import { UserEventIsFilterType } from '../../../model/userEventList/UserEventIsFilterType';
 
 interface UserEventListProps {
     events: UserEventList[],

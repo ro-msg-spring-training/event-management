@@ -1,9 +1,9 @@
 import React, { KeyboardEvent, FormEvent, ChangeEvent } from 'react';
-import { UserEventFilters } from '../../../model/UserEventFilters';
+import { UserEventFilters } from '../../../model/userEventList/UserEventFilters';
 import { MenuItem, TextField, Grid, InputAdornment, FormControlLabel, Button, Chip, Paper } from '@material-ui/core';
-import { UserMathRelation } from '../../../model/UserMathRelation';
+import { UserMathRelation } from '../../../model/userEventList/UserMathRelation';
 import { YellowCheckbox } from '../../YellowCheckbox';
-import { UserEventType } from '../../../model/UserEventType';
+import { UserEventType } from '../../../model/userEventList/UserEventType';
 import { useStyles } from '../../../styles/CommonStyles';
 import { Autocomplete } from '@material-ui/lab';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
@@ -72,15 +72,15 @@ function UserEventsListFilterDumb({
                                 value={filters.locations}
                                 renderTags={(value: string[], getTagProps) =>
                                     value.map((option: string, index: number) => (
-                                        <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+                                        <Chip variant='outlined' label={option} {...getTagProps({ index })} />
                                     ))
                                 }
                                 onChange={onChangeLocation}
                                 renderOption={(option, { selected }) => (
                                     <React.Fragment>
                                         <YellowCheckbox
-                                            icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                                            checkedIcon={<CheckBoxIcon fontSize="small" />}
+                                            icon={<CheckBoxOutlineBlankIcon fontSize='small' />}
+                                            checkedIcon={<CheckBoxIcon fontSize='small' />}
                                             checked={selected}
                                         />
                                         {option}
@@ -88,7 +88,7 @@ function UserEventsListFilterDumb({
                                 )}
                                 renderInput={(params) => (
                                     <TextField {...params}
-                                        variant="outlined"
+                                        variant='outlined'
                                         label={isLocationsError ?
                                             translation('userEventList.noLocations') :
                                             translation('userEventList.locations')}
