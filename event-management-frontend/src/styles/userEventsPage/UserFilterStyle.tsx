@@ -2,8 +2,8 @@ import { makeStyles } from "@material-ui/core";
 
 export const useUserFilterStyles = makeStyles({
     root: {
-        margin: '30px 0',
-        padding: '30px 0'
+        margin: '3% 0',
+        padding: '3% 0'
     },
     filterArea: {
         display: 'flex',
@@ -24,5 +24,19 @@ export const useUserFilterStyles = makeStyles({
     },
     filterButtons: {
         width: '100%',
+    },
+    textOverflow: {
+        "& .MuiFormLabel-root": {
+            display: 'block',
+            overflow: 'hidden',
+            width: 'calc(60%)',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap'
+        },
+        display: 'block',
+        overflow: 'hidden',
+        width: 'calc(100%)',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap'
     }
 }); 

@@ -55,11 +55,13 @@ function UserEventsListFilterDumb({
                                 value={filters.title}
                                 onChange={onChangeInput}
                                 fullWidth
+                                className={classes.textOverflow}
                             />
                         </Grid>
 
                         <Grid item xs={12} sm={12} md={8} xl={8}>
                             <Autocomplete
+                            className={classes.textOverflow}
                                 multiple
                                 limitTags={3}
                                 fullWidth
@@ -112,6 +114,7 @@ function UserEventsListFilterDumb({
                             </TextField>
 
                             <TextField
+                                className={classes.textOverflow}
                                 name='rate'
                                 label={`${translation('userEventList.rate')} ${errorRate ? ' - ' + errorRate : ''}`}
                                 value={isNaN(filters.rate) ? '' : filters.rate}
@@ -136,6 +139,7 @@ function UserEventsListFilterDumb({
 
                         <Grid item xs={12} sm={6} md={4} xl={4}>
                             <FormControlLabel
+                              className={classes.textOverflow}
                                 control=
                                 {
                                     <YellowCheckbox

@@ -7,7 +7,6 @@ import GroupIcon from '@material-ui/icons/Group';
 import { UserEventList } from '../../../model/UserEventList';
 import { useCardStyle } from '../../../styles/userEventsPage/UserEventCardStyle';
 import { useStyles } from '../../../styles/CommonStyles';
-import { Link } from 'react-router-dom';
 import { TFunction } from 'i18next';
 
 interface UserEventCardProps {
@@ -18,12 +17,12 @@ interface UserEventCardProps {
 
 export const noImageAvailableSrc = 'https://www.thegreensheet.com/Public/build/images.min/nophoto.png'
 
-function UserEventCard({ 
-    event, 
-    translation, 
-    goToEventDetails 
+function UserEventCard({
+    event,
+    translation,
+    goToEventDetails
 }: UserEventCardProps) {
-    
+
     const classes = useCardStyle();
     const communStyles = useStyles();
 
@@ -38,29 +37,41 @@ function UserEventCard({
                     }} />
 
                 <div className={classes.eventInfo}>
-                    <Typography variant="h6" color={"primary"} onClick={e => goToEventDetails(event.id)}>
+                    <Typography
+                        variant="h6"
+                        className={`${classes.eventTextInfo} ${classes.eventTitle}`}
+                        onClick={e => goToEventDetails(event.id)}
+                    >
                         {event.title}
                     </Typography>
 
-                    <Typography variant="subtitle1">
-                        <LocationOnIcon className={classes.iconInfo} />
-                        {event.location}
-                    </Typography>
+                    <div className={classes.eventDivInfo}>
+                        <LocationOnIcon className={classes.eventIconInfo} />
+                        <Typography variant="subtitle1" className={classes.eventTextInfo}>
+                            {event.location}
+                        </Typography>
+                    </div>
 
-                    <Typography variant="subtitle1">
-                        <EventIcon className={classes.iconInfo} />
-                        {event.startDate} - {event.endDate}
-                    </Typography>
+                    <div className={classes.eventDivInfo}>
+                        <EventIcon className={classes.eventIconInfo} />
+                        <Typography variant="subtitle1" className={classes.eventTextInfo}>
+                            {event.startDate} - {event.endDate}
+                        </Typography>
+                    </div>
 
-                    <Typography variant="subtitle1">
-                        <QueryBuilderIcon className={classes.iconInfo} />
-                        {event.startTime} - {event.endTime}
-                    </Typography>
+                    <div className={classes.eventDivInfo}>
+                        <QueryBuilderIcon className={classes.eventIconInfo} />
+                        <Typography variant="subtitle1" className={classes.eventTextInfo}>
+                            {event.startTime} - {event.endTime}
+                        </Typography>
+                    </div>
 
-                    <Typography variant="subtitle1">
-                        <GroupIcon className={classes.iconInfo} />
-                        {event.rate}%
-                    </Typography>
+                    <div className={classes.eventDivInfo}>
+                        <GroupIcon className={classes.eventIconInfo} />
+                        <Typography variant="subtitle1" className={classes.eventTextInfo}>
+                            {event.rate}%
+                        </Typography>
+                    </div>
                 </div>
             </div>
 
