@@ -96,9 +96,9 @@ export const UserEventsReducer = (state = initialState, action: ReducerActionPro
         case RESET_USER_FILTERS:
             return {
                 ...state,
-                events: [],
-                page: 1,
-                isMore: false,
+                events: state.isFilter === UserEventIsFilterType.NOT_IN_USE ? state.events : [],
+                page: state.isFilter === UserEventIsFilterType.NOT_IN_USE ? state.page : 1,
+                isMore: state.isFilter === UserEventIsFilterType.NOT_IN_USE ? state.isMore : false,
                 isFilter: UserEventIsFilterType.NOT_IN_USE,
                 filters: {
                     title: '',

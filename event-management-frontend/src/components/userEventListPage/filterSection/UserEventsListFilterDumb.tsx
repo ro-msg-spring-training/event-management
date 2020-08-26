@@ -67,6 +67,7 @@ function UserEventsListFilterDumb({
                                 options={locations}
                                 disableCloseOnSelect
                                 filterSelectedOptions
+                                value={filters.locations}
                                 renderTags={(value: string[], getTagProps) =>
                                     value.map((option: string, index: number) => (
                                         <Chip variant="outlined" label={option} {...getTagProps({ index })} />
