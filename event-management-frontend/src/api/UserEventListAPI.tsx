@@ -5,22 +5,22 @@ import { UserEventType } from "../model/UserEventType";
 
 
 const computeFilterStringQuery = (filters: UserEventFilters, page: number, limit: number) => {
-    let querry = filters.type === UserEventType.UPCOMING ? 'upcoming?' : 'history?';
-    let querryArr: string[] = [];
+    let query = filters.type === UserEventType.UPCOMING ? 'upcoming?' : 'history?';
+    let queryArr: string[] = [];
 
-    querryArr.push(`pageNumber=${page}`)
-    querryArr.push(`limit=${limit}`)
+    queryArr.push(`pageNumber=${page}`)
+    queryArr.push(`limit=${limit}`)
 
     if (filters.title) {
-        querryArr.push(`title=${filters.title}`)
+        queryArr.push(`title=${filters.title}`)
     }
     if (filters.rate) {
-        querryArr.push(`rate=${filters.rate}&rateSign=${filters.rateSign}`)
+        queryArr.push(`rate=${filters.rate}&rateSign=${filters.rateSign}`)
     }
     if (filters.locations) {
-        filters.locations.map(loc => querryArr.push(`multipleLocations=${loc}`))
+        filters.locations.map(loc => queryArr.push(`multipleLocations=${loc}`))
     }
-    return querry + querryArr.join('&')
+    return query + queryArr.join('&')
 }
 
 export const fetchEvents = (page: number, limit: number, filters?: UserEventFilters) => {

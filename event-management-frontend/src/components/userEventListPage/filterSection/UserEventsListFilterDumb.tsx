@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { KeyboardEvent, FormEvent, ChangeEvent } from 'react';
 import { UserEventFilters } from '../../../model/UserEventFilters';
 import { MenuItem, TextField, Grid, InputAdornment, FormControlLabel, Button, Chip, Paper } from '@material-ui/core';
 import { UserMathRelation } from '../../../model/UserMathRelation';
@@ -14,14 +14,16 @@ import { TFunction } from 'i18next';
 interface UserEventFilterProps {
     filters: UserEventFilters,
     locations: string[],
+    errorRate: string,
     translation: TFunction,
-    onChangeInput: (event: any) => void,
-    onChangeLocation: (event: any, value: string | string[], reason: string) => void,
-    submitForm: (event: any) => void,
-    resetUserFilters: () => void
+    onChangeInput: (event: ChangeEvent<HTMLInputElement>) => void,
+    onChangeLocation: (event: object, value: string | string[], reason: string) => void,
+    submitForm: (event: FormEvent<HTMLFormElement>) => void,
+    resetUserFilters: () => void,
+    restrictNumberInput: (event: KeyboardEvent<HTMLDivElement>) => void
 }
 
-function UserEventsListFilterDumb({ filters, locations, translation, onChangeInput, onChangeLocation, submitForm, resetUserFilters }: UserEventFilterProps) {
+function UserEventsListFilterDumb({ filters, locations, errorRate, translation, onChangeInput, onChangeLocation, submitForm, resetUserFilters, restrictNumberInput }: UserEventFilterProps) {
     const commonClasses = useStyles();
     const classes = useUserFilterStyles();
 
@@ -67,6 +69,7 @@ function UserEventsListFilterDumb({ filters, locations, translation, onChangeInp
                                 renderInput={(params) => (
                                     <TextField {...params} variant="outlined" label={translation('userEventList.locations')} />
                                 )}
+                                noOptionsText={translation('userEventList.noOption')}
                             />
                         </Grid>
 
@@ -87,8 +90,8 @@ function UserEventsListFilterDumb({ filters, locations, translation, onChangeInp
 
                             <TextField
                                 name='rate'
-                                label={translation('userEventList.rate')}
-                                value={filters.rate}
+                                label={`${translation('userEventList.rate')} ${errorRate ? ' - ' + errorRate : ''}`}
+                                value={isNaN(filters.rate) ? '' : filters.rate}
                                 variant='outlined'
                                 type='number'
                                 InputProps={{
@@ -101,7 +104,9 @@ function UserEventsListFilterDumb({ filters, locations, translation, onChangeInp
                                         </InputAdornment>
                                     )
                                 }}
+                                error={errorRate !== ''}
                                 onChange={onChangeInput}
+                                onKeyPress={(e) => restrictNumberInput(e)}
                                 fullWidth />
                         </Grid>
 
@@ -124,10 +129,11 @@ function UserEventsListFilterDumb({ filters, locations, translation, onChangeInp
                         <Grid item xs={12} sm={12} md={12} xl={12}>
                             <Button
                                 className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3} ${classes.filterButtons}`}
+                                disabled={errorRate !== ''}
                                 type='submit'
                             >
                                 {translation('userEventList.filterButton')}
-                        </Button>
+                            </Button>
                         </Grid>
 
                         <Grid item xs={12} sm={12} md={12} xl={12}>
@@ -136,7 +142,7 @@ function UserEventsListFilterDumb({ filters, locations, translation, onChangeInp
                                 onClick={resetUserFilters}
                             >
                                 {translation('userEventList.clearButton')}
-                        </Button>
+                            </Button>
                         </Grid>
                     </Grid>
                 </Grid>

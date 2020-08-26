@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from "redux";
 import UserEventListDumb from './UserEventListDumb';
 import { CircularProgress, LinearProgress } from '@material-ui/core';
 import { useHistory } from 'react-router-dom'
@@ -60,15 +61,16 @@ function UserEventListSmart({ events, isError, isMore, isFetching, isFilter, fil
         <>
             {isError ?
                 <p style={{ textAlign: 'center' }} > {translation("userEventList.errorMessage")} </p> :
-                isFetching && page === 1 ?
+                isFetching && events.length === 0 ?
                     <LinearProgress /> :
-                    events.length ?
+                    !isFetching && events.length === 0 ?
+                        <p style={{ textAlign: 'center' }}> {translation("userEventList.noResults")} </p> :
                         <UserEventListDumb
                             translation={translation}
                             events={events}
                             goToEventDetails={goToEventDetails}
-                        /> :
-                        <p style={{ textAlign: 'center' }}>{translation("userEventList.noResults")}</p>
+                        />
+
             }
             {isFetching && <CircularProgress style={{ alignSelf: 'center', margin: '30px' }} />}
         </>
@@ -86,7 +88,7 @@ const mapStateToProps = (state: AppState) => ({
     filters: state.userEvents.filters
 });
 
-const mapDispatchToProps = (dispatch: any) => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
     fetchUserEvents: (page: number, limit: number, isFilter: UserEventIsFilterType, filters: UserEventFilters) => dispatch(fetchUserEvents(page, limit, isFilter, filters)),
     setIsFetching: (isFetching: boolean) => dispatch(setIsFetching(isFetching))
 })

@@ -25,40 +25,37 @@ function UserEventCard({ event, translation, goToEventDetails }: UserEventCardPr
     return (
         <Paper className={classes.root}>
             <div>
-                <Link to={`/user/event/${event.id}`}>
-                    <div
-                        className={classes.imageWrapper}
-                        style={{
-                            backgroundImage: 'url(' + (event.picture? event.picture : noImageAvailableSrc) + ')',
-                        }} />
-                </Link>
+                <div
+                    onClick={e => goToEventDetails(event.id)}
+                    className={classes.imageWrapper}
+                    style={{
+                        backgroundImage: 'url(' + (event.picture ? event.picture : noImageAvailableSrc) + ')',
+                    }} />
 
                 <div className={classes.eventInfo}>
-                    <Link to={`/user/event/${event.id}`} className={classes.link}>
-                        <Typography variant="h6" color={"primary"}>
-                            {event.title}
-                        </Typography>
-                    </Link>
+                    <Typography variant="h6" color={"primary"} onClick={e => goToEventDetails(event.id)}>
+                        {event.title}
+                    </Typography>
 
-                    <div>
+                    <Typography variant="subtitle1">
                         <LocationOnIcon className={classes.iconInfo} />
                         {event.location}
-                    </div>
+                    </Typography>
 
-                    <div>
+                    <Typography variant="subtitle1">
                         <EventIcon className={classes.iconInfo} />
                         {event.startDate} - {event.endDate}
-                    </div>
+                    </Typography>
 
-                    <div>
+                    <Typography variant="subtitle1">
                         <QueryBuilderIcon className={classes.iconInfo} />
                         {event.startTime} - {event.endTime}
-                    </div>
+                    </Typography>
 
-                    <div>
+                    <Typography variant="subtitle1">
                         <GroupIcon className={classes.iconInfo} />
                         {event.rate}%
-                    </div>
+                    </Typography>
                 </div>
             </div>
 

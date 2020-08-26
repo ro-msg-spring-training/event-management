@@ -161,6 +161,9 @@
         "rate": "Rată ocupare",
         "pastEvents": "Evenimente din trecut",
         "filterButton": "Filtrare",
-        "clearButton": "Resetare"
+        "clearButton": "Resetare",
+        "noOption": "Fără opțiuni",
+        "notANumber": "Număr invalid",
+        "notAValidPercent": "Procent invalid",
       }
 }
