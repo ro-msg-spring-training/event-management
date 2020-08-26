@@ -282,7 +282,7 @@ public class EventController {
     @GetMapping("/highlighted")
     public ResponseEntity<List<CardsUserEventDto>> getHighlightedEvents() {
         int limit = eventService.getHighlightedEventCount();
-        List<EventView> eventViews = eventService.filterAndPaginate(null, null, null, true, null, LocalDate.now(), MAX_DATE, null, null, null, null, null, null, 1, 100, SortCriteria.DATE, false, null);
+        List<EventView> eventViews = eventService.filterAndPaginate(null, null, null, true, null, LocalDate.now(), MAX_DATE, null, null, null, null, null, null, 1, limit, SortCriteria.DATE, false, null);
 
         List<CardsUserEventDto> returnList = converterToUserCardsEventDto.convertAll(eventViews);
 

@@ -20,10 +20,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,7 +39,7 @@ public class EventService {
     @PersistenceContext(type = PersistenceContextType.TRANSACTION)
     private final EntityManager entityManager;
 
-    @Transactional(rollbackFor = {OverlappingEventsException.class,ExceededCapacityException.class})
+    @Transactional(rollbackFor = {OverlappingEventsException.class, ExceededCapacityException.class})
     public Event saveEvent(Event event, List<Long> sublocationIDs) throws OverlappingEventsException, ExceededCapacityException {
 
         LocalDate startDate = event.getStartDate();
@@ -89,7 +86,7 @@ public class EventService {
         return overlappingEvents.isEmpty();
     }
 
-    @Transactional(rollbackFor = {OverlappingEventsException.class,ExceededCapacityException.class})
+    @Transactional(rollbackFor = {OverlappingEventsException.class, ExceededCapacityException.class})
     public Event updateEvent(Event event, List<Long> ticketCategoryToDelete, Long updatedLocation) throws OverlappingEventsException, ExceededCapacityException {
         Optional<Event> eventOptional;
         eventOptional = eventRepository.findById(event.getId());
@@ -149,10 +146,9 @@ public class EventService {
                     this.eventSublocationRepository.deleteByEvent(eventFromDB);
                     long idSublocation = eventFromDB.getEventSublocations().get(0).getEventSublocationID().getSublocation();
 
-                    if(!this.sublocationRepository.findById(idSublocation).orElseThrow(() -> {
+                    if (!this.sublocationRepository.findById(idSublocation).orElseThrow(() -> {
                         throw new NoSuchElementException("No sublocation with id=" + idSublocation);
-                    }).getLocation().getId().equals(updatedLocation))
-                    {
+                    }).getLocation().getId().equals(updatedLocation)) {
                         for (Long sublocationID : location.getSublocation().stream().map(BaseEntity::getId).collect(Collectors.toList())) {
                             EventSublocationID esID = new EventSublocationID(event.getId(), sublocationID);
                             EventSublocation eventSublocation = new EventSublocation();
@@ -179,11 +175,11 @@ public class EventService {
                         if (ticketCategory.getId() < 0) {
                             categoriesToSave.add(ticketCategory);
                         } else {
-                            eventFromDB.getTicketCategories().forEach(ticketCategoryFromDB ->{
-                                if(ticketCategoryFromDB.getId().equals(ticketCategory.getId())){
+                            eventFromDB.getTicketCategories().forEach(ticketCategoryFromDB -> {
+                                if (ticketCategoryFromDB.getId().equals(ticketCategory.getId())) {
                                     this.ticketCategoryService.updateTicketCategory(ticketCategory);
                                 }
-                            } );
+                            });
                         }
                     });
 
@@ -193,9 +189,7 @@ public class EventService {
 
                 } else throw new ExceededCapacityException("exceed capacity");
             } else throw new OverlappingEventsException("overlaps other events");
-
-        } else
-            throw new NoSuchElementException();
+        } else throw new NoSuchElementException();
     }
 
     public boolean checkOverlappingEvents(Long eventID, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, long sublocation) {
@@ -246,7 +240,7 @@ public class EventService {
 
         }
 
-        if (multipleLocations != null){
+        if (multipleLocations != null) {
             Expression<String> path = c.get("location");
             predicate.add(path.in(multipleLocations));
 
@@ -305,8 +299,8 @@ public class EventService {
 
     }
 
-    public List<EventView> filterAndPaginate(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople, int pageNumber, int eventPerPage, SortCriteria sortCriteria, Boolean sortType,List<String> multipleLocations) {
-        TypedQuery<EventView> typedQuery = this.filter(title, subtitle, status, highlighted, location, startDate, endDate, startHour, endHour, rateSign, rate, maxPeopleSign, maxPeople, sortCriteria, sortType,multipleLocations);
+    public List<EventView> filterAndPaginate(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople, int pageNumber, int eventPerPage, SortCriteria sortCriteria, Boolean sortType, List<String> multipleLocations) {
+        TypedQuery<EventView> typedQuery = this.filter(title, subtitle, status, highlighted, location, startDate, endDate, startHour, endHour, rateSign, rate, maxPeopleSign, maxPeople, sortCriteria, sortType, multipleLocations);
         int offset = (pageNumber - 1) * eventPerPage;
         typedQuery.setFirstResult(offset);
         typedQuery.setMaxResults(eventPerPage);
@@ -323,16 +317,16 @@ public class EventService {
             case EQUAL:
                 return criteriaBuilder.equal(c.get(criteria), value);
             case GREATEROREQUAL:
-                return criteriaBuilder.greaterThanOrEqualTo(c.get(criteria),value);
+                return criteriaBuilder.greaterThanOrEqualTo(c.get(criteria), value);
             case LOWEROREQUAL:
-                return criteriaBuilder.lessThanOrEqualTo(c.get(criteria),value);
+                return criteriaBuilder.lessThanOrEqualTo(c.get(criteria), value);
             default:
                 return null;
         }
     }
 
     public int getNumberOfPages(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople, int eventPerPage, List<String> multipleLocations) {
-        int count = filter(title, subtitle, status, highlighted, location, startDate, endDate, startHour, endHour, rateSign, rate, maxPeopleSign, maxPeople, null, null,multipleLocations).getResultList().size();
+        int count = filter(title, subtitle, status, highlighted, location, startDate, endDate, startHour, endHour, rateSign, rate, maxPeopleSign, maxPeople, null, null, multipleLocations).getResultList().size();
         return (int) Math.ceil((float) count / (float) eventPerPage);
     }
 
@@ -345,20 +339,27 @@ public class EventService {
         }
     }
 
-    public List<EventView> filterAndPaginateEventsAttendedByUser(User user, int pageNumber, int limit){
+    public List<EventView> filterAndPaginateEventsAttendedByUser(User user, int pageNumber, int limit) {
         List<EventView> userEventList = new ArrayList<>();
 
-        List<EventView> eventViews = filterAndPaginate(null, null, null, null, null, MIN_DATE, LocalDate.now(), null, null, null, null, null, null, pageNumber, limit, SortCriteria.DATE, false, null);
-        eventViews.forEach(eventView ->{
+        TypedQuery<EventView> eventViewsQuery = filter(null, null, null, null, null, MIN_DATE, LocalDate.now(), null, null, null, null, null, null, SortCriteria.DATE, false, null);
+        List<EventView> eventViews = eventViewsQuery.getResultList();
+        eventViews.forEach(eventView ->
                 this.getEvent(eventView.getId()).getBookings().forEach(booking -> {
                     if (user.getIdentificationString().equals(booking.getUser())) {
                         userEventList.add(eventView);
                     }
-                });});
-        return userEventList;
+                })
+        );
+
+        int fromIndex = (pageNumber - 1) * limit;
+        if (userEventList.isEmpty() || userEventList.size() < fromIndex) {
+            return Collections.emptyList();
+        }
+        return userEventList.subList(fromIndex, Math.min(fromIndex + limit, userEventList.size()));
     }
 
-    public int getHighlightedEventCount(){
+    public int getHighlightedEventCount() {
         return eventRepository.findAllByHighlighted(true).size();
     }
 }
