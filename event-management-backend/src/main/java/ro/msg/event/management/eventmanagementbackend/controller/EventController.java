@@ -20,7 +20,9 @@ import ro.msg.event.management.eventmanagementbackend.exception.ExceededCapacity
 import ro.msg.event.management.eventmanagementbackend.exception.OverlappingEventsException;
 import ro.msg.event.management.eventmanagementbackend.exception.TicketCategoryException;
 import ro.msg.event.management.eventmanagementbackend.security.User;
-import ro.msg.event.management.eventmanagementbackend.service.*;
+import ro.msg.event.management.eventmanagementbackend.service.EventService;
+import ro.msg.event.management.eventmanagementbackend.service.LocationService;
+import ro.msg.event.management.eventmanagementbackend.service.TicketService;
 import ro.msg.event.management.eventmanagementbackend.utils.ComparisonSign;
 import ro.msg.event.management.eventmanagementbackend.utils.SortCriteria;
 
@@ -60,9 +62,8 @@ public class EventController {
     public ResponseEntity<Object> getEvent(@PathVariable long id, @RequestParam(defaultValue = "") String type) {
         try {
             Event event = this.eventService.getEvent(id);
-            switch(type)
-            {
-                case("userEventDetails"):
+            switch (type) {
+                case ("userEventDetails"):
                     EventDto eventDtoForUserEventDetails = convertToDto.convert(event);
                     EventDetailsForUserDto eventDetailsForUserDto = EventDetailsForUserDto.builder()
                             .eventDto(eventDtoForUserEventDetails)
@@ -70,7 +71,7 @@ public class EventController {
                             .locationName(event.getEventSublocations().get(0).getSublocation().getLocation().getName())
                             .build();
                     return new ResponseEntity<>(eventDetailsForUserDto, HttpStatus.OK);
-                case("bookingEventDetails"):
+                case ("bookingEventDetails"):
                     EventDetailsForBookingDto eventDetailsForBookingDto = this.eventDetailsForBookingDtoConverter.convert(event);
                     return new ResponseEntity<>(eventDetailsForBookingDto, HttpStatus.OK);
                 default:

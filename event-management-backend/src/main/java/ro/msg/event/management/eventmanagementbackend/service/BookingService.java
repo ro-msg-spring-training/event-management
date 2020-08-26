@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+import ro.msg.event.management.eventmanagementbackend.controller.dto.BookingCalendarDto;
 import ro.msg.event.management.eventmanagementbackend.entity.Booking;
 import ro.msg.event.management.eventmanagementbackend.entity.Event;
 import ro.msg.event.management.eventmanagementbackend.entity.Ticket;
@@ -13,6 +14,10 @@ import ro.msg.event.management.eventmanagementbackend.repository.BookingReposito
 import ro.msg.event.management.eventmanagementbackend.repository.EventRepository;
 import ro.msg.event.management.eventmanagementbackend.repository.TicketRepository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
+import javax.persistence.TypedQuery;
 import java.util.*;
 
 @Service
@@ -22,6 +27,8 @@ public class BookingService {
     private final BookingRepository bookingRepository;
     private final EventRepository eventRepository;
     private final TicketRepository ticketRepository;
+    @PersistenceContext(type = PersistenceContextType.TRANSACTION)
+    private final EntityManager entityManager;
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public TicketCategory validateAndReturnTicketCategory(Event event, Map.Entry<Long, List<Ticket>> categoryWithTickets) throws TicketBuyingException {
@@ -73,5 +80,15 @@ public class BookingService {
         booking.setEvent(event);
         booking.setTickets(ticketsToSave);
         return this.bookingRepository.save(booking);
+    }
+
+    public List<BookingCalendarDto> getMyBookings(String user) {
+        TypedQuery<BookingCalendarDto> query
+                = entityManager.createQuery(
+                "SELECT NEW ro.msg.event.management.eventmanagementbackend.controller.dto.BookingCalendarDto(b.id, e.startDate, e.endDate, e.title)" +
+                        " FROM Booking b JOIN b.event e WHERE b.user = :user ORDER BY e.startDate", BookingCalendarDto.class);
+        query.setParameter("user", user);
+        return query.getResultList();
+
     }
 }
