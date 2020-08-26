@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TicketsStep from './steps/TicketsStep';
 import EmailStep from './steps/EmailStep';
 import NamesStep from './steps/NamesStep';
 import TermsAndConditionsStep from './steps/TermsAndConditionsStep';
 import Booking from '../../../model/Booking';
-import classes from '*.module.css';
 import { Tooltip, IconButton, makeStyles, Theme } from '@material-ui/core';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import CloseIcon from '@material-ui/icons/Close';
+import { TicketAvailabilityData } from '../../../model/TicketAvailabilityData';
 
 const BuyTicketsSecondPageDumbStyle = makeStyles((theme: Theme) => ({
   prevButtonStyle: {
@@ -30,15 +30,36 @@ const BuyTicketsSecondPageDumbStyle = makeStyles((theme: Theme) => ({
   }
 }))
 
-
-interface BuyTicketsSecondPageDumbProps {
-  gotoFirstPage: any,
-  gotoEventListPage: any
+interface TicketsPerCateory {
+  category: string,
+  quantity: number
 }
 
-function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, }: BuyTicketsSecondPageDumbProps) {
+interface BuyTicketsSecondPageDumbProps {
+  gotoFirstPage: () => void,
+  gotoEventListPage: () => void,
+  ticketCategories: TicketAvailabilityData[],
+}
+
+function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCategories }: BuyTicketsSecondPageDumbProps) {
   const [step, setStep] = useState(1);
-  const [booking, setBooking] = useState<Booking>();
+  const [ticketAmount, setTicketAmount] = useState<TicketsPerCateory[]>([]);
+  // const [booking, setBooking] = useState<Booking>();
+  const [checked, setChecked] = useState(false);
+
+  let initialTicketState: TicketsPerCateory[] = [];
+  useEffect(() => {
+    ticketCategories.map((ticket) => initialTicketState.push({ category: ticket.title, quantity: 0 }))
+    setTicketAmount(initialTicketState);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked);
+  };
+
   const classes = BuyTicketsSecondPageDumbStyle();
 
   // Proceed to next step
@@ -52,19 +73,20 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, }: BuyTick
   //   setState({ [input]: e.target.value });
   // };
 
-  // // const { step } = state;
-  // const { firstName, lastName, email, occupation, city, bio } = state;
-  // const values = { firstName, lastName, email, occupation, city, bio };
   const handleEnterKey = (e: any): void => { e.keyCode === 13 && e.preventDefault(); }
 
   const handleStepperChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const { name, value } = e.target;
 
   }
 
-  const [checked, setChecked] = useState(false);
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(event.target.checked);
-  };
+  const handleTicketsStepChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const { name, value } = e.target;
+    const index = ticketCategories.findIndex(ticket => ticket.title === name)
+    ticketCategories[index].remaining >= Number(value) ?
+      setTicketAmount(ticketAmount.map(item => (item.category === name ? { ...item, 'quantity': Number(value) } : item))) :
+      console.log("Error not that many tickets in stock");
+  }
 
   const buttons =
     <>
@@ -89,7 +111,8 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, }: BuyTick
         <TicketsStep
           nextStep={nextStep}
           handleEnterKey={handleEnterKey}
-          handleStepperChange={handleStepperChange}
+          handleTicketsStepChange={handleTicketsStepChange}
+          ticketCategories={ticketCategories}
         />
       break;
     case 2:
@@ -108,6 +131,8 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, }: BuyTick
           prevStep={prevStep}
           handleEnterKey={handleEnterKey}
           handleStepperChange={handleStepperChange}
+          ticketCategories={ticketCategories}
+          ticketAmount={ticketAmount}
         />
       break;
     case 4:

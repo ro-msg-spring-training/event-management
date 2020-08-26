@@ -17,6 +17,13 @@ export const userBuyTicketsStyle = makeStyles((theme: Theme) => ({
     color: theme.palette.primary.dark,
   },
   buttonPosition: {
-    left:"7%"
+    left: "7%"
+  },
+  alignHelpIcon: {
+    margin: "10px",
+  },
+  gridStyle: {
+    maxHeight: window.innerHeight - 200,
+    overflow: 'auto',
   }
 }));

@@ -5,8 +5,6 @@ import { TicketAvailabilityData } from '../../../model/TicketAvailabilityData';
 import { Container, CircularProgress, makeStyles, Theme, Tooltip, IconButton } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import BuyTicketsSecondPageDumb from './BuyTicketsSecondPageDumb';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import CloseIcon from '@material-ui/icons/Close';
 
 interface BuyTicketsSecondPageSmartProps {
   match: any,
@@ -48,16 +46,13 @@ function BuyTicketsSecondPageSmart({ match, fetchedData, fetchTicketCategories }
   }
 
   return (
-    <>
-      <div className="wrapper">
-        <BuyTicketsSecondPageDumb
-          gotoFirstPage={gotoFirstPage}
-          gotoEventListPage={gotoEventListPage}
-        />
-      </div>
-
-
-    </>
+    <div className="wrapper">
+      <BuyTicketsSecondPageDumb
+        gotoFirstPage={gotoFirstPage}
+        gotoEventListPage={gotoEventListPage}
+        ticketCategories={fetchedData.ticketCategory}
+      />
+    </div>
   );
 };
 

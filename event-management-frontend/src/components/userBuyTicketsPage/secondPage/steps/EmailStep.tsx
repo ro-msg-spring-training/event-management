@@ -16,7 +16,7 @@ function EmailStep({ nextStep, prevStep, handleEnterKey, handleStepperChange }: 
 
   return (
     <>
-      <Typography className={classes.typography}>Please type in your email address</Typography>
+      <Typography className={classes.typography} align="center">Please type in your email address</Typography>
       <Grid container direction="row" justify="center" alignItems="center">
         <Grid item xs={7} sm={7} md={7} lg={7} xl={7}>
           <TextField

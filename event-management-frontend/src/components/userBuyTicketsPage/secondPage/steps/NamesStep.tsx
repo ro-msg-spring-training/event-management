@@ -1,36 +1,41 @@
 import React, { Component } from 'react';
 import { useStyles } from '../../../../styles/CommonStyles';
-import { Button, Grid, Typography, TextField } from '@material-ui/core';
+import { Button, Grid, Typography, TextField, Paper } from '@material-ui/core';
 import { userBuyTicketsStyle } from '../../../../styles/UserBuyTicketsStyle';
+import { TicketAvailabilityData } from '../../../../model/TicketAvailabilityData';
+
+interface TicketsPerCateory {
+  category: string,
+  quantity: number
+}
 
 interface NamesStepProps {
   nextStep: () => void,
   prevStep: () => void,
   handleEnterKey: (e: any) => void,
   handleStepperChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  ticketCategories: TicketAvailabilityData[],
+  ticketAmount: TicketsPerCateory[],
 }
 
-function NamesStep({ nextStep, prevStep, handleEnterKey, handleStepperChange }: NamesStepProps) {
+function NamesStep({ nextStep, prevStep, handleEnterKey, handleStepperChange, ticketCategories, ticketAmount }: NamesStepProps) {
   const buttonClass = useStyles();
   const classes = userBuyTicketsStyle();
 
-  const ticketArr = [
-    { title: "VIP", sold: 3, remaining: 2 },
-    { title: "Standard", sold: 5, remaining: 3 },
-  ]
+  console.log("Final ticket amount: ", ticketAmount);
 
   let inputs = [];
-  for (let i = 0; i < ticketArr.length; i++) {
-    for (let j = 0; j < ticketArr[i].remaining; j++) {
+  for (let i = 0; i < ticketAmount.length; i++) {
+    for (let j = 0; j < ticketAmount[i].quantity; j++) {
       inputs.push(
-        <Grid item xs={10} sm={10} md={10} lg={10} xl={10} key={ticketArr[i].title + "#" + j}>
+        <Grid item xs={12} key={ticketAmount[i].category + "#" + j}>
           <TextField
             className={classes.position}
             onKeyDown={handleEnterKey}
             type="number"
-            name={ticketArr[i].title + "#" + j}
+            name={ticketAmount[i].category + "#" + j}
             fullWidth
-            label={ticketArr[i].title + " #" + j}
+            label={ticketAmount[i].category + " #" + Number(j + 1)}
             variant="outlined"
             onChange={handleStepperChange}
           // error={formErrors.title.length > 0}
@@ -44,9 +49,13 @@ function NamesStep({ nextStep, prevStep, handleEnterKey, handleStepperChange }: 
 
   return (
     <>
-      <Typography className={classes.typography}>Input the names of the people whom are to use the tickets</Typography>
+      <Typography className={classes.typography} align="center" >Input the names of the people whom are to use the tickets</Typography>
       <Grid container direction="row" justify="center" alignItems="center">
-        { inputs }
+
+        <Grid item xs={10} container justify="center" alignItems="center" className={classes.gridStyle}>
+          {inputs}
+        </Grid>
+
         <Grid item container direction="row" justify="center" alignItems="center" className={classes.button}>
           <Grid item xs={4} sm={3} md={2} lg={1} xl={1}>
             <Button variant="contained" className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition}`} onClick={prevStep}> PREV </Button>

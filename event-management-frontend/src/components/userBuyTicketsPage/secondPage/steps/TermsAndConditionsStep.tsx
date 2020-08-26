@@ -21,7 +21,7 @@ function TermsAndConditionsStep({ prevStep, checked, handleCheckboxChange }: Ter
 
   return (
     <>
-      <Typography className={classes.typography}>Terms and Conditions</Typography>
+      <Typography className={classes.typography} align="center">Terms and Conditions</Typography>
       <Grid item container direction="row" justify="center" alignItems="center">
         <Button variant="contained" className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3}`} onClick={handleEventBuyTickets}> BUY TICKETS </Button>
 
