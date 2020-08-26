@@ -46,7 +46,7 @@ function UserEventDetailsDumb(props: UserEventDetailsDumbProps) {
         </Grid>
 
         <Grid item container justify="center">
-          <Grid item xs={8} sm={6} md={5} lg={4} xl={4}>
+          <Grid item xs={9} sm={6} md={5} lg={4} xl={4}>
             <TableContainer>
               <Table aria-label="simple table">
                 <TableBody>
@@ -101,11 +101,11 @@ function UserEventDetailsDumb(props: UserEventDetailsDumbProps) {
         </Grid>
 
         <Grid item container justify="center" alignItems="flex-end" direction="row" className={classes.position}>
-          <Grid item xs={3} sm={2} md={2} lg={1} xl={1}>
+          <Grid item xs={3} sm={2} md={1} lg={1} xl={1}>
             <Button className={`${classes2.buttonStyle2} ${classes2.buttonStyle3}`} onClick={handleBackButton}>  {t("welcome.backButton")} </Button>
           </Grid>
 
-          <Grid item xs={5} sm={2} md={2} lg={1} xl={1} >
+          <Grid item xs={3} sm={2} md={1} lg={1} xl={1} >
             <Button className={`${classes2.buttonStyle2} ${classes2.buttonStyle3}`} onClick={handleJoinButton}>  {t("welcome.joinButton")} </Button>
           </Grid>
         </Grid>

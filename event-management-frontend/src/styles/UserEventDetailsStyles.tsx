@@ -8,9 +8,10 @@ export const useStyles2 = makeStyles(theme => ({
     flexGrow: 1,
   },
   typography: {
-    fontSize: 25,
+    fontSize: 22,
     fontFamily: 'Monospace',
-    textTransform: "uppercase"
+    textTransform: "uppercase",
+    alignText: "center"
   },
   position: {
     marginTop: "2vh",
