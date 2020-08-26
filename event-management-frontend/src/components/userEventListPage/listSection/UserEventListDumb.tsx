@@ -10,7 +10,12 @@ interface UserEventListProps {
     goToEventDetails: (eventId: number) => void
 }
 
-function UserEventListDumb({ events, translation, goToEventDetails }: UserEventListProps) {
+function UserEventListDumb({ 
+    events, 
+    translation, 
+    goToEventDetails 
+}: UserEventListProps) {
+    
     return (
         <Grid container spacing={3}>
             {

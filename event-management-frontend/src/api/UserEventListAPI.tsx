@@ -14,7 +14,7 @@ const computeFilterStringQuery = (filters: UserEventFilters, page: number, limit
     if (filters.title) {
         queryArr.push(`title=${filters.title}`)
     }
-    if (filters.rate) {
+    if (filters.rate || filters.rate === 0) {
         queryArr.push(`rate=${filters.rate}&rateSign=${filters.rateSign}`)
     }
     if (filters.locations) {

@@ -1,5 +1,5 @@
 import { takeEvery, put, call } from "redux-saga/effects";
-import { FETCH_USER_EVENTS, fetchUserEventsSuccess, fetchUserEventsError, fetchUserEventsRequest, fetchUserEventsLocationsSuccess, fetchUserEventsLocationsError, FETCH_USER_EVENTS_LOCATIONS } from "../actions/UserEventListActions";
+import { FETCH_USER_EVENTS, fetchUserEventsSuccess, fetchUserEventsError, fetchUserEventsRequest, fetchUserEventsLocationsSuccess, fetchUserEventsLocationsError, FETCH_USER_EVENTS_LOCATIONS, fetchUserEventsLocationsRequest } from "../actions/UserEventListActions";
 import { fetchEvents, fetchEventsLocations } from "../api/UserEventListAPI";
 import { UserEventIsFilterType } from "../model/UserEventIsFilterType";
 
@@ -24,6 +24,7 @@ export function* watchFetchUserEventsAsync() {
 }
 
 function* fetchUserEventsLocationsAsync() {
+    yield put(fetchUserEventsLocationsRequest())
     try {
         const result = yield call(() => fetchEventsLocations());
         yield put(fetchUserEventsLocationsSuccess(result));

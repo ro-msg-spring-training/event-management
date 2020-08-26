@@ -15,6 +15,8 @@ interface UserEventFilterProps {
     filters: UserEventFilters,
     locations: string[],
     errorRate: string,
+    isLocationsLoading: boolean,
+    isLocationsError: boolean,
     translation: TFunction,
     onChangeInput: (event: ChangeEvent<HTMLInputElement>) => void,
     onChangeLocation: (event: object, value: string | string[], reason: string) => void,
@@ -23,7 +25,20 @@ interface UserEventFilterProps {
     restrictNumberInput: (event: KeyboardEvent<HTMLDivElement>) => void
 }
 
-function UserEventsListFilterDumb({ filters, locations, errorRate, translation, onChangeInput, onChangeLocation, submitForm, resetUserFilters, restrictNumberInput }: UserEventFilterProps) {
+function UserEventsListFilterDumb({
+    filters,
+    locations,
+    errorRate,
+    isLocationsLoading,
+    isLocationsError,
+    translation,
+    onChangeInput,
+    onChangeLocation,
+    submitForm,
+    resetUserFilters,
+    restrictNumberInput
+}: UserEventFilterProps) {
+    
     const commonClasses = useStyles();
     const classes = useUserFilterStyles();
 
@@ -46,7 +61,9 @@ function UserEventsListFilterDumb({ filters, locations, errorRate, translation, 
                         <Grid item xs={12} sm={12} md={8} xl={8}>
                             <Autocomplete
                                 multiple
+                                limitTags={3}
                                 fullWidth
+                                disabled={isLocationsError || isLocationsLoading}
                                 options={locations}
                                 disableCloseOnSelect
                                 filterSelectedOptions
@@ -67,7 +84,12 @@ function UserEventsListFilterDumb({ filters, locations, errorRate, translation, 
                                     </React.Fragment>
                                 )}
                                 renderInput={(params) => (
-                                    <TextField {...params} variant="outlined" label={translation('userEventList.locations')} />
+                                    <TextField {...params}
+                                        variant="outlined"
+                                        label={isLocationsError ?
+                                            translation('userEventList.noLocations') :
+                                            translation('userEventList.locations')}
+                                    />
                                 )}
                                 noOptionsText={translation('userEventList.noOption')}
                             />
@@ -94,6 +116,10 @@ function UserEventsListFilterDumb({ filters, locations, errorRate, translation, 
                                 value={isNaN(filters.rate) ? '' : filters.rate}
                                 variant='outlined'
                                 type='number'
+                                error={errorRate !== ''}
+                                onChange={onChangeInput}
+                                onKeyPress={(e) => restrictNumberInput(e)}
+                                fullWidth
                                 InputProps={{
                                     inputProps: {
                                         max: 100, min: 0,
@@ -104,10 +130,7 @@ function UserEventsListFilterDumb({ filters, locations, errorRate, translation, 
                                         </InputAdornment>
                                     )
                                 }}
-                                error={errorRate !== ''}
-                                onChange={onChangeInput}
-                                onKeyPress={(e) => restrictNumberInput(e)}
-                                fullWidth />
+                            />
                         </Grid>
 
                         <Grid item xs={12} sm={6} md={4} xl={4}>
@@ -117,7 +140,8 @@ function UserEventsListFilterDumb({ filters, locations, errorRate, translation, 
                                     <YellowCheckbox
                                         name='type'
                                         checked={filters.type === UserEventType.PAST}
-                                        onChange={onChangeInput} />
+                                        onChange={onChangeInput}
+                                    />
                                 }
                                 label={translation('userEventList.pastEvents')}
                                 labelPlacement='end'

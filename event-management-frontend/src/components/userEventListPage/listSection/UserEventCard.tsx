@@ -18,7 +18,12 @@ interface UserEventCardProps {
 
 export const noImageAvailableSrc = 'https://www.thegreensheet.com/Public/build/images.min/nophoto.png'
 
-function UserEventCard({ event, translation, goToEventDetails }: UserEventCardProps) {
+function UserEventCard({ 
+    event, 
+    translation, 
+    goToEventDetails 
+}: UserEventCardProps) {
+    
     const classes = useCardStyle();
     const communStyles = useStyles();
 

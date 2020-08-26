@@ -164,6 +164,7 @@
     "filterButton": "Filter",
     "clearButton": "Clear",
     "noOption": "No option",
+    "noLocations": "No locations available",
     "notANumber":"Invalid number",
     "notAValidPercent":"Invalid percent"
   }

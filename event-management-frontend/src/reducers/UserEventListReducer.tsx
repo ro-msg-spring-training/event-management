@@ -1,5 +1,5 @@
 import { UserEventList } from '../model/UserEventList'
-import { FETCH_USER_EVENTS_SUCCESS, FETCH_USER_EVENTS_REQUEST, FETCH_USER_EVENTS_ERROR, UPDATE_IS_FETCHING, UPDATE_USER_FILTERS, FETCH_USER_EVENTS_LOCATIONS_SUCCESS, RESET_USER_FILTERS, SET_FILTER_USER_EVENTS_MODE } from '../actions/UserEventListActions'
+import { FETCH_USER_EVENTS_SUCCESS, FETCH_USER_EVENTS_REQUEST, FETCH_USER_EVENTS_ERROR, UPDATE_IS_FETCHING, UPDATE_USER_FILTERS, FETCH_USER_EVENTS_LOCATIONS_SUCCESS, RESET_USER_FILTERS, SET_FILTER_USER_EVENTS_MODE, FETCH_USER_EVENTS_LOCATIONS_REQUEST, FETCH_USER_EVENTS_LOCATIONS_ERROR } from '../actions/UserEventListActions'
 import { UserEventFilters } from '../model/UserEventFilters'
 import { UserEventType } from '../model/UserEventType'
 import { UserMathRelation } from '../model/UserMathRelation'
@@ -14,6 +14,8 @@ export interface UserEventsPageState {
     isMore: boolean,
     filters: UserEventFilters,
     locations: string[],
+    isLocationsLoading: boolean,
+    isLocationsError: boolean,
     isFilter: UserEventIsFilterType
 }
 
@@ -32,6 +34,8 @@ const initialState = {
         type: UserEventType.UPCOMING
     },
     locations: [],
+    isLocationsLoading: false,
+    isLocationsError: false,
     isFilter: UserEventIsFilterType.NOT_IN_USE
 }
 
@@ -62,10 +66,22 @@ export const UserEventsReducer = (state = initialState, action: ReducerActionPro
                 isMore: false,
                 isFetching: false
             }
+        case FETCH_USER_EVENTS_LOCATIONS_REQUEST:
+            return {
+                ...state,
+                isLocationsLoading: true
+            }
         case FETCH_USER_EVENTS_LOCATIONS_SUCCESS:
             return {
                 ...state,
-                locations: action.payload
+                locations: action.payload,
+                isLocationsLoading: false,
+            }
+        case FETCH_USER_EVENTS_LOCATIONS_ERROR:
+            return {
+                ...state,
+                isLocationsLoading: false,
+                isLocationsError: true
             }
         case UPDATE_IS_FETCHING:
             return {

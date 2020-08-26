@@ -163,7 +163,8 @@
         "filterButton": "Filtrare",
         "clearButton": "Resetare",
         "noOption": "Fără opțiuni",
+        "noLocations": "Locațiile nu sunt disponibile",
         "notANumber": "Număr invalid",
-        "notAValidPercent": "Procent invalid",
+        "notAValidPercent": "Procent invalid"
       }
 }

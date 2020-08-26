@@ -24,7 +24,19 @@ interface UserEventListProps {
     fetchUserEvents: (page: number, limit: number, isFilter: UserEventIsFilterType, filters: UserEventFilters) => void
 }
 
-function UserEventListSmart({ events, isError, isMore, isFetching, isFilter, filters, page, limit, fetchUserEvents, setIsFetching }: UserEventListProps) {
+function UserEventListSmart({ 
+    events, 
+    isError, 
+    isMore, 
+    isFetching, 
+    isFilter, 
+    filters, 
+    page, 
+    limit, 
+    fetchUserEvents, 
+    setIsFetching 
+}: UserEventListProps) {
+    
     const history = useHistory();
     const [translation] = useTranslation();
 

@@ -12,14 +12,26 @@ import { UserMathRelation } from '../../../model/UserMathRelation';
 interface UserEventFilterProps {
     filters: UserEventFilters,
     locations: string[],
+    isLocationsLoading: boolean,
+    isLocationsError: boolean,
     updateUserFilters: (filters: UserEventFilters) => void,
     fetchUserEventsLocations: () => void,
     resetUserFilters: () => void,
     setUserFilterMode: () => void
 }
 
-function UserEventsListFilterSmart({ filters, locations, updateUserFilters, fetchUserEventsLocations, resetUserFilters, setUserFilterMode }: UserEventFilterProps) {
-    const [errorRate, setErrorRate] = useState('')
+function UserEventsListFilterSmart({ 
+    filters, 
+    locations, 
+    isLocationsLoading, 
+    isLocationsError, 
+    updateUserFilters, 
+    fetchUserEventsLocations, 
+    resetUserFilters, 
+    setUserFilterMode 
+}: UserEventFilterProps) {
+    
+    const [errorRate, setErrorRate] = useState('');
     const [translation] = useTranslation();
 
     useEffect(() => {
@@ -58,7 +70,6 @@ function UserEventsListFilterSmart({ filters, locations, updateUserFilters, fetc
                 break;
             case 'rate':
                 validateOccRate(value)
-                console.log('value', value, parseInt(value))
                 newFilters.rate = parseInt(value);
                 break;
             case 'type':
@@ -91,8 +102,6 @@ function UserEventsListFilterSmart({ filters, locations, updateUserFilters, fetc
     const resetFilters = () => {
         setErrorRate('');
         resetUserFilters();
-        console.log(filters)
-
     }
 
     return (
@@ -100,6 +109,8 @@ function UserEventsListFilterSmart({ filters, locations, updateUserFilters, fetc
             filters={filters}
             locations={locations}
             errorRate={errorRate}
+            isLocationsLoading={isLocationsLoading}
+            isLocationsError={isLocationsError}
             translation={translation}
             submitForm={submitForm}
             onChangeInput={onChangeInput}
@@ -112,7 +123,9 @@ function UserEventsListFilterSmart({ filters, locations, updateUserFilters, fetc
 
 const mapStateToProps = (state: AppState) => ({
     filters: state.userEvents.filters,
-    locations: state.userEvents.locations
+    locations: state.userEvents.locations,
+    isLocationsLoading: state.userEvents.isLocationsLoading,
+    isLocationsError: state.userEvents.isLocationsError
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
