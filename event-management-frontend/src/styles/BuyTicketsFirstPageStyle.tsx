@@ -105,6 +105,15 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
   styleblock: {
     display: "block",
   },
+  cancelButton: {
+    float: "right",
+    fontSize: "large !important ",
+    background: themeDark.palette.secondary.dark,
+    "&:hover": {
+      backgroundImage: "linear-gradient(45deg, #f9c929 10%, #f2ac0a 50%, #ed4d6e 90%)",
+    },
+    marginRight: "3%",
+  },
 }));
 
 export default useStylesbuyTicketFirstPage;

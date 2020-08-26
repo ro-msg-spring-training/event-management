@@ -7,8 +7,9 @@ import { useStyles } from "../../../styles/CommonStyles";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import "../../../styles/ReservePageStyle.css";
 import ErrorIcon from "@material-ui/icons/Error";
-import EventDetailBuyPage from "./EventDetailBuyPageDumb";
 import EventDetailBuyPageDumb from "./EventDetailBuyPageDumb";
+import CloseIcon from "@material-ui/icons/Close";
+
 interface Props {
   event: EventReserveTicketType;
   isError: boolean;
@@ -42,6 +43,7 @@ const BuyTicketFirstPageDumb = (props: Props) => {
               ></EventDetailBuyPageDumb>
             )}
           </Paper>
+
           <Link to={`/user`} className={reserveTicketFirstPage.link}>
             <Tooltip title="Go to second page">
               <IconButton
@@ -49,6 +51,16 @@ const BuyTicketFirstPageDumb = (props: Props) => {
                 disabled={props.radioButtonState === "seat"}
               >
                 <NavigateNextIcon color="secondary" />
+              </IconButton>
+            </Tooltip>
+          </Link>
+
+          <Link to={`/user`} className={reserveTicketFirstPage.link}>
+            <Tooltip title="Cancel">
+              <IconButton
+                className={`${classes.buttonStyle3} ${reserveTicketFirstPage.cancelButton} ${reserveTicketFirstPage.textStyle} `}
+              >
+                <CloseIcon color="secondary" />
               </IconButton>
             </Tooltip>
           </Link>
