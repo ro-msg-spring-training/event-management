@@ -71,13 +71,13 @@ class UpdateEventIntegrationTests {
         Booking booking = new Booking(LocalDateTime.of(2020, 8, 17, 3, 35), "user", event, null);
         bookingRepository.save(booking);
 
-        TicketCategory ticketCategory = new TicketCategory("title", "subtitle", (float) 40, "desc", 3, event, null);
+        TicketCategory ticketCategory = new TicketCategory("title", "subtitle", (float) 40, "desc", 3, true, event, null);
         ticketCategoryRepository.save(ticketCategory);
 
         Ticket ticket = new Ticket("name", "address@yahoo.com", booking, ticketCategory, null);
         ticketRepository.save(ticket);
 
-        TicketCategory ticketCategoryToUpdate = new TicketCategory("NewTitleCategory", "subtitle", (float) 40, "desc", 3, event, null);
+        TicketCategory ticketCategoryToUpdate = new TicketCategory("NewTitleCategory", "subtitle", (float) 40, "desc", 3, true,event, null);
         ticketCategoryToUpdate.setId(ticketCategory.getId());
         List<TicketCategory> ticketCategoryList = new ArrayList<>();
         ticketCategoryList.add(ticketCategoryToUpdate);

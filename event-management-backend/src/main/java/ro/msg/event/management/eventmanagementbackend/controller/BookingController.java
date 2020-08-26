@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ro.msg.event.management.eventmanagementbackend.controller.converter.CategoryAndTicketsMapReverseConverter;
 import ro.msg.event.management.eventmanagementbackend.controller.converter.Converter;
+import ro.msg.event.management.eventmanagementbackend.controller.dto.BookingCalendarDto;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.BookingDto;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.BookingSaveDto;
 import ro.msg.event.management.eventmanagementbackend.entity.Booking;
@@ -17,6 +18,7 @@ import ro.msg.event.management.eventmanagementbackend.exception.TicketBuyingExce
 import ro.msg.event.management.eventmanagementbackend.security.User;
 import ro.msg.event.management.eventmanagementbackend.service.BookingService;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -24,9 +26,9 @@ import java.util.NoSuchElementException;
 @AllArgsConstructor
 @CrossOrigin
 public class BookingController {
-    private BookingService bookingService;
-    private Converter<BookingSaveDto, Booking> bookingSaveReverseConverter;
-    private Converter<Booking, BookingDto> bookingConverter;
+    private final BookingService bookingService;
+    private final Converter<BookingSaveDto, Booking> bookingSaveReverseConverter;
+    private final Converter<Booking, BookingDto> bookingConverter;
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
@@ -48,5 +50,13 @@ public class BookingController {
         } catch (NoSuchElementException noSuchElementException) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, noSuchElementException.getMessage(), noSuchElementException);
         }
+    }
+
+    @GetMapping
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
+    public ResponseEntity<List<BookingCalendarDto>> getAllMyBookings() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) auth.getPrincipal();
+        return new ResponseEntity<>(bookingService.getMyBookings(user.getIdentificationString()), HttpStatus.OK);
     }
 }
