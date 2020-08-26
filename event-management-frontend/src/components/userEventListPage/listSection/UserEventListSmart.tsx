@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from "redux";
 import UserEventListDumb from './UserEventListDumb';
-import { CircularProgress, LinearProgress } from '@material-ui/core';
+import { LinearProgress } from '@material-ui/core';
 import { useHistory } from 'react-router-dom'
 import { UserEventList } from '../../../model/userEventList/UserEventList';
 import { fetchUserEvents, setIsFetching } from '../../../actions/UserEventListActions';
@@ -44,7 +44,9 @@ function UserEventListSmart({
         if (!isFetching) return;
 
         if (isMore) {
+            setTimeout(() => {
             fetchUserEvents(page, limit, isFilter, filters);
+            }, 2000);
         }
     }, [isFetching]);
 
@@ -72,9 +74,11 @@ function UserEventListSmart({
     return (
         <>
             {isError ?
-                <p style={{ textAlign: 'center' }} > {translation("userEventList.errorMessage")} </p> :
+                <p style={{ textAlign: 'center' }}> {translation("userEventList.errorMessage")} </p> :
+
                 isFetching && events.length === 0 ?
                     <LinearProgress /> :
+                    
                     !isFetching && events.length === 0 ?
                         <p style={{ textAlign: 'center' }}> {translation("userEventList.noResults")} </p> :
                         <UserEventListDumb
@@ -82,9 +86,8 @@ function UserEventListSmart({
                             events={events}
                             goToEventDetails={goToEventDetails}
                         />
-
             }
-            {isFetching && <CircularProgress style={{ alignSelf: 'center', margin: '30px' }} />}
+            {isFetching && <LinearProgress style={{ margin: '30px' }} />}
         </>
     )
 }

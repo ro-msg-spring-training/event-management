@@ -61,7 +61,7 @@ function UserEventsListFilterDumb({
 
                         <Grid item xs={12} sm={12} md={8} xl={8}>
                             <Autocomplete
-                            className={classes.textOverflow}
+                                className={classes.textOverflow}
                                 multiple
                                 limitTags={3}
                                 fullWidth
@@ -70,12 +70,13 @@ function UserEventsListFilterDumb({
                                 disableCloseOnSelect
                                 filterSelectedOptions
                                 value={filters.locations}
+                                onChange={onChangeLocation}
+                                noOptionsText={translation('userEventList.noOption')}
                                 renderTags={(value: string[], getTagProps) =>
                                     value.map((option: string, index: number) => (
                                         <Chip variant='outlined' label={option} {...getTagProps({ index })} />
                                     ))
                                 }
-                                onChange={onChangeLocation}
                                 renderOption={(option, { selected }) => (
                                     <React.Fragment>
                                         <YellowCheckbox
@@ -94,7 +95,6 @@ function UserEventsListFilterDumb({
                                             translation('userEventList.locations')}
                                     />
                                 )}
-                                noOptionsText={translation('userEventList.noOption')}
                             />
                         </Grid>
 
@@ -114,8 +114,8 @@ function UserEventsListFilterDumb({
                             </TextField>
 
                             <TextField
-                                className={classes.textOverflow}
                                 name='rate'
+                                className={classes.textOverflow}
                                 label={`${translation('userEventList.rate')} ${errorRate ? ' - ' + errorRate : ''}`}
                                 value={isNaN(filters.rate) ? '' : filters.rate}
                                 variant='outlined'
@@ -139,7 +139,9 @@ function UserEventsListFilterDumb({
 
                         <Grid item xs={12} sm={6} md={4} xl={4}>
                             <FormControlLabel
-                              className={classes.textOverflow}
+                                className={classes.textOverflow}
+                                label={translation('userEventList.pastEvents')}
+                                labelPlacement='end'
                                 control=
                                 {
                                     <YellowCheckbox
@@ -148,8 +150,6 @@ function UserEventsListFilterDumb({
                                         onChange={onChangeInput}
                                     />
                                 }
-                                label={translation('userEventList.pastEvents')}
-                                labelPlacement='end'
                             />
                         </Grid>
                     </Grid>
@@ -180,4 +180,4 @@ function UserEventsListFilterDumb({
     )
 }
 
-export default UserEventsListFilterDumb
+export default UserEventsListFilterDumb;

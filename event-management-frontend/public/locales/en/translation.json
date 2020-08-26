@@ -155,7 +155,7 @@
   },
   "userEventList": {
     "detailsButton": "Details",
-    "errorMessage": "Error",
+    "errorMessage": "Oops, there was an error",
     "noResults": "There is no results",
     "name": "Name",
     "locations": "Locations",

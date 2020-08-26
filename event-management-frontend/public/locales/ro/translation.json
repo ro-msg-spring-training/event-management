@@ -154,7 +154,7 @@
     },
     "userEventList": {
         "detailsButton": "Detalii",
-        "errorMessage": "Eroare",
+        "errorMessage": "Oops, eroare",
         "noResults": "Nu există rezultate",
         "name": "Nume",
         "locations": "Locații",

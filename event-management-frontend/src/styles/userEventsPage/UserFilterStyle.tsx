@@ -34,7 +34,6 @@ export const useUserFilterStyles = makeStyles({
             whiteSpace: 'nowrap'
         },
         display: 'block',
-        overflow: 'hidden',
         width: 'calc(100%)',
         textOverflow: 'ellipsis',
         whiteSpace: 'nowrap'
