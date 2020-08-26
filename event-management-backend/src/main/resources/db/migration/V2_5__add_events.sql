@@ -16,7 +16,7 @@ insert into event_sublocation values(4,7);
 insert into event_sublocation values(2,8);
 insert into ticket_category values(1, 'VIP','best', 50,'really good', 5, 1);
 insert into ticket_category values(2, 'OK','ok', 40,'kind of ok', 10,1);
-insert into ticket_category values(3, 'VIP','best', 50,'really good', 2, 2);
+insert into ticket_category values(3, 'VIP','best', 50,'really good', 3, 2);
 insert into ticket_category values(4, 'Medium','not so good', 100,'for you', 3,2);
 insert into ticket_category values(5, 'Cheap','good deal', 10,'really good',4,2);
 insert into `booking` values(1,timestamp '2020-09-17 18:47:52.69', '6011847a-94c0-4091-b301-ef839c7a10fa',1);
@@ -40,4 +40,4 @@ insert into picture values(7,'https://event-management-pictures.s3-eu-west-1.ama
 insert into picture values(8,'https://event-management-pictures.s3-eu-west-1.amazonaws.com/image-85790-1597922834259-despicable_me_2_minions_wallpaper1_96776.jpg',8);
 insert into picture values(9,'https://event-management-pictures.s3-eu-west-1.amazonaws.com/image-85790-1597922834259-despicable_me_2_minions_wallpaper1_96776.jpg',2);
 insert into picture values(10,'https://event-management-pictures.s3-eu-west-1.amazonaws.com/image-85790-1597922834259-despicable_me_2_minions_wallpaper1_96776.jpg',7);
-insert into picture values(11,'https://event-management-pictures.s3-eu-west-1.amazonaws.com/image-71686-1597835305734-untold.jpg',2)
+insert into picture values(11,'https://event-management-pictures.s3-eu-west-1.amazonaws.com/image-71686-1597835305734-untold.jpg',2);
