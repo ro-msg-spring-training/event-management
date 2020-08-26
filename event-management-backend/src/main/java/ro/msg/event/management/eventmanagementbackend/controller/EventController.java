@@ -40,9 +40,7 @@ import java.util.stream.Collectors;
 @CrossOrigin
 public class EventController {
 
-    private static final int EVENTS_PER_LISTING_PAGE = 5;
     private static final int EVENTS_PER_CARD = 4;
-
     private final EventService eventService;
     private final Converter<Event, EventDto> convertToDto;
     private final Converter<EventDto, Event> convertToEntity;
@@ -181,11 +179,11 @@ public class EventController {
         return eventService.getNumberOfPages(title, subtitle, status, highlighted, location, startDate != null ? LocalDate.parse(startDate) : null, endDate != null ? LocalDate.parse(endDate) : null, startHour != null ? LocalTime.parse(startHour) : null, endHour != null ? LocalTime.parse(endHour) : null, rateSign, rate, maxPeopleSign, maxPeople, limit, null);
     }
 
-    @GetMapping("/latest/{pageNumber}")
+    @GetMapping("/latest")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<EventListingDto>> chronologicalPaginatedEvents(@PathVariable int pageNumber) {
+    public ResponseEntity<List<EventListingDto>> chronologicalPaginatedEvents(@RequestParam Integer limit,@RequestParam Integer pageNumber) {
         try {
-            List<EventView> eventViews = eventService.filterAndPaginate(null, null, null, null, null, LocalDate.now(), MAX_DATE, null, null, null, null, null, null, pageNumber, EVENTS_PER_LISTING_PAGE, SortCriteria.DATE, true, null);
+            List<EventView> eventViews = eventService.filterAndPaginate(null, null, null, null, null, LocalDate.now(), MAX_DATE, null, null, null, null, null, null, pageNumber, limit, SortCriteria.DATE, true, null);
             return new ResponseEntity<>(converterToListingDto.convertAll(eventViews), HttpStatus.OK);
         } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, indexOutOfBoundsException.getMessage(), indexOutOfBoundsException);
@@ -193,8 +191,8 @@ public class EventController {
     }
 
     @GetMapping("latest/lastPage")
-    public Integer getNumberOgPagesOnAdminHomepage() {
-        return eventService.getNumberOfPages(null, null, null, null, null, LocalDate.now(), MAX_DATE, null, null, null, null, null, null, EVENTS_PER_LISTING_PAGE, null);
+    public Integer getNumberOgPagesOnAdminHomepage(@RequestParam Integer limit) {
+        return eventService.getNumberOfPages(null, null, null, null, null, LocalDate.now(), MAX_DATE, null, null, null, null, null, null,limit, null);
     }
 
     @GetMapping("/upcoming")

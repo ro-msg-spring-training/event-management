@@ -25,6 +25,8 @@ public class TicketCategory extends BaseEntity {
 
     private int ticketsPerCategory;
 
+    private boolean available;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "event")
     private Event event;

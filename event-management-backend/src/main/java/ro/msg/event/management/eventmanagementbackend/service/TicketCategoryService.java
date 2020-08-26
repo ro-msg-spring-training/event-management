@@ -80,10 +80,7 @@ public class TicketCategoryService {
         }
 
         ticketCategory.setTicketsPerCategory(update.getTicketsPerCategory());
-        ticketCategory.setDescription(update.getDescription());
-        ticketCategory.setPrice(update.getPrice());
-        ticketCategory.setSubtitle(update.getSubtitle());
-        ticketCategory.setTitle(update.getTitle());
+        ticketCategory.setAvailable(update.isAvailable());
 
         long sumNumberOfTicketsPerCategory = 0;
         for (TicketCategory category : ticketCategory.getEvent().getTicketCategories()) {

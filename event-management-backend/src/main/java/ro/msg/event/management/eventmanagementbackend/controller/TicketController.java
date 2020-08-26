@@ -22,7 +22,6 @@ import java.util.List;
 @CrossOrigin
 public class TicketController {
 
-    private static final int TICKETS_PER_PAGE = 5;
     private final TicketService ticketService;
     private final Converter<TicketView, TicketListingDto> convertToTicketDto;
 
@@ -32,18 +31,18 @@ public class TicketController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
-    @GetMapping("/filter/{pageNumber}")
-    public ResponseEntity<List<TicketListingDto>> getFilteredTickets(@PathVariable Integer pageNumber, @RequestParam(required = false) String title, @RequestParam(required = false) String startDate, @RequestParam(required = false) String endDate) {
+    @GetMapping("/filter")
+    public ResponseEntity<List<TicketListingDto>> getFilteredTickets(@RequestParam Integer limit,@RequestParam Integer pageNumber, @RequestParam(required = false) String title, @RequestParam(required = false) String startDate, @RequestParam(required = false) String endDate) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String user = ((User) auth.getPrincipal()).getIdentificationString();
-        List<TicketView> ticketViews = ticketService.getFilteredAndPaginated(user, title, startDate != null ? LocalDate.parse(startDate) : null, endDate != null ? LocalDate.parse(endDate) : null, pageNumber, TICKETS_PER_PAGE);
+        List<TicketView> ticketViews = ticketService.getFilteredAndPaginated(user, title, startDate != null ? LocalDate.parse(startDate) : null, endDate != null ? LocalDate.parse(endDate) : null, pageNumber, limit);
         return new ResponseEntity<>(convertToTicketDto.convertAll(ticketViews), HttpStatus.OK);
     }
 
     @GetMapping("filter/lastPage")
-    public Integer getNumberOfPages(@RequestParam(required = false) String title, @RequestParam(required = false) String startDate, @RequestParam(required = false) String endDate) {
+    public Integer getNumberOfPages(@PathVariable Integer limit,@RequestParam(required = false) String title, @RequestParam(required = false) String startDate, @RequestParam(required = false) String endDate) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String user = ((User) auth.getPrincipal()).getIdentificationString();
-        return ticketService.getNumberOfPages(user, title, startDate != null ? LocalDate.parse(startDate) : null, endDate != null ? LocalDate.parse(endDate) : null, TICKETS_PER_PAGE);
+        return ticketService.getNumberOfPages(user, title, startDate != null ? LocalDate.parse(startDate) : null, endDate != null ? LocalDate.parse(endDate) : null, limit);
     }
 }

@@ -16,4 +16,5 @@ public class TicketCategoryDto {
     private float price;
     private String description;
     private int ticketsPerCategory;
+    private boolean available;
 }
