@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { Ticket } from "../../../model/Ticket";
 import {createStyles, Theme, withStyles} from "@material-ui/core/styles";
 import { useStyles } from '../../../styles/CommonStyles';
+import { useStylesTickets } from '../../../styles/ticketsListStyles';
 import { useTranslation } from "react-i18next";
 
 
@@ -33,6 +34,7 @@ interface Props {
 
 const TicketDetailsDumb = (props: Props) => {
     const commonClasses = useStyles()
+    const classes = useStylesTickets()
     const [t] = useTranslation();
 
     const id = props.ticket.bookingId;
@@ -58,16 +60,18 @@ const TicketDetailsDumb = (props: Props) => {
             </StyledTableCell>
             <StyledTableCell
                 key={"category"} align={"center"}
-                padding={"default"} size={"small"}>{category}
+                padding={"default"} size={"small"}
+                className={classes.ticketColumnMobile}>{category}
             </StyledTableCell>
             <StyledTableCell
                 key={"name"} align={"center"}
-                padding={"default"} size={"small"}>{name}
+                padding={"default"} size={"small"}
+                className={classes.ticketColumnMobile}>{name}
             </StyledTableCell>
 
             <StyledTableCell key={"pdfUrl"} align={"center"}
-                             padding={"default"} size={"medium"}>
-                <Link to={pdfUrl} style={{ textDecoration: 'none' }}>
+                             size={"medium"} className={classes.pdfButton}>
+                <Link to={pdfUrl} className={classes.linkDecoration}>
                     <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3}`}>
                         {t("eventList.open")}
                     </Button>

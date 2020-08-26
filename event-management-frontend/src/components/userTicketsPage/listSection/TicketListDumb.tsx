@@ -8,7 +8,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { useTranslation } from "react-i18next";
-import { useStyles } from '../../../styles/ticketsListStyles';
+import { useStylesTickets } from '../../../styles/ticketsListStyles';
 import ErrorIcon from "@material-ui/icons/Error";
 import {Ticket} from "../../../model/Ticket";
 import TicketDetailsDumb from "./TicketDetailsDumb";
@@ -22,13 +22,13 @@ interface Props {
 }
 
 const TicketListDumb = (props: Props) => {
-    const classes = useStyles()
+    const classes = useStylesTickets()
     const [t] = useTranslation();
 
     const ticketsDetails = props.ticketsDetails;
 
     return (
-            <div className={classes.pageContainer}>
+            <div className={`${classes.pageContainer} ticketResponsive`}>
                 <Typography className={classes.ticketsTitle}>{t("ticketList.myTickets")}</Typography>
                 <TableContainer component={Paper} className={classes.pageContainer}>
 
@@ -62,12 +62,14 @@ const TicketListDumb = (props: Props) => {
                                         </TableCell>
 
                                         <TableCell key={"category"} align={"center"}
-                                                   padding={"default"} size={"medium"}>
+                                                   padding={"default"} size={"medium"}
+                                                   className={classes.ticketColumnMobile}>
                                             {t("ticketList.category")}
                                         </TableCell>
 
                                         <TableCell key={"name"} align={"center"}
-                                                   padding={"default"} size={"medium"}>
+                                                   padding={"default"} size={"medium"}
+                                                   className={classes.ticketColumnMobile}>
                                             {t("ticketList.name")}
                                         </TableCell>
 
