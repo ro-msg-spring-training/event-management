@@ -155,6 +155,17 @@
   },
   "userEventList": {
     "detailsButton": "Details",
-    "errorMessage": "Error"
+    "errorMessage": "Error",
+    "noResults": "There is no results",
+    "name": "Name",
+    "locations": "Locations",
+    "rate": "Ocuppancy rate",
+    "pastEvents": "Past events",
+    "filterButton": "Filter",
+    "clearButton": "Clear",
+    "noOption": "No option",
+    "noLocations": "No locations available",
+    "notANumber":"Invalid number",
+    "notAValidPercent":"Invalid percent"
   }
 }

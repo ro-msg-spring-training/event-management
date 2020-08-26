@@ -1,16 +1,22 @@
 import { makeStyles } from "@material-ui/core";
 
-export const useCardStyle = makeStyles({
+export const useCardStyle = makeStyles( theme =>({
     root: {
-        minHeight: '64vh',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between'
     },
     imageWrapper: {
         width: '100%',
-        height: '32vh',
-        backgroundSize: 'cover'
+        height: '300px',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        cursor: 'pointer'
+    },
+    detailsButton: {
+        height: '50px',
+        width: '100%',
+        borderRadius: 0
     },
     eventInfo: {
         display: 'flex',
@@ -24,16 +30,28 @@ export const useCardStyle = makeStyles({
             justifyContent: 'center'
         }
     },
-    detailsButton: {
-        height: '50px',
-        width: '100%',
-        borderRadius: 0
-    },
-    iconInfo: {
-        marginRight: '8px', 
+    eventIconInfo: {
+        marginRight: '8px',
         color: '#f2ac0a'
     },
-    link: {
-        textDecoration: 'none'
+    eventDivInfo: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        width: '100%'
+    },
+    eventTextInfo: {
+        display: 'block',
+        overflow: 'hidden',
+        width: 'calc(100%)',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap'
+    },
+    eventTitle: {
+        color: theme.palette.primary.main,
+        cursor: 'pointer',
+        '&:hover':{
+            color: theme.palette.primary.light
+        }
     }
-})
+}))

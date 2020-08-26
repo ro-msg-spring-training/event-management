@@ -4,10 +4,9 @@ import EventIcon from '@material-ui/icons/Event';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import QueryBuilderIcon from '@material-ui/icons/QueryBuilder';
 import GroupIcon from '@material-ui/icons/Group';
-import { UserEventList } from '../../../model/UserEventList';
+import { UserEventList } from '../../../model/userEventList/UserEventList';
 import { useCardStyle } from '../../../styles/userEventsPage/UserEventCardStyle';
 import { useStyles } from '../../../styles/CommonStyles';
-import { Link } from 'react-router-dom';
 import { TFunction } from 'i18next';
 
 interface UserEventCardProps {
@@ -18,47 +17,59 @@ interface UserEventCardProps {
 
 export const noImageAvailableSrc = 'https://www.thegreensheet.com/Public/build/images.min/nophoto.png'
 
-function UserEventCard({ event, translation, goToEventDetails }: UserEventCardProps) {
+function UserEventCard({
+    event,
+    translation,
+    goToEventDetails
+}: UserEventCardProps) {
+
     const classes = useCardStyle();
     const communStyles = useStyles();
 
     return (
         <Paper className={classes.root}>
-            <div>
-                <Link to={`/user/event/${event.id}`}>
-                    <div
-                        className={classes.imageWrapper}
-                        style={{
-                            backgroundImage: 'url(' + (event.picture? event.picture : noImageAvailableSrc) + ')',
-                        }} />
-                </Link>
+            <div
+                onClick={e => goToEventDetails(event.id)}
+                className={classes.imageWrapper}
+                style={{
+                    backgroundImage: 'url(' + (event.picture ? event.picture : noImageAvailableSrc) + ')',
+                }} />
 
-                <div className={classes.eventInfo}>
-                    <Link to={`/user/event/${event.id}`} className={classes.link}>
-                        <Typography variant="h6" color={"primary"}>
-                            {event.title}
-                        </Typography>
-                    </Link>
+            <div className={classes.eventInfo}>
+                <Typography
+                    variant="h6"
+                    className={`${classes.eventTextInfo} ${classes.eventTitle}`}
+                    onClick={e => goToEventDetails(event.id)}
+                >
+                    {event.title}
+                </Typography>
 
-                    <div>
-                        <LocationOnIcon className={classes.iconInfo} />
+                <div className={classes.eventDivInfo}>
+                    <LocationOnIcon className={classes.eventIconInfo} />
+                    <Typography variant="subtitle1" className={classes.eventTextInfo}>
                         {event.location}
-                    </div>
+                    </Typography>
+                </div>
 
-                    <div>
-                        <EventIcon className={classes.iconInfo} />
+                <div className={classes.eventDivInfo}>
+                    <EventIcon className={classes.eventIconInfo} />
+                    <Typography variant="subtitle1" className={classes.eventTextInfo}>
                         {event.startDate} - {event.endDate}
-                    </div>
+                    </Typography>
+                </div>
 
-                    <div>
-                        <QueryBuilderIcon className={classes.iconInfo} />
+                <div className={classes.eventDivInfo}>
+                    <QueryBuilderIcon className={classes.eventIconInfo} />
+                    <Typography variant="subtitle1" className={classes.eventTextInfo}>
                         {event.startTime} - {event.endTime}
-                    </div>
+                    </Typography>
+                </div>
 
-                    <div>
-                        <GroupIcon className={classes.iconInfo} />
+                <div className={classes.eventDivInfo}>
+                    <GroupIcon className={classes.eventIconInfo} />
+                    <Typography variant="subtitle1" className={classes.eventTextInfo}>
                         {event.rate}%
-                    </div>
+                        </Typography>
                 </div>
             </div>
 
