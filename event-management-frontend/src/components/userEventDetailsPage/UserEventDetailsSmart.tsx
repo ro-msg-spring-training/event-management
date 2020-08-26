@@ -3,7 +3,7 @@ import { EventCrud } from '../../model/EventCrud';
 import { EventImage } from '../../model/EventImage';
 import { EventFormErrors } from '../../model/EventFormErrors';
 import { connect } from 'react-redux';
-import { loadEventWithLocations, loadEvent } from '../../actions/HeaderEventCrudActions';
+import { loadEventWithLocations } from '../../actions/HeaderEventCrudActions';
 import UserEventDetailsDumb from './UserEventDetailsDumb';
 import { Container, CircularProgress } from '@material-ui/core';
 
