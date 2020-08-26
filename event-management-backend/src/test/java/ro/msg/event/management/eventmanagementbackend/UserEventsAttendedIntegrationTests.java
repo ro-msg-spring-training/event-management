@@ -3,6 +3,7 @@ package ro.msg.event.management.eventmanagementbackend;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.*;
 import org.springframework.transaction.annotation.Transactional;
 import ro.msg.event.management.eventmanagementbackend.entity.Booking;
 import ro.msg.event.management.eventmanagementbackend.entity.Event;
@@ -48,10 +49,14 @@ class UserEventsAttendedIntegrationTests {
         bookingList.add(bookingUser);
         event.setBookings(bookingList);
 
-        List<EventView> eventViews = eventService.filterAndPaginateEventsAttendedByUser(user,1,1);
+        Pageable pageable = PageRequest.of(0, 1, Sort.by(Sort.Direction.DESC,"startDate"));
 
-        assertThat(eventViews.size()).isEqualTo(1);
-        assertThat(eventViews.get(0).getTitle()).isEqualTo(event.getTitle());
+        Page<Event> eventPage = eventService.filterAndPaginateEventsAttendedByUser(user,pageable);
+
+        assertThat(eventPage.getTotalElements()).isEqualTo(1);
+        assertThat(eventPage.getContent().get(0).getTitle()).isEqualTo(event.getTitle());
+        assertThat(eventPage.getTotalPages()).isEqualTo(1);
+        assertThat(eventPage.isLast()).isTrue();
     }
 
     @Test
@@ -88,9 +93,12 @@ class UserEventsAttendedIntegrationTests {
         bookingListEvent3.add(bookingAnotherUser);
         eventNotAttended.setBookings(bookingListEvent3);
 
-        List<EventView> eventViews = eventService.filterAndPaginateEventsAttendedByUser(user,1,3);
+        Pageable pageable = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC,"startDate"));
 
-        assertThat(eventViews.size()).isEqualTo(2);
+        Page<Event> eventPage = eventService.filterAndPaginateEventsAttendedByUser(user,pageable);
+
+        assertThat(eventPage.getTotalElements()).isEqualTo(2);
+        assertThat(eventPage.isLast()).isTrue();
     }
 
     @Test
@@ -117,9 +125,11 @@ class UserEventsAttendedIntegrationTests {
         bookingListEvent2.add(bookingAnotherUser2);
         eventAttendedByUser2.setBookings(bookingListEvent2);
 
-        List<EventView> eventViews = eventService.filterAndPaginateEventsAttendedByUser(user,1,3);
+        Pageable pageable = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC,"startDate"));
 
-        assertThat(eventViews.size()).isZero();
+        Page<Event> eventPage = eventService.filterAndPaginateEventsAttendedByUser(user, pageable);
+
+        assertThat(eventPage.getTotalElements()).isZero();
     }
 
 }

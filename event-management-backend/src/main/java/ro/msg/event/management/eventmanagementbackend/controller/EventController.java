@@ -2,6 +2,8 @@ package ro.msg.event.management.eventmanagementbackend.controller;
 
 import lombok.RequiredArgsConstructor;
 import net.minidev.json.JSONObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,6 +26,7 @@ import ro.msg.event.management.eventmanagementbackend.service.*;
 import ro.msg.event.management.eventmanagementbackend.utils.ComparisonSign;
 import ro.msg.event.management.eventmanagementbackend.utils.SortCriteria;
 
+import org.springframework.data.domain.Pageable;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -49,6 +52,7 @@ public class EventController {
     private final Converter<EventView, EventListingDto> converterToListingDto;
     private final Converter<EventView, CardsEventDto> converterToCardsEventDto;
     private final Converter<EventView, CardsUserEventDto> converterToUserCardsEventDto;
+    private final Converter<Event, CardsEventDto> converterToCardEventDto;
     private final LocationService locationService;
     private final TicketService ticketService;
     private final Converter<Event, EventDetailsForBookingDto> eventDetailsForBookingDtoConverter;
@@ -261,22 +265,22 @@ public class EventController {
     }
 
     @GetMapping("user/past")
-    public ResponseEntity<JSONObject> userEventsAttended(@RequestParam int pageNumber, @RequestParam int limit) {
+    public ResponseEntity<JSONObject> userEventsAttended(Pageable pageable) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) auth.getPrincipal();
 
-        List<EventView> userEventList = eventService.filterAndPaginateEventsAttendedByUser(user,pageNumber,limit);
-        List<CardsEventDto> returnList = converterToCardsEventDto.convertAll(userEventList);
-
-        List<EventView> checkLastPage = eventService.filterAndPaginateEventsAttendedByUser(user,pageNumber+1,limit);
-        boolean more = !checkLastPage.isEmpty();
+        Page<Event> pageEvent = eventService.filterAndPaginateEventsAttendedByUser(user, pageable);
+        List<Event> events = pageEvent.getContent();
+        List<CardsEventDto> eventsDto = converterToCardEventDto.convertAll(events);
 
         JSONObject responseBody = new JSONObject();
-        responseBody.put("events", returnList);
-        responseBody.put("more", more);
+        responseBody.put("events", eventsDto);
+        responseBody.put("totalPages", pageEvent.getTotalPages());
+        responseBody.put("last", pageEvent.isLast());
+        responseBody.put("totalElements", pageEvent.getTotalElements());
 
-        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+        return  new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
 
     @GetMapping("/highlighted")

@@ -1,6 +1,7 @@
 package ro.msg.event.management.eventmanagementbackend.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.msg.event.management.eventmanagementbackend.entity.*;
@@ -18,6 +19,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
+import org.springframework.data.domain.Pageable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
@@ -339,24 +341,8 @@ public class EventService {
         }
     }
 
-    public List<EventView> filterAndPaginateEventsAttendedByUser(User user, int pageNumber, int limit) {
-        List<EventView> userEventList = new ArrayList<>();
-
-        TypedQuery<EventView> eventViewsQuery = filter(null, null, null, null, null, MIN_DATE, LocalDate.now(), null, null, null, null, null, null, SortCriteria.DATE, false, null);
-        List<EventView> eventViews = eventViewsQuery.getResultList();
-        eventViews.forEach(eventView ->
-                this.getEvent(eventView.getId()).getBookings().forEach(booking -> {
-                    if (user.getIdentificationString().equals(booking.getUser())) {
-                        userEventList.add(eventView);
-                    }
-                })
-        );
-
-        int fromIndex = (pageNumber - 1) * limit;
-        if (userEventList.isEmpty() || userEventList.size() < fromIndex) {
-            return Collections.emptyList();
-        }
-        return userEventList.subList(fromIndex, Math.min(fromIndex + limit, userEventList.size()));
+    public Page<Event> filterAndPaginateEventsAttendedByUser(User user, Pageable pageable) {
+        return eventRepository.findByUser(user.getIdentificationString(), pageable);
     }
 
     public int getHighlightedEventCount() {
