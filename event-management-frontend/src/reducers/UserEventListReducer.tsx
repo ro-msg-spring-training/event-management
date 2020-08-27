@@ -19,11 +19,13 @@ export interface UserEventsPageState {
     isFilter: UserEventIsFilterType
 }
 
+const initialPage = 1
+
 const initialState = {
     events: [],
     isError: false,
     isFetching: false,
-    page: 1,
+    page: initialPage,
     limit: 4,
     isMore: false,
     filters: {
@@ -97,7 +99,7 @@ export const UserEventsReducer = (state = initialState, action: ReducerActionPro
             return {
                 ...state,
                 events: state.isFilter === UserEventIsFilterType.NOT_IN_USE ? state.events : [],
-                page: state.isFilter === UserEventIsFilterType.NOT_IN_USE ? state.page : 1,
+                page: state.isFilter === UserEventIsFilterType.NOT_IN_USE ? state.page : initialPage,
                 isMore: state.isFilter === UserEventIsFilterType.NOT_IN_USE ? state.isMore : false,
                 isFilter: UserEventIsFilterType.NOT_IN_USE,
                 filters: {

@@ -13,30 +13,29 @@ export const useUserFilterStyles = makeStyles({
     filterButtonsArea: {
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'flex-start',
+        alignItems: 'flex-start'
     },
     relationArea: {
         display: 'flex',
-        alignItems: 'flex-start',
+        alignItems: 'flex-start'
     },
     relationSelect: {
-        marginRight: '5px',
+        marginRight: '5px'
     },
     filterButtons: {
-        width: '100%',
+        width: '100%'
     },
     textOverflow: {
         "& .MuiFormLabel-root": {
             display: 'block',
             overflow: 'hidden',
-            width: 'calc(60%)',
+            width: 'calc(100%)',
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap'
         },
         display: 'block',
         width: 'calc(100%)',
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap'
+        textOverflow: 'ellipsis'
     },
     checkboxOverflow: {
         display: 'block',

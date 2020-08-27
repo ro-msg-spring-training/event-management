@@ -45,7 +45,11 @@ export const useCardStyle = makeStyles( theme =>({
         overflow: 'hidden',
         width: 'calc(100%)',
         textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap'
+        whiteSpace: 'nowrap',
+        '&:hover':{
+            overflow: 'visible',
+            whiteSpace: 'normal'
+        }
     },
     eventTitle: {
         color: theme.palette.primary.main,
