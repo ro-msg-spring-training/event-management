@@ -10,8 +10,8 @@ ALTER TABLE `event_sublocation`
 ALTER TABLE `event_sublocation`
     DROP COLUMN `end_date`;
 
-ALTER TABLE `event_sublocation` ALTER COLUMN `event` long NOT NULL;
-ALTER TABLE `event_sublocation` ALTER COLUMN `sublocation` long NOT NULL;
+ALTER TABLE `event_sublocation` ALTER COLUMN `event` bigint NOT NULL;
+ALTER TABLE `event_sublocation` ALTER COLUMN `sublocation` bigint NOT NULL;
 
 ALTER TABLE `event_sublocation`
     ADD CONSTRAINT PK_event_sublocation PRIMARY KEY (`event`,`sublocation`);
