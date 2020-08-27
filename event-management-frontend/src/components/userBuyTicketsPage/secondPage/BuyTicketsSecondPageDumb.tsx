@@ -35,6 +35,11 @@ interface TicketsPerCateory {
   quantity: number
 }
 
+interface TicketNames {
+  ticketTitle: string,
+  names: string[],
+}
+
 interface BuyTicketsSecondPageDumbProps {
   gotoFirstPage: () => void,
   gotoEventListPage: () => void,
@@ -44,6 +49,7 @@ interface BuyTicketsSecondPageDumbProps {
 function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCategories }: BuyTicketsSecondPageDumbProps) {
   const [step, setStep] = useState(1);
   const [ticketAmount, setTicketAmount] = useState<TicketsPerCateory[]>([]);
+  const [ticketNames, setTicketNames] = useState<TicketNames[]>([]);
   // const [booking, setBooking] = useState<Booking>();
   const [checked, setChecked] = useState(false);
 
@@ -51,6 +57,9 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
   useEffect(() => {
     ticketCategories.map((ticket) => initialTicketState.push({ category: ticket.title, quantity: 0 }))
     setTicketAmount(initialTicketState);
+
+    // ticketCategories.map((ticket) => initialTicketNames.push({ ticketTitle: ticket.title, names: [] }))
+    // setTicketNames(initialTicketNames);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -86,6 +95,15 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
     ticketCategories[index].remaining >= Number(value) ?
       setTicketAmount(ticketAmount.map(item => (item.category === name ? { ...item, 'quantity': Number(value) } : item))) :
       console.log("Error not that many tickets in stock");
+
+  }
+
+  // console.log("NAMES ARRAY: ", ticketNames);
+  // console.log("TICKET AMOUNT: ", ticketAmount);
+  const handleNameStepChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const { name, value } = e.target;
+    console.log(name, " ", value);
+    console.log(ticketNames);
   }
 
   const buttons =
@@ -130,9 +148,10 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
           nextStep={nextStep}
           prevStep={prevStep}
           handleEnterKey={handleEnterKey}
-          handleStepperChange={handleStepperChange}
-          ticketCategories={ticketCategories}
+          handleNameStepChange={handleNameStepChange}
           ticketAmount={ticketAmount}
+          ticketNames={ticketNames}
+          setTicketNames={setTicketNames}
         />
       break;
     case 4:
