@@ -168,7 +168,7 @@ public class EventController {
 
     @GetMapping("/latest")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<JSONObject> chronologicalPaginatedEvents(@RequestParam Integer limit, @RequestParam Integer pageNumber, Pageable pageable) {
+    public ResponseEntity<JSONObject> chronologicalPaginatedEvents(Pageable pageable) {
         try {
             Page<EventView> page = eventService.filter(pageable, null, null, null, null, null, LocalDate.now(), MAX_DATE, null, null, null, null, null, null, SortCriteria.DATE, true, null);
             JSONObject responseBody = new JSONObject();
