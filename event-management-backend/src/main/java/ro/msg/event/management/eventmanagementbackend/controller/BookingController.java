@@ -1,6 +1,7 @@
 package ro.msg.event.management.eventmanagementbackend.controller;
 
 import lombok.AllArgsConstructor;
+import net.minidev.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,6 +21,7 @@ import ro.msg.event.management.eventmanagementbackend.service.BookingService;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/bookings")
@@ -54,9 +56,18 @@ public class BookingController {
 
     @GetMapping
     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
-    public ResponseEntity<List<BookingCalendarDto>> getAllMyBookings() {
+    public ResponseEntity<List<JSONObject>> getAllMyBookings() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) auth.getPrincipal();
-        return new ResponseEntity<>(bookingService.getMyBookings(user.getIdentificationString()), HttpStatus.OK);
+        List<JSONObject> objects = bookingService.getMyBookings(user.getIdentificationString()).stream().map(bookingCalendarDto -> {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id", bookingCalendarDto.getId());
+            jsonObject.put("list",bookingService.getDatesInInterval(bookingCalendarDto.getStartDate(),bookingCalendarDto.getEndDate()));
+            jsonObject.put("title",bookingCalendarDto.getTitle());
+            return jsonObject;
+        }).collect(Collectors.toList());
+        return new ResponseEntity<>(objects, HttpStatus.OK);
     }
+
+
 }
