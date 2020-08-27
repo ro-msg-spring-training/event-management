@@ -164,33 +164,33 @@ export const getLastNumber = (filters: EventFilters) => {
 
 export const fetchHomeEvents = () => {
     // All home events
-    const homeUrl = new URL(serverEventsURL + "/latest/1");
+    const homeUrl = new URL(serverEventsURL + "/latest?pageNumber=0&size=2&limit=2");
 
     return fetchWrapper(`${homeUrl}`, { headers: headersAuth })
         .then(response => response.json())
         .then(json => {
-            return json;
+            return json.events;
         })
 }
 
 export const fetchPaginatedHomeEvents = (page: number) => {
     // Paginated home events requests
-    const paginatedUrl = new URL(serverEventsURL + "/latest/" + page);
+    const paginatedUrl = new URL(serverEventsURL + "/latest?pageNumber=" + Number(page - 1) + "&size=2&limit=2");
 
     return fetchWrapper(`${paginatedUrl}`, { headers: headersAuth })
         .then((response) => response.json())
         .then((json) => {
-            return json;
+            return json.events;
         });
 }
 
 export const getLastNumberHome =  () => {
     // Last number from home events
-    const url = serverEventsURL + "/latest/lastPage/";
+    const url = serverEventsURL + "/latest?pageNumber=0&size=2&limit=2"
 
     return fetch(`${url}`, {headers: headersAuth})
         .then((response) => response.json())
         .then((json) => {
-            return json
+            return json.noPages
         });
 }

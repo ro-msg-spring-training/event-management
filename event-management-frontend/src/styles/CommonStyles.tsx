@@ -116,7 +116,7 @@ const useStyles = makeStyles(theme => ({
     position: "relative"
   },
   cardRoot: {
-    minWidth: 275,
+    //minWidth: 275,
     backgroundColor: '#6BB7D0',
     color: "#FFFFFF"
   },
@@ -132,6 +132,19 @@ const useStyles = makeStyles(theme => ({
     width: '25%',
     float: 'right'
   },
+  addEventIconButton: {
+    float: "right",
+    marginTop: 5,
+    color: '#FFFFFF',
+    fontSize: 50,
+    '&:hover': {
+      color: '#F4F5F9',
+    },
+  },
+  marginTop: {
+    marginTop: 20,
+    marginBottom: 20,
+  }
 }));
 
 

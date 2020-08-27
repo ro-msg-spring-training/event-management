@@ -1,5 +1,5 @@
 import React from "react";
-import { ListItem, Typography, Divider, Avatar, Box } from "@material-ui/core";
+import { ListItem, Typography, Divider, Box } from "@material-ui/core";
 import { OccupancyCardType } from "../../types/OcuupancyCardsType";
 import useStylesCards from "../../styles/OccupancyCardsStyle";
 import DateRangeIcon from "@material-ui/icons/DateRange";
@@ -7,9 +7,12 @@ import { useTranslation } from "react-i18next";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import OccupancyCardDate from "./OccupancyCardDate";
+
+
 interface Props {
   eventsList: OccupancyCardType[];
 }
+
 const OccupancyListDumb = (props: Props) => {
   const classCardStyle = useStylesCards();
   const { t } = useTranslation();
@@ -26,8 +29,8 @@ const OccupancyListDumb = (props: Props) => {
                 </Typography>
 
                 <Typography component={"div"} className={classCardStyle.dateRange}>
-                  <DateRangeIcon className={classCardStyle.dateIcon}></DateRangeIcon>
-                  <OccupancyCardDate startDate={event.startDate} endDate={event.endDate}></OccupancyCardDate>
+                  <DateRangeIcon className={classCardStyle.dateIcon}/>
+                  <OccupancyCardDate startDate={event.startDate} endDate={event.endDate}/>
                 </Typography>
               </ListItem>
             </Box>
@@ -40,4 +43,5 @@ const OccupancyListDumb = (props: Props) => {
   );
 };
 
-export default OccupancyListDumb;
+
+export default OccupancyListDumb
