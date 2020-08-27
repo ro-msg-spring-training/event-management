@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Collapse, Typography} from "@material-ui/core";
+import {Box, Button, Collapse, TableHead} from "@material-ui/core";
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import { Link } from "react-router-dom";
@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import IconButton from "@material-ui/core/IconButton";
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import TicketCollapseDumb from "./TicketCollapseDumb";
 
 
 const StyledTableCell = withStyles((theme: Theme) =>
@@ -21,20 +22,10 @@ const StyledTableCell = withStyles((theme: Theme) =>
     }),
 )(TableCell);
 
-const StyledTableRow = withStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            '&:nth-of-type(even)': {
-                backgroundColor: '#F4F5F9',
-            },
-        },
-    }),
-)(TableRow);
-
 interface Props {
-    handleChange: any;
+    handleChange: (index: number) => void;
     ticket: any;
-    open: any;
+    open: Array<boolean>;
     index: number;
 }
 
@@ -56,16 +47,17 @@ const TicketGroupDumb = (props: Props) => {
     const pdfUrl = firstElement.pdfUrl;
     const handleChange = props.handleChange;
     const open = props.open;
-    console.log("here", open)
 
     return (
-        <React.Fragment>
-            <StyledTableRow>
+        <>
+            <TableRow>
                 <TableCell>
-                    <IconButton type="button" aria-label="expand row" size="small" onClick={() => handleChange(index)}>
-                        {open[index] ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                    <IconButton type="button"  size="small" onClick={() => handleChange(index)}>
+                        {open[index] === undefined || !open[index] ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                     </IconButton>
+
                 </TableCell>
+
                 <StyledTableCell
                     key={"id"} align={"center"}
                     padding={"default"} size={"small"}>{id}
@@ -97,16 +89,49 @@ const TicketGroupDumb = (props: Props) => {
                         </Button>
                     </Link>
                 </StyledTableCell>
-            </StyledTableRow>
+            </TableRow>
 
             <Collapse in={open[index]} timeout="auto" unmountOnExit>
-                <TableRow>
-                    <TableCell colSpan={7}>
-                        {tickets.map((ticket: Ticket) => { return ticket.name })}
-                    </TableCell>
-                </TableRow>
+                <Box className={classes.paddingTable}>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell/>
+
+                            <TableCell key={"date"} align={"center"}
+                                       padding={"default"} size={"medium"}>
+                                {t("ticketList.date")}
+                            </TableCell>
+
+                            <TableCell key={"eventName"} align={"center"}
+                                       padding={"default"} size={"medium"}>
+                                {t("ticketList.eventName")}
+                            </TableCell>
+
+                            <TableCell key={"category"} align={"center"}
+                                       padding={"default"} size={"medium"}
+                                       className={classes.ticketColumnMobile}>
+                                {t("ticketList.category")}
+                            </TableCell>
+
+                            <TableCell key={"name"} align={"center"}
+                                       padding={"default"} size={"medium"}
+                                       className={classes.ticketColumnMobile}>
+                                {t("ticketList.name")}
+                            </TableCell>
+
+                            <TableCell key={"pdf"} align={"center"}
+                                       padding={"default"} size={"medium"}>
+                                {t("ticketList.pdf")}
+                            </TableCell>
+                        </TableRow>
+                    </TableHead>
+
+                    {tickets.map((ticket: Ticket) => {
+                        return <TicketCollapseDumb ticket={ticket}/>
+                    })}
+                </Box>
             </Collapse>
-        </React.Fragment>
+        </>
     );
 }
 

@@ -3,7 +3,7 @@ import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import { Container, CircularProgress, Grid } from "@material-ui/core";
+import {Container, CircularProgress, Grid, Box} from "@material-ui/core";
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
@@ -41,8 +41,8 @@ const TicketListDumb = (props: Props) => {
         ticketDictionary.push([key, value])
     }
     const numberOfArrows = ticketDictionary.length
-    const openInitialState = []
-    for (let i = 0; i < numberOfArrows; i ++) {
+    const openInitialState: Array<boolean> = []
+    for (let i = 0; i < numberOfArrows; i++) {
         openInitialState.push(false);
     }
     const [open, setOpen] = React.useState(openInitialState)
@@ -54,14 +54,15 @@ const TicketListDumb = (props: Props) => {
         } else {
             newStateForOpen[index] = !newStateForOpen[index]
         }
-        // TODO: states here
-        console.log(newStateForOpen[0])
-        console.log([newStateForOpen[0]] === [true])
-        setOpen(newStateForOpen)
+
+        const finalState: Array<boolean> = []
+        for (let i = 0; i < newStateForOpen.length; i++) {
+            finalState.push(newStateForOpen[i])
+        }
+        setOpen(finalState)
     }
 
     useEffect(() => {
-      console.log("mount")
     }, [open])
 
     return (
@@ -80,7 +81,7 @@ const TicketListDumb = (props: Props) => {
                                 <CircularProgress />
                             </Grid> :
 
-                            <Table aria-label="customized table">
+                            <Table style={{tableLayout: "fixed"}}>
                                 <TableHead>
                                     <TableRow>
                                         <TableCell/>
@@ -115,11 +116,10 @@ const TicketListDumb = (props: Props) => {
                                                    padding={"default"} size={"medium"}>
                                             {t("ticketList.pdf")}
                                         </TableCell>
-
                                     </TableRow>
                                 </TableHead>
 
-                                <TableBody>
+                                <TableBody >
                                     {
                                         ticketDictionary.map((groupTicket, index) => {
                                             return <TicketGroupDumb key={Number(groupTicket[0])}

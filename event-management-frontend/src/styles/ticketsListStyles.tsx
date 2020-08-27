@@ -31,4 +31,10 @@ export const useStylesTickets = makeStyles(theme => ({
             display: "none"
         }
     },
+    tableCellPadding: {
+      //paddingRight: 30,
+    },
+    paddingTable: {
+        margin: 30,
+    }
 }));
