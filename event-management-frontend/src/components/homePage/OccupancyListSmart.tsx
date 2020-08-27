@@ -15,7 +15,7 @@ import CardsOccupancyDumb from "./CardsOcuppancyDumb";
 
 interface Props {
   isLoading: boolean;
-  isError: string;
+  isError: boolean;
   upcomingEvents: OccupancyCardType[];
   upcomingEventsisLoading: (loadingStatus: boolean) => void;
   upcomingEventsFetchSucces: (upcomnEvents: OccupancyCardType[]) => void;
@@ -44,7 +44,7 @@ const mapStateToProps = (state: AppState) => ({
   upcomingEvents: state.adminHomeCard.upcomingEvents,
   historyEvents: state.adminHomeCard.historyEvents,
   isLoading: state.adminHomeCard.isLoading,
-  isError: state.adminHomeCard.error,
+  isError: state.adminHomeCard.isError,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

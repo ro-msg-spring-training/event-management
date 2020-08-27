@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 interface Props {
   upcomingEvents: OccupancyCardType[];
   historyEvents: OccupancyCardType[];
-  isError: string;
+  isError: boolean;
   isLoading: boolean;
 }
 
