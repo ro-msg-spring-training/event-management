@@ -11,6 +11,7 @@ const ButtonAppBarCollapse = (props: any) => {
     const handleMenu = (event: any) => {
         setAnchorEl(event.currentTarget);
     };
+
     const handleClose = () => {
         setAnchorEl(null);
     };

@@ -1,124 +1,140 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, {useEffect} from 'react';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import {
-    Button,
-    Container,
-    TableFooter,
-    TableSortLabel,
-    CircularProgress,
-    Grid
-} from "@material-ui/core";
+import {Container, CircularProgress, Grid, Box} from "@material-ui/core";
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { Link } from "react-router-dom";
-import { useStyles } from '../../../styles/CommonStyles';
 import { useTranslation } from "react-i18next";
-import { useScrollPosition } from '@n8tb1t/use-scroll-position'
-import { createStyles, Theme, withStyles } from "@material-ui/core/styles";
-import { useListStyles } from '../../../styles/eventListStyles';
+import { useStylesTickets } from '../../../styles/ticketsListStyles';
 import ErrorIcon from "@material-ui/icons/Error";
+import {Ticket} from "../../../model/Ticket";
+import TicketGroupDumb from "./TicketGroupDumb";
+import Typography from "@material-ui/core/Typography";
 
-
-const StyledTableCell = withStyles((theme: Theme) =>
-    createStyles({
-        body: {
-            fontSize: 14,
-            padding: 10,
-        },
-    }),
-)(TableCell);
-
-const PaginationCell = withStyles((theme: Theme) =>
-    createStyles({
-        body: {
-            fontSize: 50,
-            padding: 10,
-        },
-    }),
-)(TableCell);
 
 interface Props {
     isError: boolean,
     isLoading: boolean,
-    ticketsDetails: any[];
+    ticketsDetails: Ticket[];
 }
 
-
 const TicketListDumb = (props: Props) => {
-    const commonClasses = useStyles()
-    const classes = useListStyles()
-
-    const [width, setWidth] = useState(window.innerWidth);
+    const classes = useStylesTickets();
     const [t] = useTranslation();
 
     const ticketsDetails = props.ticketsDetails;
-    useLayoutEffect(() => {
-        function updateSize() {
-            setWidth(window.innerWidth);
+    const groupBy = (array: Ticket[]) => {
+        return array.reduce((result: any, currentValue: Ticket) => {
+            (result[currentValue.bookingId] = result[currentValue.bookingId] || []).push(
+                currentValue
+            );
+            return result;
+        }, {});
+    };
+
+    const ticketsGroupedById = groupBy(ticketsDetails);
+    const ticketDictionary = [];
+    for (let [key, value] of Object.entries(ticketsGroupedById)) {
+        ticketDictionary.push([key, value])
+    }
+    const numberOfArrows = ticketDictionary.length
+    const openInitialState: Array<boolean> = []
+    for (let i = 0; i < numberOfArrows; i++) {
+        openInitialState.push(false);
+    }
+    const [open, setOpen] = React.useState(openInitialState)
+
+    const handleChange = (index: number) => {
+        const newStateForOpen = open
+        if (newStateForOpen[index] === undefined) {
+            newStateForOpen[index] = true
+        } else {
+            newStateForOpen[index] = !newStateForOpen[index]
         }
-        window.addEventListener('resize', updateSize);
-        updateSize();
-        return () => window.removeEventListener('resize', updateSize);
-    }, []);
+
+        const finalState: Array<boolean> = []
+        for (let i = 0; i < newStateForOpen.length; i++) {
+            finalState.push(newStateForOpen[i])
+        }
+        setOpen(finalState)
+    }
+
+    useEffect(() => {
+    }, [open])
 
     return (
-            <Container>
+            <div className={`${classes.pageContainer} ticketResponsive`}>
+                <Typography className={classes.ticketsTitle}>{t("ticketList.myTickets")}</Typography>
                 <TableContainer component={Paper} className={classes.pageContainer}>
 
                     { props.isError ?
                         <Grid container alignItems={"center"} justify={"center"}>
-                            <br /><br /><br /><br /><br /><ErrorIcon color={"primary"} fontSize={"large"} />
+                            <ErrorIcon color={"primary"} fontSize={"large"} />
                             Oops, there was an error
                         </Grid> :
+
                         props.isLoading ?
                             <Grid container alignItems={"center"} justify={"center"}>
-                                <br /><br /><br /><br /><br /><CircularProgress />
+                                <CircularProgress />
                             </Grid> :
 
-                            <Table aria-label="customized table">
+                            <Table style={{tableLayout: "fixed"}}>
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell key={"id"} align={"left"}
+                                        <TableCell/>
+                                        <TableCell key={"id"} align={"center"}
                                                    padding={"default"} size={"medium"}>
                                             {t("ticketList.id")}
                                         </TableCell>
 
-                                        <TableCell key={"date"} align={"left"}
+                                        <TableCell key={"date"} align={"center"}
                                                    padding={"default"} size={"medium"}>
                                             {t("ticketList.date")}
                                         </TableCell>
 
-                                        <TableCell key={"category"} align={"left"}
+                                        <TableCell key={"eventName"} align={"center"}
                                                    padding={"default"} size={"medium"}>
+                                            {t("ticketList.eventName")}
+                                        </TableCell>
+
+                                        <TableCell key={"category"} align={"center"}
+                                                   padding={"default"} size={"medium"}
+                                                   className={classes.ticketColumnMobile}>
                                             {t("ticketList.category")}
                                         </TableCell>
 
-                                        <TableCell key={"name"} align={"left"}
-                                                   padding={"default"} size={"medium"}>
+                                        <TableCell key={"name"} align={"center"}
+                                                   padding={"default"} size={"medium"}
+                                                   className={classes.ticketColumnMobile}>
                                             {t("ticketList.name")}
                                         </TableCell>
 
-                                        <TableCell key={"pdf"} align={"left"}
+                                        <TableCell key={"pdf"} align={"center"}
                                                    padding={"default"} size={"medium"}>
                                             {t("ticketList.pdf")}
                                         </TableCell>
-
-                                        <TableCell/>
                                     </TableRow>
                                 </TableHead>
 
-                                <TableBody>
-                                    {ticketsDetails}
+                                <TableBody >
+                                    {
+                                        ticketDictionary.map((groupTicket, index) => {
+                                            return <TicketGroupDumb key={Number(groupTicket[0])}
+                                                                    ticket={groupTicket[1]}
+                                                                    open={open}
+                                                                    index={index}
+                                                                    handleChange={handleChange}/>
+                                        })
+                                    }
                                 </TableBody>
                             </Table>
                     }
                 </TableContainer>
-            </Container>
+            </div>
         );
 }
 
-export default TicketListDumb;
+export default TicketListDumb

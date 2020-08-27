@@ -6,21 +6,21 @@ import {fetchWrapper} from "./FetchWrapper";
 
 
 const computeLimit = () => {
-    let limit: { limit: number } = { limit: 2};
+    let limit: { limit: string } = { limit: "2"};
 
     return limit;
 }
 
 const computePage = (page: number) => {
-    let pageToSend: { pageNumber: number } = { pageNumber: page};
+    let pageToSend: { pageNumber: string } = { pageNumber: page.toString()};
 
     return pageToSend
 }
 
 const computeSortQueryString = (sort: EventSort) => {
-    let sortToSend: { sortCriteria: string, sortType: number } = {
+    let sortToSend: { sortCriteria: string, sortType: string } = {
         sortCriteria: sort.criteria === "occRate" ? "OCCUPANCY_RATE" : sort.criteria.toUpperCase(),
-        sortType: sort.type === "asc" ? 1 : 0
+        sortType: sort.type === "asc" ? "1" : "0"
     }
 
     return sortToSend;
@@ -76,9 +76,9 @@ export const fetchFilteredEvents = (filters: EventFilters, page: number) => {
     const url = new URL(serverEventsURL);
     url.search = new URLSearchParams(filtersToSend).toString();
     url.search += "&";
-    url.search += new URLSearchParams(pageToSend.toString()).toString();
+    url.search += new URLSearchParams(pageToSend).toString();
     url.search += "&";
-    url.search += new URLSearchParams(limitToSend.toString()).toString();
+    url.search += new URLSearchParams(limitToSend).toString();
 
     return fetchWrapper(`${url}`, { headers: headersAuth })
         .then((response) => response.json())
@@ -97,14 +97,14 @@ export const fetchSortedEvents = (sort: EventSort, filters: EventFilters, page: 
     if (filtersToSend.length !== undefined) {
         url.search = new URLSearchParams(filtersToSend).toString();
         url.search += "&";
-    } else if (sortToSend !== undefined) {
-        url.search += new URLSearchParams(sortToSend.toString()).toString();
+    } else if (sortToSend.sortCriteria !== '') {
+        url.search += new URLSearchParams(sortToSend).toString();
         url.search += "&";
     }
 
-    url.search += new URLSearchParams(limitToSend.toString()).toString();
+    url.search += new URLSearchParams(limitToSend).toString();
     url.search += "&";
-    url.search += new URLSearchParams(pageToSend.toString()).toString();
+    url.search += new URLSearchParams(pageToSend).toString();
 
     return fetchWrapper(`${url}`, { headers: headersAuth })
         .then((response) => response.json())
@@ -130,11 +130,11 @@ export const changePage = (filters: EventFilters, sort: EventSort, page: number)
     const url = new URL(serverEventsURL);
     url.search = new URLSearchParams(filtersToSend).toString();
     url.search += "&";
-    url.search += new URLSearchParams(sortToSend.toString()).toString();
+    url.search += new URLSearchParams(sortToSend).toString();
     url.search += "&";
-    url.search += new URLSearchParams(limitToSend.toString()).toString();
+    url.search += new URLSearchParams(limitToSend).toString();
     url.search += "&";
-    url.search += new URLSearchParams(pageToSend.toString()).toString();
+    url.search += new URLSearchParams(pageToSend).toString();
 
     fetchWrapper(`${url}`, { headers: headersAuth })
         .then((response) => response.json())
@@ -151,7 +151,7 @@ export const getLastNumber = (filters: EventFilters) => {
 
     url.search = new URLSearchParams(filtersToSend).toString();
     url.search += "&";
-    url.search += new URLSearchParams(limit.toString()).toString();
+    url.search += new URLSearchParams(limit).toString();
 
     return fetch(`${url}`, { headers: headersAuth })
         .then((response) => response.json())

@@ -1,10 +1,10 @@
 import React from 'react';
 
-interface Ticket {
-    id: number;
-    date: string;
-    category: string;
+export interface Ticket {
+    bookingId: number;
+    bookingDate: string;
+    eventName: string;
+    ticketCategory: string;
     name: string;
+    pdfUrl: string;
 }
-
-export default Ticket;

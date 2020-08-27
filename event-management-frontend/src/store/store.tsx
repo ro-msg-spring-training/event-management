@@ -7,6 +7,7 @@ import { EventState } from "../reducers/HeaderEventCrudReducer";
 import { LocationPageState } from "../reducers/LocationPageReducer";
 import { TicketsPageState } from "../reducers/TicketsPageReducer";
 import { OccupancyCardsState } from "../reducers/AdminHomePageReducer";
+import { UserEventsPageState } from "../reducers/UserEventListReducer";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -18,5 +19,6 @@ export interface AppState {
     eventCrud: EventState,
     location: LocationPageState,
     tickets: TicketsPageState,
-    adminHomeCard: OccupancyCardsState;
+    adminHomeCard: OccupancyCardsState,
+    userEvents: UserEventsPageState
 }

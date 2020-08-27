@@ -1,17 +1,22 @@
-import { takeEvery, put } from "redux-saga/effects";
-import { fetchTickets } from "../api/TicketsServiceAPI";
+import {takeEvery, put, call} from "redux-saga/effects";
+import { fetchTicketsPaginated } from "../api/TicketsServiceAPI";
 import {
     FETCH_TICKETS,
     fetchTicketsError,
     fetchTicketsRequest,
-    fetchTicketsSuccess
+    fetchTicketsSuccess,
+    OPEN, CLOSE, openDetails, closeDetails
 } from "../actions/TicketsPageActions";
 
+interface ActionType {
+    payload: { page: number };
+    type: string;
+}
 
-function* fetchTicketsAsync() {
+function* fetchTicketsAsync(action: ActionType) {
     yield put(fetchTicketsRequest())
     try {
-        const result = yield fetchTickets()
+        const result = yield call (() => fetchTicketsPaginated(action.payload.page))
         yield put(fetchTicketsSuccess(result))
     }
     catch (err) {
@@ -22,4 +27,12 @@ function* fetchTicketsAsync() {
 export function* watchFetchTicketsAsync() {
     yield takeEvery(FETCH_TICKETS, fetchTicketsAsync)
 }
+
+export function* watchOpenAsync() {
+}
+
+export function* watchCloseAsync() {
+}
+
+
 

@@ -1,55 +1,75 @@
-import React from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { AppState } from "../../../store/store";
-import { fetchAllTickets } from '../../../actions/TicketsPageActions';
-import TicketDetailsDumb from "./TicketDetailsDumb";
+import { fetchTickets, incrementPage } from "../../../actions/TicketsPageActions";
+import { Ticket } from "../../../model/Ticket"
 import TicketListDumb from "./TicketListDumb";
 
 
 interface Props {
-    tickets: { Ticket: any; }[];
+    tickets: [];
+    page: number;
     isLoading: boolean;
     isError: boolean;
-    fetchAllTickets: () => { type: string; };
+    fetchTickets: (page: number) => void;
+    incrementPage: () => void;
 }
 
-interface State {
-}
+const TicketListSmart = (props: Props) => {
 
-class TicketListSmart extends React.Component<Props, State> {
-    constructor(props: Props) {
-        super(props);
-        this.state = {};
-    }
+    const [hasMore, setHasMore] = useState(false)
+    const [concatTickets, setConcatTickets] = useState(Array(0))
 
-    componentWillMount() {
-        this.props.fetchAllTickets();
-    }
+    useEffect(() => {
+        async function addTicketsTogether() {
+            await props.fetchTickets(props.page)
+            await setHasMore(props.page === 1 ? true : props.tickets.length > 0)
 
-    render() {
-        let { tickets } = this.props;
+            await setConcatTickets([...concatTickets, ...props.tickets])
+        }
+        addTicketsTogether();
+    }, [props.page])
 
-        // Using the map function, we will get all the tickets from the array
-        const ticketDetails = tickets
-            .map((ticket: any) =>
-                <TicketDetailsDumb key={ticket.id}
-                                   id={ticket.id} date={ticket.date}
-                                   category={ticket.category} name={ticket.name} />);
+    let tickets = props.tickets;
 
-        return (
-            <TicketListDumb
-                isLoading={this.props.isLoading}
-                isError={this.props.isError}
-                ticketsDetails={ticketDetails}/>
-        );
-    }
+    const observer = useRef<any>()
+    const lastTicketRef = useCallback(node => {
+        if (observer.current) observer.current.disconnect()
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && hasMore) {
+                // Increment page in redux
+                props.incrementPage();
+            }
+        })
+        if (node) observer.current.observe(node)
+    }, [hasMore])
+
+    const ticketReferences = tickets !== undefined ? tickets
+        .map((ticket: Ticket, index: number) => {
+            if (tickets.length === index + 1) {
+                return <div ref={lastTicketRef} key={ticket.pdfUrl}/>
+            } else {
+                return <div key={ticket.pdfUrl}/>
+            }
+        }) : [];
+
+    return (
+            <>
+                {ticketReferences}
+                <TicketListDumb isError={props.isError}
+                                isLoading={props.isLoading}
+                                ticketsDetails={concatTickets} />
+            </>
+    );
 }
 
 const mapStateToProps = (state: AppState) => ({
     tickets: state.tickets.allTickets,
+    page: state.tickets.page,
     isLoading: state.tickets.isLoading,
-    isError: state.tickets.isError,
+    isError: state.tickets.isError
 });
 
+
 export default connect(mapStateToProps,
-    { fetchAllTickets })(TicketListSmart)
+    { fetchTickets, incrementPage })(TicketListSmart)

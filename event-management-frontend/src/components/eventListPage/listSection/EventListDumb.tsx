@@ -8,7 +8,6 @@ import {
     Container,
     TableFooter,
     TableSortLabel,
-    LinearProgress,
     CircularProgress,
     Grid
 } from "@material-ui/core";
@@ -21,10 +20,11 @@ import { useStyles } from '../../../styles/CommonStyles';
 import { useTranslation } from "react-i18next";
 import { useScrollPosition } from '@n8tb1t/use-scroll-position'
 import { createStyles, Theme, withStyles } from "@material-ui/core/styles";
-import { useListStyles } from '../../../styles/eventListStyles';
+import { useListStyles } from '../../../styles/EventListStyles';
 import { EventSort } from '../../../model/EventSort';
 import { EventFilters } from '../../../model/EventFilters';
 import ErrorIcon from "@material-ui/icons/Error";
+
 
 const StyledTableCell = withStyles((theme: Theme) =>
     createStyles({
@@ -51,7 +51,7 @@ interface Props {
     filters: EventFilters;
     page: number;
     lastPage: number;
-    updateSortCriteria: (sortCriteria: any) => void;
+    updateSortCriteria: (sortCriteria: { criteria: string, type: string }) => void;
     incrementPage: () => void;
     decrementPage: () => void;
 
@@ -81,6 +81,7 @@ interface HeadCell {
 const EventListDumb = (props: Props) => {
     const commonClasses = useStyles()
     const classes = useListStyles()
+
 
     const eventsDetails = props.eventsDetails;
     const eventsDetailsMobile = props.eventsDetailsMobile;

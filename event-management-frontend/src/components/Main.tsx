@@ -1,10 +1,9 @@
-import React, { useLayoutEffect, useState } from 'react'
+import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import Home from './homePage/Home'
 import EventList from "./eventListPage/listSection/EventListSmart";
 import Header from './header/Header';
 import EventDetails from './eventCreateOrEdit/EventDetails';
-import { PrivateRoute } from './PrivateRoute';
 
 // The Main component renders one of the three provided
 // Routes (provided that one matches). The /events

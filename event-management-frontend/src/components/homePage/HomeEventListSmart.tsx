@@ -5,11 +5,12 @@ import { fetchAllEventsHome} from "../../actions/EventsPageActions";
 import { AppState} from "../../store/store";
 import HomeEventListDumb from "./HomeEventListDumb";
 import { incrementPageHome, decrementPageHome, fetchCustomEventsHome } from "../../actions/EventsPageActions";
-import {getLastNumber, getLastNumberHome} from "../../api/EventsServiceAPI";
+import { getLastNumberHome} from "../../api/EventsServiceAPI";
+import { Event } from "../../model/Event";
 
 
 interface Props {
-    events: { Event: any; }[];
+    events: [];
     fetchAllEventsHome: () => { type: string; };
     fetchCustomEventsHome: (page: number) => void;
     page: number;
@@ -20,7 +21,7 @@ interface Props {
 }
 
 interface State {
-    lastPage: any;
+    lastPage: number;
 }
 
 class HomeEventListSmart extends React.Component<Props, State> {
@@ -67,10 +68,8 @@ class HomeEventListSmart extends React.Component<Props, State> {
 
         // Using the map function, we will get all the events from the array
         const eventDetails = events
-            .map((event: any) => {
-                return (<HomeEventDetailsDumb key={event.id} id={event.id} title={event.title} subtitle={event.subtitle}
-                                  location={event.location} date={event.startDate} hour={event.startHour} occRate={event.occupancyRate}
-                                  name={event.name} />);
+            .map((event: Event) => {
+                return (<HomeEventDetailsDumb key={event.id} events={event} />);
             })
 
         return (

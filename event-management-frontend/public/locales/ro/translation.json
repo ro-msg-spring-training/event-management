@@ -3,8 +3,10 @@
     "id": "ID",
     "date": "Dată",
     "category": "Categorie",
-    "name": "Nume",
-    "pdf": "PDF"
+    "name" : "Nume",
+    "pdf": "PDF",
+    "eventName": "Numele evenimentului",
+    "myTickets": "Biletele mele"
   },
   "eventList": {
     "account": "Contul meu",
@@ -155,16 +157,31 @@
     "imageDialogAgree": "Da",
     "imageDialogDisagree": "Nu"
   },
-
   "location": {
-    "selectButton": "Selectează",
-    "cancelButton": "Anuleazâ",
-    "selectedLocationMessage": "Locația selectată pentru eveniment",
-    "searchBarText": "Caută locație"
+    "selectButton": "Selecteaza",
+    "cancelButton": "Anuleaza",
+    "selectedLocationMessage": "Locatia selectata pentru eveniment",
+    "searchBarText": "Cauta locatie"
   },
   "occupancyCards": {
+    "toDateText": "pana in ",
     "occupancyRate": "Rata de ocupare:",
     "historyEvents": "Ultimele evenimente",
     "upcomingEvents": "Evenimente viitoare"
+  },
+  "userEventList": {
+    "detailsButton": "Detalii",
+    "errorMessage": "Oops, eroare",
+    "noResults": "Nu există rezultate",
+    "name": "Nume",
+    "locations": "Locații",
+    "rate": "Rată ocupare",
+    "pastEvents": "Evenimente din trecut",
+    "filterButton": "Filtrare",
+    "clearButton": "Resetare",
+    "noOption": "Fără opțiuni",
+    "noLocations": "Locațiile nu sunt disponibile",
+    "notANumber": "Număr invalid",
+    "notAValidPercent": "Procent invalid"
   }
 }
