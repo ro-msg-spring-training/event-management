@@ -42,12 +42,19 @@ public class EventService {
     private final EntityManager entityManager;
 
     @Transactional(rollbackFor = {OverlappingEventsException.class, ExceededCapacityException.class})
-    public Event saveEvent(Event event, List<Long> sublocationIDs) throws OverlappingEventsException, ExceededCapacityException {
+    public Event saveEvent(Event event, Long locationId) throws OverlappingEventsException, ExceededCapacityException {
 
         LocalDate startDate = event.getStartDate();
         LocalDate endDate = event.getEndDate();
         LocalTime startHour = event.getStartHour();
         LocalTime endHour = event.getEndHour();
+
+        Location location = locationRepository.findById(locationId).orElseThrow(() -> {
+            throw new NoSuchElementException("No location with id=" + locationId);
+        });
+        List<Long> sublocationIDs = location.getSublocation().stream()
+                .map(BaseEntity::getId)
+                .collect(Collectors.toList());
 
         TimeValidation.validateTime(startDate, endDate, startHour, endHour);
 

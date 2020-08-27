@@ -3,7 +3,6 @@ package ro.msg.event.management.eventmanagementbackend.controller;
 import lombok.RequiredArgsConstructor;
 import net.minidev.json.JSONObject;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,16 +13,13 @@ import org.springframework.web.server.ResponseStatusException;
 import ro.msg.event.management.eventmanagementbackend.controller.converter.Converter;
 import ro.msg.event.management.eventmanagementbackend.controller.converter.EventReverseConverter;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.*;
-import ro.msg.event.management.eventmanagementbackend.entity.BaseEntity;
 import ro.msg.event.management.eventmanagementbackend.entity.Event;
-import ro.msg.event.management.eventmanagementbackend.entity.Location;
 import ro.msg.event.management.eventmanagementbackend.entity.view.EventView;
 import ro.msg.event.management.eventmanagementbackend.exception.ExceededCapacityException;
 import ro.msg.event.management.eventmanagementbackend.exception.OverlappingEventsException;
 import ro.msg.event.management.eventmanagementbackend.exception.TicketCategoryException;
 import ro.msg.event.management.eventmanagementbackend.security.User;
 import ro.msg.event.management.eventmanagementbackend.service.EventService;
-import ro.msg.event.management.eventmanagementbackend.service.LocationService;
 import ro.msg.event.management.eventmanagementbackend.service.TicketService;
 import ro.msg.event.management.eventmanagementbackend.utils.ComparisonSign;
 import ro.msg.event.management.eventmanagementbackend.utils.SortCriteria;
@@ -32,10 +28,8 @@ import org.springframework.data.domain.Pageable;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 
 @RestController
@@ -53,7 +47,6 @@ public class EventController {
     private final Converter<EventView, CardsEventDto> converterToCardsEventDto;
     private final Converter<EventView, CardsUserEventDto> converterToUserCardsEventDto;
     private final Converter<Event, CardsEventDto> converterToCardEventDto;
-    private final LocationService locationService;
     private final TicketService ticketService;
     private final Converter<Event, EventDetailsForBookingDto> eventDetailsForBookingDtoConverter;
 
@@ -98,21 +91,15 @@ public class EventController {
 
             long locationId = eventDTO.getLocation();
 
-            Location location = this.locationService.findByID(locationId);
-            List<Long> sublocationIDs = location.getSublocation().stream()
-                    .map(BaseEntity::getId)
-                    .collect(Collectors.toList());
-
-
             Event event = ((EventReverseConverter) convertToEntity).convertForUpdate(eventDTO, false);
 
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = (User) auth.getPrincipal();
-
             String creator = user.getIdentificationString();
+
             event.setCreator(creator);
 
-            Event savedEvent = eventService.saveEvent(event, sublocationIDs);
+            Event savedEvent = eventService.saveEvent(event,locationId);
 
             return new ResponseEntity<>(convertToDto.convert(savedEvent), HttpStatus.OK);
         } catch (OverlappingEventsException | ExceededCapacityException overlappingEventsException) {
@@ -287,7 +274,6 @@ public class EventController {
         List<EventView> eventViews = eventService.filterAndPaginate(null, null, null, true, null, LocalDate.now(), MAX_DATE, null, null, null, null, null, null, 1, limit, SortCriteria.DATE, false, null);
 
         List<CardsUserEventDto> returnList = converterToUserCardsEventDto.convertAll(eventViews);
-
         return new ResponseEntity<>(returnList, HttpStatus.OK);
     }
 }
