@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.support.PageableExecutionUtils;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.msg.event.management.eventmanagementbackend.entity.*;
@@ -12,6 +13,7 @@ import ro.msg.event.management.eventmanagementbackend.entity.view.EventView;
 import ro.msg.event.management.eventmanagementbackend.exception.ExceededCapacityException;
 import ro.msg.event.management.eventmanagementbackend.exception.OverlappingEventsException;
 import ro.msg.event.management.eventmanagementbackend.repository.*;
+import ro.msg.event.management.eventmanagementbackend.security.User;
 import ro.msg.event.management.eventmanagementbackend.utils.ComparisonSign;
 import ro.msg.event.management.eventmanagementbackend.utils.SortCriteria;
 import ro.msg.event.management.eventmanagementbackend.utils.TimeValidation;
@@ -21,18 +23,17 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
-
+import org.springframework.data.domain.Pageable;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class EventService {
+
+    private static final LocalDate MIN_DATE = LocalDate.parse("1900-01-01");
 
     private final EventRepository eventRepository;
     private final SublocationRepository sublocationRepository;
@@ -44,7 +45,7 @@ public class EventService {
     @PersistenceContext(type = PersistenceContextType.TRANSACTION)
     private final EntityManager entityManager;
 
-    @Transactional(rollbackFor = {OverlappingEventsException.class,ExceededCapacityException.class})
+    @Transactional(rollbackFor = {OverlappingEventsException.class, ExceededCapacityException.class})
     public Event saveEvent(Event event, List<Long> sublocationIDs) throws OverlappingEventsException, ExceededCapacityException {
 
         LocalDate startDate = event.getStartDate();
@@ -91,7 +92,7 @@ public class EventService {
         return overlappingEvents.isEmpty();
     }
 
-    @Transactional(rollbackFor = {OverlappingEventsException.class,ExceededCapacityException.class})
+    @Transactional(rollbackFor = {OverlappingEventsException.class, ExceededCapacityException.class})
     public Event updateEvent(Event event, List<Long> ticketCategoryToDelete, Long updatedLocation) throws OverlappingEventsException, ExceededCapacityException {
         Optional<Event> eventOptional;
         eventOptional = eventRepository.findById(event.getId());
@@ -139,6 +140,7 @@ public class EventService {
                     eventFromDB.setTicketsPerUser(event.getTicketsPerUser());
                     eventFromDB.setObservations(event.getObservations());
                     eventFromDB.getPictures().addAll(event.getPictures());
+                    eventFromDB.setTicketInfo(event.getTicketInfo());
 
                     //update sublocation
                     List<EventSublocation> eventSublocations = new ArrayList<>();
@@ -150,10 +152,9 @@ public class EventService {
                     this.eventSublocationRepository.deleteByEvent(eventFromDB);
                     long idSublocation = eventFromDB.getEventSublocations().get(0).getEventSublocationID().getSublocation();
 
-                    if(!this.sublocationRepository.findById(idSublocation).orElseThrow(() -> {
+                    if (!this.sublocationRepository.findById(idSublocation).orElseThrow(() -> {
                         throw new NoSuchElementException("No sublocation with id=" + idSublocation);
-                    }).getLocation().getId().equals(updatedLocation))
-                    {
+                    }).getLocation().getId().equals(updatedLocation)) {
                         for (Long sublocationID : location.getSublocation().stream().map(BaseEntity::getId).collect(Collectors.toList())) {
                             EventSublocationID esID = new EventSublocationID(event.getId(), sublocationID);
                             EventSublocation eventSublocation = new EventSublocation();
@@ -180,11 +181,11 @@ public class EventService {
                         if (ticketCategory.getId() < 0) {
                             categoriesToSave.add(ticketCategory);
                         } else {
-                            eventFromDB.getTicketCategories().forEach(ticketCategoryFromDB ->{
-                                if(ticketCategoryFromDB.getId().equals(ticketCategory.getId())){
+                            eventFromDB.getTicketCategories().forEach(ticketCategoryFromDB -> {
+                                if (ticketCategoryFromDB.getId().equals(ticketCategory.getId())) {
                                     this.ticketCategoryService.updateTicketCategory(ticketCategory);
                                 }
-                            } );
+                            });
                         }
                     });
 
@@ -194,9 +195,7 @@ public class EventService {
 
                 } else throw new ExceededCapacityException("exceed capacity");
             } else throw new OverlappingEventsException("overlaps other events");
-
-        } else
-            throw new NoSuchElementException();
+        } else throw new NoSuchElementException();
     }
 
     public boolean checkOverlappingEvents(Long eventID, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, long sublocation) {
@@ -247,7 +246,7 @@ public class EventService {
 
         }
 
-        if (multipleLocations != null){
+        if (multipleLocations != null) {
             Expression<String> path = c.get("location");
             predicate.add(path.in(multipleLocations));
 
@@ -324,9 +323,9 @@ public class EventService {
             case EQUAL:
                 return criteriaBuilder.equal(c.get(criteria), value);
             case GREATEROREQUAL:
-                return criteriaBuilder.greaterThanOrEqualTo(c.get(criteria),value);
+                return criteriaBuilder.greaterThanOrEqualTo(c.get(criteria), value);
             case LOWEROREQUAL:
-                return criteriaBuilder.lessThanOrEqualTo(c.get(criteria),value);
+                return criteriaBuilder.lessThanOrEqualTo(c.get(criteria), value);
             default:
                 return null;
         }
@@ -342,7 +341,11 @@ public class EventService {
         }
     }
 
-    public int getHighlightedEventCount(){
+    public Page<Event> filterAndPaginateEventsAttendedByUser(User user, Pageable pageable) {
+        return eventRepository.findByUser(user.getIdentificationString(), pageable);
+    }
+
+    public int getHighlightedEventCount() {
         return eventRepository.findAllByHighlighted(true).size();
     }
 }
