@@ -1,8 +1,8 @@
 ALTER TABLE `event_sublocation`
-    DROP PRIMARY KEY;
-
-ALTER TABLE `event_sublocation`
     DROP COLUMN `id`;
+
+#ALTER TABLE `event_sublocation`
+    #DROP PRIMARY KEY;
 
 ALTER TABLE `event_sublocation`
     DROP COLUMN `start_date`;
