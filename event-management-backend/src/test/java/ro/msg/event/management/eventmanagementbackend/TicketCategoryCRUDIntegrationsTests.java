@@ -154,11 +154,13 @@ class TicketCategoryCRUDIntegrationsTests {
         long categoryId = this.ticketCategoryRepository.findAll().get(0).getId();
         TicketCategory update = new TicketCategory();
         update.setId(categoryId);
-        update.setTitle("updated");
+        update.setTicketsPerCategory(33);
+        update.setAvailable(true);
 
         assert this.ticketCategoryRepository.findById(categoryId).get().getTitle().equals("not updated");
         this.ticketCategoryService.updateTicketCategory(update);
-        assert this.ticketCategoryRepository.findById(categoryId).get().getTitle().equals("updated");
+        assert this.ticketCategoryRepository.findById(categoryId).get().getTicketsPerCategory() == update.getTicketsPerCategory();
+        assert this.ticketCategoryRepository.findById(categoryId).get().isAvailable() == update.isAvailable();
     }
 
     @Test
