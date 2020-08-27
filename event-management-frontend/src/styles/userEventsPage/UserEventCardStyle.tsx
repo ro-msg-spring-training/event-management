@@ -6,11 +6,12 @@ export const useCardStyle = makeStyles( theme =>({
         flexDirection: 'column',
         justifyContent: 'space-between'
     },
+    cardActions:{
+        padding: 0,
+    },
     imageWrapper: {
         width: '100%',
         height: '300px',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
         cursor: 'pointer'
     },
     detailsButton: {
