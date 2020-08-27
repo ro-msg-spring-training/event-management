@@ -1,5 +1,5 @@
-insert into event values (1, 'Star Wars Party', 'Themed Party', true, timestamp '2020-09-17', timestamp '2020-09-17', 200,'Nerdiest party in Cluj',true, 'Best costume wins free drinks', 'creator',timestamp '2020-09-17 18:30:00.00',timestamp '2020-09-17 23:30:00.00',5,'Tickets can be passed to other people, it is not a problem!');
-insert into event values (2, 'msg Party', 'Intern Party', false, timestamp '2020-10-18', timestamp '2020-10-18', 30,'Boom schakalaka',true, 'BYOB', 'creator',timestamp '2020-10-18 20:30:00.00',timestamp '2020-10-18 23:30:00.00',5,'Best choices for your fun time!');
+insert into event values (1, 'Star Wars Party', 'Themed Party', true, timestamp '2019-09-17', timestamp '2019-09-17', 200,'Nerdiest party in Cluj',true, 'Best costume wins free drinks', 'creator',timestamp '2020-09-17 18:30:00.00',timestamp '2020-09-17 23:30:00.00',5,'Tickets can be passed to other people, it is not a problem!');
+insert into event values (2, 'msg Party', 'Intern Party', false, timestamp '2019-10-18', timestamp '2019-10-18', 30,'Boom schakalaka',true, 'BYOB', 'creator',timestamp '2020-10-18 20:30:00.00',timestamp '2020-10-18 23:30:00.00',5,'Best choices for your fun time!');
 insert into event values (3, 'Chess Club Meeting', 'For Chess Lovers', true, timestamp '2020-06-17', timestamp '2020-06-17', 40,'Feel free to join',true, 'New competition will be announced', 'creator',timestamp '2020-06-17 12:30:00.00',timestamp '2020-06-17 16:30:00.00',15,'For every 2 tickets bought you get one for free!');
 insert into event values (4, 'Boc Party', 'Election Winning Party', true, timestamp '2020-11-17', timestamp '2020-11-17', 500,'Free subway sandwiches',true, 'All are welcome', 'creator',timestamp '2020-11-17 18:30:00.00',timestamp '2020-11-17 23:30:00.00',8,'You can''t miss these ones!' );
 insert into event values (5, 'UBB vs UTCN contest', 'Hackathon', true, timestamp '2021-09-17', timestamp '2021-09-17', 120,'No python please',true, 'Free pizza for everyone', 'creator',timestamp '2021-09-17 09:30:00.00',timestamp '2021-09-17 23:30:00.00',5,'Best deal offer!');
@@ -21,6 +21,7 @@ insert into ticket_category values(4, 'Medium','not so good', 100,'for you', 3,2
 insert into ticket_category values(5, 'Cheap','good deal', 10,'really good',4,2);
 insert into `booking` values(1,timestamp '2020-09-17 18:47:52.69', '6011847a-94c0-4091-b301-ef839c7a10fa',1);
 insert into `booking` values(2,timestamp '2020-09-17 18:47:52.69','6011847a-94c0-4091-b301-ef839c7a10fa',2);
+insert into `booking` values(5,timestamp '2020-09-17 18:47:52.69','6011847a-94c0-4091-b301-ef839c7a10fa',7);
 insert into `booking` values(3,timestamp '2020-09-17 18:47:52.69', '78323b75-15df-4aad-9451-8b987307077a',1);
 insert into `booking` values(4,timestamp '2020-09-17 18:47:52.69','78323b75-15df-4aad-9451-8b987307077a',2);
 insert into `ticket` values (1,'Andrew','a@yahoo.com',1,1);
