@@ -1,14 +1,14 @@
 package ro.msg.event.management.eventmanagementbackend.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.AvailableTicketsPerCategory;
 import ro.msg.event.management.eventmanagementbackend.entity.Event;
 import ro.msg.event.management.eventmanagementbackend.entity.view.TicketView;
 import ro.msg.event.management.eventmanagementbackend.repository.EventRepository;
-import ro.msg.event.management.eventmanagementbackend.security.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -36,11 +36,11 @@ public class TicketService {
         if (event.isEmpty()) {
             throw new NoSuchElementException("There is no event with id " + id);
         }
-        return event.get().getTicketCategories().stream().map(category -> new AvailableTicketsPerCategory(category.getTitle(),category.getTickets() == null ? 0 :  (long)category.getTickets().size(), (long) category.getTicketsPerCategory() - (category.getTickets() == null ? 0 :  (long)category.getTickets().size()))).collect(Collectors.toList());
+        return event.get().getTicketCategories().stream().map(category -> new AvailableTicketsPerCategory(category.getTitle(), category.getTickets() == null ? 0 : (long) category.getTickets().size(), (long) category.getTicketsPerCategory() - (category.getTickets() == null ? 0 : (long) category.getTickets().size()))).collect(Collectors.toList());
 
     }
 
-    public TypedQuery<TicketView> filterTickets(String user,String title, LocalDate startDate, LocalDate endDate) {
+    public Page<TicketView> filterTickets(Pageable pageable, String user, String title, LocalDate startDate, LocalDate endDate) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<TicketView> q = criteriaBuilder.createQuery(TicketView.class);
         Root<TicketView> c = q.from(TicketView.class);
@@ -62,21 +62,18 @@ public class TicketService {
         predicate.add(criteriaBuilder.equal(c.get("user"), user));
         Predicate finalPredicate = criteriaBuilder.and(predicate.toArray(new Predicate[0]));
         q.where(finalPredicate);
-        return entityManager.createQuery(q);
+        TypedQuery<TicketView> typedQuery = entityManager.createQuery(q);
+        typedQuery.setFirstResult((int) pageable.getOffset());
+        typedQuery.setMaxResults(pageable.getPageSize());
+        List<TicketView> result = typedQuery.getResultList();
+
+        CriteriaQuery<Long> sc = criteriaBuilder.createQuery(Long.class);
+        Root<TicketView> rootSelect = sc.from(TicketView.class);
+        sc.select(criteriaBuilder.count(rootSelect));
+        sc.where(finalPredicate);
+        Long count = entityManager.createQuery(sc).getSingleResult();
+        return new PageImpl<>(result, pageable, count);
     }
 
-    public List<TicketView> getFilteredAndPaginated(String user, String title, LocalDate startDate, LocalDate endDate, Integer pageNumber, Integer ticketsPerPage) {
-        TypedQuery<TicketView> typedQuery = this.filterTickets(user,title, startDate, endDate);
-        int offset = (pageNumber - 1) * ticketsPerPage;
-        typedQuery.setFirstResult(offset);
-        typedQuery.setMaxResults(ticketsPerPage);
-        return typedQuery.getResultList();
-    }
-
-    public Integer getNumberOfPages(String user,String title, LocalDate startDate, LocalDate endDate,Integer ticketsPerPage){
-        int count = filterTickets(user,title,startDate,endDate).getResultList().size();
-        return (int) Math.ceil((float) count / (float) ticketsPerPage);
-    }
 
 }
-;

@@ -3,6 +3,8 @@ package ro.msg.event.management.eventmanagementbackend;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import ro.msg.event.management.eventmanagementbackend.entity.*;
 import ro.msg.event.management.eventmanagementbackend.entity.view.EventView;
 import ro.msg.event.management.eventmanagementbackend.repository.*;
@@ -13,8 +15,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 public class AdminHomepageIntegrationTests {
@@ -44,11 +44,11 @@ public class AdminHomepageIntegrationTests {
     private static final LocalDate MIN_DATE = LocalDate.parse("1900-01-01");
 
     @Test
-    public void test_card_with_events() {
-        Event event1 = new Event("Tile", "Subtitle", true, LocalDate.parse("2020-11-11"), LocalDate.parse("2020-11-15"), LocalTime.parse("18:00"), LocalTime.parse("20:00"), 10, "descr", true, "no obs", 3, "someUser","ticket info", null, null, null, null);
-        Event event2 = new Event("Tile2", "Subtitle2", true, LocalDate.parse("2020-11-14"), LocalDate.parse("2020-11-19"), LocalTime.parse("10:00"), LocalTime.parse("12:00"), 12, "descr2", true, "no obs", 3, "someUser","ticket info", null, null, null, null);
-        Event event3 = new Event("Tile3", "Subtitle3", true, LocalDate.parse("2021-11-14"), LocalDate.parse("2021-11-19"), LocalTime.parse("10:00"), LocalTime.parse("12:00"), 12, "descr2", true, "no obs", 3, "someUser","ticket info", null, null, null, null);
-        Event event4 = new Event("Tile3", "Subtitle3", true, LocalDate.parse("2019-11-14"), LocalDate.parse("2019-11-19"), LocalTime.parse("10:00"), LocalTime.parse("12:00"), 12, "descr2", true, "no obs", 3, "someUser","ticket info", null, null, null, null);
+    public void test_card_with_events(@PageableDefault(size = 4) Pageable pageable) {
+        Event event1 = new Event("Tile", "Subtitle", true, LocalDate.parse("2020-11-11"), LocalDate.parse("2020-11-15"), LocalTime.parse("18:00"), LocalTime.parse("20:00"), 10, "descr", true, "no obs", 3, "someUser", "ticket info", null, null, null, null);
+        Event event2 = new Event("Tile2", "Subtitle2", true, LocalDate.parse("2020-11-14"), LocalDate.parse("2020-11-19"), LocalTime.parse("10:00"), LocalTime.parse("12:00"), 12, "descr2", true, "no obs", 3, "someUser", "ticket info", null, null, null, null);
+        Event event3 = new Event("Tile3", "Subtitle3", true, LocalDate.parse("2021-11-14"), LocalDate.parse("2021-11-19"), LocalTime.parse("10:00"), LocalTime.parse("12:00"), 12, "descr2", true, "no obs", 3, "someUser", "ticket info", null, null, null, null);
+        Event event4 = new Event("Tile3", "Subtitle3", true, LocalDate.parse("2019-11-14"), LocalDate.parse("2019-11-19"), LocalTime.parse("10:00"), LocalTime.parse("12:00"), 12, "descr2", true, "no obs", 3, "someUser", "ticket info", null, null, null, null);
         Location location1 = new Location("Campus", "Obs 23", (float) 34.55, (float) 55.76, null, null);
         Location location2 = new Location("Centru", "Ferdinand 45", (float) 44.6, (float) 99.0, null, null);
         Sublocation sublocation1 = new Sublocation("same", 15, location1, null);
@@ -88,11 +88,11 @@ public class AdminHomepageIntegrationTests {
         ticketRepository.save(ticket121);
 
 
-        List<EventView> eventViewList = eventService.filterAndPaginate(null, null, null, null, null, LocalDate.now(), MAX_DATE, null, null, null, null, null, null, 1, 4, SortCriteria.DATE, true,null);
+        List<EventView> eventViewList = eventService.filter(pageable, null, null, null, null, null, LocalDate.now(), MAX_DATE, null, null, null, null, null, null, SortCriteria.DATE, true, null).getContent();
         EventView eventViewBefore = eventViewList.get(0);
-        for (EventView eventView : eventViewList){
-            if (eventView.getStartDate().isBefore(eventViewBefore.getStartDate()) && !(eventView.getStartDate().isEqual(eventViewBefore.getStartDate()))){
-                assert(false);
+        for (EventView eventView : eventViewList) {
+            if (eventView.getStartDate().isBefore(eventViewBefore.getStartDate()) && !(eventView.getStartDate().isEqual(eventViewBefore.getStartDate()))) {
+                assert (false);
             }
             eventViewBefore.setStartDate(eventView.getStartDate());
         }

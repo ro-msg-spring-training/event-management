@@ -2,6 +2,9 @@ package ro.msg.event.management.eventmanagementbackend.controller;
 
 import lombok.RequiredArgsConstructor;
 import net.minidev.json.JSONObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -122,12 +125,16 @@ public class EventController {
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<EventFilteringDto>> getPaginatedFilteredAndSortedEvents(@RequestParam int pageNumber, @RequestParam int limit, @RequestParam(required = false) String title, @RequestParam(required = false) String subtitle, @RequestParam(required = false) Boolean status, @RequestParam(required = false) Boolean highlighted, @RequestParam(required = false) String location,
-                                                                                       @RequestParam(required = false) String startDate, @RequestParam(required = false) String endDate, @RequestParam(required = false) String startHour, @RequestParam(required = false) String endHour, @RequestParam(required = false) ComparisonSign rateSign,
-                                                                                       @RequestParam(required = false) Float rate, @RequestParam(required = false) ComparisonSign maxPeopleSign, @RequestParam(required = false) Integer maxPeople, @RequestParam(required = false) SortCriteria sortCriteria, @RequestParam(required = false) Boolean sortType) {
+    public ResponseEntity<JSONObject> getPaginatedFilteredAndSortedEvents(Pageable pageable, @RequestParam(required = false) String title, @RequestParam(required = false) String subtitle, @RequestParam(required = false) Boolean status, @RequestParam(required = false) Boolean highlighted, @RequestParam(required = false) String location,
+                                                                          @RequestParam(required = false) String startDate, @RequestParam(required = false) String endDate, @RequestParam(required = false) String startHour, @RequestParam(required = false) String endHour, @RequestParam(required = false) ComparisonSign rateSign,
+                                                                          @RequestParam(required = false) Float rate, @RequestParam(required = false) ComparisonSign maxPeopleSign, @RequestParam(required = false) Integer maxPeople, @RequestParam(required = false) SortCriteria sortCriteria, @RequestParam(required = false) Boolean sortType) {
         try {
-            List<EventView> eventViews = eventService.filterAndPaginate(title, subtitle, status, highlighted, location, startDate != null ? LocalDate.parse(startDate) : null, endDate != null ? LocalDate.parse(endDate) : null, startHour != null ? LocalTime.parse(startHour) : null, endHour != null ? LocalTime.parse(endHour) : null, rateSign, rate, maxPeopleSign, maxPeople, pageNumber, limit, sortCriteria, sortType, null);
-            return new ResponseEntity<>(converter.convertAll(eventViews), HttpStatus.OK);
+            Page<EventView> page = eventService.filter(pageable, title, subtitle, status, highlighted, location, startDate != null ? LocalDate.parse(startDate) : null, endDate != null ? LocalDate.parse(endDate) : null, startHour != null ? LocalTime.parse(startHour) : null, endHour != null ? LocalTime.parse(endHour) : null, rateSign, rate, maxPeopleSign, maxPeople, sortCriteria, sortType, null);
+            JSONObject responseBody = new JSONObject();
+            responseBody.put("events", converter.convertAll(page.getContent()));
+            responseBody.put("noPages", page.getTotalPages());
+            responseBody.put("more", !page.isLast());
+            return new ResponseEntity<>(responseBody, HttpStatus.OK);
         } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, indexOutOfBoundsException.getMessage(), indexOutOfBoundsException);
         }
@@ -171,36 +178,28 @@ public class EventController {
         }
     }
 
-    @GetMapping("/lastPage")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public Integer getNumberOfPages(@RequestParam int limit, @RequestParam(required = false) String title, @RequestParam(required = false) String subtitle,
-                                    @RequestParam(required = false) Boolean status, @RequestParam(required = false) Boolean highlighted, @RequestParam(required = false) String location, @RequestParam(required = false) String startDate, @RequestParam(required = false) String endDate,
-                                    @RequestParam(required = false) String startHour, @RequestParam(required = false) String endHour, @RequestParam(required = false) ComparisonSign rateSign, @RequestParam(required = false) Float rate, @RequestParam(required = false) ComparisonSign maxPeopleSign, @RequestParam(required = false) Integer maxPeople) {
-        return eventService.getNumberOfPages(title, subtitle, status, highlighted, location, startDate != null ? LocalDate.parse(startDate) : null, endDate != null ? LocalDate.parse(endDate) : null, startHour != null ? LocalTime.parse(startHour) : null, endHour != null ? LocalTime.parse(endHour) : null, rateSign, rate, maxPeopleSign, maxPeople, limit, null);
-    }
-
     @GetMapping("/latest")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<EventListingDto>> chronologicalPaginatedEvents(@RequestParam Integer limit,@RequestParam Integer pageNumber) {
+    public ResponseEntity<JSONObject> chronologicalPaginatedEvents(@RequestParam Integer limit, @RequestParam Integer pageNumber, Pageable pageable) {
         try {
-            List<EventView> eventViews = eventService.filterAndPaginate(null, null, null, null, null, LocalDate.now(), MAX_DATE, null, null, null, null, null, null, pageNumber, limit, SortCriteria.DATE, true, null);
-            return new ResponseEntity<>(converterToListingDto.convertAll(eventViews), HttpStatus.OK);
+            Page<EventView> page = eventService.filter(pageable, null, null, null, null, null, LocalDate.now(), MAX_DATE, null, null, null, null, null, null, SortCriteria.DATE, true, null);
+            JSONObject responseBody = new JSONObject();
+            responseBody.put("events", converter.convertAll(page.getContent()));
+            responseBody.put("noPages", page.getTotalPages());
+            responseBody.put("more", !page.isLast());
+            return new ResponseEntity<>(responseBody, HttpStatus.OK);
         } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, indexOutOfBoundsException.getMessage(), indexOutOfBoundsException);
         }
     }
 
-    @GetMapping("latest/lastPage")
-    public Integer getNumberOgPagesOnAdminHomepage(@RequestParam Integer limit) {
-        return eventService.getNumberOfPages(null, null, null, null, null, LocalDate.now(), MAX_DATE, null, null, null, null, null, null,limit, null);
-    }
-
     @GetMapping("/upcoming")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<CardsEventDto>> upcomingEvents() {
+    public ResponseEntity<List<CardsEventDto>> upcomingEvents(@PageableDefault(size = 4) Pageable pageable) {
         try {
-            List<EventView> eventViews = eventService.filterAndPaginate(null, null, null, null, null, LocalDate.now(), MAX_DATE, null, null, null, null, null, null, 1, EVENTS_PER_CARD, SortCriteria.DATE, true, null);
-            return new ResponseEntity<>(converterToCardsEventDto.convertAll(eventViews), HttpStatus.OK);
+
+            Page<EventView> page = eventService.filter(pageable, null, null, null, null, null, LocalDate.now(), MAX_DATE, null, null, null, null, null, null, SortCriteria.DATE, true, null);
+            return new ResponseEntity<>(converterToCardsEventDto.convertAll(page.getContent()), HttpStatus.OK);
         } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, indexOutOfBoundsException.getMessage(), indexOutOfBoundsException);
         }
@@ -208,10 +207,10 @@ public class EventController {
 
     @GetMapping("/history")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<CardsEventDto>> historyEvents() {
+    public ResponseEntity<List<CardsEventDto>> historyEvents(@PageableDefault(size = 4) Pageable pageable) {
         try {
-            List<EventView> eventViews = eventService.filterAndPaginate(null, null, null, null, null, MIN_DATE, LocalDate.now(), null, null, null, null, null, null, 1, EVENTS_PER_CARD, SortCriteria.DATE, false, null);
-            return new ResponseEntity<>(converterToCardsEventDto.convertAll(eventViews), HttpStatus.OK);
+            Page<EventView> page = eventService.filter(pageable, null, null, null, null, null, MIN_DATE, LocalDate.now(), null, null, null, null, null, null, SortCriteria.DATE, false, null);
+            return new ResponseEntity<>(converterToCardsEventDto.convertAll(page.getContent()), HttpStatus.OK);
         } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, indexOutOfBoundsException.getMessage(), indexOutOfBoundsException);
         }
@@ -226,17 +225,18 @@ public class EventController {
                                                          @RequestParam int limit) {
 
 
-        List<EventView> eventViews = eventService.filterAndPaginate(title, null, null, null, null, LocalDate.now(), MAX_DATE, null, null, rateSign, rate, null, null, pageNumber, limit, SortCriteria.DATE, true, multipleLocations);
-
-        List<CardsUserEventDto> returnList = converterToUserCardsEventDto.convertAll(eventViews);
-
-        List<EventView> checkLastPage = eventService.filterAndPaginate(title, null, null, null, null, LocalDate.now(), MAX_DATE, null, null, rateSign, rate, null, null, pageNumber + 1, limit, SortCriteria.DATE, true, multipleLocations);
-        boolean more = !checkLastPage.isEmpty();
-        JSONObject responseBody = new JSONObject();
-        responseBody.put("events", returnList);
-        responseBody.put("more", more);
-
-        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+//        List<EventView> eventViews = eventService.filterAndPaginate(title, null, null, null, null, LocalDate.now(), MAX_DATE, null, null, rateSign, rate, null, null, pageNumber, limit, SortCriteria.DATE, true, multipleLocations);
+//
+//        List<CardsUserEventDto> returnList = converterToUserCardsEventDto.convertAll(eventViews);
+//
+//        List<EventView> checkLastPage = eventService.filterAndPaginate(title, null, null, null, null, LocalDate.now(), MAX_DATE, null, null, rateSign, rate, null, null, pageNumber + 1, limit, SortCriteria.DATE, true, multipleLocations);
+//        boolean more = !checkLastPage.isEmpty();
+//        JSONObject responseBody = new JSONObject();
+//        responseBody.put("events", returnList);
+//        responseBody.put("more", more);
+//
+//        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+        return null;
     }
 
     @GetMapping("/user/history")
@@ -246,26 +246,28 @@ public class EventController {
                                                      @RequestParam(required = false) ComparisonSign rateSign,
                                                      @RequestParam(required = false) Float rate,
                                                      @RequestParam int limit) {
-        List<EventView> eventViews = eventService.filterAndPaginate(title, null, null, null, null, MIN_DATE, LocalDate.now(), null, null, rateSign, rate, null, null, pageNumber, limit, SortCriteria.DATE, false, multipleLocations);
-
-        List<CardsUserEventDto> returnList = converterToUserCardsEventDto.convertAll(eventViews);
-
-        List<EventView> checkLastPage = eventService.filterAndPaginate(title, null, null, null, null, MIN_DATE, LocalDate.now(), null, null, rateSign, rate, null, null, pageNumber + 1, limit, SortCriteria.DATE, false, multipleLocations);
-        boolean more = !checkLastPage.isEmpty();
-        JSONObject responseBody = new JSONObject();
-        responseBody.put("events", returnList);
-        responseBody.put("more", more);
-        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+//        List<EventView> eventViews = eventService.filterAndPaginate(title, null, null, null, null, MIN_DATE, LocalDate.now(), null, null, rateSign, rate, null, null, pageNumber, limit, SortCriteria.DATE, false, multipleLocations);
+//
+//        List<CardsUserEventDto> returnList = converterToUserCardsEventDto.convertAll(eventViews);
+//
+//        List<EventView> checkLastPage = eventService.filterAndPaginate(title, null, null, null, null, MIN_DATE, LocalDate.now(), null, null, rateSign, rate, null, null, pageNumber + 1, limit, SortCriteria.DATE, false, multipleLocations);
+//        boolean more = !checkLastPage.isEmpty();
+//        JSONObject responseBody = new JSONObject();
+//        responseBody.put("events", returnList);
+//        responseBody.put("more", more);
+//        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+        return null;
     }
 
     @GetMapping("/highlighted")
     public ResponseEntity<List<CardsUserEventDto>> getHighlightedEvents() {
-        int limit = eventService.getHighlightedEventCount();
-        List<EventView> eventViews = eventService.filterAndPaginate(null, null, null, true, null, LocalDate.now(), MAX_DATE, null, null, null, null, null, null, 1, 100, SortCriteria.DATE, false, null);
-
-        List<CardsUserEventDto> returnList = converterToUserCardsEventDto.convertAll(eventViews);
-
-        return new ResponseEntity<>(returnList, HttpStatus.OK);
+//        int limit = eventService.getHighlightedEventCount();
+//        List<EventView> eventViews = eventService.filterAndPaginate(null, null, null, true, null, LocalDate.now(), MAX_DATE, null, null, null, null, null, null, 1, 100, SortCriteria.DATE, false, null);
+//
+//        List<CardsUserEventDto> returnList = converterToUserCardsEventDto.convertAll(eventViews);
+//
+//        return new ResponseEntity<>(returnList, HttpStatus.OK);
+        return null;
     }
 }
 
