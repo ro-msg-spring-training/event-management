@@ -1,6 +1,9 @@
 package ro.msg.event.management.eventmanagementbackend.controller;
 
 import lombok.AllArgsConstructor;
+import net.minidev.json.JSONObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -32,17 +35,16 @@ public class TicketController {
     }
 
     @GetMapping("/filter")
-    public ResponseEntity<List<TicketListingDto>> getFilteredTickets(@RequestParam Integer limit,@RequestParam Integer pageNumber, @RequestParam(required = false) String title, @RequestParam(required = false) String startDate, @RequestParam(required = false) String endDate) {
+    public ResponseEntity<JSONObject> getFilteredTickets(Pageable pageable, @RequestParam(required = false) String title, @RequestParam(required = false) String startDate, @RequestParam(required = false) String endDate) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String user = ((User) auth.getPrincipal()).getIdentificationString();
-        List<TicketView> ticketViews = ticketService.getFilteredAndPaginated(user, title, startDate != null ? LocalDate.parse(startDate) : null, endDate != null ? LocalDate.parse(endDate) : null, pageNumber, limit);
-        return new ResponseEntity<>(convertToTicketDto.convertAll(ticketViews), HttpStatus.OK);
+        Page<TicketView> page = ticketService.filterTickets(pageable, user, title, startDate != null ? LocalDate.parse(startDate) : null, endDate != null ? LocalDate.parse(endDate) : null);
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("tickets", convertToTicketDto.convertAll(page.getContent()));
+        responseBody.put("noPages", page.getTotalPages());
+        responseBody.put("more", !page.isLast());
+        return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
 
-    @GetMapping("filter/lastPage")
-    public Integer getNumberOfPages(@PathVariable Integer limit,@RequestParam(required = false) String title, @RequestParam(required = false) String startDate, @RequestParam(required = false) String endDate) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String user = ((User) auth.getPrincipal()).getIdentificationString();
-        return ticketService.getNumberOfPages(user, title, startDate != null ? LocalDate.parse(startDate) : null, endDate != null ? LocalDate.parse(endDate) : null, limit);
-    }
+
 }
