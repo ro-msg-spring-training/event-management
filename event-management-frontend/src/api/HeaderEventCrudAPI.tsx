@@ -9,12 +9,6 @@ export const fetchEventAPI = (id: string) => {
   }).then((response) => response.json());
 };
 
-export const fetchEventWithLocationsAPI = (id: string) => {
-  return fetchWrapper(`${serverURL}/events/${id}?type=userEventDetails`, {
-    headers: headersAuth
-  }).then((response) => response.json());
-};
-
 export const deleteEventAPI = (id: string) => {
   return fetchWrapper(`${serverURL}/events/${id}`, { method: "DELETE", headers: headersAuth });
 };

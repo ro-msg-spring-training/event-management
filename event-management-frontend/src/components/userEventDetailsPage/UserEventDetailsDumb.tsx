@@ -114,3 +114,4 @@ function UserEventDetailsDumb(props: UserEventDetailsDumbProps) {
 };
 
 export default UserEventDetailsDumb;
+

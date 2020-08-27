@@ -16,12 +16,10 @@ import {
   UPDATE_EVENT,
   UPDATE_LOCATION,
   RESET_STORE,
-  FETCH_EVENT_WITH_LOCATION_SUCCESS
 } from "../actions/HeaderEventCrudActions"
 import { EventCrud } from "../model/EventCrud"
 import { EventImage } from "../model/EventImage"
 import { EventFormErrors } from "../model/EventFormErrors"
-import { EventWithLocation } from "../model/EventWithLocation"
 
 export interface EventState {
   loading: boolean,
@@ -77,7 +75,7 @@ const getEventImages = (imagesStr: string[]) => {
   return images as EventImage[]
 }
 
-const HeaderReducer = (state = initialState, action: { type: string, payload: EventCrud | EventWithLocation}) => {
+const HeaderReducer = (state = initialState, action: { type: string, payload: EventCrud}) => {
   switch (action.type) {
     case RESET_STORE:
       return {
@@ -104,19 +102,7 @@ const HeaderReducer = (state = initialState, action: { type: string, payload: Ev
         error: '',
         isError: false,
         isLoading: false,
-        images: getEventImages((action.payload as EventCrud).picturesUrlSave)
-      }
-    case FETCH_EVENT_WITH_LOCATION_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        event: (action.payload as EventWithLocation).eventDto,
-        locationAddress: (action.payload as EventWithLocation).locationAddress,
-        locationName: (action.payload as EventWithLocation).locationName,
-        error: '',
-        isError: false,
-        isLoading: false,
-        images: getEventImages((action.payload as EventWithLocation).eventDto.picturesUrlSave)
+        images: getEventImages(action.payload.picturesUrlSave)
       }
     case FETCH_EVENT_FAILURE:
       return {

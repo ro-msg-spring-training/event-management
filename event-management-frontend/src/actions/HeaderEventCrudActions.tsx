@@ -1,17 +1,14 @@
 import { EventCrud } from "../model/EventCrud"
 import { EventImage } from "../model/EventImage"
 import { EventFormErrors } from "../model/EventFormErrors"
-import { EventWithLocation } from "../model/EventWithLocation"
 
 export const LOAD_EVENT = 'LOAD_EVENT'
-export const LOAD_EVENT_WITH_LOCATIONS = 'LOAD_EVENT_WITH_LOCATIONS'
 export const DELETE_EVENT = 'DELETE_EVENT'
 export const ADD_EVENT = 'ADD_EVENT'
 export const EDIT_EVENT = 'EDIT_EVENT'
 
 export const FETCH_EVENT_REQUEST = 'FETCH_EVENT_REQUEST'
 export const FETCH_EVENT_SUCCESS = 'FETCH_EVENT_SUCCESS'
-export const FETCH_EVENT_WITH_LOCATION_SUCCESS = 'FETCH_EVENT_WITH_LOCATION_SUCCESS'
 export const FETCH_EVENT_FAILURE = 'FETCH_EVENT_FAILURE'
 
 export const DELETE_EVENT_REQUEST = 'DELETE_EVENT_REQUEST'
@@ -37,13 +34,6 @@ export const RESET_STORE = "RESET_STORE"
 export const loadEvent = (id: string) => {
   return {
     type: LOAD_EVENT,
-    payload: id
-  }
-}
-
-export const loadEventWithLocations = (id: string) => {
-  return {
-    type: LOAD_EVENT_WITH_LOCATIONS,
     payload: id
   }
 }
@@ -76,17 +66,10 @@ export const fetchEventRequest = () => {
   }
 }
 
-export const fetchEventSuccess = (product: EventCrud) => {
+export const fetchEventSuccess = (event: EventCrud) => {
   return {
     type: FETCH_EVENT_SUCCESS,
-    payload: product
-  }
-}
-
-export const fetchEventWithLocationSuccess = (product: EventWithLocation) => {
-  return {
-    type: FETCH_EVENT_WITH_LOCATION_SUCCESS,
-    payload: product
+    payload: event
   }
 }
 
