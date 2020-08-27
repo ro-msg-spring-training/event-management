@@ -9,7 +9,6 @@ import {
     FETCH_HOME_EVENTS_ERROR,
     FETCH_HOME_EVENTS_REQUEST,
     SORT_EVENTS, FILTER_EVENTS,
-    PREV_PAGE, NEXT_PAGE,
     UPDATE_SORT_CRITERIA,
     FETCH_CUSTOM_EVENTS_REQUEST,
     FETCH_CUSTOM_EVENTS_SUCCESS,
@@ -28,7 +27,7 @@ import {
 } from "../actions/EventsPageActions"
 import { MathRelation } from "../model/MathRelation"
 import { EventFilters } from "../model/EventFilters";
-import { fetchSortedEvents, changePage } from "../api/EventsServiceAPI";
+import { fetchSortedEvents } from "../api/EventsServiceAPI";
 import { EventSort } from "../model/EventSort";
 
 
@@ -75,7 +74,6 @@ const initialState: EventsPageState = {
 interface ReducerActionProps {
     type: string,
     payload: any,
-    sort: any,
     page: number
 }
 
@@ -136,18 +134,6 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
                 ...state,
                 eventsSort: action.payload
             }
-        case PREV_PAGE:
-            changePage(action.payload, action.sort, state.page - 1)
-            return {
-                ...state,
-                page: state.page - 1,
-            };
-        case NEXT_PAGE:
-            changePage(action.payload, action.sort, state.page + 1)
-            return {
-                ...state,
-                page: state.page + 1
-            };
         case SORT_EVENTS:
             fetchSortedEvents(action.payload, state.filters, action.page)
             return {

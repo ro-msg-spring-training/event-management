@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 // The Header creates links that can be used to navigate between routes.
 const Header = () => {
-    const [ t, i18n ] = useTranslation();
+    const [, i18n ] = useTranslation();
     const classes = useStyles();
     const userName = localStorage.getItem("username");
 

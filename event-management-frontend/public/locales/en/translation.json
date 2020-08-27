@@ -1,14 +1,25 @@
 {
+  "ticketList": {
+    "id": "ID",
+    "date": "Date",
+    "category": "Category",
+    "name" : "Name",
+    "pdf": "PDF",
+    "eventName": "Event name",
+    "myTickets": "My tickets"
+  },
   "eventList": {
     "account": "My account",
     "home": "Home",
     "buildings": "Buildings",
     "events": "Events",
     "statistics": "Statistics",
+    "tickets": "Tickets",
     "previous": "Prev",
     "next": "Next",
     "details": "Details",
     "validate": "Validate",
+    "open": "Open",
     "title": "Title",
     "subtitle": "Subtitle",
     "status": "Status",
@@ -152,6 +163,12 @@
     "cancelButton": "Cancel",
     "selectedLocationMessage": " Selected location for the event",
     "searchBarText": "Search location"
+  },
+  "occupancyCards": {
+    "toDateText": "to",
+    "occupancyRate": "Occupancy Rate:",
+    "historyEvents": "Last events",
+    "upcomingEvents": "Upcoming Events"
   },
   "userEventList": {
     "detailsButton": "Details",

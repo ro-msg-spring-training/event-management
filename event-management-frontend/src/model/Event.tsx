@@ -1,14 +1,13 @@
 import React from 'react';
 
-interface Event {
+export interface Event {
+    endDate: string;
+    endHour: string;
     id: number;
-    title: string;
+    location: string;
+    occupancyRate: number;
+    startDate: string;
+    startHour: string;
     subtitle: string;
-    location: number;
-    date: string;
-    hour: number;
-    occRate: number;
-    name: string;
+    title: string;
 }
-
-export default Event;

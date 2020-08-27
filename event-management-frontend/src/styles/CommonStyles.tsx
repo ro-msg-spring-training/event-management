@@ -92,18 +92,17 @@ const useStyles = makeStyles(theme => ({
     textDecoration: "none"
   },
   buttonBar: {
-    [theme.breakpoints.down("xs")]: {
+    [theme.breakpoints.down("sm")]: {
       display: "none"
     },
     margin: "10px",
     paddingLeft: "16px",
     right: 0,
     position: "relative",
-    // width: "100%",
     background: "transparent"
   },
   buttonCollapse: {
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up("md")]: {
       display: "none"
     },
     margin: "10px",

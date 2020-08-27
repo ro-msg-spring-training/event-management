@@ -1,0 +1,11 @@
+@media (max-width: 1000px) {
+  .cardsResponsive {
+    margin-left: auto !important;
+  }
+}
+
+@media (max-width: 750px) {
+  .cardsResponsive {
+    margin-left: 30px !important;
+  }
+}
