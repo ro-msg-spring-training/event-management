@@ -28,7 +28,9 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
     @Query("SELECT e FROM Event e LEFT JOIN Booking b" +
             " ON e.id = b.event" +
-            " WHERE b.user = :user")
-    Page<Event> findByUser(@Param("user") String user, Pageable pageable);
+            " WHERE b.user = :user"+
+            " AND start_date < NOW() ORDER BY start_date DESC")
+    Page<Event> findByUser(@Param("user") String user,
+                           Pageable pageable);
 
 }
