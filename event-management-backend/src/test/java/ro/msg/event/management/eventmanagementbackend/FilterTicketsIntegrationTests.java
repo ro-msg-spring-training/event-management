@@ -3,6 +3,7 @@ package ro.msg.event.management.eventmanagementbackend;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import ro.msg.event.management.eventmanagementbackend.entity.*;
@@ -49,7 +50,7 @@ public class FilterTicketsIntegrationTests {
     private TicketService ticketService;
 
     @Test
-    public void test_number_ticket_per_category_for_event(@PageableDefault Pageable pageable) {
+    public void test_number_ticket_per_category_for_event() {
         Event event1 = new Event("Tile", "Subtitle", true, LocalDate.parse("2020-11-11"), LocalDate.parse("2020-11-15"), LocalTime.parse("18:00"), LocalTime.parse("20:00"), 10, "descr", true, "no obs", 3, "someUser", "ticket info", null, null, null, null);
         Event event2 = new Event("Tile2", "Subtitle2", true, LocalDate.parse("2020-11-14"), LocalDate.parse("2020-11-19"), LocalTime.parse("10:00"), LocalTime.parse("12:00"), 12, "descr2", true, "no obs", 3, "someUser", "ticket info", null, null, null, null);
         Location location1 = new Location("Campus", "Obs 23", (float) 34.55, (float) 55.76, null, null);
@@ -102,6 +103,8 @@ public class FilterTicketsIntegrationTests {
         ticketRepository.save(ticket112);
         ticketRepository.save(ticket113);
         ticketRepository.save(ticket114);
+
+        Pageable pageable = PageRequest.of(0, 10);
 
         List<TicketView> ticketViewList = ticketService.filterTickets(pageable, "someUser", null, null, null).getContent();
         for (TicketView ticketView : ticketViewList) {

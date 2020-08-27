@@ -3,7 +3,9 @@ package ro.msg.event.management.eventmanagementbackend;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import ro.msg.event.management.eventmanagementbackend.entity.*;
 import ro.msg.event.management.eventmanagementbackend.entity.view.EventView;
@@ -41,7 +43,7 @@ public class FilterEventsIntegrationTests {
     private EventService eventService;
 
     @Test
-    public void filter_by_date_and_rate(@PageableDefault(size = 10) Pageable pageable) {
+    public void filter_by_date_and_rate() {
         Event event1 = new Event("Tile", "Subtitle", true, LocalDate.parse("2020-11-11"), LocalDate.parse("2020-11-15"), LocalTime.parse("18:00"), LocalTime.parse("20:00"), 10, "descr", true, "no obs", 3, "someUser", "ticket info", null, null, null, null);
         Event event2 = new Event("Tile2", "Subtitle2", true, LocalDate.parse("2020-11-14"), LocalDate.parse("2020-11-19"), LocalTime.parse("10:00"), LocalTime.parse("12:00"), 12, "descr2", true, "no obs", 3, "someUser", "ticket info", null, null, null, null);
         Location location1 = new Location("Campus", "Obs 23", (float) 34.55, (float) 55.76, null, null);
@@ -79,6 +81,8 @@ public class FilterEventsIntegrationTests {
         ticketRepository.save(ticket111);
         ticketRepository.save(ticket112);
         ticketRepository.save(ticket121);
+
+        Pageable pageable = PageRequest.of(0, 10);
 
         List<EventView> eventViews = eventService.filter(pageable, null, null, null, null, null, null, null, null, null, ComparisonSign.GREATER, (float) 0, null, null, null, null, null).getContent();
         for (EventView eventView : eventViews) {

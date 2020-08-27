@@ -49,7 +49,7 @@ class UserEventsAttendedIntegrationTests {
         bookingList.add(bookingUser);
         event.setBookings(bookingList);
 
-        Pageable pageable = PageRequest.of(0, 1, Sort.by(Sort.Direction.DESC,"startDate"));
+        Pageable pageable = PageRequest.of(0, 1);
 
         Page<Event> eventPage = eventService.filterAndPaginateEventsAttendedByUser(user,pageable);
 
@@ -93,7 +93,7 @@ class UserEventsAttendedIntegrationTests {
         bookingListEvent3.add(bookingAnotherUser);
         eventNotAttended.setBookings(bookingListEvent3);
 
-        Pageable pageable = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC,"startDate"));
+        Pageable pageable = PageRequest.of(0, 3);
 
         Page<Event> eventPage = eventService.filterAndPaginateEventsAttendedByUser(user,pageable);
 
@@ -125,7 +125,7 @@ class UserEventsAttendedIntegrationTests {
         bookingListEvent2.add(bookingAnotherUser2);
         eventAttendedByUser2.setBookings(bookingListEvent2);
 
-        Pageable pageable = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC,"startDate"));
+        Pageable pageable = PageRequest.of(0, 3);
 
         Page<Event> eventPage = eventService.filterAndPaginateEventsAttendedByUser(user, pageable);
 
