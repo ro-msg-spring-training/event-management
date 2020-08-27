@@ -51,6 +51,7 @@ function BuyTicketsSecondPageSmart({ match, fetchedData, fetchTicketCategories }
         gotoFirstPage={gotoFirstPage}
         gotoEventListPage={gotoEventListPage}
         ticketCategories={fetchedData.ticketCategory}
+        eventId={match.params.id}
       />
     </div>
   );

@@ -1,8 +1,7 @@
-import React, { Component, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useStyles } from '../../../../styles/CommonStyles';
-import { Button, Grid, Typography, TextField, Paper } from '@material-ui/core';
+import { Button, Grid, Typography, TextField } from '@material-ui/core';
 import { userBuyTicketsStyle } from '../../../../styles/UserBuyTicketsStyle';
-import { TicketAvailabilityData } from '../../../../model/TicketAvailabilityData';
 
 interface TicketsPerCateory {
   category: string,
@@ -24,12 +23,12 @@ interface NamesStepProps {
   setTicketNames: (ticketNames: TicketNames[]) => void,
 }
 
-
-let initialTicketNames: TicketNames[] = [];
-
-const createFields = (ticket: TicketsPerCateory): TicketNames => {
+const createFields = (initialTicketNames: TicketNames[], ticket: TicketsPerCateory): TicketNames[] => {
   let newField: TicketNames = { ticketTitle: ticket.category, names: new Array(ticket.quantity).fill("") };
-  return newField;
+
+  (initialTicketNames.find(item => item.ticketTitle === ticket.category) === undefined) && initialTicketNames.push(newField);
+
+  return initialTicketNames;
 }
 
 function NamesStep({ nextStep, prevStep, handleEnterKey, handleNameStepChange, ticketAmount, ticketNames, setTicketNames }: NamesStepProps) {
@@ -37,15 +36,17 @@ function NamesStep({ nextStep, prevStep, handleEnterKey, handleNameStepChange, t
   const classes = userBuyTicketsStyle();
 
   useEffect(() => {
+    let initialTicketNames: TicketNames[] = ticketNames;
     let ticketArr = ticketAmount.filter(ticket => ticket.quantity !== 0)
-    console.log("ticketArr ", ticketArr);
-    ticketArr.length !== 0 && ticketArr.map(ticket => (initialTicketNames.push(createFields(ticket))))
+    ticketArr.length !== 0 && ticketArr.map(ticket => (initialTicketNames = createFields(initialTicketNames, ticket)))
     setTicketNames(initialTicketNames);
   }, [])
 
+
+  console.log("Ticket names ", ticketNames);
   console.log("FINAL TICKET NAMES ", ticketNames);
 
-  let inputs:JSX.Element[] = [];
+  let inputs: JSX.Element[] = [];
   for (let i = 0; i < ticketAmount.length; i++) {
     for (let j = 0; j < ticketAmount[i].quantity; j++) {
       inputs.push(
@@ -57,6 +58,7 @@ function NamesStep({ nextStep, prevStep, handleEnterKey, handleNameStepChange, t
             name={ticketAmount[i].category + "_" + j}
             id={ticketAmount[i].category + "_" + j}
             fullWidth
+            defaultValue={ticketNames.find(ticket => ticket.ticketTitle === ticketAmount[i].category)?.names[j]}
             label={ticketAmount[i].category + " #" + Number(j + 1)}
             variant="outlined"
             onChange={handleNameStepChange}

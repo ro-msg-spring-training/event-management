@@ -7,10 +7,11 @@ interface EmailStepProps {
   nextStep: () => void,
   prevStep: () => void,
   handleEnterKey: (e: any) => void,
-  handleStepperChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  handleEmailStepChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  email: string,
 }
 
-function EmailStep({ nextStep, prevStep, handleEnterKey, handleStepperChange }: EmailStepProps) {
+function EmailStep({ nextStep, prevStep, handleEnterKey, handleEmailStepChange, email }: EmailStepProps) {
   const buttonClass = useStyles();
   const classes = userBuyTicketsStyle();
 
@@ -24,9 +25,10 @@ function EmailStep({ nextStep, prevStep, handleEnterKey, handleStepperChange }: 
             onKeyDown={handleEnterKey}
             name="Email"
             fullWidth
+            defaultValue={email}
             label="Email"
             variant="outlined"
-            onChange={handleStepperChange}
+            onChange={handleEmailStepChange}
             // error={formErrors.title.length > 0}
             // helperText={formErrors.title}
             />

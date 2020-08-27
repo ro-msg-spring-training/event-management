@@ -1,15 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, Grid, TextField, makeStyles, Theme, Typography, Tooltip, IconButton, withStyles } from '@material-ui/core';
 import { useStyles } from '../../../../styles/CommonStyles';
 import { userBuyTicketsStyle } from '../../../../styles/UserBuyTicketsStyle';
 import { TicketAvailabilityData } from '../../../../model/TicketAvailabilityData';
 import HelpIcon from '@material-ui/icons/Help';
 
+interface TicketsPerCateory {
+  category: string,
+  quantity: number
+}
+
 interface TicketsStepProps {
   nextStep: () => void,
   handleEnterKey: (e: any) => void,
   handleTicketsStepChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
   ticketCategories: TicketAvailabilityData[],
+  ticketAmount: TicketsPerCateory[],
 }
 
 const HtmlTooltip = withStyles((theme: Theme) => ({
@@ -22,9 +28,12 @@ const HtmlTooltip = withStyles((theme: Theme) => ({
   },
 }))(Tooltip);
 
-function TicketsStep({ nextStep, handleEnterKey, handleTicketsStepChange, ticketCategories }: TicketsStepProps) {
+function TicketsStep({ nextStep, handleEnterKey, handleTicketsStepChange, ticketCategories, ticketAmount }: TicketsStepProps) {
   const buttonClass = useStyles();
   const classes = userBuyTicketsStyle();
+
+  console.log("CAT ", ticketCategories);
+  console.log("AMT ", ticketAmount);
 
   let inputs = [];
   for (let i = 0; i < ticketCategories.length; i++) {
@@ -36,6 +45,7 @@ function TicketsStep({ nextStep, handleEnterKey, handleTicketsStepChange, ticket
           type="number"
           name={ticketCategories[i].title}
           fullWidth
+          defaultValue={ticketAmount.find(ticket => ticket.category === ticketCategories[i].title)?.quantity}
           label={ticketCategories[i].title}
           variant="outlined"
           onChange={handleTicketsStepChange}

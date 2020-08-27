@@ -44,19 +44,36 @@ interface BuyTicketsSecondPageDumbProps {
   gotoFirstPage: () => void,
   gotoEventListPage: () => void,
   ticketCategories: TicketAvailabilityData[],
+  eventId: number | string,
 }
 
-function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCategories }: BuyTicketsSecondPageDumbProps) {
+const initialBooking = {
+  bookingDate: "",
+  eventId: "",
+  email: "",
+  tickets: []
+}
+
+function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCategories, eventId }: BuyTicketsSecondPageDumbProps) {
   const [step, setStep] = useState(1);
   const [ticketAmount, setTicketAmount] = useState<TicketsPerCateory[]>([]);
   const [ticketNames, setTicketNames] = useState<TicketNames[]>([]);
-  // const [booking, setBooking] = useState<Booking>();
+  const [booking, setBooking] = useState<Booking>(initialBooking);
   const [checked, setChecked] = useState(false);
+
+  let today = new Date(new Date().toString().split('GMT')[0] + ' UTC').toISOString().split('.')[0]
+  const dateAndTime = today.split("T");
+  const currDate = dateAndTime[0];
 
   let initialTicketState: TicketsPerCateory[] = [];
   useEffect(() => {
     ticketCategories.map((ticket) => initialTicketState.push({ category: ticket.title, quantity: 0 }))
     setTicketAmount(initialTicketState);
+
+    let oldBooking = { ...booking };
+    oldBooking.eventId = eventId;
+    oldBooking.bookingDate = currDate;
+    setBooking(oldBooking);
 
     // ticketCategories.map((ticket) => initialTicketNames.push({ ticketTitle: ticket.title, names: [] }))
     // setTicketNames(initialTicketNames);
@@ -95,15 +112,43 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
     ticketCategories[index].remaining >= Number(value) ?
       setTicketAmount(ticketAmount.map(item => (item.category === name ? { ...item, 'quantity': Number(value) } : item))) :
       console.log("Error not that many tickets in stock");
+  }
+  console.log("ticketAmount", ticketAmount);
 
+  const handleEmailStepChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const { name, value } = e.target;
+
+    let newBooking = { ...booking };
+    newBooking.email = value;
+    setBooking(newBooking);
   }
 
-  // console.log("NAMES ARRAY: ", ticketNames);
-  // console.log("TICKET AMOUNT: ", ticketAmount);
   const handleNameStepChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
     console.log(name, " ", value);
     console.log(ticketNames);
+
+    //VIP_0 => ticketData[0] = VIP; ticketData[1] = 0
+    let ticketData = name.split("_");
+
+    //find the ticket category and its names array
+    let ticketToUpdate = ticketNames.find(ticket => (ticket.ticketTitle === ticketData[0]));
+
+    //set the new value to the specified position in the names array
+    ticketToUpdate!.names[Number(ticketData[1])] = value;
+
+    console.log(ticketToUpdate);
+
+    // setTicketNames({ticket});
+
+    let ticketNamesCopy = [...ticketNames];
+    let index = ticketNames.findIndex(ticket => (ticket.ticketTitle === ticketData[0]))
+    let replacedTicket = { ...ticketNamesCopy[index] }
+    replacedTicket = ticketToUpdate as TicketNames;
+    ticketNamesCopy[index] = replacedTicket;
+    setTicketNames(ticketNamesCopy);
+
+    console.log("FINAL TICKET NAMES: ", ticketNames);
   }
 
   const buttons =
@@ -123,6 +168,8 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
 
   let currentPage = <></>
 
+  console.log("BOOKING: ", booking);
+
   switch (step) {
     case 1:
       currentPage =
@@ -131,6 +178,7 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
           handleEnterKey={handleEnterKey}
           handleTicketsStepChange={handleTicketsStepChange}
           ticketCategories={ticketCategories}
+          ticketAmount={ticketAmount}
         />
       break;
     case 2:
@@ -139,7 +187,8 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
           nextStep={nextStep}
           prevStep={prevStep}
           handleEnterKey={handleEnterKey}
-          handleStepperChange={handleStepperChange}
+          handleEmailStepChange={handleEmailStepChange}
+          email={booking.email}
         />
       break;
     case 3:
