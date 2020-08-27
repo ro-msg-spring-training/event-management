@@ -25,9 +25,9 @@ export class UpcomingEventsLoadingStatusAction {
 
 export class UpcomingEventsErrorAction {
   public readonly type = AdminHomePageActionTypes.UPCOMING_EVENTS_ERROR;
-  public errorStatus: string;
+  public errorStatus: boolean;
 
-  constructor(errorStatus: string) {
+  constructor(errorStatus: boolean) {
     this.errorStatus = errorStatus;
   }
 }
@@ -56,9 +56,9 @@ export class HistoryEventsLoadingStatusAction {
 
 export class HistoryEventsErrorAction {
   public readonly type = AdminHomePageActionTypes.HISTORY_EVENTS_ERROR;
-  public errorStatus: string;
+  public errorStatus: boolean;
 
-  constructor(errorStatus: string) {
+  constructor(errorStatus: boolean) {
     this.errorStatus = errorStatus;
   }
 }
@@ -89,7 +89,7 @@ export const upcomingEventsisLoading = (loadingStatus: boolean): UpcomingEventsL
   };
 };
 
-export const upcomingEventsError = (errorStatus: string): UpcomingEventsErrorAction => {
+export const upcomingEventsError = (errorStatus: boolean): UpcomingEventsErrorAction => {
   return {
     type: AdminHomePageActionTypes.UPCOMING_EVENTS_ERROR,
     errorStatus: errorStatus,
@@ -118,7 +118,7 @@ export const historyEventsisLoading = (loadingStatus: boolean): HistoryEventsLoa
   };
 };
 
-export const historyEventsError = (errorStatus: string): HistoryEventsErrorAction => {
+export const historyEventsError = (errorStatus: boolean): HistoryEventsErrorAction => {
   return {
     type: AdminHomePageActionTypes.HISTORY_EVENTS_ERROR,
     errorStatus: errorStatus,

@@ -3,31 +3,27 @@ import themeDark from "./Apptheme";
 
 const useStylesCards = makeStyles(() => ({
   occupancyCard: {
-    maxWidth: "320px",
-    minHeight: "550px",
     marginTop: "20px",
-    marginLeft: "auto",
     borderRadius: 16,
     "&:hover": {
       boxShadow: `0 6px 12px 0 grey`,
     },
   },
-  cardContainer: {
-    marginRight: "700px",
-  },
+
   title: {
-    marginRight: "10px",
+    marginLeft: "12px",
     display: "block",
     fontWeight: "bold",
-    fontSize: "1.05rem",
+    fontSize: "1.25rem",
   },
   cardTitle: {
     fontFamily: "Roboto",
     fontWeight: 400,
-    fontSize: "1.75rem",
+    fontSize: "1.55rem",
     color: "#fff",
     marginBottom: "10px",
     textTransform: "uppercase",
+    textAlign: "center",
   },
   listItem: {
     display: "block !important",
@@ -53,14 +49,17 @@ const useStylesCards = makeStyles(() => ({
     display: "inline !important",
   },
   occupancyRate: {
-    paddingLeft: "50px",
+    paddingLeft: "10px",
+    margin: "2px",
   },
   dateRange: {
     margin: "2px",
-    paddingLeft: "50px",
+    paddingLeft: "10px",
+    paddingBottom: "20px",
   },
   dateIcon: {
     marginRight: "5px",
+    verticalAlign: "middle",
   },
   dateText: {
     margin: "1px",
@@ -70,6 +69,13 @@ const useStylesCards = makeStyles(() => ({
   },
   dateEnd: {
     margin: "2px",
+  },
+
+  spacing: {
+    margin: "5px",
+  },
+  adminHomeContainer: {
+    padding: "20px",
   },
 }));
 

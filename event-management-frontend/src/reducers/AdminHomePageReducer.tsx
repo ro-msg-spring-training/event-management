@@ -5,14 +5,14 @@ export interface OccupancyCardsState {
   upcomingEvents: OccupancyCardType[];
   historyEvents: OccupancyCardType[];
   isLoading: boolean;
-  error: string;
+  isError: boolean;
 }
 
 const initialStateOccupancyCards: OccupancyCardsState = {
   upcomingEvents: [],
   historyEvents: [],
   isLoading: true,
-  error: "",
+  isError: false,
 };
 
 export const AdminHomePageReducer = (
@@ -31,12 +31,14 @@ export const AdminHomePageReducer = (
         ...state,
         upcomingEvents: action.upcomingEvents,
         isLoading: false,
+        isError: false,
       };
     }
     case AdminHomePageActionTypes.UPCOMING_EVENTS_ERROR: {
       return {
         ...state,
-        error: action.errorStatus,
+        isError: false,
+        isLoading: true,
       };
     }
     case AdminHomePageActionTypes.HISTORY_EVENTS_LOADING: {
@@ -50,12 +52,14 @@ export const AdminHomePageReducer = (
         ...state,
         historyEvents: action.historyEvents,
         isLoading: false,
+        isError: false,
       };
     }
     case AdminHomePageActionTypes.HISTORY_EVENTS_ERROR: {
       return {
         ...state,
-        error: action.errorStatus,
+        isError: action.errorStatus,
+        isLoading: true,
       };
     }
 
