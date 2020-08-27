@@ -110,6 +110,8 @@
 
         "overviewTab": "Detalii",
         "locationTab": "Locație",
+        "locationName": "Numele Locației",
+        "locationAddress": "Adresa Locației",
         "ticketsTab": "Bilete",
         "imagesTab": "Imagini",
 

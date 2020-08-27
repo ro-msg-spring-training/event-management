@@ -110,6 +110,8 @@
 
         "overviewTab": "Overview",
         "locationTab": "Location",
+        "locationName": "Location Name",
+        "locationAddress": "Location Address",
         "ticketsTab": "Tickets",
         "imagesTab": "Images",
 

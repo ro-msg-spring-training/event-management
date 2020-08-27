@@ -66,10 +66,10 @@ export const fetchEventRequest = () => {
   }
 }
 
-export const fetchEventSuccess = (product: EventCrud) => {
+export const fetchEventSuccess = (event: EventCrud) => {
   return {
     type: FETCH_EVENT_SUCCESS,
-    payload: product
+    payload: event
   }
 }
 

@@ -36,7 +36,7 @@ function CarouselSlide({ images }: Props) {
   return (
     <Grid item container direction="row" justify="center" alignItems="center" className={classes.position}>
       {
-        images.length > 0 &&
+        images.length > 1 &&
         < Arrow
           direction='left'
           clickFunction={() => onArrowClick('left')}
@@ -51,7 +51,7 @@ function CarouselSlide({ images }: Props) {
       </Grid>
 
       {
-        images.length > 0 &&
+        images.length > 1 &&
         <Arrow
           direction='right'
           clickFunction={() => onArrowClick('right')}
