@@ -70,5 +70,6 @@ const mapStateToProps = (state: AppState) => ({
     isError: state.tickets.isError
 });
 
+
 export default connect(mapStateToProps,
     { fetchTickets, incrementPage })(TicketListSmart)

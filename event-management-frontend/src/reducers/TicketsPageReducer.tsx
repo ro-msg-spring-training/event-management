@@ -60,13 +60,11 @@ export const TicketsPageReducer = (state = initialState, action: ReducerActionPr
                 page: state.page + 1
             }
         case OPEN:
-            console.log("reducer open")
             return {
                 ...state,
                 open: true
             }
         case CLOSE:
-            console.log("reducer close")
             return {
                 ...state,
                 open: false

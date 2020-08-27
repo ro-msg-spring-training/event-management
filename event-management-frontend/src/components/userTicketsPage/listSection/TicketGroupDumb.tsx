@@ -4,7 +4,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import { Link } from "react-router-dom";
 import { Ticket } from "../../../model/Ticket";
-import {createStyles, Theme, withStyles} from "@material-ui/core/styles";
 import { useStyles } from '../../../styles/CommonStyles';
 import { useStylesTickets } from '../../../styles/ticketsListStyles';
 import { useTranslation } from "react-i18next";
@@ -12,15 +11,8 @@ import IconButton from "@material-ui/core/IconButton";
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import TicketCollapseDumb from "./TicketCollapseDumb";
+import {StyledTableCell} from '../../../styles/StyledTableCell'
 
-
-const StyledTableCell = withStyles((theme: Theme) =>
-    createStyles({
-        body: {
-            fontSize: 14,
-        },
-    }),
-)(TableCell);
 
 interface Props {
     handleChange: (index: number) => void;
@@ -134,5 +126,6 @@ const TicketGroupDumb = (props: Props) => {
         </>
     );
 }
+
 
 export default TicketGroupDumb

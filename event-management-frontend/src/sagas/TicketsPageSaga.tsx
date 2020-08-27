@@ -28,20 +28,11 @@ export function* watchFetchTicketsAsync() {
     yield takeEvery(FETCH_TICKETS, fetchTicketsAsync)
 }
 
-function *openAsync() {
-    //yield put(openDetails())
-}
-
 export function* watchOpenAsync() {
-  //  yield takeEvery(OPEN, openAsync)
-}
-
-function *closeAsync() {
-//    yield put(closeDetails())
 }
 
 export function* watchCloseAsync() {
-    //yield takeEvery(CLOSE, closeAsync)
 }
+
 
 

@@ -1,22 +1,12 @@
 import React from 'react';
-import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import {createStyles, Theme, withStyles} from "@material-ui/core/styles";
 import {Ticket} from "../../../model/Ticket";
 import {Link} from "react-router-dom";
 import {Button, TableBody } from "@material-ui/core";
 import {useStyles} from "../../../styles/CommonStyles";
 import {useStylesTickets} from "../../../styles/ticketsListStyles";
 import {useTranslation} from "react-i18next";
-
-
-const StyledTableCell = withStyles((theme: Theme) =>
-    createStyles({
-        body: {
-            fontSize: 14,
-        },
-    }),
-)(TableCell);
+import {StyledTableCell} from '../../../styles/StyledTableCell'
 
 
 interface Props {
@@ -67,5 +57,6 @@ const TicketCollapseDumb = (props: Props) => {
         </TableBody>
     );
 }
+
 
 export default TicketCollapseDumb

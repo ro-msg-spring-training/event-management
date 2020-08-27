@@ -68,4 +68,5 @@ const EventDetailsDumb = (props: Props) => {
     );
 }
 
+
 export default EventDetailsDumb

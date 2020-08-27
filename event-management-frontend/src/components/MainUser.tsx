@@ -11,9 +11,9 @@ const MainUser = () => {
                 <Header />
                 <main>
                     <Switch>
-                        <Route exact path='/user' component={HomeUser} />
                         <Route exact path='/user/tickets' component={TicketListSmart} />
                         <Route exact path='/user/events' component={UserEventsPage} />
+                        <Route exact path='/user' component={HomeUser} />
                     </Switch>
                 </main>
             </div>
