@@ -6,6 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.test.context.ActiveProfiles;
 import ro.msg.event.management.eventmanagementbackend.entity.*;
 import ro.msg.event.management.eventmanagementbackend.entity.view.EventView;
 import ro.msg.event.management.eventmanagementbackend.repository.*;
@@ -18,6 +19,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 @SpringBootTest
+@ActiveProfiles("test")
 public class AdminHomepageIntegrationTests {
 
     @Autowired
