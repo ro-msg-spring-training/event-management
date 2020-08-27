@@ -152,5 +152,8 @@
     "cancelButton": "Cancel",
     "selectedLocationMessage": " Selected location for the event",
     "searchBarText": "Search location"
+  },
+  "userHomePage": {
+    "carousselError": "Unable to load. Try again later."
   }
 }

@@ -1,72 +1,84 @@
 import { makeStyles, Theme } from "@material-ui/core";
 
-export const useStylesSlider = makeStyles((theme: Theme) => ({
-  slideContainer: {
-    marginTop: "100px",
-    width: "50%",
-    backgroundColor: "darkgray",
-  },
-  sliderStyle: {
-    width: "100%",
+export const useStylesCarousel = makeStyles((theme: Theme) => ({
+  cardStyle: {
+    borderStyle: "groove",
+    pointerEvents: "none",
   },
 
-  slideCard: {
-    textAlign: "center",
-    paddingTop: "10px",
-    opacity: "1",
-    width: "30%",
-    color: "white",
+  imageStyle: {
+    pointerEvents: "fill",
+    height: 220,
+    marginTop: theme.spacing(3),
+    marginLeft: theme.spacing(3),
+    marginRight: theme.spacing(3),
   },
 
-  car: {
-    width: "600px",
-    height: "500px",
-  },
-
-  slideImage: {
+  textStyle: {
     display: "block",
-    marginLeft: "40%",
-  },
-
-  dataContainer: {
-    //width: "600px",
-    // display: "float",
-  },
-
-  barna: {
-    backgroundColor: "brown",
-  },
-
-  alacsony: {
-    height: "300px",
-  },
-
-  slideDetails: {
-    //width: "0%",
-    color: "white",
-    display: "float",
     overflow: "hidden",
-    fontSize: "20px",
-    whiteSpace: "nowrap",
-    lineHeight: "28px",
-    // marginLeft: "20%",
+    textAlign: "left",
+    float: "left",
+    color: theme.palette.primary.dark,
   },
 
-  slideHour: {
-    color: "white",
-    display: "inline",
+  descriptionTextStyle: {
+    display: "block",
     overflow: "hidden",
-    fontSize: "20px",
+    textAlign: "left",
+    float: "left",
+    color: theme.palette.primary.dark,
+    width: "calc(100%)",
+    textOverflow: "ellipsis",
     whiteSpace: "nowrap",
-    //  marginLeft: "30%",
+    "&:hover": {
+      overflow: "visible",
+      whiteSpace: "normal",
+    },
   },
 
-  slideLocation: {
-    color: "white",
-    display: "inline",
-    overflow: "hidden",
-    fontSize: "20px",
-    whiteSpace: "nowrap",
-    marginLeft: "5%",
+  title: {
+    color: theme.palette.primary.main,
+  },
+
+  iconStyle: {
+    marginRight: "8px",
+    color: "#f2ac0a",
+  },
+
+  attributeStyle: {
+    display: "flex",
+    flexDirection: "row",
+    width: "100%",
+    marginLeft: theme.spacing(1),
+  },
+
+  dateStyle: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
+    marginLeft: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+    marginTop: theme.spacing(2),
+  },
+
+  locationStyle: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
+    marginLeft: theme.spacing(1),
+    marginBottom: theme.spacing(2),
+    marginTop: theme.spacing(1),
+  },
+
+  hourLocationWrapperStyle: {
+    // display: "flex",
+  },
+
+  carouselStyle: {
+    marginTop: theme.spacing(5),
+    height: "500px",
   },
 }));
