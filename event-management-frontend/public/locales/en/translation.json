@@ -152,5 +152,20 @@
     "cancelButton": "Cancel",
     "selectedLocationMessage": " Selected location for the event",
     "searchBarText": "Search location"
+  },
+  "userEventList": {
+    "detailsButton": "Details",
+    "errorMessage": "Oops, there was an error",
+    "noResults": "There is no results",
+    "name": "Name",
+    "locations": "Locations",
+    "rate": "Ocuppancy rate",
+    "pastEvents": "Past events",
+    "filterButton": "Filter",
+    "clearButton": "Clear",
+    "noOption": "No option",
+    "noLocations": "No locations available",
+    "notANumber":"Invalid number",
+    "notAValidPercent":"Invalid percent"
   }
 }

@@ -151,5 +151,20 @@
         "cancelButton": "Anuleaza",
         "selectedLocationMessage": "Locatia selectata pentru eveniment",
         "searchBarText": "Cauta locatie"
-    }
+    },
+    "userEventList": {
+        "detailsButton": "Detalii",
+        "errorMessage": "Oops, eroare",
+        "noResults": "Nu există rezultate",
+        "name": "Nume",
+        "locations": "Locații",
+        "rate": "Rată ocupare",
+        "pastEvents": "Evenimente din trecut",
+        "filterButton": "Filtrare",
+        "clearButton": "Resetare",
+        "noOption": "Fără opțiuni",
+        "noLocations": "Locațiile nu sunt disponibile",
+        "notANumber": "Număr invalid",
+        "notAValidPercent": "Procent invalid"
+      }
 }
