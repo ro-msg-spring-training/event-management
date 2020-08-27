@@ -58,4 +58,7 @@ public class EventView {
     @Column
     private String pictureUrl;
 
+    @Column
+    private String description;
+
 }
