@@ -2,6 +2,8 @@ package ro.msg.event.management.eventmanagementbackend.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.msg.event.management.eventmanagementbackend.entity.*;
@@ -19,10 +21,12 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
-import org.springframework.data.domain.Pageable;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -211,7 +215,7 @@ public class EventService {
         this.eventRepository.deleteById(id);
     }
 
-    public TypedQuery<EventView> filter(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople, SortCriteria sortCriteria, Boolean sortType, List<String> multipleLocations) {
+    public Page<EventView> filter(Pageable pageable, String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople, SortCriteria sortCriteria, Boolean sortType, List<String> multipleLocations) {
 
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<EventView> q = criteriaBuilder.createQuery(EventView.class);
@@ -295,20 +299,20 @@ public class EventService {
             if (sortType) q.orderBy(criteriaBuilder.asc(c.get(criteria)));
             else q.orderBy(criteriaBuilder.desc(c.get(criteria)));
         }
+        TypedQuery<EventView> typedQuery = entityManager.createQuery(q);
+        typedQuery.setFirstResult((int) pageable.getOffset());
+        typedQuery.setMaxResults(pageable.getPageSize());
+        List<EventView> result = typedQuery.getResultList();
 
-
-        return entityManager.createQuery(q);
+        CriteriaQuery<Long> sc = criteriaBuilder.createQuery(Long.class);
+        Root<EventView> rootSelect = sc.from(EventView.class);
+        sc.select(criteriaBuilder.count(rootSelect));
+        sc.where(finalPredicate);
+        Long count = entityManager.createQuery(sc).getSingleResult();
+        return new PageImpl<>(result, pageable, count);
 
     }
 
-    public List<EventView> filterAndPaginate(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople, int pageNumber, int eventPerPage, SortCriteria sortCriteria, Boolean sortType, List<String> multipleLocations) {
-        TypedQuery<EventView> typedQuery = this.filter(title, subtitle, status, highlighted, location, startDate, endDate, startHour, endHour, rateSign, rate, maxPeopleSign, maxPeople, sortCriteria, sortType, multipleLocations);
-        int offset = (pageNumber - 1) * eventPerPage;
-        typedQuery.setFirstResult(offset);
-        typedQuery.setMaxResults(eventPerPage);
-        return typedQuery.getResultList();
-
-    }
 
     public Predicate getPredicate(ComparisonSign comparisonSign, String criteria, Float value, CriteriaBuilder criteriaBuilder, Root<EventView> c) {
         switch (comparisonSign) {
@@ -327,10 +331,6 @@ public class EventService {
         }
     }
 
-    public int getNumberOfPages(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople, int eventPerPage, List<String> multipleLocations) {
-        int count = filter(title, subtitle, status, highlighted, location, startDate, endDate, startHour, endHour, rateSign, rate, maxPeopleSign, maxPeople, null, null, multipleLocations).getResultList().size();
-        return (int) Math.ceil((float) count / (float) eventPerPage);
-    }
 
     public Event getEvent(long id) {
         Optional<Event> eventOptional = this.eventRepository.findById(id);
