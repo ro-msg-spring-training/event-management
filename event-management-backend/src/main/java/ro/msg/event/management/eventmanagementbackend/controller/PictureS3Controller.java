@@ -1,9 +1,7 @@
 package ro.msg.event.management.eventmanagementbackend.controller;
 
 
-import com.amazonaws.auth.InstanceProfileCredentialsProvider;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.PictureS3Dto;

@@ -23,5 +23,6 @@ public class CardsUserEventDto {
     private LocalTime endTime;
     private float rate;
     private String picture;
+    private String description;
 
 }

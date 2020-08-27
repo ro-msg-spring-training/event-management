@@ -33,7 +33,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class EventService {
 
-    private static final LocalDate MIN_DATE = LocalDate.parse("1900-01-01");
 
     private final EventRepository eventRepository;
     private final SublocationRepository sublocationRepository;
@@ -326,7 +325,7 @@ public class EventService {
             case GREATER:
                 return criteriaBuilder.gt(c.get(criteria), value);
             case LOWER:
-                return criteriaBuilder.le(c.get(criteria), value);
+                return criteriaBuilder.lessThan(c.get(criteria), value);
             case EQUAL:
                 return criteriaBuilder.equal(c.get(criteria), value);
             case GREATEROREQUAL:
@@ -352,7 +351,4 @@ public class EventService {
         return eventRepository.findByUser(user.getIdentificationString(), pageable);
     }
 
-    public int getHighlightedEventCount() {
-        return eventRepository.findAllByHighlighted(true).size();
-    }
 }

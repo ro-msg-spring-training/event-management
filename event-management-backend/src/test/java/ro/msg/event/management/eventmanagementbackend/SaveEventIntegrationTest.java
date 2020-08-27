@@ -7,17 +7,13 @@ import ro.msg.event.management.eventmanagementbackend.controller.converter.Conve
 import ro.msg.event.management.eventmanagementbackend.controller.converter.EventReverseConverter;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.EventDto;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.TicketCategoryDto;
-import ro.msg.event.management.eventmanagementbackend.entity.BaseEntity;
 import ro.msg.event.management.eventmanagementbackend.entity.Event;
-import ro.msg.event.management.eventmanagementbackend.entity.Location;
 import ro.msg.event.management.eventmanagementbackend.entity.Picture;
 import ro.msg.event.management.eventmanagementbackend.exception.ExceededCapacityException;
 import ro.msg.event.management.eventmanagementbackend.exception.OverlappingEventsException;
 import ro.msg.event.management.eventmanagementbackend.service.EventService;
-import ro.msg.event.management.eventmanagementbackend.service.LocationService;
 
 import javax.transaction.Transactional;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -36,19 +32,11 @@ public class SaveEventIntegrationTest {
     @Autowired
     private Converter<EventDto, Event> convertToEntity;
 
-    @Autowired
-    private LocationService locationService;
+
 
     @Test
-    void testSaveEvent() throws SQLException {
-        /*String query = "insert into `location` values(1,'The Office','Bd. 21 Decembrie', 46.24,24.3);\n" +
-                "insert into `location` values(2,'Campus Observator','str Observatorului nr 34', 46.21,24.3);\n" +
-                "insert into `sublocation` values(1,'Floor 1',200,1);\n" +
-                "insert into `sublocation` values(2,'Camin 5',300,2);";*/
+    void testSaveEvent() {
 
-        /*Connection conn = DriverManager.getConnection("jdbc:h2:mem:test", "sa", "");
-        Statement statement = conn.createStatement();
-        statement.execute(query);*/
 
         List<String> picturesUrlSave = new ArrayList<>();
         picturesUrlSave.add("url1");

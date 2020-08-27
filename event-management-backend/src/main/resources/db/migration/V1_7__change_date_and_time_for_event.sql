@@ -22,6 +22,7 @@ SELECT
   event.start_hour,
   event.end_hour,
   event.max_people,
+  event.description,
   picture_join.url as picture_url,
   CAST(CAST(COUNT(DISTINCT ticket.id) AS FLOAT)/CAST(event.max_people AS FLOAT)*100 AS DECIMAL(16,2)) as rate
 FROM
