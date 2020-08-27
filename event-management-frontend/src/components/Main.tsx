@@ -1,11 +1,11 @@
-import React, { useLayoutEffect, useState } from 'react'
-import { Switch, Route } from 'react-router-dom'
-import Home from './homePage/Home'
+import React, { useLayoutEffect, useState } from "react";
+import { Switch, Route } from "react-router-dom";
+import Home from "./homePage/Home";
 import EventList from "./eventListPage/listSection/EventListSmart";
-import { Container } from '@material-ui/core';
-import Header from './header/Header';
-import EventDetails from './eventCreateOrEdit/EventDetails';
-import { PrivateRoute } from './PrivateRoute';
+import { Container } from "@material-ui/core";
+import Header from "./header/Header";
+import EventDetails from "./eventCreateOrEdit/EventDetails";
+import { PrivateRoute } from "./PrivateRoute";
 
 // The Main component renders one of the three provided
 // Routes (provided that one matches). The /events
@@ -14,50 +14,58 @@ import { PrivateRoute } from './PrivateRoute';
 // when the pathname is exactly the string "/"
 
 const Main = () => {
-    const [width, setWidth] = useState(window.innerWidth);
+  const [width, setWidth] = useState(window.innerWidth);
 
-    useLayoutEffect(() => {
-        function updateSize() {
-            setWidth(window.innerWidth);
-        }
-        window.addEventListener('resize', updateSize);
-        updateSize();
-        return () => window.removeEventListener('resize', updateSize);
-    }, []);
-
-    if (width <= 600) {
-        return (
-            <>
-                <Header />
-                <main>
-                    <Switch>
-                        <PrivateRoute admin exact path='/admin' component={Home} />
-                        <PrivateRoute admin exact path='/admin/events' component={EventList} />
-                        <Route exact path='/admin/events/:id'
-                            render={(props: any) => <EventDetails match={props.match} admin={true} />} /> 
-                        <Route exact path='/admin/newEvent'
-                            render={(props: any) => <EventDetails match={props.match} admin={true} />} />
-                    </Switch>
-                </main>
-            </>
-        );
-    } else {
-        return (
-            <div>
-                <Header />
-                <main>
-                    <Switch>
-                        <Route exact path='/admin' component={Home} />
-                        <Route exact path='/admin/events' component={EventList} />
-                        <Route exact path='/admin/events/:id'
-                            render={props => <EventDetails match={props.match} admin={true} />} />
-                        <Route exact path='/admin/newEvent'
-                            render={props => <EventDetails match={props.match} admin={true} />} />
-                    </Switch>
-                </main>
-            </div>
-        );
+  useLayoutEffect(() => {
+    function updateSize() {
+      setWidth(window.innerWidth);
     }
-}
+    window.addEventListener("resize", updateSize);
+    updateSize();
+    return () => window.removeEventListener("resize", updateSize);
+  }, []);
 
-export default Main
+  if (width <= 600) {
+    return (
+      <>
+        <Header />
+        <main>
+          <Switch>
+            <PrivateRoute admin exact path="/admin" component={Home} />
+            <PrivateRoute admin exact path="/admin/events" component={EventList} />
+            <Route
+              exact
+              path="/admin/events/:id"
+              render={(props: any) => <EventDetails match={props.match} admin={true} />}
+            />
+            <Route
+              exact
+              path="/admin/newEvent"
+              render={(props: any) => <EventDetails match={props.match} admin={true} />}
+            />
+          </Switch>
+        </main>
+      </>
+    );
+  } else {
+    return (
+      <div>
+        <Header />
+        <main>
+          <Switch>
+            <Route exact path="/admin" component={Home} />
+            <Route exact path="/admin/events" component={EventList} />
+            <Route
+              exact
+              path="/admin/events/:id"
+              render={(props) => <EventDetails match={props.match} admin={true} />}
+            />
+            <Route exact path="/admin/newEvent" render={(props) => <EventDetails match={props.match} admin={true} />} />
+          </Switch>
+        </main>
+      </div>
+    );
+  }
+};
+
+export default Main;

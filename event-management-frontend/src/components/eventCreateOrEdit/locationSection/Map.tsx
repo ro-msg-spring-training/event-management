@@ -4,10 +4,6 @@ import "leaflet/dist/leaflet.css";
 import useStylesMapWrapper from "../../../styles/MapWrapperStyle";
 import "../../../styles/Map.css";
 import L from "leaflet";
-import black_marker from "../../../assets/marker_black.png";
-import green_marker from "../../../assets/marker_green.png";
-import red_marker from "../../../assets/marker_red.png";
-import marker_shadow from "../../../assets/marker-shadow.png";
 import { Button } from "@material-ui/core";
 import { useStyles } from "../../../styles/CommonStyles";
 import { LocationType } from "../../../types/LocationType";
@@ -18,36 +14,10 @@ import { useTranslation } from "react-i18next";
 import { locationFetch, locationFetchSucces, locationisLoading } from "../../../actions/LocationActions";
 import SearchBar from "./SearchBar";
 import { updateLocation } from "../../../actions/HeaderEventCrudActions";
-
-export const blackMarkerPoint = new L.Icon({
-  iconUrl: black_marker,
-  shadowUrl: marker_shadow,
-  iconAnchor: [20, 40],
-  popupAnchor: [0, -35],
-  iconSize: [40, 40],
-  shadowSize: [29, 40],
-  shadowAnchor: [7, 40],
-});
-
-export const greenMarkerPoint = new L.Icon({
-  iconUrl: green_marker,
-  shadowUrl: marker_shadow,
-  iconAnchor: [20, 40],
-  popupAnchor: [0, -35],
-  iconSize: [40, 40],
-  shadowSize: [29, 40],
-  shadowAnchor: [7, 40],
-});
-
-export const redMarkerPoint = new L.Icon({
-  iconUrl: red_marker,
-  shadowUrl: marker_shadow,
-  iconAnchor: [20, 40],
-  popupAnchor: [0, -35],
-  iconSize: [40, 40],
-  shadowSize: [29, 40],
-  shadowAnchor: [7, 40],
-});
+import { blackMarkerPoint, greenMarkerPoint, redMarkerPoint } from "./markerPointIcons";
+import MapDisplayLocationsDumb from "./MapdisplayLocationsDumb";
+import MapDisplaySelectedLocationDumb from "./MapDisplaySelectedLocation";
+import MapDisplaySearchMarker from "./MapDisplaySearchMarker";
 
 interface Props {
   isLoading: boolean;
@@ -71,7 +41,7 @@ const MapWrapper: React.FC<Props> = (props: Props) => {
   const { t } = useTranslation();
   const [position, setPosition]: any = useState([46.77121, 23.623634]);
   const [searchValue, setsearchValue] = useState("");
-  const [currentLocation, setcurrentLocation] = useState<LocationType>();
+  const [currentLocation, setcurrentLocation] = useState("");
   const [searchLocation, setsearchLocation] = useState({
     id: 0,
     name: "",
@@ -97,11 +67,11 @@ const MapWrapper: React.FC<Props> = (props: Props) => {
       const markers: any[] = [];
       markers.push([location.latitude, location.longitude]);
       setSelectedMarker(markers);
-      setcurrentLocation(location);
+      setcurrentLocation(location.name);
     }
   }, [props.locations]);
 
-  const submitLocation = (id: number, lat: string, long: string) => {
+  const submitLocation = (id: number, lat: string, long: string, name: string) => {
     setSearchMarker([]);
 
     const markers: any[] = [];
@@ -114,9 +84,13 @@ const MapWrapper: React.FC<Props> = (props: Props) => {
     const ids = String(id);
 
     props.setlocationStatus(ids);
+    console.log(id);
+    //const location = props.locations.find((loc) => loc.id === props.idLocation);
+    //console.log(location);
 
-    const location = props.locations.find((loc) => loc.id === props.idLocation);
-    setcurrentLocation(location);
+    //console.log(location);
+    setcurrentLocation(name);
+    console.log(selectedMarker);
   };
 
   return (
@@ -140,66 +114,13 @@ const MapWrapper: React.FC<Props> = (props: Props) => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
-        {props.locations.map((location) => (
-          <Marker
-            key={location.id}
-            position={[parseFloat(location.latitude), parseFloat(location.longitude)]}
-            icon={blackMarkerPoint}
-          >
-            <Popup>
-              <div className={classesMap.wrapperPopup}>
-                <h1 className={classesMap.locationTitle}>{location.name} </h1>
-                {location.address}
-                <br />{" "}
-                <Button
-                  className={`${classes.buttonStyle2} ${classes.buttonStyle3} ${classesMap.buttonPopup}`}
-                  onClick={(e) => {
-                    return submitLocation(location.id, location.latitude, location.longitude);
-                  }}
-                  disabled={submitDisabled}
-                >
-                  {t("location.selectButton")}
-                </Button>
-              </div>
-            </Popup>
-          </Marker>
-        ))}
-
-        {selectedMarker.map((position: any, idx: number) => {
-          return (
-            <Marker key={idx} position={position} icon={greenMarkerPoint}>
-              <Popup>
-                <div className={classesMap.wrapperPopup}>
-                  <h1 className={classesMap.locationTitle}> {currentLocation?.name} </h1>
-                  <p className={classesMap.text}>{t("location.selectedLocationMessage")}</p>
-                </div>
-              </Popup>
-            </Marker>
-          );
-        })}
-
-        {searchMarker.map((position: any, idx: number) => {
-          return (
-            <Marker key={idx} position={position} icon={redMarkerPoint}>
-              <Popup>
-                <div className={classesMap.wrapperPopup}>
-                  <h1 className={classesMap.locationTitle}>{searchLocation.name} </h1>
-                  {searchLocation.address}
-                  <br />{" "}
-                  <Button
-                    className={`${classes.buttonStyle2} ${classes.buttonStyle3} ${classesMap.buttonPopup}`}
-                    onClick={(e) => {
-                      return submitLocation(searchLocation.id, searchLocation.latitude, searchLocation.longitude);
-                    }}
-                    disabled={submitDisabled}
-                  >
-                    {t("location.selectButton")}
-                  </Button>
-                </div>
-              </Popup>
-            </Marker>
-          );
-        })}
+        <MapDisplayLocationsDumb locations={props.locations} submitLocation={submitLocation}></MapDisplayLocationsDumb>
+        <MapDisplaySelectedLocationDumb currentLocation={currentLocation} selectedMarker={selectedMarker} />
+        <MapDisplaySearchMarker
+          searchMarker={searchMarker}
+          searchLocation={searchLocation}
+          submitLocation={submitLocation}
+        ></MapDisplaySearchMarker>
       </Map>
     </div>
   );
