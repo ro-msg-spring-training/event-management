@@ -10,6 +10,7 @@ public class TicketConverter implements Converter<TicketView, TicketListingDto> 
     @Override
     public TicketListingDto convert(TicketView obj) {
         return TicketListingDto.builder()
+                .ticketId(obj.getTicketId())
                 .bookingId(obj.getBookingId())
                 .bookingDate(obj.getBookingDate())
                 .eventName(obj.getEvent_title())

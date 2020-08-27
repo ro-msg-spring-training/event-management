@@ -2,6 +2,8 @@ package ro.msg.event.management.eventmanagementbackend.controller;
 
 import lombok.RequiredArgsConstructor;
 import net.minidev.json.JSONObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,9 +28,11 @@ import ro.msg.event.management.eventmanagementbackend.service.TicketService;
 import ro.msg.event.management.eventmanagementbackend.utils.ComparisonSign;
 import ro.msg.event.management.eventmanagementbackend.utils.SortCriteria;
 
+import org.springframework.data.domain.Pageable;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -40,9 +44,7 @@ import java.util.stream.Collectors;
 @CrossOrigin
 public class EventController {
 
-    private static final int EVENTS_PER_LISTING_PAGE = 5;
     private static final int EVENTS_PER_CARD = 4;
-
     private final EventService eventService;
     private final Converter<Event, EventDto> convertToDto;
     private final Converter<EventDto, Event> convertToEntity;
@@ -50,6 +52,7 @@ public class EventController {
     private final Converter<EventView, EventListingDto> converterToListingDto;
     private final Converter<EventView, CardsEventDto> converterToCardsEventDto;
     private final Converter<EventView, CardsUserEventDto> converterToUserCardsEventDto;
+    private final Converter<Event, CardsEventDto> converterToCardEventDto;
     private final LocationService locationService;
     private final TicketService ticketService;
     private final Converter<Event, EventDetailsForBookingDto> eventDetailsForBookingDtoConverter;
@@ -181,11 +184,11 @@ public class EventController {
         return eventService.getNumberOfPages(title, subtitle, status, highlighted, location, startDate != null ? LocalDate.parse(startDate) : null, endDate != null ? LocalDate.parse(endDate) : null, startHour != null ? LocalTime.parse(startHour) : null, endHour != null ? LocalTime.parse(endHour) : null, rateSign, rate, maxPeopleSign, maxPeople, limit, null);
     }
 
-    @GetMapping("/latest/{pageNumber}")
+    @GetMapping("/latest")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<EventListingDto>> chronologicalPaginatedEvents(@PathVariable int pageNumber) {
+    public ResponseEntity<List<EventListingDto>> chronologicalPaginatedEvents(@RequestParam Integer limit,@RequestParam Integer pageNumber) {
         try {
-            List<EventView> eventViews = eventService.filterAndPaginate(null, null, null, null, null, LocalDate.now(), MAX_DATE, null, null, null, null, null, null, pageNumber, EVENTS_PER_LISTING_PAGE, SortCriteria.DATE, true, null);
+            List<EventView> eventViews = eventService.filterAndPaginate(null, null, null, null, null, LocalDate.now(), MAX_DATE, null, null, null, null, null, null, pageNumber, limit, SortCriteria.DATE, true, null);
             return new ResponseEntity<>(converterToListingDto.convertAll(eventViews), HttpStatus.OK);
         } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, indexOutOfBoundsException.getMessage(), indexOutOfBoundsException);
@@ -193,8 +196,8 @@ public class EventController {
     }
 
     @GetMapping("latest/lastPage")
-    public Integer getNumberOgPagesOnAdminHomepage() {
-        return eventService.getNumberOfPages(null, null, null, null, null, LocalDate.now(), MAX_DATE, null, null, null, null, null, null, EVENTS_PER_LISTING_PAGE, null);
+    public Integer getNumberOgPagesOnAdminHomepage(@RequestParam Integer limit) {
+        return eventService.getNumberOfPages(null, null, null, null, null, LocalDate.now(), MAX_DATE, null, null, null, null, null, null,limit, null);
     }
 
     @GetMapping("/upcoming")
@@ -258,6 +261,24 @@ public class EventController {
         responseBody.put("events", returnList);
         responseBody.put("more", more);
         return new ResponseEntity<>(responseBody, HttpStatus.OK);
+    }
+
+    @GetMapping("user/past")
+    public ResponseEntity<JSONObject> userEventsAttended(Pageable pageable) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) auth.getPrincipal();
+
+        Page<Event> pageEvent = eventService.filterAndPaginateEventsAttendedByUser(user, pageable);
+        List<Event> events = pageEvent.getContent();
+        List<CardsEventDto> eventsDto = converterToCardEventDto.convertAll(events);
+
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("events", eventsDto);
+        responseBody.put("noPages", pageEvent.getTotalPages());
+        responseBody.put("more", !pageEvent.isLast());
+
+        return  new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
 
     @GetMapping("/highlighted")

@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @Data
 @Builder
 public class TicketListingDto {
+    private Long ticketId;
     private Long bookingId;
     private LocalDate bookingDate;
     private String eventName;
