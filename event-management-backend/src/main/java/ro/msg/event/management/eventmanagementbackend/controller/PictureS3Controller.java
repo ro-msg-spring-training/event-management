@@ -15,14 +15,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/pictures")
-@RequiredArgsConstructor
 @CrossOrigin
+@RequiredArgsConstructor
 public class PictureS3Controller {
 
     private final PictureS3Service pictureS3Service;
 
-
-    private String bucketName = "event-management-pictures";
 
     @PostMapping
     public List<URL> getPresignedUrl(@RequestBody PictureS3Dto pictureS3Dto) {
@@ -30,14 +28,9 @@ public class PictureS3Controller {
         List<String> objectKeys = pictureS3Dto.getPicturesToSave();
         List<String> picturesToDeleteUrls = pictureS3Dto.getPicturesToDelete();
 
+        pictureS3Service.deleteFromS3(picturesToDeleteUrls);
 
-        AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
-                .withCredentials(new InstanceProfileCredentialsProvider(false))
-                .build();
-
-        pictureS3Service.deleteFromS3(picturesToDeleteUrls,bucketName,s3Client);
-
-        return pictureS3Service.getPresignedUrls(objectKeys, bucketName, s3Client);
+        return pictureS3Service.getPresignedUrls(objectKeys);
 
     }
 }

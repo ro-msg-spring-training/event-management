@@ -89,18 +89,13 @@ public class SaveEventIntegrationTest {
 
         long locationId = 1;
 
-        Location location = locationService.findByID(locationId);
 
-
-        List<Long> sublocationIDs = location.getSublocation().stream()
-                .map(BaseEntity::getId)
-                .collect(Collectors.toList());
 
         Event event = ((EventReverseConverter) convertToEntity).convertForUpdate(eventDto, false);
 
 
         try {
-            Event testEvent = eventService.saveEvent(event, sublocationIDs);
+            Event testEvent = eventService.saveEvent(event,locationId);
 
             assertEquals(event, testEvent);
 
