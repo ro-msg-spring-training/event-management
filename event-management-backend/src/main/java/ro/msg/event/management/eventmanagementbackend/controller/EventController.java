@@ -275,9 +275,8 @@ public class EventController {
 
         JSONObject responseBody = new JSONObject();
         responseBody.put("events", eventsDto);
-        responseBody.put("totalPages", pageEvent.getTotalPages());
-        responseBody.put("last", pageEvent.isLast());
-        responseBody.put("totalElements", pageEvent.getTotalElements());
+        responseBody.put("noPages", pageEvent.getTotalPages());
+        responseBody.put("more", !pageEvent.isLast());
 
         return  new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
