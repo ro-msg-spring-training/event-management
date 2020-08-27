@@ -37,7 +37,7 @@ export const AdminHomePageReducer = (
     case AdminHomePageActionTypes.UPCOMING_EVENTS_ERROR: {
       return {
         ...state,
-        isError: true,
+        isError: false,
         isLoading: true,
       };
     }

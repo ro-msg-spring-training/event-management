@@ -16,7 +16,7 @@ const OccupancyListDumb = (props: Props) => {
   return (
     <div className={classCardStyle.list}>
       <Carousel>
-        {props.eventsList.map((event: any) => (
+        {props.eventsList.map((event: OccupancyCardType) => (
           <div className={classCardStyle.block} key={event.id}>
             <Box component="div" display="inline">
               <ListItem className={classCardStyle.listItem}>

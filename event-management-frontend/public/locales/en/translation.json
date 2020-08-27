@@ -3,7 +3,7 @@
     "id": "ID",
     "date": "Date",
     "category": "Category",
-    "name" : "Name",
+    "name": "Name",
     "pdf": "PDF"
   },
   "eventList": {
@@ -163,7 +163,6 @@
     "searchBarText": "Search location"
   },
   "occupancyCards": {
-    "toDateText": "to",
     "occupancyRate": "Occupancy Rate:",
     "historyEvents": "Last events",
     "upcomingEvents": "Upcoming Events"
