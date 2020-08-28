@@ -32,9 +32,6 @@ function TicketsStep({ nextStep, handleEnterKey, handleTicketsStepChange, ticket
   const buttonClass = useStyles();
   const classes = userBuyTicketsStyle();
 
-  console.log("CAT ", ticketCategories);
-  console.log("AMT ", ticketAmount);
-
   let inputs = [];
   for (let i = 0; i < ticketCategories.length; i++) {
     inputs.push(

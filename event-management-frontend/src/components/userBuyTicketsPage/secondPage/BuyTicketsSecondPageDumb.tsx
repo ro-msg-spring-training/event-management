@@ -139,8 +139,6 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
 
     console.log(ticketToUpdate);
 
-    // setTicketNames({ticket});
-
     let ticketNamesCopy = [...ticketNames];
     let index = ticketNames.findIndex(ticket => (ticket.ticketTitle === ticketData[0]))
     let replacedTicket = { ...ticketNamesCopy[index] }
