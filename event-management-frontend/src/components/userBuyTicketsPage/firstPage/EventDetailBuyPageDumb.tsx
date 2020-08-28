@@ -20,6 +20,7 @@ import ScheduleRoundedIcon from "@material-ui/icons/ScheduleRounded";
 import DateDisplayDumb from "./DateDisplayDumb";
 import { useStyles } from "../../../styles/CommonStyles";
 import { useTranslation } from "react-i18next";
+
 interface Props {
   event: EventReserveTicketType;
   radionButtonState: string;

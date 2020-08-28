@@ -17,6 +17,7 @@ interface Props {
   radioButtonState: string;
   handleChangeRadioButtonState: (value: string) => void;
 }
+
 const BuyTicketFirstPageDumb = (props: Props) => {
   const reserveTicketFirstPage = useStylesbuyTicketFirstPage();
   const classes = useStyles();
