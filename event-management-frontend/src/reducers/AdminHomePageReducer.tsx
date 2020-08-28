@@ -1,5 +1,5 @@
 import { OccupancyCardType } from "../types/OcuupancyCardsType";
-import { AdminHomePageAction, AdminHomePageActionTypes } from "../actions/AdminHomePageActions";
+import { AdminHomePageAction, AdminHomePageActionTypes } from "../types/AdminHomePageActionTypes";
 
 export interface OccupancyCardsState {
   upcomingEvents: OccupancyCardType[];
