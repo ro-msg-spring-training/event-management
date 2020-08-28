@@ -1,9 +1,11 @@
 import React from 'react';
 
 function Tickets() {
-  return (
-    <h1>Hello</h1>
-  );
+    return (
+        <div>
+            Tickets
+        </div>
+    )
 }
 
 export default Tickets;

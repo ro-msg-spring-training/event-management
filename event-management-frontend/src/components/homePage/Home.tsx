@@ -1,12 +1,14 @@
-import React from 'react'
-import { Container } from '@material-ui/core'
+import React from "react";
+import { Container } from "@material-ui/core";
 import HomeEventListSmart from "./HomeEventListSmart";
+import OccupancyListSmart from "./OccupancyListSmart";
 
 const Home = () => (
-    <Container>
-        <br />
-        <HomeEventListSmart />
-    </Container>
-)
+  <Container>
+    <br />
+    <HomeEventListSmart />
+    <OccupancyListSmart />
+  </Container>
+);
 
-export default Home
+export default Home;

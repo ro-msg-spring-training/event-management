@@ -1,14 +1,25 @@
 {
+    "ticketList": {
+        "id": "ID",
+        "date": "Dată",
+        "category": "Categorie",
+        "name": "Nume",
+        "pdf": "PDF",
+        "eventName": "Numele evenimentului",
+        "myTickets": "Biletele mele"
+    },
     "eventList": {
         "account": "Contul meu",
         "home": "Acasă",
         "buildings": "Clădiri",
         "events": "Evenimente",
         "statistics": "Statistici",
+        "tickets": "Bilete",
         "previous": "Anterior",
         "next": "Următor",
         "details": "Detalii",
         "validate": "Validează",
+        "open": "Deschide",
         "title": "Titlu",
         "subtitle": "Subtitlu",
         "status": "Status",
@@ -27,7 +38,7 @@
         "maxPeople": "Număr maxim de persoane",
         "occupancyRate": "Rata de ocupare",
         "highlighted": "Evidențiat",
-        "createNewEventButton": "Crează eveniment nou",
+        "createNewEventButton": "Creează eveniment nou",
         "filterButton": "Filtrare",
         "clearButton": "Resetare",
         "seeMoreFilters": "Vezi mai multe filtre",
@@ -157,5 +168,26 @@
         "cancelButton": "Anuleaza",
         "selectedLocationMessage": "Locatia selectata pentru eveniment",
         "searchBarText": "Cauta locatie"
-    }
+    },
+    "occupancyCards": {
+        "toDateText": "pana in ",
+        "occupancyRate": "Rata de ocupare:",
+        "historyEvents": "Ultimele evenimente",
+        "upcomingEvents": "Evenimente viitoare"
+    },
+    "userEventList": {
+        "detailsButton": "Detalii",
+        "errorMessage": "Oops, eroare",
+        "noResults": "Nu există rezultate",
+        "name": "Nume",
+        "locations": "Locații",
+        "rate": "Rată ocupare",
+        "pastEvents": "Evenimente din trecut",
+        "filterButton": "Filtrare",
+        "clearButton": "Resetare",
+        "noOption": "Fără opțiuni",
+        "noLocations": "Locațiile nu sunt disponibile",
+        "notANumber": "Număr invalid",
+        "notAValidPercent": "Procent invalid"
+    },
 }

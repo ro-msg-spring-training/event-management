@@ -9,10 +9,11 @@ import { EventFilters } from "../../../model/EventFilters";
 import EventDetailsMobileDumb from "./EventDetailsMobileDumb";
 import { EventSort } from '../../../model/EventSort';
 import { getLastNumber } from '../../../api/EventsServiceAPI';
+import { Event } from "../../../model/Event";
 
 
 interface Props {
-    events: { Event: any; }[];
+    events: [];
     eventsSort: EventSort;
     filters: EventFilters;
     isLoading: boolean;
@@ -22,15 +23,15 @@ interface Props {
     page: number;
     prevPage: (filters: EventFilters, sort: EventSort) => void;
     nextPage: (filters: EventFilters, sort: EventSort) => void;
-    fetchCustomEvents: (filters: any, sort: any, page: number) => void;
-    updateSortCriteria: (sortCriteria: any) => void;
+    fetchCustomEvents: (filters: EventFilters, sort: EventSort, page: number) => void;
+    updateSortCriteria: (sortCriteria: EventSort) => void;
     incrementPage: () => void;
     decrementPage: () => void;
 }
 
 interface State {
-    sortCriteria: any;
-    sortType: any;
+    sortCriteria: string;
+    sortType: string;
     lastPage: number;
     lastFilters:  EventFilters;
 }
@@ -92,7 +93,6 @@ class EventListSmart extends React.Component<Props, State> {
 
         const goToPrevPage = () => {
             if (this.props.page <= 1) {
-                console.log("First page")
                 return
             } else {
                 this.props.decrementPage();
@@ -101,7 +101,6 @@ class EventListSmart extends React.Component<Props, State> {
 
         const goToNextPage = () => {
             if (this.props.page >= this.state.lastPage) {
-                console.log("Last page")
                 return
             } else {
                 this.props.incrementPage();
@@ -110,20 +109,17 @@ class EventListSmart extends React.Component<Props, State> {
 
         // Using the map function, we will get all the events from the array
         const eventDetails = events
-            .map((event: any) =>
-                <EventDetailsDumb key={event.id} id={event.id} title={event.title} subtitle={event.subtitle}
-                    location={event.location} date={event.startDate} hour={event.startHour} occRate={event.occupancyRate}
-                    name={event.name} />);
+            .map((event: Event) =>
+                <EventDetailsDumb key={event.id} event={event} />);
         // On mobile we would like to keep only title and date
         const eventDetailsMobile = events
-            .map((event: any) =>
-                <EventDetailsMobileDumb key={event.id} id={event.id}
-                    title={event.title} location={event.location} date={event.startDate} name={event.name} />);
+            .map((event: Event) =>
+                <EventDetailsMobileDumb key={event.id} event={event} />);
 
         return (
             <EventListDumb
-            isLoading={this.props.isLoading}
-            isError={this.props.isError}
+                isLoading={this.props.isLoading}
+                isError={this.props.isError}
 
                 updateSortCriteria={this.props.updateSortCriteria}
                 incrementPage={goToNextPage}
