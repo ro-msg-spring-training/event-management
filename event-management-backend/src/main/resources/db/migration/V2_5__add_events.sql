@@ -24,6 +24,9 @@ insert into `booking` values(2,timestamp '2020-09-17 18:47:52.69','6011847a-94c0
 insert into `booking` values(5,timestamp '2020-09-17 18:47:52.69','6011847a-94c0-4091-b301-ef839c7a10fa',7);
 insert into `booking` values(3,timestamp '2020-09-17 18:47:52.69', '78323b75-15df-4aad-9451-8b987307077a',1);
 insert into `booking` values(4,timestamp '2020-09-17 18:47:52.69','78323b75-15df-4aad-9451-8b987307077a',2);
+insert into `booking` values(6,timestamp '2020-09-17 18:47:52.69','6011847a-94c0-4091-b301-ef839c7a10fa',5);
+insert into `booking` values(7,timestamp '2020-09-17 18:47:52.69','6011847a-94c0-4091-b301-ef839c7a10fa',6);
+insert into `booking` values(8,timestamp '2020-09-17 18:47:52.69','6011847a-94c0-4091-b301-ef839c7a10fa',8);
 insert into `ticket` values (1,'Andrew','a@yahoo.com',1,1);
 insert into `ticket` values (2,'AndrewC','aC@yahoo.com',1,1);
 insert into `ticket` values (3,'AndrewM','aM@yahoo.com',2,3);

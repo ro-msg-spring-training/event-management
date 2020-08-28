@@ -8,6 +8,7 @@ import ro.msg.event.management.eventmanagementbackend.entity.Event;
 import ro.msg.event.management.eventmanagementbackend.security.User;
 
 import org.springframework.data.domain.Pageable;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -27,10 +28,15 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     List<Event> findAllByHighlighted(boolean highlighted);
 
     @Query("SELECT e FROM Event e LEFT JOIN Booking b" +
-            " ON e.id = b.event" +
-            " WHERE b.user = :user"+
-            " AND start_date < NOW() ORDER BY start_date DESC")
-    Page<Event> findByUser(@Param("user") String user,
-                           Pageable pageable);
+            " ON e.id = b.event.id" +
+            " WHERE b.user = :user" +
+            " AND e.startDate < current_date() ORDER BY e.startDate DESC")
+    Page<Event> findByUserInPast(@Param("user") String user, Pageable pageable);
+
+    @Query("SELECT e FROM Event e LEFT JOIN Booking b" +
+            " ON e.id = b.event.id" +
+            " WHERE b.user = :user" +
+            " AND e.startDate > current_date() ORDER BY e.startDate ASC")
+    Page<Event> findByUserInFuture(@Param("user") String user, Pageable pageable);
 
 }

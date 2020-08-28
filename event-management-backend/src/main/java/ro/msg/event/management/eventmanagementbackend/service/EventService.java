@@ -342,7 +342,11 @@ public class EventService {
     }
 
     public Page<Event> filterAndPaginateEventsAttendedByUser(User user, Pageable pageable) {
-        return eventRepository.findByUser(user.getIdentificationString(), pageable);
+        return eventRepository.findByUserInPast(user.getIdentificationString(), pageable);
+    }
+
+    public Page<Event> filterAndPaginateEventsUserWillAttend(User user, Pageable pageable) {
+        return eventRepository.findByUserInFuture(user.getIdentificationString(), pageable);
     }
 
     public int getHighlightedEventCount() {
