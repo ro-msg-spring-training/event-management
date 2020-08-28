@@ -5,6 +5,7 @@ import Booking from '../../../../../model/Booking';
 import Ticket from '../../../../../model/Ticket';
 import { TicketNames } from '../../../../../model/UserReserveTicket';
 import TermsAndConditionsDumb from './TermsAndConditionsStepDumb';
+import { useHistory } from 'react-router-dom';
 
 interface TermsAndConditionsStepSmartProps {
   prevStep: () => void,
@@ -23,6 +24,7 @@ interface TermsAndConditionsStepSmartProps {
 
 function TermsAndConditionsStepSmart({ prevStep, checked, handleCheckboxChange, booking, updateBookings, ticketNames, updateChecked, addBookings }: TermsAndConditionsStepSmartProps) {
   const [open, setOpen] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     updateChecked(false);
@@ -45,7 +47,11 @@ function TermsAndConditionsStepSmart({ prevStep, checked, handleCheckboxChange, 
   }, []);
 
   const handleProceedToBuy = (): void => {
-    checked && addBookings(booking)
+    // checked && addBookings(booking)
+    if (checked) {
+      addBookings(booking);
+      history.push('user/events');
+    }
   }
 
   return (

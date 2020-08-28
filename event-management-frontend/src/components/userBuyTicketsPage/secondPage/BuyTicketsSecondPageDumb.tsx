@@ -29,13 +29,26 @@ interface BuyTicketsSecondPageDumbProps {
 
   updateChecked: (checked: boolean) => void,
   checked: boolean,
+
+  step: number,
+
+  nextStep: () => void,
+  prevStep: () => void,
+  handleEnterKey: (e: any) => void,
+  handleTicketsStepChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  handleEmailStepChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  handleNameStepChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  handleCheckboxChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
 }
 
+const today = new Date(new Date().toString().split('GMT')[0] + ' UTC').toISOString().split('.')[0]
+
 function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCategories, eventId, booking, addBookings,
-  updateBookings, updateTicketAmount, ticketAmount, updateTicketNames, ticketNames, updateChecked, checked }: BuyTicketsSecondPageDumbProps) {
+  updateBookings, updateTicketAmount, ticketAmount, updateTicketNames, ticketNames, updateChecked, checked,
+  step, nextStep, prevStep, handleEnterKey, handleTicketsStepChange, handleEmailStepChange,
+  handleNameStepChange, handleCheckboxChange }: BuyTicketsSecondPageDumbProps) {
+  
   const classes = BuyTicketsSecondPageStyle();
-  const [step, setStep] = useState(1);
-  let today = new Date(new Date().toString().split('GMT')[0] + ' UTC').toISOString().split('.')[0]
 
   let initialTicketState: TicketsPerCateory[] = [];
   useEffect(() => {
@@ -49,55 +62,6 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    updateChecked(event.target.checked);
-  };
-
-  // Proceed to next step
-  const nextStep = () => { setStep(step + 1); };
-
-  // Go back to prev step
-  const prevStep = () => { setStep(step - 1); };
-
-  const handleEnterKey = (e: any): void => { e.keyCode === 13 && e.preventDefault(); }
-
-  const handleTicketsStepChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const { name, value } = e.target;
-    const index = ticketCategories.findIndex(ticket => ticket.title === name)
-    ticketCategories[index].remaining >= Number(value) ?
-      updateTicketAmount(ticketAmount.map(item => (item.category === name ? { ...item, 'quantity': Number(value) } : item))) :
-      console.log("Error not that many tickets in stock");
-  }
-
-  const handleEmailStepChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const { name, value } = e.target;
-
-    let newBooking = { ...booking };
-    newBooking.email = value;
-    updateBookings(newBooking);
-  }
-
-  const handleNameStepChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const { name, value } = e.target;
-
-    //VIP_0 => ticketData[0] = VIP; ticketData[1] = 0
-    let ticketData = name.split("_");
-
-    //find the ticket category and its names array
-    let ticketToUpdate = ticketNames.find(ticket => (ticket.ticketTitle === ticketData[0]));
-
-    //set the new value to the specified position in the names array
-    ticketToUpdate!.names[Number(ticketData[1])] = value;
-
-    let ticketNamesCopy = [...ticketNames];
-    let index = ticketNames.findIndex(ticket => (ticket.ticketTitle === ticketData[0]))
-    let replacedTicket = { ...ticketNamesCopy[index] }
-    replacedTicket = ticketToUpdate as TicketNames;
-    ticketNamesCopy[index] = replacedTicket;
-    updateTicketNames(ticketNamesCopy);
-  }
 
   const buttons =
     <>
@@ -156,7 +120,6 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
           checked={checked}
           handleCheckboxChange={handleCheckboxChange}
           booking={booking}
-          // setBooking={setBooking}
           updateBookings={updateBookings}
           ticketNames={ticketNames}
           updateChecked={updateChecked}
