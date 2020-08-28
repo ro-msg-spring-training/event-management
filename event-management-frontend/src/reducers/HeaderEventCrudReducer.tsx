@@ -15,7 +15,7 @@ import {
   UPDATE_FORM_ERRORS,
   UPDATE_EVENT,
   UPDATE_LOCATION,
-  RESET_STORE
+  RESET_STORE,
 } from "../actions/HeaderEventCrudActions"
 import { EventCrud } from "../model/EventCrud"
 import { EventImage } from "../model/EventImage"
@@ -29,6 +29,9 @@ export interface EventState {
   isLoading: boolean,
   images: EventImage[],
   formErrors: EventFormErrors,
+
+  locationAddress: string,
+  locationName: string,
 }
 
 let today = new Date(new Date().toString().split('GMT')[0] + ' UTC').toISOString().split('.')[0]
@@ -59,6 +62,9 @@ const initialState: EventState = {
   isError: false,
   isLoading: false,
   images: [],
+
+  locationAddress: "",
+  locationName: "",
 }
 
 const getEventImages = (imagesStr: string[]) => {
@@ -69,7 +75,7 @@ const getEventImages = (imagesStr: string[]) => {
   return images as EventImage[]
 }
 
-const HeaderReducer = (state = initialState, action: { type: string, payload: EventCrud }) => {
+const HeaderReducer = (state = initialState, action: { type: string, payload: EventCrud}) => {
   switch (action.type) {
     case RESET_STORE:
       return {

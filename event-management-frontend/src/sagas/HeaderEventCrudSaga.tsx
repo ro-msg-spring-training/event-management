@@ -11,7 +11,7 @@ interface Props {
 
 interface AddProps {
   type: string,
-  payload: {event: EventCrud, images: EventImage[]}
+  payload: { event: EventCrud, images: EventImage[] }
 }
 
 //-----------------------------------------LOAD EVENT
@@ -19,8 +19,8 @@ function* loadEventAsync(props: Props) {
   try {
     yield put(fetchEventRequest());
     const event = yield call(() => fetchEventAPI(props.payload));
-    event.id = parseInt(props.payload)
-    yield put(fetchEventSuccess(event))
+    event.eventDto.id = parseInt(props.payload)
+    yield put(fetchEventSuccess(event.eventDto))
   } catch (e) {
     yield put(fetchEventFailure(e))
   }
@@ -70,7 +70,7 @@ function* editEventAsync(props: AddProps) {
     yield put(editEventRequest());
     const imagesURL = yield call(() => updateImagesFromS3(props.payload.images));
     const event: EventCrud = props.payload.event
-    event.picturesUrlSave = imagesURL 
+    event.picturesUrlSave = imagesURL
     event.picturesUrlDelete = []
     yield call(() => editEventAPI(event));
     yield put(editEventSuccess())

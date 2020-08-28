@@ -14,39 +14,42 @@ import { fetchLocationsActionWatcher } from "./LocationPageSaga";
 import { watchFetchTicketsAsync, watchOpenAsync, watchCloseAsync } from "./TicketsPageSaga";
 import { fetchUpcomingEventsActionWatcher, fetchHistoryEventsActionWatcher } from "./AdminHomePageSaga";
 import { watchFetchUserEventsAsync, watchFetchUserEventsLocationsAsync } from "./UserEventListSaga";
+import { loadEventWithLocationsWatcher } from "./UserEventDetailsSaga";
 
 
 export default function* rootSaga() {
   yield all([
-      watchFetchFilteredEventsAsync(),
-      watchFetchEventsAsync(),
-      watchFetchHomeEventsAsync(),
-      watchSortEventsAsync(),
-      watchNextPageAsync(),
-      watchPrevPageAsync(),
-      watchFetchCustomEventsAsync(),
-      watchFetchCustomHomeEventsAsync(),
+    watchFetchFilteredEventsAsync(),
+    watchFetchEventsAsync(),
+    watchFetchHomeEventsAsync(),
+    watchSortEventsAsync(),
+    watchNextPageAsync(),
+    watchPrevPageAsync(),
+    watchFetchCustomEventsAsync(),
+    watchFetchCustomHomeEventsAsync(),
 
-      watchFetchTicketsAsync(),
+    watchFetchTicketsAsync(),
 
-      loadEventWatcher(),
-      deleteProductWatcher(),
-      addProductWatcher(),
-      editProductWatcher(),
+    loadEventWatcher(),
+    deleteProductWatcher(),
+    addProductWatcher(),
+    editProductWatcher(),
 
-      fetchLocationsActionWatcher(),
+    fetchLocationsActionWatcher(),
 
-      watchFetchCustomEventsAsync(),
-      watchFetchCustomHomeEventsAsync(),
+    watchFetchCustomEventsAsync(),
+    watchFetchCustomHomeEventsAsync(),
 
-      fetchUpcomingEventsActionWatcher(),
-      fetchHistoryEventsActionWatcher(),
-        
-      watchFetchUserEventsAsync(),
-      watchFetchUserEventsLocationsAsync(),
+    fetchUpcomingEventsActionWatcher(),
+    fetchHistoryEventsActionWatcher(),
 
-      watchOpenAsync(),
-      watchCloseAsync()
-   ]);
+    watchFetchUserEventsAsync(),
+    watchFetchUserEventsLocationsAsync(),
+
+    watchOpenAsync(),
+    watchCloseAsync(),
+
+    loadEventWithLocationsWatcher(),
+  ]);
 }
-   
+
