@@ -5,6 +5,7 @@ import { AppState } from '../../../store/store';
 import { Dispatch } from 'redux';
 import { EventCard } from '../../../model/userHome/EventCard';
 import { fetchUserPastEvents, fetchUserUpcomingEvents } from '../../../actions/UserHomePageActions';
+import { useHistory } from 'react-router-dom';
 
 interface EventProps {
     events: EventCard[],
@@ -25,6 +26,7 @@ interface UserHomePageProps {
 }
 
 function EventsSectionSmart({ past, pastEvents, upcomingEvents, fetchUserPastEvents, fetchUserUpcomingEvents }: UserHomePageProps) {
+    const history = useHistory();
     const events = past ? pastEvents.events : upcomingEvents.events;
     const page = past ? pastEvents.page : upcomingEvents.page;
     const limit = past ? pastEvents.limit : upcomingEvents.limit;
@@ -32,49 +34,22 @@ function EventsSectionSmart({ past, pastEvents, upcomingEvents, fetchUserPastEve
     const isError = past ? pastEvents.isError : upcomingEvents.isError;
     const isLoading = past ? pastEvents.isLoading : upcomingEvents.isLoading;
     const fetchEvents = past ? fetchUserPastEvents : fetchUserUpcomingEvents;
-    const eventsMock = {
-        "more": false,
-        "events": [
-            {
-                "id": 2,
-                "title": "msg Party",
-                "occupancyRate": 0,
-                "startDate": "2019-10-18",
-                "endDate": "2019-10-18"
-            },
-            {
-                "id": 7,
-                "title": "Fruit Party",
-                "occupancyRate": 0,
-                "startDate": "2019-09-17",
-                "endDate": "2019-09-17"
-            },
-            {
-                "id": 1,
-                "title": "Star Wars Party",
-                "occupancyRate": 0,
-                "startDate": "2019-09-17",
-                "endDate": "2019-09-17"
-            }
-        ],
-        "noPages": 1
-    }
 
     useEffect(() => {
         fetchEvents(page, limit);
-    }, [page, limit]);
+    }, [page, limit, fetchEvents]);
 
     const handleOnClick = (id: number) => {
-        console.log(`navigate to /user/events/${id}`)
+        history.push(`/user/events/${id}`)
     }
 
     return (
         <EventsSectionDumb
             past={past}
-            events={eventsMock.events as EventCard[]}
+            events={events}
             isLoading={isLoading}
             isError={isError}
-            noPages={eventsMock.noPages}
+            noPages={noPages}
             page={page}
             handleOnClick={handleOnClick}
         />

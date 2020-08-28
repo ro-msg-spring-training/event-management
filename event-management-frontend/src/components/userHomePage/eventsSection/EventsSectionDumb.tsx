@@ -21,7 +21,7 @@ function EventsSectionDumb({ past, events, page, noPages, isError, isLoading, ha
 
     return (
         <Card>
-            <CardHeader 
+            <CardHeader
                 className={classes.header}
                 title={past ? 'Past events' : 'Upcoming events'}
             />
@@ -31,36 +31,45 @@ function EventsSectionDumb({ past, events, page, noPages, isError, isLoading, ha
                     'Error' :
                     isLoading ?
                         <CircularProgress /> :
-                        <Grid container spacing={1}>
-                            {events.map(e =>
-                                <Grid item xs={12} >
-                                    <EventRow
-                                        key={e.id}
-                                        id={e.id}
-                                        title={e.title}
-                                        startDate={e.startDate}
-                                        endDate={e.endDate}
-                                        occupancyRate={e.occupancyRate}
-                                        handleOnClick={() => handleOnClick(e.id)} />
-                                </Grid>
-                            )}
-                        </Grid>
+                        noPages ?
+                            <Grid container spacing={1}>
+                                {events.map(e =>
+                                    <Grid item xs={12} key={e.id} >
+                                        <EventRow
+                                            id={e.id}
+                                            title={e.title}
+                                            startDate={e.startDate}
+                                            endDate={e.endDate}
+                                            occupancyRate={e.occupancyRate}
+                                            handleOnClick={() => handleOnClick(e.id)} />
+                                    </Grid>
+                                )}
+                            </Grid> :
+                            <>
+                                {past ? 'There is no events in the past' : 'There is no events in the future'}
+                            </>
                 }
             </CardContent>
 
             <CardActions style={{ display: 'flex', justifyContent: 'space-between' }}>
-                {
-                    page === 0 ?
-                        <NavigateBeforeIcon style={{ visibility: 'hidden' }} /> :
-                        <NavigateBeforeIcon />
-                }
-                <div>
-                    {page + 1}/{noPages}
-                </div>
-                {
-                    page + 1 === noPages ?
-                        <NavigateNextIcon style={{ visibility: 'hidden' }} /> :
-                        <NavigateNextIcon />
+                {!noPages ? '' :
+                    <>
+                        {
+                            page === 0 ?
+                                <NavigateBeforeIcon style={{ visibility: 'hidden' }} /> :
+                                <NavigateBeforeIcon />
+                        }
+
+                        <div>
+                            {page + 1}/{noPages}
+                        </div>
+
+                        {
+                            page + 1 === noPages ?
+                                <NavigateNextIcon style={{ visibility: 'hidden' }} /> :
+                                <NavigateNextIcon />
+                        }
+                    </>
                 }
             </CardActions>
         </Card>

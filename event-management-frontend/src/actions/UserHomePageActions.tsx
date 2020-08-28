@@ -17,7 +17,7 @@ export const fetchBookingsRequest = () => {
 export const fetchBookingsSuccess = (bookings: Booking[]) => {
     return {
         type: UserHomePageActionTypes.FETCH_BOOKINGS_SUCCESS,
-        payload: bookings
+        bookings: bookings
     }
 }
 
@@ -41,10 +41,12 @@ export const fetchUserPastEventsRequest = () => {
     }
 }
 
-export const fetchUserPastEventsSuccess = (bookings: EventCard[]) => {
+export const fetchUserPastEventsSuccess = (events: EventCard[], more: boolean, noPages: number) => {
     return {
         type: UserHomePageActionTypes.FETCH_USER_PAST_EVENTS_SUCCESS,
-        payload: bookings
+        events: events,
+        more: more,
+        noPages: noPages
     }
 }
 
@@ -68,10 +70,12 @@ export const fetchUserUpcomingEventsRequest = () => {
     }
 }
 
-export const fetchUserUpcomingEventsSuccess = (bookings: EventCard[]) => {
+export const fetchUserUpcomingEventsSuccess = (events: EventCard[], more: boolean, noPages: number) => {
     return {
         type: UserHomePageActionTypes.FETCH_USER_UPCOMING_EVENTS_SUCCESS,
-        payload: bookings
+        events: events,
+        more: more,
+        noPages: noPages
     }
 }
 

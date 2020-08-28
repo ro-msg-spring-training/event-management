@@ -31,7 +31,7 @@ export class FetchBookingsSuccessAction {
     public bookings: Booking[];
 
     constructor(bookings: Booking[]) {
-        this.bookings = bookings
+        this.bookings = bookings;
     }
 }
 
@@ -45,11 +45,10 @@ export class FetchUserPastEventsAction {
     public limit: number;
 
     constructor(page: number, limit: number) {
-        this.page = page
-        this.limit = limit
+        this.page = page;
+        this.limit = limit;
     }
 }
-
 
 export class FetchUserPastEventsRequestAction {
     public readonly type = UserHomePageActionTypes.FETCH_USER_PAST_EVENTS_REQUEST;
@@ -58,9 +57,13 @@ export class FetchUserPastEventsRequestAction {
 export class FetchUserPastEventsSuccessAction {
     public readonly type = UserHomePageActionTypes.FETCH_USER_PAST_EVENTS_SUCCESS;
     public events: EventCard[];
+    public more: boolean;
+    public noPages: number;
 
-    constructor(events: EventCard[]) {
-        this.events = events
+    constructor(events: EventCard[], more: boolean, noPages: number) {
+        this.events = events;
+        this.more = more;
+        this.noPages = noPages;
     }
 }
 
@@ -74,8 +77,8 @@ export class FetchUserUpcomingEventsAction {
     public limit: number;
 
     constructor(page: number, limit: number) {
-        this.page = page
-        this.limit = limit
+        this.page = page;
+        this.limit = limit;
     }
 }
 
@@ -86,9 +89,13 @@ export class FetchUserUpcomingEventsRequestAction {
 export class FetchUserUpcomingEventsSuccessAction {
     public readonly type = UserHomePageActionTypes.FETCH_USER_UPCOMING_EVENTS_SUCCESS;
     public events: EventCard[];
+    public more: boolean;
+    public noPages: number;
 
-    constructor(events: EventCard[]) {
-        this.events = events
+    constructor(events: EventCard[], more: boolean, noPages: number) {
+        this.events = events;
+        this.more = more;
+        this.noPages = noPages;
     }
 }
 

@@ -22,7 +22,7 @@ function* fetchUserPastEventsAsync(action: FetchUserPastEventsAction) {
     yield put(fetchUserPastEventsRequest())
     try {
         const result = yield call(() => fetchPastEvents(action.page, action.limit));
-        yield put(fetchUserPastEventsSuccess(result));
+        yield put(fetchUserPastEventsSuccess(result.events, result.more, result.noPages));
     }
     catch (err) {
         yield put(fetchUserPastEventsError());
@@ -37,7 +37,7 @@ function* fetchUserUpcomingEventsAsync(action: FetchUserUpcomingEventsAction) {
     yield put(fetchUserUpcomingEventsRequest())
     try {
         const result = yield call(() => fetchUpcomingEvents(action.page, action.limit));
-        yield put(fetchUserUpcomingEventsSuccess(result));
+        yield put(fetchUserUpcomingEventsSuccess(result.events, result.more, result.noPages));
     }
     catch (err) {
         yield put(fetchUserUpcomingEventsError());

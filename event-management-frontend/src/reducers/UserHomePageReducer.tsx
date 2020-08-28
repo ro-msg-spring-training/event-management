@@ -70,7 +70,7 @@ export const UserHomePageReducer = (state: UserHomePageState = initialState, act
                 bookings: {
                     ...state.bookings,
                     isLoading: false,
-                    bookings: action.bookings
+                    bookings: action.bookings,
                 }
             };
         case UserHomePageActionTypes.FETCH_BOOKINGS_ERROR:
@@ -96,6 +96,8 @@ export const UserHomePageReducer = (state: UserHomePageState = initialState, act
                 past: {
                     ...state.past,
                     events: action.events,
+                    isMore: action.more,
+                    noPages: action.noPages,
                     isLoading: false
                 }
             };
@@ -117,11 +119,14 @@ export const UserHomePageReducer = (state: UserHomePageState = initialState, act
                 }
             };
         case UserHomePageActionTypes.FETCH_USER_UPCOMING_EVENTS_SUCCESS:
+            console.log('succes',action)
             return {
                 ...state,
                 upcoming: {
                     ...state.past,
                     events: action.events,
+                    isMore: action.more,
+                    noPages: action.noPages,
                     isLoading: false
                 }
             };

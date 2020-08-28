@@ -24,7 +24,7 @@ export const fetchPastEvents = (page: number, limit: number) => {
 }
 
 export const fetchUpcomingEvents = (page: number, limit: number) => {
-    let url = `${serverURL}/events/user/past?page=${page}&size=${limit}`
+    let url = `${serverURL}/events/user/future?page=${page}&size=${limit}`
     const urlOptions = { headers: headersAuth };
 
     return fetchWrapper(url, urlOptions)
