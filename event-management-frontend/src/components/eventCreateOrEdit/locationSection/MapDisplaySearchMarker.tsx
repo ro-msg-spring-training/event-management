@@ -6,9 +6,10 @@ import { redMarkerPoint } from "./markerPointIcons";
 import useStylesMapWrapper from "../../../styles/MapWrapperStyle";
 import { useTranslation } from "react-i18next";
 import { useStyles } from "../../../styles/CommonStyles";
+import { LatLngExpression } from "leaflet";
 
 interface Props {
-  searchMarker: LocationType[];
+  searchMarker: LatLngExpression[];
   submitLocation: (id: number, lat: string, long: string, name: string) => void;
   searchLocation: LocationType;
 }
@@ -20,7 +21,7 @@ const MapDisplaySearchMarker = (props: Props) => {
 
   return (
     <div>
-      {props.searchMarker.map((position: any, idx: number) => {
+      {props.searchMarker.map((position: LatLngExpression, idx) => {
         return (
           <Marker key={idx} position={position} icon={redMarkerPoint}>
             <Popup>

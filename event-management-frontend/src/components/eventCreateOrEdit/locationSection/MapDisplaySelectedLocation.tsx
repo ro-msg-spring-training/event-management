@@ -5,9 +5,10 @@ import { Button } from "@material-ui/core";
 import { blackMarkerPoint, greenMarkerPoint } from "./markerPointIcons";
 import useStylesMapWrapper from "../../../styles/MapWrapperStyle";
 import { useTranslation } from "react-i18next";
+import { LatLngExpression } from "leaflet";
 
 interface Props {
-  selectedMarker: LocationType[];
+  selectedMarker: LatLngExpression[];
   currentLocation: string;
 }
 
@@ -17,7 +18,7 @@ const MapDisplaySelectedLocationDumb = (props: Props) => {
 
   return (
     <div>
-      {props.selectedMarker.map((position: any, idx: number) => {
+      {props.selectedMarker.map((position: LatLngExpression, idx: number) => {
         return (
           <Marker key={idx} position={position} icon={greenMarkerPoint}>
             <Popup>

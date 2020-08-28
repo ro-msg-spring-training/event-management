@@ -3,7 +3,7 @@ import { Map, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import useStylesMapWrapper from "../../../styles/MapWrapperStyle";
 import "../../../styles/Map.css";
-import L from "leaflet";
+import L, { LatLngExpression, LatLng } from "leaflet";
 import { useStyles } from "../../../styles/CommonStyles";
 import { LocationType } from "../../../types/LocationType";
 import { AppState } from "../../../store/store";
@@ -30,14 +30,14 @@ interface Props {
   locationFetch: () => void;
   updateLocation: (id: number) => void;
   locationStatus: string;
-  setlocationStatus: any;
+  setlocationStatus: (locationStatus: string) => void;
   idLocation: number;
   searchValue: string;
   updateSearchValue: (searchValue: string) => void;
 }
 interface OwnProps {
   locationStatus: string;
-  setlocationStatus: any;
+  setlocationStatus: (locationStatus: string) => void;
 }
 
 const MapWrapper: React.FC<Props> = (props: Props) => {
@@ -50,11 +50,9 @@ const MapWrapper: React.FC<Props> = (props: Props) => {
     address: "",
     latitude: "",
     longitude: "",
-    sublocations: [],
-    program: [],
   });
-  const [selectedMarker, setSelectedMarker]: any = useState([]);
-  const [searchMarker, setSearchMarker]: any = useState([]);
+  const [selectedMarker, setSelectedMarker] = useState<LatLngExpression[]>([]);
+  const [searchMarker, setSearchMarker] = useState<LatLngExpression[]>([]);
 
   useEffect(() => {
     props.locationFetch();
@@ -65,8 +63,8 @@ const MapWrapper: React.FC<Props> = (props: Props) => {
     const location = props.locations.find((loc) => loc.id === props.idLocation);
 
     if (location !== undefined) {
-      const markers: string[][] = [];
-      markers.push([location.latitude, location.longitude]);
+      const markers: LatLngExpression[] = [];
+      markers.push([parseFloat(location.latitude), parseFloat(location.longitude)]);
       setSelectedMarker(markers);
       setcurrentLocation(location.name);
     }
@@ -75,8 +73,8 @@ const MapWrapper: React.FC<Props> = (props: Props) => {
   const submitLocation = (id: number, lat: string, long: string, name: string) => {
     setSearchMarker([]);
 
-    const markers: string[][] = [];
-    markers.push([lat, long]);
+    const markers: LatLngExpression[] = [];
+    markers.push([parseFloat(lat), parseFloat(long)]);
     setSelectedMarker(markers);
     props.updateLocation(id);
     const ids = String(id);

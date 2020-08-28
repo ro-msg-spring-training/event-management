@@ -4,12 +4,14 @@ import { Input, InputAdornment } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import { useTranslation } from "react-i18next";
 import { LocationType } from "../../../types/LocationType";
+import { LatLngExpression } from "leaflet";
+import RenderSuggestions from "./SearchBarSuggestions";
 
 interface Props {
   myLocations: LocationType[];
   searchValue: string;
   updateSearchValue: (searchValue: string) => void;
-  setLocation: any;
+  setLocation: (location: LocationType) => void;
   location: {
     id: number;
     name: string;
@@ -18,9 +20,9 @@ interface Props {
     longitude: string;
   };
   position: string[];
-  setPosition: any;
-  searchMarker: string[];
-  setsearchMarker: any;
+  setPosition: (position: string[]) => void;
+  searchMarker: LatLngExpression[];
+  setsearchMarker: (searchMarker: LatLngExpression[]) => void;
 }
 const SearchBar = (props: Props) => {
   const classesSearch = useStylesSearchBar();
@@ -45,40 +47,16 @@ const SearchBar = (props: Props) => {
       if (location.name === value) {
         props.setLocation(location);
         props.setPosition([location.latitude, location.longitude]);
-        props.setsearchMarker([[location.latitude, location.longitude]]);
+        props.setsearchMarker([[parseFloat(location.latitude), parseFloat(location.longitude)]]);
       }
     });
   };
-
-  const renderSuggestions = () => {
-    if (suggestions.length === 0) {
-      return null;
-    } else {
-      if (suggestions.length > 4) {
-        const firstSuggestions = suggestions.slice(0, 4);
-        setSuggestions(firstSuggestions);
-      }
-    }
-    return (
-      <div className={classesSearch.containerSuggestions}>
-        <ul className={classesSearch.suggestionsText}>
-          {suggestions.map((location: LocationType) => (
-            <li className={classesSearch.suggestedItem} onClick={() => suggestionSelected(location.name)}>
-              {location.name}
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  };
-
   const suggestionSelected = (value: string) => {
     setSuggestions([]);
     props.updateSearchValue(value);
     setFlag(false);
     searchLocationCoord(value);
   };
-
   return (
     <div className={classesSearch.searchBar}>
       <Input
@@ -93,7 +71,11 @@ const SearchBar = (props: Props) => {
           </InputAdornment>
         }
       />
-      {renderSuggestions()}
+      <RenderSuggestions
+        suggestions={suggestions}
+        suggestionSelected={suggestionSelected}
+        setSuggestions={setSuggestions}
+      ></RenderSuggestions>
     </div>
   );
 };
