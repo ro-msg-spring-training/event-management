@@ -12,6 +12,8 @@ export const ADD_BOOKINGS_REQUEST = 'ADD_BOOKINGS_REQUEST'
 export const ADD_BOOKINGS_SUCCESS = 'ADD_BOOKINGS_SUCCESS'
 export const ADD_BOOKINGS_FAILURE = 'ADD_BOOKINGS_FAILURE'
 
+export const UPDATE_BOOKINGS = 'UPDATE_BOOKINGS'
+
 //---------------------------------------------------for SAGA
 export const loadTicketCategories = (idEvent: string) => {
   return {
@@ -23,12 +25,12 @@ export const loadTicketCategories = (idEvent: string) => {
 export const addBookings = (booking: Booking) => {
   return {
     type: ADD_BOOKINGS,
-    payload: {bookings: booking}
+    payload: { bookings: booking }
   }
 }
 
 //------------------------------------------------------ FETCH
- 
+
 export const fetchTicketCategoriesRequest = () => {
   return {
     type: FETCH_TICKET_CATEGORIES_REQUEST
@@ -67,5 +69,13 @@ export const addBookingsFailure = (error: string) => {
   return {
     type: ADD_BOOKINGS_FAILURE,
     payload: error
+  }
+}
+
+//--------------------------------------------------------- UPDATE
+export const updateBookings = (booking: Booking) => {
+  return {
+    type: UPDATE_BOOKINGS,
+    payload: booking
   }
 }

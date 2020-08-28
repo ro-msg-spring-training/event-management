@@ -6,6 +6,7 @@ import {
   ADD_BOOKINGS_REQUEST,
   ADD_BOOKINGS_SUCCESS,
   ADD_BOOKINGS_FAILURE,
+  UPDATE_BOOKINGS,
 
 } from "../actions/TicketReservationActions"
 import { TicketAvailabilityData } from "../model/TicketAvailabilityData"
@@ -15,6 +16,15 @@ export interface EventState {
   ticketCategory: TicketAvailabilityData[],
   isError: boolean,
   isLoading: boolean,
+
+  booking: Booking
+}
+
+const initialBooking = {
+  bookingDate: "",
+  eventId: "",
+  email: "",
+  tickets: []
 }
 
 const initialState: EventState = {
@@ -25,9 +35,11 @@ const initialState: EventState = {
   }],
   isError: false,
   isLoading: false,
+
+  booking: initialBooking
 }
 
-const TicketCategoriesReducer = (state = initialState, action: { type: string, payload: TicketAvailabilityData[] | Booking}) => {
+const TicketCategoriesReducer = (state = initialState, action: { type: string, payload: TicketAvailabilityData[] | Booking }) => {
   switch (action.type) {
     case FETCH_TICKET_CATEGORIES_REQUEST:
       return {
@@ -52,19 +64,24 @@ const TicketCategoriesReducer = (state = initialState, action: { type: string, p
     case ADD_BOOKINGS_REQUEST:
       return {
         ...state,
-        loading: true
+        isLoading: true
       }
     case ADD_BOOKINGS_SUCCESS:
       console.log("SUCCESS");
       return {
         ...state,
-        loading: false,
+        isLoading: false,
       }
     case ADD_BOOKINGS_FAILURE:
       return {
         ...state,
         loading: false,
-        newProduct: action.payload as Booking
+        isError: true
+      }
+    case UPDATE_BOOKINGS:
+      return {
+        ...state,
+        booking: action.payload as Booking
       }
     default: return state
   }

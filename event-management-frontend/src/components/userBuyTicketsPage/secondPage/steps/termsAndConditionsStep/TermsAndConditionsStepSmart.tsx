@@ -11,13 +11,15 @@ interface TermsAndConditionsStepSmartProps {
   checked: boolean,
   handleCheckboxChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
   booking: Booking,
-  setBooking: (booking: Booking) => void,
+  // setBooking: (booking: Booking) => void,
   ticketNames: TicketNames[],
   setChecked: (e: boolean) => void,
   addBookings: (booking: Booking) => void,
+
+  updateBookings: (booking: Booking) => void,
 }
 
-function TermsAndConditionsStepSmart({ prevStep, checked, handleCheckboxChange, booking, setBooking, ticketNames, setChecked, addBookings }: TermsAndConditionsStepSmartProps) {
+function TermsAndConditionsStepSmart({ prevStep, checked, handleCheckboxChange, booking, updateBookings, ticketNames, setChecked, addBookings }: TermsAndConditionsStepSmartProps) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -37,7 +39,7 @@ function TermsAndConditionsStepSmart({ prevStep, checked, handleCheckboxChange, 
     });
 
     newBooking.tickets = newArr;
-    setBooking(newBooking);
+    updateBookings(newBooking);
   }, []);
 
   const handleProceedToBuy = (): void => {

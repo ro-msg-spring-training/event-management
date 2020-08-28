@@ -17,11 +17,13 @@ interface BuyTicketsSecondPageDumbProps {
   ticketCategories: TicketAvailabilityData[],
   eventId: number | string,
   booking: Booking,
-  setBooking: (booking: Booking) => void,
+  // setBooking: (booking: Booking) => void,
   addBookings: (booking: Booking) => void,
+
+  updateBookings: (booking: Booking) => void,
 }
 
-function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCategories, eventId, booking, setBooking, addBookings }: BuyTicketsSecondPageDumbProps) {
+function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCategories, eventId, booking, addBookings, updateBookings }: BuyTicketsSecondPageDumbProps) {
   const [step, setStep] = useState(1);
   const [ticketAmount, setTicketAmount] = useState<TicketsPerCateory[]>([]);
   const [checked, setChecked] = useState(false);
@@ -38,7 +40,7 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
     let oldBooking = { ...booking };
     oldBooking.eventId = Number(eventId);
     oldBooking.bookingDate = today;
-    setBooking(oldBooking);
+    updateBookings(oldBooking);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -71,7 +73,7 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
 
     let newBooking = { ...booking };
     newBooking.email = value;
-    setBooking(newBooking);
+    updateBookings(newBooking);
   }
 
   const handleNameStepChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -151,7 +153,8 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
           checked={checked}
           handleCheckboxChange={handleCheckboxChange}
           booking={booking}
-          setBooking={setBooking}
+          // setBooking={setBooking}
+          updateBookings={updateBookings}
           ticketNames={ticketNames}
           setChecked={setChecked}
           addBookings={addBookings}
