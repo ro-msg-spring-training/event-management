@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { loadTicketCategories } from '../../../actions/TicketReservationActions';
+import { loadTicketCategories, addBookings } from '../../../actions/TicketReservationActions';
 import { TicketAvailabilityData } from '../../../model/TicketAvailabilityData';
 import { Container, CircularProgress } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import BuyTicketsSecondPageDumb from './BuyTicketsSecondPageDumb';
+import Booking from '../../../model/Booking';
 
 interface BuyTicketsSecondPageSmartProps {
   match: any,
@@ -14,9 +15,18 @@ interface BuyTicketsSecondPageSmartProps {
     isLoading: boolean,
   },
   fetchTicketCategories: (idEvent: string) => void,
+  addBookings: (booking: Booking) => void,
 }
 
-function BuyTicketsSecondPageSmart({ match, fetchedData, fetchTicketCategories }: BuyTicketsSecondPageSmartProps) {
+const initialBooking = {
+  bookingDate: "",
+  eventId: "",
+  email: "",
+  tickets: []
+}
+
+function BuyTicketsSecondPageSmart({ match, fetchedData, fetchTicketCategories, addBookings }: BuyTicketsSecondPageSmartProps) {
+  const [booking, setBooking] = useState<Booking>(initialBooking);
   const history = useHistory();
 
   const gotoFirstPage = (): void => {
@@ -27,7 +37,6 @@ function BuyTicketsSecondPageSmart({ match, fetchedData, fetchTicketCategories }
     //TODO redirect to events list
     history.push(`user/events`);
   }
-
 
   useEffect(() => {
     fetchTicketCategories(match.params.id)
@@ -52,6 +61,9 @@ function BuyTicketsSecondPageSmart({ match, fetchedData, fetchTicketCategories }
         gotoEventListPage={gotoEventListPage}
         ticketCategories={fetchedData.ticketCategory}
         eventId={match.params.id}
+        booking={booking}
+        setBooking={setBooking}
+        addBookings={addBookings}
       />
     </div>
   );
@@ -66,6 +78,7 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchTicketCategories: (idEvent: string) => dispatch(loadTicketCategories(idEvent)),
+    addBookings: (booking: Booking) => dispatch(addBookings(booking)),
   }
 }
 
@@ -73,7 +86,5 @@ export default connect(mapStateToProps, mapDispatchToProps)(BuyTicketsSecondPage
 
 //TODO
 //number of tickets left for that event => max number of tickets available for purchase in the first card
-//for the third card => as many inputs as there were tickets in the first card
-//redux pt post -> '/bookings'
 //redux pt state
 //internationalizare

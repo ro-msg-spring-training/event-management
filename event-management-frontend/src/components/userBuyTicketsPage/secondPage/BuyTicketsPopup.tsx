@@ -11,6 +11,7 @@ import { useStyles } from '../../../styles/CommonStyles';
 import { Grid, FormControlLabel } from '@material-ui/core';
 import { userBuyTicketsStyle } from '../../../styles/UserBuyTicketsStyle';
 import { YellowCheckbox } from '../../YellowCheckbox';
+import Booking from '../../../model/Booking';
 
 interface PopupProps {
   open: boolean,

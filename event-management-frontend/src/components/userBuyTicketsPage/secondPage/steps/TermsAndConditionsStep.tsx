@@ -15,9 +15,10 @@ interface TermsAndConditionsStepProps {
   setBooking: (booking: Booking) => void,
   ticketNames: TicketNames[],
   setChecked: (e: boolean) => void,
+  addBookings: (booking: Booking) => void,
 }
 
-function TermsAndConditionsStep({ prevStep, checked, handleCheckboxChange, booking, setBooking, ticketNames, setChecked }: TermsAndConditionsStepProps) {
+function TermsAndConditionsStep({ prevStep, checked, handleCheckboxChange, booking, setBooking, ticketNames, setChecked, addBookings }: TermsAndConditionsStepProps) {
   const [open, setOpen] = useState(false);
   const buttonClass = useStyles();
   const classes = userBuyTicketsStyle();
@@ -43,7 +44,7 @@ function TermsAndConditionsStep({ prevStep, checked, handleCheckboxChange, booki
   }, []);
 
   const handleProceedToBuy = (): void => {
-    checked && console.log("POST this: ", booking);
+    checked && addBookings(booking)
   }
 
   return (

@@ -16,26 +16,22 @@ interface BuyTicketsSecondPageDumbProps {
   gotoEventListPage: () => void,
   ticketCategories: TicketAvailabilityData[],
   eventId: number | string,
+  booking: Booking,
+  setBooking: (booking: Booking) => void,
+  addBookings: (booking: Booking) => void,
 }
 
-const initialBooking = {
-  bookingDate: "",
-  eventId: "",
-  email: "",
-  tickets: []
-}
-
-function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCategories, eventId }: BuyTicketsSecondPageDumbProps) {
+function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCategories, eventId, booking, setBooking, addBookings }: BuyTicketsSecondPageDumbProps) {
   const [step, setStep] = useState(1);
   const [ticketAmount, setTicketAmount] = useState<TicketsPerCateory[]>([]);
   //ticketNames has this structure so wehn the user modifies a name text field I know where to apply the change 
   const [ticketNames, setTicketNames] = useState<TicketNames[]>([]);
-  const [booking, setBooking] = useState<Booking>(initialBooking);
+
   const [checked, setChecked] = useState(false);
 
   let today = new Date(new Date().toString().split('GMT')[0] + ' UTC').toISOString().split('.')[0]
-  const dateAndTime = today.split("T");
-  const currDate = dateAndTime[0];
+  // const dateAndTime = today.split("T");
+  // const currDate = dateAndTime[0];
 
   let initialTicketState: TicketsPerCateory[] = [];
   useEffect(() => {
@@ -43,8 +39,8 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
     setTicketAmount(initialTicketState);
 
     let oldBooking = { ...booking };
-    oldBooking.eventId = eventId;
-    oldBooking.bookingDate = currDate;
+    oldBooking.eventId = Number(eventId);
+    oldBooking.bookingDate = today;
     setBooking(oldBooking);
 
     // ticketCategories.map((ticket) => initialTicketNames.push({ ticketTitle: ticket.title, names: [] }))
@@ -182,6 +178,7 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
           setBooking={setBooking}
           ticketNames={ticketNames}
           setChecked={setChecked}
+          addBookings={addBookings}
         />
       break;
     default:

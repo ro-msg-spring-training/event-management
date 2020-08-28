@@ -7,7 +7,7 @@ import {
 } from "./EventsPageSaga";
 import { loadEventWatcher, deleteProductWatcher, addProductWatcher, editProductWatcher } from "./HeaderEventCrudSaga";
 import { fetchLocationsActionWatcher } from "./LocationPageSaga";
-import { loadTicketCategoriesWatcher } from "./TicketReservationSaga";
+import { loadTicketCategoriesWatcher, addBookingsWatcher } from "./TicketReservationSaga";
 
 export default function* rootSaga() {
     yield all([
@@ -29,5 +29,6 @@ export default function* rootSaga() {
         watchFetchCustomHomeEventsAsync(),
 
         loadTicketCategoriesWatcher(),
+        addBookingsWatcher(),
     ]);
  }
