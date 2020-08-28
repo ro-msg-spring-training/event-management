@@ -1,7 +1,7 @@
 ALTER TABLE `event`
-   ALTER COLUMN `start_date` date;
+    MODIFY COLUMN  `start_date` date;
 ALTER TABLE `event`
-    ALTER COLUMN `end_date` date;
+    MODIFY COLUMN  `end_date` date;
 
 ALTER TABLE `event`
  ADD `start_hour` time;
@@ -32,7 +32,7 @@ FROM
   LEFT OUTER JOIN location ON sublocation.location = location.id
   LEFT OUTER JOIN booking ON event.id = booking.event
   LEFT OUTER JOIN ticket ON booking.id = ticket.booking
-  LEFT OUTER JOIN (select top 1 picture.id,picture.url,picture.event from picture join event as event1 on picture.event = event1.id) as picture_join ON event.id = picture_join.event
+  LEFT OUTER JOIN (select picture.id,picture.url,picture.event from picture join event as event1 on picture.event = event1.id limit 1) as picture_join ON event.id = picture_join.event
 GROUP BY
 --  ticket.booking,
   event.id,picture_join.url;
