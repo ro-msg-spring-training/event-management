@@ -1,7 +1,6 @@
 package ro.msg.event.management.eventmanagementbackend.controller.converter;
 
 import org.springframework.stereotype.Component;
-import ro.msg.event.management.eventmanagementbackend.controller.dto.TicketDto;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.TicketListingDto;
 import ro.msg.event.management.eventmanagementbackend.entity.view.TicketView;
 

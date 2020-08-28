@@ -42,7 +42,7 @@ public class AWSCognitoIdTokenProcessor {
             if (username != null) {
                 List<GrantedAuthority> grantedAuthorities = of(new SimpleGrantedAuthority(role));
                 User user = new User(this.getEmail(claims), username, this.getFirstName(claims), this.getLastName(claims), this.getIdentificationString(claims), this.getRole(claims));
-                return new JWTAuthentication(user, claims, grantedAuthorities);
+                return new JWTAuthentication(user, grantedAuthorities);
             }
         }
         return null;
