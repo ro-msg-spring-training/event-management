@@ -1,14 +1,18 @@
 import React from "react";
-import { Container } from "@material-ui/core";
-import HomeEventListSmart from "./HomeEventListSmart";
+import { Grid } from "@material-ui/core";
 import OccupancyListSmart from "./OccupancyListSmart";
+import useStylesCards from "../../styles/OccupancyCardsStyle";
 
-const Home = () => (
-  <Container>
-    <br />
-    <HomeEventListSmart />
-    <OccupancyListSmart />
-  </Container>
-);
+const Home = () => {
+  const classHome = useStylesCards();
 
-export default Home;
+  return (
+    <div className={classHome.adminHomeContainer}>
+      <Grid container direction="row">
+          <OccupancyListSmart />
+      </Grid>
+    </div>
+  );
+};
+
+export default Home

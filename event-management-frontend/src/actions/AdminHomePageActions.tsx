@@ -1,86 +1,15 @@
 import { OccupancyCardType } from "../types/OcuupancyCardsType";
-
-export enum AdminHomePageActionTypes {
-  UPCOMING_EVENTS_FETCH = "UPCOMING_EVENTS_FETCH",
-  UPCOMING_EVENTS_LOADING = "UPCOMING_EVENTS_LOADING",
-  UPCOMING_EVENTS_FETCH_SUCCESS = "UPCOMING_EVENTS_FETCH_SUCCESS",
-  UPCOMING_EVENTS_ERROR = "UPCOMING_EVENTS_ERROR",
-  HISTORY_EVENTS_FETCH = "HISTORY_EVENTS_FETCH",
-  HISTORY_EVENTS_LOADING = "HISTORY_EVENTS_LOADING",
-  HISTORY_EVENTS_FETCH_SUCCESS = "HISTORY_EVENTS_FETCH_SUCCESS",
-  HISTORY_EVENTS_ERROR = "HISTORY_EVENTS_FETCH_ERROR",
-}
-
-export class UpcomingEventsFetchAction {
-  public readonly type = AdminHomePageActionTypes.UPCOMING_EVENTS_FETCH;
-}
-export class UpcomingEventsLoadingStatusAction {
-  public readonly type = AdminHomePageActionTypes.UPCOMING_EVENTS_LOADING;
-  public loadingStatus: boolean;
-
-  constructor(loadingStatus: boolean) {
-    this.loadingStatus = loadingStatus;
-  }
-}
-
-export class UpcomingEventsErrorAction {
-  public readonly type = AdminHomePageActionTypes.UPCOMING_EVENTS_ERROR;
-  public errorStatus: string;
-
-  constructor(errorStatus: string) {
-    this.errorStatus = errorStatus;
-  }
-}
-
-export class UpcomingEventsFetchSuccessAction {
-  public readonly type = AdminHomePageActionTypes.UPCOMING_EVENTS_FETCH_SUCCESS;
-  public upcomingEvents: OccupancyCardType[];
-
-  constructor(upcomingEvents: OccupancyCardType[]) {
-    this.upcomingEvents = upcomingEvents;
-  }
-}
-//================================================= HISTORY ACTIONS
-
-export class HistoryEventsFetchAction {
-  public readonly type = AdminHomePageActionTypes.HISTORY_EVENTS_FETCH;
-}
-export class HistoryEventsLoadingStatusAction {
-  public readonly type = AdminHomePageActionTypes.HISTORY_EVENTS_LOADING;
-  public loadingStatus: boolean;
-
-  constructor(loadingStatus: boolean) {
-    this.loadingStatus = loadingStatus;
-  }
-}
-
-export class HistoryEventsErrorAction {
-  public readonly type = AdminHomePageActionTypes.HISTORY_EVENTS_ERROR;
-  public errorStatus: string;
-
-  constructor(errorStatus: string) {
-    this.errorStatus = errorStatus;
-  }
-}
-
-export class HistoryEventsFetchSuccessAction {
-  public readonly type = AdminHomePageActionTypes.HISTORY_EVENTS_FETCH_SUCCESS;
-  public historyEvents: OccupancyCardType[];
-
-  constructor(historyEvents: OccupancyCardType[]) {
-    this.historyEvents = historyEvents;
-  }
-}
-
-export type AdminHomePageAction =
-  | UpcomingEventsFetchAction
-  | UpcomingEventsLoadingStatusAction
-  | UpcomingEventsErrorAction
-  | UpcomingEventsFetchSuccessAction
-  | HistoryEventsFetchAction
-  | HistoryEventsLoadingStatusAction
-  | HistoryEventsErrorAction
-  | HistoryEventsFetchSuccessAction;
+import {
+  AdminHomePageActionTypes,
+  UpcomingEventsLoadingStatusAction,
+  UpcomingEventsErrorAction,
+  UpcomingEventsFetchSuccessAction,
+  UpcomingEventsFetchAction,
+  HistoryEventsErrorAction,
+  HistoryEventsLoadingStatusAction,
+  HistoryEventsFetchSuccessAction,
+  HistoryEventsFetchAction,
+} from "../types/AdminHomePageActionTypes";
 
 export const upcomingEventsisLoading = (loadingStatus: boolean): UpcomingEventsLoadingStatusAction => {
   return {
@@ -89,7 +18,7 @@ export const upcomingEventsisLoading = (loadingStatus: boolean): UpcomingEventsL
   };
 };
 
-export const upcomingEventsError = (errorStatus: string): UpcomingEventsErrorAction => {
+export const upcomingEventsError = (errorStatus: boolean): UpcomingEventsErrorAction => {
   return {
     type: AdminHomePageActionTypes.UPCOMING_EVENTS_ERROR,
     errorStatus: errorStatus,
@@ -109,8 +38,6 @@ export const upcomingEventsFetch = (): UpcomingEventsFetchAction => {
   };
 };
 
-//=============================================== HISTORY ACTIONS
-
 export const historyEventsisLoading = (loadingStatus: boolean): HistoryEventsLoadingStatusAction => {
   return {
     type: AdminHomePageActionTypes.HISTORY_EVENTS_LOADING,
@@ -118,7 +45,7 @@ export const historyEventsisLoading = (loadingStatus: boolean): HistoryEventsLoa
   };
 };
 
-export const historyEventsError = (errorStatus: string): HistoryEventsErrorAction => {
+export const historyEventsError = (errorStatus: boolean): HistoryEventsErrorAction => {
   return {
     type: AdminHomePageActionTypes.HISTORY_EVENTS_ERROR,
     errorStatus: errorStatus,

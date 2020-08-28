@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
             '&:hover': {
                 cursor: "pointer",
             }
-        }
+        },
     }),
 );
 
@@ -50,6 +50,11 @@ const Header = () => {
     const [, i18n ] = useTranslation();
     const classes = useStyles();
     const userName = localStorage.getItem("username");
+
+    // This variable represents the max number of characters from userName showing in header
+    const count = 10
+    // And here the result (if it's longer than count, we will simply add some dots
+    const result = userName === null ? "" : userName.slice(0, count) + (userName.length > count ? "..." : "");
 
     const handleChangeAppLanguage = (language: string) => {
         i18n.changeLanguage(language);
@@ -62,7 +67,7 @@ const Header = () => {
             <Link to='/account' style={{ textDecoration: 'none' }} >
                 <IconButton className={classes.yellow}>
                     <AccountCircle />
-                    <Typography variant="h6" >&nbsp;{userName}</Typography>
+                    <Typography variant="h6" >&nbsp;{result}</Typography>
                 </IconButton>
             </Link>
             <div onClick={()=>handleChangeAppLanguage("ro")} className={classes.flags}>
