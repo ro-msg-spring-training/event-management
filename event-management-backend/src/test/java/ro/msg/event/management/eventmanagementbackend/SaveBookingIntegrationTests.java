@@ -39,6 +39,7 @@ class SaveBookingIntegrationTests {
     void saveBooking_validNumberOfTickets_bookingAndTicketsSaved() {
         TicketCategory testCategory = new TicketCategory();
         testCategory.setTicketsPerCategory(10);
+        testCategory.setTitle("test1");
         List<TicketCategory> testCategories = new ArrayList<>();
         testCategories.add(testCategory);
         Event testEvent = new Event();
@@ -57,8 +58,8 @@ class SaveBookingIntegrationTests {
         List<Ticket> testTickets = new ArrayList<>();
         testTickets.add(testTicket1);
         testTickets.add(testTicket2);
-        Map<Long, List<Ticket>> testCategoryWithTickets = new HashMap<>();
-        testCategoryWithTickets.put(testEvent.getTicketCategories().get(0).getId(), testTickets);
+        Map<String, List<Ticket>> testCategoryWithTickets = new HashMap<>();
+        testCategoryWithTickets.put(testEvent.getTicketCategories().get(0).getTitle(), testTickets);
 
         long nrOfBookingsBeforeSave = this.bookingRepository.count();
         long nrOfTicketsBeforeSave = this.ticketRepository.count();
@@ -74,8 +75,10 @@ class SaveBookingIntegrationTests {
     void saveBooking_nrOfTicketsExceedsTicketsPerUser_exceptionThrown() {
         TicketCategory testCategory1 = new TicketCategory();
         testCategory1.setTicketsPerCategory(10);
+        testCategory1.setTitle("test1");
         TicketCategory testCategory2 = new TicketCategory();
         testCategory2.setTicketsPerCategory(10);
+        testCategory2.setTitle("test2");
         List<TicketCategory> testCategories = new ArrayList<>();
         testCategories.add(testCategory1);
         testCategories.add(testCategory2);
@@ -97,9 +100,9 @@ class SaveBookingIntegrationTests {
         testTickets1.add(testTicket1);
         List<Ticket> testTickets2 = new ArrayList<>();
         testTickets2.add(testTicket2);
-        Map<Long, List<Ticket>> testCategoryWithTickets = new HashMap<>();
-        testCategoryWithTickets.put(testEvent.getTicketCategories().get(0).getId(), testTickets1);
-        testCategoryWithTickets.put(testEvent.getTicketCategories().get(1).getId(), testTickets2);
+        Map<String, List<Ticket>> testCategoryWithTickets = new HashMap<>();
+        testCategoryWithTickets.put(testEvent.getTicketCategories().get(0).getTitle(), testTickets1);
+        testCategoryWithTickets.put(testEvent.getTicketCategories().get(1).getTitle(), testTickets2);
 
         long eventId = testEvent.getId();
         assertThrows(TicketBuyingException.class,
@@ -110,6 +113,7 @@ class SaveBookingIntegrationTests {
     void saveBooking_nrOfTicketsExceedsTicketsPerCategory_exceptionThrown() {
         TicketCategory testCategory = new TicketCategory();
         testCategory.setTicketsPerCategory(1);
+        testCategory.setTitle("test1");
         List<TicketCategory> testCategories = new ArrayList<>();
         testCategories.add(testCategory);
         Event testEvent = new Event();
@@ -128,8 +132,8 @@ class SaveBookingIntegrationTests {
         List<Ticket> testTickets = new ArrayList<>();
         testTickets.add(testTicket1);
         testTickets.add(testTicket2);
-        Map<Long, List<Ticket>> testCategoryWithTickets = new HashMap<>();
-        testCategoryWithTickets.put(testEvent.getTicketCategories().get(0).getId(), testTickets);
+        Map<String, List<Ticket>> testCategoryWithTickets = new HashMap<>();
+        testCategoryWithTickets.put(testEvent.getTicketCategories().get(0).getTitle(), testTickets);
 
 
         long eventId = testEvent.getId();

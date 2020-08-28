@@ -18,7 +18,7 @@ import ro.msg.event.management.eventmanagementbackend.exception.TicketBuyingExce
 import ro.msg.event.management.eventmanagementbackend.security.User;
 import ro.msg.event.management.eventmanagementbackend.service.BookingService;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -29,6 +29,7 @@ public class BookingController {
     private BookingService bookingService;
     private Converter<BookingSaveDto, Booking> bookingSaveReverseConverter;
     private Converter<Booking, BookingDto> bookingConverter;
+    private final Object lock = new Object();
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
@@ -43,14 +44,19 @@ public class BookingController {
             CategoryAndTicketsMapReverseConverter categoryAndTicketsMapReverseConverter = new CategoryAndTicketsMapReverseConverter();
             categoryAndTicketsMapReverseConverter.setBookingEmail(bookingSaveDto.getEmail());
 
-            Booking savedBooking = this.bookingService.saveBooking(booking, categoryAndTicketsMapReverseConverter.convert(bookingSaveDto.getTickets()), bookingSaveDto.getEventId());
-            this.bookingService.createPdf(savedBooking);
+            Booking savedBooking = null;
+
+            synchronized (this.lock)
+            {
+                savedBooking = this.bookingService.saveBookingAndTicketDocument(booking, categoryAndTicketsMapReverseConverter.convert(bookingSaveDto.getTickets()), bookingSaveDto.getEventId());
+            }
+
             return new ResponseEntity<>(this.bookingConverter.convert(savedBooking), HttpStatus.OK);
         } catch (TicketBuyingException ticketBuyingException) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, ticketBuyingException.getMessage(), ticketBuyingException);
         } catch (NoSuchElementException noSuchElementException) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, noSuchElementException.getMessage(), noSuchElementException);
-        } catch (FileNotFoundException | DocumentException documentException) {
+        } catch (DocumentException | IOException documentException) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, documentException.getMessage(), documentException);
         }
     }
