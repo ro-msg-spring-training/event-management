@@ -153,7 +153,7 @@ export const getLastNumber = (filters: EventFilters) => {
     url.search += "&";
     url.search += new URLSearchParams(limit).toString();
 
-    return fetch(`${url}`, { headers: headersAuth })
+    return fetchWrapper(`${url}`, { headers: headersAuth })
         .then((response) => response.json())
         .then((json) => {
             return json
@@ -188,7 +188,7 @@ export const getLastNumberHome =  () => {
     // Last number from home events
     const url = serverEventsURL + "/latest?pageNumber=0&size=2&limit=2"
 
-    return fetch(`${url}`, {headers: headersAuth})
+    return fetchWrapper(`${url}`, {headers: headersAuth})
         .then((response) => response.json())
         .then((json) => {
             return json.noPages
