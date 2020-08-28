@@ -42,10 +42,6 @@ function NamesStep({ nextStep, prevStep, handleEnterKey, handleNameStepChange, t
     setTicketNames(initialTicketNames);
   }, [])
 
-
-  console.log("Ticket names ", ticketNames);
-  console.log("FINAL TICKET NAMES ", ticketNames);
-
   let inputs: JSX.Element[] = [];
   for (let i = 0; i < ticketAmount.length; i++) {
     for (let j = 0; j < ticketAmount[i].quantity; j++) {

@@ -57,6 +57,7 @@ const initialBooking = {
 function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCategories, eventId }: BuyTicketsSecondPageDumbProps) {
   const [step, setStep] = useState(1);
   const [ticketAmount, setTicketAmount] = useState<TicketsPerCateory[]>([]);
+  //ticketNames has this structure so wehn the user modifies a name text field I know where to apply the change 
   const [ticketNames, setTicketNames] = useState<TicketNames[]>([]);
   const [booking, setBooking] = useState<Booking>(initialBooking);
   const [checked, setChecked] = useState(false);
@@ -113,7 +114,6 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
       setTicketAmount(ticketAmount.map(item => (item.category === name ? { ...item, 'quantity': Number(value) } : item))) :
       console.log("Error not that many tickets in stock");
   }
-  console.log("ticketAmount", ticketAmount);
 
   const handleEmailStepChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
@@ -207,6 +207,9 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
           prevStep={prevStep}
           checked={checked}
           handleCheckboxChange={handleCheckboxChange}
+          booking={booking}
+          setBooking={setBooking}
+          ticketNames={ticketNames}
         />
       break;
     default:

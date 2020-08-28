@@ -1,16 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useStyles } from '../../../../styles/CommonStyles';
 import { Button, Grid, TextField, makeStyles, Typography } from '@material-ui/core';
 import { userBuyTicketsStyle } from '../../../../styles/UserBuyTicketsStyle';
 import BuyTicketsPopup from '../BuyTicketsPopup';
+import Booking from '../../../../model/Booking';
+import Ticket from '../../../../model/Ticket';
+
+interface TicketNames {
+  ticketTitle: string,
+  names: string[],
+}
 
 interface TermsAndConditionsStepProps {
   prevStep: () => void,
   checked: boolean,
   handleCheckboxChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
+  booking: Booking,
+  setBooking: (booking: Booking) => void,
+  ticketNames: TicketNames[],
 }
 
-function TermsAndConditionsStep({ prevStep, checked, handleCheckboxChange }: TermsAndConditionsStepProps) {
+function TermsAndConditionsStep({ prevStep, checked, handleCheckboxChange, booking, setBooking, ticketNames }: TermsAndConditionsStepProps) {
   const [open, setOpen] = useState(false);
   const buttonClass = useStyles();
   const classes = userBuyTicketsStyle();
@@ -18,6 +28,20 @@ function TermsAndConditionsStep({ prevStep, checked, handleCheckboxChange }: Ter
   let handleEventBuyTickets = (): void => {
     setOpen(true);
   }
+
+  let initialTicket: Ticket = { name: "", ticketCategoryTitle: "" };
+
+  useEffect(() => {
+    let newBooking = { ...booking };
+    let newArr: Ticket[] = [];
+
+    ticketNames.map(category => {
+      category.names.map(currName => { newArr.push({ ticketCategoryTitle: category.ticketTitle, name: currName }); });
+    });
+
+    newBooking.tickets = newArr;
+    setBooking(newBooking);
+  }, []);
 
   return (
     <>

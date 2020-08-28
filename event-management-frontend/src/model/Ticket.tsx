@@ -1,4 +1,4 @@
 export default interface Ticket {
-  ticketCategoryName: string,
+  ticketCategoryTitle: string,
   name: string,
 }
