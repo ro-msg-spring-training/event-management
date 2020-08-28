@@ -1,10 +1,48 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import CheckInSectionDumb from './CheckInSectionDumb';
+import { AppState } from '../../../store/store';
+import { Dispatch } from 'redux';
+import { connect } from 'react-redux';
+import { fetchBookings } from '../../../actions/UserHomePageActions';
+import { Booking } from '../../../model/userHome/Booking';
+import { useHistory } from 'react-router-dom';
 
-function CheckInSectionSamrt() {
+interface UserHomePageProps {
+    bookings: Booking[],
+    isError: boolean,
+    isLoading: boolean,
+    fetchBookings: () => void
+}
+
+function CheckInSectionSamrt({ bookings, isError, isLoading, fetchBookings }: UserHomePageProps) {
+    const history = useHistory();
+
+    useEffect(() => {
+        fetchBookings();
+    }, [fetchBookings]);
+
+    const handleOnClick = () => {
+        history.push('/user/tickets')
+    }
+
     return (
-        <CheckInSectionDumb/>
+        <CheckInSectionDumb 
+            bookings={bookings}
+            isLoading={isLoading}
+            isError={isError}
+            handleOnClick={handleOnClick}
+        />
     )
 }
 
-export default CheckInSectionSamrt;
+const mapStateToProps = (state: AppState) => ({
+    bookings: state.userHome.bookings.bookings,
+    isError: state.userHome.bookings.isError,
+    isLoading: state.userHome.bookings.isLoading
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+    fetchBookings: () => dispatch(fetchBookings())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(CheckInSectionSamrt);
