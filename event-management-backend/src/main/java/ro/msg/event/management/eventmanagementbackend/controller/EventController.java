@@ -256,6 +256,24 @@ public class EventController {
         return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
 
+    @GetMapping("user/future")
+    public ResponseEntity<JSONObject> userEventsWillAttend(Pageable pageable) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) auth.getPrincipal();
+
+        Page<Event> pageEvent = eventService.filterAndPaginateEventsUserWillAttend(user, pageable);
+        List<Event> events = pageEvent.getContent();
+        List<CardsEventDto> eventsDto = converterToCardEventDto.convertAll(events);
+
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("events", eventsDto);
+        responseBody.put("noPages", pageEvent.getTotalPages());
+        responseBody.put("more", !pageEvent.isLast());
+
+        return  new ResponseEntity<>(responseBody, HttpStatus.OK);
+    }
+
     @GetMapping("/highlighted")
     public ResponseEntity<List<CardsUserEventDto>> getHighlightedEvents(@PageableDefault(size = Integer.MAX_VALUE) Pageable pageable) {
 
