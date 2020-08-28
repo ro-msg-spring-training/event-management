@@ -54,7 +54,7 @@ function UserEventCard({
                     <div className={classes.eventDivInfo}>
                         <EventIcon className={classes.eventIconInfo} />
                         <Typography variant="subtitle1" className={classes.eventTextInfo}>
-                            {event.startDate} - {event.endDate}
+                            {event.startDate} {event.startDate === event.endDate ? '' : ' - ' + event.endDate}
                         </Typography>
                     </div>
 
