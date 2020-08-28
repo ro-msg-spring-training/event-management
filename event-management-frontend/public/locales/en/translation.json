@@ -155,6 +155,13 @@
 
         "backButton": "Back",
         "joinButton": "Join",
+
+        "imageErrorMessage": "An error occurred while uploading images",
+        "imageDragAndDrop": "Drag and drop some files here, or click to select files",
+        "imageDialogTitle": "Do you want to remove this image?",
+        "imageDialogContent": "If you delete the image, you will not be able to recover it later.",
+        "imageDialogAgree": "Yes",
+        "imageDialogDisagree": "No"
     },
 
     "location": {
