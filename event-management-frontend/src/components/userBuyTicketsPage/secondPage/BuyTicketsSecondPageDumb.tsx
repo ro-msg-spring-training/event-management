@@ -17,25 +17,28 @@ interface BuyTicketsSecondPageDumbProps {
   ticketCategories: TicketAvailabilityData[],
   eventId: number | string,
   booking: Booking,
-  // setBooking: (booking: Booking) => void,
   addBookings: (booking: Booking) => void,
 
   updateBookings: (booking: Booking) => void,
+
+  updateTicketAmount: (ticketAmount: TicketsPerCateory[]) => void,
+  ticketAmount: TicketsPerCateory[],
+
+  updateTicketNames: (ticketAmount: TicketNames[]) => void,
+  ticketNames: TicketNames[],
 }
 
-function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCategories, eventId, booking, addBookings, updateBookings }: BuyTicketsSecondPageDumbProps) {
+function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCategories, eventId, booking, addBookings,
+  updateBookings, updateTicketAmount, ticketAmount, updateTicketNames, ticketNames }: BuyTicketsSecondPageDumbProps) {
   const [step, setStep] = useState(1);
-  const [ticketAmount, setTicketAmount] = useState<TicketsPerCateory[]>([]);
   const [checked, setChecked] = useState(false);
-  //ticketNames has this structure so wehn the user modifies a name text field I know where to apply the change 
-  const [ticketNames, setTicketNames] = useState<TicketNames[]>([]);
 
   let today = new Date(new Date().toString().split('GMT')[0] + ' UTC').toISOString().split('.')[0]
 
   let initialTicketState: TicketsPerCateory[] = [];
   useEffect(() => {
     ticketCategories.map((ticket) => initialTicketState.push({ category: ticket.title, quantity: 0 }))
-    setTicketAmount(initialTicketState);
+    updateTicketAmount(initialTicketState);
 
     let oldBooking = { ...booking };
     oldBooking.eventId = Number(eventId);
@@ -64,7 +67,7 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
     const { name, value } = e.target;
     const index = ticketCategories.findIndex(ticket => ticket.title === name)
     ticketCategories[index].remaining >= Number(value) ?
-      setTicketAmount(ticketAmount.map(item => (item.category === name ? { ...item, 'quantity': Number(value) } : item))) :
+      updateTicketAmount(ticketAmount.map(item => (item.category === name ? { ...item, 'quantity': Number(value) } : item))) :
       console.log("Error not that many tickets in stock");
   }
 
@@ -93,7 +96,7 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
     let replacedTicket = { ...ticketNamesCopy[index] }
     replacedTicket = ticketToUpdate as TicketNames;
     ticketNamesCopy[index] = replacedTicket;
-    setTicketNames(ticketNamesCopy);
+    updateTicketNames(ticketNamesCopy);
   }
 
   const buttons =
@@ -143,7 +146,7 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
           handleNameStepChange={handleNameStepChange}
           ticketAmount={ticketAmount}
           ticketNames={ticketNames}
-          setTicketNames={setTicketNames}
+          updateTicketNames={updateTicketNames}
         />
       break;
     case 4:

@@ -11,7 +11,9 @@ interface NamesStepProps {
   handleNameStepChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
   ticketAmount: TicketsPerCateory[],
   ticketNames: TicketNames[],
-  setTicketNames: (ticketNames: TicketNames[]) => void,
+  // setTicketNames: (ticketNames: TicketNames[]) => void,
+
+  updateTicketNames: (ticketAmount: TicketNames[]) => void,
 }
 
 const createFields = (initialTicketNames: TicketNames[], ticket: TicketsPerCateory): TicketNames[] => {
@@ -20,14 +22,14 @@ const createFields = (initialTicketNames: TicketNames[], ticket: TicketsPerCateo
   return initialTicketNames;
 }
 
-function NamesStepSmart({ nextStep, prevStep, handleEnterKey, handleNameStepChange, ticketAmount, ticketNames, setTicketNames }: NamesStepProps) {
+function NamesStepSmart({ nextStep, prevStep, handleEnterKey, handleNameStepChange, ticketAmount, ticketNames, updateTicketNames }: NamesStepProps) {
   const classes = userBuyTicketsStyle();
 
   useEffect(() => {
     let initialTicketNames: TicketNames[] = ticketNames;
     let ticketArr = ticketAmount.filter(ticket => ticket.quantity !== 0)
     ticketArr.length !== 0 && ticketArr.map(ticket => (initialTicketNames = createFields(initialTicketNames, ticket)))
-    setTicketNames(initialTicketNames);
+    updateTicketNames(initialTicketNames);
   }, [])
 
   let inputs: JSX.Element[] = [];

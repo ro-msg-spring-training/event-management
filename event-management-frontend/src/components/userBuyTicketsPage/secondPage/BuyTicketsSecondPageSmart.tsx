@@ -1,28 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { loadTicketCategories, addBookings, updateBookings } from '../../../actions/TicketReservationActions';
+import { loadTicketCategories, addBookings, updateBookings, updateTicketAmount, updateTicketNames } from '../../../actions/TicketReservationActions';
 import { TicketAvailabilityData } from '../../../model/TicketAvailabilityData';
 import { Container, CircularProgress } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import BuyTicketsSecondPageDumb from './BuyTicketsSecondPageDumb';
 import Booking from '../../../model/Booking';
+import { TicketsPerCateory, TicketNames } from '../../../model/UserReserveTicket';
 
 interface BuyTicketsSecondPageSmartProps {
   match: any,
   fetchedData: {
-    ticketCategory: TicketAvailabilityData[],
     isError: boolean,
     isLoading: boolean,
   },
+  ticketCategories: TicketAvailabilityData[],
   fetchTicketCategories: (idEvent: string) => void,
   addBookings: (booking: Booking) => void,
 
   updateBookings: (booking: Booking) => void,
-  booking: Booking
+  booking: Booking,
+
+  updateTicketAmount: (ticketAmount: TicketsPerCateory[]) => void,
+  ticketAmount: TicketsPerCateory[],
+
+  updateTicketNames: (ticketAmount: TicketNames[]) => void,
+  ticketNames: TicketNames[],
 }
 
-function BuyTicketsSecondPageSmart({ match, fetchedData, fetchTicketCategories, addBookings, booking, updateBookings }: BuyTicketsSecondPageSmartProps) {
-  // const [booking, setBooking] = useState<Booking>(initialBooking);
+function BuyTicketsSecondPageSmart({ match, fetchedData, ticketCategories, fetchTicketCategories, addBookings,
+  booking, updateBookings, updateTicketAmount, ticketAmount, updateTicketNames, ticketNames }: BuyTicketsSecondPageSmartProps) {
   const history = useHistory();
 
   const gotoFirstPage = (): void => {
@@ -55,12 +62,18 @@ function BuyTicketsSecondPageSmart({ match, fetchedData, fetchTicketCategories, 
       <BuyTicketsSecondPageDumb
         gotoFirstPage={gotoFirstPage}
         gotoEventListPage={gotoEventListPage}
-        ticketCategories={fetchedData.ticketCategory}
+        ticketCategories={ticketCategories}
         eventId={match.params.id}
         booking={booking}
-        // setBooking={setBooking}
+
         updateBookings={updateBookings}
         addBookings={addBookings}
+
+        updateTicketAmount={updateTicketAmount}
+        ticketAmount={ticketAmount}
+
+        updateTicketNames={updateTicketNames}
+        ticketNames={ticketNames}
       />
     </div>
   );
@@ -69,7 +82,11 @@ function BuyTicketsSecondPageSmart({ match, fetchedData, fetchTicketCategories, 
 const mapStateToProps = (state: any) => {
   return {
     fetchedData: state.ticketCategories,
-    booking: state.ticketCategories.booking
+    booking: state.ticketCategories.booking,
+    ticketCategories: state.ticketCategories.ticketCategory,
+
+    ticketAmount: state.ticketCategories.ticketAmount,
+    ticketNames: state.ticketCategories.ticketNames,
   }
 }
 
@@ -78,7 +95,9 @@ const mapDispatchToProps = (dispatch: any) => {
     fetchTicketCategories: (idEvent: string) => dispatch(loadTicketCategories(idEvent)),
     addBookings: (booking: Booking) => dispatch(addBookings(booking)),
 
-    updateBookings: (booking: Booking) => dispatch(updateBookings(booking))
+    updateBookings: (booking: Booking) => dispatch(updateBookings(booking)),
+    updateTicketAmount: (ticketAmount: TicketsPerCateory[]) => dispatch(updateTicketAmount(ticketAmount)),
+    updateTicketNames: (ticketNames: TicketNames[]) => dispatch(updateTicketNames(ticketNames)),
   }
 }
 
