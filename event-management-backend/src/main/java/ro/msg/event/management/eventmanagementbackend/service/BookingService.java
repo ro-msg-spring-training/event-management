@@ -18,6 +18,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -90,5 +91,15 @@ public class BookingService {
         query.setParameter("user", user);
         return query.getResultList();
 
+    }
+
+    public List<LocalDate> getDatesInInterval(LocalDate startDate, LocalDate endDate){
+        List<LocalDate> localDates = new ArrayList<>();
+        LocalDate tmp = startDate;
+        while(tmp.isBefore(endDate) || tmp.equals(endDate)) {
+            localDates.add(tmp);
+            tmp = tmp.plusDays(1);
+        }
+        return localDates;
     }
 }
