@@ -3,11 +3,12 @@ import useStylesSearchBar from "../../../styles/SearchBarStyle";
 import { Input, InputAdornment } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import { useTranslation } from "react-i18next";
+import { LocationType } from "../../../types/LocationType";
 
 interface Props {
-  myLocations: any[];
+  myLocations: LocationType[];
   searchValue: string;
-  setSearchValue: any;
+  updateSearchValue: (searchValue: string) => void;
   setLocation: any;
   location: {
     id: number;
@@ -15,18 +16,16 @@ interface Props {
     address: string;
     latitude: string;
     longitude: string;
-    sublocations: never[];
-    program: never[];
   };
-  position: any;
+  position: string[];
   setPosition: any;
-  searchMarker: any[];
+  searchMarker: string[];
   setsearchMarker: any;
 }
 const SearchBar = (props: Props) => {
   const classesSearch = useStylesSearchBar();
   const [flag, setFlag] = useState(true);
-  const [suggestions, setSuggestions]: any = useState([]);
+  const [suggestions, setSuggestions] = useState<LocationType[]>([]);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -63,7 +62,7 @@ const SearchBar = (props: Props) => {
     return (
       <div className={classesSearch.containerSuggestions}>
         <ul className={classesSearch.suggestionsText}>
-          {suggestions.map((location: any) => (
+          {suggestions.map((location: LocationType) => (
             <li className={classesSearch.suggestedItem} onClick={() => suggestionSelected(location.name)}>
               {location.name}
             </li>
@@ -75,7 +74,7 @@ const SearchBar = (props: Props) => {
 
   const suggestionSelected = (value: string) => {
     setSuggestions([]);
-    props.setSearchValue(value);
+    props.updateSearchValue(value);
     setFlag(false);
     searchLocationCoord(value);
   };
@@ -86,7 +85,7 @@ const SearchBar = (props: Props) => {
         placeholder={t("location.searchBarText")}
         className={classesSearch.searchBarInput}
         value={props.searchValue}
-        onChange={(e) => props.setSearchValue(e.target.value)}
+        onChange={(e) => props.updateSearchValue(e.target.value)}
         type="text"
         startAdornment={
           <InputAdornment position="start">

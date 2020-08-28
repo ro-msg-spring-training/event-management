@@ -4,17 +4,20 @@ import "leaflet/dist/leaflet.css";
 import useStylesMapWrapper from "../../../styles/MapWrapperStyle";
 import "../../../styles/Map.css";
 import L from "leaflet";
-import { Button } from "@material-ui/core";
 import { useStyles } from "../../../styles/CommonStyles";
 import { LocationType } from "../../../types/LocationType";
 import { AppState } from "../../../store/store";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { locationFetch, locationFetchSucces, locationisLoading } from "../../../actions/LocationActions";
+import {
+  locationFetch,
+  locationFetchSucces,
+  locationisLoading,
+  updateSearchValue,
+} from "../../../actions/LocationActions";
 import SearchBar from "./SearchBar";
 import { updateLocation } from "../../../actions/HeaderEventCrudActions";
-import { blackMarkerPoint, greenMarkerPoint, redMarkerPoint } from "./markerPointIcons";
 import MapDisplayLocationsDumb from "./MapdisplayLocationsDumb";
 import MapDisplaySelectedLocationDumb from "./MapDisplaySelectedLocation";
 import MapDisplaySearchMarker from "./MapDisplaySearchMarker";
@@ -29,6 +32,8 @@ interface Props {
   locationStatus: string;
   setlocationStatus: any;
   idLocation: number;
+  searchValue: string;
+  updateSearchValue: (searchValue: string) => void;
 }
 interface OwnProps {
   locationStatus: string;
@@ -37,10 +42,7 @@ interface OwnProps {
 
 const MapWrapper: React.FC<Props> = (props: Props) => {
   const classesMap = useStylesMapWrapper();
-  const classes = useStyles();
-  const { t } = useTranslation();
   const [position, setPosition]: any = useState([46.77121, 23.623634]);
-  const [searchValue, setsearchValue] = useState("");
   const [currentLocation, setcurrentLocation] = useState("");
   const [searchLocation, setsearchLocation] = useState({
     id: 0,
@@ -53,7 +55,6 @@ const MapWrapper: React.FC<Props> = (props: Props) => {
   });
   const [selectedMarker, setSelectedMarker]: any = useState([]);
   const [searchMarker, setSearchMarker]: any = useState([]);
-  const [submitDisabled, setSubmitDisable] = useState(false);
 
   useEffect(() => {
     props.locationFetch();
@@ -64,7 +65,7 @@ const MapWrapper: React.FC<Props> = (props: Props) => {
     const location = props.locations.find((loc) => loc.id === props.idLocation);
 
     if (location !== undefined) {
-      const markers: any[] = [];
+      const markers: string[][] = [];
       markers.push([location.latitude, location.longitude]);
       setSelectedMarker(markers);
       setcurrentLocation(location.name);
@@ -74,23 +75,13 @@ const MapWrapper: React.FC<Props> = (props: Props) => {
   const submitLocation = (id: number, lat: string, long: string, name: string) => {
     setSearchMarker([]);
 
-    const markers: any[] = [];
-
+    const markers: string[][] = [];
     markers.push([lat, long]);
     setSelectedMarker(markers);
-
     props.updateLocation(id);
-
     const ids = String(id);
-
     props.setlocationStatus(ids);
-    console.log(id);
-    //const location = props.locations.find((loc) => loc.id === props.idLocation);
-    //console.log(location);
-
-    //console.log(location);
     setcurrentLocation(name);
-    console.log(selectedMarker);
   };
 
   return (
@@ -98,8 +89,8 @@ const MapWrapper: React.FC<Props> = (props: Props) => {
       <div className={classesMap.searchBar}>
         <SearchBar
           myLocations={props.locations}
-          searchValue={searchValue}
-          setSearchValue={setsearchValue}
+          searchValue={props.searchValue}
+          updateSearchValue={props.updateSearchValue}
           setLocation={setsearchLocation}
           location={searchLocation}
           position={position}
@@ -131,12 +122,14 @@ const mapStateToProps = (state: AppState, ownProps: OwnProps) => ({
   locationStatus: ownProps.locationStatus,
   setlocationStatus: ownProps.setlocationStatus,
   idLocation: state.eventCrud.event.location,
+  searchValue: state.location.searchValue,
 });
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   locationFetch: () => dispatch(locationFetch()),
   locationFetchSuccess: (locations: LocationType[]) => dispatch(locationFetchSucces(locations)),
   locationisLoading: (loadingStatus: boolean) => dispatch(locationisLoading(loadingStatus)),
   updateLocation: (idLocation: number) => dispatch(updateLocation(idLocation)),
+  updateSearchValue: (searchValue: string) => dispatch(updateSearchValue(searchValue)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MapWrapper);
