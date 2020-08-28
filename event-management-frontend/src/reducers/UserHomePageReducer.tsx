@@ -114,16 +114,15 @@ export const UserHomePageReducer = (state: UserHomePageState = initialState, act
             return {
                 ...state,
                 upcoming: {
-                    ...state.past,
+                    ...state.upcoming,
                     isLoading: true
                 }
             };
         case UserHomePageActionTypes.FETCH_USER_UPCOMING_EVENTS_SUCCESS:
-            console.log('succes',action)
             return {
                 ...state,
                 upcoming: {
-                    ...state.past,
+                    ...state.upcoming,
                     events: action.events,
                     isMore: action.more,
                     noPages: action.noPages,
@@ -134,9 +133,25 @@ export const UserHomePageReducer = (state: UserHomePageState = initialState, act
             return {
                 ...state,
                 upcoming: {
-                    ...state.past,
+                    ...state.upcoming,
                     isLoading: false,
                     isError: true
+                }
+            };
+        case UserHomePageActionTypes.UPDATE_PAST_EVENTS_PAGE:
+            return {
+                ...state,
+                past: {
+                    ...state.past,
+                    page: action.page
+                }
+            };
+        case UserHomePageActionTypes.UPDATE_UPCOMING_EVENTS_PAGE:
+            return {
+                ...state,
+                upcoming: {
+                    ...state.upcoming,
+                    page: action.page
                 }
             };
         default:

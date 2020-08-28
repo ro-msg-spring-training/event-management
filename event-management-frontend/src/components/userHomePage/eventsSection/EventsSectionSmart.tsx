@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { AppState } from '../../../store/store';
 import { Dispatch } from 'redux';
 import { EventCard } from '../../../model/userHome/EventCard';
-import { fetchUserPastEvents, fetchUserUpcomingEvents } from '../../../actions/UserHomePageActions';
+import { fetchUserPastEvents, fetchUserUpcomingEvents, updatePastEventsPage, updateUpcomingEventsPage } from '../../../actions/UserHomePageActions';
 import { useHistory } from 'react-router-dom';
 
 interface EventProps {
@@ -22,10 +22,12 @@ interface UserHomePageProps {
     pastEvents: EventProps,
     upcomingEvents: EventProps,
     fetchUserPastEvents: (page: number, limit: number) => void,
-    fetchUserUpcomingEvents: (page: number, limit: number) => void
+    fetchUserUpcomingEvents: (page: number, limit: number) => void,
+    updatePastEventsPage: (page: number) => void,
+    updateUpcomingEventsPage: (page: number) => void
 }
 
-function EventsSectionSmart({ past, pastEvents, upcomingEvents, fetchUserPastEvents, fetchUserUpcomingEvents }: UserHomePageProps) {
+function EventsSectionSmart({ past, pastEvents, upcomingEvents, fetchUserPastEvents, fetchUserUpcomingEvents, updatePastEventsPage, updateUpcomingEventsPage }: UserHomePageProps) {
     const history = useHistory();
     const events = past ? pastEvents.events : upcomingEvents.events;
     const page = past ? pastEvents.page : upcomingEvents.page;
@@ -34,6 +36,7 @@ function EventsSectionSmart({ past, pastEvents, upcomingEvents, fetchUserPastEve
     const isError = past ? pastEvents.isError : upcomingEvents.isError;
     const isLoading = past ? pastEvents.isLoading : upcomingEvents.isLoading;
     const fetchEvents = past ? fetchUserPastEvents : fetchUserUpcomingEvents;
+    const updatePage = past ? updatePastEventsPage : updateUpcomingEventsPage;
 
     useEffect(() => {
         fetchEvents(page, limit);
@@ -41,6 +44,12 @@ function EventsSectionSmart({ past, pastEvents, upcomingEvents, fetchUserPastEve
 
     const handleOnClick = (id: number) => {
         history.push(`/user/events/${id}`)
+    }
+
+    const updatePageNumber = (newPageNumber: number) => {
+        if (newPageNumber < 0 || newPageNumber >= noPages) return;
+
+        updatePage(newPageNumber)
     }
 
     return (
@@ -51,6 +60,7 @@ function EventsSectionSmart({ past, pastEvents, upcomingEvents, fetchUserPastEve
             isError={isError}
             noPages={noPages}
             page={page}
+            updatePageNumber={updatePageNumber}
             handleOnClick={handleOnClick}
         />
     )
@@ -63,7 +73,9 @@ const mapStateToProps = (state: AppState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
     fetchUserPastEvents: (page: number, limit: number) => dispatch(fetchUserPastEvents(page, limit)),
-    fetchUserUpcomingEvents: (page: number, limit: number) => dispatch(fetchUserUpcomingEvents(page, limit))
+    fetchUserUpcomingEvents: (page: number, limit: number) => dispatch(fetchUserUpcomingEvents(page, limit)),
+    updatePastEventsPage: (page: number) => dispatch(updatePastEventsPage(page)),
+    updateUpcomingEventsPage: (page: number) => dispatch(updateUpcomingEventsPage(page))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventsSectionSmart);

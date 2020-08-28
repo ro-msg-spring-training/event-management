@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, CardHeader, CardContent, CardActions, CircularProgress, Grid } from '@material-ui/core';
+import { Card, CardHeader, CardContent, CardActions, Grid, LinearProgress } from '@material-ui/core';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import { EventCard } from '../../../model/userHome/EventCard';
@@ -13,10 +13,11 @@ interface UserHomePageProps {
     noPages: number,
     isError: boolean,
     isLoading: boolean,
-    handleOnClick: (id: number) => void
+    handleOnClick: (id: number) => void,
+    updatePageNumber: (page: number) => void
 }
 
-function EventsSectionDumb({ past, events, page, noPages, isError, isLoading, handleOnClick }: UserHomePageProps) {
+function EventsSectionDumb({ past, events, page, noPages, isError, isLoading, handleOnClick, updatePageNumber }: UserHomePageProps) {
     const classes = useEventCardStyle();
 
     return (
@@ -30,7 +31,7 @@ function EventsSectionDumb({ past, events, page, noPages, isError, isLoading, ha
                 {isError ?
                     'Error' :
                     isLoading ?
-                        <CircularProgress /> :
+                        <LinearProgress /> :
                         noPages ?
                             <Grid container spacing={1}>
                                 {events.map(e =>
@@ -56,8 +57,8 @@ function EventsSectionDumb({ past, events, page, noPages, isError, isLoading, ha
                     <>
                         {
                             page === 0 ?
-                                <NavigateBeforeIcon style={{ visibility: 'hidden' }} /> :
-                                <NavigateBeforeIcon />
+                                <NavigateBeforeIcon className={classes.invisibleIcon} /> :
+                                <NavigateBeforeIcon className={classes.visibleIcon} onClick={() => updatePageNumber(page - 1)} />
                         }
 
                         <div>
@@ -66,8 +67,8 @@ function EventsSectionDumb({ past, events, page, noPages, isError, isLoading, ha
 
                         {
                             page + 1 === noPages ?
-                                <NavigateNextIcon style={{ visibility: 'hidden' }} /> :
-                                <NavigateNextIcon />
+                                <NavigateNextIcon className={classes.invisibleIcon} /> :
+                                <NavigateNextIcon className={classes.visibleIcon} onClick={() => updatePageNumber(page + 1)}/>
                         }
                     </>
                 }

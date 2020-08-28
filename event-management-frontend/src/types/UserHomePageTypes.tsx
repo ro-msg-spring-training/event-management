@@ -15,7 +15,10 @@ export enum UserHomePageActionTypes {
     FETCH_USER_UPCOMING_EVENTS = 'FETCH_USER_UPCOMING_EVENTS',
     FETCH_USER_UPCOMING_EVENTS_REQUEST = 'FETCH_USER_UPCOMING_EVENTS_REQUEST',
     FETCH_USER_UPCOMING_EVENTS_SUCCESS = 'FETCH_USER_UPCOMING_EVENTS_SUCCESS',
-    FETCH_USER_UPCOMING_EVENTS_ERROR = 'FETCH_USER_UPCOMING_EVENTS_ERROR'
+    FETCH_USER_UPCOMING_EVENTS_ERROR = 'FETCH_USER_UPCOMING_EVENTS_ERROR',
+
+    UPDATE_PAST_EVENTS_PAGE = 'UPDATE_PAST_EVENTS_PAGE',
+    UPDATE_UPCOMING_EVENTS_PAGE = 'UPDATE_UPCOMING_EVENTS_PAGE'
 }
 
 export class FetchBookingsAction {
@@ -103,6 +106,24 @@ export class FetchUserUpcomingEventsErrorAction {
     public readonly type = UserHomePageActionTypes.FETCH_USER_UPCOMING_EVENTS_ERROR;
 }
 
+export class UpdatePastEventsPage {
+    public readonly type = UserHomePageActionTypes.UPDATE_PAST_EVENTS_PAGE;
+    public page: number;
+
+    constructor(page: number) {
+        this.page = page;
+    }
+}
+
+export class UpdateUpcomingEventsPage {
+    public readonly type = UserHomePageActionTypes.UPDATE_UPCOMING_EVENTS_PAGE;
+    public page: number;
+
+    constructor(page: number) {
+        this.page = page;
+    }
+}
+
 export type UserHomePageActions =
     FetchBookingsAction |
     FetchBookingsRequestAction |
@@ -115,4 +136,6 @@ export type UserHomePageActions =
     FetchUserUpcomingEventsAction |
     FetchUserUpcomingEventsRequestAction |
     FetchUserUpcomingEventsSuccessAction |
-    FetchUserUpcomingEventsErrorAction
+    FetchUserUpcomingEventsErrorAction |
+    UpdatePastEventsPage |
+    UpdateUpcomingEventsPage

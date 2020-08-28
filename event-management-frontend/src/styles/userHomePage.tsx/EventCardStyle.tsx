@@ -7,5 +7,11 @@ export const useEventCardStyle = makeStyles( theme =>({
     },
     day: {
         backgroundColor: theme.palette.secondary.dark,
+    },
+    visibleIcon: {
+        cursor: 'pointer'
+    },
+    invisibleIcon: {
+        visibility: 'hidden'
     }
 }))

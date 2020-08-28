@@ -5,7 +5,7 @@ import {
 } from "@material-ui/pickers";
 import MomentUtils from "@date-io/moment";
 import moment from "moment";
-import { Tooltip, CardHeader, CardContent, Card, CircularProgress } from "@material-ui/core";
+import { Tooltip, CardHeader, CardContent, Card, LinearProgress } from "@material-ui/core";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import { Booking } from "../../../model/userHome/Booking";
 import { useEventCardStyle } from "../../../styles/userHomePage.tsx/EventCardStyle";
@@ -67,7 +67,7 @@ function CheckInSectionDumb({ bookings, isError, isLoading, handleOnClick }: Use
                     {isError ?
                         'Error' :
                         isLoading ?
-                            <CircularProgress></CircularProgress> :
+                            <LinearProgress/> :
                             <KeyboardDatePicker
                                 disableToolbar
                                 showTodayButton={true}

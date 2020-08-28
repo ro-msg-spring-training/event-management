@@ -84,3 +84,17 @@ export const fetchUserUpcomingEventsError = () => {
         type: UserHomePageActionTypes.FETCH_USER_UPCOMING_EVENTS_ERROR
     }
 }
+
+export const updatePastEventsPage = (page: number) => {
+    return {
+        type: UserHomePageActionTypes.UPDATE_PAST_EVENTS_PAGE,
+        page: page
+    }
+}
+
+export const updateUpcomingEventsPage = (page: number) => {
+    return {
+        type: UserHomePageActionTypes.UPDATE_UPCOMING_EVENTS_PAGE,
+        page: page
+    }
+}
