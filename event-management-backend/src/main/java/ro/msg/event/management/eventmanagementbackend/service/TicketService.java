@@ -6,9 +6,16 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.AvailableTicketsPerCategory;
+import ro.msg.event.management.eventmanagementbackend.entity.Booking;
 import ro.msg.event.management.eventmanagementbackend.entity.Event;
+import ro.msg.event.management.eventmanagementbackend.entity.Ticket;
+import ro.msg.event.management.eventmanagementbackend.entity.TicketDocument;
 import ro.msg.event.management.eventmanagementbackend.entity.view.TicketView;
+import ro.msg.event.management.eventmanagementbackend.exception.TicketValidateException;
+import ro.msg.event.management.eventmanagementbackend.repository.BookingRepository;
 import ro.msg.event.management.eventmanagementbackend.repository.EventRepository;
+import ro.msg.event.management.eventmanagementbackend.repository.TicketDocumentRepository;
+import ro.msg.event.management.eventmanagementbackend.repository.TicketRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,6 +34,14 @@ import java.util.stream.Collectors;
 public class TicketService {
 
     private final EventRepository eventRepository;
+
+    private final TicketRepository ticketRepository;
+
+    private final TicketDocumentService ticketDocumentService;
+
+    private final TicketDocumentRepository ticketDocumentRepository;
+
+    private final BookingRepository bookingRepository;
 
     @PersistenceContext(type = PersistenceContextType.TRANSACTION)
     private final EntityManager entityManager;
@@ -75,5 +90,25 @@ public class TicketService {
         return new PageImpl<>(result, pageable, count);
     }
 
+    public void validateTicket(long idEvent, long idTicket) throws TicketValidateException {
+        Optional<Ticket> ticketOptional = ticketRepository.findById(idTicket);
 
+        if (ticketOptional.isPresent()) {
+            Ticket ticket = ticketOptional.get();
+            TicketDocument ticketDocument = ticketDocumentService.findByTicket(ticket);
+
+            if (ticketDocument.isValidate()) {
+                throw new TicketValidateException("Ticket with id = " + idTicket + " has already been validated");
+            } else {
+                Event event = eventRepository.findEventByTicket(idTicket);
+                if(event.getId() != idEvent){
+                    throw new TicketValidateException("Ticket with id = " + idTicket + " is not for this event");
+                }
+                ticketDocument.setValidate(true);
+                ticketDocumentRepository.save(ticketDocument);
+            }
+        } else {
+            throw new NoSuchElementException("There is no ticket with id " + idTicket);
+        }
+    }
 }

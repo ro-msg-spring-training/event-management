@@ -6,18 +6,22 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import ro.msg.event.management.eventmanagementbackend.controller.converter.Converter;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.AvailableTicketsPerCategory;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.TicketListingDto;
 import ro.msg.event.management.eventmanagementbackend.entity.view.TicketView;
+import ro.msg.event.management.eventmanagementbackend.exception.TicketValidateException;
 import ro.msg.event.management.eventmanagementbackend.security.User;
 import ro.msg.event.management.eventmanagementbackend.service.TicketService;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @AllArgsConstructor
@@ -47,4 +51,20 @@ public class TicketController {
     }
 
 
+    @PatchMapping("/validate/{idTicket}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<JSONObject> validateTicket(@RequestParam long idEvent, @PathVariable Long idTicket){
+
+        try {
+            ticketService.validateTicket(idEvent,idTicket);
+        }catch (TicketValidateException ticketValidateException){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, ticketValidateException.getMessage(), ticketValidateException);
+        }catch (NoSuchElementException noSuchElementException){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, noSuchElementException.getMessage(), noSuchElementException);
+        }
+
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("response","validated successfully");
+        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+    }
 }
