@@ -4,14 +4,16 @@ import { AppState } from "../../../store/store";
 import { fetchTickets, incrementPage } from "../../../actions/TicketsPageActions";
 import { Ticket } from "../../../model/Ticket"
 import TicketListDumb from "./TicketListDumb";
+import {TicketFilters} from "../../../model/TicketFilters";
 
 
 interface Props {
     tickets: [];
+    filters: TicketFilters;
     page: number;
     isLoading: boolean;
     isError: boolean;
-    fetchTickets: (page: number) => void;
+    fetchTickets: (page: number, filters: TicketFilters) => void;
     incrementPage: () => void;
 }
 
@@ -22,7 +24,7 @@ const TicketListSmart = (props: Props) => {
 
     useEffect(() => {
         async function addTicketsTogether() {
-            await props.fetchTickets(props.page)
+            await props.fetchTickets(props.page, props.filters)
             await setHasMore(props.page === 1 ? true : props.tickets.length > 0)
 
             await setConcatTickets([...concatTickets, ...props.tickets])
@@ -47,9 +49,9 @@ const TicketListSmart = (props: Props) => {
     const ticketReferences = tickets !== undefined ? tickets
         .map((ticket: Ticket, index: number) => {
             if (tickets.length === index + 1) {
-                return <div ref={lastTicketRef} key={ticket.pdfUrl}/>
+                return <div ref={lastTicketRef} key={ticket.ticketId}/>
             } else {
-                return <div key={ticket.pdfUrl}/>
+                return <div key={ticket.ticketId}/>
             }
         }) : [];
 
@@ -65,6 +67,7 @@ const TicketListSmart = (props: Props) => {
 
 const mapStateToProps = (state: AppState) => ({
     tickets: state.tickets.allTickets,
+    filters: state.tickets.filters,
     page: state.tickets.page,
     isLoading: state.tickets.isLoading,
     isError: state.tickets.isError

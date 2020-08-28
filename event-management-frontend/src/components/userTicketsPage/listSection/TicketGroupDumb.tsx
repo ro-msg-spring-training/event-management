@@ -40,6 +40,7 @@ const TicketGroupDumb = (props: Props) => {
     const handleChange = props.handleChange;
     const open = props.open;
 
+    // TODO: when backend done, add link to PDFs here
     return (
         <>
             <TableRow>
@@ -75,7 +76,7 @@ const TicketGroupDumb = (props: Props) => {
 
                 <StyledTableCell key={"pdfUrl"} align={"center"}
                                  size={"medium"} className={classes.pdfButton}>
-                    <Link to={pdfUrl} className={classes.linkDecoration}>
+                    <Link to={''} className={classes.linkDecoration}>
                         <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3}`}>
                             {t("eventList.open")}
                         </Button>
@@ -83,7 +84,7 @@ const TicketGroupDumb = (props: Props) => {
                 </StyledTableCell>
             </TableRow>
 
-            <Collapse in={open[index]} timeout="auto" unmountOnExit>
+            <Collapse in={open[index]} timeout={0} unmountOnExit>
                 <Box className={classes.paddingTable}>
                     <TableHead>
                         <TableRow>
@@ -119,7 +120,7 @@ const TicketGroupDumb = (props: Props) => {
                     </TableHead>
 
                     {tickets.map((ticket: Ticket) => {
-                        return <TicketCollapseDumb ticket={ticket}/>
+                        return <TicketCollapseDumb ticket={ticket} key={ticket.ticketId}/>
                     })}
                 </Box>
             </Collapse>

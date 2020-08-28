@@ -22,6 +22,7 @@ const TicketCollapseDumb = (props: Props) => {
 
     const [t] = useTranslation();
 
+    // TODO: when backend done, add link to PDFs here
     return (
         <TableBody>
             <TableRow>
@@ -47,7 +48,7 @@ const TicketCollapseDumb = (props: Props) => {
 
                 <StyledTableCell key={"pdfUrl"} align={"center"}
                                  size={"medium"} className={`${classes.pdfButton} ${classes.tableCellPadding}`}>
-                    <Link to={ticket.pdfUrl} className={classes.linkDecoration}>
+                    <Link to={''} className={classes.linkDecoration}>
                         <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3}`}>
                             {t("eventList.open")}
                         </Button>

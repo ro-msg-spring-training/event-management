@@ -122,7 +122,7 @@ const TicketListDumb = (props: Props) => {
                                 <TableBody >
                                     {
                                         ticketDictionary.map((groupTicket, index) => {
-                                            return <TicketGroupDumb key={Number(groupTicket[0])}
+                                            return <TicketGroupDumb key={index}
                                                                     ticket={groupTicket[1]}
                                                                     open={open}
                                                                     index={index}
