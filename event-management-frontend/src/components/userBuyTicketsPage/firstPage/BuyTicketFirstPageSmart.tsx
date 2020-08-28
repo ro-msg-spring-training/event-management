@@ -24,6 +24,7 @@ interface Props {
   radioButtonState: string;
   updateRadioButton: (radioButtonState: string) => void;
 }
+
 interface OwnProps {
   matching: RouteComponentProps<any>;
 }
@@ -32,7 +33,6 @@ const BuyTicketFirstPageSmart: React.FC<Props> = (props: Props) => {
   useEffect(() => {
     props.reserveEventFetch(props.matching.match.params.id);
     props.reserveEventisLoading(false);
-    console.log(props.eventReserve);
   }, []);
 
   const handleChangeRadioButtonState = (value: string) => {

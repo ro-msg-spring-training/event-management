@@ -6,6 +6,7 @@ interface Props {
   type: string;
   id: number;
 }
+
 function* fetchReserveEvent(props: Props) {
   const response = yield call(() => fetchReserveEventAPI(props.id));
   yield put(reserveEventFetchSucces(response));

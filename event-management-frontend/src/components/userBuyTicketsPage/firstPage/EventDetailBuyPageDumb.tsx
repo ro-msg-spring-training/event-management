@@ -54,7 +54,7 @@ const EventDetailBuyPageDumb = (props: Props) => {
         <ScheduleRoundedIcon className={reserveTicketFirstPage.iconStyle} />
         {props.event.startHour.replace(/:\d\d([ ap]|$)/, "$1")}
 
-        <span className={reserveTicketFirstPage.spacing}>to</span>
+        <span className={reserveTicketFirstPage.spacing}>{t("buyTicketsFirstPage.toTime")}</span>
         {props.event.endHour.replace(/:\d\d([ ap]|$)/, "$1")}
       </p>
 

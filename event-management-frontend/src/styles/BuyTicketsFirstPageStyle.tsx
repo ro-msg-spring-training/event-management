@@ -40,14 +40,13 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
       backgroundImage: "linear-gradient(90deg, rgba(245,253,255,1) 0%, rgba(202,202,209,1) 1%)",
     },
   },
-
   link: {
     textDecoration: "none",
   },
   title: { fontSize: 50, fontFamily: "Monospace !important", margin: "5px" },
   pagecontainer: {
     background: "linear-gradient(45deg, #21C6F3 10%, #1E5FA4 90%)",
-    minHeight: "100vh",
+    minHeight: "110vh",
     paddingTop: "4%",
   },
   generalInfoContainer: {
@@ -65,7 +64,6 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
   spacing: {
     margin: " 10px ",
   },
-
   locationName: {
     fontWeight: 700,
     fontSize: "1.05rem",
@@ -80,14 +78,10 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
   tag: {
     width: "50%",
     height: "50px",
-
     background: themeDark.palette.primary.dark,
-
     marginLeft: "-5.4%",
-
     "&:after": {
       marginTop: "0.5em",
-
       float: "left",
       border: "1.5em solid #fff",
       borderRightColor: "transparent",

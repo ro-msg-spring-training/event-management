@@ -156,6 +156,8 @@
   "buyTicketsFirstPage": {
     "radioButtonNoSeat": "Proceed without choosing a seat",
     "radioButtonSeat": "Select a seat from building plan",
-    "generalTicketInfo": "General ticket informations"
+    "generalTicketInfo": "General ticket informations",
+    "toDate": "to",
+    "toTime": "to"
   }
 }
