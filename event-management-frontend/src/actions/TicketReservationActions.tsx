@@ -51,19 +51,19 @@ export const fetchTicketCategoriesFailure = (error: string) => {
 
 //---------------------------------------------------------- POST
 
-export const addTicketCategoriesRequest = () => {
+export const addBookingsRequest = () => {
   return {
     type: ADD_BOOKINGS_REQUEST,
   }
 }
 
-export const addTicketCategoriesSuccess = () => {
+export const addBookingsSuccess = () => {
   return {
     type: ADD_BOOKINGS_SUCCESS,
   }
 }
 
-export const addTicketCategoriesFailure = (error: string) => {
+export const addBookingsFailure = (error: string) => {
   return {
     type: ADD_BOOKINGS_FAILURE,
     payload: error

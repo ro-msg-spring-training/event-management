@@ -24,14 +24,11 @@ interface BuyTicketsSecondPageDumbProps {
 function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCategories, eventId, booking, setBooking, addBookings }: BuyTicketsSecondPageDumbProps) {
   const [step, setStep] = useState(1);
   const [ticketAmount, setTicketAmount] = useState<TicketsPerCateory[]>([]);
+  const [checked, setChecked] = useState(false);
   //ticketNames has this structure so wehn the user modifies a name text field I know where to apply the change 
   const [ticketNames, setTicketNames] = useState<TicketNames[]>([]);
 
-  const [checked, setChecked] = useState(false);
-
   let today = new Date(new Date().toString().split('GMT')[0] + ' UTC').toISOString().split('.')[0]
-  // const dateAndTime = today.split("T");
-  // const currDate = dateAndTime[0];
 
   let initialTicketState: TicketsPerCateory[] = [];
   useEffect(() => {
@@ -42,9 +39,6 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
     oldBooking.eventId = Number(eventId);
     oldBooking.bookingDate = today;
     setBooking(oldBooking);
-
-    // ticketCategories.map((ticket) => initialTicketNames.push({ ticketTitle: ticket.title, names: [] }))
-    // setTicketNames(initialTicketNames);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -62,17 +56,7 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
   // Go back to prev step
   const prevStep = () => { setStep(step - 1); };
 
-  // // Handle fields change
-  // const handleChange = (input) => (e) => {
-  //   setState({ [input]: e.target.value });
-  // };
-
   const handleEnterKey = (e: any): void => { e.keyCode === 13 && e.preventDefault(); }
-
-  const handleStepperChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const { name, value } = e.target;
-
-  }
 
   const handleTicketsStepChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
@@ -92,8 +76,6 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
 
   const handleNameStepChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
-    console.log(name, " ", value);
-    console.log(ticketNames);
 
     //VIP_0 => ticketData[0] = VIP; ticketData[1] = 0
     let ticketData = name.split("_");
@@ -104,16 +86,12 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
     //set the new value to the specified position in the names array
     ticketToUpdate!.names[Number(ticketData[1])] = value;
 
-    console.log(ticketToUpdate);
-
     let ticketNamesCopy = [...ticketNames];
     let index = ticketNames.findIndex(ticket => (ticket.ticketTitle === ticketData[0]))
     let replacedTicket = { ...ticketNamesCopy[index] }
     replacedTicket = ticketToUpdate as TicketNames;
     ticketNamesCopy[index] = replacedTicket;
     setTicketNames(ticketNamesCopy);
-
-    console.log("FINAL TICKET NAMES: ", ticketNames);
   }
 
   const buttons =
@@ -132,8 +110,6 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
     </>
 
   let currentPage = <></>
-
-  console.log("BOOKING: ", booking);
 
   switch (step) {
     case 1:

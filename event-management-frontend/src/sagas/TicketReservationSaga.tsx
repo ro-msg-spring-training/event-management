@@ -1,8 +1,16 @@
 import { takeLatest, call, put } from "redux-saga/effects";
-import { LOAD_TICKET_CATEGORIES, fetchTicketCategoriesRequest, fetchTicketCategoriesSuccess, fetchTicketCategoriesFailure, addTicketCategoriesRequest, addTicketCategoriesSuccess, addTicketCategoriesFailure, ADD_BOOKINGS } from "../actions/TicketReservationActions";
+import {
+  ADD_BOOKINGS,
+  LOAD_TICKET_CATEGORIES,
+  fetchTicketCategoriesRequest,
+  fetchTicketCategoriesSuccess,
+  fetchTicketCategoriesFailure,
+  addBookingsRequest,
+  addBookingsSuccess,
+  addBookingsFailure,
+} from "../actions/TicketReservationActions";
 import { fetchTicketCategoriesAPI, addBookingsAPI } from "../api/TicketReservationAPI";
 import Booking from "../model/Booking";
-import { ADD_EVENT } from "../actions/HeaderEventCrudActions";
 
 interface Props {
   type: string,
@@ -11,7 +19,7 @@ interface Props {
 
 interface AddProps {
   type: string,
-  payload: {bookings: Booking}
+  payload: { bookings: Booking }
 }
 
 //-----------------------------------------LOAD TICKET CATEGORIES
@@ -32,11 +40,11 @@ export function* loadTicketCategoriesWatcher() {
 //-----------------------------------------ADD BOOKINGS
 function* addBookingsAsync(props: AddProps) {
   try {
-    yield put(addTicketCategoriesRequest());
+    yield put(addBookingsRequest());
     yield call(() => addBookingsAPI(props.payload.bookings));
-    yield put(addTicketCategoriesSuccess())
+    yield put(addBookingsSuccess())
   } catch (e) {
-    yield put(addTicketCategoriesFailure(e))
+    yield put(addBookingsFailure(e))
   }
 }
 

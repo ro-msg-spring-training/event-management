@@ -1,4 +1,4 @@
-import { headersAuth, serverURL, token, s3URL } from "./Api";
+import { headersAuth, serverURL, token } from "./Api";
 import { fetchWrapper } from "./FetchWrapper";
 import Booking from "../model/Booking";
 
@@ -9,7 +9,6 @@ export const fetchTicketCategoriesAPI = (idEvent: string) => {
 };
 
 export const addBookingsAPI = (booking: Booking) => {
-  console.log("addBookingsAPI ", JSON.stringify(booking));
   return fetchWrapper(`${serverURL}/bookings`, {
     method: 'POST',
     headers: {

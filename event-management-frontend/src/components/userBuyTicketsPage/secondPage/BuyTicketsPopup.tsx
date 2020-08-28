@@ -5,13 +5,11 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useStyles } from '../../../styles/CommonStyles';
 import { Grid, FormControlLabel } from '@material-ui/core';
 import { userBuyTicketsStyle } from '../../../styles/UserBuyTicketsStyle';
 import { YellowCheckbox } from '../../YellowCheckbox';
-import Booking from '../../../model/Booking';
 
 interface PopupProps {
   open: boolean,
@@ -22,7 +20,6 @@ interface PopupProps {
 }
 
 export default function BuyTicketsPopup({ open, setOpen, checked, handleCheckboxChange, handleProceedToBuy }: PopupProps) {
-  const history = useHistory();
   const buttonClass = useStyles();
   const classes = userBuyTicketsStyle();
   const { t } = useTranslation();
