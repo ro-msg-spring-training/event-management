@@ -152,5 +152,13 @@
     "cancelButton": "Cancel",
     "selectedLocationMessage": " Selected location for the event",
     "searchBarText": "Search location"
+  },
+
+  "userHomePage": {
+    "calendar": "Calendar",
+    "pastEvents": "Past events",
+    "upcomingEvents": "Upcoming events",
+    "errorMessage": "Oops, error",
+    "noEvents": "There are no events"
   }
 }

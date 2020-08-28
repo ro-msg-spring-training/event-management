@@ -151,5 +151,13 @@
         "cancelButton": "Anuleaza",
         "selectedLocationMessage": "Locatia selectata pentru eveniment",
         "searchBarText": "Cauta locatie"
+    },
+    
+    "userHomePage": {
+        "calendar": "Calendar",
+        "pastEvents": "Evenimente anterioare",
+        "upcomingEvents": "Evenimente viitoare",
+        "errorMessage": "Oops, eroare",
+        "noEvents": "Nu există evenimente"
     }
 }

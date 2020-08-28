@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { fetchBookings } from '../../../actions/UserHomePageActions';
 import { Booking } from '../../../model/userHome/Booking';
 import { useHistory } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface UserHomePageProps {
     bookings: Booking[],
@@ -15,6 +16,7 @@ interface UserHomePageProps {
 }
 
 function CheckInSectionSamrt({ bookings, isError, isLoading, fetchBookings }: UserHomePageProps) {
+    const [translation] = useTranslation();
     const history = useHistory();
 
     useEffect(() => {
@@ -30,6 +32,7 @@ function CheckInSectionSamrt({ bookings, isError, isLoading, fetchBookings }: Us
             bookings={bookings}
             isLoading={isLoading}
             isError={isError}
+            translation={translation}
             handleOnClick={handleOnClick}
         />
     )

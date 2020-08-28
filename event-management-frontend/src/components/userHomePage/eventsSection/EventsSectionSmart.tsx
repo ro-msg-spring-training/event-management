@@ -6,6 +6,7 @@ import { Dispatch } from 'redux';
 import { EventCard } from '../../../model/userHome/EventCard';
 import { fetchUserPastEvents, fetchUserUpcomingEvents, updatePastEventsPage, updateUpcomingEventsPage } from '../../../actions/UserHomePageActions';
 import { useHistory } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface EventProps {
     events: EventCard[],
@@ -28,7 +29,6 @@ interface UserHomePageProps {
 }
 
 function EventsSectionSmart({ past, pastEvents, upcomingEvents, fetchUserPastEvents, fetchUserUpcomingEvents, updatePastEventsPage, updateUpcomingEventsPage }: UserHomePageProps) {
-    const history = useHistory();
     const events = past ? pastEvents.events : upcomingEvents.events;
     const page = past ? pastEvents.page : upcomingEvents.page;
     const limit = past ? pastEvents.limit : upcomingEvents.limit;
@@ -37,6 +37,8 @@ function EventsSectionSmart({ past, pastEvents, upcomingEvents, fetchUserPastEve
     const isLoading = past ? pastEvents.isLoading : upcomingEvents.isLoading;
     const fetchEvents = past ? fetchUserPastEvents : fetchUserUpcomingEvents;
     const updatePage = past ? updatePastEventsPage : updateUpcomingEventsPage;
+    const [translation] = useTranslation();
+    const history = useHistory();
 
     useEffect(() => {
         fetchEvents(page, limit);
@@ -60,6 +62,7 @@ function EventsSectionSmart({ past, pastEvents, upcomingEvents, fetchUserPastEve
             isError={isError}
             noPages={noPages}
             page={page}
+            translation={translation}
             updatePageNumber={updatePageNumber}
             handleOnClick={handleOnClick}
         />

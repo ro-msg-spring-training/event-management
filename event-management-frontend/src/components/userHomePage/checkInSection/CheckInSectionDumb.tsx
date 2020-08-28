@@ -9,15 +9,17 @@ import { Tooltip, CardHeader, CardContent, Card, LinearProgress } from "@materia
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import { Booking } from "../../../model/userHome/Booking";
 import { useEventCardStyle } from "../../../styles/userHomePage.tsx/EventCardStyle";
+import { TFunction } from 'i18next';
 
 interface UserHomePageProps {
     bookings: Booking[],
     isError: boolean,
     isLoading: boolean,
+    translation: TFunction,
     handleOnClick: () => void
 }
 
-function CheckInSectionDumb({ bookings, isError, isLoading, handleOnClick }: UserHomePageProps) {
+function CheckInSectionDumb({ bookings, isError, isLoading, translation, handleOnClick }: UserHomePageProps) {
     const classes = useEventCardStyle();
 
     const onDateChange = () => {
@@ -61,11 +63,11 @@ function CheckInSectionDumb({ bookings, isError, isLoading, handleOnClick }: Use
             <Card>
                 <CardHeader
                     className={classes.header}
-                    title='Calendar' />
+                    title={translation('userHomePage.calendar')} />
 
                 <CardContent style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'auto' }}>
                     {isError ?
-                        'Error' :
+                        translation('userHomePage.errorMessage'):
                         isLoading ?
                             <LinearProgress/> :
                             <KeyboardDatePicker

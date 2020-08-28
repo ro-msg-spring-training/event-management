@@ -5,6 +5,7 @@ import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import { EventCard } from '../../../model/userHome/EventCard';
 import EventRow from './EventRow';
 import { useEventCardStyle } from '../../../styles/userHomePage.tsx/EventCardStyle';
+import { TFunction } from 'i18next';
 
 interface UserHomePageProps {
     past?: boolean,
@@ -13,23 +14,24 @@ interface UserHomePageProps {
     noPages: number,
     isError: boolean,
     isLoading: boolean,
+    translation: TFunction,
     handleOnClick: (id: number) => void,
     updatePageNumber: (page: number) => void
 }
 
-function EventsSectionDumb({ past, events, page, noPages, isError, isLoading, handleOnClick, updatePageNumber }: UserHomePageProps) {
+function EventsSectionDumb({ past, events, page, noPages, isError, isLoading, translation, handleOnClick, updatePageNumber }: UserHomePageProps) {
     const classes = useEventCardStyle();
 
     return (
         <Card>
             <CardHeader
                 className={classes.header}
-                title={past ? 'Past events' : 'Upcoming events'}
+                title={past ? translation('userHomePage.pastEvents') : translation('userHomePage.upcomingEvents')}
             />
 
             <CardContent>
                 {isError ?
-                    'Error' :
+                    translation('userHomePage.messageError') :
                     isLoading ?
                         <LinearProgress /> :
                         noPages ?
@@ -47,7 +49,7 @@ function EventsSectionDumb({ past, events, page, noPages, isError, isLoading, ha
                                 )}
                             </Grid> :
                             <>
-                                {past ? 'There is no events in the past' : 'There is no events in the future'}
+                                {translation('userHomePage.noEvents')}
                             </>
                 }
             </CardContent>
@@ -68,7 +70,7 @@ function EventsSectionDumb({ past, events, page, noPages, isError, isLoading, ha
                         {
                             page + 1 === noPages ?
                                 <NavigateNextIcon className={classes.invisibleIcon} /> :
-                                <NavigateNextIcon className={classes.visibleIcon} onClick={() => updatePageNumber(page + 1)}/>
+                                <NavigateNextIcon className={classes.visibleIcon} onClick={() => updatePageNumber(page + 1)} />
                         }
                     </>
                 }
