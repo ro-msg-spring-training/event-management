@@ -22,7 +22,6 @@ import useStylesLogin from "../../styles/LoginStyle";
 import { displaySuccessMessage } from "../../validation/RegistrationValidation";
 import { useHistory } from "react-router-dom";
 
-
 const Login = () => {
   const [, setIsLoading] = useState(false);
   const [username, setUsername] = useState("");
@@ -45,14 +44,14 @@ const Login = () => {
     setIsLoading(true);
     try {
       const user = await Auth.signIn(username, password);
-      localStorage.setItem("idToken", user.signInUserSession.idToken.jwtToken)
-      localStorage.setItem("username", username)
-      if (user.signInUserSession.accessToken.payload['cognito:groups'] !== undefined) {
-        localStorage.setItem("role", "admin")
-        history.push('/admin/')
+      localStorage.setItem("idToken", user.signInUserSession.idToken.jwtToken);
+      localStorage.setItem("username", username);
+      if (user.signInUserSession.accessToken.payload["cognito:groups"] !== undefined) {
+        localStorage.setItem("role", "admin");
+        history.push("/admin/");
       } else {
-        localStorage.setItem("role", "user")
-        history.push('/user/')
+        localStorage.setItem("role", "user");
+        history.push("/user/");
       }
       displaySuccessMessage(<Trans i18nKey="login.successMessage">Successful login</Trans>, setSuccess);
       setError("");
@@ -75,7 +74,7 @@ const Login = () => {
 
         <TextField
           className={classesLogin.loginformItems}
-          label={<Trans i18nKey="login.username">username</Trans>}
+          label={<Trans i18nKey="login.username">Username</Trans>}
           type="text"
           value={username}
           required

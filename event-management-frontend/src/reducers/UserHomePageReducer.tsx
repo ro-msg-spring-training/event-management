@@ -40,7 +40,6 @@ export const UserHomePageReducer = (
         ...state,
         highlightedEvents: action.events,
         isLoading: false,
-        isError: false,
       };
 
     case UserHomePageActionTypes.FETCH_HIGHLIGHTED_EVENTS_ERROR:

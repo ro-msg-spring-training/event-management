@@ -7,10 +7,11 @@ import { HighlightedEvent } from "../../reducers/UserHomePageReducer";
 
 type Props = {
   events: HighlightedEvent[];
+  isLoading: boolean;
   goToEventDetails: (id: number) => void;
 };
 
-const CarouselDumb = ({ events, goToEventDetails }: Props) => {
+const CarouselDumb = ({ events, isLoading, goToEventDetails }: Props) => {
   const classes = useStylesCarousel();
 
   return (
@@ -18,6 +19,7 @@ const CarouselDumb = ({ events, goToEventDetails }: Props) => {
       <Carousel infiniteLoop useKeyboardArrows autoPlay className={classes.carouselStyle}>
         {events.map((current) => (
           <CarouselSlide
+            isLoading={isLoading}
             id={current.id}
             title={current.title}
             description={current.description}

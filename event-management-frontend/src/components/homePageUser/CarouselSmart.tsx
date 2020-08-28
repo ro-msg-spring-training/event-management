@@ -8,19 +8,23 @@ import { connect } from "react-redux";
 import { fetchHighlightedEvents } from "../../actions/UserHomePageActions";
 import { HighlightedEvent } from "../../reducers/UserHomePageReducer";
 import { useTranslation } from "react-i18next";
+import { CircularProgress, Container } from "@material-ui/core";
+import classes from "*.module.css";
+import { useStylesCarousel } from "../../styles/CarouselSlideStyle";
 
 type Props = {
   isError: boolean;
+  isLoading: boolean;
   events: HighlightedEvent[];
   fetchHighlightedEvents: () => void;
 };
 
-const CarouselSmart = ({ events, isError, fetchHighlightedEvents }: Props) => {
+const CarouselSmart = ({ events, isError, isLoading, fetchHighlightedEvents }: Props) => {
   const history = useHistory();
   const [t] = useTranslation();
+  const classes = useStylesCarousel();
 
   useEffect(() => {
-    console.log("USEEFFECT");
     fetchHighlightedEvents();
   }, []);
 
@@ -33,7 +37,7 @@ const CarouselSmart = ({ events, isError, fetchHighlightedEvents }: Props) => {
       {isError ? (
         <p style={{ textAlign: "center" }}> {t("userHomePage.carousselError")} </p>
       ) : (
-        <CarouselDumb events={events} goToEventDetails={goToEventDetails} />
+        <CarouselDumb events={events} isLoading={isLoading} goToEventDetails={goToEventDetails} />
       )}
     </>
   );
@@ -42,6 +46,7 @@ const CarouselSmart = ({ events, isError, fetchHighlightedEvents }: Props) => {
 const mapStateToProps = (state: AppState) => ({
   events: state.userHome.highlightedEvents,
   isError: state.userHome.isError,
+  isLoading: state.userHome.isLoading,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

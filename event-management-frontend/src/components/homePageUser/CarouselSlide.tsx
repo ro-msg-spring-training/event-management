@@ -3,9 +3,19 @@ import { useStylesCarousel } from "../../styles/CarouselSlideStyle";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import DescriptionIcon from "@material-ui/icons/Description";
 import QueryBuilderIcon from "@material-ui/icons/QueryBuilder";
-import { Card, CardActionArea, CardMedia, CardContent, Typography, Grid } from "@material-ui/core";
+import {
+  Card,
+  CardActionArea,
+  CardMedia,
+  CardContent,
+  Typography,
+  Grid,
+  Container,
+  CircularProgress,
+} from "@material-ui/core";
 
 type Props = {
+  isLoading: boolean;
   id: number;
   title: string;
   description: string;
@@ -19,6 +29,7 @@ type Props = {
 };
 
 const CarouselSlide = ({
+  isLoading,
   id,
   title,
   description,
@@ -32,10 +43,21 @@ const CarouselSlide = ({
 }: Props) => {
   const classes = useStylesCarousel();
 
+  if (isLoading) {
+    return (
+      <Container maxWidth="lg">
+        <CircularProgress className={classes.loading} />
+      </Container>
+    );
+  }
+
   return (
     <Card className={classes.cardStyle}>
       <CardActionArea>
-        <CardMedia className={classes.imageStyle} image={picture} onClick={(e) => goToEventDetails(id)} />
+        <div className={classes.imageWrapper}>
+          <CardMedia className={classes.imageStyle} image={picture} onClick={(e) => goToEventDetails(id)} />
+          <div className={classes.textOnImage}>&nbsp;{title}&nbsp;</div>
+        </div>
         <CardContent>
           <div className={classes.attributeStyle}>
             <DescriptionIcon className={classes.iconStyle} />

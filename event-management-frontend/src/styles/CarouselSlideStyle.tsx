@@ -1,9 +1,26 @@
-import { makeStyles, Theme } from "@material-ui/core";
+import { makeStyles, Theme, fade } from "@material-ui/core";
 
 export const useStylesCarousel = makeStyles((theme: Theme) => ({
   cardStyle: {
     borderStyle: "groove",
     pointerEvents: "none",
+  },
+
+  textOnImage: {
+    position: "absolute",
+    //color: "white",
+    color: theme.palette.secondary.dark,
+    bottom: 13,
+    //backgroundColor: fade("#414a4d", 0.2),
+    fontSize: "24px",
+    marginLeft: "45px",
+    fontWeight: "bold",
+    letterSpacing: "0.7px",
+  },
+  imageWrapper: { position: "relative" },
+
+  loading: {
+    marginTop: theme.spacing(5),
   },
 
   imageStyle: {
