@@ -8,7 +8,6 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import OccupancyCardDate from "./OccupancyCardDate";
 
-
 interface Props {
   eventsList: OccupancyCardType[];
 }
@@ -23,14 +22,14 @@ const OccupancyListDumb = (props: Props) => {
           <div className={classCardStyle.block} key={event.id}>
             <Box component="div" display="inline">
               <ListItem className={classCardStyle.listItem}>
-                <Typography className={classCardStyle.title}>{event.title}</Typography>
-                <Typography className={classCardStyle.occupancyRate}>
+                <Typography className={`${classCardStyle.title} ${classCardStyle.text}`}>{event.title}</Typography>
+                <Typography className={`${classCardStyle.occupancyRate} ${classCardStyle.text}`}>
                   {t("occupancyCards.occupancyRate")} {event.occupancyRate} %
                 </Typography>
 
-                <Typography component={"div"} className={classCardStyle.dateRange}>
-                  <DateRangeIcon className={classCardStyle.dateIcon}/>
-                  <OccupancyCardDate startDate={event.startDate} endDate={event.endDate}/>
+                <Typography component={"div"} className={`${classCardStyle.dateRange} ${classCardStyle.text}`}>
+                  <DateRangeIcon className={classCardStyle.dateIcon} />
+                  <OccupancyCardDate startDate={event.startDate} endDate={event.endDate} />
                 </Typography>
               </ListItem>
             </Box>
@@ -43,5 +42,4 @@ const OccupancyListDumb = (props: Props) => {
   );
 };
 
-
-export default OccupancyListDumb
+export default OccupancyListDumb;
