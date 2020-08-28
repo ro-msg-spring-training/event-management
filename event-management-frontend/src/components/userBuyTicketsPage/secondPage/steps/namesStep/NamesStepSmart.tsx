@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { useStyles } from '../../../../styles/CommonStyles';
-import { Button, Grid, Typography, TextField } from '@material-ui/core';
-import { userBuyTicketsStyle } from '../../../../styles/UserBuyTicketsStyle';
-import { TicketsPerCateory, TicketNames } from '../../../../model/UserReserveTicket';
+import { Grid, TextField } from '@material-ui/core';
+import { userBuyTicketsStyle } from '../../../../../styles/UserBuyTicketsStyle';
+import { TicketsPerCateory, TicketNames } from '../../../../../model/UserReserveTicket';
+import NamesStepDumb from './NamesStepDumb';
 
 interface NamesStepProps {
   nextStep: () => void,
@@ -16,14 +16,11 @@ interface NamesStepProps {
 
 const createFields = (initialTicketNames: TicketNames[], ticket: TicketsPerCateory): TicketNames[] => {
   let newField: TicketNames = { ticketTitle: ticket.category, names: new Array(ticket.quantity).fill("") };
-
   (initialTicketNames.find(item => item.ticketTitle === ticket.category) === undefined) && initialTicketNames.push(newField);
-
   return initialTicketNames;
 }
 
-function NamesStep({ nextStep, prevStep, handleEnterKey, handleNameStepChange, ticketAmount, ticketNames, setTicketNames }: NamesStepProps) {
-  const buttonClass = useStyles();
+function NamesStepSmart({ nextStep, prevStep, handleEnterKey, handleNameStepChange, ticketAmount, ticketNames, setTicketNames }: NamesStepProps) {
   const classes = userBuyTicketsStyle();
 
   useEffect(() => {
@@ -57,28 +54,13 @@ function NamesStep({ nextStep, prevStep, handleEnterKey, handleNameStepChange, t
     }
   }
 
-
   return (
-    <>
-      <Typography className={classes.typography} align="center" >Input the names of the people whom are to use the tickets</Typography>
-      <Grid container direction="row" justify="center" alignItems="center">
-
-        <Grid item xs={10} container justify="center" alignItems="center" className={classes.gridStyle}>
-          {inputs}
-        </Grid>
-
-        <Grid item container direction="row" justify="center" alignItems="center" className={classes.button}>
-          <Grid item xs={4} sm={3} md={2} lg={1} xl={1}>
-            <Button variant="contained" className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition}`} onClick={prevStep}> PREV </Button>
-          </Grid>
-
-          <Grid item xs={4} sm={3} md={2} lg={1} xl={1}>
-            <Button variant="contained" className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition}`} onClick={nextStep}> NEXT </Button>
-          </Grid>
-        </Grid>
-      </Grid>
-    </>
+    <NamesStepDumb
+      nextStep={nextStep}
+      prevStep={prevStep}
+      inputs={inputs}
+    />
   );
 };
 
-export default NamesStep;
+export default NamesStepSmart;

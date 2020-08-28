@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import TicketsStep from './steps/TicketsStep';
 import EmailStep from './steps/EmailStep';
-import NamesStep from './steps/NamesStep';
-import TermsAndConditionsStep from './steps/TermsAndConditionsStep';
 import Booking from '../../../model/Booking';
 import { Tooltip, IconButton } from '@material-ui/core';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
@@ -10,6 +7,9 @@ import CloseIcon from '@material-ui/icons/Close';
 import { TicketAvailabilityData } from '../../../model/TicketAvailabilityData';
 import { BuyTicketsSecondPageStyle } from '../../../styles/BuyTicketsSecondPageStyle';
 import { TicketsPerCateory, TicketNames } from '../../../model/UserReserveTicket';
+import TicketsStepSmart from './steps/ticketsStep/TicketsStepSmart';
+import NamesStepSmart from './steps/namesStep/NamesStepSmart';
+import TermsAndConditionsStepSmart from './steps/termsAndConditionsStep/TermsAndConditionsStepSmart';
 
 interface BuyTicketsSecondPageDumbProps {
   gotoFirstPage: () => void,
@@ -114,7 +114,7 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
   switch (step) {
     case 1:
       currentPage =
-        <TicketsStep
+        <TicketsStepSmart
           nextStep={nextStep}
           handleEnterKey={handleEnterKey}
           handleTicketsStepChange={handleTicketsStepChange}
@@ -134,7 +134,7 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
       break;
     case 3:
       currentPage =
-        <NamesStep
+        <NamesStepSmart
           nextStep={nextStep}
           prevStep={prevStep}
           handleEnterKey={handleEnterKey}
@@ -146,7 +146,7 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
       break;
     case 4:
       currentPage =
-        <TermsAndConditionsStep
+        <TermsAndConditionsStepSmart
           prevStep={prevStep}
           checked={checked}
           handleCheckboxChange={handleCheckboxChange}
