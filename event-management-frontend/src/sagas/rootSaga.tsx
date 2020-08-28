@@ -13,7 +13,7 @@ import { loadEventWatcher, deleteProductWatcher, addProductWatcher, editProductW
 import { fetchLocationsActionWatcher } from "./LocationPageSaga";
 import { watchFetchTicketsAsync, watchOpenAsync, watchCloseAsync } from "./TicketsPageSaga";
 import { fetchUpcomingEventsActionWatcher, fetchHistoryEventsActionWatcher } from "./AdminHomePageSaga";
-import { watchFetchUserEventsAsync, watchFetchUserEventsLocationsAsync } from "./UserEventListSaga";
+import { watchFetchUserEventsAsync, watchFetchUserEventsLocationsAsync } from "./UserEventsPageSaga";
 import { loadEventWithLocationsWatcher } from "./UserEventDetailsSaga";
 
 

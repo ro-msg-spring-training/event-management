@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
 import UserEventCard from './UserEventCard';
-import { UserEventList } from '../../../model/userEventList/UserEventList';
+import { UserEventList } from '../../../model/userEventsPage/UserEventList';
 import { TFunction } from 'i18next';
 import { useUserListStyles } from '../../../styles/userEventsPage/UserListStyle';
 

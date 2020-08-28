@@ -1,9 +1,9 @@
-import { UserEventList } from '../model/userEventList/UserEventList'
-import { FETCH_USER_EVENTS_SUCCESS, FETCH_USER_EVENTS_REQUEST, FETCH_USER_EVENTS_ERROR, UPDATE_IS_FETCHING, UPDATE_USER_FILTERS, FETCH_USER_EVENTS_LOCATIONS_SUCCESS, RESET_USER_FILTERS, SET_FILTER_USER_EVENTS_MODE, FETCH_USER_EVENTS_LOCATIONS_REQUEST, FETCH_USER_EVENTS_LOCATIONS_ERROR } from '../actions/UserEventListActions'
-import { UserEventFilters } from '../model/userEventList/UserEventFilters'
-import { UserEventType } from '../model/userEventList/UserEventType'
-import { UserMathRelation } from '../model/userEventList/UserMathRelation'
-import { UserEventIsFilterType } from '../model/userEventList/UserEventIsFilterType'
+import { UserEventList } from '../model/userEventsPage/UserEventList'
+import { FETCH_USER_EVENTS_SUCCESS, FETCH_USER_EVENTS_REQUEST, FETCH_USER_EVENTS_ERROR, UPDATE_IS_FETCHING, UPDATE_USER_FILTERS, FETCH_USER_EVENTS_LOCATIONS_SUCCESS, RESET_USER_FILTERS, SET_FILTER_USER_EVENTS_MODE, FETCH_USER_EVENTS_LOCATIONS_REQUEST, FETCH_USER_EVENTS_LOCATIONS_ERROR } from '../actions/UserEventsPageActions'
+import { UserEventFilters } from '../model/userEventsPage/UserEventFilters'
+import { UserEventType } from '../model/userEventsPage/UserEventType'
+import { UserMathRelation } from '../model/userEventsPage/UserMathRelation'
+import { UserEventIsFilterType } from '../model/userEventsPage/UserEventIsFilterType'
 
 export interface UserEventsPageState {
     events: UserEventList[],

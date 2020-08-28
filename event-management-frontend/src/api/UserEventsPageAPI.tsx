@@ -1,7 +1,7 @@
 import { headersAuth, serverURL } from "./Api";
 import { fetchWrapper } from "./FetchWrapper";
-import { UserEventFilters } from "../model/userEventList/UserEventFilters";
-import { UserEventType } from "../model/userEventList/UserEventType";
+import { UserEventFilters } from "../model/userEventsPage/UserEventFilters";
+import { UserEventType } from "../model/userEventsPage/UserEventType";
 
 
 const computeFilterStringQuery = (filters: UserEventFilters, page: number, limit: number) => {

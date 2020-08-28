@@ -7,7 +7,7 @@ import { EventState } from "../reducers/HeaderEventCrudReducer";
 import { LocationPageState } from "../reducers/LocationPageReducer";
 import { TicketsPageState } from "../reducers/TicketsPageReducer";
 import { OccupancyCardsState } from "../reducers/AdminHomePageReducer";
-import { UserEventsPageState } from "../reducers/UserEventListReducer";
+import { UserEventsPageState } from "../reducers/UserEventsPageReducer";
 
 const sagaMiddleware = createSagaMiddleware();
 

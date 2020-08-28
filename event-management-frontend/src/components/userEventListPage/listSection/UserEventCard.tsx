@@ -4,7 +4,7 @@ import EventIcon from '@material-ui/icons/Event';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import QueryBuilderIcon from '@material-ui/icons/QueryBuilder';
 import GroupIcon from '@material-ui/icons/Group';
-import { UserEventList } from '../../../model/userEventList/UserEventList';
+import { UserEventList } from '../../../model/userEventsPage/UserEventList';
 import { useCardStyle } from '../../../styles/userEventsPage/UserEventCardStyle';
 import { useStyles } from '../../../styles/CommonStyles';
 import { TFunction } from 'i18next';
