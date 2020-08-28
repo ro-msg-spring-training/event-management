@@ -17,7 +17,7 @@ const useStylesCards = makeStyles(() => ({
     fontSize: "1.25rem",
   },
   cardTitle: {
-    fontFamily: "Roboto",
+    fontFamily: "LATO",
     fontWeight: 400,
     fontSize: "1.55rem",
     color: "#fff",
@@ -55,7 +55,7 @@ const useStylesCards = makeStyles(() => ({
   dateRange: {
     margin: "2px",
     paddingLeft: "10px",
-    paddingBottom: "20px",
+    paddingBottom: "30px",
   },
   dateIcon: {
     marginRight: "5px",
@@ -76,6 +76,12 @@ const useStylesCards = makeStyles(() => ({
   },
   adminHomeContainer: {
     padding: "20px",
+  },
+  text: {
+    fontFamily: "LATO",
+  },
+  icon: {
+    verticalAlign: "middle",
   },
 }));
 

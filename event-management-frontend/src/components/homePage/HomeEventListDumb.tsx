@@ -6,11 +6,10 @@ import { useTranslation } from "react-i18next";
 import CardContent from "@material-ui/core/CardContent";
 import Card from "@material-ui/core/Card";
 import ErrorIcon from "@material-ui/icons/Error";
-import AddCircleIcon from '@material-ui/icons/AddCircle';
+import AddCircleIcon from "@material-ui/icons/AddCircle";
 import useStylesCards from "../../styles/OccupancyCardsStyle";
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 
 interface Props {
   page: number;
@@ -42,59 +41,58 @@ const HomeEventListDumb = (props: Props) => {
   const [t] = useTranslation();
 
   return (
-      <>
-        <Card className={`${commonClasses.cardRoot} ${occupancyClasses.occupancyCard} cardsResponsive`}
-              variant="outlined" >
-          <CardContent>
-            <Typography variant="h3" component="h3" >
-                {t("eventList.events")}
-                <Link to={`/admin/newEvent`} style={{ textDecoration: "none" }}>
-                    <AddCircleIcon className={commonClasses.addEventIconButton}/>
-                </Link>
-            </Typography>
-          </CardContent>
-        </Card>
+    <>
+      <Card
+        className={`${commonClasses.cardRoot} ${occupancyClasses.occupancyCard} cardsResponsive`}
+        variant="outlined"
+      >
+        <CardContent>
+          <Typography variant="h4" component="h4" className={occupancyClasses.text}>
+            {t("eventList.events")}
 
-        {isLoading ? (
-            <Grid container alignItems={"center"} justify={"center"} className={commonClasses.marginTop}>
-              <CircularProgress />
-            </Grid>
-        ) : isError ? (
-            <Grid container alignItems={"center"} justify={"center"} className={commonClasses.marginTop}>
-              <ErrorIcon color={"primary"} fontSize={"large"} />
-                {t("eventList.error")}
-            </Grid>
+            <Link to={`/admin/newEvent`} style={{ textDecoration: "none" }}>
+              <AddCircleIcon className={commonClasses.addEventIconButton} />
+            </Link>
+          </Typography>
+        </CardContent>
+      </Card>
+
+      {isLoading ? (
+        <Grid container alignItems={"center"} justify={"center"} className={commonClasses.marginTop}>
+          <CircularProgress />
+        </Grid>
+      ) : isError ? (
+        <Grid container alignItems={"center"} justify={"center"} className={commonClasses.marginTop}>
+          <ErrorIcon color={"primary"} fontSize={"large"} />
+          {t("eventList.error")}
+        </Grid>
+      ) : (
+        eventsDetails
+      )}
+
+      <Box justifyContent="center" display="flex" className={commonClasses.marginTop}>
+        {page > 1 ? (
+          <Button onClick={goToPrevPage}>
+            <ArrowBackIosIcon fontSize={"default"} />
+          </Button>
         ) : (
-            eventsDetails
+          <Button disabled={true} />
         )}
 
-        <Box justifyContent="center" display="flex" className={commonClasses.marginTop}>
-          {page > 1 ? (
-              <Button onClick={goToPrevPage}>
-                <ArrowBackIosIcon fontSize={"default"}/>
-              </Button>
-          ) : (
-              <Button disabled={true}/>
-          )}
+        <Typography variant="h5">
+          &nbsp;&nbsp;{page}/{lastPage}&nbsp;&nbsp;
+        </Typography>
 
-          <Typography variant="h5" >
-            &nbsp;&nbsp;{page}/{lastPage}&nbsp;&nbsp;
-          </Typography>
-
-          {page < lastPage ? (
-              <Button onClick={goToNextPage}>
-                <ArrowForwardIosIcon fontSize={"default"}/>
-              </Button>
-          ) : (
-              <Button disabled={true}/>
-          )}
-
-        </Box>
-      </>
+        {page < lastPage ? (
+          <Button onClick={goToNextPage}>
+            <ArrowForwardIosIcon fontSize={"default"} />
+          </Button>
+        ) : (
+          <Button disabled={true} />
+        )}
+      </Box>
+    </>
   );
 };
 
-
-export default HomeEventListDumb
-
-
+export default HomeEventListDumb;

@@ -8,7 +8,7 @@ interface Props {
 
 const OccupancyCardDate = (props: Props) => {
   const classCardStyle = useStylesCards();
-  if (props.startDate === props.endDate) {
+  if (props.startDate !== props.endDate) {
     return (
       <span>
         {props.startDate}
