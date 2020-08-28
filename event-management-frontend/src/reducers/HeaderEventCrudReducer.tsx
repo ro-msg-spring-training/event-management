@@ -34,6 +34,8 @@ export interface EventState {
   isLoading: boolean;
   images: EventImage[];
   formErrors: EventFormErrors;
+  locationAddress: string;
+  locationName: string;
 }
 
 let today = new Date(new Date().toString().split("GMT")[0] + " UTC").toISOString().split(".")[0];
@@ -107,6 +109,9 @@ export const initialState: EventState = {
   isError: false,
   isLoading: false,
   images: [],
+
+  locationAddress: "",
+  locationName: "",
 };
 
 const getEventImages = (imagesStr: string[]) => {

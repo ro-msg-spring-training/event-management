@@ -3,15 +3,7 @@ import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
-import {
-  Button,
-  Container,
-  TableFooter,
-  TableSortLabel,
-  LinearProgress,
-  CircularProgress,
-  Grid,
-} from "@material-ui/core";
+import { Button, Container, TableFooter, TableSortLabel, CircularProgress, Grid } from "@material-ui/core";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
@@ -51,7 +43,7 @@ interface Props {
   filters: EventFilters;
   page: number;
   lastPage: number;
-  updateSortCriteria: (sortCriteria: any) => void;
+  updateSortCriteria: (sortCriteria: { criteria: string; type: string }) => void;
   incrementPage: () => void;
   decrementPage: () => void;
 

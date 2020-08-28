@@ -42,7 +42,7 @@ function* loadEventAsync(props: Props) {
   try {
     yield put(fetchEventRequest());
     const event = yield call(() => fetchEventAPI(props.payload));
-    event.id = parseInt(props.payload);
+    event.eventDto.id = parseInt(props.payload);
     yield put(fetchEventSuccess(event.eventDto, event.availableTicketsPerCategoryList));
   } catch (e) {
     yield put(fetchEventFailure(e));
