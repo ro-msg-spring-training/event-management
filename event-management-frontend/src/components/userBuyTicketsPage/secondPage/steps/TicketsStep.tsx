@@ -1,14 +1,11 @@
-import React, { useEffect } from 'react';
-import { Button, Grid, TextField, makeStyles, Theme, Typography, Tooltip, IconButton, withStyles } from '@material-ui/core';
+import React from 'react';
+import { Button, Grid, TextField, Typography } from '@material-ui/core';
 import { useStyles } from '../../../../styles/CommonStyles';
 import { userBuyTicketsStyle } from '../../../../styles/UserBuyTicketsStyle';
 import { TicketAvailabilityData } from '../../../../model/TicketAvailabilityData';
 import HelpIcon from '@material-ui/icons/Help';
-
-interface TicketsPerCateory {
-  category: string,
-  quantity: number
-}
+import { TicketsPerCateory } from '../../../../model/UserReserveTicket';
+import { HtmlTooltip } from '../../../../styles/BuyTicketsSecondPageStyle';
 
 interface TicketsStepProps {
   nextStep: () => void,
@@ -17,16 +14,6 @@ interface TicketsStepProps {
   ticketCategories: TicketAvailabilityData[],
   ticketAmount: TicketsPerCateory[],
 }
-
-const HtmlTooltip = withStyles((theme: Theme) => ({
-  tooltip: {
-    backgroundColor: '#f5f5f9',
-    color: 'rgba(0, 0, 0, 0.87)',
-    maxWidth: 220,
-    fontSize: theme.typography.pxToRem(12),
-    border: '1px solid #dadde9',
-  },
-}))(Tooltip);
 
 function TicketsStep({ nextStep, handleEnterKey, handleTicketsStepChange, ticketCategories, ticketAmount }: TicketsStepProps) {
   const buttonClass = useStyles();

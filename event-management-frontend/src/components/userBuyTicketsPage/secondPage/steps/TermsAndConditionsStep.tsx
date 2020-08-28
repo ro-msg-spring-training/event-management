@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useStyles } from '../../../../styles/CommonStyles';
-import { Button, Grid, TextField, makeStyles, Typography } from '@material-ui/core';
+import { Button, Grid, Typography } from '@material-ui/core';
 import { userBuyTicketsStyle } from '../../../../styles/UserBuyTicketsStyle';
 import BuyTicketsPopup from '../BuyTicketsPopup';
 import Booking from '../../../../model/Booking';
 import Ticket from '../../../../model/Ticket';
-
-interface TicketNames {
-  ticketTitle: string,
-  names: string[],
-}
+import { TicketNames } from '../../../../model/UserReserveTicket';
 
 interface TermsAndConditionsStepProps {
   prevStep: () => void,
@@ -18,18 +14,21 @@ interface TermsAndConditionsStepProps {
   booking: Booking,
   setBooking: (booking: Booking) => void,
   ticketNames: TicketNames[],
+  setChecked: (e: boolean) => void,
 }
 
-function TermsAndConditionsStep({ prevStep, checked, handleCheckboxChange, booking, setBooking, ticketNames }: TermsAndConditionsStepProps) {
+function TermsAndConditionsStep({ prevStep, checked, handleCheckboxChange, booking, setBooking, ticketNames, setChecked }: TermsAndConditionsStepProps) {
   const [open, setOpen] = useState(false);
   const buttonClass = useStyles();
   const classes = userBuyTicketsStyle();
 
+  useEffect(() => {
+    setChecked(false);
+  }, []);
+
   let handleEventBuyTickets = (): void => {
     setOpen(true);
   }
-
-  let initialTicket: Ticket = { name: "", ticketCategoryTitle: "" };
 
   useEffect(() => {
     let newBooking = { ...booking };
@@ -42,6 +41,10 @@ function TermsAndConditionsStep({ prevStep, checked, handleCheckboxChange, booki
     newBooking.tickets = newArr;
     setBooking(newBooking);
   }, []);
+
+  const handleProceedToBuy = (): void => {
+    checked && console.log("POST this: ", booking);
+  }
 
   return (
     <>
@@ -62,6 +65,7 @@ function TermsAndConditionsStep({ prevStep, checked, handleCheckboxChange, booki
         setOpen={setOpen}
         checked={checked}
         handleCheckboxChange={handleCheckboxChange}
+        handleProceedToBuy={handleProceedToBuy}
       />
     </>
   );

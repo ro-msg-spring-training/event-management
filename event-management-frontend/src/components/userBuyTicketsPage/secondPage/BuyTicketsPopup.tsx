@@ -8,7 +8,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useStyles } from '../../../styles/CommonStyles';
-import { Checkbox, Grid, FormControlLabel, makeStyles, Theme, CheckboxProps, withStyles } from '@material-ui/core';
+import { Grid, FormControlLabel } from '@material-ui/core';
 import { userBuyTicketsStyle } from '../../../styles/UserBuyTicketsStyle';
 import { YellowCheckbox } from '../../YellowCheckbox';
 
@@ -17,9 +17,10 @@ interface PopupProps {
   setOpen: any,
   checked: boolean,
   handleCheckboxChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
+  handleProceedToBuy: () => void,
 }
 
-export default function BuyTicketsPopup({ open, setOpen, checked, handleCheckboxChange }: PopupProps) {
+export default function BuyTicketsPopup({ open, setOpen, checked, handleCheckboxChange, handleProceedToBuy }: PopupProps) {
   const history = useHistory();
   const buttonClass = useStyles();
   const classes = userBuyTicketsStyle();
@@ -31,7 +32,7 @@ export default function BuyTicketsPopup({ open, setOpen, checked, handleCheckbox
 
   const handleProceed = (): void => {
     setOpen(false);
-    console.log("VERIFY IF STILL AVAILABLE");
+    handleProceedToBuy();
   }
 
   const handleCancel = (): void => {

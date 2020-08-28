@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { loadTicketCategories } from '../../../actions/TicketReservationActions';
 import { TicketAvailabilityData } from '../../../model/TicketAvailabilityData';
-import { Container, CircularProgress, makeStyles, Theme, Tooltip, IconButton } from '@material-ui/core';
+import { Container, CircularProgress } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import BuyTicketsSecondPageDumb from './BuyTicketsSecondPageDumb';
 

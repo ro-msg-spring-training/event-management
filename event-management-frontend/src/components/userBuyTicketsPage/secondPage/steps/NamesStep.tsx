@@ -2,16 +2,7 @@ import React, { useEffect } from 'react';
 import { useStyles } from '../../../../styles/CommonStyles';
 import { Button, Grid, Typography, TextField } from '@material-ui/core';
 import { userBuyTicketsStyle } from '../../../../styles/UserBuyTicketsStyle';
-
-interface TicketsPerCateory {
-  category: string,
-  quantity: number
-}
-
-interface TicketNames {
-  ticketTitle: string,
-  names: string[],
-}
+import { TicketsPerCateory, TicketNames } from '../../../../model/UserReserveTicket';
 
 interface NamesStepProps {
   nextStep: () => void,

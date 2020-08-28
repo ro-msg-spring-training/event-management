@@ -4,41 +4,12 @@ import EmailStep from './steps/EmailStep';
 import NamesStep from './steps/NamesStep';
 import TermsAndConditionsStep from './steps/TermsAndConditionsStep';
 import Booking from '../../../model/Booking';
-import { Tooltip, IconButton, makeStyles, Theme } from '@material-ui/core';
+import { Tooltip, IconButton } from '@material-ui/core';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import CloseIcon from '@material-ui/icons/Close';
 import { TicketAvailabilityData } from '../../../model/TicketAvailabilityData';
-
-const BuyTicketsSecondPageDumbStyle = makeStyles((theme: Theme) => ({
-  prevButtonStyle: {
-    color: theme.palette.secondary.light,
-    transform: 'rotate(-180deg)',
-  },
-  cancelButtonStyle: {
-    color: theme.palette.secondary.contrastText,
-    transform: 'rotate(-180deg)',
-  },
-  positionLeft: {
-    position: 'absolute',
-    bottom: "0.5%",
-    left: "0.5%",
-  },
-  positionRight: {
-    position: 'absolute',
-    bottom: "0.5%",
-    right: "0.5%",
-  }
-}))
-
-interface TicketsPerCateory {
-  category: string,
-  quantity: number
-}
-
-interface TicketNames {
-  ticketTitle: string,
-  names: string[],
-}
+import { BuyTicketsSecondPageStyle } from '../../../styles/BuyTicketsSecondPageStyle';
+import { TicketsPerCateory, TicketNames } from '../../../model/UserReserveTicket';
 
 interface BuyTicketsSecondPageDumbProps {
   gotoFirstPage: () => void,
@@ -87,7 +58,7 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
     setChecked(event.target.checked);
   };
 
-  const classes = BuyTicketsSecondPageDumbStyle();
+  const classes = BuyTicketsSecondPageStyle();
 
   // Proceed to next step
   const nextStep = () => { setStep(step + 1); };
@@ -210,6 +181,7 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
           booking={booking}
           setBooking={setBooking}
           ticketNames={ticketNames}
+          setChecked={setChecked}
         />
       break;
     default:
