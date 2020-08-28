@@ -5,6 +5,7 @@ import HeaderReducer from "./HeaderEventCrudReducer";
 import LocationPageReducer from "./LocationPageReducer";
 import { AdminHomePageReducer } from "./AdminHomePageReducer";
 import { UserEventsReducer } from "./UserEventListReducer";
+import UserEventDetailsReducer from "./UserEventDetailsReducer";
 export default combineReducers({
     events: EventsPageReducer,
     tickets: TicketsPageReducer,

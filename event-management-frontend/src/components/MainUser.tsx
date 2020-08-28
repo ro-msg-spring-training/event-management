@@ -4,6 +4,7 @@ import HomeUser from './homePageUser/HomeUser'
 import Header from './header/Header';
 import TicketListSmart from "./userTicketsPage/listSection/TicketListSmart";
 import UserEventsPage from './userEventListPage/UserEventsPage';
+import UserEventDetailsSmart from './userEventDetailsPage/UserEventDetailsSmart';
 
 const MainUser = () => {
     return (

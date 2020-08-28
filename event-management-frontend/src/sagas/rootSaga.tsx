@@ -14,6 +14,7 @@ import { fetchLocationsActionWatcher } from "./LocationPageSaga";
 import { watchFetchTicketsAsync, watchOpenAsync, watchCloseAsync } from "./TicketsPageSaga";
 import { fetchUpcomingEventsActionWatcher, fetchHistoryEventsActionWatcher } from "./AdminHomePageSaga";
 import { watchFetchUserEventsAsync, watchFetchUserEventsLocationsAsync } from "./UserEventListSaga";
+import { loadEventWithLocationsWatcher } from "./UserEventDetailsSaga";
 
 
 export default function* rootSaga() {
