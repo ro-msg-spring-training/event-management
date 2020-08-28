@@ -1,52 +1,49 @@
-import {
-  FETCH_HIGHLIGHTED_EVENTS_REQUEST,
-  FETCH_HIGHLIGHTED_EVENTS_SUCCESS,
-  FETCH_HIGHLIGHTED_EVENTS_ERROR,
-} from "../actions/UserHomePageActions";
+import { UserHomePageActionTypes, UserHomePageAction } from "../types/UserHomePageActionTypes";
 
-export interface HighlightedEventList {
+export interface HighlightedEvent {
   id: number;
   title: string;
   description: string;
   startTime: string;
   startDate: string;
+  endTime: string;
+  endDate: string;
   location: string;
   picture: string;
 }
 
 export interface UserHomePageState {
-  highlightedEvents: HighlightedEventList[];
+  highlightedEvents: HighlightedEvent[];
   isLoading: boolean;
   isError: boolean;
 }
 
-const initialState: UserHomePageState = {
+const initialCarouselState: UserHomePageState = {
   highlightedEvents: [],
   isLoading: true,
   isError: false,
 };
 
-interface ActionProps {
-  type: string;
-  payload: any;
-}
-
-export const UserHomePageReducer = (state = initialState, action: ActionProps) => {
+export const UserHomePageReducer = (
+  state: UserHomePageState = initialCarouselState,
+  action: UserHomePageAction
+): UserHomePageState => {
   switch (action.type) {
-    case FETCH_HIGHLIGHTED_EVENTS_REQUEST:
+    case UserHomePageActionTypes.FETCH_HIGHLIGHTED_EVENTS_REQUEST:
       return {
         ...state,
+        isLoading: true,
       };
 
-    case FETCH_HIGHLIGHTED_EVENTS_SUCCESS:
+    case UserHomePageActionTypes.FETCH_HIGHLIGHTED_EVENTS_SUCCESS:
       return {
         ...state,
-        highlightedEvents: action.payload,
+        highlightedEvents: action.events,
         isLoading: false,
         isError: false,
       };
 
-    case FETCH_HIGHLIGHTED_EVENTS_ERROR:
+    case UserHomePageActionTypes.FETCH_HIGHLIGHTED_EVENTS_ERROR:
       return {
         ...state,
         isLoading: false,

@@ -60,7 +60,7 @@ export const useStylesCarousel = makeStyles((theme: Theme) => ({
     width: "100%",
     marginLeft: theme.spacing(1),
     marginBottom: theme.spacing(1),
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(1),
   },
 
   locationStyle: {

@@ -3,10 +3,10 @@ import { Carousel } from "react-responsive-carousel";
 import CarouselSlide from "./CarouselSlide";
 import { useStylesCarousel } from "../../styles/CarouselSlideStyle";
 import "../../styles/CarouselStyle.css";
-import { HighlightedEventList } from "../../reducers/UserHomePageReducer";
+import { HighlightedEvent } from "../../reducers/UserHomePageReducer";
 
 type Props = {
-  events: HighlightedEventList[];
+  events: HighlightedEvent[];
   goToEventDetails: (id: number) => void;
 };
 
@@ -23,6 +23,8 @@ const CarouselDumb = ({ events, goToEventDetails }: Props) => {
             description={current.description}
             startHour={current.startTime.substring(0, 5)}
             startDate={current.startDate}
+            endHour={current.endTime.substring(0, 5)}
+            endDate={current.endDate}
             location={current.location}
             picture={current.picture}
             goToEventDetails={goToEventDetails}

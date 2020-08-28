@@ -1,29 +1,33 @@
-export const FETCH_HIGHLIGHTED_EVENTS = "FETCH_HIGHLIGHTED_EVENTS";
-export const FETCH_HIGHLIGHTED_EVENTS_REQUEST = "FETCH_HIGHLIGHTED_EVENTS_REQUEST";
-export const FETCH_HIGHLIGHTED_EVENTS_SUCCESS = "FETCH_HIGHLIGHTED_EVENTS_SUCCESS";
-export const FETCH_HIGHLIGHTED_EVENTS_ERROR = "FETCH_HIGHLIGHTED_EVENTS_ERROR";
+import {
+  UserHomePageActionTypes,
+  FetchHighlightedEventsAction,
+  FetchHighlightedEventsSuccessAction,
+  FetchHighlightedEventsRequestAction,
+  FetchHighlightedEventsErrorAction,
+} from "../types/UserHomePageActionTypes";
+import { HighlightedEvent } from "../reducers/UserHomePageReducer";
 
-export const fetchHighlightedEvents = () => {
+export const fetchHighlightedEvents = (): FetchHighlightedEventsAction => {
   return {
-    type: FETCH_HIGHLIGHTED_EVENTS,
+    type: UserHomePageActionTypes.FETCH_HIGHLIGHTED_EVENTS,
   };
 };
 
-export const fetchHighlightedEventsRequest = () => {
+export const fetchHighlightedEventsRequest = (): FetchHighlightedEventsRequestAction => {
   return {
-    type: FETCH_HIGHLIGHTED_EVENTS_REQUEST,
+    type: UserHomePageActionTypes.FETCH_HIGHLIGHTED_EVENTS_REQUEST,
   };
 };
 
-export const fetchHighlightedEventsSuccess = (events: any) => {
+export const fetchHighlightedEventsSuccess = (events: HighlightedEvent[]): FetchHighlightedEventsSuccessAction => {
   return {
-    type: FETCH_HIGHLIGHTED_EVENTS_SUCCESS,
-    payload: events,
+    type: UserHomePageActionTypes.FETCH_HIGHLIGHTED_EVENTS_SUCCESS,
+    events: events,
   };
 };
 
-export const fetchHighlightedEventsError = () => {
+export const fetchHighlightedEventsError = (): FetchHighlightedEventsErrorAction => {
   return {
-    type: FETCH_HIGHLIGHTED_EVENTS_ERROR,
+    type: UserHomePageActionTypes.FETCH_HIGHLIGHTED_EVENTS_ERROR,
   };
 };

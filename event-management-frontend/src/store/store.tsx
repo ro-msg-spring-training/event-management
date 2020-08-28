@@ -16,5 +16,5 @@ export interface AppState {
   events: EventsPageState;
   eventCrud: EventState;
   location: LocationPageState;
-  userHomePage: UserHomePageState;
+  userHome: UserHomePageState;
 }

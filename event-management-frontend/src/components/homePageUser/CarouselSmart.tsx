@@ -6,12 +6,12 @@ import { AppState } from "../../store/store";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import { fetchHighlightedEvents } from "../../actions/UserHomePageActions";
-import { HighlightedEventList } from "../../reducers/UserHomePageReducer";
+import { HighlightedEvent } from "../../reducers/UserHomePageReducer";
 import { useTranslation } from "react-i18next";
 
 type Props = {
   isError: boolean;
-  events: HighlightedEventList[];
+  events: HighlightedEvent[];
   fetchHighlightedEvents: () => void;
 };
 
@@ -20,6 +20,7 @@ const CarouselSmart = ({ events, isError, fetchHighlightedEvents }: Props) => {
   const [t] = useTranslation();
 
   useEffect(() => {
+    console.log("USEEFFECT");
     fetchHighlightedEvents();
   }, []);
 
@@ -39,8 +40,8 @@ const CarouselSmart = ({ events, isError, fetchHighlightedEvents }: Props) => {
 };
 
 const mapStateToProps = (state: AppState) => ({
-  events: state.userHomePage.highlightedEvents,
-  isError: state.userHomePage.isError,
+  events: state.userHome.highlightedEvents,
+  isError: state.userHome.isError,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

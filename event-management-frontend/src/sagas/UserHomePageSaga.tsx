@@ -3,21 +3,20 @@ import {
   fetchHighlightedEventsRequest,
   fetchHighlightedEventsSuccess,
   fetchHighlightedEventsError,
-  FETCH_HIGHLIGHTED_EVENTS,
 } from "../actions/UserHomePageActions";
+import { UserHomePageActionTypes } from "../types/UserHomePageActionTypes";
 import { fetchHighlightedEvents } from "../api/UserHomePageAPI";
 
-function* fetchHighlightedEventsAsync(action: any) {
+function* fetchHighlightedEventsAsync() {
   yield put(fetchHighlightedEventsRequest());
   try {
     const events = yield call(() => fetchHighlightedEvents());
     yield put(fetchHighlightedEventsSuccess(events));
   } catch (error) {
-    console.log("Error: ", error);
     yield put(fetchHighlightedEventsError());
   }
 }
 
 export function* watchFetchHighlightedEventsAsync() {
-  yield takeEvery(FETCH_HIGHLIGHTED_EVENTS, fetchHighlightedEventsAsync);
+  yield takeEvery(UserHomePageActionTypes.FETCH_HIGHLIGHTED_EVENTS, fetchHighlightedEventsAsync);
 }

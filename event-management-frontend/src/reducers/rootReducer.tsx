@@ -8,5 +8,5 @@ export default combineReducers({
   events: EventsPageReducer,
   eventCrud: HeaderReducer,
   location: LocationPageReducer,
-  userHomePage: UserHomePageReducer,
+  userHome: UserHomePageReducer,
 });
