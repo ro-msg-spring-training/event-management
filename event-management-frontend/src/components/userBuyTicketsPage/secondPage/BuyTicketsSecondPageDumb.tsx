@@ -26,13 +26,15 @@ interface BuyTicketsSecondPageDumbProps {
 
   updateTicketNames: (ticketAmount: TicketNames[]) => void,
   ticketNames: TicketNames[],
+
+  updateChecked: (checked: boolean) => void,
+  checked: boolean,
 }
 
 function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCategories, eventId, booking, addBookings,
-  updateBookings, updateTicketAmount, ticketAmount, updateTicketNames, ticketNames }: BuyTicketsSecondPageDumbProps) {
+  updateBookings, updateTicketAmount, ticketAmount, updateTicketNames, ticketNames, updateChecked, checked }: BuyTicketsSecondPageDumbProps) {
+  const classes = BuyTicketsSecondPageStyle();
   const [step, setStep] = useState(1);
-  const [checked, setChecked] = useState(false);
-
   let today = new Date(new Date().toString().split('GMT')[0] + ' UTC').toISOString().split('.')[0]
 
   let initialTicketState: TicketsPerCateory[] = [];
@@ -50,10 +52,8 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
 
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(event.target.checked);
+    updateChecked(event.target.checked);
   };
-
-  const classes = BuyTicketsSecondPageStyle();
 
   // Proceed to next step
   const nextStep = () => { setStep(step + 1); };
@@ -159,7 +159,7 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
           // setBooking={setBooking}
           updateBookings={updateBookings}
           ticketNames={ticketNames}
-          setChecked={setChecked}
+          updateChecked={updateChecked}
           addBookings={addBookings}
         />
       break;

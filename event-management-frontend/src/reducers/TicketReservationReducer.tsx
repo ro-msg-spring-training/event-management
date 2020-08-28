@@ -9,6 +9,7 @@ import {
   UPDATE_BOOKINGS,
   UPDATE_TICKET_AMOUNT,
   UPDATE_TICKET_NAME,
+  UPDATE_CHECKED,
 } from "../actions/TicketReservationActions"
 import { TicketAvailabilityData } from "../model/TicketAvailabilityData"
 import Booking from "../model/Booking"
@@ -22,6 +23,7 @@ export interface EventState {
   booking: Booking,
   ticketAmount: TicketsPerCateory[],
   ticketNames: TicketNames[],
+  checked: boolean,
 }
 
 const initialBooking = {
@@ -43,6 +45,7 @@ const initialState: EventState = {
   booking: initialBooking,
   ticketAmount: [],
   ticketNames: [],
+  checked: false,
 }
 
 const TicketCategoriesReducer = (state = initialState, action: { type: string, payload: TicketAvailabilityData[] | Booking }) => {
@@ -98,6 +101,11 @@ const TicketCategoriesReducer = (state = initialState, action: { type: string, p
       return {
         ...state,
         ticketNames: action.payload
+      }
+    case UPDATE_CHECKED:
+      return {
+        ...state,
+        checked: action.payload
       }
     default: return state
   }

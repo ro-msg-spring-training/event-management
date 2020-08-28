@@ -16,6 +16,7 @@ export const ADD_BOOKINGS_FAILURE = 'ADD_BOOKINGS_FAILURE'
 export const UPDATE_BOOKINGS = 'UPDATE_BOOKINGS'
 export const UPDATE_TICKET_AMOUNT = 'UPDATE_TICKET_AMOUNT'
 export const UPDATE_TICKET_NAME = 'UPDATE_TICKET_NAME'
+export const UPDATE_CHECKED = 'UPDATE_CHECKED'
 
 //---------------------------------------------------for SAGA
 export const loadTicketCategories = (idEvent: string) => {
@@ -94,5 +95,12 @@ export const updateTicketNames = (ticketNames: TicketNames[]) => {
   return {
     type: UPDATE_TICKET_NAME,
     payload: ticketNames
+  }
+}
+
+export const updateChecked = (checked: boolean) => {
+  return {
+    type: UPDATE_CHECKED,
+    payload: checked
   }
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { loadTicketCategories, addBookings, updateBookings, updateTicketAmount, updateTicketNames } from '../../../actions/TicketReservationActions';
+import { loadTicketCategories, addBookings, updateBookings, updateTicketAmount, updateTicketNames, updateChecked } from '../../../actions/TicketReservationActions';
 import { TicketAvailabilityData } from '../../../model/TicketAvailabilityData';
 import { Container, CircularProgress } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
@@ -26,10 +26,13 @@ interface BuyTicketsSecondPageSmartProps {
 
   updateTicketNames: (ticketAmount: TicketNames[]) => void,
   ticketNames: TicketNames[],
+
+  updateChecked: (checked: boolean) => void,
+  checked: boolean,
 }
 
 function BuyTicketsSecondPageSmart({ match, fetchedData, ticketCategories, fetchTicketCategories, addBookings,
-  booking, updateBookings, updateTicketAmount, ticketAmount, updateTicketNames, ticketNames }: BuyTicketsSecondPageSmartProps) {
+  booking, updateBookings, updateTicketAmount, ticketAmount, updateTicketNames, ticketNames, updateChecked, checked }: BuyTicketsSecondPageSmartProps) {
   const history = useHistory();
 
   const gotoFirstPage = (): void => {
@@ -74,6 +77,9 @@ function BuyTicketsSecondPageSmart({ match, fetchedData, ticketCategories, fetch
 
         updateTicketNames={updateTicketNames}
         ticketNames={ticketNames}
+
+        updateChecked={updateChecked}
+        checked={checked}
       />
     </div>
   );
@@ -87,6 +93,7 @@ const mapStateToProps = (state: any) => {
 
     ticketAmount: state.ticketCategories.ticketAmount,
     ticketNames: state.ticketCategories.ticketNames,
+    checked: state.ticketCategories.checked,
   }
 }
 
@@ -98,6 +105,7 @@ const mapDispatchToProps = (dispatch: any) => {
     updateBookings: (booking: Booking) => dispatch(updateBookings(booking)),
     updateTicketAmount: (ticketAmount: TicketsPerCateory[]) => dispatch(updateTicketAmount(ticketAmount)),
     updateTicketNames: (ticketNames: TicketNames[]) => dispatch(updateTicketNames(ticketNames)),
+    updateChecked: (checked: boolean) => dispatch(updateChecked(checked)),
   }
 }
 
