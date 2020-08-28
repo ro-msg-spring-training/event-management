@@ -25,10 +25,13 @@ public class TicketCategory extends BaseEntity {
 
     private int ticketsPerCategory;
 
+    private boolean available;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "event")
     private Event event;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "ticketCategory",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,

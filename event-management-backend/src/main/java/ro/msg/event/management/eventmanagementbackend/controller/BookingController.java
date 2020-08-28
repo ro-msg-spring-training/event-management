@@ -2,6 +2,7 @@ package ro.msg.event.management.eventmanagementbackend.controller;
 
 import com.itextpdf.text.DocumentException;
 import lombok.AllArgsConstructor;
+import net.minidev.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,16 +20,18 @@ import ro.msg.event.management.eventmanagementbackend.security.User;
 import ro.msg.event.management.eventmanagementbackend.service.BookingService;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/bookings")
 @AllArgsConstructor
 @CrossOrigin
 public class BookingController {
-    private BookingService bookingService;
-    private Converter<BookingSaveDto, Booking> bookingSaveReverseConverter;
-    private Converter<Booking, BookingDto> bookingConverter;
+    private final BookingService bookingService;
+    private final Converter<BookingSaveDto, Booking> bookingSaveReverseConverter;
+    private final Converter<Booking, BookingDto> bookingConverter;
     private final Object lock = new Object();
 
     @PostMapping
@@ -60,4 +63,21 @@ public class BookingController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, documentException.getMessage(), documentException);
         }
     }
+
+    @GetMapping
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
+    public ResponseEntity<List<JSONObject>> getAllMyBookings() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) auth.getPrincipal();
+        List<JSONObject> objects = bookingService.getMyBookings(user.getIdentificationString()).stream().map(bookingCalendarDto -> {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id", bookingCalendarDto.getId());
+            jsonObject.put("list",bookingService.getDatesInInterval(bookingCalendarDto.getStartDate(),bookingCalendarDto.getEndDate()));
+            jsonObject.put("title",bookingCalendarDto.getTitle());
+            return jsonObject;
+        }).collect(Collectors.toList());
+        return new ResponseEntity<>(objects, HttpStatus.OK);
+    }
+
+
 }

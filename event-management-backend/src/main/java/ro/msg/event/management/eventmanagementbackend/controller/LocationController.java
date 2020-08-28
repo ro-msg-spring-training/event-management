@@ -23,7 +23,7 @@ public class LocationController {
     private final LocationReverseConverter locationReverseConverter;
 
     @GetMapping("")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<List<LocationDto>> getLocations() {
         List<LocationDto> locationDtos = locationReverseConverter.convertAll(this.locationService.getLocations());
         return new ResponseEntity<>(locationDtos, HttpStatus.OK);

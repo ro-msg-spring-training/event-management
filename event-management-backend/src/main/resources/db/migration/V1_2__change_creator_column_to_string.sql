@@ -1,2 +1,2 @@
 ALTER TABLE `event`
-    ALTER COLUMN `creator` varchar(200);
+    MODIFY COLUMN `creator` varchar(200);

@@ -9,33 +9,35 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 @Entity
 @Immutable
 @AllArgsConstructor
 @Data
 @NoArgsConstructor
-public class EventView {
+public class TicketView {
 
     @Id
     @Column(updatable = false, nullable = false)
-    private Long id;
+    private Long ticketId;
 
     @Column
-    private String title;
+    private Long bookingId;
 
     @Column
-    private String subtitle;
+    private LocalDate bookingDate;
 
     @Column
-    private Boolean status;
+    private String category;
 
     @Column
-    private Boolean highlighted;
+    private String name;
 
     @Column
-    private String location;
+    private String pdf_url;
+
+    @Column
+    private String user;
 
     @Column
     private LocalDate startDate;
@@ -44,21 +46,5 @@ public class EventView {
     private LocalDate endDate;
 
     @Column
-    private LocalTime startHour;
-
-    @Column
-    private LocalTime endHour;
-
-    @Column
-    private Integer maxPeople;
-
-    @Column
-    private Float rate;
-
-    @Column
-    private String pictureUrl;
-
-    @Column
-    private String description;
-
+    private String event_title;
 }

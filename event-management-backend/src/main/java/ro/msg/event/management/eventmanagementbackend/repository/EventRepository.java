@@ -1,5 +1,7 @@
 package ro.msg.event.management.eventmanagementbackend.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,5 +22,14 @@ public interface EventRepository extends JpaRepository<Event, Long> {
                                       @Param("startHour") LocalTime startHour,
                                       @Param("endHour") LocalTime endHour,
                                       @Param("sublocation") long sublocation);
+
+    List<Event> findAllByHighlighted(boolean highlighted);
+
+    @Query("SELECT e FROM Event e LEFT JOIN Booking b" +
+            " ON e.id = b.event" +
+            " WHERE b.user = :user"+
+            " AND start_date < NOW() ORDER BY start_date DESC")
+    Page<Event> findByUser(@Param("user") String user,
+                           Pageable pageable);
 
 }

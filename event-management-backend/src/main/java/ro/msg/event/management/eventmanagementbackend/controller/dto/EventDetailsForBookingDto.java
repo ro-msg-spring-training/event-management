@@ -8,21 +8,19 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CardsUserEventDto {
+public class EventDetailsForBookingDto {
     private long id;
     private String title;
-    private String location;
+    private String subtitle;
     private LocalDate startDate;
     private LocalDate endDate;
-    private LocalTime startTime;
-    private LocalTime endTime;
-    private float rate;
-    private String picture;
-    private String description;
-
+    private LocalTime startHour;
+    private LocalTime endHour;
+    private String ticketInfo;
+    private String locationName;
+    private String locationAddress;
 }

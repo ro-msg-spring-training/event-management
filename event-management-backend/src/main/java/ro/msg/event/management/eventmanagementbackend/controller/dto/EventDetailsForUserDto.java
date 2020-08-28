@@ -5,14 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Builder
-public class TicketDto {
-    private long ticketId;
-    private String name;
-    private String emailAddress;
-    private long ticketCategoryId;
-
+public class EventDetailsForUserDto {
+    private EventDto eventDto;
+    private String locationName;
+    private String locationAddress;
 }

@@ -15,6 +15,7 @@ public class TicketCategoryReverseConverter implements Converter<TicketCategory,
                 .price(obj.getPrice())
                 .ticketsPerCategory(obj.getTicketsPerCategory())
                 .id(obj.getId())
+                .available(obj.isAvailable())
                 .build();
     }
 }

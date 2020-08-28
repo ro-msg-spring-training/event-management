@@ -17,6 +17,7 @@ public class TicketCategoryConverter implements Converter<TicketCategoryDto, Tic
                 .subtitle(obj.getSubtitle())
                 .ticketsPerCategory(obj.getTicketsPerCategory())
                 .title(obj.getTitle())
+                .available(obj.isAvailable())
                 .build();
     }
 
@@ -28,6 +29,7 @@ public class TicketCategoryConverter implements Converter<TicketCategoryDto, Tic
                 .subtitle(obj.getSubtitle())
                 .ticketsPerCategory(obj.getTicketsPerCategory())
                 .title(obj.getTitle())
+                .available(obj.isAvailable())
                 .build();
         ticketCategory.setId(obj.getId());
         return ticketCategory;

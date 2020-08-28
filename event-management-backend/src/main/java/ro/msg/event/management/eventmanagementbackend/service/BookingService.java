@@ -10,12 +10,12 @@ import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.*;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ro.msg.event.management.eventmanagementbackend.controller.dto.BookingCalendarDto;
 import ro.msg.event.management.eventmanagementbackend.entity.*;
 import ro.msg.event.management.eventmanagementbackend.exception.TicketBuyingException;
 import ro.msg.event.management.eventmanagementbackend.repository.BookingRepository;
@@ -23,6 +23,10 @@ import ro.msg.event.management.eventmanagementbackend.repository.EventRepository
 import ro.msg.event.management.eventmanagementbackend.repository.TicketCategoryRepository;
 import ro.msg.event.management.eventmanagementbackend.repository.TicketDocumentRepository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
+import javax.persistence.TypedQuery;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -34,9 +38,7 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
-@ConfigurationProperties(
-        prefix = "event-management.s3.tickets"
-)
+@PropertySource("classpath:application.properties")
 public class BookingService {
 
     private final BookingRepository bookingRepository;
@@ -46,8 +48,10 @@ public class BookingService {
             .withRegion(Regions.EU_WEST_1)
             .build();
 
-    @Getter
-    @Setter
+    @PersistenceContext(type = PersistenceContextType.TRANSACTION)
+    private final EntityManager entityManager;
+
+    @Value("${event-management.s3.tickets.bucketName}")
     private String bucketName;
 
     private final TicketDocumentRepository ticketDocumentRepository;
@@ -131,7 +135,7 @@ public class BookingService {
             acroFields.setField("location", location.getName() + " " + location.getAddress());
             if(event.getStartDate().isEqual(event.getEndDate()))
             {
-                acroFields.setField("date", event.getStartDate() + "");
+                acroFields.setField("date", event.getStartDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
             }
             else
             {
@@ -196,10 +200,28 @@ public class BookingService {
     }
 
     public String saveDocumentToS3(File file, String fileName) {
-
-
         final PutObjectRequest putObjectRequest = new PutObjectRequest(this.bucketName, fileName, file);
         s3Client.putObject(putObjectRequest);
         return s3Client.getUrl(this.bucketName, fileName).toString();
+    }
+
+
+    public List<BookingCalendarDto> getMyBookings(String user) {
+        TypedQuery<BookingCalendarDto> query
+                = entityManager.createQuery(
+                "SELECT NEW ro.msg.event.management.eventmanagementbackend.controller.dto.BookingCalendarDto(b.id, e.startDate, e.endDate, e.title)" +
+                        " FROM Booking b JOIN b.event e WHERE b.user = :user ORDER BY e.startDate", BookingCalendarDto.class);
+        query.setParameter("user", user);
+        return query.getResultList();
+    }
+
+    public List<LocalDate> getDatesInInterval(LocalDate startDate, LocalDate endDate){
+        List<LocalDate> localDates = new ArrayList<>();
+        LocalDate tmp = startDate;
+        while(tmp.isBefore(endDate) || tmp.equals(endDate)) {
+            localDates.add(tmp);
+            tmp = tmp.plusDays(1);
+        }
+        return localDates;
     }
 }

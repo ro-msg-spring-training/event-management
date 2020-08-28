@@ -18,6 +18,7 @@ public class CardsUserEventConverter implements Converter<EventView, CardsUserEv
                 .endTime(eventView.getEndHour())
                 .rate(eventView.getRate())
                 .picture(eventView.getPictureUrl())
+                .description(eventView.getDescription())
                 .build();
     }
 }

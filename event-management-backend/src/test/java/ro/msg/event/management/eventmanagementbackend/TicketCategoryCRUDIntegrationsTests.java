@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import ro.msg.event.management.eventmanagementbackend.entity.Event;
 import ro.msg.event.management.eventmanagementbackend.entity.TicketCategory;
@@ -19,6 +20,7 @@ import java.util.NoSuchElementException;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
+@ActiveProfiles("test")
 class TicketCategoryCRUDIntegrationsTests {
     private final EventRepository eventRepository;
     private final TicketCategoryService ticketCategoryService;
@@ -154,11 +156,13 @@ class TicketCategoryCRUDIntegrationsTests {
         long categoryId = this.ticketCategoryRepository.findAll().get(0).getId();
         TicketCategory update = new TicketCategory();
         update.setId(categoryId);
-        update.setTitle("updated");
+        update.setTicketsPerCategory(33);
+        update.setAvailable(true);
 
         assert this.ticketCategoryRepository.findById(categoryId).get().getTitle().equals("not updated");
         this.ticketCategoryService.updateTicketCategory(update);
-        assert this.ticketCategoryRepository.findById(categoryId).get().getTitle().equals("updated");
+        assert this.ticketCategoryRepository.findById(categoryId).get().getTicketsPerCategory() == update.getTicketsPerCategory();
+        assert this.ticketCategoryRepository.findById(categoryId).get().isAvailable() == update.isAvailable();
     }
 
     @Test

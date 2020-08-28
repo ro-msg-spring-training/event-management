@@ -1,6 +1,9 @@
 package ro.msg.event.management.eventmanagementbackend.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.msg.event.management.eventmanagementbackend.entity.*;
@@ -8,6 +11,7 @@ import ro.msg.event.management.eventmanagementbackend.entity.view.EventView;
 import ro.msg.event.management.eventmanagementbackend.exception.ExceededCapacityException;
 import ro.msg.event.management.eventmanagementbackend.exception.OverlappingEventsException;
 import ro.msg.event.management.eventmanagementbackend.repository.*;
+import ro.msg.event.management.eventmanagementbackend.security.User;
 import ro.msg.event.management.eventmanagementbackend.utils.ComparisonSign;
 import ro.msg.event.management.eventmanagementbackend.utils.SortCriteria;
 import ro.msg.event.management.eventmanagementbackend.utils.TimeValidation;
@@ -29,6 +33,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class EventService {
 
+
     private final EventRepository eventRepository;
     private final SublocationRepository sublocationRepository;
     private final PictureRepository pictureRepository;
@@ -39,13 +44,20 @@ public class EventService {
     @PersistenceContext(type = PersistenceContextType.TRANSACTION)
     private final EntityManager entityManager;
 
-    @Transactional(rollbackFor = {OverlappingEventsException.class,ExceededCapacityException.class})
-    public Event saveEvent(Event event, List<Long> sublocationIDs) throws OverlappingEventsException, ExceededCapacityException {
+    @Transactional(rollbackFor = {OverlappingEventsException.class, ExceededCapacityException.class})
+    public Event saveEvent(Event event, Long locationId) throws OverlappingEventsException, ExceededCapacityException {
 
         LocalDate startDate = event.getStartDate();
         LocalDate endDate = event.getEndDate();
         LocalTime startHour = event.getStartHour();
         LocalTime endHour = event.getEndHour();
+
+        Location location = locationRepository.findById(locationId).orElseThrow(() -> {
+            throw new NoSuchElementException("No location with id=" + locationId);
+        });
+        List<Long> sublocationIDs = location.getSublocation().stream()
+                .map(BaseEntity::getId)
+                .collect(Collectors.toList());
 
         TimeValidation.validateTime(startDate, endDate, startHour, endHour);
 
@@ -86,7 +98,7 @@ public class EventService {
         return overlappingEvents.isEmpty();
     }
 
-    @Transactional(rollbackFor = {OverlappingEventsException.class,ExceededCapacityException.class})
+    @Transactional(rollbackFor = {OverlappingEventsException.class, ExceededCapacityException.class})
     public Event updateEvent(Event event, List<Long> ticketCategoryToDelete, Long updatedLocation) throws OverlappingEventsException, ExceededCapacityException {
         Optional<Event> eventOptional;
         eventOptional = eventRepository.findById(event.getId());
@@ -134,6 +146,7 @@ public class EventService {
                     eventFromDB.setTicketsPerUser(event.getTicketsPerUser());
                     eventFromDB.setObservations(event.getObservations());
                     eventFromDB.getPictures().addAll(event.getPictures());
+                    eventFromDB.setTicketInfo(event.getTicketInfo());
 
                     //update sublocation
                     List<EventSublocation> eventSublocations = new ArrayList<>();
@@ -145,10 +158,9 @@ public class EventService {
                     this.eventSublocationRepository.deleteByEvent(eventFromDB);
                     long idSublocation = eventFromDB.getEventSublocations().get(0).getEventSublocationID().getSublocation();
 
-                    if(!this.sublocationRepository.findById(idSublocation).orElseThrow(() -> {
+                    if (!this.sublocationRepository.findById(idSublocation).orElseThrow(() -> {
                         throw new NoSuchElementException("No sublocation with id=" + idSublocation);
-                    }).getLocation().getId().equals(updatedLocation))
-                    {
+                    }).getLocation().getId().equals(updatedLocation)) {
                         for (Long sublocationID : location.getSublocation().stream().map(BaseEntity::getId).collect(Collectors.toList())) {
                             EventSublocationID esID = new EventSublocationID(event.getId(), sublocationID);
                             EventSublocation eventSublocation = new EventSublocation();
@@ -175,11 +187,11 @@ public class EventService {
                         if (ticketCategory.getId() < 0) {
                             categoriesToSave.add(ticketCategory);
                         } else {
-                            eventFromDB.getTicketCategories().forEach(ticketCategoryFromDB ->{
-                                if(ticketCategoryFromDB.getId().equals(ticketCategory.getId())){
+                            eventFromDB.getTicketCategories().forEach(ticketCategoryFromDB -> {
+                                if (ticketCategoryFromDB.getId().equals(ticketCategory.getId())) {
                                     this.ticketCategoryService.updateTicketCategory(ticketCategory);
                                 }
-                            } );
+                            });
                         }
                     });
 
@@ -189,9 +201,7 @@ public class EventService {
 
                 } else throw new ExceededCapacityException("exceed capacity");
             } else throw new OverlappingEventsException("overlaps other events");
-
-        } else
-            throw new NoSuchElementException();
+        } else throw new NoSuchElementException();
     }
 
     public boolean checkOverlappingEvents(Long eventID, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, long sublocation) {
@@ -211,7 +221,7 @@ public class EventService {
         this.eventRepository.deleteById(id);
     }
 
-    public TypedQuery<EventView> filter(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople, SortCriteria sortCriteria, Boolean sortType) {
+    public Page<EventView> filter(Pageable pageable, String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople, SortCriteria sortCriteria, Boolean sortType, List<String> multipleLocations) {
 
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<EventView> q = criteriaBuilder.createQuery(EventView.class);
@@ -239,6 +249,13 @@ public class EventService {
             Expression<String> path = c.get("location");
             Expression<String> upper = criteriaBuilder.upper(path);
             predicate.add(criteriaBuilder.like(upper, "%" + location.toUpperCase() + "%"));
+
+        }
+
+        if (multipleLocations != null) {
+            Expression<String> path = c.get("location");
+            predicate.add(path.in(multipleLocations));
+
         }
 
         if (startDate != null && endDate != null) {
@@ -285,39 +302,41 @@ public class EventService {
             }
         }
         if (sortType != null) {
-            if (sortType == true) q.orderBy(criteriaBuilder.asc(c.get(criteria)));
+            if (sortType) q.orderBy(criteriaBuilder.asc(c.get(criteria)));
             else q.orderBy(criteriaBuilder.desc(c.get(criteria)));
         }
-        return entityManager.createQuery(q);
+        TypedQuery<EventView> typedQuery = entityManager.createQuery(q);
+        typedQuery.setFirstResult((int) pageable.getOffset());
+        typedQuery.setMaxResults(pageable.getPageSize());
+        List<EventView> result = typedQuery.getResultList();
+
+        CriteriaQuery<Long> sc = criteriaBuilder.createQuery(Long.class);
+        Root<EventView> rootSelect = sc.from(EventView.class);
+        sc.select(criteriaBuilder.count(rootSelect));
+        sc.where(finalPredicate);
+        Long count = entityManager.createQuery(sc).getSingleResult();
+        return new PageImpl<>(result, pageable, count);
 
     }
 
-    public List<EventView> filterAndPaginate(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople, int pageNumber, int eventPerPage, SortCriteria sortCriteria, Boolean sortType) {
-        TypedQuery<EventView> typedQuery = this.filter(title, subtitle, status, highlighted, location, startDate, endDate, startHour, endHour, rateSign, rate, maxPeopleSign, maxPeople, sortCriteria, sortType);
-        int offset = (pageNumber - 1) * eventPerPage;
-        typedQuery.setFirstResult(offset);
-        typedQuery.setMaxResults(eventPerPage);
-        return typedQuery.getResultList();
-
-    }
 
     public Predicate getPredicate(ComparisonSign comparisonSign, String criteria, Float value, CriteriaBuilder criteriaBuilder, Root<EventView> c) {
         switch (comparisonSign) {
             case GREATER:
                 return criteriaBuilder.gt(c.get(criteria), value);
             case LOWER:
-                return criteriaBuilder.le(c.get(criteria), value);
+                return criteriaBuilder.lessThan(c.get(criteria), value);
             case EQUAL:
                 return criteriaBuilder.equal(c.get(criteria), value);
+            case GREATEROREQUAL:
+                return criteriaBuilder.greaterThanOrEqualTo(c.get(criteria), value);
+            case LOWEROREQUAL:
+                return criteriaBuilder.lessThanOrEqualTo(c.get(criteria), value);
             default:
                 return null;
         }
     }
 
-    public int getNumberOfPages(String title, String subtitle, Boolean status, Boolean highlighted, String location, LocalDate startDate, LocalDate endDate, LocalTime startHour, LocalTime endHour, ComparisonSign rateSign, Float rate, ComparisonSign maxPeopleSign, Integer maxPeople, int eventPerPage) {
-        int count = filter(title, subtitle, status, highlighted, location, startDate, endDate, startHour, endHour, rateSign, rate, maxPeopleSign, maxPeople, null, null).getResultList().size();
-        return (int) Math.ceil((float) count / (float) eventPerPage);
-    }
 
     public Event getEvent(long id) {
         Optional<Event> eventOptional = this.eventRepository.findById(id);
@@ -327,4 +346,9 @@ public class EventService {
             throw new NoSuchElementException("No event with id= " + id);
         }
     }
+
+    public Page<Event> filterAndPaginateEventsAttendedByUser(User user, Pageable pageable) {
+        return eventRepository.findByUser(user.getIdentificationString(), pageable);
+    }
+
 }
