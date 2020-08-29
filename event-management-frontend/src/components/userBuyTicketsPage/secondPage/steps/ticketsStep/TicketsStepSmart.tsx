@@ -4,8 +4,9 @@ import { userBuyTicketsStyle } from '../../../../../styles/UserBuyTicketsStyle';
 import { TicketsPerCateory, TicketNames } from '../../../../../model/UserReserveTicket';
 import TicketsStepDumb from './TicketsStepDumb'
 import { connect } from 'react-redux';
-import { updateTicketsStepFormErrors } from '../../../../../actions/TicketReservationActions';
+import { updateTicketsStepFormErrors, updateTicketAmount, updateBookings } from '../../../../../actions/TicketReservationActions';
 import { TicketsStepFormErrors, TicketAvailabilityData } from '../../../../../model/BuyTicketsSecondPage';
+import Booking from '../../../../../model/Booking';
 
 interface TicketsStepSmartProps {
   nextStep: () => void,
@@ -18,6 +19,11 @@ interface TicketsStepSmartProps {
 
   ticketsStepFormErrors: TicketsStepFormErrors[],
   updateTicketsStepFormErrors: (ticketsStepFormErrors: TicketsStepFormErrors[]) => void,
+
+  eventId: number | string,
+
+  updateBookings: (booking: Booking) => void,
+  booking: Booking,
 }
 
 const initializeFormErrors = (ticketsStepFormErrors: TicketsStepFormErrors[], ticketCategories: TicketAvailabilityData[]): TicketsStepFormErrors[] => {
@@ -37,13 +43,31 @@ const updateErrorsLocally = (ticketsStepFormErrors: TicketsStepFormErrors[], nam
 }
 
 function TicketsStepSmart({ nextStep, handleEnterKey, updateTicketAmount, ticketCategories, ticketAmount, updateTicketNames,
-  ticketsStepFormErrors, updateTicketsStepFormErrors }: TicketsStepSmartProps) {
+  ticketsStepFormErrors, updateTicketsStepFormErrors, booking, updateBookings, eventId }: TicketsStepSmartProps) {
   const classes = userBuyTicketsStyle();
 
   ticketsStepFormErrors = initializeFormErrors(ticketsStepFormErrors, ticketCategories);
   useEffect(() => {
+    const today = new Date(new Date().toString().split('GMT')[0] + ' UTC').toISOString().split('.')[0]
+
+    let oldBooking = { ...booking };
+    oldBooking.eventId = Number(eventId);
+    oldBooking.bookingDate = today;
+    updateBookings(oldBooking);
+
     //initialize form errors for TicketsStep
     updateTicketsStepFormErrors(ticketsStepFormErrors);
+  }, [ticketsStepFormErrors])
+
+  // TODO e mai bine sa las erorile si user-ul sa modifice field-urile manual, sau sa corectez si sa modific automat in numarul maxim de tichete posibil?
+  useEffect(() => {
+    ticketsStepFormErrors
+      .filter(ticketError => ticketError.error !== "" )
+      .map(ticketError => {
+      if(ticketCategories.find(ticketCategory => ticketCategory.title === ticketError.ticketCategoryTitle )!.remaining >= 
+        ticketAmount.find(ticket => ticket.category === ticketError.ticketCategoryTitle )!.quantity)
+          ticketError.error = ""
+    })
   }, [])
 
   const handleTicketsStepChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -58,6 +82,7 @@ function TicketsStepSmart({ nextStep, handleEnterKey, updateTicketAmount, ticket
     if (Number(value) < 0) {
       updateErrorsLocally(ticketsStepFormErrors, name, "Wrong input", updateTicketsStepFormErrors);
     } else if (remaining < Number(value)) {
+      updateTicketAmount(ticketAmount.map(item => (item.category === name ? { ...item, 'quantity': remaining } : item)))
       updateErrorsLocally(ticketsStepFormErrors, name, `There are only ${remaining} tickets left in ${category}`, updateTicketsStepFormErrors);
     } else {
       updateTicketAmount(ticketAmount.map(item => (item.category === name ? { ...item, 'quantity': Number(value) } : item)))
@@ -98,12 +123,16 @@ function TicketsStepSmart({ nextStep, handleEnterKey, updateTicketAmount, ticket
 
 const mapStateToProps = (state: any) => {
   return {
+    booking: state.ticketCategories.booking,
+    ticketAmount: state.ticketCategories.ticketAmount,
     ticketsStepFormErrors: state.ticketCategories.ticketsStepFormErrors,
   }
 }
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
+    updateBookings: (booking: Booking) => dispatch(updateBookings(booking)),
+    updateTicketAmount: (ticketAmount: TicketsPerCateory[]) => dispatch(updateTicketAmount(ticketAmount)),
     updateTicketsStepFormErrors: (ticketsStepFormErrors: TicketsStepFormErrors[]) => dispatch(updateTicketsStepFormErrors(ticketsStepFormErrors)),
   }
 }

@@ -20,8 +20,8 @@ interface BuyTicketsSecondPageDumbProps {
   addBookings: (booking: Booking) => void,
   updateBookings: (booking: Booking) => void,
 
-  updateTicketAmount: (ticketAmount: TicketsPerCateory[]) => void,
-  ticketAmount: TicketsPerCateory[],
+  // updateTicketAmount: (ticketAmount: TicketsPerCateory[]) => void,
+  // ticketAmount: TicketsPerCateory[],
 
   updateTicketNames: (ticketAmount: TicketNames[]) => void,
   ticketNames: TicketNames[],
@@ -33,26 +33,14 @@ interface BuyTicketsSecondPageDumbProps {
   nextStep: () => void,
   prevStep: () => void,
   handleEnterKey: (e: any) => void,
+
 }
 
 function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCategories, eventId, booking, addBookings,
-  updateBookings, updateTicketAmount, ticketAmount, updateTicketNames, ticketNames, updateChecked, checked,
+  updateBookings, updateTicketNames, ticketNames, updateChecked, checked,
   step, nextStep, prevStep, handleEnterKey }: BuyTicketsSecondPageDumbProps) {
 
   const classes = BuyTicketsSecondPageStyle();
-  let initialTicketState: TicketsPerCateory[] = [];
-  useEffect(() => {
-    const today = new Date(new Date().toString().split('GMT')[0] + ' UTC').toISOString().split('.')[0]
-    ticketCategories.map((ticket) => initialTicketState.push({ category: ticket.title, quantity: 0 }))
-    updateTicketAmount(initialTicketState);
-
-    let oldBooking = { ...booking };
-    oldBooking.eventId = Number(eventId);
-    oldBooking.bookingDate = today;
-    updateBookings(oldBooking);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const buttons =
     <>
@@ -74,12 +62,11 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
     case 1:
       currentPage =
         <TicketsStep
-          nextStep={nextStep}
-          handleEnterKey={handleEnterKey}
-          updateTicketAmount={updateTicketAmount}
-          ticketCategories={ticketCategories}
-          ticketAmount={ticketAmount}
-          updateTicketNames={updateTicketNames}
+        nextStep={nextStep}
+        handleEnterKey={handleEnterKey}
+        ticketCategories={ticketCategories}
+        updateTicketNames={updateTicketNames}
+        eventId={eventId}
         />
       break;
     case 2:
@@ -99,7 +86,6 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
           nextStep={nextStep}
           prevStep={prevStep}
           handleEnterKey={handleEnterKey}
-          ticketAmount={ticketAmount}
           ticketNames={ticketNames}
           updateTicketNames={updateTicketNames}
         />

@@ -51,6 +51,8 @@ const nameRegex = RegExp(
 function NamesStepSmart({ nextStep, prevStep, handleEnterKey, ticketAmount, ticketNames, updateTicketNames, namesStepFormErrors, updateNamesStepFormErrors }: NamesStepProps) {
   const classes = userBuyTicketsStyle();
 
+  console.log("ticketAmount", ticketAmount);
+
   namesStepFormErrors = initializeNamesFormErrors(namesStepFormErrors, ticketAmount);
   useEffect(() => {
     let initialTicketNames: TicketNames[] = ticketNames;
@@ -125,6 +127,7 @@ function NamesStepSmart({ nextStep, prevStep, handleEnterKey, ticketAmount, tick
 
 const mapStateToProps = (state: any) => {
   return {
+    ticketAmount: state.ticketCategories.ticketAmount,
     namesStepFormErrors: state.ticketCategories.namesStepFormErrors,
   }
 }

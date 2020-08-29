@@ -22,7 +22,7 @@ interface BuyTicketsSecondPageSmartProps {
   booking: Booking,
 
   updateTicketAmount: (ticketAmount: TicketsPerCateory[]) => void,
-  ticketAmount: TicketsPerCateory[],
+  // ticketAmount: TicketsPerCateory[],
 
   updateTicketNames: (ticketAmount: TicketNames[]) => void,
   ticketNames: TicketNames[],
@@ -34,7 +34,7 @@ interface BuyTicketsSecondPageSmartProps {
 const handleEnterKey = (e: any): void => { e.keyCode === 13 && e.preventDefault(); }
 
 function BuyTicketsSecondPageSmart({ match, fetchedData, ticketCategories, fetchTicketCategories, addBookings,
-  booking, updateBookings, updateTicketAmount, ticketAmount, updateTicketNames, ticketNames, updateChecked, checked }: BuyTicketsSecondPageSmartProps) {
+  booking, updateBookings, updateTicketNames, updateTicketAmount, ticketNames, updateChecked, checked }: BuyTicketsSecondPageSmartProps) {
 
   const [step, setStep] = useState(1);
   const history = useHistory();
@@ -42,6 +42,14 @@ function BuyTicketsSecondPageSmart({ match, fetchedData, ticketCategories, fetch
   useEffect(() => {
     fetchTicketCategories(match.params.id)
   }, [match.params.id])
+
+  useEffect(() => {
+    let initialTicketState: TicketsPerCateory[] = [];
+    ticketCategories.map((ticket) => initialTicketState.push({ category: ticket.title, quantity: 0 }))
+    updateTicketAmount(initialTicketState);
+  }, [ticketCategories])
+
+  // console.log("ticketCategories outside ", ticketCategories);
 
   // Proceed to next step
   const nextStep = () => { setStep(step + 1); };
@@ -64,14 +72,14 @@ function BuyTicketsSecondPageSmart({ match, fetchedData, ticketCategories, fetch
         <CircularProgress />
       </Container>
     );
-  } else if (fetchedData.isError) {
+  }
+  else if (fetchedData.isError) {
     return (
       <h1>An error has occured</h1>
     );
   }
 
   // console.log("BOOKING ", booking);
-
   return (
     <div className="wrapper">
       <BuyTicketsSecondPageDumb
@@ -83,9 +91,6 @@ function BuyTicketsSecondPageSmart({ match, fetchedData, ticketCategories, fetch
 
         updateBookings={updateBookings}
         addBookings={addBookings}
-
-        updateTicketAmount={updateTicketAmount}
-        ticketAmount={ticketAmount}
 
         updateTicketNames={updateTicketNames}
         ticketNames={ticketNames}
@@ -108,7 +113,6 @@ const mapStateToProps = (state: any) => {
     booking: state.ticketCategories.booking,
     ticketCategories: state.ticketCategories.ticketCategory,
 
-    ticketAmount: state.ticketCategories.ticketAmount,
     ticketNames: state.ticketCategories.ticketNames,
     checked: state.ticketCategories.checked,
   }
