@@ -31,7 +31,6 @@ function TermsAndConditionsStepSmart({ prevStep, checked, booking, updateBooking
     let newBooking = { ...booking };
     let newArr: Ticket[] = [];
 
-    console.log("TICKET NAMES: ", ticketNames);
     ticketNames.map(category => {
       category.names.map(currName => { newArr.push({ ticketCategoryTitle: category.ticketTitle, name: currName }); });
     });

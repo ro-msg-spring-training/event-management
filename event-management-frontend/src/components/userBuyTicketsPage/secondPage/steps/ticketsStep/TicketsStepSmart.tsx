@@ -53,11 +53,13 @@ function TicketsStepSmart({ nextStep, handleEnterKey, updateTicketAmount, ticket
 
     updateTicketNames([]);
 
-    if (remaining >= Number(value)) {
+    if (Number(value) < 0) {
+      updateErrorsLocally(ticketsStepFormErrors, name, "Wrong input", updateTicketsStepFormErrors);
+    } else if (remaining < Number(value)) {
+      updateErrorsLocally(ticketsStepFormErrors, name, `There are only ${remaining} tickets left in ${category}`, updateTicketsStepFormErrors);
+    } else {
       updateTicketAmount(ticketAmount.map(item => (item.category === name ? { ...item, 'quantity': Number(value) } : item)))
       updateErrorsLocally(ticketsStepFormErrors, name, "", updateTicketsStepFormErrors);
-    } else {
-      updateErrorsLocally(ticketsStepFormErrors, name, `There are only ${remaining} tickets left in ${category}`, updateTicketsStepFormErrors);
     }
   }
 
@@ -78,6 +80,7 @@ function TicketsStepSmart({ nextStep, handleEnterKey, updateTicketAmount, ticket
           onChange={handleTicketsStepChange}
           error={currError!.error.length > 0}
           helperText={currError!.error}
+          InputProps={{ inputProps: { min: 0 } }}
         />
       </Grid >
     );
