@@ -129,6 +129,4 @@ const mapDispatchToProps = (dispatch: any) => {
 export default connect(mapStateToProps, mapDispatchToProps)(BuyTicketsSecondPageSmart);
 
 //TODO
-//validations
-//number of tickets left for that event => max number of tickets available for purchase in the first card
 //internationalizare
