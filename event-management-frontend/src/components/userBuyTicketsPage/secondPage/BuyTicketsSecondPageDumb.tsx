@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import TicketsStep from './steps/ticketsStep/TicketsStepSmart';
-import EmailStep from './steps/EmailStep';
+import EmailStep from './steps/emailStep/EmailStepSmart';
 import NamesStep from './steps/namesStep/NamesStepSmart';
 import TermsAndConditionsStep from './steps/termsAndConditionsStep/TermsAndConditionsStepSmart';
 import Booking from '../../../model/Booking';

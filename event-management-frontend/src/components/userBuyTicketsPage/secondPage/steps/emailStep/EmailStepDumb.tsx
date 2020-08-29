@@ -1,29 +1,22 @@
 import React from 'react';
-import { useStyles } from '../../../../styles/CommonStyles';
+import { useStyles } from '../../../../../styles/CommonStyles';
 import { Button, Grid, Typography, TextField } from '@material-ui/core';
-import { userBuyTicketsStyle } from '../../../../styles/UserBuyTicketsStyle';
-import Booking from '../../../../model/Booking';
+import { userBuyTicketsStyle } from '../../../../../styles/UserBuyTicketsStyle';
+import { EmailStepFormErrors } from '../../../../../model/BuyTicketsSecondPage';
 
-interface EmailStepProps {
+interface EmailStepDumbProps {
   nextStep: () => void,
   prevStep: () => void,
   handleEnterKey: (e: any) => void,
   email: string,
 
-  updateBookings: (booking: Booking) => void,
-  booking: Booking,
+  handleEmailStepChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  emailFormErrors: EmailStepFormErrors,
 }
 
-function EmailStep({ nextStep, prevStep, handleEnterKey, email, updateBookings, booking }: EmailStepProps) {
+function EmailStepDumb({ nextStep, prevStep, handleEnterKey, email, handleEmailStepChange, emailFormErrors }: EmailStepDumbProps) {
   const buttonClass = useStyles();
   const classes = userBuyTicketsStyle();
-
-  const handleEmailStepChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const { name, value } = e.target;
-    let newBooking = { ...booking };
-    newBooking.email = value;
-    updateBookings(newBooking);
-  }
 
   return (
     <>
@@ -39,8 +32,8 @@ function EmailStep({ nextStep, prevStep, handleEnterKey, email, updateBookings, 
             label="Email"
             variant="outlined"
             onChange={handleEmailStepChange}
-          // error={formErrors.title.length > 0}
-          // helperText={formErrors.title}
+            error={emailFormErrors.error.length > 0}
+            helperText={emailFormErrors.error}
           />
         </Grid>
 
@@ -58,4 +51,4 @@ function EmailStep({ nextStep, prevStep, handleEnterKey, email, updateBookings, 
   );
 };
 
-export default EmailStep;
+export default EmailStepDumb;

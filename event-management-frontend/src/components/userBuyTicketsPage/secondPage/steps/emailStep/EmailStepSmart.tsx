@@ -1,0 +1,67 @@
+import React, { useEffect } from 'react';
+import Booking from '../../../../../model/Booking';
+import EmailStepDumb from './EmailStepDumb';
+import { connect } from 'react-redux';
+import { EmailStepFormErrors } from '../../../../../model/BuyTicketsSecondPage';
+import { updateEmailFormErrors } from '../../../../../actions/TicketReservationActions';
+
+interface EmailStepSmartProps {
+  nextStep: () => void,
+  prevStep: () => void,
+  handleEnterKey: (e: any) => void,
+  email: string,
+
+  updateBookings: (booking: Booking) => void,
+  booking: Booking,
+
+  emailFormErrors: EmailStepFormErrors,
+  updateEmailFormErrors: (emailFormErrors: EmailStepFormErrors) => void,
+}
+
+const initialEmailFormErrors = {
+  error: ""
+}
+
+  // /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/  
+const emailRegex = RegExp(
+  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+);
+
+function EmailStepSmart({ nextStep, prevStep, handleEnterKey, email, updateBookings, booking, emailFormErrors, updateEmailFormErrors }: EmailStepSmartProps) {
+
+  const handleEmailStepChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const { name, value } = e.target;
+    let newBooking = { ...booking };
+    newBooking.email = value;
+    updateBookings(newBooking);
+
+    let emailError = { ...emailFormErrors };
+    emailError.error = emailRegex.test(value) ? "" : "Invalid email address";
+    updateEmailFormErrors(emailError);
+  }
+
+  return (
+    <EmailStepDumb
+      nextStep={nextStep}
+      prevStep={prevStep}
+      handleEnterKey={handleEnterKey}
+      email={email}
+      handleEmailStepChange={handleEmailStepChange}
+      emailFormErrors={emailFormErrors}
+    />
+  );
+};
+
+const mapStateToProps = (state: any) => {
+  return {
+    emailFormErrors: state.ticketCategories.emailFormErrors,
+  }
+}
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    updateEmailFormErrors: (emailFormErrors: EmailStepFormErrors) => dispatch(updateEmailFormErrors(emailFormErrors)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EmailStepSmart);

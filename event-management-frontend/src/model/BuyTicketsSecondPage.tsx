@@ -8,3 +8,7 @@ export interface TicketAvailabilityData {
   remaining: number;
   sold: number;
 }
+
+export interface EmailStepFormErrors {
+  error: string
+}
