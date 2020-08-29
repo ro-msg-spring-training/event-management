@@ -8,10 +8,8 @@ interface NamesStepProps {
   nextStep: () => void,
   prevStep: () => void,
   handleEnterKey: (e: any) => void,
-  handleNameStepChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
   ticketAmount: TicketsPerCateory[],
   ticketNames: TicketNames[],
-  // setTicketNames: (ticketNames: TicketNames[]) => void,
 
   updateTicketNames: (ticketAmount: TicketNames[]) => void,
 }
@@ -22,7 +20,7 @@ const createFields = (initialTicketNames: TicketNames[], ticket: TicketsPerCateo
   return initialTicketNames;
 }
 
-function NamesStepSmart({ nextStep, prevStep, handleEnterKey, handleNameStepChange, ticketAmount, ticketNames, updateTicketNames }: NamesStepProps) {
+function NamesStepSmart({ nextStep, prevStep, handleEnterKey, ticketAmount, ticketNames, updateTicketNames }: NamesStepProps) {
   const classes = userBuyTicketsStyle();
 
   useEffect(() => {
@@ -31,6 +29,27 @@ function NamesStepSmart({ nextStep, prevStep, handleEnterKey, handleNameStepChan
     ticketArr.length !== 0 && ticketArr.map(ticket => (initialTicketNames = createFields(initialTicketNames, ticket)))
     updateTicketNames(initialTicketNames);
   }, [])
+
+  const handleNameStepChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const { name, value } = e.target;
+
+    //VIP_0 => ticketData[0] = VIP; ticketData[1] = 0
+    let ticketData = name.split("_");
+
+    //find the ticket category and its names array
+    let ticketToUpdate = ticketNames.find(ticket => (ticket.ticketTitle === ticketData[0]));
+
+    //set the new value to the specified position in the names array
+    ticketToUpdate!.names[Number(ticketData[1])] = value;
+
+    let ticketNamesCopy = [...ticketNames];
+    let index = ticketNames.findIndex(ticket => (ticket.ticketTitle === ticketData[0]))
+    let replacedTicket = { ...ticketNamesCopy[index] }
+    replacedTicket = ticketToUpdate as TicketNames;
+    ticketNamesCopy[index] = replacedTicket;
+    updateTicketNames(ticketNamesCopy);
+  }
+
 
   let inputs: JSX.Element[] = [];
   for (let i = 0; i < ticketAmount.length; i++) {

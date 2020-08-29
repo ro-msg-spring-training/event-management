@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useStyles } from '../../../../../styles/CommonStyles';
-import { userBuyTicketsStyle } from '../../../../../styles/UserBuyTicketsStyle';
 import Booking from '../../../../../model/Booking';
 import Ticket from '../../../../../model/Ticket';
 import { TicketNames } from '../../../../../model/UserReserveTicket';
@@ -10,19 +8,14 @@ import { useHistory } from 'react-router-dom';
 interface TermsAndConditionsStepSmartProps {
   prevStep: () => void,
   checked: boolean,
-  handleCheckboxChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
   booking: Booking,
-  // setBooking: (booking: Booking) => void,
   ticketNames: TicketNames[],
-  // setChecked: (e: boolean) => void,
   addBookings: (booking: Booking) => void,
-
   updateBookings: (booking: Booking) => void,
-
   updateChecked: (checked: boolean) => void,
 }
 
-function TermsAndConditionsStepSmart({ prevStep, checked, handleCheckboxChange, booking, updateBookings, ticketNames, updateChecked, addBookings }: TermsAndConditionsStepSmartProps) {
+function TermsAndConditionsStepSmart({ prevStep, checked, booking, updateBookings, ticketNames, updateChecked, addBookings }: TermsAndConditionsStepSmartProps) {
   const [open, setOpen] = useState(false);
   const history = useHistory();
 
@@ -38,6 +31,7 @@ function TermsAndConditionsStepSmart({ prevStep, checked, handleCheckboxChange, 
     let newBooking = { ...booking };
     let newArr: Ticket[] = [];
 
+    console.log("TICKET NAMES: ", ticketNames);
     ticketNames.map(category => {
       category.names.map(currName => { newArr.push({ ticketCategoryTitle: category.ticketTitle, name: currName }); });
     });
@@ -53,6 +47,10 @@ function TermsAndConditionsStepSmart({ prevStep, checked, handleCheckboxChange, 
       history.push('user/events');
     }
   }
+
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    updateChecked(e.target.checked);
+  };
 
   return (
     <TermsAndConditionsDumb

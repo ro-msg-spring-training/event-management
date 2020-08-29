@@ -39,51 +39,15 @@ function BuyTicketsSecondPageSmart({ match, fetchedData, ticketCategories, fetch
   const [step, setStep] = useState(1);
   const history = useHistory();
 
+  useEffect(() => {
+    fetchTicketCategories(match.params.id)
+  }, [match.params.id])
+
   // Proceed to next step
   const nextStep = () => { setStep(step + 1); };
 
   // Go back to prev step
   const prevStep = () => { setStep(step - 1); };
-
-  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    updateChecked(e.target.checked);
-  };
-
-  const handleTicketsStepChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const { name, value } = e.target;
-    const index = ticketCategories.findIndex(ticket => ticket.title === name)
-    ticketCategories[index].remaining >= Number(value) ?
-      updateTicketAmount(ticketAmount.map(item => (item.category === name ? { ...item, 'quantity': Number(value) } : item))) :
-      console.log("Error not that many tickets in stock");
-  }
-
-  const handleEmailStepChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const { name, value } = e.target;
-
-    let newBooking = { ...booking };
-    newBooking.email = value;
-    updateBookings(newBooking);
-  }
-
-  const handleNameStepChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const { name, value } = e.target;
-
-    //VIP_0 => ticketData[0] = VIP; ticketData[1] = 0
-    let ticketData = name.split("_");
-
-    //find the ticket category and its names array
-    let ticketToUpdate = ticketNames.find(ticket => (ticket.ticketTitle === ticketData[0]));
-
-    //set the new value to the specified position in the names array
-    ticketToUpdate!.names[Number(ticketData[1])] = value;
-
-    let ticketNamesCopy = [...ticketNames];
-    let index = ticketNames.findIndex(ticket => (ticket.ticketTitle === ticketData[0]))
-    let replacedTicket = { ...ticketNamesCopy[index] }
-    replacedTicket = ticketToUpdate as TicketNames;
-    ticketNamesCopy[index] = replacedTicket;
-    updateTicketNames(ticketNamesCopy);
-  }
 
   const gotoFirstPage = (): void => {
     history.push(`user/reserve-tickets/first-page/${match.params.id}`);
@@ -93,10 +57,6 @@ function BuyTicketsSecondPageSmart({ match, fetchedData, ticketCategories, fetch
     //TODO redirect to events list
     history.push(`user/events`);
   }
-
-  useEffect(() => {
-    fetchTicketCategories(match.params.id)
-  }, [match.params.id])
 
   if (fetchedData.isLoading) {
     return (
@@ -109,6 +69,8 @@ function BuyTicketsSecondPageSmart({ match, fetchedData, ticketCategories, fetch
       <h1>An error has occured</h1>
     );
   }
+
+  console.log("BOOKING ", booking);
 
   return (
     <div className="wrapper">
@@ -132,14 +94,9 @@ function BuyTicketsSecondPageSmart({ match, fetchedData, ticketCategories, fetch
         checked={checked}
 
         step={step}
-
         nextStep={nextStep}
         prevStep={prevStep}
         handleEnterKey={handleEnterKey}
-        handleTicketsStepChange={handleTicketsStepChange}
-        handleEmailStepChange={handleEmailStepChange}
-        handleNameStepChange={handleNameStepChange}
-        handleCheckboxChange={handleCheckboxChange}
       />
     </div>
   );

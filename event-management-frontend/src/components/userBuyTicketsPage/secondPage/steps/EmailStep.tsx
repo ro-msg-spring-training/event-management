@@ -2,18 +2,29 @@ import React from 'react';
 import { useStyles } from '../../../../styles/CommonStyles';
 import { Button, Grid, Typography, TextField } from '@material-ui/core';
 import { userBuyTicketsStyle } from '../../../../styles/UserBuyTicketsStyle';
+import Booking from '../../../../model/Booking';
 
 interface EmailStepProps {
   nextStep: () => void,
   prevStep: () => void,
   handleEnterKey: (e: any) => void,
-  handleEmailStepChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  // handleEmailStepChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
   email: string,
+
+  updateBookings: (booking: Booking) => void,
+  booking: Booking,
 }
 
-function EmailStep({ nextStep, prevStep, handleEnterKey, handleEmailStepChange, email }: EmailStepProps) {
+function EmailStep({ nextStep, prevStep, handleEnterKey, email, updateBookings, booking }: EmailStepProps) {
   const buttonClass = useStyles();
   const classes = userBuyTicketsStyle();
+
+  const handleEmailStepChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const { name, value } = e.target;
+    let newBooking = { ...booking };
+    newBooking.email = value;
+    updateBookings(newBooking);
+  }
 
   return (
     <>
@@ -29,9 +40,9 @@ function EmailStep({ nextStep, prevStep, handleEnterKey, handleEmailStepChange, 
             label="Email"
             variant="outlined"
             onChange={handleEmailStepChange}
-            // error={formErrors.title.length > 0}
-            // helperText={formErrors.title}
-            />
+          // error={formErrors.title.length > 0}
+          // helperText={formErrors.title}
+          />
         </Grid>
 
         <Grid item container direction="row" justify="center" alignItems="center" className={classes.button}>

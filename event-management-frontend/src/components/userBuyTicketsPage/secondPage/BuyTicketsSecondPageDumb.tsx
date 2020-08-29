@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import TicketsStep from './steps/ticketsStep/TicketsStepSmart';
 import EmailStep from './steps/EmailStep';
 import NamesStep from './steps/namesStep/NamesStepSmart';
@@ -18,7 +18,6 @@ interface BuyTicketsSecondPageDumbProps {
   eventId: number | string,
   booking: Booking,
   addBookings: (booking: Booking) => void,
-
   updateBookings: (booking: Booking) => void,
 
   updateTicketAmount: (ticketAmount: TicketsPerCateory[]) => void,
@@ -31,27 +30,19 @@ interface BuyTicketsSecondPageDumbProps {
   checked: boolean,
 
   step: number,
-
   nextStep: () => void,
   prevStep: () => void,
   handleEnterKey: (e: any) => void,
-  handleTicketsStepChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
-  handleEmailStepChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
-  handleNameStepChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
-  handleCheckboxChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
 }
-
-const today = new Date(new Date().toString().split('GMT')[0] + ' UTC').toISOString().split('.')[0]
 
 function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCategories, eventId, booking, addBookings,
   updateBookings, updateTicketAmount, ticketAmount, updateTicketNames, ticketNames, updateChecked, checked,
-  step, nextStep, prevStep, handleEnterKey, handleTicketsStepChange, handleEmailStepChange,
-  handleNameStepChange, handleCheckboxChange }: BuyTicketsSecondPageDumbProps) {
-  
-  const classes = BuyTicketsSecondPageStyle();
+  step, nextStep, prevStep, handleEnterKey }: BuyTicketsSecondPageDumbProps) {
 
+  const classes = BuyTicketsSecondPageStyle();
   let initialTicketState: TicketsPerCateory[] = [];
   useEffect(() => {
+    const today = new Date(new Date().toString().split('GMT')[0] + ' UTC').toISOString().split('.')[0]
     ticketCategories.map((ticket) => initialTicketState.push({ category: ticket.title, quantity: 0 }))
     updateTicketAmount(initialTicketState);
 
@@ -79,16 +70,16 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
     </>
 
   let currentPage = <></>
-
   switch (step) {
     case 1:
       currentPage =
         <TicketsStep
           nextStep={nextStep}
           handleEnterKey={handleEnterKey}
-          handleTicketsStepChange={handleTicketsStepChange}
+          updateTicketAmount={updateTicketAmount}
           ticketCategories={ticketCategories}
           ticketAmount={ticketAmount}
+          updateTicketNames={updateTicketNames}
         />
       break;
     case 2:
@@ -97,8 +88,9 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
           nextStep={nextStep}
           prevStep={prevStep}
           handleEnterKey={handleEnterKey}
-          handleEmailStepChange={handleEmailStepChange}
           email={booking.email}
+          updateBookings={updateBookings}
+          booking={booking}
         />
       break;
     case 3:
@@ -107,7 +99,6 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
           nextStep={nextStep}
           prevStep={prevStep}
           handleEnterKey={handleEnterKey}
-          handleNameStepChange={handleNameStepChange}
           ticketAmount={ticketAmount}
           ticketNames={ticketNames}
           updateTicketNames={updateTicketNames}
@@ -118,7 +109,6 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
         <TermsAndConditionsStep
           prevStep={prevStep}
           checked={checked}
-          handleCheckboxChange={handleCheckboxChange}
           booking={booking}
           updateBookings={updateBookings}
           ticketNames={ticketNames}

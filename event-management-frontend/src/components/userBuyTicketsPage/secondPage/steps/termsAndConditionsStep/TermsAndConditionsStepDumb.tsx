@@ -17,7 +17,7 @@ interface TermsAndConditionsStepDumbProps {
 function TermsAndConditionsStepDumb({ prevStep, checked, handleCheckboxChange, handleEventBuyTickets, open, setOpen, handleProceedToBuy }: TermsAndConditionsStepDumbProps) {
   const buttonClass = useStyles();
   const classes = userBuyTicketsStyle();
-
+  
   return (
     <>
       <Typography className={classes.typography} align="center">Terms and Conditions</Typography>
