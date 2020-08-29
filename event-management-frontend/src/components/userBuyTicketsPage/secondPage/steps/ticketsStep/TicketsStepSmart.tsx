@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Grid, TextField } from '@material-ui/core';
 import { userBuyTicketsStyle } from '../../../../../styles/UserBuyTicketsStyle';
-import { TicketAvailabilityData } from '../../../../../model/TicketAvailabilityData';
 import { TicketsPerCateory, TicketNames } from '../../../../../model/UserReserveTicket';
 import TicketsStepDumb from './TicketsStepDumb'
+import { connect } from 'react-redux';
+import { updateTicketsStepFormErrors } from '../../../../../actions/TicketReservationActions';
+import { TicketsStepFormErrors, TicketAvailabilityData } from '../../../../../model/BuyTicketsSecondPage';
 
 interface TicketsStepSmartProps {
   nextStep: () => void,
@@ -13,22 +15,55 @@ interface TicketsStepSmartProps {
   ticketAmount: TicketsPerCateory[],
 
   updateTicketNames: (ticketAmount: TicketNames[]) => void,
+
+  ticketsStepFormErrors: TicketsStepFormErrors[],
+  updateTicketsStepFormErrors: (ticketsStepFormErrors: TicketsStepFormErrors[]) => void,
 }
 
-function TicketsStepSmart({ nextStep, handleEnterKey, updateTicketAmount, ticketCategories, ticketAmount, updateTicketNames }: TicketsStepSmartProps) {
+const initializeFormErrors = (ticketsStepFormErrors: TicketsStepFormErrors[], ticketCategories: TicketAvailabilityData[]): TicketsStepFormErrors[] => {
+  ticketCategories.forEach(ticket => {
+    ticketsStepFormErrors.find(item => item.ticketCategoryTitle === ticket.title) === undefined &&
+      ticketsStepFormErrors.push({ ticketCategoryTitle: ticket.title, error: "" });
+  });
+
+  return ticketsStepFormErrors;
+}
+
+const updateErrorsLocally = (ticketsStepFormErrors: TicketsStepFormErrors[], name: string, message: string,
+  updateTicketsStepFormErrors: (ticketsStepFormErrors: TicketsStepFormErrors[]) => void): void => {
+  let index = ticketsStepFormErrors.findIndex(error => error.ticketCategoryTitle === name);
+  ticketsStepFormErrors[index].error = message;
+  updateTicketsStepFormErrors(ticketsStepFormErrors);
+}
+
+function TicketsStepSmart({ nextStep, handleEnterKey, updateTicketAmount, ticketCategories, ticketAmount, updateTicketNames,
+  ticketsStepFormErrors, updateTicketsStepFormErrors }: TicketsStepSmartProps) {
   const classes = userBuyTicketsStyle();
+
+  ticketsStepFormErrors = initializeFormErrors(ticketsStepFormErrors, ticketCategories);
+  useEffect(() => {
+    updateTicketsStepFormErrors(ticketsStepFormErrors);
+  }, [])
 
   const handleTicketsStepChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
-    updateTicketNames([]);
     const index = ticketCategories.findIndex(ticket => ticket.title === name)
-    ticketCategories[index].remaining >= Number(value) ?
-      updateTicketAmount(ticketAmount.map(item => (item.category === name ? { ...item, 'quantity': Number(value) } : item))) :
-      console.log("Error not that many tickets in stock");
+    const remaining = ticketCategories[index].remaining;
+    const category = ticketCategories[index].title;
+
+    updateTicketNames([]);
+
+    if (remaining >= Number(value)) {
+      updateTicketAmount(ticketAmount.map(item => (item.category === name ? { ...item, 'quantity': Number(value) } : item)))
+      updateErrorsLocally(ticketsStepFormErrors, name, "", updateTicketsStepFormErrors);
+    } else {
+      updateErrorsLocally(ticketsStepFormErrors, name, `There are only ${remaining} tickets left in ${category}`, updateTicketsStepFormErrors);
+    }
   }
 
   let inputs: JSX.Element[] = [];
   for (let i = 0; i < ticketCategories.length; i++) {
+    let currError = ticketsStepFormErrors.find(error => error.ticketCategoryTitle === ticketCategories[i].title)
     inputs.push(
       <Grid item xs={10} sm={10} md={10} lg={10} xl={10} key={ticketCategories[i].title}>
         <TextField
@@ -41,8 +76,8 @@ function TicketsStepSmart({ nextStep, handleEnterKey, updateTicketAmount, ticket
           label={ticketCategories[i].title}
           variant="outlined"
           onChange={handleTicketsStepChange}
-        // error={formErrors.title.length > 0}
-        // helperText={formErrors.title}
+          error={currError!.error.length > 0}
+          helperText={currError!.error}
         />
       </Grid >
     );
@@ -56,19 +91,16 @@ function TicketsStepSmart({ nextStep, handleEnterKey, updateTicketAmount, ticket
   );
 };
 
-export default TicketsStepSmart;
+const mapStateToProps = (state: any) => {
+  return {
+    ticketsStepFormErrors: state.ticketCategories.ticketsStepFormErrors,
+  }
+}
 
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    updateTicketsStepFormErrors: (ticketsStepFormErrors: TicketsStepFormErrors[]) => dispatch(updateTicketsStepFormErrors(ticketsStepFormErrors)),
+  }
+}
 
-// interface FormErrors {
-//   ticketCategoryTitle: string,
-//   error: string
-// }
-
-// const initializeFormErrors = (ticketsStepFormErrors: FormErrors[], ticketCategories: TicketAvailabilityData[]): FormErrors[] => {
-//   ticketCategories.forEach(ticket => {
-//     ticketsStepFormErrors.find(item => item.ticketCategoryTitle === ticket.title) === undefined &&
-//       ticketsStepFormErrors.push({ ticketCategoryTitle: ticket.title, error: "" });
-//   });
-
-//   return ticketsStepFormErrors;
-// }
+export default connect(mapStateToProps, mapDispatchToProps)(TicketsStepSmart);

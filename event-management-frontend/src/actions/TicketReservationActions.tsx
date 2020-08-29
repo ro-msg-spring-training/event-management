@@ -1,6 +1,6 @@
-import { TicketAvailabilityData } from "../model/TicketAvailabilityData"
 import Booking from "../model/Booking"
 import { TicketsPerCateory, TicketNames } from "../model/UserReserveTicket"
+import { TicketsStepFormErrors, TicketAvailabilityData } from "../model/BuyTicketsSecondPage"
 
 export const LOAD_TICKET_CATEGORIES = 'LOAD_TICKET_CATEGORIES'
 export const ADD_BOOKINGS = 'ADD_BOOKINGS'
@@ -17,6 +17,7 @@ export const UPDATE_BOOKINGS = 'UPDATE_BOOKINGS'
 export const UPDATE_TICKET_AMOUNT = 'UPDATE_TICKET_AMOUNT'
 export const UPDATE_TICKET_NAME = 'UPDATE_TICKET_NAME'
 export const UPDATE_CHECKED = 'UPDATE_CHECKED'
+export const UPDATE_TICKETS_STEP_FORM_ERRORS = 'UPDATE_TICKETS_STEP_FORM_ERRORS'
 
 //---------------------------------------------------for SAGA
 export const loadTicketCategories = (idEvent: string) => {
@@ -102,5 +103,12 @@ export const updateChecked = (checked: boolean) => {
   return {
     type: UPDATE_CHECKED,
     payload: checked
+  }
+}
+
+export const updateTicketsStepFormErrors = (ticketsStepFormErrors: TicketsStepFormErrors[]) => {
+  return {
+    type: UPDATE_TICKETS_STEP_FORM_ERRORS,
+    payload: ticketsStepFormErrors
   }
 }

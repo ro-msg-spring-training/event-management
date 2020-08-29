@@ -7,9 +7,9 @@ import Booking from '../../../model/Booking';
 import { Tooltip, IconButton } from '@material-ui/core';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import CloseIcon from '@material-ui/icons/Close';
-import { TicketAvailabilityData } from '../../../model/TicketAvailabilityData';
 import { BuyTicketsSecondPageStyle } from '../../../styles/BuyTicketsSecondPageStyle';
 import { TicketsPerCateory, TicketNames } from '../../../model/UserReserveTicket';
+import { TicketAvailabilityData } from '../../../model/BuyTicketsSecondPage';
 
 interface BuyTicketsSecondPageDumbProps {
   gotoFirstPage: () => void,

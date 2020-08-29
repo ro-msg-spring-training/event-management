@@ -8,7 +8,6 @@ interface EmailStepProps {
   nextStep: () => void,
   prevStep: () => void,
   handleEnterKey: (e: any) => void,
-  // handleEmailStepChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
   email: string,
 
   updateBookings: (booking: Booking) => void,

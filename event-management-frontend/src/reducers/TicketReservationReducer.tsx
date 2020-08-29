@@ -10,10 +10,11 @@ import {
   UPDATE_TICKET_AMOUNT,
   UPDATE_TICKET_NAME,
   UPDATE_CHECKED,
+  UPDATE_TICKETS_STEP_FORM_ERRORS,
 } from "../actions/TicketReservationActions"
-import { TicketAvailabilityData } from "../model/TicketAvailabilityData"
-import Booking from "../model/Booking"
+import Booking from '../model/Booking'
 import { TicketsPerCateory, TicketNames } from "../model/UserReserveTicket"
+import { TicketsStepFormErrors, TicketAvailabilityData } from "../model/BuyTicketsSecondPage"
 
 export interface EventState {
   ticketCategory: TicketAvailabilityData[],
@@ -24,6 +25,8 @@ export interface EventState {
   ticketAmount: TicketsPerCateory[],
   ticketNames: TicketNames[],
   checked: boolean,
+
+  ticketsStepFormErrors: TicketsStepFormErrors[],
 }
 
 const initialBooking = {
@@ -46,6 +49,8 @@ const initialState: EventState = {
   ticketAmount: [],
   ticketNames: [],
   checked: false,
+
+  ticketsStepFormErrors: [],
 }
 
 const TicketCategoriesReducer = (state = initialState, action: { type: string, payload: TicketAvailabilityData[] | Booking }) => {
@@ -106,6 +111,11 @@ const TicketCategoriesReducer = (state = initialState, action: { type: string, p
       return {
         ...state,
         checked: action.payload
+      }
+    case UPDATE_TICKETS_STEP_FORM_ERRORS:
+      return {
+        ...state,
+        ticketsStepFormErrors: action.payload
       }
     default: return state
   }

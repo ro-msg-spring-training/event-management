@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { loadTicketCategories, addBookings, updateBookings, updateTicketAmount, updateTicketNames, updateChecked } from '../../../actions/TicketReservationActions';
-import { TicketAvailabilityData } from '../../../model/TicketAvailabilityData';
 import { Container, CircularProgress } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import BuyTicketsSecondPageDumb from './BuyTicketsSecondPageDumb';
 import Booking from '../../../model/Booking';
 import { TicketsPerCateory, TicketNames } from '../../../model/UserReserveTicket';
+import { TicketAvailabilityData } from '../../../model/BuyTicketsSecondPage';
 
 interface BuyTicketsSecondPageSmartProps {
   match: any,
