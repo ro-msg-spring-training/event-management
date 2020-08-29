@@ -70,7 +70,7 @@ function BuyTicketsSecondPageSmart({ match, fetchedData, ticketCategories, fetch
     );
   }
 
-  console.log("BOOKING ", booking);
+  // console.log("BOOKING ", booking);
 
   return (
     <div className="wrapper">

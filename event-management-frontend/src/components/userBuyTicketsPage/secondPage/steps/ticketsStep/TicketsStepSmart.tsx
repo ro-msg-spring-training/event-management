@@ -42,6 +42,7 @@ function TicketsStepSmart({ nextStep, handleEnterKey, updateTicketAmount, ticket
 
   ticketsStepFormErrors = initializeFormErrors(ticketsStepFormErrors, ticketCategories);
   useEffect(() => {
+    //initialize form errors for TicketsStep
     updateTicketsStepFormErrors(ticketsStepFormErrors);
   }, [])
 
@@ -53,6 +54,7 @@ function TicketsStepSmart({ nextStep, handleEnterKey, updateTicketAmount, ticket
 
     updateTicketNames([]);
 
+    //check for errors
     if (Number(value) < 0) {
       updateErrorsLocally(ticketsStepFormErrors, name, "Wrong input", updateTicketsStepFormErrors);
     } else if (remaining < Number(value)) {
@@ -65,7 +67,7 @@ function TicketsStepSmart({ nextStep, handleEnterKey, updateTicketAmount, ticket
 
   let inputs: JSX.Element[] = [];
   for (let i = 0; i < ticketCategories.length; i++) {
-    let currError = ticketsStepFormErrors.find(error => error.ticketCategoryTitle === ticketCategories[i].title)
+    const currError = ticketsStepFormErrors.find(error => error.ticketCategoryTitle === ticketCategories[i].title)!.error;
     inputs.push(
       <Grid item xs={10} sm={10} md={10} lg={10} xl={10} key={ticketCategories[i].title}>
         <TextField
@@ -78,8 +80,8 @@ function TicketsStepSmart({ nextStep, handleEnterKey, updateTicketAmount, ticket
           label={ticketCategories[i].title}
           variant="outlined"
           onChange={handleTicketsStepChange}
-          error={currError!.error.length > 0}
-          helperText={currError!.error}
+          error={currError.length > 0}
+          helperText={currError}
           InputProps={{ inputProps: { min: 0 } }}
         />
       </Grid >

@@ -12,10 +12,11 @@ import {
   UPDATE_CHECKED,
   UPDATE_TICKETS_STEP_FORM_ERRORS,
   UPDATE_EMAIL_FORM_ERRORS,
+  UPDATE_NAMES_STEP_FORM_ERRORS,
 } from "../actions/TicketReservationActions"
 import Booking from '../model/Booking'
 import { TicketsPerCateory, TicketNames } from "../model/UserReserveTicket"
-import { TicketsStepFormErrors, TicketAvailabilityData, EmailStepFormErrors } from "../model/BuyTicketsSecondPage"
+import { TicketsStepFormErrors, TicketAvailabilityData, EmailStepFormErrors, NamesStepFormErrors } from "../model/BuyTicketsSecondPage"
 
 export interface EventState {
   ticketCategory: TicketAvailabilityData[],
@@ -29,7 +30,8 @@ export interface EventState {
 
   ticketsStepFormErrors: TicketsStepFormErrors[],
   emailFormErrors: EmailStepFormErrors,
-  
+  namesStepFormErrors: NamesStepFormErrors[],
+
 }
 
 const initialBooking = {
@@ -54,7 +56,8 @@ const initialState: EventState = {
   checked: false,
 
   ticketsStepFormErrors: [],
-  emailFormErrors: {error: ""},
+  emailFormErrors: { error: "" },
+  namesStepFormErrors: [],
 }
 
 const TicketCategoriesReducer = (state = initialState, action: { type: string, payload: TicketAvailabilityData[] | Booking }) => {
@@ -125,6 +128,11 @@ const TicketCategoriesReducer = (state = initialState, action: { type: string, p
       return {
         ...state,
         emailFormErrors: action.payload
+      }
+    case UPDATE_NAMES_STEP_FORM_ERRORS:
+      return {
+        ...state,
+        namesStepFormErrors: action.payload
       }
     default: return state
   }

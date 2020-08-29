@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Booking from '../../../../../model/Booking';
 import EmailStepDumb from './EmailStepDumb';
 import { connect } from 'react-redux';
@@ -18,11 +18,6 @@ interface EmailStepSmartProps {
   updateEmailFormErrors: (emailFormErrors: EmailStepFormErrors) => void,
 }
 
-const initialEmailFormErrors = {
-  error: ""
-}
-
-  // /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/  
 const emailRegex = RegExp(
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 );

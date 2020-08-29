@@ -12,3 +12,9 @@ export interface TicketAvailabilityData {
 export interface EmailStepFormErrors {
   error: string
 }
+
+export interface NamesStepFormErrors {
+  textFieldName: string,   // ex VIP_0
+  error: string
+}
+
