@@ -41,15 +41,14 @@ function BuyTicketsSecondPageSmart({ match, fetchedData, ticketCategories, fetch
 
   useEffect(() => {
     fetchTicketCategories(match.params.id)
-  }, [match.params.id])
+  }, [match.params.id, fetchTicketCategories])
+
 
   useEffect(() => {
     let initialTicketState: TicketsPerCateory[] = [];
     ticketCategories.map((ticket) => initialTicketState.push({ category: ticket.title, quantity: 0 }))
     updateTicketAmount(initialTicketState);
-  }, [ticketCategories])
-
-  // console.log("ticketCategories outside ", ticketCategories);
+  }, [ticketCategories, updateTicketAmount])
 
   // Proceed to next step
   const nextStep = () => { setStep(step + 1); };

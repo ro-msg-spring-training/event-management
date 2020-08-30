@@ -6,6 +6,7 @@ import NamesStepDumb from './NamesStepDumb';
 import { connect } from 'react-redux';
 import { NamesStepFormErrors } from '../../../../../model/BuyTicketsSecondPage';
 import { updateNamesStepFormErrors } from '../../../../../actions/TicketReservationActions';
+import { initializeNamesStepFormErrors, createNamesStepFields, updateNamesStepErrorsLocally, verifyExistenceOfTickets } from '../../../../../utils/ticketReservationUtils/NamesStepUtils';
 
 interface NamesStepProps {
   nextStep: () => void,
@@ -20,35 +21,6 @@ interface NamesStepProps {
   updateNamesStepFormErrors: (namesStepFormErrors: NamesStepFormErrors[]) => void,
 }
 
-const createFields = (initialTicketNames: TicketNames[], ticket: TicketsPerCateory): TicketNames[] => {
-  let newField: TicketNames = { ticketTitle: ticket.category, names: new Array(ticket.quantity).fill("") };
-  (initialTicketNames.find(item => item.ticketTitle === ticket.category) === undefined) && initialTicketNames.push(newField);
-  return initialTicketNames;
-}
-
-const initializeNamesFormErrors = (namesStepFormErrors: NamesStepFormErrors[], ticketAmount: TicketsPerCateory[]): NamesStepFormErrors[] => {
-  for (let i = 0; i < ticketAmount.length; i++) {
-    for (let j = 0; j < ticketAmount[i].quantity; j++) {
-      let currTextFieldName = ticketAmount[i].category + "_" + j;
-      namesStepFormErrors.find(item => item.textFieldName === currTextFieldName) === undefined &&
-        namesStepFormErrors.push({ textFieldName: currTextFieldName, error: "" });
-    }
-  }
-  return namesStepFormErrors;
-}
-
-const updateNameErrorsLocally = (namesStepFormErrors: NamesStepFormErrors[], textFieldName: string, message: string,
-  updateTicketsStepFormErrors: (namesStepFormErrors: NamesStepFormErrors[]) => void): void => {
-  let index = namesStepFormErrors.findIndex(error => error.textFieldName === textFieldName);
-  namesStepFormErrors[index].error = message;
-  updateTicketsStepFormErrors(namesStepFormErrors);
-}
-
-const verifyExistenceOfTickets = (ticketNames: TicketNames[]): boolean => {
-  if (ticketNames.length === 0) return false;
-  return true;
-}
-
 const nameRegex = RegExp(
   /^[-a-zA-Z\s]*$/
 );
@@ -56,19 +28,16 @@ const nameRegex = RegExp(
 function NamesStepSmart({ nextStep, prevStep, handleEnterKey, ticketAmount, ticketNames, updateTicketNames, namesStepFormErrors, updateNamesStepFormErrors }: NamesStepProps) {
   const classes = userBuyTicketsStyle();
 
-  console.log("ticketAmount", ticketAmount);
-  console.log("ticketNames", ticketNames);
-
-  namesStepFormErrors = initializeNamesFormErrors(namesStepFormErrors, ticketAmount);
+  namesStepFormErrors = initializeNamesStepFormErrors(namesStepFormErrors, ticketAmount);
   useEffect(() => {
     let initialTicketNames: TicketNames[] = ticketNames;
     let ticketArr = ticketAmount.filter(ticket => ticket.quantity !== 0)
-    ticketArr.length !== 0 && ticketArr.map(ticket => (initialTicketNames = createFields(initialTicketNames, ticket)))
+    ticketArr.length !== 0 && ticketArr.map(ticket => (initialTicketNames = createNamesStepFields(initialTicketNames, ticket)))
     updateTicketNames(initialTicketNames);
 
     //initialize form errors for NamesStep
     updateNamesStepFormErrors(namesStepFormErrors);
-  }, [])
+  }, [namesStepFormErrors, ticketAmount, ticketNames, updateTicketNames, updateNamesStepFormErrors])
 
   const handleNameStepChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
@@ -92,8 +61,8 @@ function NamesStepSmart({ nextStep, prevStep, handleEnterKey, ticketAmount, tick
 
     // check for errors
     nameRegex.test(value) ?
-      updateNameErrorsLocally(namesStepFormErrors, name, "", updateNamesStepFormErrors) :
-      updateNameErrorsLocally(namesStepFormErrors, name, "Wrong input", updateNamesStepFormErrors)
+      updateNamesStepErrorsLocally(namesStepFormErrors, name, "", updateNamesStepFormErrors) :
+      updateNamesStepErrorsLocally(namesStepFormErrors, name, "Wrong input", updateNamesStepFormErrors)
   }
 
   let inputs: JSX.Element[] = [];
@@ -122,7 +91,7 @@ function NamesStepSmart({ nextStep, prevStep, handleEnterKey, ticketAmount, tick
     }
   }
 
-  const noTicketsSelected = !verifyExistenceOfTickets(ticketNames) 
+  const noTicketsSelected = !verifyExistenceOfTickets(ticketNames)
 
   return (
     <NamesStepDumb

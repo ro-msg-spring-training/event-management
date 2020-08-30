@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { TicketsStepFormErrors, EmailStepFormErrors, NamesStepFormErrors } from '../../../../../model/BuyTicketsSecondPage';
 import AlertDialog from '../../../../eventCreateOrEdit/AlertDialog';
 import { useTranslation } from 'react-i18next';
+import { verifyIfNoErrors, verifyIfNoNullFields, verifyIfNoErrorsInTicketsStep, verifyIfNoErrorsInEmailStep, verifyIfNoErrorsInNamesStep } from '../../../../../utils/ticketReservationUtils/TermsAndConditionsUtils';
 
 interface TermsAndConditionsStepSmartProps {
   prevStep: () => void,
@@ -21,34 +22,6 @@ interface TermsAndConditionsStepSmartProps {
   ticketsStepFormErrors: TicketsStepFormErrors[],
   emailFormErrors: EmailStepFormErrors,
   namesStepFormErrors: NamesStepFormErrors[],
-}
-
-const verifyIfNoErrorsInTicketsStep = (ticketsStepFormErrors: TicketsStepFormErrors[]): boolean => {
-  return ticketsStepFormErrors.filter(ticketError => ticketError.error !== "").length === 0
-}
-
-const verifyIfNoErrorsInEmailStep = (emailFormErrors: EmailStepFormErrors): boolean => {
-  return emailFormErrors.error === ""
-}
-
-const verifyIfNoErrorsInNamesStep = (namesStepFormErrors: NamesStepFormErrors[]): boolean => {
-  return namesStepFormErrors.filter(nameError => nameError.error !== "").length === 0
-}
-
-const verifyIfNoNullFields = (booking: Booking): boolean => {
-  if (booking.email === "") return false;
-  if (booking.tickets.length === 0) return false;
-  if (booking.tickets.filter(ticket => ticket.name === "").length > 0) return false;
-  return true;
-}
-
-const verifyIfNoErrors = (ticketsStepFormErrors: TicketsStepFormErrors[], emailFormErrors: EmailStepFormErrors, namesStepFormErrors: NamesStepFormErrors[], booking: Booking): boolean => {
-  if (verifyIfNoErrorsInTicketsStep(ticketsStepFormErrors) === true
-    && verifyIfNoErrorsInEmailStep(emailFormErrors) === true
-    && verifyIfNoErrorsInNamesStep(namesStepFormErrors) === true
-    && verifyIfNoNullFields(booking) === true)
-    return true;
-  return false;
 }
 
 function TermsAndConditionsStepSmart({ prevStep, checked, booking, updateBookings, ticketNames,
@@ -65,7 +38,7 @@ function TermsAndConditionsStepSmart({ prevStep, checked, booking, updateBooking
 
   useEffect(() => {
     updateChecked(false);
-  }, []);
+  }, [updateChecked]);
 
   let handleEventBuyTickets = (): void => {
     setOpen(true);
@@ -75,8 +48,8 @@ function TermsAndConditionsStepSmart({ prevStep, checked, booking, updateBooking
     let newBooking = { ...booking };
     let newArr: Ticket[] = [];
 
-    ticketNames.map(category => {
-      category.names.map(currName => { newArr.push({ ticketCategoryTitle: category.ticketTitle, name: currName }); });
+    ticketNames.forEach(category => {
+      category.names.forEach(currName => { newArr.push({ ticketCategoryTitle: category.ticketTitle, name: currName }); });
     });
 
     newBooking.tickets = newArr;

@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { updateTicketsStepFormErrors, updateTicketAmount, updateBookings } from '../../../../../actions/TicketReservationActions';
 import { TicketsStepFormErrors, TicketAvailabilityData } from '../../../../../model/BuyTicketsSecondPage';
 import Booking from '../../../../../model/Booking';
+import { initializeTicketsStepFormErrors, updateTicketsStepErrorsLocally } from '../../../../../utils/ticketReservationUtils/TicketsStepUtils';
 
 interface TicketsStepSmartProps {
   nextStep: () => void,
@@ -26,27 +27,11 @@ interface TicketsStepSmartProps {
   booking: Booking,
 }
 
-const initializeFormErrors = (ticketsStepFormErrors: TicketsStepFormErrors[], ticketCategories: TicketAvailabilityData[]): TicketsStepFormErrors[] => {
-  ticketCategories.forEach(ticket => {
-    ticketsStepFormErrors.find(item => item.ticketCategoryTitle === ticket.title) === undefined &&
-      ticketsStepFormErrors.push({ ticketCategoryTitle: ticket.title, error: "" });
-  });
-
-  return ticketsStepFormErrors;
-}
-
-const updateErrorsLocally = (ticketsStepFormErrors: TicketsStepFormErrors[], name: string, message: string,
-  updateTicketsStepFormErrors: (ticketsStepFormErrors: TicketsStepFormErrors[]) => void): void => {
-  let index = ticketsStepFormErrors.findIndex(error => error.ticketCategoryTitle === name);
-  ticketsStepFormErrors[index].error = message;
-  updateTicketsStepFormErrors(ticketsStepFormErrors);
-}
-
 function TicketsStepSmart({ nextStep, handleEnterKey, updateTicketAmount, ticketCategories, ticketAmount, updateTicketNames,
   ticketsStepFormErrors, updateTicketsStepFormErrors, booking, updateBookings, eventId }: TicketsStepSmartProps) {
   const classes = userBuyTicketsStyle();
 
-  ticketsStepFormErrors = initializeFormErrors(ticketsStepFormErrors, ticketCategories);
+  ticketsStepFormErrors = initializeTicketsStepFormErrors(ticketsStepFormErrors, ticketCategories);
   useEffect(() => {
     const today = new Date(new Date().toString().split('GMT')[0] + ' UTC').toISOString().split('.')[0]
 
@@ -57,17 +42,17 @@ function TicketsStepSmart({ nextStep, handleEnterKey, updateTicketAmount, ticket
 
     //initialize form errors for TicketsStep
     updateTicketsStepFormErrors(ticketsStepFormErrors);
-  }, [ticketsStepFormErrors])
+  }, [])
 
   // TODO e mai bine sa las erorile si user-ul sa modifice field-urile manual, sau sa corectez si sa modific automat in numarul maxim de tichete posibil?
   useEffect(() => {
     ticketsStepFormErrors
-      .filter(ticketError => ticketError.error !== "" )
-      .map(ticketError => {
-      if(ticketCategories.find(ticketCategory => ticketCategory.title === ticketError.ticketCategoryTitle )!.remaining >= 
-        ticketAmount.find(ticket => ticket.category === ticketError.ticketCategoryTitle )!.quantity)
+      .filter(ticketError => ticketError.error !== "")
+      .forEach(ticketError => {
+        if (ticketCategories.find(ticketCategory => ticketCategory.title === ticketError.ticketCategoryTitle)!.remaining >=
+          ticketAmount.find(ticket => ticket.category === ticketError.ticketCategoryTitle)!.quantity)
           ticketError.error = ""
-    })
+      })
   }, [])
 
   const handleTicketsStepChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -80,13 +65,13 @@ function TicketsStepSmart({ nextStep, handleEnterKey, updateTicketAmount, ticket
 
     //check for errors
     if (Number(value) < 0) {
-      updateErrorsLocally(ticketsStepFormErrors, name, "Wrong input", updateTicketsStepFormErrors);
+      updateTicketsStepErrorsLocally(ticketsStepFormErrors, name, "Wrong input", updateTicketsStepFormErrors);
     } else if (remaining < Number(value)) {
       updateTicketAmount(ticketAmount.map(item => (item.category === name ? { ...item, 'quantity': remaining } : item)))
-      updateErrorsLocally(ticketsStepFormErrors, name, `There are only ${remaining} tickets left in ${category}`, updateTicketsStepFormErrors);
+      updateTicketsStepErrorsLocally(ticketsStepFormErrors, name, `There are only ${remaining} tickets left in ${category}`, updateTicketsStepFormErrors);
     } else {
       updateTicketAmount(ticketAmount.map(item => (item.category === name ? { ...item, 'quantity': Number(value) } : item)))
-      updateErrorsLocally(ticketsStepFormErrors, name, "", updateTicketsStepFormErrors);
+      updateTicketsStepErrorsLocally(ticketsStepFormErrors, name, "", updateTicketsStepFormErrors);
     }
   }
 

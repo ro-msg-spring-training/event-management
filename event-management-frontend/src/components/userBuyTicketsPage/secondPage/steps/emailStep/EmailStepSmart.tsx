@@ -19,13 +19,13 @@ interface EmailStepSmartProps {
 }
 
 const emailRegex = RegExp(
-  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@(([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 );
 
 function EmailStepSmart({ nextStep, prevStep, handleEnterKey, email, updateBookings, booking, emailFormErrors, updateEmailFormErrors }: EmailStepSmartProps) {
 
   const handleEmailStepChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const { name, value } = e.target;
+    const value = e.target.value;
     let newBooking = { ...booking };
     newBooking.email = value;
     updateBookings(newBooking);

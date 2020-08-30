@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import TicketsStep from './steps/ticketsStep/TicketsStepSmart';
 import EmailStep from './steps/emailStep/EmailStepSmart';
 import NamesStep from './steps/namesStep/NamesStepSmart';
@@ -8,7 +8,7 @@ import { Tooltip, IconButton } from '@material-ui/core';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import CloseIcon from '@material-ui/icons/Close';
 import { BuyTicketsSecondPageStyle } from '../../../styles/BuyTicketsSecondPageStyle';
-import { TicketsPerCateory, TicketNames } from '../../../model/UserReserveTicket';
+import { TicketNames } from '../../../model/UserReserveTicket';
 import { TicketAvailabilityData } from '../../../model/BuyTicketsSecondPage';
 
 interface BuyTicketsSecondPageDumbProps {
@@ -30,7 +30,6 @@ interface BuyTicketsSecondPageDumbProps {
   nextStep: () => void,
   prevStep: () => void,
   handleEnterKey: (e: any) => void,
-
 }
 
 function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCategories, eventId, booking, addBookings,
