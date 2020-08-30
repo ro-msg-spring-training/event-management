@@ -80,29 +80,27 @@ function BuyTicketsSecondPageSmart({ match, fetchedData, ticketCategories, fetch
 
   // console.log("BOOKING ", booking);
   return (
-    <div className="wrapper">
-      <BuyTicketsSecondPageDumb
-        gotoFirstPage={gotoFirstPage}
-        gotoEventListPage={gotoEventListPage}
-        ticketCategories={ticketCategories}
-        eventId={match.params.id}
-        booking={booking}
+    <BuyTicketsSecondPageDumb
+      gotoFirstPage={gotoFirstPage}
+      gotoEventListPage={gotoEventListPage}
+      ticketCategories={ticketCategories}
+      eventId={match.params.id}
+      booking={booking}
 
-        updateBookings={updateBookings}
-        addBookings={addBookings}
+      updateBookings={updateBookings}
+      addBookings={addBookings}
 
-        updateTicketNames={updateTicketNames}
-        ticketNames={ticketNames}
+      updateTicketNames={updateTicketNames}
+      ticketNames={ticketNames}
 
-        updateChecked={updateChecked}
-        checked={checked}
+      updateChecked={updateChecked}
+      checked={checked}
 
-        step={step}
-        nextStep={nextStep}
-        prevStep={prevStep}
-        handleEnterKey={handleEnterKey}
-      />
-    </div>
+      step={step}
+      nextStep={nextStep}
+      prevStep={prevStep}
+      handleEnterKey={handleEnterKey}
+    />
   );
 };
 

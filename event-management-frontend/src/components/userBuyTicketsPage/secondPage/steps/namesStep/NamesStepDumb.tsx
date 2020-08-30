@@ -16,14 +16,17 @@ function NamesStepDumb({ noTicketsSelected, nextStep, prevStep, inputs }: NamesS
 
   return (
     <>
+
       {
         noTicketsSelected ?
           <Typography className={classes.typography} align="center" >There have not been any tickets selected.</Typography> :
           <Typography className={classes.typography} align="center" >Input the names of the people whom are to use the tickets</Typography>
       }
+
       <Grid container direction="row" justify="center" alignItems="center">
 
-        <Grid item xs={10} container justify="center" alignItems="center" className={classes.gridStyle}>
+        {/*  */}
+        <Grid item xs={12} container justify="center" alignItems="center" className={classes.gridStyle}>
           {inputs}
         </Grid>
 

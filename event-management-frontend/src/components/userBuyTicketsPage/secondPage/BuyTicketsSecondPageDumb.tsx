@@ -4,12 +4,49 @@ import EmailStep from './steps/emailStep/EmailStepSmart';
 import NamesStep from './steps/namesStep/NamesStepSmart';
 import TermsAndConditionsStep from './steps/termsAndConditionsStep/TermsAndConditionsStepSmart';
 import Booking from '../../../model/Booking';
-import { Tooltip, IconButton } from '@material-ui/core';
+import { Tooltip, IconButton, Theme, makeStyles, Paper, Grid, Box } from '@material-ui/core';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import CloseIcon from '@material-ui/icons/Close';
 import { BuyTicketsSecondPageStyle } from '../../../styles/BuyTicketsSecondPageStyle';
 import { TicketNames } from '../../../model/UserReserveTicket';
 import { TicketAvailabilityData } from '../../../model/BuyTicketsSecondPage';
+
+export const buyTicketsSecondPageDumbStyle = makeStyles((theme: Theme) => ({
+  root: {
+    width: '100%',
+    minHeight: '93.3vh',
+    background: 'linear-gradient(45deg, #21C6F3 50%, #1E5FA4 90%)',
+  },
+  wrapper: {
+    // minWidth: '40%',
+    // minHeight: '50%',
+    minWidth: '30vw',
+    minHeight: '40vh',
+    background: 'white',
+  },
+  position: {
+    // display: 'flex',
+    // flexDirection: 'row',
+  },
+  paper: {
+    backgroundColor: 'white',
+    maxWidth: '40vw',
+    minHeight: '40vh',
+    maxHeight: '60vh',
+    // overflowY: "scroll",
+    paddinggBottom: '3vh',
+    // padding: '15vh 45%',
+    // width: '60%',
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    // marginLeft: '20%',
+    // display: 'flex',
+    // flexDirection: 'column',
+  },
+  scroll: {
+    overflowY: 'scroll'
+  }
+}));
 
 interface BuyTicketsSecondPageDumbProps {
   gotoFirstPage: () => void,
@@ -37,6 +74,7 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
   step, nextStep, prevStep, handleEnterKey }: BuyTicketsSecondPageDumbProps) {
 
   const classes = BuyTicketsSecondPageStyle();
+  const classes2 = buyTicketsSecondPageDumbStyle();
 
   const buttons =
     <>
@@ -58,11 +96,11 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
     case 1:
       currentPage =
         <TicketsStep
-        nextStep={nextStep}
-        handleEnterKey={handleEnterKey}
-        ticketCategories={ticketCategories}
-        updateTicketNames={updateTicketNames}
-        eventId={eventId}
+          nextStep={nextStep}
+          handleEnterKey={handleEnterKey}
+          ticketCategories={ticketCategories}
+          updateTicketNames={updateTicketNames}
+          eventId={eventId}
         />
       break;
     case 2:
@@ -103,10 +141,24 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
   }
 
   return (
-    <>
-      {currentPage}
+    <div className={classes2.root}>
+      <Grid container direction="column" alignItems="center" justify="center" style={{ minHeight: '80vh' }} >
+        <Grid container item className={classes2.paper}>
+          {/* <Box className={classes2.wrapper}> */}
+          {/* <Grid item xs={3} className={classes2.paper}> */}
+          {/* <Paper className={classes2.paper}> */}
+          <Grid item xs={12} className={classes2.position}>
+            {currentPage}
+          </Grid>
+          {/* </Paper> */}
+          {/* </Grid> */}
+          {/* </Box > */}
+        </Grid>
+
+      </Grid>
+
       {buttons}
-    </>
+    </div >
   );
 }
 

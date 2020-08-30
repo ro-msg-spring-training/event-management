@@ -17,12 +17,15 @@ interface TermsAndConditionsStepDumbProps {
 function TermsAndConditionsStepDumb({ prevStep, checked, handleCheckboxChange, handleEventBuyTickets, open, setOpen, handleProceedToBuy }: TermsAndConditionsStepDumbProps) {
   const buttonClass = useStyles();
   const classes = userBuyTicketsStyle();
-  
+
   return (
     <>
       <Typography className={classes.typography} align="center">Terms and Conditions</Typography>
       <Grid item container direction="row" justify="center" alignItems="center">
-        <Button variant="contained" className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3}`} onClick={handleEventBuyTickets}> BUY TICKETS </Button>
+        
+        <Grid item xs={8}>
+          <Button variant="contained" className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition}`} onClick={handleEventBuyTickets}> BUY TICKETS </Button>
+        </Grid>
 
         <Grid item container direction="row" justify="center" alignItems="center" className={classes.button}>
           <Grid item xs={4} sm={3} md={2} lg={1} xl={1}>
