@@ -22,6 +22,7 @@ export interface EventState {
   ticketCategory: TicketAvailabilityData[],
   isError: boolean,
   isLoading: boolean,
+  errorMsg: string,
 
   booking: Booking,
   ticketAmount: TicketsPerCateory[],
@@ -49,6 +50,7 @@ const initialState: EventState = {
   }],
   isError: false,
   isLoading: false,
+  errorMsg: "",
 
   booking: initialBooking,
   ticketAmount: [],
@@ -88,7 +90,6 @@ const TicketCategoriesReducer = (state = initialState, action: { type: string, p
         isLoading: true
       }
     case ADD_BOOKINGS_SUCCESS:
-      console.log("SUCCESS");
       return {
         ...state,
         isLoading: false,
@@ -97,7 +98,8 @@ const TicketCategoriesReducer = (state = initialState, action: { type: string, p
       return {
         ...state,
         loading: false,
-        isError: true
+        isError: true,
+        errorMsg: action.payload,
       }
     case UPDATE_BOOKINGS:
       return {

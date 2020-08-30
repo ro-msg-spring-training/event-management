@@ -9,6 +9,7 @@ import { TicketsStepFormErrors, EmailStepFormErrors, NamesStepFormErrors } from 
 import AlertDialog from '../../../../eventCreateOrEdit/AlertDialog';
 import { useTranslation } from 'react-i18next';
 import { verifyIfNoErrors, verifyIfNoNullFields, verifyIfNoErrorsInTicketsStep, verifyIfNoErrorsInEmailStep, verifyIfNoErrorsInNamesStep } from '../../../../../utils/ticketReservationUtils/TermsAndConditionsUtils';
+import { Container, CircularProgress } from '@material-ui/core';
 
 interface TermsAndConditionsStepSmartProps {
   prevStep: () => void,
@@ -22,19 +23,26 @@ interface TermsAndConditionsStepSmartProps {
   ticketsStepFormErrors: TicketsStepFormErrors[],
   emailFormErrors: EmailStepFormErrors,
   namesStepFormErrors: NamesStepFormErrors[],
+
+  isError: boolean,
+  isLoading: boolean,
+  errorMsg: string,
 }
 
 function TermsAndConditionsStepSmart({ prevStep, checked, booking, updateBookings, ticketNames,
-  updateChecked, addBookings, ticketsStepFormErrors, emailFormErrors, namesStepFormErrors }: TermsAndConditionsStepSmartProps) {
+  updateChecked, addBookings, ticketsStepFormErrors, emailFormErrors, namesStepFormErrors, isError, isLoading, errorMsg }: TermsAndConditionsStepSmartProps) {
 
   const { t } = useTranslation();
 
+  const [result, setResult] = useState(false);
   const [open, setOpen] = useState(false);
   const [openErrorPopup, setOpenErrorPopup] = useState(false);
   const [msgUndo, setMsgUndo] = useState("");
   const [dialogTitle, setDialogTitle] = useState("");
   const [dialogDescription, setDialogDescription] = useState("");
   const history = useHistory();
+
+  let display = <></>
 
   useEffect(() => {
     updateChecked(false);
@@ -69,7 +77,23 @@ function TermsAndConditionsStepSmart({ prevStep, checked, booking, updateBooking
 
     } else if (noErrors) {
       addBookings(booking);
-      history.push('user/events');
+
+      if (isLoading) {
+        console.log("LOADING");
+        return (
+          <Container maxWidth="lg">
+            <CircularProgress />
+          </Container>
+        );
+      }
+      else if (isError) {
+        console.log("ERRORRRR");
+        alert("ERROR " + errorMsg);
+      } else {
+        console.log("SUCCESS");
+        alert("SUCCESS");
+        return history.push('user/events');
+      }
 
     } else if (!verifyIfNoNullFields(booking)) {
       console.log("errors null fields");
@@ -131,6 +155,7 @@ function TermsAndConditionsStepSmart({ prevStep, checked, booking, updateBooking
         dialogTitle={dialogTitle}
         dialogDescription={dialogDescription}
       />
+
     </>
   );
 };
@@ -140,6 +165,10 @@ const mapStateToProps = (state: any) => {
     ticketsStepFormErrors: state.ticketCategories.ticketsStepFormErrors,
     emailFormErrors: state.ticketCategories.emailFormErrors,
     namesStepFormErrors: state.ticketCategories.namesStepFormErrors,
+
+    isError: state.ticketCategories.isError,
+    errorMsg: state.ticketCategories.errorMsg,
+    isLoading: state.ticketCategories.isLoading
   }
 }
 

@@ -44,6 +44,7 @@ function* addBookingsAsync(props: AddProps) {
     yield call(() => addBookingsAPI(props.payload.bookings));
     yield put(addBookingsSuccess())
   } catch (e) {
+    console.error("ERROR from saga: ", e);
     yield put(addBookingsFailure(e))
   }
 }
