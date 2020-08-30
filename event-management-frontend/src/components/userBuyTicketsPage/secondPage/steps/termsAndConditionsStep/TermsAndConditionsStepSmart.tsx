@@ -35,10 +35,18 @@ const verifyIfNoErrorsInNamesStep = (namesStepFormErrors: NamesStepFormErrors[])
   return namesStepFormErrors.filter(nameError => nameError.error !== "").length === 0
 }
 
-const verifyIfNoErrors = (ticketsStepFormErrors: TicketsStepFormErrors[], emailFormErrors: EmailStepFormErrors, namesStepFormErrors: NamesStepFormErrors[]): boolean => {
+const verifyIfNoNullFields = (booking: Booking): boolean => {
+  if (booking.email === "") return false;
+  if (booking.tickets.length === 0) return false;
+  if (booking.tickets.filter(ticket => ticket.name === "").length > 0) return false;
+  return true;
+}
+
+const verifyIfNoErrors = (ticketsStepFormErrors: TicketsStepFormErrors[], emailFormErrors: EmailStepFormErrors, namesStepFormErrors: NamesStepFormErrors[], booking: Booking): boolean => {
   if (verifyIfNoErrorsInTicketsStep(ticketsStepFormErrors) === true
     && verifyIfNoErrorsInEmailStep(emailFormErrors) === true
-    && verifyIfNoErrorsInNamesStep(namesStepFormErrors) === true)
+    && verifyIfNoErrorsInNamesStep(namesStepFormErrors) === true
+    && verifyIfNoNullFields(booking) === true)
     return true;
   return false;
 }
@@ -76,7 +84,7 @@ function TermsAndConditionsStepSmart({ prevStep, checked, booking, updateBooking
   }, []);
 
   const handleProceedToBuy = () => {
-    let noErrors = verifyIfNoErrors(ticketsStepFormErrors, emailFormErrors, namesStepFormErrors);
+    let noErrors = verifyIfNoErrors(ticketsStepFormErrors, emailFormErrors, namesStepFormErrors, booking);
 
     if (!checked) {
       setOpen(false);
@@ -86,9 +94,18 @@ function TermsAndConditionsStepSmart({ prevStep, checked, booking, updateBooking
       setDialogDescription("You haven't checked the Terms and Conditions agreement, in order to buy the tickets you need to read and accept the Terms and Conditions statements");
       setOpenErrorPopup(true);
 
-    }else if (noErrors) {
+    } else if (noErrors) {
       addBookings(booking);
       history.push('user/events');
+
+    } else if (!verifyIfNoNullFields(booking)) {
+      console.log("errors null fields");
+      setOpen(false);
+
+      setMsgUndo(t("welcome.popupErrMsgUnderstood"));
+      setDialogTitle(t("welcome.popupMsgErrTitle"));
+      setDialogDescription(t("welcome.popupErrMsgNotFilled"));
+      setOpenErrorPopup(true);
 
     } else if (!verifyIfNoErrorsInTicketsStep(ticketsStepFormErrors)) {
       console.log("errors in tickets step");
@@ -116,7 +133,7 @@ function TermsAndConditionsStepSmart({ prevStep, checked, booking, updateBooking
       setDialogTitle(t("welcome.popupMsgErrTitle"));
       setDialogDescription("There are still errors in the names section, in order to buy the tickets you need to resolve them");
       setOpenErrorPopup(true);
-    } 
+    }
   }
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>): void => {

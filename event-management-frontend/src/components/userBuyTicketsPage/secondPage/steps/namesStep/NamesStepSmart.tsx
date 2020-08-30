@@ -44,6 +44,11 @@ const updateNameErrorsLocally = (namesStepFormErrors: NamesStepFormErrors[], tex
   updateTicketsStepFormErrors(namesStepFormErrors);
 }
 
+const verifyExistenceOfTickets = (ticketNames: TicketNames[]): boolean => {
+  if (ticketNames.length === 0) return false;
+  return true;
+}
+
 const nameRegex = RegExp(
   /^[-a-zA-Z\s]*$/
 );
@@ -52,6 +57,7 @@ function NamesStepSmart({ nextStep, prevStep, handleEnterKey, ticketAmount, tick
   const classes = userBuyTicketsStyle();
 
   console.log("ticketAmount", ticketAmount);
+  console.log("ticketNames", ticketNames);
 
   namesStepFormErrors = initializeNamesFormErrors(namesStepFormErrors, ticketAmount);
   useEffect(() => {
@@ -116,8 +122,11 @@ function NamesStepSmart({ nextStep, prevStep, handleEnterKey, ticketAmount, tick
     }
   }
 
+  const noTicketsSelected = !verifyExistenceOfTickets(ticketNames) 
+
   return (
     <NamesStepDumb
+      noTicketsSelected={noTicketsSelected}
       nextStep={nextStep}
       prevStep={prevStep}
       inputs={inputs}

@@ -20,9 +20,6 @@ interface BuyTicketsSecondPageDumbProps {
   addBookings: (booking: Booking) => void,
   updateBookings: (booking: Booking) => void,
 
-  // updateTicketAmount: (ticketAmount: TicketsPerCateory[]) => void,
-  // ticketAmount: TicketsPerCateory[],
-
   updateTicketNames: (ticketAmount: TicketNames[]) => void,
   ticketNames: TicketNames[],
 
