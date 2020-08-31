@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Booking from '../../../../../model/Booking';
 import Ticket from '../../../../../model/Ticket';
 import { TicketNames } from '../../../../../model/UserReserveTicket';
-import TermsAndConditionsDumb from './TermsAndConditionsStepDumb';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { TicketsStepFormErrors, EmailStepFormErrors, NamesStepFormErrors } from '../../../../../model/BuyTicketsSecondPage';
