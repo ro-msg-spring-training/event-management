@@ -5,7 +5,7 @@ const themeDark = createMuiTheme({
     primary: {
       main: "#1E5FA4", //blue
       light: "#21C6F3", //light blue
-      dark: "#133C55", //dark blue
+      dark: "#133655", //dark blue
     },
     secondary: {
       light: "#f9c929", //light yellow

@@ -16,6 +16,12 @@ import { fetchUpcomingEventsActionWatcher, fetchHistoryEventsActionWatcher } fro
 import { watchFetchUserEventsAsync, watchFetchUserEventsLocationsAsync } from "./UserEventsPageSaga";
 import { loadEventWithLocationsWatcher } from "./UserEventDetailsSaga";
 
+import {
+  watchFetchBookingsAsync,
+  watchFetchUserPastEventsAsync,
+  watchFetchUserUpcomingEventsAsync,
+  watchFetchHighlightedEventsAsync,
+} from "./UserHomePageSaga";
 
 export default function* rootSaga() {
   yield all([
@@ -29,6 +35,10 @@ export default function* rootSaga() {
     watchFetchCustomHomeEventsAsync(),
 
     watchFetchTicketsAsync(),
+
+    watchFetchBookingsAsync(),
+    watchFetchUserPastEventsAsync(),
+    watchFetchUserUpcomingEventsAsync(),
 
     loadEventWatcher(),
     deleteProductWatcher(),
@@ -50,6 +60,7 @@ export default function* rootSaga() {
     watchCloseAsync(),
 
     loadEventWithLocationsWatcher(),
+
+    watchFetchHighlightedEventsAsync(),
   ]);
 }
-

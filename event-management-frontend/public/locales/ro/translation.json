@@ -212,5 +212,14 @@
     "maxTicketPerUser": "Maxim bilete per utilizator",
     "ticketInfo": "Informații despre bilete",
     "available": "Disponibil"
+  },
+
+  "userHomePage": {
+    "calendar": "Calendar",
+    "pastEvents": "Evenimente anterioare",
+    "upcomingEvents": "Evenimente viitoare",
+    "errorMessage": "Oops, eroare",
+    "noEvents": "Nu există evenimente",
+    "carousselError": "Încărcare nereușită. Mai încearcă!"
   }
 }

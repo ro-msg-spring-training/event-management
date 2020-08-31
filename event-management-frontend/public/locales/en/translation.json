@@ -212,5 +212,14 @@
     "maxTicketPerUser": "Max Tickets Per User",
     "ticketInfo": "Tickets Info",
     "available": "Available"
+  },
+
+  "userHomePage": {
+    "calendar": "Calendar",
+    "pastEvents": "Past events",
+    "upcomingEvents": "Upcoming events",
+    "errorMessage": "Oops, error",
+    "noEvents": "There are no events",
+    "carousselError": "Unable to load. Try again later."
   }
 }
