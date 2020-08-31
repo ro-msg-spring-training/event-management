@@ -2,7 +2,7 @@
   "name": "event-management-frontend",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://ro-msg-spring-training.github.io/event-management/event-management-frontend/",
+  "homepage": "https://ro-msg-spring-training.github.io/event-management",
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
