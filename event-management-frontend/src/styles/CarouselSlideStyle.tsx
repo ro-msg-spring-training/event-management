@@ -8,7 +8,6 @@ export const useStylesCarousel = makeStyles((theme: Theme) => ({
 
   textOnImage: {
     position: "absolute",
-    //color: "white",
     textAlign: "left",
     float: "left",
     display: "block",
@@ -99,10 +98,6 @@ export const useStylesCarousel = makeStyles((theme: Theme) => ({
     marginLeft: theme.spacing(1),
     marginBottom: theme.spacing(2),
     marginTop: theme.spacing(1),
-  },
-
-  hourLocationWrapperStyle: {
-    // display: "flex",
   },
 
   carouselStyle: {

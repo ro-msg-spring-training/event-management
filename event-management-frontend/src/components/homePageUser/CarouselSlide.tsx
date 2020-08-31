@@ -65,7 +65,7 @@ const CarouselSlide = ({
               {description}
             </Typography>
           </div>
-          <Grid container className={classes.hourLocationWrapperStyle}>
+          <Grid container>
             <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
               <div className={classes.dateStyle}>
                 <QueryBuilderIcon className={classes.iconStyle} />

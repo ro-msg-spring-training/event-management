@@ -1,18 +1,11 @@
 import React from "react";
-import { Container, Paper, makeStyles } from "@material-ui/core";
+import { Container, Paper } from "@material-ui/core";
 import CarouselSmart from "./CarouselSmart";
 import { Grid } from "@material-ui/core";
+import { useHomePageStyles } from "../../styles/UserHomePageStyle";
 
-const useStyles = makeStyles({
-  paper: {
-    marginTop: "0%",
-    width: "100%",
-    minHeight: "99.9vh",
-    background: "linear-gradient(45deg, #21C6F3 50%, #1E5FA4 90%)",
-  },
-});
 const Home = () => {
-  const classes = useStyles();
+  const classes = useHomePageStyles();
 
   return (
     <Paper className={classes.paper}>
