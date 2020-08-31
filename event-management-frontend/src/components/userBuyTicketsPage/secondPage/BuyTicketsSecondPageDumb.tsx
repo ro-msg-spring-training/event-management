@@ -16,6 +16,7 @@ export const buyTicketsSecondPageDumbStyle = makeStyles((theme: Theme) => ({
   root: {
     // width: '100%',
     minHeight: '89vh',
+    // height: (window.innerHeight - 120),
     background: 'linear-gradient(45deg, #21C6F3 50%, #1E5FA4 90%)',
     paddingTop: "4%",
   },
@@ -57,7 +58,9 @@ export const buyTicketsSecondPageDumbStyle = makeStyles((theme: Theme) => ({
     display: "block",
     height: '60vh',
     maxWidth: "900px",
-    marginLeft: "20%",
+
+    marginLeft: "20vw",
+    marginRight: "20vw",
     minHeight: "150px",
     padding: "3%",
   },
@@ -120,7 +123,7 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
   switch (step) {
     case 1:
       currentPage =
-        <div style={{ marginTop: '4vh' }}>
+        <div style={{ marginTop: '2vh' }}>
           <TicketsStep
             nextStep={nextStep}
             handleEnterKey={handleEnterKey}
@@ -176,8 +179,8 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
   return (
     <div className={classes2.root}>
       <Grid container direction="row" justify="center" alignItems="center">
-        <Grid item xs={12}>
-          <Paper className={`${classes2.paperStyle} ${classes2.position} buyPageResponsive `}>
+        <Grid item xs={12} >
+          <Paper className={`${classes2.paperStyle} buyPageResponsive `}>
             {currentPage}
           </Paper>
         </Grid>

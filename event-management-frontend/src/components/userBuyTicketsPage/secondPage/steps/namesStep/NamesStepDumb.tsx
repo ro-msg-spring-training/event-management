@@ -53,7 +53,7 @@ function NamesStepDumb({ noTicketsSelected, handleBuy, prevStep, inputs }: Names
             <Button variant="contained" className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition}`} onClick={prevStep}> PREV </Button>
           </Grid>
 
-          <Grid item xs={4} sm={3} md={2} lg={1} xl={1}>
+          <Grid item xs={5} sm={4} md={4} lg={2} xl={1}>
             <Button variant="contained" className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition}`} onClick={handleBuy}> BUY TICKETS </Button>
           </Grid>
         </Grid>

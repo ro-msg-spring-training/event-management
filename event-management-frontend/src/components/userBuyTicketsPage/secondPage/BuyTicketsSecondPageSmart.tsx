@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { loadTicketCategories, addBookings, updateBookings, updateTicketAmount, updateTicketNames, updateChecked } from '../../../actions/TicketReservationActions';
-import { Container, CircularProgress } from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
+import { Container, CircularProgress, Grid } from '@material-ui/core';
+import { useHistory, Redirect } from 'react-router-dom';
 import BuyTicketsSecondPageDumb from './BuyTicketsSecondPageDumb';
 import Booking from '../../../model/Booking';
 import { TicketsPerCateory, TicketNames } from '../../../model/UserReserveTicket';
 import { TicketAvailabilityData } from '../../../model/BuyTicketsSecondPage';
+import ErrorIcon from "@material-ui/icons/Error";
 
 interface BuyTicketsSecondPageSmartProps {
   match: any,
@@ -43,12 +44,32 @@ function BuyTicketsSecondPageSmart({ match, fetchedData, ticketCategories, fetch
     fetchTicketCategories(match.params.id)
   }, [match.params.id, fetchTicketCategories])
 
-
   useEffect(() => {
     let initialTicketState: TicketsPerCateory[] = [];
-    ticketCategories.map((ticket) => initialTicketState.push({ category: ticket.title, quantity: 0 }))
-    updateTicketAmount(initialTicketState);
+    if (!fetchedData.isError) {
+      ticketCategories.map((ticket) => initialTicketState.push({ category: ticket.title, quantity: 0 }))
+      updateTicketAmount(initialTicketState);
+    }
   }, [ticketCategories, updateTicketAmount])
+
+  if (fetchedData.isLoading) {
+    return (
+      <Grid container direction="row" justify="center" alignItems="center">
+        <Container maxWidth="lg">
+          <CircularProgress />
+        </Container>
+        <h6>Loading</h6>
+      </Grid>
+    );
+  }
+  else if (fetchedData.isError) {
+    return (
+      <Grid container direction="row" justify="center" alignItems="center">
+        <ErrorIcon color={"primary"} fontSize={"large"} />
+        <h2>Oops, there was an error</h2>
+      </Grid>
+    );
+  }
 
   // Proceed to next step
   const nextStep = () => { setStep(step + 1); };
@@ -56,26 +77,13 @@ function BuyTicketsSecondPageSmart({ match, fetchedData, ticketCategories, fetch
   // Go back to prev step
   const prevStep = () => { setStep(step - 1); };
 
-  const gotoFirstPage = (): void => {
-    history.push(`user/reserve-tickets/first-page/${match.params.id}`);
+  const gotoFirstPage = () => {
+    history.push(`/user/reserve-tickets/first-page/${match.params.id}`);
   }
 
-  const gotoEventListPage = (): void => {
+  const gotoEventListPage = () => {
     //TODO redirect to events list
-    history.push(`user/events`);
-  }
-
-  if (fetchedData.isLoading) {
-    return (
-      <Container maxWidth="lg">
-        <CircularProgress />
-      </Container>
-    );
-  }
-  else if (fetchedData.isError) {
-    return (
-      <h1>An error has occured</h1>
-    );
+    history.push('/user');
   }
 
   // console.log("BOOKING ", booking);
