@@ -52,7 +52,7 @@ export const useStylesCategoryCard = makeStyles((theme: Theme) => ({
     textAlign: "center",
     color: theme.palette.secondary.main,
     textTransform: "uppercase",
-    background: "linear-gradient(90deg, #f9c929 20%, #f2ac0a 90%)",
+    //background: "linear-gradient(90deg, #f9c929 20%, #f2ac0a 90%)",
     borderRadius: "20px",
     height: "35px",
     marginTop: theme.spacing(2),
