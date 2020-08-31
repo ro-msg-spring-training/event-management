@@ -47,6 +47,9 @@ public class EmailSenderService {
 
     @Value("${event-management.s3.tickets.bucketName}")
     private String bucketName;
+    
+    @Value("${fromMail}")
+    private String fromMail;
 
     public EmailSenderService(JavaMailSender javaMailSender, SpringTemplateEngine templateEngine) {
         this.javaMailSender = javaMailSender;
@@ -89,7 +92,7 @@ public class EmailSenderService {
 
     public Mail getMail(Map<String, Object> model, String email) {
         Mail mail = new Mail();
-        mail.setFrom("testing.testing999000@gmail.com");
+        mail.setFrom(fromMail);
         mail.setTo(email);
         mail.setSubject("Confirmare achizitionare bilete");
         mail.setModel(model);
