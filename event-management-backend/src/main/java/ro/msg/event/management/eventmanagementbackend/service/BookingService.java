@@ -96,7 +96,7 @@ public class BookingService {
         return savedBooking;
     }
 
-    public void sendEmail(Booking booking,  Map<String, List<Ticket>> categoryTitlesWithTickets) throws MessagingException {
+    public void sendEmail(Booking booking,  Map<String, List<Ticket>> categoryTitlesWithTickets) throws MessagingException, IOException {
         Map<String, Object> model = new HashMap<>();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) auth.getPrincipal();
