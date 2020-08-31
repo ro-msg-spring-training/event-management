@@ -2,8 +2,15 @@ import React from 'react'
 import { Redirect, Route } from 'react-router-dom'
 import { Auth } from 'aws-amplify'
 import { CircularProgress } from '@material-ui/core'
+import { UserRole } from '../model/UserRole'
 
-export class PrivateRoute extends React.Component<any, any> {
+interface State {
+  isLoading: boolean,
+  isAuthenticated: boolean,
+  isAdmin: boolean
+}
+
+export class SecureRoute extends React.Component<any, State> {
   constructor(props: any) {
     super(props)
     this.state = {
@@ -19,7 +26,7 @@ export class PrivateRoute extends React.Component<any, any> {
         this.setState({
           isLoading: false,
           isAuthenticated: true,
-          isAdmin: user.signInUserSession.accessToken.payload['cognito:groups'].includes('ROLE_ADMIN')
+          isAdmin: user.signInUserSession.accessToken.payload['cognito:groups']?.includes(UserRole.ROLE_ADMIN.toString())
         })
       })
       .catch(err => {
@@ -31,26 +38,20 @@ export class PrivateRoute extends React.Component<any, any> {
       })
   }
 
-  componentWillUnmount() {
-    // return null when escapse component, it will no longer hold any data in memory
-    this.setState = (state, callback) => {
-      return;
-    };
-  }
-
   render() {
     const { component: Component, ...rest } = this.props
+
     return (
       <Route
         {...rest}
         render={props =>
-          (this.state.isAuthenticated ?
-            (this.props.admin && this.state.isAdmin) || (!this.props.admin && !this.state.isAdmin) ?
-              <Component {...props} /> :
-              <Redirect to={{ pathname: '/login', state: { from: this.props.location } }} /> :
+          (!this.state.isAuthenticated ?
             this.state.isLoading ?
               <CircularProgress /> :
-              <Redirect to={{ pathname: '/login', state: { from: this.props.location } }} />
+              <Redirect to={{ pathname: '/login', state: { from: this.props.location } }} /> 
+          : ((this.props.admin && this.state.isAdmin) || (!this.props.admin && !this.state.isAdmin)) ?
+            <Component {...props} /> :
+            <Redirect to={{ pathname: '/login', state: { from: this.props.location } }} />
           )
         }
       />

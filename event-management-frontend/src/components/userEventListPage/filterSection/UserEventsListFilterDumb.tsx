@@ -2,7 +2,7 @@ import React, { KeyboardEvent, FormEvent, ChangeEvent } from 'react';
 import { UserEventFilters } from '../../../model/userEventsPage/UserEventFilters';
 import { MenuItem, TextField, Grid, InputAdornment, FormControlLabel, Button, Chip, Paper } from '@material-ui/core';
 import { UserMathRelation } from '../../../model/userEventsPage/UserMathRelation';
-import { YellowCheckbox } from '../../YellowCheckbox';
+import { YellowCheckbox } from '../../../styles/YellowCheckbox';
 import { UserEventType } from '../../../model/userEventsPage/UserEventType';
 import { useStyles } from '../../../styles/CommonStyles';
 import { Autocomplete } from '@material-ui/lab';
