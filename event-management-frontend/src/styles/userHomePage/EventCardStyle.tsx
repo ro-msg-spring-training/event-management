@@ -1,11 +1,11 @@
 import { makeStyles } from "@material-ui/core";
 
-export const useEventCardStyle = makeStyles( theme =>({
+export const useEventCardStyle = makeStyles(theme => ({
     header: {
         backgroundColor: theme.palette.primary.dark,
         color: theme.palette.primary.contrastText,
-        paddingRight: '10%',
-        paddingLeft: '10%',
+        paddingRight: '8%',
+        paddingLeft: '8%',
     },
     day: {
         backgroundColor: theme.palette.secondary.dark,
@@ -16,21 +16,12 @@ export const useEventCardStyle = makeStyles( theme =>({
     invisibleIcon: {
         visibility: 'hidden'
     },
-    card: {
-        display: 'flex', 
-        alignItems: 'center', 
-        justifyContent: 'center',
-        overflow: 'auto'
-    },
     eventCard: {
-        paddingRight: '10%',
-        paddingLeft: '10%'
-    },
-    calendarError: {
-        alignSelf: 'flex-start'
+        paddingRight: '8%',
+        paddingLeft: '8%'
     },
     pagination: {
-        display: 'flex', 
+        display: 'flex',
         justifyContent: 'space-between'
-    }
+    },
 }));

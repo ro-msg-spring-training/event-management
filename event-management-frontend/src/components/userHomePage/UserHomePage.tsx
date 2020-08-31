@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Grid } from '@material-ui/core';
 import CheckInSectionSamrt from './checkInSection/CheckInSectionSmart';
 import EventsSectionSmart from './eventsSection/EventsSectionSmart';
-import { useHomeStyles } from '../../styles/userHomePage.tsx/HomePageStyle';
+import { useHomeStyles } from '../../styles/userHomePage/HomePageStyle';
 
 function UserHomePage() {
     const classes = useHomeStyles();

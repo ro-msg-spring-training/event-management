@@ -8,8 +8,9 @@ import moment from "moment";
 import { Tooltip, CardHeader, CardContent, Card, LinearProgress, Typography } from "@material-ui/core";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import { Booking } from "../../../model/userHome/Booking";
-import { useEventCardStyle } from "../../../styles/userHomePage.tsx/EventCardStyle";
+import { useEventCardStyle } from "../../../styles/userHomePage/EventCardStyle";
 import { TFunction } from 'i18next';
+import '../../../styles/userHomePage/PickerStyle.css'
 
 interface UserHomePageProps {
     bookings: Booking[],
@@ -66,7 +67,7 @@ function CheckInSectionDumb({ bookings, isError, isLoading, translation, handleO
                     className={classes.header}
                     title={translation('userHomePage.calendar')} />
 
-                <CardContent className={classes.card}>
+                <CardContent className={classes.eventCard}>
                     {isError ?
                         <Typography variant="subtitle1"> {translation('userHomePage.errorMessage')}</Typography> :
                         isLoading ?

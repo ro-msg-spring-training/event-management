@@ -1,7 +1,7 @@
 import React from 'react'
 import { Typography } from '@material-ui/core';
 import EventIcon from '@material-ui/icons/Event';
-import { useEventRowStyle } from '../../../styles/userHomePage.tsx/EventRowStyle';
+import { useEventRowStyle } from '../../../styles/userHomePage/EventRowStyle';
 
 interface EventRowProps {
     id: number;

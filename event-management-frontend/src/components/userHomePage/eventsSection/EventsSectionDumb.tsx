@@ -4,7 +4,7 @@ import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import { EventCard } from '../../../model/userHome/EventCard';
 import EventRow from './EventRow';
-import { useEventCardStyle } from '../../../styles/userHomePage.tsx/EventCardStyle';
+import { useEventCardStyle } from '../../../styles/userHomePage/EventCardStyle';
 import { TFunction } from 'i18next';
 
 interface UserHomePageProps {
