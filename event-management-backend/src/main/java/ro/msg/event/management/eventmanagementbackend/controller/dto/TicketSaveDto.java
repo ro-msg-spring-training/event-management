@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class TicketSaveDto {
-    private long ticketCategoryId;
+    private String ticketCategoryTitle;
     private String name;
 }

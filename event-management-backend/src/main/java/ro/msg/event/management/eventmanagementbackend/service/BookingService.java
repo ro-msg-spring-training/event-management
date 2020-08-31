@@ -1,43 +1,74 @@
 package ro.msg.event.management.eventmanagementbackend.service;
 
+import com.amazonaws.SdkClientException;
+import com.amazonaws.auth.InstanceProfileCredentialsProvider;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.BookingCalendarDto;
-import ro.msg.event.management.eventmanagementbackend.entity.Booking;
-import ro.msg.event.management.eventmanagementbackend.entity.Event;
-import ro.msg.event.management.eventmanagementbackend.entity.Ticket;
-import ro.msg.event.management.eventmanagementbackend.entity.TicketCategory;
+import ro.msg.event.management.eventmanagementbackend.entity.*;
 import ro.msg.event.management.eventmanagementbackend.exception.TicketBuyingException;
 import ro.msg.event.management.eventmanagementbackend.repository.BookingRepository;
 import ro.msg.event.management.eventmanagementbackend.repository.EventRepository;
-import ro.msg.event.management.eventmanagementbackend.repository.TicketRepository;
+import ro.msg.event.management.eventmanagementbackend.repository.TicketCategoryRepository;
+import ro.msg.event.management.eventmanagementbackend.repository.TicketDocumentRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@PropertySource("classpath:application.properties")
 public class BookingService {
 
     private final BookingRepository bookingRepository;
     private final EventRepository eventRepository;
-    private final TicketRepository ticketRepository;
+    private final AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
+            .withCredentials(new InstanceProfileCredentialsProvider(false))
+            .withRegion(Regions.EU_WEST_1)
+            .build();
+
     @PersistenceContext(type = PersistenceContextType.TRANSACTION)
     private final EntityManager entityManager;
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
-    public TicketCategory validateAndReturnTicketCategory(Event event, Map.Entry<Long, List<Ticket>> categoryWithTickets) throws TicketBuyingException {
-        List<TicketCategory> ticketCategories = event.getTicketCategories();
+    @Value("${event-management.s3.tickets.bucketName}")
+    private String bucketName;
+
+    @Value("${event-management.font.family}")
+    private String fontFamily;
+
+    @Value("${event-management.font.size}")
+    private String fontSize;
+
+    private final TicketDocumentRepository ticketDocumentRepository;
+    private final TicketCategoryRepository ticketCategoryRepository;
+
+    public TicketCategory validateAndReturnTicketCategory(Event event, Map.Entry<String, List<Ticket>> categoryWithTickets) {
+        List<TicketCategory> ticketCategories = this.ticketCategoryRepository.findByEvent(event);
         TicketCategory ticketCategory = ticketCategories.stream()
-                .filter(category -> category.getId().equals(categoryWithTickets.getKey()))
+                .filter(category -> category.getTitle().equals(categoryWithTickets.getKey()))
                 .findFirst()
                 .orElseThrow(() -> {
-                    throw new NoSuchElementException("No ticket category with id=" + categoryWithTickets.getKey());
+                    throw new NoSuchElementException("No ticket category with title=" + categoryWithTickets.getKey());
                 });
 
         long numberOfExistingTicketsForCategory = ticketCategory.getTickets().size();
@@ -47,25 +78,34 @@ public class BookingService {
         return ticketCategory;
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
-    public Booking saveBooking(Booking booking, Map<Long, List<Ticket>> categoryIdsWithTickets, long eventId) {
+    @Transactional(rollbackFor = {FileNotFoundException.class, DocumentException.class})
+    public Booking saveBookingAndTicketDocument(Booking booking, Map<String, List<Ticket>> categoryTitlesWithTickets, long eventId) throws IOException, DocumentException {
+        Booking savedBooking = this.saveBooking(booking, categoryTitlesWithTickets, eventId);
+        this.createAndSaveTicketDocument(savedBooking);
+        return savedBooking;
+    }
+
+    @Transactional
+    public Booking saveBooking(Booking booking, Map<String, List<Ticket>> categoryTitlesWithTickets, long eventId) {
         Optional<Event> eventOptional = this.eventRepository.findById(eventId);
         if (eventOptional.isEmpty()) {
             throw new NoSuchElementException("No event with id= " + eventId);
         }
         Event event = eventOptional.get();
 
-        long numberOfTicketsToPurchase = categoryIdsWithTickets.values().stream().mapToInt(List::size).sum();
+        long numberOfTicketsToPurchase = categoryTitlesWithTickets.values().stream().mapToInt(List::size).sum();
 
         //each user can buy only a certain amount of tickets at an event
-        long totalNumberOfExistingTicketsForUserAtEvent = this.bookingRepository.countByUserAndEvent(booking.getUser(), event);
+        long totalNumberOfExistingTicketsForUserAtEvent = this.bookingRepository.findByUserAndEvent(booking.getUser(), event).stream()
+                .mapToLong(booking1 -> booking1.getTickets().size())
+                .sum();
         if (totalNumberOfExistingTicketsForUserAtEvent + numberOfTicketsToPurchase > event.getTicketsPerUser()) {
             throw new TicketBuyingException("Number of tickets exceeds maximum number of tickets per user!");
         }
 
         //each ticket category has a certain amount of tickets that cannot be exceeded
         List<Ticket> ticketsToSave = new ArrayList<>();
-        for (Map.Entry<Long, List<Ticket>> entry : categoryIdsWithTickets.entrySet()) {
+        for (Map.Entry<String, List<Ticket>> entry : categoryTitlesWithTickets.entrySet()) {
             TicketCategory ticketCategory = this.validateAndReturnTicketCategory(event, entry);
             //set values for the tickets
             entry.getValue().forEach(ticket ->
@@ -82,6 +122,105 @@ public class BookingService {
         return this.bookingRepository.save(booking);
     }
 
+    public void createAndSaveTicketDocument(Booking savedBooking) throws IOException, DocumentException {
+        Event event = savedBooking.getEvent();
+        Location location = event.getEventSublocations().get(0).getSublocation().getLocation();
+
+        for (Ticket ticket : savedBooking.getTickets()) {
+            TicketCategory ticketCategory = ticket.getTicketCategory();
+
+            PdfReader pdfReader = new PdfReader("template.pdf");
+            String fileName = ticket.getId() + ".pdf";
+            FileOutputStream fileOutputStream = new FileOutputStream(fileName);
+            PdfStamper pdfStamper = new PdfStamper(pdfReader, fileOutputStream);
+            AcroFields acroFields = pdfStamper.getAcroFields();
+            PdfContentByte pdfContentByte = pdfStamper.getOverContent(1);
+
+            acroFields.setField("eventName", event.getTitle());
+            acroFields.setField("location", location.getName());
+            acroFields.setField("address", location.getAddress());
+            if(event.getStartDate().isEqual(event.getEndDate()))
+            {
+                acroFields.setField("date", event.getStartDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+            }
+            else
+            {
+                acroFields.setField("date", event.getStartDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) + " - " + event.getEndDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+            }
+            acroFields.setField("hour", event.getStartHour() + "");
+            acroFields.setField("participantName", ticket.getName());
+            acroFields.setField("ticketCategory", ticketCategory.getTitle());
+            acroFields.setField("ticketCategoryDescription", ticketCategory.getDescription());
+
+            Image image = Image.getInstance(new URL("https://event-management-pictures.s3-eu-west-1.amazonaws.com/image-135725-1597848333216-tr30-June-Ibiza.jpg"));
+            this.replaceFieldWithImage(acroFields, pdfContentByte, "image", image);
+
+            BarcodeQRCode qrCode = new BarcodeQRCode(savedBooking.getUser() + " " + ticket.getId().toString(), 1, 1, null);
+            Image qrCodeImage = qrCode.getImage();
+            qrCodeImage.scalePercent(300);
+            this.replaceFieldWithImage(acroFields, pdfContentByte, "qrCode", qrCodeImage);
+
+            Paragraph eventTicketInfoParagraph = new Paragraph(event.getTicketInfo());
+            this.replaceFieldWithParagraph(acroFields, pdfContentByte, "eventTicketInfo", eventTicketInfoParagraph);
+
+            pdfStamper.setFormFlattening(true);
+            pdfStamper.close();
+
+            File file = new File(fileName);
+            try{
+                String ticketUrl = this.saveDocumentToS3(file, fileName);
+                this.saveTicketDocument(ticketUrl, ticket);
+            }
+            catch(SdkClientException exception)
+            {
+                this.saveTicketDocument(fileName, ticket);
+            }
+
+            boolean fileDeletedFromLocalStorage = file.delete();
+            if (!fileDeletedFromLocalStorage) {
+                throw new IOException("Temporary local pdf could not be deleted!");
+            }
+        }
+    }
+
+    private void saveTicketDocument(String ticketUrl, Ticket ticket) {
+        TicketDocument ticketDocument = new TicketDocument();
+        ticketDocument.setPdfUrl(ticketUrl);
+        ticketDocument.setTicket(ticket);
+        ticketDocument.setValidate(false);
+        this.ticketDocumentRepository.save(ticketDocument);
+    }
+
+    private void replaceFieldWithImage(AcroFields acroFields, PdfContentByte pdfContentByte, String fieldName, Image image) throws DocumentException {
+        if (acroFields.getFieldPositions(fieldName) != null) {
+            Rectangle rectangle = acroFields.getFieldPositions(fieldName).get(0).position;
+            acroFields.removeField(fieldName);
+            image.scaleAbsolute(rectangle.getRight() - rectangle.getLeft(), rectangle.getTop() - rectangle.getBottom());
+            image.setAbsolutePosition(rectangle.getLeft(), rectangle.getBottom());
+            pdfContentByte.addImage(image);
+        }
+    }
+
+    private void replaceFieldWithParagraph(AcroFields acroFields, PdfContentByte pdfContentByte, String fieldName, Paragraph paragraph) throws DocumentException {
+        if (acroFields.getFieldPositions(fieldName) != null) {
+            Rectangle rectangle = acroFields.getFieldPositions(fieldName).get(0).position;
+            Font font= new Font(Font.FontFamily.valueOf(this.fontFamily), Float.parseFloat(this.fontSize),Font.NORMAL,BaseColor.BLACK);
+            paragraph.setFont(font);
+            acroFields.removeField(fieldName);
+            ColumnText columnText = new ColumnText(pdfContentByte);
+            columnText.setSimpleColumn(rectangle);
+            columnText.addElement(paragraph);
+            columnText.go();
+        }
+    }
+
+    public String saveDocumentToS3(File file, String fileName) {
+        final PutObjectRequest putObjectRequest = new PutObjectRequest(this.bucketName, fileName, file);
+        s3Client.putObject(putObjectRequest);
+        return s3Client.getUrl(this.bucketName, fileName).toString();
+    }
+
+
     public List<BookingCalendarDto> getMyBookings(String user) {
         TypedQuery<BookingCalendarDto> query
                 = entityManager.createQuery(
@@ -89,6 +228,15 @@ public class BookingService {
                         " FROM Booking b JOIN b.event e WHERE b.user = :user ORDER BY e.startDate", BookingCalendarDto.class);
         query.setParameter("user", user);
         return query.getResultList();
+    }
 
+    public List<LocalDate> getDatesInInterval(LocalDate startDate, LocalDate endDate){
+        List<LocalDate> localDates = new ArrayList<>();
+        LocalDate tmp = startDate;
+        while(tmp.isBefore(endDate) || tmp.equals(endDate)) {
+            localDates.add(tmp);
+            tmp = tmp.plusDays(1);
+        }
+        return localDates;
     }
 }
