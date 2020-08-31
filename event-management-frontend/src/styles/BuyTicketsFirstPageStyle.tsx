@@ -24,7 +24,7 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
   },
   radioGroup: {
     maxWidth: "900px",
-    fontFamily: "Monospace !important",
+    fontFamily: "LATO !important",
   },
   nextButton: {
     float: "right",
@@ -43,7 +43,7 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
   link: {
     textDecoration: "none",
   },
-  title: { fontSize: 50, fontFamily: "Monospace !important", margin: "5px" },
+  title: { fontSize: 50, fontFamily: "LATO !important", margin: "5px" },
   pagecontainer: {
     background: "linear-gradient(45deg, #21C6F3 10%, #1E5FA4 90%)",
     minHeight: "110vh",
@@ -59,7 +59,8 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
   newLineSpan: {
     display: "inline-block",
     marginLeft: "1%",
-    fontSize: 16,
+    fontSize: 15,
+    fontFamily: "LATO !important",
   },
   spacing: {
     margin: " 10px ",
@@ -73,7 +74,8 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
   },
   textStyle: {
     fontSize: 16,
-    fontFamily: "Monospace !important",
+    fontFamily: "LATO !important",
+    marginTop: 0,
   },
   tag: {
     width: "50%",
@@ -93,7 +95,7 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
   },
   tagText: {
     fontSize: 16,
-    fontFamily: "Monospace !important",
+    fontFamily: "LATO !important",
     textTransform: "uppercase",
   },
   styleblock: {
