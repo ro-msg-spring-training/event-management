@@ -1,5 +1,5 @@
 import React from "react";
-import { useStylesCarousel } from "../../styles/CarouselSlideStyle";
+import { useStylesCarousel } from "../../../styles/CarouselSlideStyle";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import DescriptionIcon from "@material-ui/icons/Description";
 import QueryBuilderIcon from "@material-ui/icons/QueryBuilder";
@@ -56,7 +56,9 @@ const CarouselSlide = ({
       <CardActionArea>
         <div className={classes.imageWrapper}>
           <CardMedia className={classes.imageStyle} image={picture} onClick={(e) => goToEventDetails(id)} />
-          <div className={classes.textOnImage}>&nbsp;{title}&nbsp;</div>
+          <div className={classes.textOnImage}>
+            <p className={classes.titleStyle}>&nbsp;{title}&nbsp;</p>
+          </div>
         </div>
         <CardContent>
           <div className={classes.attributeStyle}>

@@ -157,6 +157,7 @@
     bottom: 0;
   }
 }
+
 .carousel .control-dots .dot {
   -webkit-transition: opacity 0.25s ease-in;
   -moz-transition: opacity 0.25s ease-in;

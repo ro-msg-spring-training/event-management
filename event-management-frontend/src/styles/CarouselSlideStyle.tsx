@@ -2,31 +2,32 @@ import { makeStyles, Theme, fade } from "@material-ui/core";
 
 export const useStylesCarousel = makeStyles((theme: Theme) => ({
   cardStyle: {
-    borderStyle: "groove",
     pointerEvents: "none",
   },
 
-  textOnImage: {
-    position: "absolute",
-    textAlign: "left",
-    float: "left",
-    display: "block",
-    overflow: "hidden",
-    color: theme.palette.secondary.dark,
-    bottom: 13,
-    //backgroundColor: fade("#ffffff", 0.1),
-    fontSize: "24px",
-    marginLeft: "30px",
-    fontWeight: "bold",
-    letterSpacing: "0.7px",
+  titleStyle: {
     width: "calc(78%)",
+    overflow: "hidden",
     textOverflow: "ellipsis",
     whiteSpace: "nowrap",
     "&:hover": {
       overflow: "visible",
       whiteSpace: "normal",
     },
+    margin: theme.spacing(1),
   },
+
+  textOnImage: {
+    position: "absolute",
+    backgroundColor: fade("#133655", 0.8),
+    left: theme.spacing(3),
+    right: theme.spacing(3),
+    textAlign: "left",
+    bottom: 0,
+    fontSize: "24px",
+    color: theme.palette.secondary.dark,
+  },
+
   imageWrapper: { position: "relative" },
 
   loading: {
@@ -35,7 +36,7 @@ export const useStylesCarousel = makeStyles((theme: Theme) => ({
 
   imageStyle: {
     pointerEvents: "fill",
-    height: 220,
+    height: 270,
     marginTop: theme.spacing(3),
     marginLeft: theme.spacing(3),
     marginRight: theme.spacing(3),
@@ -101,7 +102,7 @@ export const useStylesCarousel = makeStyles((theme: Theme) => ({
   },
 
   carouselStyle: {
-    marginTop: theme.spacing(5),
-    height: "500px",
+    height: "430px",
+    paddingBottom: theme.spacing(5),
   },
 }));
