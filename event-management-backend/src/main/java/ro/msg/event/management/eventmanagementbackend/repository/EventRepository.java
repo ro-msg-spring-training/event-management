@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import ro.msg.event.management.eventmanagementbackend.entity.Event;
 
 import org.springframework.data.domain.Pageable;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -27,14 +28,14 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
     @Query("SELECT e FROM Event e LEFT JOIN Booking b" +
             " ON e.id = b.event" +
-            " WHERE b.user = :user"+
+            " WHERE b.user = :user" +
             " AND start_date < NOW() ORDER BY start_date DESC")
     Page<Event> findByUser(@Param("user") String user,
                            Pageable pageable);
 
     @Query("SELECT e FROM Event e INNER JOIN" +
-            " Booking b on e.id = b.event" +
-            " INNER JOIN Ticket t on b.id = t.booking" +
+            " Booking b on e.id = b.event.id" +
+            " INNER JOIN Ticket t on b.id = t.booking.id" +
             " WHERE t.id= :id")
     Event findEventByTicket(@Param("id") long idTicket);
 

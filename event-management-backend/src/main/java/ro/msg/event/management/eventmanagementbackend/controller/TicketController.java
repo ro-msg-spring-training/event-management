@@ -14,7 +14,9 @@ import org.springframework.web.server.ResponseStatusException;
 import ro.msg.event.management.eventmanagementbackend.controller.converter.Converter;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.AvailableTicketsPerCategory;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.TicketListingDto;
+import ro.msg.event.management.eventmanagementbackend.entity.Ticket;
 import ro.msg.event.management.eventmanagementbackend.entity.view.TicketView;
+import ro.msg.event.management.eventmanagementbackend.exception.TicketCorrespondingEventException;
 import ro.msg.event.management.eventmanagementbackend.exception.TicketValidateException;
 import ro.msg.event.management.eventmanagementbackend.security.User;
 import ro.msg.event.management.eventmanagementbackend.service.TicketService;
@@ -53,18 +55,24 @@ public class TicketController {
 
     @PatchMapping("/validate/{idTicket}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<JSONObject> validateTicket(@RequestParam long idEvent, @PathVariable Long idTicket){
-
+    public ResponseEntity<JSONObject> validateTicket(@RequestParam long idEvent, @PathVariable Long idTicket) {
+        String participantName;
+        String participantEmail;
         try {
-            ticketService.validateTicket(idEvent,idTicket);
-        }catch (TicketValidateException ticketValidateException){
+            Ticket ticket = ticketService.validateTicket(idEvent, idTicket);
+            participantName = ticket.getName();
+            participantEmail = ticket.getEmailAddress();
+        } catch (TicketValidateException ticketValidateException) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, ticketValidateException.getMessage(), ticketValidateException);
-        }catch (NoSuchElementException noSuchElementException){
+        } catch (TicketCorrespondingEventException ticketCorrespondingEventException) {
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, ticketCorrespondingEventException.getMessage(), ticketCorrespondingEventException);
+        } catch (NoSuchElementException noSuchElementException) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, noSuchElementException.getMessage(), noSuchElementException);
         }
 
         JSONObject responseBody = new JSONObject();
-        responseBody.put("response","validated successfully");
+        responseBody.put("name", participantName);
+        responseBody.put("email", participantEmail);
         return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
 }

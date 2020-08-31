@@ -11,6 +11,7 @@ import ro.msg.event.management.eventmanagementbackend.entity.Event;
 import ro.msg.event.management.eventmanagementbackend.entity.Ticket;
 import ro.msg.event.management.eventmanagementbackend.entity.TicketDocument;
 import ro.msg.event.management.eventmanagementbackend.entity.view.TicketView;
+import ro.msg.event.management.eventmanagementbackend.exception.TicketCorrespondingEventException;
 import ro.msg.event.management.eventmanagementbackend.exception.TicketValidateException;
 import ro.msg.event.management.eventmanagementbackend.repository.BookingRepository;
 import ro.msg.event.management.eventmanagementbackend.repository.EventRepository;
@@ -90,7 +91,7 @@ public class TicketService {
         return new PageImpl<>(result, pageable, count);
     }
 
-    public void validateTicket(long idEvent, long idTicket) throws TicketValidateException {
+    public Ticket validateTicket(long idEvent, long idTicket) throws TicketValidateException, TicketCorrespondingEventException {
         Optional<Ticket> ticketOptional = ticketRepository.findById(idTicket);
 
         if (ticketOptional.isPresent()) {
@@ -101,14 +102,15 @@ public class TicketService {
                 throw new TicketValidateException("Ticket with id = " + idTicket + " has already been validated");
             } else {
                 Event event = eventRepository.findEventByTicket(idTicket);
-                if(event.getId() != idEvent){
-                    throw new TicketValidateException("Ticket with id = " + idTicket + " is not for this event");
+                if (event.getId() != idEvent) {
+                    throw new TicketCorrespondingEventException("Ticket with id = " + idTicket + " is not for this event");
                 }
                 ticketDocument.setValidate(true);
                 ticketDocumentRepository.save(ticketDocument);
+                return ticket;
             }
         } else {
-            throw new NoSuchElementException("There is no ticket with id " + idTicket);
+            throw new NoSuchElementException("There is no ticket with id = " + idTicket);
         }
     }
 }
