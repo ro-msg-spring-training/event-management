@@ -13,7 +13,7 @@ import { useStyles } from "../../../styles/CommonStyles";
 import { useTranslation } from "react-i18next";
 import { useScrollPosition } from "@n8tb1t/use-scroll-position";
 import { createStyles, Theme, withStyles } from "@material-ui/core/styles";
-import { useListStyles } from "../../../styles/EventListStyles";
+import { useListStyles } from "../../../styles/EventListStyle";
 import { EventSort } from "../../../model/EventSort";
 import { EventFilters } from "../../../model/EventFilters";
 import ErrorIcon from "@material-ui/icons/Error";

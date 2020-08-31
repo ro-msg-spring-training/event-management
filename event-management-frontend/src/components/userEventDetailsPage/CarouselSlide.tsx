@@ -1,16 +1,14 @@
-import React, { useState } from 'react';
-import { Grid, CardMedia } from '@material-ui/core';
-import Arrow from './Arrow';
-import { EventImage } from '../../model/EventImage';
-import { useStyles } from '../../styles/CarouselSlideStyles';
+import React, { useState } from "react";
+import { Grid, CardMedia } from "@material-ui/core";
+import Arrow from "./Arrow";
+import { EventImage } from "../../model/EventImage";
+import { useStyles } from "../../styles/CarouselSlideStyles";
 
 interface Props {
-  images: EventImage[],
+  images: EventImage[];
 }
 
-const testImages = [
-  { url: "https://i.ibb.co/KNwnXRj/no-image.jpg" },
-]
+const testImages = [{ url: "https://i.ibb.co/KNwnXRj/no-image.jpg" }];
 
 function CarouselSlide({ images }: Props) {
   const [index, setIndex] = useState(0);
@@ -27,7 +25,7 @@ function CarouselSlide({ images }: Props) {
   }
 
   const onArrowClick = (direction: string) => {
-    const increment = direction === 'left' ? -1 : 1;
+    const increment = direction === "left" ? -1 : 1;
     const newIndex = (index + increment + numSlides) % numSlides;
     setIndex(newIndex);
   };
@@ -35,28 +33,13 @@ function CarouselSlide({ images }: Props) {
   const classes = useStyles();
   return (
     <Grid item container direction="row" justify="center" alignItems="center" className={classes.position}>
-      {
-        images.length > 1 &&
-        < Arrow
-          direction='left'
-          clickFunction={() => onArrowClick('left')}
-        />
-      }
+      {images.length > 1 && <Arrow direction="left" clickFunction={() => onArrowClick("left")} />}
 
       <Grid item xs={7} xl={6}>
-        <CardMedia
-          className={classes.card}
-          image={content.url}
-        />
+        <CardMedia className={classes.card} image={content.url} />
       </Grid>
 
-      {
-        images.length > 1 &&
-        <Arrow
-          direction='right'
-          clickFunction={() => onArrowClick('right')}
-        />
-      }
+      {images.length > 1 && <Arrow direction="right" clickFunction={() => onArrowClick("right")} />}
     </Grid>
   );
 }

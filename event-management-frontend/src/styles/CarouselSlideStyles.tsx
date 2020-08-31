@@ -6,6 +6,6 @@ export const useStyles = makeStyles((theme) => ({
     height: "40vh",
   },
   position: {
-    marginTop: "4vh"
-  }
+    marginTop: "4vh",
+  },
 }));
