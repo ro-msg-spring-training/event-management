@@ -67,7 +67,7 @@ function CheckInSectionDumb({ bookings, isError, isLoading, translation, handleO
                     className={classes.header}
                     title={translation('userHomePage.calendar')} />
 
-                <CardContent className={classes.eventCard}>
+                <CardContent className={classes.cardContent}>
                     {isError ?
                         <Typography variant="subtitle1"> {translation('userHomePage.errorMessage')}</Typography> :
                         isLoading ?

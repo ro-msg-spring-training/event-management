@@ -37,7 +37,7 @@ const initialState = {
     past: {
         events: [],
         page: 0,
-        limit: 3,
+        limit: 1,
         isMore: false,
         noPages: 0,
         isError: false,
@@ -46,7 +46,7 @@ const initialState = {
     upcoming: {
         events: [],
         page: 0,
-        limit: 3,
+        limit: 1,
         isMore: false,
         noPages: 0,
         isError: false,

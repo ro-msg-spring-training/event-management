@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, CardHeader, CardContent, CardActions, Grid, LinearProgress, Typography } from '@material-ui/core';
+import { Card, CardHeader, CardContent, CardActions, Grid, LinearProgress, Typography, Button } from '@material-ui/core';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import { EventCard } from '../../../model/userHome/EventCard';
@@ -29,7 +29,7 @@ function EventsSectionDumb({ past, events, page, noPages, isError, isLoading, tr
                 title={past ? translation('userHomePage.pastEvents') : translation('userHomePage.upcomingEvents')}
             />
 
-            <CardContent className={classes.eventCard}>
+            <CardContent className={classes.cardContent}>
                 {isError ?
                     <Typography variant="subtitle1"> {translation('userHomePage.messageError')}</Typography> :
                     isLoading ?
@@ -57,16 +57,30 @@ function EventsSectionDumb({ past, events, page, noPages, isError, isLoading, tr
                     <>
                         {
                             page === 0 ?
-                                <NavigateBeforeIcon className={classes.invisibleIcon} /> :
-                                <NavigateBeforeIcon className={classes.visibleIcon} onClick={() => updatePageNumber(page - 1)} />
+                                <Button
+                                    className={`${classes.icon} ${classes.invisibleIcon}`}>
+                                    <NavigateBeforeIcon />
+                                </Button> :
+                                <Button
+                                    className={`${classes.icon} ${classes.visibleIcon}`}
+                                    onClick={() => updatePageNumber(page - 1)}>
+                                    <NavigateBeforeIcon />
+                                </Button>
                         }
 
                         <Typography variant="body2"> {page + 1}/{noPages} </Typography>
 
                         {
                             page + 1 === noPages ?
-                                <NavigateNextIcon className={classes.invisibleIcon} /> :
-                                <NavigateNextIcon className={classes.visibleIcon} onClick={() => updatePageNumber(page + 1)} />
+                                <Button
+                                    className={`${classes.icon} ${classes.invisibleIcon}`}>
+                                    <NavigateNextIcon />
+                                </Button> :
+                                <Button
+                                    className={`${classes.icon} ${classes.visibleIcon}`}
+                                    onClick={() => updatePageNumber(page + 1)} >
+                                    <NavigateNextIcon />
+                                </Button>
                         }
                     </>
                 }
