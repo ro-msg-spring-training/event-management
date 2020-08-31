@@ -26,10 +26,6 @@ function CheckInSectionDumb({ bookings, isError, isLoading, translation, handleO
     const onDateChange = () => {
     };
 
-    const dateFormatter = (str: any) => {
-        return str;
-    };
-
     const tooltipTitle = (titles: string[]) => {
         return (
             titles?.length ?
@@ -79,7 +75,6 @@ function CheckInSectionDumb({ bookings, isError, isLoading, translation, handleO
                                 format="YYYY-MM-DD"
                                 variant="static"
                                 onChange={onDateChange}
-                                rifmFormatter={dateFormatter}
                                 renderDay={renderDay}
                             />
                     }

@@ -9,4 +9,4 @@ export default combineReducers({
     eventCrud: HeaderReducer,
     location: LocationPageReducer,
     userHome: UserHomePageReducer
-})
+});
