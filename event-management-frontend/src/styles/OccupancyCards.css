@@ -1,0 +1,9 @@
+.carousel .slide {
+  background: none;
+}
+.carousel .thumbs-wrapper {
+  margin: 0;
+}
+.carousel .carousel-status {
+  display: none;
+}

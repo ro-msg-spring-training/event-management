@@ -1,14 +1,25 @@
 {
+  "ticketList": {
+    "id": "ID",
+    "date": "Date",
+    "category": "Category",
+    "name": "Name",
+    "pdf": "PDF",
+    "eventName": "Event name",
+    "myTickets": "My tickets"
+  },
   "eventList": {
     "account": "My account",
     "home": "Home",
     "buildings": "Buildings",
     "events": "Events",
     "statistics": "Statistics",
+    "tickets": "Tickets",
     "previous": "Prev",
     "next": "Next",
     "details": "Details",
     "validate": "Validate",
+    "open": "Open",
     "title": "Title",
     "subtitle": "Subtitle",
     "status": "Status",
@@ -110,6 +121,8 @@
 
     "overviewTab": "Overview",
     "locationTab": "Location",
+    "locationName": "Location Name",
+    "locationAddress": "Location Address",
     "ticketsTab": "Tickets",
     "imagesTab": "Images",
 
@@ -128,16 +141,20 @@
     "overviewSubtitle": "Subtitle",
     "overviewMaxPpl": "Maximum number of people",
     "overviewDescription": "Description",
-    "overviewStartDate": "StartDate",
-    "overviewEndDate": "EndDate",
-    "overviewStartTime": "StartTime",
-    "overviewEndTime": "EndTime",
+    "overviewStartDate": "Start Date",
+    "overviewEndDate": "End Date",
+    "overviewStartTime": "Start Time",
+    "overviewEndTime": "End Time",
+    "overviewStatus": "Status",
 
     "newEventTitle": "NEW EVENT",
 
     "headerCRUDDelete": "Delete",
     "headerCRUDCancel": "Cancel",
     "headerCRUDSave": "Save",
+
+    "backButton": "Back",
+    "joinButton": "Join",
 
     "imageErrorMessage": "An error occurred while uploading images",
     "imageDragAndDrop": "Drag and drop some files here, or click to select files",
@@ -146,11 +163,63 @@
     "imageDialogAgree": "Yes",
     "imageDialogDisagree": "No"
   },
-
   "location": {
     "selectButton": "Select",
     "cancelButton": "Cancel",
     "selectedLocationMessage": " Selected location for the event",
     "searchBarText": "Search location"
+  },
+  "occupancyCards": {
+    "toDateText": "to",
+    "occupancyRate": "Occupancy Rate:",
+    "historyEvents": "Last events",
+    "upcomingEvents": "Upcoming Events"
+  },
+  "userEventList": {
+    "detailsButton": "Details",
+    "errorMessage": "Oops, there was an error",
+    "noResults": "There is no results",
+    "name": "Name",
+    "locations": "Locations",
+    "rate": "Ocuppancy rate",
+    "pastEvents": "Past events",
+    "filterButton": "Filter",
+    "clearButton": "Clear",
+    "noOption": "No option",
+    "noLocations": "No locations available",
+    "notANumber": "Invalid number",
+    "notAValidPercent": "Invalid percent"
+  },
+
+  "categoryCard": {
+    "lengthError": "Min. 3 characters required",
+    "priceError": "Must be positive",
+    "ticketsPerCategoryExceedsError": "Exceeds number of max people",
+    "ticketsPerCategoryTooSmallError": "Min. 1 ticket/category",
+    "ticketsPerCategoryAlreadySoldError": "tickets already sold",
+    "ticketPerUserError": "Min. 1 ticket required",
+    "removeTitle": "Remove Category",
+    "removePurchased": "This category cannot be removed. Some tickets are already purchased.",
+    "removeEmpty": "Are you sure? By removing this category, its data will be gone.",
+    "title": "Title",
+    "subtitle": "Subtitle",
+    "price": "Price",
+    "description": "Description",
+    "nrOfTickets": "No. tickets",
+    "remove": "Remove",
+    "nevermind": "Nevermind",
+    "addCategory": "Add Category",
+    "maxTicketPerUser": "Max Tickets Per User",
+    "ticketInfo": "Tickets Info",
+    "available": "Available"
+  },
+
+  "userHomePage": {
+    "calendar": "Calendar",
+    "pastEvents": "Past events",
+    "upcomingEvents": "Upcoming events",
+    "errorMessage": "Oops, error",
+    "noEvents": "There are no events",
+    "carousselError": "Unable to load. Try again later."
   }
 }

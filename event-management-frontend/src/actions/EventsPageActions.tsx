@@ -1,5 +1,6 @@
 import { EventFilters } from "../model/EventFilters"
 import { EventSort } from "../model/EventSort"
+import { Event } from "../model/Event"
 
 export const UPDATE_FILTERS = "UPDATE_FILTERS"
 export const FILTER_EVENTS = "FILTER_EVENTS"
@@ -16,18 +17,16 @@ export const FETCH_HOME_EVENTS_ERROR = 'FETCH_HOME_EVENTS_ERROR'
 export const SORT_EVENTS = 'SORT_EVENTS'
 export const PREV_PAGE = 'PREV_PAGE'
 export const NEXT_PAGE = 'NEXT_PAGE'
-export const PREV_PAGE_HOME = 'PREV_PAGE_HOME'
-export const NEXT_PAGE_HOME = 'NEXT_PAGE_HOME'
 
 export const FETCH_CUSTOM_EVENTS = 'FETCH_CUSTOM_EVENTS'
-export const FETCH_CUSTOM_EVENTS_REQUEST = 'FETCH_EVENTS_CUSTOM_REQUEST'
-export const FETCH_CUSTOM_EVENTS_SUCCESS = 'FETCH_EVENTS_CUSTOM_SUCCESS'
-export const FETCH_CUSTOM_EVENTS_ERROR = 'FETCH_EVENTS_CUSTOM_ERROR'
+export const FETCH_CUSTOM_EVENTS_REQUEST = 'FETCH_CUSTOM_EVENTS_REQUEST'
+export const FETCH_CUSTOM_EVENTS_SUCCESS = 'FETCH_CUSTOM_EVENTS_SUCCESS'
+export const FETCH_CUSTOM_EVENTS_ERROR = 'FETCH_CUSTOM_EVENTS_ERROR'
 
 export const FETCH_CUSTOM_EVENTS_HOME = 'FETCH_CUSTOM_EVENTS_HOME'
-export const FETCH_CUSTOM_EVENTS_REQUEST_HOME = 'FETCH_EVENTS_CUSTOM_REQUEST_HOME'
-export const FETCH_CUSTOM_EVENTS_SUCCESS_HOME = 'FETCH_EVENTS_CUSTOM_SUCCESS_HOME'
-export const FETCH_CUSTOM_EVENTS_ERROR_HOME = 'FETCH_EVENTS_CUSTOM_ERROR_HOME'
+export const FETCH_CUSTOM_EVENTS_REQUEST_HOME = 'FETCH_CUSTOM_EVENTS_REQUEST_HOME'
+export const FETCH_CUSTOM_EVENTS_SUCCESS_HOME = 'FETCH_CUSTOM_EVENTS_SUCCESS_HOME'
+export const FETCH_CUSTOM_EVENTS_ERROR_HOME = 'FETCH_CUSTOM_EVENTS_ERROR_HOME'
 
 export const UPDATE_SORT_CRITERIA = 'UPDATE_SORT_CRITERIA'
 
@@ -72,7 +71,7 @@ export const filterEvents = (filters: EventFilters, page: number) => {
     }
 }
 
-export const filterEventsSuccess = (result: any) => {
+export const filterEventsSuccess = (result: Array<Event>) => {
     return {
         type: FILTER_EVENTS_SUCCESS,
         payload: result
@@ -105,7 +104,7 @@ export const fetchEventsRequest = () => {
     }
 }
 
-export const fetchEventsSuccess = (result: any) => {
+export const fetchEventsSuccess = (result: Array<Event>) => {
     return {
         type: FETCH_EVENTS_SUCCESS,
         payload: result
@@ -130,7 +129,7 @@ export const fetchEventsRequestHome = () => {
     }
 }
 
-export const fetchEventsSuccessHome = (result: any) => {
+export const fetchEventsSuccessHome = (result: Array<Event>) => {
     return {
         type: FETCH_HOME_EVENTS_SUCCESS,
         payload: result
@@ -144,7 +143,7 @@ export const fetchEventsErrorHome = () => {
 }
 
 // called by saga and component
-export const fetchCustomEvents = (filters: any, sort: any, page: number) => {
+export const fetchCustomEvents = (filters: EventFilters, sort: EventSort, page: number) => {
     return {
         type: FETCH_CUSTOM_EVENTS,
         payload: {
@@ -159,7 +158,7 @@ export const fetchCustomEventsRequest = () => {
     }
 }
 
-export const fetchCustomEventsSuccess = (events: any) => {
+export const fetchCustomEventsSuccess = (events: Array<Event>) => {
     return {
         type: FETCH_CUSTOM_EVENTS_SUCCESS,
         payload: events
@@ -187,7 +186,7 @@ export const fetchCustomEventsRequestHome = () => {
     }
 }
 
-export const fetchCustomEventsSuccessHome = (events: any) => {
+export const fetchCustomEventsSuccessHome = (events: Array<Event>) => {
     return {
         type: FETCH_CUSTOM_EVENTS_SUCCESS_HOME,
         payload: events
@@ -200,7 +199,7 @@ export const fetchCustomEventsErrorHome = () => {
     }
 }
 
-export const updateSortCriteria = (criteria:  any) => {
+export const updateSortCriteria = (criteria: EventSort) => {
     return {
         type: UPDATE_SORT_CRITERIA,
         payload: criteria
@@ -234,12 +233,6 @@ export const incrementPageHome = () => {
 export const decrementPageHome = () => {
     return {
         type: DECREMENT_PAGE_HOME,
-    }
-}
-
-export const resetPageHome = () => {
-    return {
-        type: RESET_PAGE_HOME
     }
 }
 
