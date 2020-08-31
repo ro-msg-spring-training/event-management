@@ -45,14 +45,13 @@ function EventsSectionSmart({ past, pastEvents, upcomingEvents, fetchUserPastEve
     }, [page, limit, fetchEvents]);
 
     const handleOnClick = (id: number) => {
-        history.push(`/user/events/${id}`)
-    }
+        history.push(`/user/events/${id}`);
+    };
 
     const updatePageNumber = (newPageNumber: number) => {
         if (newPageNumber < 0 || newPageNumber >= noPages) return;
-
         updatePage(newPageNumber)
-    }
+    };
 
     return (
         <EventsSectionDumb
@@ -79,6 +78,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     fetchUserUpcomingEvents: (page: number, limit: number) => dispatch(fetchUserUpcomingEvents(page, limit)),
     updatePastEventsPage: (page: number) => dispatch(updatePastEventsPage(page)),
     updateUpcomingEventsPage: (page: number) => dispatch(updateUpcomingEventsPage(page))
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventsSectionSmart);

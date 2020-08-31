@@ -1,5 +1,7 @@
 import { serverURL, headersAuth } from "./Api";
 import { fetchWrapper } from "./FetchWrapper";
+import { Booking } from "../model/userHome/Booking";
+import { BookingServer } from "../model/userHome/BookingServer";
 
 export const fetchBookings = () => {
     let url = `${serverURL}/bookings`
@@ -34,9 +36,10 @@ export const fetchUpcomingEvents = (page: number, limit: number) => {
         });
 }
 
-const convertToBooking = (bookings_from_server: any) => {
-    let bookings: any[] = [];
-    bookings_from_server.forEach((booking: any) => {
+const convertToBooking = (bookings_from_server: BookingServer[]) => {
+    let bookings: Booking[] = [];
+
+    bookings_from_server.forEach((booking: BookingServer) => {
         const result = booking.list.map((date: string) => {
             return {
                 id: booking.id,

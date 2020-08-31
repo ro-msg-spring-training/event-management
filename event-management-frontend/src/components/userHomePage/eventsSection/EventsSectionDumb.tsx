@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, CardHeader, CardContent, CardActions, Grid, LinearProgress } from '@material-ui/core';
+import { Card, CardHeader, CardContent, CardActions, Grid, LinearProgress, Typography } from '@material-ui/core';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import { EventCard } from '../../../model/userHome/EventCard';
@@ -29,9 +29,9 @@ function EventsSectionDumb({ past, events, page, noPages, isError, isLoading, tr
                 title={past ? translation('userHomePage.pastEvents') : translation('userHomePage.upcomingEvents')}
             />
 
-            <CardContent>
+            <CardContent className={classes.eventCard}>
                 {isError ?
-                    translation('userHomePage.messageError') :
+                    <Typography variant="subtitle1"> {translation('userHomePage.messageError')}</Typography> :
                     isLoading ?
                         <LinearProgress /> :
                         noPages ?
@@ -48,14 +48,12 @@ function EventsSectionDumb({ past, events, page, noPages, isError, isLoading, tr
                                     </Grid>
                                 )}
                             </Grid> :
-                            <>
-                                {translation('userHomePage.noEvents')}
-                            </>
+                            <Typography variant="subtitle1"> {translation('userHomePage.noEvents')} </Typography>
                 }
             </CardContent>
 
-            <CardActions style={{ display: 'flex', justifyContent: 'space-between' }}>
-                {!noPages ? '' :
+            <CardActions className={classes.pagination}>
+                {!noPages ? <></> :
                     <>
                         {
                             page === 0 ?
@@ -63,9 +61,7 @@ function EventsSectionDumb({ past, events, page, noPages, isError, isLoading, tr
                                 <NavigateBeforeIcon className={classes.visibleIcon} onClick={() => updatePageNumber(page - 1)} />
                         }
 
-                        <div>
-                            {page + 1}/{noPages}
-                        </div>
+                        <Typography variant="body2"> {page + 1}/{noPages} </Typography>
 
                         {
                             page + 1 === noPages ?
@@ -76,7 +72,7 @@ function EventsSectionDumb({ past, events, page, noPages, isError, isLoading, tr
                 }
             </CardActions>
         </Card>
-    )
+    );
 }
 
 export default EventsSectionDumb;

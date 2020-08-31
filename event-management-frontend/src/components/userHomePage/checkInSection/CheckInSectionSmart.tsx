@@ -24,7 +24,7 @@ function CheckInSectionSamrt({ bookings, isError, isLoading, fetchBookings }: Us
     }, [fetchBookings]);
 
     const handleOnClick = () => {
-        history.push('/user/tickets')
+        history.push('/user/tickets');
     }
 
     return (
@@ -35,7 +35,7 @@ function CheckInSectionSamrt({ bookings, isError, isLoading, fetchBookings }: Us
             translation={translation}
             handleOnClick={handleOnClick}
         />
-    )
+    );
 }
 
 const mapStateToProps = (state: AppState) => ({
@@ -46,6 +46,6 @@ const mapStateToProps = (state: AppState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
     fetchBookings: () => dispatch(fetchBookings())
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CheckInSectionSamrt);

@@ -4,7 +4,8 @@ import { fetchBookingsRequest, fetchBookingsSuccess, fetchBookingsError, fetchUs
 import { fetchBookings, fetchPastEvents, fetchUpcomingEvents } from "../api/UserHomePageAPI";
 
 function* fetchBookingsAsync() {
-    yield put(fetchBookingsRequest())
+    yield put(fetchBookingsRequest());
+
     try {
         const result = yield call(() => fetchBookings());
         yield put(fetchBookingsSuccess(result));
@@ -19,7 +20,8 @@ export function* watchFetchBookingsAsync() {
 }
 
 function* fetchUserPastEventsAsync(action: FetchUserPastEventsAction) {
-    yield put(fetchUserPastEventsRequest())
+    yield put(fetchUserPastEventsRequest());
+
     try {
         const result = yield call(() => fetchPastEvents(action.page, action.limit));
         yield put(fetchUserPastEventsSuccess(result.events, result.more, result.noPages));
@@ -34,7 +36,8 @@ export function* watchFetchUserPastEventsAsync() {
 }
 
 function* fetchUserUpcomingEventsAsync(action: FetchUserUpcomingEventsAction) {
-    yield put(fetchUserUpcomingEventsRequest())
+    yield put(fetchUserUpcomingEventsRequest());
+    
     try {
         const result = yield call(() => fetchUpcomingEvents(action.page, action.limit));
         yield put(fetchUserUpcomingEventsSuccess(result.events, result.more, result.noPages));

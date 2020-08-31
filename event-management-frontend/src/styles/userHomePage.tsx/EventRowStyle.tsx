@@ -19,4 +19,4 @@ export const useEventRowStyle = makeStyles( theme =>({
             color: theme.palette.primary.light
         }
     }
-}))
+}));

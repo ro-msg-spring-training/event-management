@@ -52,7 +52,7 @@ const initialState = {
         isError: false,
         isLoading: false
     }
-}
+};
 
 export const UserHomePageReducer = (state: UserHomePageState = initialState, action: UserHomePageActions) => {
     switch (action.type) {

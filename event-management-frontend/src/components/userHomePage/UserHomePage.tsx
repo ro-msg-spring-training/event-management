@@ -33,7 +33,7 @@ function UserHomePage() {
                 </Grid>
             </Container>
         </div>
-    )
+    );
 }
 
 export default UserHomePage;

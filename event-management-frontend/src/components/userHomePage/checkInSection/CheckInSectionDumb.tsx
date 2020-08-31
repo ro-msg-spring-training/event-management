@@ -5,7 +5,7 @@ import {
 } from "@material-ui/pickers";
 import MomentUtils from "@date-io/moment";
 import moment from "moment";
-import { Tooltip, CardHeader, CardContent, Card, LinearProgress } from "@material-ui/core";
+import { Tooltip, CardHeader, CardContent, Card, LinearProgress, Typography } from "@material-ui/core";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import { Booking } from "../../../model/userHome/Booking";
 import { useEventCardStyle } from "../../../styles/userHomePage.tsx/EventCardStyle";
@@ -34,20 +34,21 @@ function CheckInSectionDumb({ bookings, isError, isLoading, translation, handleO
             titles?.length ?
                 <> {titles.map(t => <p key={t}><b>{t}</b></p>)} </> : ''
         )
-    }
+    };
 
     function renderDay(day: MaterialUiPickersDate, selectedDate: MaterialUiPickersDate, dayInCurrentMonth: any, dayComponent: any) {
-        const crrDate = day?.format('YYYY-MM-DD')
-        const titles = bookings?.filter(b => b.date === crrDate).map(b => b.title)
-        const isEvents = titles?.length > 0
+        const clickedDate = day?.format('YYYY-MM-DD');
+        const titles = bookings?.filter(b => b.date === clickedDate).map(b => b.title);
+        const isEvents = titles?.length > 0;
+        const isCurrentDate = clickedDate === moment().format('YYYY-MM-DD');
 
         return (
             <Tooltip arrow title={tooltipTitle(titles)}>
                 <div>
                     {React.cloneElement(dayComponent, {
                         style: {
-                            border: `${isEvents ? '1px solid' : 'none'}`,
-                            backgroundColor: `${crrDate===moment().format('YYYY-MM-DD')? '#f2ac0a' : ''}`
+                            backgroundColor: `${isCurrentDate ? '#f2ac0a' : isEvents ? '#21C6F3' : 'none'}`,
+                            color: `${isEvents ? 'white' : ''}`
                         },
                         onClick: () => {
                             isEvents && handleOnClick();
@@ -55,7 +56,7 @@ function CheckInSectionDumb({ bookings, isError, isLoading, translation, handleO
                     })}
                 </div>
             </Tooltip>
-        )
+        );
     }
 
     return (
@@ -65,11 +66,11 @@ function CheckInSectionDumb({ bookings, isError, isLoading, translation, handleO
                     className={classes.header}
                     title={translation('userHomePage.calendar')} />
 
-                <CardContent style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'auto' }}>
+                <CardContent className={classes.card}>
                     {isError ?
-                        translation('userHomePage.errorMessage'):
+                        <Typography variant="subtitle1"> {translation('userHomePage.errorMessage')}</Typography> :
                         isLoading ?
-                            <LinearProgress/> :
+                            <LinearProgress /> :
                             <KeyboardDatePicker
                                 disableToolbar
                                 showTodayButton={true}
