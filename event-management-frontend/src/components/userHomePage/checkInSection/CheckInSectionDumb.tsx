@@ -47,7 +47,7 @@ function CheckInSectionDumb({ bookings, isError, isLoading, translation, handleO
                 <div>
                     {React.cloneElement(dayComponent, {
                         style: {
-                            backgroundColor: `${isCurrentDate ? '#f2ac0a' : isEvents ? '#21C6F3' : 'none'}`,
+                            backgroundColor: `${isCurrentDate ? '#f2ac0a' : isEvents ? '#6BB7D0' : 'none'}`,
                             color: `${isEvents ? 'white' : ''}`
                         },
                         onClick: () => {
