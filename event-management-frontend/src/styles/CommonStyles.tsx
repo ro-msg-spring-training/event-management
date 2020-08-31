@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
   },
   typography: {
     fontSize: 25,
-    fontFamily: "Monospace",
+    fontFamily: "LATO",
     color: theme.palette.text.primary,
     textTransform: "uppercase",
   },
