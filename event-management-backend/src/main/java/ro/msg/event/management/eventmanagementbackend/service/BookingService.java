@@ -11,7 +11,10 @@ import com.itextpdf.text.pdf.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.BookingCalendarDto;
 import ro.msg.event.management.eventmanagementbackend.entity.*;
@@ -20,17 +23,22 @@ import ro.msg.event.management.eventmanagementbackend.repository.BookingReposito
 import ro.msg.event.management.eventmanagementbackend.repository.EventRepository;
 import ro.msg.event.management.eventmanagementbackend.repository.TicketCategoryRepository;
 import ro.msg.event.management.eventmanagementbackend.repository.TicketDocumentRepository;
+import ro.msg.event.management.eventmanagementbackend.repository.TicketRepository;
+import ro.msg.event.management.eventmanagementbackend.security.User;
 
+import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
+import java.awt.print.Book;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
@@ -42,6 +50,8 @@ public class BookingService {
 
     private final BookingRepository bookingRepository;
     private final EventRepository eventRepository;
+    private final TicketRepository ticketRepository;
+    private final EmailSenderService emailSenderService;
     private final AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
             .withCredentials(new InstanceProfileCredentialsProvider(false))
             .withRegion(Regions.EU_WEST_1)
@@ -79,10 +89,42 @@ public class BookingService {
     }
 
     @Transactional(rollbackFor = {FileNotFoundException.class, DocumentException.class})
-    public Booking saveBookingAndTicketDocument(Booking booking, Map<String, List<Ticket>> categoryTitlesWithTickets, long eventId) throws IOException, DocumentException {
+    public Booking saveBookingAndTicketDocument(Booking booking, Map<String, List<Ticket>> categoryTitlesWithTickets, long eventId) throws IOException, DocumentException, MessagingException {
         Booking savedBooking = this.saveBooking(booking, categoryTitlesWithTickets, eventId);
         this.createAndSaveTicketDocument(savedBooking);
+        sendEmail(booking,categoryTitlesWithTickets);
         return savedBooking;
+    }
+
+    public void sendEmail(Booking booking,  Map<String, List<Ticket>> categoryTitlesWithTickets) throws MessagingException {
+        Map<String, Object> model = new HashMap<>();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) auth.getPrincipal();
+        model.put("firstName",user.getFirstName());
+        model.put("lastName", user.getLastName());
+        model.put("bookingId", booking.getId());
+        model.put("bookingDate", booking.getBookingDate().toLocalDate());
+        model.put("eventName", booking.getEvent().getTitle());
+        model.put("startDate",booking.getEvent().getStartDate());
+        model.put("endDate",booking.getEvent().getEndDate());
+        model.put("startHour", booking.getEvent().getStartHour().getHour()+":"+booking.getEvent().getStartHour().getMinute());
+        model.put("endHour", booking.getEvent().getEndHour().getHour()+":"+booking.getEvent().getEndHour().getMinute());
+        model.put("locationName",booking.getEvent().getEventSublocations().get(0).getSublocation().getLocation().getName());
+        model.put("eventAddress",booking.getEvent().getEventSublocations().get(0).getSublocation().getLocation().getAddress());
+        int totalNoTickets = 0;
+        for (List<Ticket> value : categoryTitlesWithTickets.values()) {
+            totalNoTickets += value.size();
+        }
+        model.put("noTickets",totalNoTickets );
+        model.put("ticketInfo",booking.getEvent().getTicketInfo());
+        HashMap<String, Integer > hashMap = new HashMap<>();
+        for (Map.Entry<String, List<Ticket>> entry : categoryTitlesWithTickets.entrySet()) {
+            String key = entry.getKey();
+            Integer value = entry.getValue().size();
+            hashMap.put(key,value);
+        }
+        model.put("tickets", hashMap);
+        emailSenderService.sendEmail(emailSenderService.getMail(model));
     }
 
     @Transactional
