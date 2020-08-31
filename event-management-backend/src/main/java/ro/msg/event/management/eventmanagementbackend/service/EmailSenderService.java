@@ -9,6 +9,8 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.InputStreamSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.*;
 import org.springframework.scheduling.annotation.Async;
@@ -76,7 +78,7 @@ public class EmailSenderService {
                 String documentUrl = ticket.getId()+".pdf";
                 S3Object object = s3Client.getObject(bucketName, documentUrl);
                 S3ObjectInputStream s3is = object.getObjectContent();
-                helper.addAttachment("ticket"+ ticket.getName()+".pdf", (DataSource) s3is);
+                helper.addAttachment("ticket"+ ticket.getName()+".pdf", new InputStreamResource(s3is));
             }
         }
         return message;
