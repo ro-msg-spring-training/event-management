@@ -105,8 +105,13 @@ public class BookingService {
         model.put("bookingId", booking.getId());
         model.put("bookingDate", booking.getBookingDate().toLocalDate());
         model.put("eventName", booking.getEvent().getTitle());
-        model.put("startDate",booking.getEvent().getStartDate());
-        model.put("endDate",booking.getEvent().getEndDate());
+        String eventDate= null;
+        if (booking.getEvent().getStartDate().isEqual(booking.getEvent().getEndDate())){
+            eventDate = booking.getEvent().getStartDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        }else{
+            eventDate = booking.getEvent().getStartDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))+"-"+booking.getEvent().getEndDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        }
+        model.put("eventDate", eventDate);
         model.put("startHour", booking.getEvent().getStartHour().getHour()+":"+booking.getEvent().getStartHour().getMinute());
         model.put("endHour", booking.getEvent().getEndHour().getHour()+":"+booking.getEvent().getEndHour().getMinute());
         model.put("locationName",booking.getEvent().getEventSublocations().get(0).getSublocation().getLocation().getName());
