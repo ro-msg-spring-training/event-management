@@ -1,5 +1,5 @@
-import React, {FormEvent, KeyboardEvent} from 'react'
-import {Button, Collapse, Grid, Paper, TextField} from "@material-ui/core";
+import React, {FormEvent} from 'react'
+import {Button, Grid, Paper, TextField} from "@material-ui/core";
 import {useStyles} from "../../../styles/CommonStyles";
 import {useUserFilterStyles} from "../../../styles/userEventsPage/UserFilterStyle";
 import {useStylesTickets} from "../../../styles/ticketsListStyles";

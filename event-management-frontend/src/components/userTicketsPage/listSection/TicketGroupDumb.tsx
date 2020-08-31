@@ -36,7 +36,7 @@ const TicketGroupDumb = (props: Props) => {
     const eventName = firstElement.eventName;
     const category = firstElement.ticketCategory;
     const name = firstElement.name;
-    const pdfUrl = firstElement.pdfUrl;
+    // const pdfUrl = firstElement.pdfUrl;
     const handleChange = props.handleChange;
     const open = props.open;
 
