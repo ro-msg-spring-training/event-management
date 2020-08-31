@@ -53,7 +53,7 @@ export const TicketsPageReducer = (state = initialState, action: ReducerActionPr
                 ...state,
                 isLoading: false,
                 isError: false,
-                allTickets: action.payload
+                allTickets: action.payload,
             }
         case FETCH_TICKETS_ERROR:
             return {

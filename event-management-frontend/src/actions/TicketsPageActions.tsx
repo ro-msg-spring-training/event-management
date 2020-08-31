@@ -1,4 +1,4 @@
-import { Event } from "../model/Event";
+import { Ticket } from "../model/Ticket";
 import {TicketFilters} from "../model/TicketFilters";
 
 export const FETCH_TICKETS = 'FETCH_TICKETS'
@@ -29,10 +29,10 @@ export const fetchTicketsRequest = () => {
     }
 }
 
-export const fetchTicketsSuccess = (events: Array<Event>) => {
+export const fetchTicketsSuccess = (tickets: Array<Ticket>) => {
     return {
         type: FETCH_TICKETS_SUCCESS,
-        payload: events
+        payload: tickets
     }
 }
 

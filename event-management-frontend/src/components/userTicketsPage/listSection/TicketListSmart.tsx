@@ -23,16 +23,17 @@ const TicketListSmart = (props: Props) => {
     const [concatTickets, setConcatTickets] = useState(Array(0))
 
     useEffect(() => {
-        async function addTicketsTogether() {
-            await props.fetchTickets(props.page, props.filters)
-            await setHasMore(props.page === 1 ? true : props.tickets.length > 0)
+        props.fetchTickets(props.page, props.filters)
+        setHasMore(props.page === 1 ? true : props.tickets.length > 0)
 
-            await setConcatTickets([...concatTickets, ...props.tickets])
+        if (props.tickets.length > 0) {
+            setConcatTickets([...concatTickets, ...props.tickets])
+        } else {
+            setConcatTickets([])
         }
-        addTicketsTogether();
     }, [props.page])
 
-    let tickets = props.tickets;
+    let tickets = props.tickets
 
     const observer = useRef<any>()
     const lastTicketRef = useCallback(node => {
