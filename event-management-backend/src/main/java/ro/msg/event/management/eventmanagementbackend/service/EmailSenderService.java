@@ -34,7 +34,6 @@ public class EmailSenderService {
 
     private SpringTemplateEngine templateEngine;
 
-    private CustomPropertyConfig customPropertyConfig;
 
     private final AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
             .withCredentials(new InstanceProfileCredentialsProvider(false))
@@ -44,10 +43,9 @@ public class EmailSenderService {
     @Value("${event-management.s3.tickets.bucketName}")
     private String bucketName;
 
-    public EmailSenderService(JavaMailSender javaMailSender, SpringTemplateEngine templateEngine, CustomPropertyConfig customPropertyConfig) {
+    public EmailSenderService(JavaMailSender javaMailSender, SpringTemplateEngine templateEngine) {
         this.javaMailSender = javaMailSender;
         this.templateEngine = templateEngine;
-        this.customPropertyConfig = customPropertyConfig;
     }
 
     @Async

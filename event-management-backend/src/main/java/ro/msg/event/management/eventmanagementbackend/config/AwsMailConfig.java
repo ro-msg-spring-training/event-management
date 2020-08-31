@@ -13,7 +13,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 
 @Configuration
 public class AwsMailConfig {
-    
+
     @Bean
     public AmazonSimpleEmailService amazonSimpleEmailService() {
 
