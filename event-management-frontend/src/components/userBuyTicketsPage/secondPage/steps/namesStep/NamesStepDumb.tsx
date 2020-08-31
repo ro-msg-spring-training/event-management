@@ -2,6 +2,8 @@ import React from 'react';
 import { useStyles } from '../../../../../styles/CommonStyles';
 import { Button, Grid, Typography } from '@material-ui/core';
 import { userBuyTicketsStyle } from '../../../../../styles/UserBuyTicketsStyle';
+import { HtmlTooltip } from '../../../../../styles/BuyTicketsSecondPageStyle';
+import HelpIcon from '@material-ui/icons/Help';
 
 interface NamesStepPropsDumb {
   noTicketsSelected: boolean,
@@ -17,10 +19,26 @@ function NamesStepDumb({ noTicketsSelected, nextStep, prevStep, inputs }: NamesS
   return (
     <>
 
+      <HtmlTooltip
+        className={classes.alignHelpIcon}
+        title={
+          <>
+            {
+              noTicketsSelected ?
+                `You did not choose the desired number of tickets. In order to proceed with the transaction,
+                 please return to the Number of Tickets step and choose the desired number of tickets from the categories you prefer` :
+                "Please input the names of the people whom are to use the tickets"
+            }
+          </>
+        }
+      >
+        <HelpIcon color="primary" fontSize="small" />
+      </HtmlTooltip>
+
       {
         noTicketsSelected ?
           <Typography className={classes.typography} align="center" >There have not been any tickets selected.</Typography> :
-          <Typography className={classes.typography} align="center" >Input the names of the people whom are to use the tickets</Typography>
+          <Typography className={classes.typography} align="center" >Names on the Tickets</Typography>
       }
 
       <Grid container direction="row" justify="center" alignItems="center">

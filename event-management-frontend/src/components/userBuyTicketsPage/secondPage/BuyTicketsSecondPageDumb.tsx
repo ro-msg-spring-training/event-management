@@ -10,12 +10,14 @@ import CloseIcon from '@material-ui/icons/Close';
 import { BuyTicketsSecondPageStyle } from '../../../styles/BuyTicketsSecondPageStyle';
 import { TicketNames } from '../../../model/UserReserveTicket';
 import { TicketAvailabilityData } from '../../../model/BuyTicketsSecondPage';
+import "../../../styles/ReservePageStyle.css";
 
 export const buyTicketsSecondPageDumbStyle = makeStyles((theme: Theme) => ({
   root: {
-    width: '100%',
-    minHeight: '93.3vh',
+    // width: '100%',
+    minHeight: '89vh',
     background: 'linear-gradient(45deg, #21C6F3 50%, #1E5FA4 90%)',
+    paddingTop: "4%",
   },
   wrapper: {
     // minWidth: '40%',
@@ -25,8 +27,9 @@ export const buyTicketsSecondPageDumbStyle = makeStyles((theme: Theme) => ({
     background: 'white',
   },
   position: {
-    // display: 'flex',
-    // flexDirection: 'row',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   paper: {
     backgroundColor: 'white',
@@ -43,9 +46,21 @@ export const buyTicketsSecondPageDumbStyle = makeStyles((theme: Theme) => ({
     // display: 'flex',
     // flexDirection: 'column',
   },
+  background: {
+    backgroundColor: 'white',
+    padding: '10vh 20vw',
+  },
   scroll: {
     overflowY: 'scroll'
-  }
+  },
+  paperStyle: {
+    display: "block",
+    height: '60vh',
+    maxWidth: "900px",
+    marginLeft: "20%",
+    minHeight: "150px",
+    padding: "3%",
+  },
 }));
 
 interface BuyTicketsSecondPageDumbProps {
@@ -80,13 +95,17 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
     <>
       <div className={classes.positionLeft}>
         <Tooltip title="Go to first page">
-          <IconButton onClick={gotoFirstPage}><NavigateNextIcon fontSize="large" className={classes.prevButtonStyle} /></IconButton>
+          <IconButton onClick={gotoFirstPage} >
+            <NavigateNextIcon fontSize="large" className={classes.prevButtonStyle} />
+          </IconButton>
         </Tooltip>
       </div>
 
       <div className={classes.positionRight}>
         <Tooltip title="Cancel purchase">
-          <IconButton onClick={gotoEventListPage}><CloseIcon fontSize="large" className={classes.cancelButtonStyle} /></IconButton>
+          <IconButton onClick={gotoEventListPage} >
+            <CloseIcon fontSize="large" className={classes.cancelButtonStyle} />
+          </IconButton>
         </Tooltip>
       </div>
     </>
@@ -95,25 +114,31 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
   switch (step) {
     case 1:
       currentPage =
-        <TicketsStep
-          nextStep={nextStep}
-          handleEnterKey={handleEnterKey}
-          ticketCategories={ticketCategories}
-          updateTicketNames={updateTicketNames}
-          eventId={eventId}
-        />
+        <div style={{ marginTop: '4vh' }}>
+          <TicketsStep
+            nextStep={nextStep}
+            handleEnterKey={handleEnterKey}
+            ticketCategories={ticketCategories}
+            updateTicketNames={updateTicketNames}
+            eventId={eventId}
+          />
+        </div>
       break;
+
     case 2:
       currentPage =
-        <EmailStep
-          nextStep={nextStep}
-          prevStep={prevStep}
-          handleEnterKey={handleEnterKey}
-          email={booking.email}
-          updateBookings={updateBookings}
-          booking={booking}
-        />
+        <div style={{ marginTop: '15vh' }}>
+          <EmailStep
+            nextStep={nextStep}
+            prevStep={prevStep}
+            handleEnterKey={handleEnterKey}
+            email={booking.email}
+            updateBookings={updateBookings}
+            booking={booking}
+          />
+        </div>
       break;
+
     case 3:
       currentPage =
         <NamesStep
@@ -123,18 +148,21 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
           ticketNames={ticketNames}
           updateTicketNames={updateTicketNames}
         />
+
       break;
     case 4:
       currentPage =
-        <TermsAndConditionsStep
-          prevStep={prevStep}
-          checked={checked}
-          booking={booking}
-          updateBookings={updateBookings}
-          ticketNames={ticketNames}
-          updateChecked={updateChecked}
-          addBookings={addBookings}
-        />
+        <div style={{ marginTop: '22vh' }}>
+          <TermsAndConditionsStep
+            prevStep={prevStep}
+            checked={checked}
+            booking={booking}
+            updateBookings={updateBookings}
+            ticketNames={ticketNames}
+            updateChecked={updateChecked}
+            addBookings={addBookings}
+          />
+        </div>
       break;
     default:
       (console.log('Wrong step'))
@@ -142,23 +170,16 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
 
   return (
     <div className={classes2.root}>
-      <Grid container direction="column" alignItems="center" justify="center" style={{ minHeight: '80vh' }} >
-        <Grid container item className={classes2.paper}>
-          {/* <Box className={classes2.wrapper}> */}
-          {/* <Grid item xs={3} className={classes2.paper}> */}
-          {/* <Paper className={classes2.paper}> */}
-          <Grid item xs={12} className={classes2.position}>
+      <Grid container direction="row" justify="center" alignItems="center">
+        <Grid item xs={12}>
+          <Paper className={`${classes2.paperStyle} ${classes2.position} buyPageResponsive `}>
             {currentPage}
-          </Grid>
-          {/* </Paper> */}
-          {/* </Grid> */}
-          {/* </Box > */}
+          </Paper>
         </Grid>
-
       </Grid>
-
       {buttons}
     </div >
+
   );
 }
 

@@ -1,0 +1,6 @@
+@media (max-width: 850px) {
+    .buyPageResponsive {
+        margin: 10px !important;
+        margin-top: 30px !important;
+    }
+}

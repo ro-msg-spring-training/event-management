@@ -18,7 +18,7 @@ export const BuyTicketsSecondPageStyle = makeStyles((theme: Theme) => ({
     position: 'absolute',
     bottom: "0.5%",
     right: "0.5%",
-  }
+  },
 }))
 
 export const HtmlTooltip = withStyles((theme: Theme) => ({
