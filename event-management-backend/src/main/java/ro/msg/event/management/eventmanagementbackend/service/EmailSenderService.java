@@ -70,7 +70,7 @@ public class EmailSenderService {
         helper.setText(html, true);
         helper.setSubject(mail.getSubject());
         helper.setFrom(mail.getFrom());
-        HashMap<String, List<Ticket>> hashMap =  (HashMap<String,List<Ticket>>)mail.getModel().get("tickets");
+        HashMap<String, List<Ticket>> hashMap =  (HashMap<String,List<Ticket>>)mail.getModel().get("ticketsWithLists");
         for (List<Ticket> list : hashMap.values()){
             for (Ticket ticket : list){
                 String documentUrl = ticket.getId()+".pdf";

@@ -124,6 +124,7 @@ public class BookingService {
             hashMap.put(key,value);
         }
         model.put("tickets", hashMap);
+        model.put("ticketsWithLists", categoryTitlesWithTickets);
         emailSenderService.sendEmail(emailSenderService.getMail(model));
     }
 
