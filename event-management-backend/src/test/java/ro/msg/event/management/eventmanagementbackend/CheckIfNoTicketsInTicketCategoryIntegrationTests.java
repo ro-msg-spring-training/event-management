@@ -3,6 +3,7 @@ package ro.msg.event.management.eventmanagementbackend;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import ro.msg.event.management.eventmanagementbackend.entity.Booking;
 import ro.msg.event.management.eventmanagementbackend.entity.Ticket;
 import ro.msg.event.management.eventmanagementbackend.entity.TicketCategory;
@@ -19,6 +20,7 @@ import java.util.NoSuchElementException;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
+@ActiveProfiles("test")
 public class CheckIfNoTicketsInTicketCategoryIntegrationTests {
     private final TicketCategoryService ticketCategoryService;
     private final TicketCategoryRepository ticketCategoryRepository;

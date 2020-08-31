@@ -33,7 +33,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class EventService {
 
-    private static final LocalDate MIN_DATE = LocalDate.parse("1900-01-01");
 
     private final EventRepository eventRepository;
     private final SublocationRepository sublocationRepository;
@@ -46,12 +45,19 @@ public class EventService {
     private final EntityManager entityManager;
 
     @Transactional(rollbackFor = {OverlappingEventsException.class, ExceededCapacityException.class})
-    public Event saveEvent(Event event, List<Long> sublocationIDs) throws OverlappingEventsException, ExceededCapacityException {
+    public Event saveEvent(Event event, Long locationId) throws OverlappingEventsException, ExceededCapacityException {
 
         LocalDate startDate = event.getStartDate();
         LocalDate endDate = event.getEndDate();
         LocalTime startHour = event.getStartHour();
         LocalTime endHour = event.getEndHour();
+
+        Location location = locationRepository.findById(locationId).orElseThrow(() -> {
+            throw new NoSuchElementException("No location with id=" + locationId);
+        });
+        List<Long> sublocationIDs = location.getSublocation().stream()
+                .map(BaseEntity::getId)
+                .collect(Collectors.toList());
 
         TimeValidation.validateTime(startDate, endDate, startHour, endHour);
 
@@ -319,7 +325,7 @@ public class EventService {
             case GREATER:
                 return criteriaBuilder.gt(c.get(criteria), value);
             case LOWER:
-                return criteriaBuilder.le(c.get(criteria), value);
+                return criteriaBuilder.lessThan(c.get(criteria), value);
             case EQUAL:
                 return criteriaBuilder.equal(c.get(criteria), value);
             case GREATEROREQUAL:
@@ -342,10 +348,11 @@ public class EventService {
     }
 
     public Page<Event> filterAndPaginateEventsAttendedByUser(User user, Pageable pageable) {
-        return eventRepository.findByUser(user.getIdentificationString(), pageable);
+        return eventRepository.findByUserInPast(user.getIdentificationString(), pageable);
     }
 
-    public int getHighlightedEventCount() {
-        return eventRepository.findAllByHighlighted(true).size();
+    public Page<Event> filterAndPaginateEventsUserWillAttend(User user, Pageable pageable) {
+        return eventRepository.findByUserInFuture(user.getIdentificationString(), pageable);
     }
+
 }

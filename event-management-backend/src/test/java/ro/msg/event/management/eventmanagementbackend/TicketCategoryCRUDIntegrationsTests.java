@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import ro.msg.event.management.eventmanagementbackend.entity.Event;
 import ro.msg.event.management.eventmanagementbackend.entity.TicketCategory;
@@ -19,6 +20,7 @@ import java.util.NoSuchElementException;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
+@ActiveProfiles("test")
 class TicketCategoryCRUDIntegrationsTests {
     private final EventRepository eventRepository;
     private final TicketCategoryService ticketCategoryService;

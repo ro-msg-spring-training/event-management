@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class BookingDto {
+    private long bookingId;
     private long eventId;
     private List<TicketDto> tickets;
     private LocalDateTime bookingDate;

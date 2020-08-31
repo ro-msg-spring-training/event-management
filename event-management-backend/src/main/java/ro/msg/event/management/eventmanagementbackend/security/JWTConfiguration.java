@@ -13,7 +13,7 @@ public class JWTConfiguration {
     private String userPoolId;
     private String identityPoolId;
     private String jwkUrl;
-    private String region = "eu-west-1";
+    private String region;
     private String userNameField = "cognito:username";
     private int connectionTimeout = 2000;
     private int readTimeout = 2000;
