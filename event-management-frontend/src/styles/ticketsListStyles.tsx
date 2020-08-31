@@ -4,7 +4,9 @@ export const useStylesTickets = makeStyles(theme => ({
     ticketsTitle: {
         color: '#F2AE30',
         fontSize: 24,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        alignContent: "center",
+        alignItems: "center"
     },
     pdfButton: {
         [theme.breakpoints.down("xs")]: {
