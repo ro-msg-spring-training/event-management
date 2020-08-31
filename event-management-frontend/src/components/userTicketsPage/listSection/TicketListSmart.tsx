@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { AppState } from "../../../store/store";
-import { fetchTickets, incrementPage } from "../../../actions/TicketsPageActions";
+import { fetchTickets, incrementPage, resetPage } from "../../../actions/TicketsPageActions";
 import { Ticket } from "../../../model/Ticket"
 import TicketListDumb from "./TicketListDumb";
 import {TicketFilters} from "../../../model/TicketFilters";
@@ -15,6 +15,7 @@ interface Props {
     isError: boolean;
     fetchTickets: (page: number, filters: TicketFilters) => void;
     incrementPage: () => void;
+    resetPage: () => void;
 }
 
 const TicketListSmart = (props: Props) => {
@@ -30,6 +31,7 @@ const TicketListSmart = (props: Props) => {
             setConcatTickets([...concatTickets, ...props.tickets])
         } else {
             setConcatTickets([])
+            props.resetPage();
         }
     }, [props.page])
 
@@ -76,4 +78,4 @@ const mapStateToProps = (state: AppState) => ({
 
 
 export default connect(mapStateToProps,
-    { fetchTickets, incrementPage })(TicketListSmart)
+    { fetchTickets, incrementPage, resetPage })(TicketListSmart)
