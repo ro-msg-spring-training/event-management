@@ -39,14 +39,6 @@ const BuyTicketFirstPageSmart: React.FC<Props> = (props: Props) => {
     props.updateRadioButton(value);
   };
 
-  if (props.isLoading) {
-    return (
-      <Container>
-        <CircularProgress />
-      </Container>
-    );
-  }
-
   return (
     <div>
       <BuyTicketFirstPageDumb

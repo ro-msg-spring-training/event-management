@@ -34,7 +34,7 @@ export const ReservePageReducer = (
     case ReserveTicketActionTypes.RESERVE_EVENT_LOADING: {
       return {
         ...state,
-        isLoading: action.loadingStatus,
+        isLoading: true,
       };
     }
     case ReserveTicketActionTypes.RESERVE_EVENT_FETCH_SUCCESS: {
@@ -48,7 +48,7 @@ export const ReservePageReducer = (
     case ReserveTicketActionTypes.RESERVE_EVENT_ERROR: {
       return {
         ...state,
-        isError: action.errorStatus,
+        isError: true,
       };
     }
     case ReserveTicketActionTypes.UPDATE_RADIOBUTTON:
