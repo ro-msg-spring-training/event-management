@@ -5,8 +5,8 @@ import LocationPageReducer from "./LocationPageReducer";
 import { UserHomePageReducer } from "./UserHomePageReducer";
 
 export default combineReducers({
-    events: EventsPageReducer,
-    eventCrud: HeaderReducer,
-    location: LocationPageReducer,
-    userHome: UserHomePageReducer
+  events: EventsPageReducer,
+  eventCrud: HeaderReducer,
+  location: LocationPageReducer,
+  userHome: UserHomePageReducer,
 });

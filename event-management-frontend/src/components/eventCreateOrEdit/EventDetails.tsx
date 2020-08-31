@@ -1,47 +1,54 @@
-import React, { useEffect, useState } from 'react';
-import { CircularProgress, Container, Paper, makeStyles } from '@material-ui/core';
-import { loadEvent, deleteEvent, addEvent, editEvent, resetStore } from '../../actions/HeaderEventCrudActions';
-import { connect } from 'react-redux';
-import Header from './headerEditAndDelete/HeaderCrudSmart';
-import Stepper from './Stepper';
-import { useHistory } from 'react-router-dom';
-import AlertDialog from './AlertDialog';
-import OverviewSmart from './overviewSection/OverviewSmart';
-import Tickets from '../Tickets';
-import { EventCrud } from '../../model/EventCrud';
+import React, { useEffect, useState } from "react";
+import { CircularProgress, Container, Paper, makeStyles } from "@material-ui/core";
+import { loadEvent, deleteEvent, addEvent, editEvent, resetStore } from "../../actions/HeaderEventCrudActions";
+import { connect } from "react-redux";
+import Header from "./headerEditAndDelete/HeaderCrudSmart";
+import Stepper from "./Stepper";
+import { useHistory } from "react-router-dom";
+import AlertDialog from "./AlertDialog";
+import OverviewSmart from "./overviewSection/OverviewSmart";
+import { EventCrud } from "../../model/EventCrud";
 import { useTranslation } from "react-i18next";
-import ImagesSectionSmart from './imagesSection/ImagesSectionSmart';
-import { EventImage } from '../../model/EventImage';
-import MapWrapper from './locationSection/Map'
-import { EventFormErrors } from '../../model/EventFormErrors';
+import ImagesSectionSmart from "./imagesSection/ImagesSectionSmart";
+import { EventImage } from "../../model/EventImage";
+import MapWrapper from "./locationSection/Map";
+import { EventFormErrors } from "../../model/EventFormErrors";
 
 interface Props {
-  match: any,
-  admin: boolean,
-  fetchEventF: (id: string) => void,
-  deleteEventF: (id: string) => void,
-  addEventF: (event: EventCrud, images: EventImage[]) => void,
-  editEventF: (event: EventCrud, images: EventImage[]) => void,
-  resetStoreF: () => void,
+  match: any;
+  admin: boolean;
+  fetchEventF: (id: string) => void;
+  deleteEventF: (id: string) => void;
+  addEventF: (event: EventCrud, images: EventImage[]) => void;
+  editEventF: (event: EventCrud, images: EventImage[]) => void;
+  resetStoreF: () => void;
   fetchEvent: {
-    loading: boolean,
-    event: EventCrud,
-    error: string,
-    images: EventImage[],
-    formErrors: EventFormErrors
-  },
-
+    loading: boolean;
+    event: EventCrud;
+    error: string;
+    images: EventImage[];
+    formErrors: EventFormErrors;
+  };
 }
 
 const useStyles = makeStyles({
   paper: {
     width: "100%",
     minHeight: "93.9vh",
-    background: 'linear-gradient(45deg, #21C6F3 50%, #1E5FA4 90%)',
+    background: "linear-gradient(45deg, #21C6F3 50%, #1E5FA4 90%)",
   },
 });
 
-function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, editEventF, resetStoreF, fetchEvent }: Props) {
+function EventDetails({
+  match,
+  admin,
+  fetchEventF,
+  deleteEventF,
+  addEventF,
+  editEventF,
+  resetStoreF,
+  fetchEvent,
+}: Props) {
   const history = useHistory();
   const classes = useStyles();
   const { t } = useTranslation();
@@ -57,15 +64,16 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, edit
 
   useEffect(() => {
     if (newEvent === false) {
-      fetchEventF(match.params.id)
+      fetchEventF(match.params.id);
     }
     return () => {
-      resetStoreF()
-    }
-  }, [fetchEventF, resetStoreF, match.params.id, newEvent])
+      resetStoreF();
+    };
+  }, [fetchEventF, resetStoreF, match.params.id, newEvent]);
 
   const verifyDateAndTimePeriods = (event: EventCrud): boolean => {
-    if (!(new Date(event.startDate) > new Date(event.endDate)) &&
+    if (
+      !(new Date(event.startDate) > new Date(event.endDate)) &&
       !(new Date(event.startDate) < new Date(event.endDate))
     ) {
       if (event.startHour >= event.endHour) {
@@ -83,7 +91,7 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, edit
       return false;
     }
     return true;
-  }
+  };
 
   const verifyErrorMessages = (errors: EventFormErrors): boolean => {
     if (
@@ -96,7 +104,6 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, edit
       errors.endTime.length > 0 ||
       errors.maxPeople.length > 0
     ) {
-
       setMsgUndo(t("welcome.popupErrMsgUnderstood"));
       setDialogTitle(t("welcome.popupMsgErrTitle"));
       setDialogDescription(t("welcome.popupErrMsgDescription"));
@@ -105,14 +112,15 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, edit
       return false;
     }
     return true;
-  }
+  };
 
   const verifyNullFields = (event: EventCrud): boolean => {
-    if ((
-      event.title.length === 0 ||
-      event.subtitle.length === 0 ||
-      event.description.length === 0 ||
-      event.maxPeople === 0) && newEvent
+    if (
+      (event.title.length === 0 ||
+        event.subtitle.length === 0 ||
+        event.description.length === 0 ||
+        event.maxPeople === 0) &&
+      newEvent
     ) {
       setMsgUndo(t("welcome.popupErrMsgUnderstood"));
       setDialogTitle(t("welcome.popupMsgErrTitle"));
@@ -121,10 +129,14 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, edit
       return false;
     }
     return true;
-  }
+  };
 
   const formValid = (event: EventCrud, errors: EventFormErrors): boolean => {
-    if (true === verifyDateAndTimePeriods(event) && true === verifyErrorMessages(errors) && true === verifyNullFields(event))
+    if (
+      true === verifyDateAndTimePeriods(event) &&
+      true === verifyErrorMessages(errors) &&
+      true === verifyNullFields(event)
+    )
       return true;
     return false;
   };
@@ -132,15 +144,15 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, edit
   let saveEvent = (): void => {
     if (formValid(fetchEvent.event, fetchEvent.formErrors)) {
       if (newEvent) {
-        addEventF(fetchEvent.event, fetchEvent.images)
+        addEventF(fetchEvent.event, fetchEvent.images);
       } else {
-        editEventF(fetchEvent.event, fetchEvent.images)
+        editEventF(fetchEvent.event, fetchEvent.images);
       }
       if (fetchEvent.error === "") {
-        history.push('/admin/events');
+        history.push("/admin/events");
       }
     }
-  }
+  };
 
   let deleteEvent = (): void => {
     if (newEvent === true) {
@@ -148,14 +160,14 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, edit
       setDialogTitle(t("welcome.popupMsgCancelTitle"));
       setDialogDescription(t("welcome.popupMsgCancelDescription"));
       setOpen(true);
-      resetStoreF()
+      resetStoreF();
     } else {
       deleteEventF(match.params.id);
-      history.push('/admin/events');
+      history.push("/admin/events");
     }
-  }
+  };
 
-  const overviewComponent =
+  const overviewComponent = (
     <OverviewSmart
       newEvent={newEvent}
       admin={admin}
@@ -164,13 +176,9 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, edit
       setDialogTitle={setDialogTitle}
       setDialogDescription={setDialogDescription}
     />
-  const locationComponent = <MapWrapper
-    locationStatus={idLocation}
-    setlocationStatus={setidLocation}
-  />
-  const ticketsComponent = <Tickets />
-  const imagesComponent = <ImagesSectionSmart />
-
+  );
+  const locationComponent = <MapWrapper locationStatus={idLocation} setlocationStatus={setidLocation} />;
+  const imagesComponent = <ImagesSectionSmart />;
 
   if (fetchEvent.loading) {
     return (
@@ -187,7 +195,7 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, edit
       <Stepper
         overviewComponent={overviewComponent}
         locationComponent={locationComponent}
-        ticketsComponent={ticketsComponent}
+        ticketsComponent={imagesComponent}
         imagesComponent={imagesComponent}
       />
       <AlertDialog
@@ -204,8 +212,8 @@ function EventDetails({ match, admin, fetchEventF, deleteEventF, addEventF, edit
 const mapStateToProps = (state: any) => {
   return {
     fetchEvent: state.eventCrud,
-  }
-}
+  };
+};
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
@@ -213,8 +221,8 @@ const mapDispatchToProps = (dispatch: any) => {
     deleteEventF: (id: string) => dispatch(deleteEvent(id)),
     addEventF: (event: EventCrud, images: EventImage[]) => dispatch(addEvent(event, images)),
     editEventF: (event: EventCrud, images: EventImage[]) => dispatch(editEvent(event, images)),
-    resetStoreF: () => dispatch(resetStore())
-  }
-}
+    resetStoreF: () => dispatch(resetStore()),
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventDetails);

@@ -159,6 +159,7 @@
     "pastEvents": "Past events",
     "upcomingEvents": "Upcoming events",
     "errorMessage": "Oops, error",
-    "noEvents": "There are no events"
+    "noEvents": "There are no events",
+    "carousselError": "Unable to load. Try again later."
   }
 }
