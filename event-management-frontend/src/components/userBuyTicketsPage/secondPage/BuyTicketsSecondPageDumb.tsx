@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import TicketsStep from './steps/ticketsStep/TicketsStepSmart';
 import EmailStep from './steps/emailStep/EmailStepSmart';
 import NamesStep from './steps/namesStep/NamesStepSmart';
@@ -110,6 +110,12 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
       </div>
     </>
 
+  const [open, setOpen] = useState(false);
+  let handleBuy = (): void => {
+    setOpen(true);
+    nextStep();
+  }
+
   let currentPage = <></>
   switch (step) {
     case 1:
@@ -142,27 +148,26 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
     case 3:
       currentPage =
         <NamesStep
-          nextStep={nextStep}
+          handleBuy={handleBuy}
           prevStep={prevStep}
           handleEnterKey={handleEnterKey}
           ticketNames={ticketNames}
           updateTicketNames={updateTicketNames}
         />
-
       break;
     case 4:
       currentPage =
-        <div style={{ marginTop: '22vh' }}>
-          <TermsAndConditionsStep
-            prevStep={prevStep}
-            checked={checked}
-            booking={booking}
-            updateBookings={updateBookings}
-            ticketNames={ticketNames}
-            updateChecked={updateChecked}
-            addBookings={addBookings}
-          />
-        </div>
+        <TermsAndConditionsStep
+          open={open}
+          setOpen={setOpen}
+          prevStep={prevStep}
+          checked={checked}
+          booking={booking}
+          updateBookings={updateBookings}
+          ticketNames={ticketNames}
+          updateChecked={updateChecked}
+          addBookings={addBookings}
+        />
       break;
     default:
       (console.log('Wrong step'))

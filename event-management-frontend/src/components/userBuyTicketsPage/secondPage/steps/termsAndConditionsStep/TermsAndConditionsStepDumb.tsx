@@ -36,6 +36,7 @@ function TermsAndConditionsStepDumb({ prevStep, checked, handleCheckboxChange, h
       </Grid>
 
       <BuyTicketsPopupSmart
+        prevStep={prevStep}
         open={open}
         setOpen={setOpen}
         checked={checked}

@@ -9,7 +9,6 @@ import { updateNamesStepFormErrors } from '../../../../../actions/TicketReservat
 import { initializeNamesStepFormErrors, createNamesStepFields, updateNamesStepErrorsLocally, verifyExistenceOfTickets } from '../../../../../utils/ticketReservationUtils/NamesStepUtils';
 
 interface NamesStepProps {
-  nextStep: () => void,
   prevStep: () => void,
   handleEnterKey: (e: any) => void,
   ticketAmount: TicketsPerCateory[],
@@ -19,13 +18,17 @@ interface NamesStepProps {
 
   namesStepFormErrors: NamesStepFormErrors[],
   updateNamesStepFormErrors: (namesStepFormErrors: NamesStepFormErrors[]) => void,
+
+  handleBuy: () => void,
+
 }
 
 const nameRegex = RegExp(
   /^[-a-zA-Z\s]*$/
 );
 
-function NamesStepSmart({ nextStep, prevStep, handleEnterKey, ticketAmount, ticketNames, updateTicketNames, namesStepFormErrors, updateNamesStepFormErrors }: NamesStepProps) {
+function NamesStepSmart({ handleBuy, prevStep, handleEnterKey, ticketAmount, ticketNames,
+  updateTicketNames, namesStepFormErrors, updateNamesStepFormErrors }: NamesStepProps) {
   const classes = userBuyTicketsStyle();
 
   namesStepFormErrors = initializeNamesStepFormErrors(namesStepFormErrors, ticketAmount);
@@ -96,7 +99,7 @@ function NamesStepSmart({ nextStep, prevStep, handleEnterKey, ticketAmount, tick
   return (
     <NamesStepDumb
       noTicketsSelected={noTicketsSelected}
-      nextStep={nextStep}
+      handleBuy={handleBuy}
       prevStep={prevStep}
       inputs={inputs}
     />

@@ -2,6 +2,7 @@ import React from 'react';
 import BuyTicketsPopupDumb from './BuyTicketsPopupDumb';
 
 interface BuyTicketsPopupSmartProps {
+  prevStep: () => void,
   open: boolean,
   setOpen: any,
   checked: boolean,
@@ -9,7 +10,7 @@ interface BuyTicketsPopupSmartProps {
   handleProceedToBuy: () => void,
 }
 
-function BuyTicketsPopupSmart({ open, setOpen, checked, handleCheckboxChange, handleProceedToBuy }: BuyTicketsPopupSmartProps) {
+function BuyTicketsPopupSmart({ prevStep, open, setOpen, checked, handleCheckboxChange, handleProceedToBuy }: BuyTicketsPopupSmartProps) {
 
   const handleClose = () => {
     setOpen(false);
@@ -22,6 +23,7 @@ function BuyTicketsPopupSmart({ open, setOpen, checked, handleCheckboxChange, ha
 
   const handleCancel = (): void => {
     setOpen(false);
+    prevStep();
   }
 
   return (

@@ -7,12 +7,12 @@ import HelpIcon from '@material-ui/icons/Help';
 
 interface NamesStepPropsDumb {
   noTicketsSelected: boolean,
-  nextStep: () => void,
+  handleBuy: () => void,
   prevStep: () => void,
   inputs: JSX.Element[],
 }
 
-function NamesStepDumb({ noTicketsSelected, nextStep, prevStep, inputs }: NamesStepPropsDumb) {
+function NamesStepDumb({ noTicketsSelected, handleBuy, prevStep, inputs }: NamesStepPropsDumb) {
   const buttonClass = useStyles();
   const classes = userBuyTicketsStyle();
 
@@ -54,7 +54,7 @@ function NamesStepDumb({ noTicketsSelected, nextStep, prevStep, inputs }: NamesS
           </Grid>
 
           <Grid item xs={4} sm={3} md={2} lg={1} xl={1}>
-            <Button variant="contained" className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition}`} onClick={nextStep}> NEXT </Button>
+            <Button variant="contained" className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition}`} onClick={handleBuy}> BUY TICKETS </Button>
           </Grid>
         </Grid>
       </Grid>

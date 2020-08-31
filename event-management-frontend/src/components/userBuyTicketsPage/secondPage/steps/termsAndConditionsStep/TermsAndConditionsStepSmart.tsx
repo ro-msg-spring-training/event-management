@@ -10,6 +10,7 @@ import AlertDialog from '../../../../eventCreateOrEdit/AlertDialog';
 import { useTranslation } from 'react-i18next';
 import { verifyIfNoErrors, verifyIfNoNullFields, verifyIfNoErrorsInTicketsStep, verifyIfNoErrorsInEmailStep, verifyIfNoErrorsInNamesStep } from '../../../../../utils/ticketReservationUtils/TermsAndConditionsUtils';
 import { Container, CircularProgress } from '@material-ui/core';
+import BuyTicketsPopupSmart from './popup/BuyTicketsPopupSmart';
 
 interface TermsAndConditionsStepSmartProps {
   prevStep: () => void,
@@ -27,15 +28,17 @@ interface TermsAndConditionsStepSmartProps {
   isError: boolean,
   isLoading: boolean,
   errorMsg: string,
+
+  open: boolean,
+  setOpen: (open: boolean) => void,
 }
 
 function TermsAndConditionsStepSmart({ prevStep, checked, booking, updateBookings, ticketNames,
-  updateChecked, addBookings, ticketsStepFormErrors, emailFormErrors, namesStepFormErrors, isError, isLoading, errorMsg }: TermsAndConditionsStepSmartProps) {
+  updateChecked, addBookings, ticketsStepFormErrors, emailFormErrors, namesStepFormErrors, isError, isLoading, errorMsg,
+  open, setOpen }: TermsAndConditionsStepSmartProps) {
 
   const { t } = useTranslation();
 
-  const [result, setResult] = useState(false);
-  const [open, setOpen] = useState(false);
   const [openErrorPopup, setOpenErrorPopup] = useState(false);
   const [msgUndo, setMsgUndo] = useState("");
   const [dialogTitle, setDialogTitle] = useState("");
@@ -139,16 +142,16 @@ function TermsAndConditionsStepSmart({ prevStep, checked, booking, updateBooking
 
   return (
     <>
-      <TermsAndConditionsDumb
+      <BuyTicketsPopupSmart
         prevStep={prevStep}
-        checked={checked}
-        handleCheckboxChange={handleCheckboxChange}
-        handleEventBuyTickets={handleEventBuyTickets}
         open={open}
         setOpen={setOpen}
+        checked={checked}
+        handleCheckboxChange={handleCheckboxChange}
         handleProceedToBuy={handleProceedToBuy}
       />
       <AlertDialog
+        prevStep={prevStep}
         open={openErrorPopup}
         setOpen={setOpenErrorPopup}
         msgUndo={msgUndo}
