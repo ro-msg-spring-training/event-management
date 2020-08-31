@@ -1,14 +1,12 @@
 package ro.msg.event.management.eventmanagementbackend.service;
 
+import com.amazonaws.SdkClientException;
 import com.amazonaws.auth.InstanceProfileCredentialsProvider;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,6 +33,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -53,6 +52,12 @@ public class BookingService {
 
     @Value("${event-management.s3.tickets.bucketName}")
     private String bucketName;
+
+    @Value("${event-management.font.family}")
+    private String fontFamily;
+
+    @Value("${event-management.font.size}")
+    private String fontSize;
 
     private final TicketDocumentRepository ticketDocumentRepository;
     private final TicketCategoryRepository ticketCategoryRepository;
@@ -132,7 +137,8 @@ public class BookingService {
             PdfContentByte pdfContentByte = pdfStamper.getOverContent(1);
 
             acroFields.setField("eventName", event.getTitle());
-            acroFields.setField("location", location.getName() + " " + location.getAddress());
+            acroFields.setField("location", location.getName());
+            acroFields.setField("address", location.getAddress());
             if(event.getStartDate().isEqual(event.getEndDate()))
             {
                 acroFields.setField("date", event.getStartDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
@@ -161,8 +167,15 @@ public class BookingService {
             pdfStamper.close();
 
             File file = new File(fileName);
-            String ticketUrl = this.saveDocumentToS3(file, fileName);
-            this.saveTicketDocument(ticketUrl, ticket);
+            try{
+                String ticketUrl = this.saveDocumentToS3(file, fileName);
+                this.saveTicketDocument(ticketUrl, ticket);
+            }
+            catch(SdkClientException exception)
+            {
+                this.saveTicketDocument(fileName, ticket);
+            }
+
             boolean fileDeletedFromLocalStorage = file.delete();
             if (!fileDeletedFromLocalStorage) {
                 throw new IOException("Temporary local pdf could not be deleted!");
@@ -191,6 +204,8 @@ public class BookingService {
     private void replaceFieldWithParagraph(AcroFields acroFields, PdfContentByte pdfContentByte, String fieldName, Paragraph paragraph) throws DocumentException {
         if (acroFields.getFieldPositions(fieldName) != null) {
             Rectangle rectangle = acroFields.getFieldPositions(fieldName).get(0).position;
+            Font font= new Font(Font.FontFamily.valueOf(this.fontFamily), Float.parseFloat(this.fontSize),Font.NORMAL,BaseColor.BLACK);
+            paragraph.setFont(font);
             acroFields.removeField(fieldName);
             ColumnText columnText = new ColumnText(pdfContentByte);
             columnText.setSimpleColumn(rectangle);
