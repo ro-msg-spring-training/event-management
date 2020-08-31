@@ -2,6 +2,7 @@ package ro.msg.event.management.eventmanagementbackend.config;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.auth.InstanceProfileCredentialsProvider;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClientBuilder;
@@ -12,21 +13,13 @@ import org.springframework.mail.javamail.JavaMailSender;
 
 @Configuration
 public class AwsMailConfig {
-
-    private CustomPropertyConfig customPropertyConfig;
-
-    public AwsMailConfig(final CustomPropertyConfig customPropertyConfig) {
-        this.customPropertyConfig = customPropertyConfig;
-    }
-
+    
     @Bean
     public AmazonSimpleEmailService amazonSimpleEmailService() {
 
         return AmazonSimpleEmailServiceClientBuilder.standard()
                 .withCredentials(
-                        new AWSStaticCredentialsProvider(
-                                new BasicAWSCredentials(
-                                        customPropertyConfig.awsAccessKey, customPropertyConfig.awsSecretKey)))
+                        new InstanceProfileCredentialsProvider(false))
                 .withRegion(Regions.EU_WEST_1)
                 .build();
     }

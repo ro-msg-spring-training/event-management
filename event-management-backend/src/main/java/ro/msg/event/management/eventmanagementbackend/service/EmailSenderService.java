@@ -4,34 +4,25 @@ package ro.msg.event.management.eventmanagementbackend.service;
 
 import com.amazonaws.auth.InstanceProfileCredentialsProvider;
 import com.amazonaws.regions.Regions;
-import com.amazonaws.services.dynamodbv2.xspec.S;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
-import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.*;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
-import ro.msg.event.management.eventmanagementbackend.config.CustomPropertyConfig;
 import ro.msg.event.management.eventmanagementbackend.entity.Ticket;
 import ro.msg.event.management.eventmanagementbackend.mail.Mail;
 
 import javax.activation.DataSource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -95,7 +86,7 @@ public class EmailSenderService {
 
     public Mail getMail(Map<String, Object> model) {
         Mail mail = new Mail();
-        mail.setFrom(customPropertyConfig.mailFrom);
+        mail.setFrom("testing.testing999000@gmail.com");
         mail.setTo("damsa.andreea5@gmail.com");
         mail.setSubject("Confirmare achizitionare bilete");
         mail.setModel(model);
