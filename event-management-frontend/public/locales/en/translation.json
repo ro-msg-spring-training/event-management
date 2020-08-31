@@ -150,7 +150,7 @@
   "location": {
     "selectButton": "Select",
     "cancelButton": "Cancel",
-    "selectedLocationMessage": " Selected location for the event",
+    "selectedLocationMessage": "Selected location for the event",
     "searchBarText": "Search location"
   }
 }
