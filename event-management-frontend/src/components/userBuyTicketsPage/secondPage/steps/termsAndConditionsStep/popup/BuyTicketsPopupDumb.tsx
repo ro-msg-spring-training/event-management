@@ -11,7 +11,6 @@ import { Grid, FormControlLabel } from '@material-ui/core';
 import { YellowCheckbox } from '../../../../../YellowCheckbox';
 import { termsAndConditionsText } from '../TermsAndConditionsText';
 
-
 interface BuyTicketsPopupDumbProps {
   open: boolean,
   checked: boolean,
@@ -37,7 +36,7 @@ function BuyTicketsPopupDumb({ open, checked, handleCheckboxChange, handleCancel
         <DialogTitle id="alert-dialog-title">Terms and Conditions</DialogTitle>
 
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
+          <DialogContentText id="alert-dialog-description" component={'span'}>
             {termsAndConditionsText}
           </DialogContentText>
         </DialogContent>

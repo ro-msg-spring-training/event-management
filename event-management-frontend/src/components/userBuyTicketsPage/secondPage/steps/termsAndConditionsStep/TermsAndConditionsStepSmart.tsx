@@ -50,10 +50,6 @@ function TermsAndConditionsStepSmart({ prevStep, checked, booking, updateBooking
     updateChecked(false);
   }, [updateChecked]);
 
-  let handleEventBuyTickets = (): void => {
-    setOpen(true);
-  }
-
   useEffect(() => {
     let newBooking = { ...booking };
     let newArr: Ticket[] = [];
