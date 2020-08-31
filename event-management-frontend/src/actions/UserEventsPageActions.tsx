@@ -17,6 +17,7 @@ export const UPDATE_IS_FETCHING = "UPDATE_IS_FETCHING"
 export const UPDATE_USER_FILTERS = "UPDATE_USER_FILTERS"
 export const RESET_USER_FILTERS = "RESET_USER_FILTERS"
 export const SET_FILTER_USER_EVENTS_MODE = "SET_FILTER_USER_EVENTS_MODE"
+export const RESET_USER_EVENT_LIST_STORE = "RESET_USER_EVENT_LIST_STORE"
 
 export const fetchUserEvents = (page: number, limit: number, isFilter: UserEventIsFilterType, filters: UserEventFilters) => {
     return {
@@ -92,5 +93,11 @@ export const resetUserFilters = () => {
 export const setUserFilterMode = () => {
     return {
         type: SET_FILTER_USER_EVENTS_MODE,
+    }
+}
+
+export const resetStore = () => {
+    return {
+        type: RESET_USER_EVENT_LIST_STORE
     }
 }

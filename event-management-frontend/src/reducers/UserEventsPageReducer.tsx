@@ -1,5 +1,5 @@
 import { UserEventList } from '../model/userEventsPage/UserEventList'
-import { FETCH_USER_EVENTS_SUCCESS, FETCH_USER_EVENTS_REQUEST, FETCH_USER_EVENTS_ERROR, UPDATE_IS_FETCHING, UPDATE_USER_FILTERS, FETCH_USER_EVENTS_LOCATIONS_SUCCESS, RESET_USER_FILTERS, SET_FILTER_USER_EVENTS_MODE, FETCH_USER_EVENTS_LOCATIONS_REQUEST, FETCH_USER_EVENTS_LOCATIONS_ERROR } from '../actions/UserEventsPageActions'
+import { FETCH_USER_EVENTS_SUCCESS, FETCH_USER_EVENTS_REQUEST, FETCH_USER_EVENTS_ERROR, UPDATE_IS_FETCHING, UPDATE_USER_FILTERS, FETCH_USER_EVENTS_LOCATIONS_SUCCESS, RESET_USER_FILTERS, SET_FILTER_USER_EVENTS_MODE, FETCH_USER_EVENTS_LOCATIONS_REQUEST, FETCH_USER_EVENTS_LOCATIONS_ERROR, RESET_USER_EVENT_LIST_STORE } from '../actions/UserEventsPageActions'
 import { UserEventFilters } from '../model/userEventsPage/UserEventFilters'
 import { UserEventType } from '../model/userEventsPage/UserEventType'
 import { UserMathRelation } from '../model/userEventsPage/UserMathRelation'
@@ -121,6 +121,26 @@ export const UserEventsReducer = (state = initialState, action: ReducerActionPro
                     state.isFilter === UserEventIsFilterType.IN_USE_STATE_1 ?
                         UserEventIsFilterType.IN_USE_STATE_2 :
                         UserEventIsFilterType.IN_USE_STATE_1,
+            }
+        case RESET_USER_EVENT_LIST_STORE:
+            return {
+                events: [],
+                isError: false,
+                isFetching: false,
+                page: initialPage,
+                limit: 4,
+                isMore: false,
+                filters: {
+                    title: '',
+                    locations: [],
+                    rate: '',
+                    rateSign: UserMathRelation.GREATER,
+                    type: UserEventType.UPCOMING
+                },
+                locations: [],
+                isLocationsLoading: false,
+                isLocationsError: false,
+                isFilter: UserEventIsFilterType.NOT_IN_USE
             }
         default:
             return state

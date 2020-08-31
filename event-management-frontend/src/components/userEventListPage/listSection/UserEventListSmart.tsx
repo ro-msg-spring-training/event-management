@@ -5,7 +5,7 @@ import UserEventListDumb from './UserEventListDumb';
 import { LinearProgress } from '@material-ui/core';
 import { useHistory } from 'react-router-dom'
 import { UserEventList } from '../../../model/userEventsPage/UserEventList';
-import { fetchUserEvents, setIsFetching } from '../../../actions/UserEventsPageActions';
+import { fetchUserEvents, setIsFetching, resetStore } from '../../../actions/UserEventsPageActions';
 import { AppState } from '../../../store/store';
 import { useTranslation } from 'react-i18next';
 import { UserEventFilters } from '../../../model/userEventsPage/UserEventFilters';
@@ -21,7 +21,8 @@ interface UserEventListProps {
     filters: UserEventFilters,
     isFilter: UserEventIsFilterType,
     setIsFetching: (isLoading: boolean) => void,
-    fetchUserEvents: (page: number, limit: number, isFilter: UserEventIsFilterType, filters: UserEventFilters) => void
+    fetchUserEvents: (page: number, limit: number, isFilter: UserEventIsFilterType, filters: UserEventFilters) => void,
+    resetState: () => void
 }
 
 function UserEventListSmart({
@@ -34,7 +35,8 @@ function UserEventListSmart({
     page,
     limit,
     fetchUserEvents,
-    setIsFetching
+    setIsFetching,
+    resetState
 }: UserEventListProps) {
 
     const history = useHistory();
@@ -59,6 +61,10 @@ function UserEventListSmart({
     useEffect(() => {
         fetchUserEvents(page, limit, isFilter, filters);
     }, [isFilter]);
+
+    useEffect(()=>{
+        return () => resetState();
+    }, [resetState])
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
@@ -103,7 +109,8 @@ const mapStateToProps = (state: AppState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
     fetchUserEvents: (page: number, limit: number, isFilter: UserEventIsFilterType, filters: UserEventFilters) => dispatch(fetchUserEvents(page, limit, isFilter, filters)),
-    setIsFetching: (isFetching: boolean) => dispatch(setIsFetching(isFetching))
+    setIsFetching: (isFetching: boolean) => dispatch(setIsFetching(isFetching)),
+    resetState: () => dispatch(resetStore())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserEventListSmart);
