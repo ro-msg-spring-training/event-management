@@ -4,6 +4,7 @@ import EmailStepDumb from './EmailStepDumb';
 import { connect } from 'react-redux';
 import { EmailStepFormErrors } from '../../../../../model/BuyTicketsSecondPage';
 import { updateEmailFormErrors } from '../../../../../actions/TicketReservationActions';
+import { useTranslation } from 'react-i18next';
 
 interface EmailStepSmartProps {
   nextStep: () => void,
@@ -23,7 +24,8 @@ const emailRegex = RegExp(
 );
 
 function EmailStepSmart({ nextStep, prevStep, handleEnterKey, email, updateBookings, booking, emailFormErrors, updateEmailFormErrors }: EmailStepSmartProps) {
-
+  const { t } = useTranslation();
+  
   const handleEmailStepChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const value = e.target.value;
     let newBooking = { ...booking };
@@ -31,7 +33,7 @@ function EmailStepSmart({ nextStep, prevStep, handleEnterKey, email, updateBooki
     updateBookings(newBooking);
 
     let emailError = { ...emailFormErrors };
-    emailError.error = emailRegex.test(value) ? "" : "Invalid email address";
+    emailError.error = emailRegex.test(value) ? "" : t("buyTicketsSecondPage.invalidEmailAddress");
     updateEmailFormErrors(emailError);
   }
 

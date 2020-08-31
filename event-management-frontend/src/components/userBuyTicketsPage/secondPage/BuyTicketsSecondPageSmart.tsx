@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { loadTicketCategories, addBookings, updateBookings, updateTicketAmount, updateTicketNames, updateChecked } from '../../../actions/TicketReservationActions';
 import { Container, CircularProgress, Grid } from '@material-ui/core';
-import { useHistory, Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import BuyTicketsSecondPageDumb from './BuyTicketsSecondPageDumb';
 import Booking from '../../../model/Booking';
 import { TicketsPerCateory, TicketNames } from '../../../model/UserReserveTicket';
@@ -23,7 +23,6 @@ interface BuyTicketsSecondPageSmartProps {
   booking: Booking,
 
   updateTicketAmount: (ticketAmount: TicketsPerCateory[]) => void,
-  // ticketAmount: TicketsPerCateory[],
 
   updateTicketNames: (ticketAmount: TicketNames[]) => void,
   ticketNames: TicketNames[],
@@ -71,10 +70,7 @@ function BuyTicketsSecondPageSmart({ match, fetchedData, ticketCategories, fetch
     );
   }
 
-  // Proceed to next step
   const nextStep = () => { setStep(step + 1); };
-
-  // Go back to prev step
   const prevStep = () => { setStep(step - 1); };
 
   const gotoFirstPage = () => {
@@ -82,11 +78,9 @@ function BuyTicketsSecondPageSmart({ match, fetchedData, ticketCategories, fetch
   }
 
   const gotoEventListPage = () => {
-    //TODO redirect to events list
     history.push('/user');
   }
 
-  // console.log("BOOKING ", booking);
   return (
     <BuyTicketsSecondPageDumb
       gotoFirstPage={gotoFirstPage}
@@ -136,6 +130,3 @@ const mapDispatchToProps = (dispatch: any) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(BuyTicketsSecondPageSmart);
-
-//TODO
-//internationalizare

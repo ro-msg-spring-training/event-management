@@ -8,7 +8,7 @@ import { TicketsStepFormErrors, EmailStepFormErrors, NamesStepFormErrors } from 
 import AlertDialog from '../../../../eventCreateOrEdit/AlertDialog';
 import { useTranslation } from 'react-i18next';
 import { verifyIfNoErrors, verifyIfNoNullFields, verifyIfNoErrorsInTicketsStep, verifyIfNoErrorsInEmailStep, verifyIfNoErrorsInNamesStep } from '../../../../../utils/ticketReservationUtils/TermsAndConditionsUtils';
-import { Container, CircularProgress } from '@material-ui/core';
+import { Container, CircularProgress, Grid } from '@material-ui/core';
 import BuyTicketsPopupSmart from './popup/BuyTicketsPopupSmart';
 
 interface TermsAndConditionsStepSmartProps {
@@ -44,8 +44,6 @@ function TermsAndConditionsStepSmart({ prevStep, checked, booking, updateBooking
   const [dialogDescription, setDialogDescription] = useState("");
   const history = useHistory();
 
-  let display = <></>
-
   useEffect(() => {
     updateChecked(false);
   }, [updateChecked]);
@@ -70,7 +68,7 @@ function TermsAndConditionsStepSmart({ prevStep, checked, booking, updateBooking
 
       setMsgUndo(t("welcome.popupErrMsgUnderstood"));
       setDialogTitle(t("welcome.popupMsgErrTitle"));
-      setDialogDescription("You haven't checked the Terms and Conditions agreement, in order to buy the tickets you need to read and accept the Terms and Conditions statements");
+      setDialogDescription(t("buyTicketsSecondPage.termsAndConditionsErr"));
       setOpenErrorPopup(true);
 
     } else if (noErrors) {
@@ -79,22 +77,29 @@ function TermsAndConditionsStepSmart({ prevStep, checked, booking, updateBooking
       if (isLoading) {
         console.log("LOADING");
         return (
-          <Container maxWidth="lg">
-            <CircularProgress />
-          </Container>
+          <Grid container direction="row" justify="center" alignItems="center">
+            <Container maxWidth="lg">
+              <CircularProgress />
+            </Container>
+            <h6>Loading</h6>
+          </Grid>
         );
       }
       else if (isError) {
-        console.log("ERRORRRR");
         alert("ERROR " + errorMsg);
+        // return (
+        //   <Grid container direction="row" justify="center" alignItems="center">
+        //     <ErrorIcon color={"primary"} fontSize={"large"} />
+        //     <h2>Oops, there was an error</h2>
+        //     <h2>{errorMsg}</h2>
+        //   </Grid>
+        // );
+
       } else {
-        console.log("SUCCESS");
-        alert("SUCCESS");
-        return history.push('user/events');
+        return history.push('/user/events');
       }
 
     } else if (!verifyIfNoNullFields(booking)) {
-      console.log("errors null fields");
       setOpen(false);
 
       setMsgUndo(t("welcome.popupErrMsgUnderstood"));
@@ -103,30 +108,27 @@ function TermsAndConditionsStepSmart({ prevStep, checked, booking, updateBooking
       setOpenErrorPopup(true);
 
     } else if (!verifyIfNoErrorsInTicketsStep(ticketsStepFormErrors)) {
-      console.log("errors in tickets step");
       setOpen(false);
 
       setMsgUndo(t("welcome.popupErrMsgUnderstood"));
       setDialogTitle(t("welcome.popupMsgErrTitle"));
-      setDialogDescription("There are still errors in the tickets section, in order to buy the tickets you need to resolve them");
+      setDialogDescription(t("buyTicketsSecondPage.noErrorsInTicketsStep"));
       setOpenErrorPopup(true);
 
     } else if (!verifyIfNoErrorsInEmailStep(emailFormErrors)) {
-      console.log("errors in email step");
       setOpen(false);
 
       setMsgUndo(t("welcome.popupErrMsgUnderstood"));
       setDialogTitle(t("welcome.popupMsgErrTitle"));
-      setDialogDescription("There are still errors in the email section, in order to buy the tickets you need to resolve them");
+      setDialogDescription(t("buyTicketsSecondPage.noErrorsInEmailStep"));
       setOpenErrorPopup(true);
 
     } else if (!verifyIfNoErrorsInNamesStep(namesStepFormErrors)) {
-      console.log("errors in names step");
       setOpen(false);
 
       setMsgUndo(t("welcome.popupErrMsgUnderstood"));
       setDialogTitle(t("welcome.popupMsgErrTitle"));
-      setDialogDescription("There are still errors in the names section, in order to buy the tickets you need to resolve them");
+      setDialogDescription(t("buyTicketsSecondPage.noErrorsInNamesStep"));
       setOpenErrorPopup(true);
     }
   }
@@ -153,7 +155,6 @@ function TermsAndConditionsStepSmart({ prevStep, checked, booking, updateBooking
         dialogTitle={dialogTitle}
         dialogDescription={dialogDescription}
       />
-
     </>
   );
 };

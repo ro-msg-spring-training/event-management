@@ -11,6 +11,7 @@ import { BuyTicketsSecondPageStyle } from '../../../styles/BuyTicketsSecondPageS
 import { TicketNames } from '../../../model/UserReserveTicket';
 import { TicketAvailabilityData } from '../../../model/BuyTicketsSecondPage';
 import "../../../styles/ReservePageStyle.css";
+import { useTranslation } from 'react-i18next';
 
 export const buyTicketsSecondPageDumbStyle = makeStyles((theme: Theme) => ({
   root: {
@@ -21,8 +22,6 @@ export const buyTicketsSecondPageDumbStyle = makeStyles((theme: Theme) => ({
     paddingTop: "4%",
   },
   wrapper: {
-    // minWidth: '40%',
-    // minHeight: '50%',
     minWidth: '30vw',
     minHeight: '40vh',
     background: 'white',
@@ -37,15 +36,7 @@ export const buyTicketsSecondPageDumbStyle = makeStyles((theme: Theme) => ({
     maxWidth: '40vw',
     minHeight: '40vh',
     maxHeight: '60vh',
-    // overflowY: "scroll",
     paddinggBottom: '3vh',
-    // padding: '15vh 45%',
-    // width: '60%',
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // marginLeft: '20%',
-    // display: 'flex',
-    // flexDirection: 'column',
   },
   background: {
     backgroundColor: 'white',
@@ -91,13 +82,15 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
   updateBookings, updateTicketNames, ticketNames, updateChecked, checked,
   step, nextStep, prevStep, handleEnterKey }: BuyTicketsSecondPageDumbProps) {
 
+  const { t } = useTranslation();
+
   const classes = BuyTicketsSecondPageStyle();
   const classes2 = buyTicketsSecondPageDumbStyle();
 
   const buttons =
     <>
       <div className={classes.positionLeft}>
-        <Tooltip title="Go to first page">
+        <Tooltip title={t("buyTicketsSecondPage.gotoFirstPage") as string}>
           <IconButton onClick={gotoFirstPage} >
             <NavigateNextIcon fontSize="large" className={classes.prevButtonStyle} />
           </IconButton>
@@ -105,7 +98,7 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
       </div>
 
       <div className={classes.positionRight}>
-        <Tooltip title="Cancel purchase">
+        <Tooltip title={t("buyTicketsSecondPage.cancelPurchase") as string}>
           <IconButton onClick={gotoEventListPage} >
             <CloseIcon fontSize="large" className={classes.cancelButtonStyle} />
           </IconButton>

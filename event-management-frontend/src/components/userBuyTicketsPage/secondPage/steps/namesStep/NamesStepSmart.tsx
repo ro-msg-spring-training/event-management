@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { NamesStepFormErrors } from '../../../../../model/BuyTicketsSecondPage';
 import { updateNamesStepFormErrors } from '../../../../../actions/TicketReservationActions';
 import { initializeNamesStepFormErrors, createNamesStepFields, updateNamesStepErrorsLocally, verifyExistenceOfTickets } from '../../../../../utils/ticketReservationUtils/NamesStepUtils';
+import { useTranslation } from 'react-i18next';
 
 interface NamesStepProps {
   prevStep: () => void,
@@ -20,7 +21,6 @@ interface NamesStepProps {
   updateNamesStepFormErrors: (namesStepFormErrors: NamesStepFormErrors[]) => void,
 
   handleBuy: () => void,
-
 }
 
 const nameRegex = RegExp(
@@ -30,7 +30,8 @@ const nameRegex = RegExp(
 function NamesStepSmart({ handleBuy, prevStep, handleEnterKey, ticketAmount, ticketNames,
   updateTicketNames, namesStepFormErrors, updateNamesStepFormErrors }: NamesStepProps) {
   const classes = userBuyTicketsStyle();
-
+  const { t } = useTranslation();
+  
   namesStepFormErrors = initializeNamesStepFormErrors(namesStepFormErrors, ticketAmount);
   useEffect(() => {
     let initialTicketNames: TicketNames[] = ticketNames;
@@ -65,7 +66,7 @@ function NamesStepSmart({ handleBuy, prevStep, handleEnterKey, ticketAmount, tic
     // check for errors
     nameRegex.test(value) ?
       updateNamesStepErrorsLocally(namesStepFormErrors, name, "", updateNamesStepFormErrors) :
-      updateNamesStepErrorsLocally(namesStepFormErrors, name, "Wrong input", updateNamesStepFormErrors)
+      updateNamesStepErrorsLocally(namesStepFormErrors, name, `${ t("buyTicketsSecondPage.wrongInput") }`, updateNamesStepFormErrors)
   }
 
   let inputs: JSX.Element[] = [];

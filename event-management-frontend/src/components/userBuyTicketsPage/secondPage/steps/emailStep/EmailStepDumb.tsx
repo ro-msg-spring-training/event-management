@@ -3,6 +3,7 @@ import { useStyles } from '../../../../../styles/CommonStyles';
 import { Button, Grid, Typography, TextField } from '@material-ui/core';
 import { userBuyTicketsStyle } from '../../../../../styles/UserBuyTicketsStyle';
 import { EmailStepFormErrors } from '../../../../../model/BuyTicketsSecondPage';
+import { useTranslation } from 'react-i18next';
 
 interface EmailStepDumbProps {
   nextStep: () => void,
@@ -18,9 +19,11 @@ function EmailStepDumb({ nextStep, prevStep, handleEnterKey, email, handleEmailS
   const buttonClass = useStyles();
   const classes = userBuyTicketsStyle();
 
+  const { t } = useTranslation();
+
   return (
     <>
-      <Typography className={classes.typography} align="center">My email address</Typography>
+      <Typography className={classes.typography} align="center">{t("buyTicketsSecondPage.myEmailAddress")}</Typography>
       <Grid container direction="row" justify="center" alignItems="center">
         <Grid item xs={12}>
           <TextField
@@ -39,11 +42,11 @@ function EmailStepDumb({ nextStep, prevStep, handleEnterKey, email, handleEmailS
 
         <Grid item container direction="row" justify="center" alignItems="center" className={classes.button}>
           <Grid item xs={4} sm={3} md={2} lg={1} xl={1}>
-            <Button variant="contained" className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition}`} onClick={prevStep}> PREV </Button>
+            <Button variant="contained" className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition}`} onClick={prevStep}> {t("eventList.previous")} </Button>
           </Grid>
 
           <Grid item xs={4} sm={3} md={2} lg={1} xl={1}>
-            <Button variant="contained" className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition}`} onClick={nextStep}> NEXT </Button>
+            <Button variant="contained" className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition}`} onClick={nextStep}> {t("eventList.next")} </Button>
           </Grid>
         </Grid>
       </Grid>

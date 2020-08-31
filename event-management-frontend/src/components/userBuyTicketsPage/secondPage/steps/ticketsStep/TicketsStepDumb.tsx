@@ -4,6 +4,7 @@ import { useStyles } from '../../../../../styles/CommonStyles';
 import { userBuyTicketsStyle } from '../../../../../styles/UserBuyTicketsStyle';
 import HelpIcon from '@material-ui/icons/Help';
 import { HtmlTooltip } from '../../../../../styles/BuyTicketsSecondPageStyle';
+import { useTranslation } from 'react-i18next';
 
 interface TicketsStepDumbProps {
   nextStep: () => void,
@@ -13,6 +14,7 @@ interface TicketsStepDumbProps {
 function TicketsStepDumb({ nextStep, inputs }: TicketsStepDumbProps) {
   const buttonClass = useStyles();
   const classes = userBuyTicketsStyle();
+  const { t } = useTranslation();
 
   return (
     <>
@@ -20,14 +22,14 @@ function TicketsStepDumb({ nextStep, inputs }: TicketsStepDumbProps) {
         className={classes.alignHelpIcon}
         title={
           <>
-            {"Please choose the desired number of tickets from the categories you desire"}
+            {t("buyTicketsSecondPage.chooseDesiredTickets")}
           </>
         }
       >
         <HelpIcon color="primary" fontSize="small" />
       </HtmlTooltip>
 
-      <Typography className={classes.typography} align="center">Number of tickets</Typography>
+      <Typography className={classes.typography} align="center">{t("buyTicketsSecondPage.numberOfTickets")}</Typography>
 
       <Grid container justify="center" alignItems="center">
 
@@ -36,7 +38,7 @@ function TicketsStepDumb({ nextStep, inputs }: TicketsStepDumbProps) {
         <Grid item container direction="row" justify="center" alignItems="center" className={classes.button}>
           <Grid item xs={4} sm={3} md={2} lg={1} xl={1} />
           <Grid item xs={4} sm={3} md={2} lg={1} xl={1} >
-            <Button variant="contained" className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition}`} onClick={nextStep}> NEXT </Button>
+            <Button variant="contained" className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition}`} onClick={nextStep}> {t("eventList.next")} </Button>
           </Grid>
         </Grid>
       </Grid>

@@ -8,6 +8,7 @@ import { updateTicketsStepFormErrors, updateTicketAmount, updateBookings } from 
 import { TicketsStepFormErrors, TicketAvailabilityData } from '../../../../../model/BuyTicketsSecondPage';
 import Booking from '../../../../../model/Booking';
 import { initializeTicketsStepFormErrors, updateTicketsStepErrorsLocally } from '../../../../../utils/ticketReservationUtils/TicketsStepUtils';
+import { useTranslation } from 'react-i18next';
 
 interface TicketsStepSmartProps {
   nextStep: () => void,
@@ -30,7 +31,8 @@ interface TicketsStepSmartProps {
 function TicketsStepSmart({ nextStep, handleEnterKey, updateTicketAmount, ticketCategories, ticketAmount, updateTicketNames,
   ticketsStepFormErrors, updateTicketsStepFormErrors, booking, updateBookings, eventId }: TicketsStepSmartProps) {
   const classes = userBuyTicketsStyle();
-
+  const { t } = useTranslation();
+  
   ticketsStepFormErrors = initializeTicketsStepFormErrors(ticketsStepFormErrors, ticketCategories);
   useEffect(() => {
     const today = new Date(new Date().toString().split('GMT')[0] + ' UTC').toISOString().split('.')[0]
@@ -44,7 +46,6 @@ function TicketsStepSmart({ nextStep, handleEnterKey, updateTicketAmount, ticket
     updateTicketsStepFormErrors(ticketsStepFormErrors);
   }, [])
 
-  // TODO e mai bine sa las erorile si user-ul sa modifice field-urile manual, sau sa corectez si sa modific automat in numarul maxim de tichete posibil?
   useEffect(() => {
     ticketsStepFormErrors
       .filter(ticketError => ticketError.error !== "")
@@ -60,15 +61,15 @@ function TicketsStepSmart({ nextStep, handleEnterKey, updateTicketAmount, ticket
     const index = ticketCategories.findIndex(ticket => ticket.title === name)
     const remaining = ticketCategories[index].remaining;
     const category = ticketCategories[index].title;
-
+    
     updateTicketNames([]);
 
     //check for errors
     if (Number(value) < 0) {
-      updateTicketsStepErrorsLocally(ticketsStepFormErrors, name, "Wrong input", updateTicketsStepFormErrors);
+      updateTicketsStepErrorsLocally(ticketsStepFormErrors, name, t("buyTicketsSecondPage.wrongInput"), updateTicketsStepFormErrors);
     } else if (remaining < Number(value)) {
       updateTicketAmount(ticketAmount.map(item => (item.category === name ? { ...item, 'quantity': remaining } : item)))
-      updateTicketsStepErrorsLocally(ticketsStepFormErrors, name, `There are only ${remaining} tickets left in ${category}`, updateTicketsStepFormErrors);
+      updateTicketsStepErrorsLocally(ticketsStepFormErrors, name, `${t("buyTicketsSecondPage.ticketsLeft_1")} ${remaining} ${t("buyTicketsSecondPage.ticketsLeft_2")} ${category}`, updateTicketsStepFormErrors);
     } else {
       updateTicketAmount(ticketAmount.map(item => (item.category === name ? { ...item, 'quantity': Number(value) } : item)))
       updateTicketsStepErrorsLocally(ticketsStepFormErrors, name, "", updateTicketsStepFormErrors);

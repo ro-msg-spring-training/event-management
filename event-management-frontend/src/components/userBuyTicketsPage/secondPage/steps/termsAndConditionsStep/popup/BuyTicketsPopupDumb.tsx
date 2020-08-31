@@ -10,6 +10,7 @@ import { userBuyTicketsStyle } from '../../../../../../styles/UserBuyTicketsStyl
 import { Grid, FormControlLabel } from '@material-ui/core';
 import { YellowCheckbox } from '../../../../../YellowCheckbox';
 import { termsAndConditionsText } from '../TermsAndConditionsText';
+import { useTranslation } from 'react-i18next';
 
 interface BuyTicketsPopupDumbProps {
   open: boolean,
@@ -24,6 +25,7 @@ interface BuyTicketsPopupDumbProps {
 function BuyTicketsPopupDumb({ open, checked, handleCheckboxChange, handleCancel, handleProceed, handleClose }: BuyTicketsPopupDumbProps) {
   const buttonClass = useStyles();
   const classes = userBuyTicketsStyle();
+  const { t } = useTranslation();
 
   return (
     <div>
@@ -33,7 +35,7 @@ function BuyTicketsPopupDumb({ open, checked, handleCheckboxChange, handleCancel
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">Terms and Conditions</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{t("buyTicketsSecondPage.termsAndConditions")}</DialogTitle>
 
         <DialogContent>
           <DialogContentText id="alert-dialog-description" component={'span'}>
@@ -50,15 +52,15 @@ function BuyTicketsPopupDumb({ open, checked, handleCheckboxChange, handleCancel
                   onChange={handleCheckboxChange}
                   inputProps={{ 'aria-label': 'primary checkbox' }} />
               }
-              label="I agree"
+              label={t("buyTicketsSecondPage.agreement")}
             />
 
             <Grid item container direction="row">
               <Grid item xs={4}>
-                <Button onClick={handleCancel} color="primary" className={classes.buttonPosition} > Cancel </Button>
+                <Button onClick={handleCancel} color="primary" className={classes.buttonPosition} > {t("welcome.headerCRUDCancel")} </Button>
               </Grid>
               <Grid item xs={8}>
-                <Button onClick={handleProceed} className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition}`}> BUY TICKETS </Button>
+                <Button onClick={handleProceed} className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition}`}> {t("buyTicketsSecondPage.buyTickets")} </Button>
               </Grid>
             </Grid>
           </Grid>
