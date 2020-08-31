@@ -87,10 +87,10 @@ public class EmailSenderService {
         return message;
     }
 
-    public Mail getMail(Map<String, Object> model) {
+    public Mail getMail(Map<String, Object> model, String email) {
         Mail mail = new Mail();
         mail.setFrom("testing.testing999000@gmail.com");
-        mail.setTo("damsa.andreea5@gmail.com");
+        mail.setTo(email);
         mail.setSubject("Confirmare achizitionare bilete");
         mail.setModel(model);
         return mail;

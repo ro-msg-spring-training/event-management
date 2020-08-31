@@ -88,7 +88,7 @@ public class BookingService {
         return ticketCategory;
     }
 
-    @Transactional(rollbackFor = {FileNotFoundException.class, DocumentException.class})
+    @Transactional(rollbackFor = {FileNotFoundException.class, DocumentException.class, MessagingException.class, IOException.class})
     public Booking saveBookingAndTicketDocument(Booking booking, Map<String, List<Ticket>> categoryTitlesWithTickets, long eventId) throws IOException, DocumentException, MessagingException {
         Booking savedBooking = this.saveBooking(booking, categoryTitlesWithTickets, eventId);
         this.createAndSaveTicketDocument(savedBooking);
@@ -125,7 +125,7 @@ public class BookingService {
         }
         model.put("tickets", hashMap);
         model.put("ticketsWithLists", categoryTitlesWithTickets);
-        emailSenderService.sendEmail(emailSenderService.getMail(model));
+        emailSenderService.sendEmail(emailSenderService.getMail(model, booking.getTickets().get(0).getEmailAddress()));
     }
 
     @Transactional
