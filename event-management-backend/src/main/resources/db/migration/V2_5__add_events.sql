@@ -28,13 +28,13 @@ insert into `booking` values(6,timestamp '2020-09-17 18:47:52.69','6011847a-94c0
 insert into `booking` values(7,timestamp '2020-09-17 18:47:52.69','6011847a-94c0-4091-b301-ef839c7a10fa',6);
 insert into `booking` values(8,timestamp '2020-09-17 18:47:52.69','6011847a-94c0-4091-b301-ef839c7a10fa',8);
 insert into `ticket` values (1,'Andrew','a@yahoo.com',1,1);
-insert into `ticket` values (2,'AndrewC','aC@yahoo.com',1,2);
+insert into `ticket` values (2,'AndrewC','aC@yahoo.com',1,1);
 insert into `ticket` values (3,'AndrewM','aM@yahoo.com',2,3);
-insert into `ticket` values (4,'AndrewS','aS@yahoo.com',2,4);
-insert into `ticket` values (5,'AndrewM','aM@yahoo.com',3,5);
-insert into `ticket` values (6,'AndrewS','aS@yahoo.com',5,5);
+insert into `ticket` values (4,'AndrewS','aS@yahoo.com',2,3);
+insert into `ticket` values (5,'AndrewM','aM@yahoo.com',3,1);
+insert into `ticket` values (6,'AndrewS','aS@yahoo.com',4,3);
 insert into ticket_document values (1, 'pdf_url', false);
-insert into ticket_document values (2, 'pdf2_url', true);
+insert into ticket_document values (2, 'pdf2_url', false);
 insert into ticket_document values (3, 'pdf3_url', false);
 insert into ticket_document values (4, 'pdf4_url', false);
 insert into ticket_document values (5, 'pdf5_url', false);

@@ -42,7 +42,7 @@ class UserEventsAttendedIntegrationTests {
     void getEvent_thatUserJoined() {
         User user = new User("user@yahoo.com","user","fUser","lUser","user","ROLE_USER");
 
-        Event event = new Event("title", "subtitle", true,  LocalDate.now(), LocalDate.parse("2020-08-24"), LocalTime.parse("18:00"), LocalTime.parse("20:00"), 100, "desc", false, "obs", 10, "creator","ticket info", null, null, null, null);
+        Event event = new Event("title", "subtitle", true,  LocalDate.parse("2020-08-23"), LocalDate.parse("2020-08-24"), LocalTime.parse("18:00"), LocalTime.parse("20:00"), 100, "desc", false, "obs", 10, "creator","ticket info", null, null, null, null);
         eventRepository.save(event);
 
         Booking bookingUser = new Booking(LocalDateTime.of(2019, 8, 17, 3, 35), "user", event, null);
@@ -66,10 +66,10 @@ class UserEventsAttendedIntegrationTests {
     void getPastEvents_thatUserJoined(){
         User user = new User("user@yahoo.com","user","fUser","lUser","user","ROLE_USER");
 
-        Event eventAttendedByUser = new Event("title", "subtitle", true,  LocalDate.now(), LocalDate.parse("2020-08-24"), LocalTime.parse("18:00"), LocalTime.parse("20:00"), 100, "desc", false, "obs", 10, "creator","ticket info", null, null, null, null);
+        Event eventAttendedByUser = new Event("title", "subtitle", true,  LocalDate.parse("2020-08-23"), LocalDate.parse("2020-08-24"), LocalTime.parse("18:00"), LocalTime.parse("20:00"), 100, "desc", false, "obs", 10, "creator","ticket info", null, null, null, null);
         eventRepository.save(eventAttendedByUser);
 
-        Event eventAttendedByUser2 = new Event("title2", "subtitle2", true,  LocalDate.now(), LocalDate.parse("2020-07-24"), LocalTime.parse("18:00"), LocalTime.parse("20:00"), 100, "desc", false, "obs", 10, "creator","ticket info", null, null, null, null);
+        Event eventAttendedByUser2 = new Event("title2", "subtitle2", true,  LocalDate.parse("2020-08-24"), LocalDate.parse("2020-07-24"), LocalTime.parse("18:00"), LocalTime.parse("20:00"), 100, "desc", false, "obs", 10, "creator","ticket info", null, null, null, null);
         eventRepository.save(eventAttendedByUser2);
 
         Event eventNotAttended = new Event("title3", "subtitle3", true,  LocalDate.parse("2020-08-23"), LocalDate.parse("2020-07-24"), LocalTime.parse("18:00"), LocalTime.parse("20:00"), 100, "desc", false, "obs", 10, "creator","ticket info", null, null, null, null);
@@ -108,10 +108,10 @@ class UserEventsAttendedIntegrationTests {
     void getPastEvents_UserHasNoBookings(){
         User user = new User("user@yahoo.com","user","fUser","lUser","user","ROLE_USER");
 
-        Event eventAttendedByUser = new Event("title", "subtitle", true,  LocalDate.now(), LocalDate.parse("2020-08-24"), LocalTime.parse("18:00"), LocalTime.parse("20:00"), 100, "desc", false, "obs", 10, "creator","ticket info", null, null, null, null);
+        Event eventAttendedByUser = new Event("title", "subtitle", true,  LocalDate.parse("2020-08-20"), LocalDate.parse("2020-08-24"), LocalTime.parse("18:00"), LocalTime.parse("20:00"), 100, "desc", false, "obs", 10, "creator","ticket info", null, null, null, null);
         eventRepository.save(eventAttendedByUser);
 
-        Event eventAttendedByUser2 = new Event("title2", "subtitle2", true,  LocalDate.now(), LocalDate.parse("2020-07-24"), LocalTime.parse("18:00"), LocalTime.parse("20:00"), 100, "desc", false, "obs", 10, "creator","ticket info", null, null, null, null);
+        Event eventAttendedByUser2 = new Event("title2", "subtitle2", true,  LocalDate.parse("2020-07-23"), LocalDate.parse("2020-07-24"), LocalTime.parse("18:00"), LocalTime.parse("20:00"), 100, "desc", false, "obs", 10, "creator","ticket info", null, null, null, null);
         eventRepository.save(eventAttendedByUser2);
 
         Booking bookingAnotherUser = new Booking(LocalDateTime.of(2019, 8, 17, 3, 35), "anotherUser", eventAttendedByUser, null);
