@@ -1,7 +1,7 @@
-import React, { useState, FormEvent, KeyboardEvent } from 'react';
+import React, { useState, FormEvent, KeyboardEvent, useEffect } from 'react';
 import FilterSectionDumb from './FilterSectionDumb';
 import { Container } from '@material-ui/core';
-import { updateFilters, filterEvents, resetPage, resetFilters } from '../../../actions/EventsPageActions';
+import { updateFilters, filterEvents, resetPage, resetFilters, fetchAllEvents } from '../../../actions/EventsPageActions';
 import { connect } from 'react-redux';
 import { MathRelation } from '../../../model/MathRelation';
 import { EventFilters } from '../../../model/EventFilters';
@@ -18,18 +18,23 @@ interface FilterSectionProps {
     setExpanded: (exp: boolean) => void;
     updateFilters: (filters: EventFilters) => void;
     filterEvents: (filters: EventFilters, page: number) => void;
+    fetchAllEvents: () => void;
 }
 
-function FilterSectionSmart({ 
-    page, 
-    filters, 
-    expanded, 
-    setExpanded, 
-    updateFilters, 
-    filterEvents, 
-    resetPage, 
-    resetFilters 
+function FilterSectionSmart({
+    page,
+    filters,
+    expanded,
+    setExpanded,
+    updateFilters,
+    filterEvents,
+    resetPage,
+    resetFilters,
+    fetchAllEvents
 }: FilterSectionProps) {
+    useEffect(()=>{
+        console.log('filtrele', filters)
+    },[filters])
 
     const [errorRate, setErrorRate] = useState('');
     const [errorMaxPeople, setErrorMaxPeople] = useState('');
@@ -229,6 +234,11 @@ function FilterSectionSmart({
         }
     }
 
+    const resetAllFilters = () => {
+        resetFilters();
+        fetchAllEvents();
+    }
+
     return (
         <Container>
             <FilterSectionDumb
@@ -244,7 +254,7 @@ function FilterSectionSmart({
                 errorMaxPeople={errorMaxPeople}
                 errorEndDate={errorEndDate}
                 errorStartDate={errorStartDate}
-                resetFilters={resetFilters}
+                resetFilters={resetAllFilters}
                 restrictNumberInput={restrictNumberInput}
                 submitForm={submitForm}
                 handleChangeTitle={handleChangeTitle}
@@ -272,7 +282,8 @@ const mapDispatchToProps = (dispatch: any) => {
         updateFilters: (filters: EventFilters) => dispatch(updateFilters(filters)),
         filterEvents: (filters: EventFilters, page: number) => dispatch(filterEvents(filters, page)),
         resetPage: () => dispatch(resetPage()),
-        resetFilters: () => dispatch(resetFilters())
+        resetFilters: () => dispatch(resetFilters()),
+        fetchAllEvents: () => dispatch(fetchAllEvents())
     }
 }
 

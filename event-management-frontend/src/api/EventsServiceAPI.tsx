@@ -146,7 +146,7 @@ export const getLastNumber = (filters: EventFilters) => {
     url.search += "&";
     url.search += new URLSearchParams(sizeToSend).toString();
 
-    if (filtersToSend.length !== undefined) {
+    if (filtersToSend.length !== {}) {
         url.search += "&";
         url.search += new URLSearchParams(filtersToSend).toString();
     }

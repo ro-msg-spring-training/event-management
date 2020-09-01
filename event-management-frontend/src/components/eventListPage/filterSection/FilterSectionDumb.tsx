@@ -1,17 +1,13 @@
 import React, { FormEvent, KeyboardEvent } from 'react';
-import { Grid, TextField, Button, MenuItem, FormControlLabel, InputAdornment, Collapse } from '@material-ui/core'
+import { Grid, Button, Collapse } from '@material-ui/core'
 import "react-datepicker/dist/react-datepicker.css";
 import { MathRelation } from '../../../model/MathRelation';
 import { useStyles } from '../../../styles/CommonStyles';
 import { EventFilters } from '../../../model/EventFilters';
-import { useTranslation } from "react-i18next";
-import { YellowCheckbox } from '../../../styles/YellowCheckbox';
-import moment from 'moment';
-import { useFilterStyles } from '../../../styles/FilterStyles';
 import { TFunction } from 'i18next';
-import StandardFilters from './StandardFilters';
-import AdvancedFilters from './AdvancedFilters';
-
+import { useFilterStyles } from '../../../styles/FilterStyles';
+import StandardFilters from './StandardFilters'
+import AdvancedFilters from './AdvancedFilters'
 
 interface FilterSectionProps {
     t: TFunction;
@@ -124,18 +120,19 @@ function FilterSectionDumb({
 
                 <Grid item xs={12} sm={3} md={2} className={classes.filterButtonsArea}>
                     <Button
-                        className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3}  ${classes.filterButtons}`}
-                        onClick={resetFilters}>
-                        {t("eventList.clearButton")}
-                    </Button>
-
-                    <Button
                         type='submit'
                         disabled={errorRate !== "" || errorMaxPeople !== "" || errorStartDate !== ""
                             || errorEndDate !== "" || errorStartHour !== "" || errorEndHour !== ""}
                         className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3} ${classes.filterButtons}`}>
                         {t("eventList.filterButton")}
                     </Button>
+
+                    <Button
+                        className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3}  ${classes.filterButtons}`}
+                        onClick={resetFilters}>
+                        {t("eventList.clearButton")}
+                    </Button>
+
 
                     <div onClick={toggle} className={classes.filterExpandText}>
                         {

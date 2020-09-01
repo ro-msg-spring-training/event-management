@@ -67,7 +67,7 @@ const initialState: EventsPageState = {
   allEvents: [],
   allEventsHome: [],
   eventsSort: { criteria: "", type: "" },
-  page: 1,
+  page: 0,
   homePage: 1,
 };
 
@@ -104,7 +104,7 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
     case RESET_PAGE:
       return {
         ...state,
-        page: 1,
+        page: 0,
       };
     case RESET_PAGE_HOME:
       return {
@@ -129,6 +129,11 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
           maxPeople: "",
           maxPeopleSign: MathRelation.GREATER,
         },
+        page: 0,
+        eventsSort: { criteria: "", type: "" },
+        allEvents: [],
+        isLoading: false,
+        isError: false,
       };
     case UPDATE_SORT_CRITERIA:
       return {
