@@ -1,5 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
 import themeDark from "./Apptheme";
+import { inherits } from "util";
 
 const useStylesbuyTicketFirstPage = makeStyles(() => ({
   paperStyle: {
@@ -32,7 +33,7 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
     fontSize: "large !important ",
     background: themeDark.palette.secondary.dark,
     "&:hover": {
-      backgroundImage: "linear-gradient(45deg, #f9c929 10%, #f2ac0a 50%, #ed4d6e 90%)",
+      backgroundColor: "#f9c929",
     },
     "&:disabled": {
       backgroundColor: "white !important",
@@ -46,12 +47,12 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
   title: { fontSize: 50, fontFamily: "LATO !important", margin: "5px" },
   pagecontainer: {
     background: "linear-gradient(45deg, #21C6F3 10%, #1E5FA4 90%)",
-    minHeight: "110vh",
+    minHeight: "100vh",
     paddingTop: "4%",
   },
   generalInfoContainer: {
     display: "block",
-    maxWidth: "900px",
+    maxWidth: "inherit",
     minHeight: "70px",
     padding: "3%",
     paddingTop: "5%",
@@ -104,9 +105,9 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
   cancelButton: {
     float: "right",
     fontSize: "large !important ",
-    background: themeDark.palette.secondary.dark,
+    background: themeDark.palette.secondary.contrastText,
     "&:hover": {
-      backgroundImage: "linear-gradient(45deg, #f9c929 10%, #f2ac0a 50%, #ed4d6e 90%)",
+      backgroundColor: "#FF6171",
     },
     marginRight: "3%",
   },

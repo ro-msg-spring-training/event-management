@@ -2,28 +2,36 @@ import { makeStyles, Theme, withStyles, Tooltip } from "@material-ui/core";
 
 export const BuyTicketsSecondPageStyle = makeStyles((theme: Theme) => ({
   prevButtonStyle: {
-    color: theme.palette.secondary.light,
+    background: theme.palette.secondary.dark,
     transform: 'rotate(-180deg)',
+    "&:hover": {
+      backgroundColor: "#f9c929",
+    },
   },
   cancelButtonStyle: {
-    color: theme.palette.secondary.contrastText,
+    background: theme.palette.secondary.contrastText,
     transform: 'rotate(-180deg)',
+    "&:hover": {
+      backgroundColor: "#FF6171",
+    },
   },
   positionLeft: {
     position: 'absolute',
     bottom: "0.5%",
-    left: "0.5%",
+    left: '20%',
+    marginRight: '0px',
   },
   positionRight: {
     position: 'absolute',
     bottom: "0.5%",
-    right: "0.5%",
+    right: '20%',
+    marginLeft: '0px',
   },
 }))
 
 export const buyTicketsSecondPageDumbStyle = makeStyles((theme: Theme) => ({
   root: {
-    minHeight: '89vh',
+    minHeight: '90vh',
     background: 'linear-gradient(45deg, #21C6F3 50%, #1E5FA4 90%)',
     paddingTop: "4%",
   },

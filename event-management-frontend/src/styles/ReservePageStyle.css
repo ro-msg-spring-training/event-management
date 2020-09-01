@@ -4,3 +4,14 @@
         margin-top: 30px !important;
     }
 }
+
+@media (max-width: 850px) {
+    .buttonStyleRight {
+        margin-left: 10% !important;
+        right: 0.3% !important;
+    }
+    .buttonStyleLeft {
+        margin-right: 10% !important;
+        left: 0.3% !important;
+    }
+}
