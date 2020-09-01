@@ -66,9 +66,9 @@ const TicketListDumb = (props: Props) => {
     }, [open])
 
     return (
-            <div className={`${classes.pageContainer} ticketResponsive`}>
+            <div className={`${classes.pageContainer} ticketResponsive`} >
                 <Typography className={classes.ticketsTitle}>{t("ticketList.myTickets")}</Typography>
-                <TableContainer component={Paper} className={classes.pageContainer}>
+                <TableContainer component={Paper} className={classes.pageContainer} >
 
                     { props.isError ?
                         <Grid container alignItems={"center"} justify={"center"}>
@@ -81,9 +81,9 @@ const TicketListDumb = (props: Props) => {
                                 <CircularProgress />
                             </Grid> :
 
-                            <Table style={{tableLayout: "fixed"}}>
+                            <Table style={{tableLayout: "fixed"}} >
                                 <TableHead>
-                                    <TableRow>
+                                    <TableRow >
                                         <TableCell/>
                                         <TableCell key={"id"} align={"center"}
                                                    padding={"default"} size={"medium"}>
@@ -119,7 +119,7 @@ const TicketListDumb = (props: Props) => {
                                     </TableRow>
                                 </TableHead>
 
-                                <TableBody >
+                                <TableBody>
                                     {
                                         ticketDictionary.map((groupTicket, index) => {
                                             return <TicketGroupDumb key={index}

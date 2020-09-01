@@ -154,8 +154,9 @@
     "headerCRUDSave": "Save",
 
     "backButton": "Back",
-    "joinButton": "Join",
-
+    "joinButton": "Join"
+  },
+  "images" : {
     "imageErrorMessage": "An error occurred while uploading images",
     "imageDragAndDrop": "Drag and drop some files here, or click to select files",
     "imageDialogTitle": "Do you want to remove this image?",
