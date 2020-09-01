@@ -47,7 +47,7 @@ const TicketCollapseDumb = ({ticket}: Props) => {
                 <StyledTableCell key={"pdfUrl"} align={"center"}
                                  size={"medium"} className={`${classes.pdfButton} ${classes.tableCellPadding}`}>
                     <Link to={''} className={classes.linkDecoration}>
-                        <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3}`}>
+                        <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3} ${commonClasses.mobileButton}`}>
                             {t("eventList.open")}
                         </Button>
                     </Link>

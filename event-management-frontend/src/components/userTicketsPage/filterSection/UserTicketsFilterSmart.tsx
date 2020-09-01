@@ -5,6 +5,8 @@ import {TicketFilters} from "../../../model/TicketFilters";
 import {AppState} from "../../../store/store";
 import {fetchTickets, resetFilters, updateFilters, resetPage} from "../../../actions/TicketsPageActions";
 import {connect} from "react-redux";
+import { date } from '@storybook/addon-knobs';
+import { da } from 'date-fns/locale';
 
 
 interface Props {
@@ -31,8 +33,13 @@ const UserTicketsFilterSmart = ({ expanded, setExpanded, filters, page, resetFil
         handleChange()
     }
 
-    const handleChangeDate = (date: string) => {
-        filters.date = new Date(date)
+    const handleChangeStartDate = (date: string) => {
+        filters.startDate = new Date(date)
+        handleChange()
+    }
+
+    const handleChangeEndDate = (date: string) => {
+        filters.endDate = new Date(date)
         handleChange()
     }
 
@@ -51,11 +58,10 @@ const UserTicketsFilterSmart = ({ expanded, setExpanded, filters, page, resetFil
     const clear = () => {
         resetFilters()
         resetPage()
-        fetchTickets(1, { title: '', date: undefined })
+        fetchTickets(1, { title: '', startDate: undefined, endDate: undefined })
     }
 
     return (
-        <Container>
             <UserTicketsFilterDumb
                 isExpanded={expanded}
                 filters={filters}
@@ -65,8 +71,8 @@ const UserTicketsFilterSmart = ({ expanded, setExpanded, filters, page, resetFil
                 toggle={toggle}
                 submitForm={submitForm}
                 handleChangeTitle={handleChangeTitle}
-                handleChangeDate={handleChangeDate}/>
-        </Container>
+                handleChangeStartDate={handleChangeStartDate}
+                handleChangeEndDate={handleChangeEndDate}/>
     );
 }
 

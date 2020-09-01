@@ -1,12 +1,15 @@
 {
   "ticketList": {
-    "id": "ID",
-    "date": "Dată",
+    "id": "ID Rezervare",
+    "date": "Dată rezervare",
     "category": "Categorie",
-    "name": "Nume",
+    "name": "Cumpărător",
     "pdf": "PDF",
-    "eventName": "Numele evenimentului",
-    "myTickets": "Biletele mele"
+    "eventName": "Nume eveniment",
+    "myTickets": "Biletele mele",
+    "buyer": "Cumpărător",
+    "startDate": "Dată de început eveniment",
+    "endDate": "Dată de încheiere eveniment"
   },
   "eventList": {
     "account": "Contul meu",

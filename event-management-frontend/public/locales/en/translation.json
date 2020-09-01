@@ -1,12 +1,15 @@
 {
   "ticketList": {
-    "id": "ID",
-    "date": "Date",
+    "id": "Booking ID",
+    "date": "Booking date",
     "category": "Category",
-    "name": "Name",
+    "name": "Buyer",
     "pdf": "PDF",
     "eventName": "Event name",
-    "myTickets": "My tickets"
+    "myTickets": "My tickets",
+    "buyer": "Buyer",
+    "startDate": "Event start date",
+    "endDate": "Event end date"
   },
   "eventList": {
     "account": "My account",

@@ -21,7 +21,8 @@ const initialState: TicketsPageState = {
     allTickets: [],
     filters: {
         title: '',
-        date: undefined
+        startDate: undefined,
+        endDate: undefined,
     },
     open: false,
     page: 1,

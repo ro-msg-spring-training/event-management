@@ -16,11 +16,13 @@ interface Props {
     clear: () => void,
     submitForm: (event: FormEvent<HTMLFormElement>) => void,
     handleChangeTitle: (title: string) => void,
-    handleChangeDate: (startDate: string) => void,
+    handleChangeStartDate: (startDate: string) => void,
+    handleChangeEndDate: (startDate: string) => void,
 }
 
 const UserTicketsFilterDumb = ({isExpanded, filters, errorDate, updateFilters,
-                                   toggle, clear, submitForm, handleChangeTitle, handleChangeDate}: Props) => {
+                                   toggle, clear, submitForm, handleChangeTitle,
+                                        handleChangeStartDate, handleChangeEndDate}: Props) => {
     const commonClasses = useStyles();
     const filterStyle = useUserFilterStyles();
     const [t] = useTranslation();
@@ -30,7 +32,7 @@ const UserTicketsFilterDumb = ({isExpanded, filters, errorDate, updateFilters,
             <form onSubmit={event => submitForm(event)} className={filterStyle.filterArea}>
                 <Grid container spacing={3} className={filterStyle.filterArea} >
                     <Grid item xs={12} sm={10} md={12} xl={12} container spacing={3}>
-                        <Grid item xs={12} sm={6} md={6} xl={6} >
+                        <Grid item xs={12} sm={4} md={4} xl={4} >
                             <TextField
                                 name='title'
                                 value={filters.title}
@@ -41,18 +43,34 @@ const UserTicketsFilterDumb = ({isExpanded, filters, errorDate, updateFilters,
                                 className={filterStyle.textOverflow}/>
                         </Grid>
 
-                        <Grid item xs={12} sm={6} md={6} xl={6} >
+                        <Grid item xs={12} sm={4} md={4} xl={4} >
                             <TextField
                                 name='date'
                                 type="date"
                                 error={errorDate !== ''}
-                                label={t("eventList.date")}
+                                label={t("ticketList.startDate")}
                                 variant='outlined'
                                 fullWidth
                                 helperText={errorDate}
-                                value={moment(filters.date ? filters.date : Date.now()).format("YYYY-MM-DD")}
-                                onChange={(e) => handleChangeDate(e.target.value)}
+                                value={filters.startDate === undefined ? new Date()
+                                  : moment(filters.startDate).format("YYYY-MM-DD")}
+                                onChange={(e) => handleChangeStartDate(e.target.value)}
                                 className={filterStyle.textOverflow}/>
+                        </Grid>
+
+                        <Grid item xs={12} sm={4} md={4} xl={4} >
+                            <TextField
+                              name='date'
+                              type="date"
+                              error={errorDate !== ''}
+                              label={t("ticketList.endDate")}
+                              variant='outlined'
+                              fullWidth
+                              helperText={errorDate}
+                              value={filters.endDate === undefined ? new Date()
+                                : moment(filters.endDate).format("YYYY-MM-DD")}
+                              onChange={(e) => handleChangeEndDate(e.target.value)}
+                              className={filterStyle.textOverflow}/>
                         </Grid>
                     </Grid>
 

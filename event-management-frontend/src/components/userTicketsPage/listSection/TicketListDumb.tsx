@@ -77,9 +77,9 @@ const TicketListDumb = ({isError, isLoading, ticketsDetails}: Props) => {
                                 <CircularProgress />
                             </Grid> :
 
-                            <Table style={{tableLayout: "fixed"}} >
-                                <TableHead>
-                                    <TableRow >
+                            <Table className={classes.ticketTableLayout}>
+                                <TableHead className={classes.grayBackground}>
+                                    <TableRow>
                                         <TableCell/>
                                         <TableCell key={"id"} align={"center"}
                                                    padding={"default"} size={"medium"}>
@@ -105,7 +105,7 @@ const TicketListDumb = ({isError, isLoading, ticketsDetails}: Props) => {
                                         <TableCell key={"name"} align={"center"}
                                                    padding={"default"} size={"medium"}
                                                    className={classes.ticketColumnMobile}>
-                                            {t("ticketList.name")}
+                                            {t("ticketList.buyer")}
                                         </TableCell>
 
                                         <TableCell key={"pdf"} align={"center"}

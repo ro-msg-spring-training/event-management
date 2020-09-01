@@ -42,7 +42,7 @@ const TicketGroupDumb = ({handleChange, tickets, open, index}: Props) => {
             <TableRow>
                 <TableCell>
                     <IconButton type="button"  size="small" onClick={() => handleChange(index)}>
-                        {open[index] === undefined || !open[index] ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                        {open[index] === undefined || !open[index] ? <KeyboardArrowUpIcon>More</KeyboardArrowUpIcon> : <KeyboardArrowDownIcon />}
                     </IconButton>
                 </TableCell>
 
@@ -72,7 +72,7 @@ const TicketGroupDumb = ({handleChange, tickets, open, index}: Props) => {
                 <StyledTableCell key={"pdfUrl"} align={"center"}
                                  size={"medium"} className={classes.pdfButton}>
                     <Link to={''} className={classes.linkDecoration}>
-                        <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3}`}>
+                        <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3} ${commonClasses.mobileButton}`} >
                             {t("eventList.open")}
                         </Button>
                     </Link>
