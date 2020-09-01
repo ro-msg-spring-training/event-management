@@ -16,7 +16,6 @@ import {
     fetchCustomEventsRequestHome, fetchCustomEventsSuccessHome, fetchCustomEventsErrorHome
 } from "../actions/EventsPageActions";
 import { takeLatest, takeEvery, put, call } from "redux-saga/effects";
-import { EventFilters } from "../model/EventFilters";
 import {
     fetchEvents,
     fetchFilteredEvents,
@@ -24,7 +23,6 @@ import {
     fetchHomeEvents,
     fetchPaginatedHomeEvents
 } from "../api/EventsServiceAPI";
-import { EventSort } from "../model/EventSort";
 
 
 function* fetchFilteredEventsAsync(action: any) {

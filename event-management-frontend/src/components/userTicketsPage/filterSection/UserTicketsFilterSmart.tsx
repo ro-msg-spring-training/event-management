@@ -1,12 +1,9 @@
 import React, {FormEvent, useState} from 'react'
 import UserTicketsFilterDumb from "./UserTicketsFilterDumb";
-import {Container} from "@material-ui/core";
 import {TicketFilters} from "../../../model/TicketFilters";
 import {AppState} from "../../../store/store";
 import {fetchTickets, resetFilters, updateFilters, resetPage} from "../../../actions/TicketsPageActions";
 import {connect} from "react-redux";
-import { date } from '@storybook/addon-knobs';
-import { da } from 'date-fns/locale';
 
 
 interface Props {
