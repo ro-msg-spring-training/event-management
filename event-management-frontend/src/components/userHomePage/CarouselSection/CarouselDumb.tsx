@@ -1,9 +1,9 @@
 import React from "react";
 import { Carousel } from "react-responsive-carousel";
-import CarouselSlide from "./CarouselSlide";
 import { useStylesCarousel } from "../../../styles/CarouselSlideStyle";
 import "../../../styles/CarouselStyle.css";
 import { HighlightedEvent } from "../../../reducers/UserHomePageReducer";
+import CarouselSlide from "./CarouselSlide";
 
 type Props = {
   events: HighlightedEvent[];
@@ -19,6 +19,7 @@ const CarouselDumb = ({ events, isLoading, goToEventDetails }: Props) => {
       <Carousel infiniteLoop useKeyboardArrows autoPlay className={classes.carouselStyle}>
         {events.map((current) => (
           <CarouselSlide
+            key={current.id}
             isLoading={isLoading}
             id={current.id}
             title={current.title}
