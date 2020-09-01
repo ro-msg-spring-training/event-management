@@ -9,219 +9,230 @@ import { useTranslation } from "react-i18next";
 import { equalDate, startTimeGreaterThenEndTime, startDateBeforeEndDate } from '../../../utils/compareDateTimes';
 import { AppState } from '../../../store/store';
 
-interface Props {
-    page: number,
-    expanded: boolean,
-    filters: EventFilters,
-    resetPage: () => void,
-    resetFilters: () => void
-    setExpanded: (exp: boolean) => void,
-    updateFilters: (filters: EventFilters) => void,
-    filterEvents: (filters: EventFilters, page: number) => void,
+interface FilterSectionProps {
+    page: number;
+    expanded: boolean;
+    filters: EventFilters;
+    resetPage: () => void;
+    resetFilters: () => void;
+    setExpanded: (exp: boolean) => void;
+    updateFilters: (filters: EventFilters) => void;
+    filterEvents: (filters: EventFilters, page: number) => void;
 }
 
-function FilterSectionSmart({ page, filters, expanded, setExpanded, updateFilters, filterEvents, resetPage, resetFilters }: Props) {
-    const [errorRate, setErrorRate] = useState('')
-    const [errorMaxPeople, setErrorMaxPeople] = useState('')
-    const [errorStartDate, setErrorStartDate] = useState('')
-    const [errorEndDate, setErrorEndDate] = useState('')
-    const [errorStartHour, setErrorStartHour] = useState('')
-    const [errorEndHour, setErrorEndHour] = useState('')
+function FilterSectionSmart({ 
+    page, 
+    filters, 
+    expanded, 
+    setExpanded, 
+    updateFilters, 
+    filterEvents, 
+    resetPage, 
+    resetFilters 
+}: FilterSectionProps) {
+
+    const [errorRate, setErrorRate] = useState('');
+    const [errorMaxPeople, setErrorMaxPeople] = useState('');
+    const [errorStartDate, setErrorStartDate] = useState('');
+    const [errorEndDate, setErrorEndDate] = useState('');
+    const [errorStartHour, setErrorStartHour] = useState('');
+    const [errorEndHour, setErrorEndHour] = useState('');
     const [t] = useTranslation();
 
     const handleChange = () => {
-        const newFilters = Object.assign({}, filters)
-        updateFilters(newFilters)
-    }
+        const newFilters = Object.assign({}, filters);
+        updateFilters(newFilters);
+    };
 
     const handleChangeTitle = (title: string) => {
-        filters.title = title
-        handleChange()
-    }
+        filters.title = title;
+        handleChange();
+    };
 
     const handleChangeSubtitle = (subtitle: string) => {
-        filters.subtitle = subtitle
-        handleChange()
-    }
+        filters.subtitle = subtitle;
+        handleChange();
+    };
 
     const handleChangeLocation = (location: string) => {
-        filters.location = location
-        handleChange()
-    }
+        filters.location = location;
+        handleChange();
+    };
 
     const handleChangeStatus = (status: string) => {
-        filters.status = status
-        handleChange()
-    }
+        filters.status = status;
+        handleChange();
+    };
 
     const handleChangeHighlighted = (highlighted: boolean) => {
-        filters.highlighted = highlighted
-        handleChange()
-    }
+        filters.highlighted = highlighted;
+        handleChange();
+    };
 
     const handleChangeStartHour = (startHour: string) => {
-        filters.startHour = startHour
+        filters.startHour = startHour;
 
         if (filters.endDate !== undefined && filters.startDate !== undefined) {
             if (equalDate(filters.startDate, filters.endDate)) {
                 if (filters.startHour !== undefined && filters.endHour !== undefined) {
                     if (startTimeGreaterThenEndTime(filters.startHour, filters.endHour)) {
-                        setErrorStartHour(t('eventList.invalidHour'))
+                        setErrorStartHour(t('eventList.invalidHour'));
                         return;
                     }
                 }
             }
         }
 
-        setErrorEndHour('')
-        setErrorStartHour('')
-        handleChange()
+        setErrorEndHour('');
+        setErrorStartHour('');
+        handleChange();
     }
 
     const handleChangeEndHour = (endHour: string) => {
-        filters.endHour = endHour
+        filters.endHour = endHour;
 
         if (filters.endDate !== undefined && filters.startDate !== undefined) {
             if (equalDate(filters.startDate, filters.endDate)) {
                 if (filters.startHour !== undefined && filters.endHour !== undefined) {
                     if (startTimeGreaterThenEndTime(filters.startHour, filters.endHour)) {
-                        setErrorEndHour(t('eventList.invalidHour'))
+                        setErrorEndHour(t('eventList.invalidHour'));
                         return;
                     }
                 }
             }
         }
 
-        setErrorStartHour('')
-        setErrorEndHour('')
-        handleChange()
+        setErrorStartHour('');
+        setErrorEndHour('');
+        handleChange();
     }
 
     const handleChangeStartDate = (startDate: string) => {
-        filters.startDate = new Date(startDate)
+        filters.startDate = new Date(startDate);
 
         if (filters.endDate !== undefined) {
             if (equalDate(filters.startDate, filters.endDate)) {
                 if (filters.startHour !== undefined && filters.endHour !== undefined) {
                     if (startTimeGreaterThenEndTime(filters.startHour, filters.endHour)) {
-                        setErrorEndHour(t('eventList.invalidHour'))
-                        setErrorStartHour(t('eventList.invalidHour'))
+                        setErrorEndHour(t('eventList.invalidHour'));
+                        setErrorStartHour(t('eventList.invalidHour'));
                         return;
                     }
                 }
             }
             else if (startDateBeforeEndDate(filters.startDate, filters.endDate)) {
-                setErrorStartDate(t('eventList.invalidDate'))
+                setErrorStartDate(t('eventList.invalidDate'));
                 return;
             }
         }
 
-        setErrorStartDate('')
-        setErrorEndHour('')
-        setErrorStartHour('')
-        setErrorEndDate('')
-        handleChange()
+        setErrorStartDate('');
+        setErrorEndHour('');
+        setErrorStartHour('');
+        setErrorEndDate('');
+        handleChange();
     }
 
     const handleChangeEndDate = (endDate: string) => {
-        filters.endDate = new Date(endDate)
+        filters.endDate = new Date(endDate);
 
         if (filters.startDate !== undefined) {
             if (equalDate(filters.startDate, filters.endDate)) {
                 if (filters.startHour !== undefined && filters.endHour !== undefined) {
                     if (startTimeGreaterThenEndTime(filters.startHour, filters.endHour)) {
-                        setErrorEndHour(t('eventList.invalidHour'))
-                        setErrorStartHour(t('eventList.invalidHour'))
+                        setErrorEndHour(t('eventList.invalidHour'));
+                        setErrorStartHour(t('eventList.invalidHour'));
                         return;
                     }
                 }
             }
             else if (startDateBeforeEndDate(filters.startDate, filters.endDate)) {
-                setErrorEndDate(t('eventList.invalidDate'))
+                setErrorEndDate(t('eventList.invalidDate'));
                 return;
             }
         }
 
-        setErrorStartDate('')
-        setErrorEndHour('')
-        setErrorStartHour('')
-        setErrorEndDate('')
-        handleChange()
+        setErrorStartDate('');
+        setErrorEndHour('');
+        setErrorStartHour('');
+        setErrorEndDate('');
+        handleChange();
     }
 
     const handleChangeMaxPeople = (maxPeople: string) => {
         if (maxPeople === '') {
-            setErrorMaxPeople('')
-            filters.maxPeople = maxPeople
-            handleChange()
+            setErrorMaxPeople('');
+            filters.maxPeople = maxPeople;
+            handleChange();
         }
         else {
-            const maxPeopleNumber = parseInt(maxPeople)
+            const maxPeopleNumber = parseInt(maxPeople);
 
             if (maxPeopleNumber.toString() !== maxPeople && maxPeople !== '') {
-                setErrorMaxPeople(t("eventList.notANumber"))
+                setErrorMaxPeople(t("eventList.notANumber"));
             }
             else {
-                setErrorMaxPeople('')
-                filters.maxPeople = maxPeopleNumber
-                handleChange()
+                setErrorMaxPeople('');
+                filters.maxPeople = maxPeopleNumber;
+                handleChange();
             }
         }
     }
 
     const handleChangeMaxPeopleSign = (maxPeopleSign: MathRelation) => {
-        filters.maxPeopleSign = maxPeopleSign
-        handleChange()
+        filters.maxPeopleSign = maxPeopleSign;
+        handleChange();
     }
 
     const handleChangeRate = (rate: string) => {
         if (rate === '') {
-            setErrorRate('')
-            filters.rate = rate
-            handleChange()
+            setErrorRate('');
+            filters.rate = rate;
+            handleChange();
         }
         else {
-            const rateNumber = parseInt(rate)
+            const rateNumber = parseInt(rate);
 
             if (rateNumber.toString() !== rate && rate !== '') {
-                setErrorRate(t("eventList.notANumber"))
+                setErrorRate(t("eventList.notANumber"));
             }
             else if (rateNumber > 100) {
-                setErrorRate(t("eventList.notAValidPercent"))
+                setErrorRate(t("eventList.notAValidPercent"));
             }
             else {
-                setErrorRate('')
-                filters.rate = rateNumber
-                handleChange()
+                setErrorRate('');
+                filters.rate = rateNumber;
+                handleChange();
             }
         }
     }
 
     const handleChangeRateSign = (rateSign: MathRelation) => {
-        filters.rateSign = rateSign
-        handleChange()
+        filters.rateSign = rateSign;
+        handleChange();
     }
 
     const submitForm = (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
+        event.preventDefault();
         resetPage();
         filterEvents(filters, page);
         setExpanded(false);
     }
 
     const toggle = () => {
-        setExpanded(!expanded)
+        setExpanded(!expanded);
     }
 
     const restrictNumberInput = (e: KeyboardEvent<HTMLDivElement>) => {
         if (e.key === '-' || e.key === 'e' || e.key === '+' || e.key === '.' || e.key === ',') {
-            e.preventDefault()
+            e.preventDefault();
         }
     }
 
     return (
         <Container>
             <FilterSectionDumb
+                t={t}
                 handleChangeStartDate={handleChangeStartDate}
                 handleChangeEndDate={handleChangeEndDate}
                 toggle={toggle}
@@ -235,7 +246,6 @@ function FilterSectionSmart({ page, filters, expanded, setExpanded, updateFilter
                 errorStartDate={errorStartDate}
                 resetFilters={resetFilters}
                 restrictNumberInput={restrictNumberInput}
-                updateFilters={updateFilters}
                 submitForm={submitForm}
                 handleChangeTitle={handleChangeTitle}
                 handleChangeSubtitle={handleChangeSubtitle}
@@ -267,7 +277,6 @@ const mapDispatchToProps = (dispatch: any) => {
 }
 
 export default connect(
-    mapStateToProps, mapDispatchToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(FilterSectionSmart);
-
-
