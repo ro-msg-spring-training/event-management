@@ -8,7 +8,6 @@ import {
   FETCH_HOME_EVENTS_SUCCESS,
   FETCH_HOME_EVENTS_ERROR,
   FETCH_HOME_EVENTS_REQUEST,
-  SORT_EVENTS,
   FILTER_EVENTS,
   UPDATE_SORT_CRITERIA,
   FETCH_CUSTOM_EVENTS_REQUEST,
@@ -28,8 +27,8 @@ import {
 } from "../actions/EventsPageActions";
 import { MathRelation } from "../model/MathRelation";
 import { EventFilters } from "../model/EventFilters";
-import { fetchSortedEvents } from "../api/EventsServiceAPI";
 import { EventSort } from "../model/EventSort";
+
 
 export interface EventsPageState {
   filters: EventFilters;
@@ -90,7 +89,6 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
         ...state,
         page: state.page - 1,
       };
-
     case INCREMENT_PAGE_HOME:
       return {
         ...state,
@@ -131,12 +129,6 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
         },
       };
     case UPDATE_SORT_CRITERIA:
-      return {
-        ...state,
-        eventsSort: action.payload,
-      };
-    case SORT_EVENTS:
-      fetchSortedEvents(action.payload, state.filters, action.page);
       return {
         ...state,
         eventsSort: action.payload,

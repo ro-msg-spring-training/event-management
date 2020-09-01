@@ -11,8 +11,7 @@ import IconButton from "@material-ui/core/IconButton";
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import TicketCollapseDumb from "./TicketCollapseDumb";
-import {StyledTableCell} from '../../../styles/StyledTableCell'
-import {ReactComponent} from "*.svg";
+import {StyledTableCell} from '../../../styles/StyledTableCell';
 
 
 interface Props {

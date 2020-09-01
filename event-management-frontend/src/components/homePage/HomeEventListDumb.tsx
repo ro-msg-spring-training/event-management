@@ -11,6 +11,7 @@ import useStylesCards from "../../styles/OccupancyCardsStyle";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 
+
 interface Props {
   page: number;
   lastPage: number;
@@ -44,8 +45,7 @@ const HomeEventListDumb = (props: Props) => {
     <>
       <Card
         className={`${commonClasses.cardRoot} ${occupancyClasses.occupancyCard} cardsResponsive`}
-        variant="outlined"
-      >
+        variant="outlined">
         <CardContent>
           <Typography variant="h4" component="h4" className={occupancyClasses.text}>
             {t("eventList.events")}
@@ -94,5 +94,6 @@ const HomeEventListDumb = (props: Props) => {
     </>
   );
 };
+
 
 export default HomeEventListDumb;

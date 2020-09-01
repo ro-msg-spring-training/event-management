@@ -62,9 +62,6 @@ const TicketListDumb = (props: Props) => {
         setOpen(finalState)
     }
 
-    useEffect(() => {
-    }, [open])
-
     return (
             <div className={`${classes.pageContainer} ticketResponsive`} >
                 <Typography className={classes.ticketsTitle}>{t("ticketList.myTickets")}</Typography>

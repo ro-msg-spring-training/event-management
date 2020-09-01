@@ -1,31 +1,12 @@
 import React from 'react';
 import {Button} from "@material-ui/core";
-import TableCell from '@material-ui/core/TableCell';
-import TableRow from '@material-ui/core/TableRow';
 import {Link} from "react-router-dom";
-import {createStyles, Theme, withStyles} from "@material-ui/core/styles";
 import { useStyles } from '../../../styles/CommonStyles';
 import { useTranslation } from "react-i18next";
 import {Event} from "../../../model/Event";
+import {StyledTableCell} from "../../../styles/StyledTableCell";
+import {StyledTableRow} from "../../../styles/StyledTableRow";
 
-const StyledTableCell = withStyles((theme: Theme) =>
-    createStyles({
-        body: {
-            fontSize: 14,
-            padding: 20,
-        },
-    }),
-)(TableCell);
-
-const StyledTableRow = withStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            '&:nth-of-type(even)': {
-                backgroundColor: '#F4F5F9',
-            },
-        },
-    }),
-)(TableRow);
 
 interface Props {
     event: Event;

@@ -1,8 +1,8 @@
-import { EventFilters } from "../model/EventFilters";
 import moment from 'moment'
+import { EventFilters } from "../model/EventFilters";
 import { EventSort } from "../model/EventSort";
 import { headersAuth, serverURL, serverEventsURL } from "./Api";
-import {fetchWrapper} from "./FetchWrapper";
+import { fetchWrapper } from "./FetchWrapper";
 
 
 const computeLimit = () => {
@@ -154,7 +154,7 @@ export const getLastNumber = (filters: EventFilters) => {
     return fetchWrapper(`${url}`, { headers: headersAuth })
         .then((response) => response.json())
         .then((json) => {
-            return json.noPages
+            return json.noPages - 1
         });
 }
 

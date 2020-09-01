@@ -1,6 +1,5 @@
 import React from "react";
 import { Event } from "../../model/Event";
-import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
@@ -8,43 +7,15 @@ import { Link } from "react-router-dom";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import DateRangeIcon from "@material-ui/icons/DateRange";
 import useStylesCards from "../../styles/OccupancyCardsStyle";
+import {useStylesEventsHome} from "../../styles/EventsHomeStyle";
 
-const useStyles = makeStyles({
-  root: {
-    minWidth: 275,
-    borderRadius: 16,
-    "&:hover": {
-      boxShadow: `0 6px 12px 0 grey`,
-      cursor: "pointer",
-    },
-  },
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)",
-  },
-  title: {
-    fontSize: 20,
-  },
-  date: {
-    color: "#F2AE30",
-    fontSize: 15,
-  },
-  location: {
-    color: "#F2AE30",
-    fontSize: 15,
-  },
-  eventCard: {
-    padding: 15,
-  },
-});
 
 interface Props {
   events: Event;
 }
 
 const HomeEventDetailsDumb = (props: Props) => {
-  const classes = useStyles();
+  const classes = useStylesEventsHome();
   const occupancyClasses = useStylesCards();
   const id = props.events.id;
   const title = props.events.title;
@@ -76,5 +47,6 @@ const HomeEventDetailsDumb = (props: Props) => {
     </Link>
   );
 };
+
 
 export default HomeEventDetailsDumb;

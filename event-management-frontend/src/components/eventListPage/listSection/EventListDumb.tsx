@@ -12,29 +12,13 @@ import FilterSectionSmart from "../filterSection/FilterSectionSmart";
 import { useStyles } from "../../../styles/CommonStyles";
 import { useTranslation } from "react-i18next";
 import { useScrollPosition } from "@n8tb1t/use-scroll-position";
-import { createStyles, Theme, withStyles } from "@material-ui/core/styles";
 import { useListStyles } from "../../../styles/EventListStyle";
 import { EventSort } from "../../../model/EventSort";
 import { EventFilters } from "../../../model/EventFilters";
 import ErrorIcon from "@material-ui/icons/Error";
+import {StyledTableCell} from "../../../styles/StyledTableCell";
+import {PaginationCell} from "../../../styles/PaginationCell";
 
-const StyledTableCell = withStyles((theme: Theme) =>
-  createStyles({
-    body: {
-      fontSize: 14,
-      padding: 10,
-    },
-  })
-)(TableCell);
-
-const PaginationCell = withStyles((theme: Theme) =>
-  createStyles({
-    body: {
-      fontSize: 50,
-      padding: 10,
-    },
-  })
-)(TableCell);
 
 interface Props {
   isError: boolean;
@@ -46,7 +30,6 @@ interface Props {
   updateSortCriteria: (sortCriteria: { criteria: string; type: string }) => void;
   incrementPage: () => void;
   decrementPage: () => void;
-
   eventsDetails: any[];
   eventsDetailsMobile: any[];
   handleSortEvent: (criteria: string, type: string) => void;
@@ -138,8 +121,7 @@ const EventListDumb = (props: Props) => {
       <TableContainer component={Paper}>
         <Link to={`/admin/newEvent`} style={{ textDecoration: "none" }}>
           <Button
-            className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3} ${commonClasses.buttonStyle4}`}
-          >
+            className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3} ${commonClasses.buttonStyle4}`}>
             {t("eventList.createNewEventButton")}
           </Button>
         </Link>
@@ -147,22 +129,12 @@ const EventListDumb = (props: Props) => {
         <FilterSectionSmart expanded={expanded} setExpanded={setExpanded} />
 
         {props.isError ? (
-          <Grid container alignItems={"center"} justify={"center"}>
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
+          <Grid container alignItems={"center"} justify={"center"} className={commonClasses.marginTop}>
             <ErrorIcon color={"primary"} fontSize={"large"} />
             Oops, there was an error
           </Grid>
         ) : props.isLoading ? (
-          <Grid container alignItems={"center"} justify={"center"}>
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
+          <Grid container alignItems={"center"} justify={"center"} className={commonClasses.marginTop}>
             <CircularProgress />
           </Grid>
         ) : (
@@ -239,22 +211,12 @@ const EventListDumb = (props: Props) => {
           </div>
 
           {props.isError ? (
-            <Grid container alignItems={"center"} justify={"center"}>
-              <br />
-              <br />
-              <br />
-              <br />
-              <br />
+            <Grid container alignItems={"center"} justify={"center"} className={commonClasses.marginTop}>
               <ErrorIcon color={"primary"} fontSize={"large"} />
               Oops, there was an error
             </Grid>
           ) : props.isLoading ? (
-            <Grid container alignItems={"center"} justify={"center"}>
-              <br />
-              <br />
-              <br />
-              <br />
-              <br />
+            <Grid container alignItems={"center"} justify={"center"} className={commonClasses.marginTop}>
               <CircularProgress />
             </Grid>
           ) : (

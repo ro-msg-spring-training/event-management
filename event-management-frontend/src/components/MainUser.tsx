@@ -6,6 +6,7 @@ import UserTicketsPage from "./userTicketsPage/UserTicketsPage";
 import UserEventsPage from "./userEventListPage/UserEventsPage";
 import UserEventDetailsSmart from "./userEventDetailsPage/UserEventDetailsSmart";
 
+
 const MainUser = () => {
   return (
     <div>
@@ -21,5 +22,6 @@ const MainUser = () => {
     </div>
   );
 };
+
 
 export default MainUser;

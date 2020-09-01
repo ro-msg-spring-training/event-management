@@ -1,54 +1,19 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import {AppBar, Avatar, Toolbar, Typography} from '@material-ui/core'
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import AppBarCollapse from "./AppBarCollapse";
 import RO from '../../languageImages/RO.png';
 import EN from '../../languageImages/EN.png';
 import { useTranslation } from "react-i18next";
+import {useStylesHeader} from "../../styles/HeaderStyle";
 
-
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        small: {
-            width: theme.spacing(3),
-            height: theme.spacing(3),
-            padding: 10
-        },
-        title: {
-            flexGrow: 1,
-        },
-
-        //Colors
-        dark: {
-            color: '#133655',
-        },
-        light: {
-            color: '#6BB7D0',
-        },
-        ghost: {
-            color: '#F4F5F9',
-        },
-        white: {
-            color: '#FFFFFF',
-        },
-        yellow: {
-            color: '#F2AE30',
-        },
-        flags: {
-            '&:hover': {
-                cursor: "pointer",
-            }
-        },
-    }),
-);
 
 // The Header creates links that can be used to navigate between routes.
 const Header = () => {
     const [, i18n ] = useTranslation();
-    const classes = useStyles();
+    const classes = useStylesHeader();
     const userName = localStorage.getItem("username");
 
     // This variable represents the max number of characters from userName showing in header
@@ -82,5 +47,6 @@ const Header = () => {
     </AppBar>
     );
 }
+
 
 export default Header

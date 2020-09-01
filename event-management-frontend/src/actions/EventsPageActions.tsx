@@ -14,9 +14,6 @@ export const FETCH_HOME_EVENTS = 'FETCH_HOME_EVENTS'
 export const FETCH_HOME_EVENTS_REQUEST = 'FETCH_HOME_EVENTS_REQUEST'
 export const FETCH_HOME_EVENTS_SUCCESS = 'FETCH_HOME_EVENTS_SUCCESS'
 export const FETCH_HOME_EVENTS_ERROR = 'FETCH_HOME_EVENTS_ERROR'
-export const SORT_EVENTS = 'SORT_EVENTS'
-export const PREV_PAGE = 'PREV_PAGE'
-export const NEXT_PAGE = 'NEXT_PAGE'
 
 export const FETCH_CUSTOM_EVENTS = 'FETCH_CUSTOM_EVENTS'
 export const FETCH_CUSTOM_EVENTS_REQUEST = 'FETCH_CUSTOM_EVENTS_REQUEST'
@@ -39,22 +36,6 @@ export const RESET_PAGE = 'RESET_PAGE'
 export const RESET_PAGE_HOME = 'RESET_PAGE_HOME'
 export const RESET_FILTERS = "RESET_FILTERS"
 
-
-export const prevPage = (filters: EventFilters, sort: EventSort) => {
-    return {
-        type: PREV_PAGE,
-        payload: filters,
-        sort: sort
-    }
-}
-
-export const nextPage = (filters: EventFilters, sort: EventSort) => {
-    return {
-        type: NEXT_PAGE,
-        payload: filters,
-        sort: sort
-    }
-}
 
 export const updateFilters = (filters: EventFilters) => {
     return {
@@ -81,14 +62,6 @@ export const filterEventsSuccess = (result: Array<Event>) => {
 export const filterEventsError = () => {
     return {
         type: FILTER_EVENTS_ERROR,
-    }
-}
-
-export const sortEvents = (sort: EventSort, page: number) => {
-    return {
-        type: SORT_EVENTS,
-        payload: sort,
-        page: page
     }
 }
 
@@ -142,7 +115,6 @@ export const fetchEventsErrorHome = () => {
     }
 }
 
-// called by saga and component
 export const fetchCustomEvents = (filters: EventFilters, sort: EventSort, page: number) => {
     return {
         type: FETCH_CUSTOM_EVENTS,

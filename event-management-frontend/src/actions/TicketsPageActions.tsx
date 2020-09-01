@@ -9,8 +9,6 @@ export const INCREMENT_PAGE = 'INCREMENT_PAGE'
 export const UPDATE_FILTERS_TICKETS = 'UPDATE_FILTERS_TICKETS'
 export const RESET_FILTERS_TICKETS = 'RESET_FILTERS_TICKETS'
 export const RESET_PAGE_TICKETS = 'RESET_PAGE_TICKETS'
-export const OPEN = 'OPEN'
-export const CLOSE = 'CLOSE'
 
 
 export const fetchTickets = (page: number, filters: TicketFilters) => {
@@ -45,18 +43,6 @@ export const fetchTicketsError = () => {
 export const incrementPage = () => {
     return {
         type: INCREMENT_PAGE,
-    }
-}
-
-export const openDetails = () => {
-    return {
-        type: OPEN,
-    }
-}
-
-export const closeDetails = () => {
-    return {
-        type: CLOSE,
     }
 }
 
