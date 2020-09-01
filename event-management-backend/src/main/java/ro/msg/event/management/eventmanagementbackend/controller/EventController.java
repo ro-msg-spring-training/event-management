@@ -117,6 +117,11 @@ public class EventController {
                                                                           @RequestParam(required = false) String startDate, @RequestParam(required = false) String endDate, @RequestParam(required = false) String startHour, @RequestParam(required = false) String endHour, @RequestParam(required = false) ComparisonSign rateSign,
                                                                           @RequestParam(required = false) Float rate, @RequestParam(required = false) ComparisonSign maxPeopleSign, @RequestParam(required = false) Integer maxPeople, @RequestParam(required = false) SortCriteria sortCriteria, @RequestParam(required = false) Boolean sortType) {
         try {
+            if (startDate != null && endDate == null){
+                endDate = MAX_DATE.toString();
+            }else if (startDate == null && endDate != null){
+                startDate = MIN_DATE.toString();
+            }
             Page<EventView> page = eventService.filter(pageable, title, subtitle, status, highlighted, location, startDate != null ? LocalDate.parse(startDate) : null, endDate != null ? LocalDate.parse(endDate) : null, startHour != null ? LocalTime.parse(startHour) : null, endHour != null ? LocalTime.parse(endHour) : null, rateSign, rate, maxPeopleSign, maxPeople, sortCriteria, sortType, null);
             JSONObject responseBody = new JSONObject();
             responseBody.put("events", converter.convertAll(page.getContent()));
