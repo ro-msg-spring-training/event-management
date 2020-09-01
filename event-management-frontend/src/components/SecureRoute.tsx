@@ -50,7 +50,7 @@ export class SecureRoute extends React.Component<any, State> {
               <CircularProgress /> :
               <Redirect to={{ pathname: '/login', state: { from: this.props.location } }} /> 
           : ((this.props.admin && this.state.isAdmin) || (!this.props.admin && !this.state.isAdmin)) ?
-            <Component {...props} /> :
+            <Component {...props}/> :
             <Redirect to={{ pathname: '/login', state: { from: this.props.location } }} />
           )
         }
