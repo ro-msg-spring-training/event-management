@@ -153,6 +153,14 @@
         "searchBarText": "Cauta locatie"
     },
 
+    "buyTicketsFirstPage": {
+        "radioButtonNoSeat": "Continua fără a alege un loc",
+        "radioButtonSeat": "Selectați un loc din planul clădirii",
+        "generalTicketInfo": "Informați generale despre bilete",
+        "toDate": "pâna în",
+        "toTime": "până la"
+    },
+
     "buyTicketsSecondPage": {
         "gotoFirstPage": "Mergi la prima pagină",
         "cancelPurchase": "Renunță la achiziție",

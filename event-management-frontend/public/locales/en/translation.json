@@ -154,6 +154,14 @@
         "searchBarText": "Search location"
     },
 
+    "buyTicketsFirstPage": {
+        "radioButtonNoSeat": "Proceed without choosing a seat",
+        "radioButtonSeat": "Select a seat from building plan",
+        "generalTicketInfo": "General ticket informations",
+        "toDate": "to",
+        "toTime": "to"
+    },
+
     "buyTicketsSecondPage": {
         "gotoFirstPage": "Go to first page",
         "cancelPurchase": "Cancel purchase",
