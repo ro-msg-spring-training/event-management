@@ -47,7 +47,7 @@ public class EmailSenderService {
 
     @Value("${event-management.s3.tickets.bucketName}")
     private String bucketName;
-    
+
     @Value("${fromMail}")
     private String fromMail;
 

@@ -103,7 +103,7 @@ public class BookingService {
         model.put("firstName",user.getFirstName());
         model.put("lastName", user.getLastName());
         model.put("bookingId", booking.getId());
-        model.put("bookingDate", booking.getBookingDate().toLocalDate());
+        model.put("bookingDate", booking.getBookingDate().toLocalDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
         model.put("eventName", booking.getEvent().getTitle());
         String eventDate= null;
         if (booking.getEvent().getStartDate().isEqual(booking.getEvent().getEndDate())){
