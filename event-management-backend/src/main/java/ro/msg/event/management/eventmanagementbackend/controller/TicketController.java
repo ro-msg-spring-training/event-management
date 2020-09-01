@@ -38,6 +38,9 @@ public class TicketController {
     private final TicketService ticketService;
     private final Converter<TicketView, TicketListingDto> convertToTicketDto;
 
+    private static final LocalDate MAX_DATE = LocalDate.parse("2999-12-31");
+    private static final LocalDate MIN_DATE = LocalDate.parse("1900-01-01");
+
     @GetMapping("/remaining/{id}")
     public ResponseEntity<List<AvailableTicketsPerCategory>> getAvailableTickets(@PathVariable Long id) {
         List<AvailableTicketsPerCategory> list = ticketService.getAvailableTickets(id);
@@ -48,6 +51,11 @@ public class TicketController {
     public ResponseEntity<JSONObject> getFilteredTickets(Pageable pageable, @RequestParam(required = false) String title, @RequestParam(required = false) String startDate, @RequestParam(required = false) String endDate) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String user = ((User) auth.getPrincipal()).getIdentificationString();
+        if (startDate != null && endDate == null){
+            endDate = MAX_DATE.toString();
+        }else if (startDate == null && endDate != null){
+            startDate = MIN_DATE.toString();
+        }
         Page<TicketView> page = ticketService.filterTickets(pageable, user, title, startDate != null ? LocalDate.parse(startDate) : null, endDate != null ? LocalDate.parse(endDate) : null);
         JSONObject responseBody = new JSONObject();
         responseBody.put("tickets", convertToTicketDto.convertAll(page.getContent()));
