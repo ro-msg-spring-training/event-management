@@ -32,9 +32,6 @@ function FilterSectionSmart({
     resetFilters,
     fetchAllEvents
 }: FilterSectionProps) {
-    useEffect(()=>{
-        console.log('filtrele', filters)
-    },[filters])
 
     const [errorRate, setErrorRate] = useState('');
     const [errorMaxPeople, setErrorMaxPeople] = useState('');

@@ -5,7 +5,7 @@ export const fetchWrapper = async (input: RequestInfo, init?: RequestInit): Prom
     .then(data => {
         localStorage.setItem("idToken", data.getIdToken().getJwtToken())
     })
-    .catch(err => console.log('Current session error', err));
+    .catch();
 
     return fetch(input, init)
 }
