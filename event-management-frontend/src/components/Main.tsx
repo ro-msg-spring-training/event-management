@@ -12,11 +12,11 @@ const Main = () => {
                 <Header />
                 <main>
                     <Switch>
-                        <Route exact path='/admin/events/:id'
-                               render={(props: any) => <EventDetails match={props.match} admin={true} />} />
+                        <SecureRoute admin exact path='/admin/events/:id'
+                               component={(props: any) => <EventDetails match={props.match} admin={true} />} />
                         <SecureRoute admin exact path='/admin/events' component={EventList} />
-                        <Route exact path='/admin/newEvent'
-                               render={(props: any) => <EventDetails match={props.match} admin={true} />} />
+                        <SecureRoute admin exact path='/admin/newEvent'
+                               component={(props: any) => <EventDetails match={props.match} admin={true} />} />
                         <SecureRoute admin exact path='/admin' component={Home} />
                     </Switch>
                 </main>

@@ -13,7 +13,7 @@ const MainUser = () => {
       <Header />
       <main>
         <Switch>
-          <SecureRoute exact path="/user/events/:id" render={(props: any) => <UserEventDetailsSmart match={props.match} />} />
+          <SecureRoute exact path="/user/events/:id" component={(props: any) => <UserEventDetailsSmart match={props.match} />} />
           <SecureRoute exact path="/user/tickets" component={UserTicketsPage} />
           <SecureRoute exact path="/user/events" component={UserEventsPage} />
           <SecureRoute exact path="/user" component={UserHomePage} />
