@@ -28,6 +28,12 @@ public class JWTProcessorConfiguration {
         this.jwtConfiguration = jwtConfiguration;
     }
 
+    /**
+     * Bean that deals with the processing and the verification of the JWT. It also configures AWS Cognito keys URL as
+     * the JWKs source.
+     * @return bean that processes JWTs
+     * @throws MalformedURLException if the AWS Cognito keys URL does not have a valid format
+     */
     @Bean
     public ConfigurableJWTProcessor<SecurityContext> configurableJWTProcessor() throws MalformedURLException {
         ResourceRetriever resourceRetriever =

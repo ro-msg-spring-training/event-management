@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Stores user information which is later encapsulated into Authentication objects, which are used by Spring Security.
+ */
 @ToString
 public class User implements UserDetails {
 

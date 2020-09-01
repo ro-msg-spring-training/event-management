@@ -7,6 +7,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * Provides custom security configuration.
+ */
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -18,6 +21,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         this.awsCognitoJwtAuthenticationFilter = awsCognitoJwtAuthenticationFilter;
     }
 
+    /**
+     * Configures web based security. Routes that contain "/public/" and those used by the H2 database(used for testing)
+     * are made available without requiring authentication. For the other routes authentication is necessary and this
+     * authentication is done using JWT.
+     * @param http element that allows configuring web based security for specific http requests
+     * @throws Exception security related exception
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.headers().cacheControl();

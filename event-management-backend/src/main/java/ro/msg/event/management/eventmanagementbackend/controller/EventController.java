@@ -210,6 +210,7 @@ public class EventController {
     }
 
     @GetMapping("/user/upcoming")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<JSONObject> userUpcomingEvents(Pageable pageable,
                                                          @RequestParam(required = false) String title,
                                                          @RequestParam(required = false) List<String> multipleLocations,
@@ -223,6 +224,7 @@ public class EventController {
     }
 
     @GetMapping("/user/history")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<JSONObject> userPastEvents(Pageable pageable,
                                                      @RequestParam(required = false) String title,
                                                      @RequestParam(required = false) List<String> multipleLocations,
@@ -244,6 +246,7 @@ public class EventController {
     }
 
     @GetMapping("user/past")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<JSONObject> userEventsAttended(Pageable pageable) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -262,6 +265,7 @@ public class EventController {
     }
 
     @GetMapping("user/future")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<JSONObject> userEventsWillAttend(Pageable pageable) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -280,6 +284,7 @@ public class EventController {
     }
 
     @GetMapping("/highlighted")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<List<CardsUserEventDto>> getHighlightedEvents(@PageableDefault(size = Integer.MAX_VALUE) Pageable pageable) {
 
         Page<EventView> eventViews = eventService.filter(pageable, null, null, null, true, null, LocalDate.now(), MAX_DATE, null, null, null, null, null, null, SortCriteria.DATE, false, null);

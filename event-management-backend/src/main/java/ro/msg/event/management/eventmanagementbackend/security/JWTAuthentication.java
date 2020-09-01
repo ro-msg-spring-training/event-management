@@ -6,6 +6,12 @@ import org.springframework.security.core.GrantedAuthority;
 import java.util.Collection;
 import java.util.Objects;
 
+/**
+ * Represents the token for an authentication request or for an authenticated principal once the request has been
+ * processed. Once the request has been authenticated, the Authentication will usually be stored in a thread-local
+ * SecurityContext managed by the SecurityContextHolder by the authentication mechanism which is being used.
+ * It contains information about the authenticated principal (user).
+ */
 public class JWTAuthentication extends AbstractAuthenticationToken {
 
     private final Object principal;

@@ -19,6 +19,10 @@ import java.util.List;
 
 import static java.util.List.of;
 
+/**
+ * Does all the verification by calling the AWS Cognito JWK URL, building the signature and comparing it with the
+ * incoming id token.
+ */
 @Component
 public class AWSCognitoIdTokenProcessor {
 
@@ -31,12 +35,20 @@ public class AWSCognitoIdTokenProcessor {
         this.configurableJWTProcessor = configurableJWTProcessor;
     }
 
+    /**
+     * Verifies the token and returns an JWTAuthentication object that contains the user details (username, email,
+     * first name, last name, identification string, role).
+     * @param request the web request
+     * @return JWTAuthentication with user information
+     * @throws ParseException
+     * @throws JOSEException
+     * @throws BadJOSEException
+     */
     public Authentication authenticate(HttpServletRequest request) throws ParseException, JOSEException, BadJOSEException {
         String idToken = request.getHeader(this.jwtConfiguration.getHttpHeader());
         if (idToken != null) {
             JWTClaimsSet claims = this.configurableJWTProcessor.process(this.getBearerToken(idToken), null);
             validateIssuer(claims);
-            verifyIfIdToken(claims);
             String username = getUserNameFrom(claims);
             String role = this.getRole(claims);
             if (username != null) {
@@ -52,6 +64,12 @@ public class AWSCognitoIdTokenProcessor {
         return claims.getClaims().get(this.jwtConfiguration.getUserNameField()).toString();
     }
 
+    /**
+     * Gets the role of the user from the claims stored in the JWT. If there is no role, the default role, which
+     * is ROLE_USER, will be assigned.
+     * @param claims the claims that contain all the information stored in the JWT
+     * @return
+     */
     private String getRole(JWTClaimsSet claims) {
         JSONArray jsonArray = (JSONArray) claims.getClaims().get("cognito:groups");
         if (jsonArray == null) {
@@ -77,12 +95,10 @@ public class AWSCognitoIdTokenProcessor {
         return claims.getClaims().get("sub").toString();
     }
 
-    private void verifyIfIdToken(JWTClaimsSet claims) {
-        if (!claims.getIssuer().equals(this.jwtConfiguration.getCognitoIdentityPoolUrl())) {
-            throw new InvalidJWTException("JWT is not an ID Token");
-        }
-    }
-
+    /**
+     * Checks if the issuer of the token is correct one (the AWS Cognito identity pool used in the configuration).
+     * @param claims the claims that contain all the information stored in the JWT
+     */
     private void validateIssuer(JWTClaimsSet claims) {
         if (!claims.getIssuer().equals(this.jwtConfiguration.getCognitoIdentityPoolUrl())) {
             throw new InvalidJWTException(String.format("Issuer %s does not match Cognito idp %s", claims.getIssuer(), this.jwtConfiguration.getCognitoIdentityPoolUrl()));
