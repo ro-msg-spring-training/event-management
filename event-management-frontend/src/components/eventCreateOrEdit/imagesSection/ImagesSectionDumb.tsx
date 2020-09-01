@@ -1,82 +1,46 @@
-import React, { useCallback, useState, useEffect } from 'react'
-import { useDropzone } from 'react-dropzone'
+import React from 'react'
 import { ReactSortable } from 'react-sortablejs'
-import { Grid, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, LinearProgress } from '@material-ui/core'
+import { Grid, LinearProgress } from '@material-ui/core'
 import { useStyle } from '../../../styles/ImagesSectionStyles'
 import { EventImage } from '../../../model/EventImage'
 import CancelIcon from '@material-ui/icons/Cancel';
-import { useTranslation } from "react-i18next";
+import { TFunction } from 'i18next'
 
 interface ImagesSectionProps {
+  t: TFunction;
   isError: boolean;
   isLoading: boolean;
-  eventImages: EventImage[];
-  updateEventImages: (images: EventImage[]) => void;
+  getRootProps: any;
+  getInputProps: any;
+  images: EventImage[];
+  setImages: (images: EventImage[]) => void;
+  handleClickOpen: (item: EventImage) => void;
 }
 
-function ImagesSectionDumb({ isError, isLoading, eventImages, updateEventImages }: ImagesSectionProps) {
+function ImagesSectionDumb({
+  t,
+  isError,
+  isLoading,
+  getRootProps,
+  getInputProps,
+  images,
+  setImages,
+  handleClickOpen
+}: ImagesSectionProps) {
+
   const classes = useStyle();
-
-  const [images, setImages] = useState<EventImage[]>(eventImages);
-  const [open, setOpen] = useState(false);
-  const [itemToDelete, setItemToDelete] = useState<EventImage>();
-  const [t] = useTranslation();
-
-  const onDrop = useCallback((acceptedFiles) => {
-    acceptedFiles.forEach((file: File) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        const byteArr = reader.result;
-        const id = `image-${file.size}-${Date.now()}-${file.name}`; // image id
-        const elem = { id: id, name: file.name, url: byteArr, file: file };
-        setImages((prevState) => [...prevState, elem]);
-      };
-    });
-  }, []);
-
-  const { getRootProps, getInputProps } = useDropzone({ accept: "image/*", onDrop });
-
-  const setImageAsDeleted = (item: EventImage) => {
-    var array = [...images];
-    var index = array.indexOf(item);
-    if (index !== -1) {
-      array[index].deleted = true;
-      setImages(array);
-    }
-  };
-
-  const handleClickOpen = (item: EventImage) => {
-    setItemToDelete(item)
-    setOpen(true);
-  };
-
-  const handleCloseConfirm = () => {
-    setImageAsDeleted(itemToDelete as EventImage)
-    setItemToDelete(undefined)
-    setOpen(false);
-  };
-
-  const handleCloseDecline = () => {
-    setItemToDelete(undefined)
-    setOpen(false);
-  };
-
-  useEffect(() => {
-    updateEventImages(images)
-  }, [images, updateEventImages]);
 
   return (
     <div className={classes.imagesArea}>
       <div {...getRootProps()} className={classes.dragndrop}>
         <input {...getInputProps()} />
-        <p>{t("welcome.imageDragAndDrop")}</p>
+        <p> {t("images.imageDragAndDrop")} </p>
       </div>
 
       <div className={classes.imagesContainerWrapper}>
         {
           isError ?
-            <p>{t("welcome.imageErrorMessage")}</p> :
+            <p>{t("images.imageErrorMessage")}</p> :
             isLoading ?
               <LinearProgress /> :
               images.length !== 0 ?
@@ -98,39 +62,16 @@ function ImagesSectionDumb({ isError, isLoading, eventImages, updateEventImages 
                         onClick={() => handleClickOpen(item)}
                         className={classes.deleteButton} />
 
-                      <img alt={item.name} src={item.url} className={classes.image} />
+                      <img
+                        alt={item.name}
+                        src={item.url}
+                        className={classes.image} />
                     </Grid>
                   ))}
 
-                </ReactSortable> :
-                null
+                </ReactSortable> : ''
         }
       </div>
-
-      <Dialog
-        open={open}
-        onClose={handleCloseDecline}>
-
-        <DialogTitle>
-          {t("welcome.imageDialogTitle")}
-        </DialogTitle>
-
-        <DialogContent>
-          <DialogContentText>
-            {t("welcome.imageDialogContent")}
-          </DialogContentText>
-        </DialogContent>
-
-        <DialogActions>
-          <Button onClick={handleCloseDecline} color="primary">
-            {t("welcome.imageDialogDisagree")}
-          </Button>
-
-          <Button onClick={handleCloseConfirm} color="primary" autoFocus>
-            {t("welcome.imageDialogAgree")}
-          </Button>
-        </DialogActions>
-      </Dialog>
     </div>
   )
 }

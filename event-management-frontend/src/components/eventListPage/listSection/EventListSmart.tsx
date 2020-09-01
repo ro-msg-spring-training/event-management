@@ -87,7 +87,7 @@ class EventListSmart extends React.Component<Props, State> {
         }
 
         const goToPrevPage = () => {
-            if (this.props.page <= 1) {
+            if (this.props.page < 1) {
                 return
             } else {
                 this.props.decrementPage();
@@ -95,20 +95,18 @@ class EventListSmart extends React.Component<Props, State> {
         }
 
         const goToNextPage = () => {
-            if (this.props.page >= this.state.lastPage) {
+            if (this.props.page + 1 >= this.state.lastPage) {
                 return
             } else {
                 this.props.incrementPage();
             }
         }
 
-        // Using the map function, we will get all the events from the array
-        const eventDetails = events
-            .map((event: Event) =>
+        // Using the map function, we will get all the events from the array 
+        const eventDetails = events?.map((event: Event) =>
                 <EventDetailsDumb key={event.id} event={event} />);
         // On mobile we would like to keep only title and date
-        const eventDetailsMobile = events
-            .map((event: Event) =>
+        const eventDetailsMobile = events?.map((event: Event) =>
                 <EventDetailsMobileDumb key={event.id} event={event} />);
 
         return (

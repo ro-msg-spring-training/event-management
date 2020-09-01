@@ -31,7 +31,7 @@ function EventsSectionDumb({ past, events, page, noPages, isError, isLoading, tr
 
             <CardContent className={classes.cardContent}>
                 {isError ?
-                    <Typography variant="subtitle1"> {translation('userHomePage.messageError')}</Typography> :
+                    <Typography variant="subtitle1"> {translation('userHomePage.errorMessage')}</Typography> :
                     isLoading ?
                         <LinearProgress /> :
                         noPages ?

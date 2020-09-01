@@ -55,6 +55,7 @@ const convertToBooking = (bookings_from_server: BookingServer[]) => {
 export const fetchHighlightedEvents = () => {
   let url = `${serverURL}/events/highlighted`;
   const urlOptions = { headers: headersAuth };
+
   return fetchWrapper(url, urlOptions)
     .then((response) => response.json())
     .then((json) => {

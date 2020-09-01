@@ -7,6 +7,7 @@ import "../../../../styles/Responsivity.css";
 import { EventCrud } from "../../../../model/EventCrud";
 import { useTranslation } from "react-i18next";
 import { CategoryCardErrors } from "../../../../model/EventFormErrors";
+import { useStyles } from "../../../../styles/CommonStyles";
 
 type Props = {
   newEvent: boolean;
@@ -22,6 +23,7 @@ type Props = {
 
 const CategoryPageDumb: React.FC<Props> = ({ newEvent, event, addCard, handleChange, formErrors }: Props) => {
   const classes = useStylesCategoryPage();
+  const classes2 = useStyles();
   const { t } = useTranslation();
   const addNewCard = () => {
     addCard();
@@ -71,7 +73,10 @@ const CategoryPageDumb: React.FC<Props> = ({ newEvent, event, addCard, handleCha
         </Grid>
 
         <Grid container item xl={2} lg={2} md={3} sm={8} xs={10}>
-          <Button className={`${classes.button} addButtonResponsive`} onClick={addNewCard}>
+          <Button
+            className={`${classes.button} ${classes2.buttonStyle2} ${classes2.buttonStyle3} addButtonResponsive`}
+            onClick={addNewCard}
+          >
             {t("categoryCard.addCategory")}
           </Button>
         </Grid>

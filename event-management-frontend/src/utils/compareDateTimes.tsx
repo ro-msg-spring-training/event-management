@@ -19,7 +19,10 @@ export const startDateBeforeEndDate = (startDate: Date, endDate: Date) => {
     if (startDate.getMonth() > endDate.getMonth()) {
         return true;
     }
-    if (startDate.getDate() > endDate.getDate()) {
+    if (startDate.getMonth() > endDate.getMonth() && startDate.getFullYear() === endDate.getFullYear()) {
+        return true;
+    }
+    if (startDate.getDate() > endDate.getDate() && startDate.getMonth() === endDate.getMonth() && startDate.getFullYear() === endDate.getFullYear()) {
         return true;
     }
     return false;

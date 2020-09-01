@@ -270,6 +270,7 @@ const HeaderReducer = (
               price: 0,
               description: "",
               ticketsPerCategory: 0,
+              available: true,
             },
           ],
         },

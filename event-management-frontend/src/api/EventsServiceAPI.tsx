@@ -35,39 +35,39 @@ const computeSortQueryString = (sort: EventSort) => {
 const computeFilterQueryString = (filters: EventFilters) => {
     let filtersToSend: any = {}
 
-    if (filters.title !== '' && filters.title !== undefined) {
-        filtersToSend['title'] = filters.title
+    if (filters.title) {
+        filtersToSend.title = filters.title
     }
-    if (filters.subtitle !== '' && filters.subtitle !== undefined) {
-        filtersToSend['subtitle'] = filters.subtitle
+    if (filters.subtitle) {
+        filtersToSend.subtitle = filters.subtitle
     }
-    if (filters.status !== 'none' && filters.status !== undefined) {
-        filtersToSend['status'] = filters.status
+    if (filters.status !== 'none') {
+        filtersToSend.status = filters.status
     }
-    if (filters.location !== '' && filters.location !== undefined) {
-        filtersToSend['location'] = filters.location
+    if (filters.location) {
+        filtersToSend.location = filters.location
     }
-    if (filters.startDate !== null && filters.startDate !== undefined) {
+    if (filters.startDate) {
         filtersToSend['startDate'] = moment(filters.startDate).format("YYYY-MM-DD")
     }
-    if (filters.endDate !== null && filters.endDate !== undefined) {
+    if (filters.endDate) {
         filtersToSend['endDate'] = moment(filters.endDate).format("YYYY-MM-DD")
     }
-    if (filters.rate !== '' && filters.rate !== undefined) {
+    if (filters.rate) {
         filtersToSend['rate'] = filters.rate
         filtersToSend['rateSign'] = filters.rateSign
     }
-    if (filters.maxPeople !== '' && filters.maxPeople !== undefined) {
+    if (filters.maxPeople) {
         filtersToSend['maxPeople'] = filters.maxPeople
         filtersToSend['maxPeopleSign'] = filters.maxPeopleSign
     }
-    if (filters.startHour !== undefined) {
+    if (filters.startHour) {
         filtersToSend['startHour'] = filters.startHour
     }
-    if (filters.endHour !== undefined) {
+    if (filters.endHour) {
         filtersToSend['endHour'] = filters.endHour
     }
-    if (filters.highlighted !== undefined) {
+    if (filters.highlighted) {
         filtersToSend['highlighted'] = filters.highlighted
     }
 
@@ -146,7 +146,7 @@ export const getLastNumber = (filters: EventFilters) => {
     url.search += "&";
     url.search += new URLSearchParams(sizeToSend).toString();
 
-    if (filtersToSend.length !== undefined) {
+    if (filtersToSend.length !== {}) {
         url.search += "&";
         url.search += new URLSearchParams(filtersToSend).toString();
     }
