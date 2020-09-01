@@ -4,6 +4,8 @@ import {TicketFilters} from "../../../model/TicketFilters";
 import {AppState} from "../../../store/store";
 import {fetchTickets, resetFilters, updateFilters, resetPage} from "../../../actions/TicketsPageActions";
 import {connect} from "react-redux";
+import { equalDate, startDateBeforeEndDate, startTimeGreaterThenEndTime } from '../../../utils/compareDateTimes';
+import { useTranslation } from 'react-i18next';
 
 
 interface Props {
@@ -18,7 +20,9 @@ interface Props {
 }
 
 const UserTicketsFilterSmart = ({ expanded, setExpanded, filters, page, resetFilters, updateFilters, fetchTickets, resetPage }: Props) => {
-    const [errorDate, ] = useState('')
+    const [errorStartDate, setErrorStartDate] = useState('')
+    const [errorEndDate, setErrorEndDate] = useState('')
+    const [t] = useTranslation();
 
     const handleChange = () => {
         const newFilters = Object.assign({}, filters)
@@ -32,11 +36,37 @@ const UserTicketsFilterSmart = ({ expanded, setExpanded, filters, page, resetFil
 
     const handleChangeStartDate = (date: string) => {
         filters.startDate = new Date(date)
+
+        if (filters.endDate !== undefined) {
+            if (equalDate(filters.startDate, filters.endDate)) {
+                return;
+            }
+            else if (startDateBeforeEndDate(filters.startDate, filters.endDate)) {
+                setErrorStartDate(t('eventList.invalidDate'))
+                return;
+            }
+        }
+
+        setErrorStartDate('')
+        setErrorEndDate('')
         handleChange()
     }
 
     const handleChangeEndDate = (date: string) => {
         filters.endDate = new Date(date)
+
+        if (filters.startDate !== undefined) {
+            if (equalDate(filters.startDate, filters.endDate)) {
+                return;
+            }
+            else if (startDateBeforeEndDate(filters.startDate, filters.endDate)) {
+                setErrorEndDate(t('eventList.invalidDate'))
+                return;
+            }
+        }
+
+        setErrorStartDate('')
+        setErrorEndDate('')
         handleChange()
     }
 
@@ -55,6 +85,8 @@ const UserTicketsFilterSmart = ({ expanded, setExpanded, filters, page, resetFil
     const clear = () => {
         resetFilters()
         resetPage()
+        setErrorStartDate('')
+        setErrorEndDate('')
         fetchTickets(1, { title: '', startDate: undefined, endDate: undefined })
     }
 
@@ -62,7 +94,8 @@ const UserTicketsFilterSmart = ({ expanded, setExpanded, filters, page, resetFil
             <UserTicketsFilterDumb
                 isExpanded={expanded}
                 filters={filters}
-                errorDate={errorDate}
+                errorStartDate={errorStartDate}
+                errorEndDate={errorEndDate}
                 clear={clear}
                 updateFilters={updateFilters}
                 toggle={toggle}

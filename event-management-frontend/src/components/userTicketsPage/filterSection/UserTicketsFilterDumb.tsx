@@ -10,7 +10,8 @@ import {TicketFilters} from "../../../model/TicketFilters";
 interface Props {
     isExpanded: boolean,
     filters: TicketFilters,
-    errorDate: string,
+    errorStartDate: string,
+    errorEndDate: string,
     updateFilters: (filters: TicketFilters) => void,
     toggle: () => void,
     clear: () => void,
@@ -20,7 +21,7 @@ interface Props {
     handleChangeEndDate: (startDate: string) => void,
 }
 
-const UserTicketsFilterDumb = ({isExpanded, filters, errorDate, updateFilters,
+const UserTicketsFilterDumb = ({isExpanded, filters, errorStartDate, errorEndDate, updateFilters,
                                    toggle, clear, submitForm, handleChangeTitle,
                                         handleChangeStartDate, handleChangeEndDate}: Props) => {
     const commonClasses = useStyles();
@@ -47,11 +48,11 @@ const UserTicketsFilterDumb = ({isExpanded, filters, errorDate, updateFilters,
                             <TextField
                                 name='date'
                                 type="date"
-                                error={errorDate !== ''}
+                                error={errorStartDate !== ''}
                                 label={t("ticketList.startDate")}
                                 variant='outlined'
                                 fullWidth
-                                helperText={errorDate}
+                                helperText={errorStartDate}
                                 value={filters.startDate === undefined ? new Date()
                                   : moment(filters.startDate).format("YYYY-MM-DD")}
                                 onChange={(e) => handleChangeStartDate(e.target.value)}
@@ -62,11 +63,11 @@ const UserTicketsFilterDumb = ({isExpanded, filters, errorDate, updateFilters,
                             <TextField
                               name='date'
                               type="date"
-                              error={errorDate !== ''}
+                              error={errorEndDate !== ''}
                               label={t("ticketList.endDate")}
                               variant='outlined'
                               fullWidth
-                              helperText={errorDate}
+                              helperText={errorEndDate}
                               value={filters.endDate === undefined ? new Date()
                                 : moment(filters.endDate).format("YYYY-MM-DD")}
                               onChange={(e) => handleChangeEndDate(e.target.value)}
@@ -87,10 +88,11 @@ const UserTicketsFilterDumb = ({isExpanded, filters, errorDate, updateFilters,
 
                         <Grid item xs={12} sm={6} md={6} xl={6}>
                             <Button
+                                type='submit'
                                 className={`${commonClasses.buttonStyle2} 
                                 ${commonClasses.buttonStyle3} 
                                 ${filterStyle.filterButtons}`}
-                                type='submit'>
+                                disabled={errorStartDate !== "" || errorEndDate !== "" }>
                                 {t("eventList.filterButton")}
                             </Button>
                         </Grid>
