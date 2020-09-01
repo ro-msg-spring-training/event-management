@@ -12,6 +12,7 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import TicketCollapseDumb from "./TicketCollapseDumb";
 import {StyledTableCell} from '../../../styles/StyledTableCell'
+import {ReactComponent} from "*.svg";
 
 
 interface Props {
@@ -36,7 +37,7 @@ const TicketGroupDumb = (props: Props) => {
     const eventName = firstElement.eventName;
     const category = firstElement.ticketCategory;
     const name = firstElement.name;
-    const pdfUrl = firstElement.pdfUrl;
+    // const pdfUrl = firstElement.pdfUrl;
     const handleChange = props.handleChange;
     const open = props.open;
 
@@ -48,7 +49,6 @@ const TicketGroupDumb = (props: Props) => {
                     <IconButton type="button"  size="small" onClick={() => handleChange(index)}>
                         {open[index] === undefined || !open[index] ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                     </IconButton>
-
                 </TableCell>
 
                 <StyledTableCell
@@ -85,7 +85,7 @@ const TicketGroupDumb = (props: Props) => {
             </TableRow>
 
             <Collapse in={open[index]} timeout={0} unmountOnExit>
-                <Box className={classes.paddingTable}>
+                <Box className={classes.paddingTable} component={'table'}>
                     <TableHead>
                         <TableRow>
                             <TableCell/>

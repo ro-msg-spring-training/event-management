@@ -6,7 +6,6 @@ import {
     OPEN, CLOSE, UPDATE_FILTERS_TICKETS, RESET_FILTERS_TICKETS, RESET_PAGE_TICKETS
 } from "../actions/TicketsPageActions"
 import { TicketFilters } from "../model/TicketFilters";
-import {MathRelation} from "../model/MathRelation";
 
 
 export interface TicketsPageState {

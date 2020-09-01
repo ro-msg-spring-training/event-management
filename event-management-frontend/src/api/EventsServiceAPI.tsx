@@ -11,6 +11,12 @@ const computeLimit = () => {
     return limit;
 }
 
+const computeSize = () => {
+    let size: { size: string } = { size: "2"};
+
+    return size;
+}
+
 const computePage = (page: number) => {
     let pageToSend: { page: string } = { page: page.toString()};
 
@@ -72,14 +78,16 @@ export const fetchFilteredEvents = (filters: EventFilters, page: number) => {
     const filtersToSend = computeFilterQueryString(filters);
     const pageToSend = computePage(page);
     const limitToSend = computeLimit();
+    const sizeToSend = computeSize();
 
     const url = new URL(serverEventsURL);
-    console.log(page)
     url.search = new URLSearchParams(filtersToSend).toString();
     url.search += "&";
     url.search += new URLSearchParams(pageToSend).toString();
     url.search += "&";
     url.search += new URLSearchParams(limitToSend).toString();
+    url.search += "&";
+    url.search += new URLSearchParams(sizeToSend).toString();
 
     return fetchWrapper(`${url}`, { headers: headersAuth })
         .then((response) => response.json())
@@ -93,10 +101,11 @@ export const fetchSortedEvents = (sort: EventSort, filters: EventFilters, page: 
     const sortToSend = computeSortQueryString(sort);
     const limitToSend = computeLimit();
     const pageToSend = computePage(page);
+    const sizeToSend = computeSize();
 
     const url = new URL(serverEventsURL);
     if (filtersToSend.length !== undefined) {
-        url.search = new URLSearchParams(filtersToSend).toString();
+        url.search += new URLSearchParams(filtersToSend).toString();
         url.search += "&";
     } else if (sortToSend.sortCriteria !== '') {
         url.search += new URLSearchParams(sortToSend).toString();
@@ -106,6 +115,8 @@ export const fetchSortedEvents = (sort: EventSort, filters: EventFilters, page: 
     url.search += new URLSearchParams(limitToSend).toString();
     url.search += "&";
     url.search += new URLSearchParams(pageToSend).toString();
+    url.search += "&";
+    url.search += new URLSearchParams(sizeToSend).toString();
 
     return fetchWrapper(`${url}`, { headers: headersAuth })
         .then((response) => response.json())
@@ -115,7 +126,6 @@ export const fetchSortedEvents = (sort: EventSort, filters: EventFilters, page: 
 }
 
 export const fetchEvents = () => {
-    console.log("here")
     return fetchWrapper(`${serverURL}/events?limit=2&page=0&size=2`, { headers: headersAuth })
         .then(response => response.json())
         .then(json => {
@@ -123,37 +133,23 @@ export const fetchEvents = () => {
         })
 }
 
-export const changePage = (filters: EventFilters, sort: EventSort, page: number) => {
+export const getLastNumber = (filters: EventFilters) => {
     const filtersToSend = computeFilterQueryString(filters);
-    const sortToSend = computeSortQueryString(sort);
     const limitToSend = computeLimit();
-    const pageToSend = computePage(page);
+    const pageToSend = computePage(0);
+    const sizeToSend = computeSize();
 
-    const url = new URL(serverEventsURL);
-    url.search = new URLSearchParams(filtersToSend).toString();
-    url.search += "&";
-    url.search += new URLSearchParams(sortToSend).toString();
-    url.search += "&";
+    const url = new URL(serverURL + "/events");
     url.search += new URLSearchParams(limitToSend).toString();
     url.search += "&";
     url.search += new URLSearchParams(pageToSend).toString();
-
-    fetchWrapper(`${url}`, { headers: headersAuth })
-        .then((response) => response.json())
-        .then((json) => {
-            return json.events;
-        });
-}
-
-export const getLastNumber = (filters: EventFilters) => {
-    const filtersToSend = computeFilterQueryString(filters);
-    const limit = computeLimit();
-
-    const url = new URL(serverURL + "/events?page=0&size=2&limit=2");
-
-    url.search = new URLSearchParams(filtersToSend).toString();
     url.search += "&";
-    url.search += new URLSearchParams(limit).toString();
+    url.search += new URLSearchParams(sizeToSend).toString();
+
+    if (filtersToSend.length !== undefined) {
+        url.search += "&";
+        url.search += new URLSearchParams(filtersToSend).toString();
+    }
 
     return fetchWrapper(`${url}`, { headers: headersAuth })
         .then((response) => response.json())

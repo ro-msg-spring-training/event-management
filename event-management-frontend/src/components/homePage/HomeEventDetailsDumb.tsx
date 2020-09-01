@@ -52,8 +52,6 @@ const HomeEventDetailsDumb = (props: Props) => {
   const startDate = props.events.startDate;
   const endDate = props.events.endDate;
 
-  const bull = <span className={classes.bullet}>•</span>;
-
   return (
     <Link to={`/admin/events/${id}`} style={{ textDecoration: "none" }}>
       <Card className={classes.root} variant="outlined">
