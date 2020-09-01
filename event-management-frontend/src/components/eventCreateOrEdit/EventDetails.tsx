@@ -14,6 +14,7 @@ import { EventImage } from "../../model/EventImage";
 import MapWrapper from "./locationSection/Map";
 import { EventFormErrors } from "../../model/EventFormErrors";
 import CategoryPageSmart from "./ticketsSection/CategoryPage/CategoryPageSmart";
+import { fetchEvents } from "../../api/EventsServiceAPI";
 
 interface Props {
   match: any;
@@ -29,6 +30,8 @@ interface Props {
     error: string;
     images: EventImage[];
     formErrors: EventFormErrors;
+    isDeleted: boolean;
+    isSaved: boolean;
   };
 }
 
@@ -183,9 +186,6 @@ function EventDetails({
       } else {
         editEventF(fetchEvent.event, fetchEvent.images);
       }
-      if (fetchEvent.error === "") {
-        history.push("/admin/events");
-      }
     }
   };
 
@@ -198,9 +198,22 @@ function EventDetails({
       resetStoreF();
     } else {
       deleteEventF(match.params.id);
-      history.push("/admin/events");
     }
   };
+
+  useEffect(() => {
+    if (fetchEvent.isDeleted) {
+      history.push("/admin/events");
+    }
+    return () => resetStoreF();
+  }, [fetchEvent.isDeleted])
+
+  useEffect(() => {
+    if (fetchEvent.isSaved) {
+      history.push("/admin/events");
+    }
+    return () => resetStoreF();
+  }, [fetchEvent.isSaved])
 
   const overviewComponent = (
     <OverviewSmart
@@ -247,7 +260,7 @@ function EventDetails({
 
 const mapStateToProps = (state: any) => {
   return {
-    fetchEvent: state.eventCrud,
+    fetchEvent: state.eventCrud
   };
 };
 

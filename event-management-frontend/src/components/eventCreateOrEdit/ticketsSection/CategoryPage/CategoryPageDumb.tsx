@@ -30,7 +30,7 @@ const CategoryPageDumb: React.FC<Props> = ({ newEvent, event, addCard, handleCha
   return (
     <div>
       <h1 className={classes.title}>General</h1>
-      <Grid className={classes.gridStyleHeader} container spacing={1} sm={12} xs={12}>
+      <Grid className={classes.gridStyleHeader} container spacing={1}>
         <Grid container item xl={2} lg={2} md={2} sm={9} xs={10}>
           <TextField
             required
@@ -79,9 +79,8 @@ const CategoryPageDumb: React.FC<Props> = ({ newEvent, event, addCard, handleCha
       <br />
       <Grid className={classes.gridStyle} container spacing={4}>
         {event.ticketCategoryDtoList.map((category: CategoryCardItem) => (
-          <Grid container item xl={6} lg={6} md={7} sm={12} xs={12}>
+          <Grid container item xl={6} lg={6} md={7} sm={12} xs={12} key={category.id}>
             <CategoryCard
-              key={category.id}
               id={category.id}
               title={category.title}
               subtitle={category.subtitle}

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { fetchAllEvents } from '../../../actions/EventsPageActions'
 import { AppState } from "../../../store/store";
 import EventListDumb from "./EventListDumb";
-import { sortEvents, prevPage, nextPage, fetchCustomEvents, updateSortCriteria, incrementPage, decrementPage } from "../../../actions/EventsPageActions";
+import { sortEvents, prevPage, nextPage, fetchCustomEvents, updateSortCriteria, incrementPage, decrementPage, resetFilters } from "../../../actions/EventsPageActions";
 import { EventFilters } from "../../../model/EventFilters";
 import EventDetailsMobileDumb from "./EventDetailsMobileDumb";
 import { EventSort } from '../../../model/EventSort';
@@ -27,6 +27,7 @@ interface Props {
     updateSortCriteria: (sortCriteria: EventSort) => void;
     incrementPage: () => void;
     decrementPage: () => void;
+    resetFilters: () => void;
 }
 
 interface State {
@@ -73,6 +74,10 @@ class EventListSmart extends React.Component<Props, State> {
                 })
             })
         }
+    }
+
+    componentWillUnmount() {
+        this.props.resetFilters();
     }
 
     render() {
@@ -145,4 +150,4 @@ const mapStateToProps = (state: AppState) => ({
     filters: state.events.filters
 });
 
-export default connect(mapStateToProps, { fetchAllEvents, sortEvents, prevPage, nextPage, fetchCustomEvents, updateSortCriteria, incrementPage, decrementPage })(EventListSmart)
+export default connect(mapStateToProps, { fetchAllEvents, sortEvents, prevPage, nextPage, fetchCustomEvents, updateSortCriteria, incrementPage, decrementPage, resetFilters })(EventListSmart)

@@ -79,7 +79,7 @@ function AdvancedFilters({
                     error={errorStartDate !== ''}
                     label={t("eventList.startDate")}
                     helperText={errorStartDate}
-                    value={moment(startDate ? startDate : Date.now()).format("YYYY-MM-DD")}
+                    value={startDate===undefined ? new Date() : moment(startDate).format('YYYY-MM-DD')}
                     onChange={(e) => handleChangeStartDate(e.target.value)}
                     fullWidth
                 />
@@ -89,7 +89,7 @@ function AdvancedFilters({
                 <TextField
                     variant="outlined"
                     type="date"
-                    value={moment(endDate ? endDate : Date.now()).format("YYYY-MM-DD")}
+                    value={endDate===undefined ? new Date() : moment(endDate).format('YYYY-MM-DD')}
                     onChange={(e) => handleChangeEndDate(e.target.value)}
                     error={errorEndDate !== ''}
                     label={t("eventList.endDate")}
@@ -203,7 +203,7 @@ function AdvancedFilters({
                     control=
                     {
                         <YellowCheckbox
-                            checked={highlighted}
+                            checked={highlighted? highlighted: false}
                             onChange={(e) => handleChangeHighlighted(e.target.checked)} />
                     }
                     label={t("eventList.highlighted")}
