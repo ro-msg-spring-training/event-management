@@ -15,8 +15,6 @@ import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 interface Props {
   page: number;
   lastPage: number;
-  incrementPage: () => void;
-  decrementPage: () => void;
 
   eventsDetails: any[];
   goToPrevPage: () => void;
@@ -26,18 +24,9 @@ interface Props {
   isError: boolean;
 }
 
-const HomeEventListDumb = (props: Props) => {
+const HomeEventListDumb = ({ page, lastPage, eventsDetails, goToPrevPage, goToNextPage, isLoading, isError}: Props) => {
   const commonClasses = useStyles();
   const occupancyClasses = useStylesCards();
-
-  const eventsDetails = props.eventsDetails;
-  const goToPrevPage = props.goToPrevPage;
-  const goToNextPage = props.goToNextPage;
-
-  const isLoading = props.isLoading;
-  const isError = props.isError;
-  const page = props.page;
-  const lastPage = props.lastPage;
 
   const [t] = useTranslation();
 

@@ -53,17 +53,11 @@ interface HeadCell {
   numeric: boolean;
 }
 
-const EventListDumb = (props: Props) => {
+const EventListDumb = ({isError, isLoading, sort, filters, page,
+                          lastPage, updateSortCriteria, incrementPage, decrementPage,
+                            eventsDetails, eventsDetailsMobile, handleSortEvent, goToPrevPage, goToNextPage}: Props) => {
   const commonClasses = useStyles();
   const classes = useListStyles();
-
-  const eventsDetails = props.eventsDetails;
-  const eventsDetailsMobile = props.eventsDetailsMobile;
-  const goToPrevPage = props.goToPrevPage;
-  const goToNextPage = props.goToNextPage;
-
-  const page = props.page;
-  const lastPage = props.lastPage;
 
   const [expanded, setExpanded] = useState(false);
   const [width, setWidth] = useState(window.innerWidth);
@@ -80,12 +74,12 @@ const EventListDumb = (props: Props) => {
   const createSortHandler = (property: any) => (event: React.MouseEvent<unknown>) => {
     event.preventDefault();
     let type = "";
-    if (props.sort.type === "asc") {
+    if (sort.type === "asc") {
       type = "desc";
     } else {
       type = "asc";
     }
-    props.updateSortCriteria({ criteria: property, type: type });
+    updateSortCriteria({ criteria: property, type: type });
   };
 
   useLayoutEffect(() => {
@@ -128,12 +122,12 @@ const EventListDumb = (props: Props) => {
 
         <FilterSectionSmart expanded={expanded} setExpanded={setExpanded} />
 
-        {props.isError ? (
+        {isError ? (
           <Grid container alignItems={"center"} justify={"center"} className={commonClasses.marginTop}>
             <ErrorIcon color={"primary"} fontSize={"large"} />
             Oops, there was an error
           </Grid>
-        ) : props.isLoading ? (
+        ) : isLoading ? (
           <Grid container alignItems={"center"} justify={"center"} className={commonClasses.marginTop}>
             <CircularProgress />
           </Grid>
@@ -144,18 +138,18 @@ const EventListDumb = (props: Props) => {
                 <StyledTableCell>{t("eventList.title")}</StyledTableCell>
                 <StyledTableCell
                   sortDirection={
-                    props.sort.criteria === "date" ? (props.sort.type as "asc" | "desc" | undefined) : false
+                    sort.criteria === "date" ? (sort.type as "asc" | "desc" | undefined) : false
                   }
                 >
                   <TableSortLabel
                     hideSortIcon={true}
-                    active={props.sort.criteria === "date"}
-                    direction={props.sort.criteria === "date" ? (props.sort.type as "asc" | "desc" | undefined) : "asc"}
+                    active={sort.criteria === "date"}
+                    direction={sort.criteria === "date" ? (sort.type as "asc" | "desc" | undefined) : "asc"}
                     onClick={createSortHandler("date")}
                   >
-                    {props.sort.criteria === "date" ? (
+                    {sort.criteria === "date" ? (
                       <span className={`${commonClasses.visuallyHidden}`}>
-                        {props.sort.type === "desc" ? "sorted descending" : "sorted ascending"}
+                        {sort.type === "desc" ? "sorted descending" : "sorted ascending"}
                       </span>
                     ) : null}
                     {t("eventList.date")}
@@ -171,7 +165,7 @@ const EventListDumb = (props: Props) => {
               <TableRow>
                 {page > 1 ? (
                   <PaginationCell>
-                    <Button onClick={props.decrementPage} style={{ color: "#F9C929" }}>
+                    <Button onClick={decrementPage} style={{ color: "#F9C929" }}>
                       <b>&laquo;&laquo;</b>
                     </Button>
                   </PaginationCell>
@@ -181,7 +175,7 @@ const EventListDumb = (props: Props) => {
                 <PaginationCell style={{ textAlign: "center" }}>{page + "/" + lastPage}</PaginationCell>
                 {page < lastPage ? (
                   <PaginationCell>
-                    <Button onClick={props.incrementPage} style={{ color: "#F9C929" }}>
+                    <Button onClick={incrementPage} style={{ color: "#F9C929" }}>
                       <b>&raquo;&raquo;</b>
                     </Button>
                   </PaginationCell>
@@ -210,12 +204,12 @@ const EventListDumb = (props: Props) => {
             <FilterSectionSmart expanded={expanded} setExpanded={setExpanded} />
           </div>
 
-          {props.isError ? (
+          {isError ? (
             <Grid container alignItems={"center"} justify={"center"} className={commonClasses.marginTop}>
               <ErrorIcon color={"primary"} fontSize={"large"} />
               Oops, there was an error
             </Grid>
-          ) : props.isLoading ? (
+          ) : isLoading ? (
             <Grid container alignItems={"center"} justify={"center"} className={commonClasses.marginTop}>
               <CircularProgress />
             </Grid>
@@ -239,25 +233,25 @@ const EventListDumb = (props: Props) => {
                       align={"left"}
                       padding={headCell.disablePadding ? "none" : "default"}
                       sortDirection={
-                        props.sort.criteria === headCell.id && headCell.numeric
-                          ? (props.sort.type as "asc" | "desc" | undefined)
+                        sort.criteria === headCell.id && headCell.numeric
+                          ? (sort.type as "asc" | "desc" | undefined)
                           : false
                       }
                       size={"medium"}
                     >
                       <TableSortLabel
                         hideSortIcon={!headCell.numeric}
-                        active={props.sort.criteria === headCell.id && headCell.numeric}
+                        active={sort.criteria === headCell.id && headCell.numeric}
                         direction={
-                          props.sort.criteria === headCell.id ? (props.sort.type as "asc" | "desc" | undefined) : "asc"
+                          sort.criteria === headCell.id ? (sort.type as "asc" | "desc" | undefined) : "asc"
                         }
                         onClick={createSortHandler(headCell.id)}
                       >
                         {headCell.label}
 
-                        {props.sort.criteria === headCell.id && headCell.numeric ? (
+                        {sort.criteria === headCell.id && headCell.numeric ? (
                           <span className={`${commonClasses.visuallyHidden}`}>
-                            {props.sort.type === "desc" ? "sorted descending" : "sorted ascending"}
+                            {sort.type === "desc" ? "sorted descending" : "sorted ascending"}
                           </span>
                         ) : null}
                       </TableSortLabel>
@@ -302,5 +296,6 @@ const EventListDumb = (props: Props) => {
     );
   }
 };
+
 
 export default EventListDumb;

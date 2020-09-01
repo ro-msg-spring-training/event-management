@@ -12,26 +12,22 @@ interface Props {
     event: Event;
 }
 
-const EventDetailsMobileDumb = (props: Props) => {
+const EventDetailsMobileDumb = ({event}: Props) => {
     const commonClasses = useStyles()
     const [t] = useTranslation()
 
-    const id = props.event.id;
-    const title = props.event.title;
-    const date = props.event.startDate;
-
     return (
         <StyledTableRow>
-            <StyledTableCell>{title}</StyledTableCell>
-            <StyledTableCell>{date}</StyledTableCell>
+            <StyledTableCell>{event.title}</StyledTableCell>
+            <StyledTableCell>{event.startDate}</StyledTableCell>
 
             <StyledTableCell>
-                <Link to={`/admin/events/${id}`} style={{ textDecoration: 'none'}}>
+                <Link to={`/admin/events/${event.id}`} style={{ textDecoration: 'none'}}>
                     <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3}`}>
                         {t("eventList.details")}
                     </Button>
                 </Link><br/><br/>
-                <Link to={`/admin/validate/${id}`} style={{ textDecoration: 'none' }}>
+                <Link to={`/admin/validate/${event.id}`} style={{ textDecoration: 'none' }}>
                     <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3}`}>
                         {t("eventList.validate")}
                     </Button>
@@ -40,5 +36,6 @@ const EventDetailsMobileDumb = (props: Props) => {
         </StyledTableRow>
     );
 }
+
 
 export default EventDetailsMobileDumb

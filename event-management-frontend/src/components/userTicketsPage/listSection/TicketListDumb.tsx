@@ -21,11 +21,10 @@ interface Props {
     ticketsDetails: Ticket[];
 }
 
-const TicketListDumb = (props: Props) => {
+const TicketListDumb = ({isError, isLoading, ticketsDetails}: Props) => {
     const classes = useStylesTickets();
     const [t] = useTranslation();
 
-    const ticketsDetails = props.ticketsDetails;
     const groupBy = (array: Ticket[]) => {
         return array.reduce((result: any, currentValue: Ticket) => {
             (result[currentValue.bookingId] = result[currentValue.bookingId] || []).push(
@@ -67,13 +66,13 @@ const TicketListDumb = (props: Props) => {
                 <Typography className={classes.ticketsTitle}>{t("ticketList.myTickets")}</Typography>
                 <TableContainer component={Paper} className={classes.pageContainer} >
 
-                    { props.isError ?
+                    { isError ?
                         <Grid container alignItems={"center"} justify={"center"}>
                             <ErrorIcon color={"primary"} fontSize={"large"} />
                             Oops, there was an error
                         </Grid> :
 
-                        props.isLoading ?
+                        isLoading ?
                             <Grid container alignItems={"center"} justify={"center"}>
                                 <CircularProgress />
                             </Grid> :
@@ -120,7 +119,7 @@ const TicketListDumb = (props: Props) => {
                                     {
                                         ticketDictionary.map((groupTicket, index) => {
                                             return <TicketGroupDumb key={index}
-                                                                    ticket={groupTicket[1]}
+                                                                    tickets={groupTicket[1]}
                                                                     open={open}
                                                                     index={index}
                                                                     handleChange={handleChange}/>

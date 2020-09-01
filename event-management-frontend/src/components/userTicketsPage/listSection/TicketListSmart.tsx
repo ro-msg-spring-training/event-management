@@ -18,24 +18,22 @@ interface Props {
     resetPage: () => void;
 }
 
-const TicketListSmart = (props: Props) => {
+const TicketListSmart = ({tickets, filters, page, isLoading, isError, fetchTickets, incrementPage, resetPage}: Props) => {
 
     const [hasMore, setHasMore] = useState(false)
     const [concatTickets, setConcatTickets] = useState(Array(0))
 
     useEffect(() => {
-        props.fetchTickets(props.page, props.filters)
-        setHasMore(props.page === 1 ? true : props.tickets.length > 0)
+        fetchTickets(page, filters)
+        setHasMore(page === 1 ? true : tickets.length > 0)
 
-        if (props.tickets.length > 0) {
-            setConcatTickets([...concatTickets, ...props.tickets])
+        if (tickets.length > 0) {
+            setConcatTickets([...concatTickets, ...tickets])
         } else {
             setConcatTickets([])
-            props.resetPage();
+            resetPage();
         }
-    }, [props.page])
-
-    let tickets = props.tickets
+    }, [page])
 
     const observer = useRef<any>()
     const lastTicketRef = useCallback(node => {
@@ -43,7 +41,7 @@ const TicketListSmart = (props: Props) => {
         observer.current = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting && hasMore) {
                 // Increment page in redux
-                props.incrementPage();
+                incrementPage();
             }
         })
         if (node) observer.current.observe(node)
@@ -61,8 +59,8 @@ const TicketListSmart = (props: Props) => {
     return (
             <>
                 {ticketReferences}
-                <TicketListDumb isError={props.isError}
-                                isLoading={props.isLoading}
+                <TicketListDumb isError={isError}
+                                isLoading={isLoading}
                                 ticketsDetails={concatTickets} />
             </>
     );

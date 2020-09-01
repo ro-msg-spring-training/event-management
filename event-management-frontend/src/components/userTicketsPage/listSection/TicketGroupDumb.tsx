@@ -16,18 +16,16 @@ import {StyledTableCell} from '../../../styles/StyledTableCell';
 
 interface Props {
     handleChange: (index: number) => void;
-    ticket: any;
+    tickets: any;
     open: Array<boolean>;
     index: number;
 }
 
-const TicketGroupDumb = (props: Props) => {
+const TicketGroupDumb = ({handleChange, tickets, open, index}: Props) => {
     const commonClasses = useStyles()
     const classes = useStylesTickets()
     const [t] = useTranslation();
 
-    const tickets = props.ticket;
-    const index = props.index;
     const firstElement: Ticket = tickets[0]
     tickets.shift()
 
@@ -37,8 +35,6 @@ const TicketGroupDumb = (props: Props) => {
     const category = firstElement.ticketCategory;
     const name = firstElement.name;
     // const pdfUrl = firstElement.pdfUrl;
-    const handleChange = props.handleChange;
-    const open = props.open;
 
     // TODO: when backend done, add link to PDFs here
     return (

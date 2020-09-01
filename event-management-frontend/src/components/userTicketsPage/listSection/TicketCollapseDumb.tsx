@@ -13,12 +13,10 @@ interface Props {
     ticket: Ticket;
 }
 
-const TicketCollapseDumb = (props: Props) => {
+const TicketCollapseDumb = ({ticket}: Props) => {
 
     const commonClasses = useStyles()
     const classes = useStylesTickets()
-
-    const ticket = props.ticket;
 
     const [t] = useTranslation();
 

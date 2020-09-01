@@ -14,33 +14,28 @@ interface Props {
   events: Event;
 }
 
-const HomeEventDetailsDumb = (props: Props) => {
+const HomeEventDetailsDumb = ({events}: Props) => {
   const classes = useStylesEventsHome();
   const occupancyClasses = useStylesCards();
-  const id = props.events.id;
-  const title = props.events.title;
-  const location = props.events.location;
-  const startDate = props.events.startDate;
-  const endDate = props.events.endDate;
 
   return (
-    <Link to={`/admin/events/${id}`} style={{ textDecoration: "none" }}>
+    <Link to={`/admin/events/${events.id}`} style={{ textDecoration: "none" }}>
       <Card className={classes.root} variant="outlined">
         <CardContent className={classes.eventCard}>
-          <Typography className={`${classes.title} ${occupancyClasses.text}`}>{title}</Typography>
+          <Typography className={`${classes.title} ${occupancyClasses.text}`}>{events.title}</Typography>
 
-          {startDate === endDate ? (
+          {events.startDate === events.endDate ? (
             <Typography className={`${classes.date} ${occupancyClasses.text}`}>
-              <DateRangeIcon className={occupancyClasses.dateIcon} /> {startDate}
+              <DateRangeIcon className={occupancyClasses.dateIcon} /> {events.startDate}
             </Typography>
           ) : (
             <Typography className={`${classes.date} ${occupancyClasses.text}`}>
-              <DateRangeIcon className={occupancyClasses.dateIcon} /> {startDate} - {endDate}
+              <DateRangeIcon className={occupancyClasses.dateIcon} /> {events.startDate} - {events.endDate}
             </Typography>
           )}
 
           <Typography className={`${classes.location} ${occupancyClasses.text}`}>
-            <LocationOnIcon className={occupancyClasses.icon} fontSize={"small"} /> {location}
+            <LocationOnIcon className={occupancyClasses.icon} fontSize={"small"} /> {events.location}
           </Typography>
         </CardContent>
       </Card>
