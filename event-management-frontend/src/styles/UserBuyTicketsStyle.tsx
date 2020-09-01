@@ -23,9 +23,7 @@ export const userBuyTicketsStyle = makeStyles((theme: Theme) => ({
     margin: "10px",
   },
   gridStyle: {
-    // maxHeight: window.innerHeight - 200,
     maxHeight: '40vh',
-    // overflow: 'auto',
     minWidth: '40vw',
     overflowY: "scroll",
   }

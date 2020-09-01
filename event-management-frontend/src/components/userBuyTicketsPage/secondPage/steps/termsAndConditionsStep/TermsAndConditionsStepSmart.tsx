@@ -75,7 +75,6 @@ function TermsAndConditionsStepSmart({ prevStep, checked, booking, updateBooking
       addBookings(booking);
 
       if (isLoading) {
-        console.log("LOADING");
         return (
           <Grid container direction="row" justify="center" alignItems="center">
             <Container maxWidth="lg">
@@ -87,13 +86,6 @@ function TermsAndConditionsStepSmart({ prevStep, checked, booking, updateBooking
       }
       else if (isError) {
         alert("ERROR " + errorMsg);
-        // return (
-        //   <Grid container direction="row" justify="center" alignItems="center">
-        //     <ErrorIcon color={"primary"} fontSize={"large"} />
-        //     <h2>Oops, there was an error</h2>
-        //     <h2>{errorMsg}</h2>
-        //   </Grid>
-        // );
 
       } else {
         return history.push('/user/events');
