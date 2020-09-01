@@ -8,8 +8,8 @@ const computeFilterStringQuery = (filters: UserEventFilters, page: number, limit
     let query = filters.type === UserEventType.UPCOMING ? 'upcoming?' : 'history?';
     let queryArr: string[] = [];
 
-    queryArr.push(`pageNumber=${page}`)
-    queryArr.push(`limit=${limit}`)
+    queryArr.push(`page=${page}`)
+    queryArr.push(`size=${limit}`)
 
     if (filters.title) {
         queryArr.push(`title=${filters.title}`)
@@ -30,7 +30,7 @@ export const fetchEvents = (page: number, limit: number, filters?: UserEventFilt
         url += computeFilterStringQuery(filters, page, limit)
     }
     else {
-        url += `upcoming?pageNumber=${page}&limit=${limit}`;
+        url += `upcoming?page=${page}&size=${limit}`;
     }
     const urlOptions = { headers: headersAuth };
 

@@ -19,7 +19,7 @@ export interface UserEventsPageState {
     isFilter: UserEventIsFilterType
 }
 
-const initialPage = 1
+const initialPage = 0
 
 const initialState = {
     events: [],
