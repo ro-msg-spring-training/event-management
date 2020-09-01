@@ -14,23 +14,28 @@ interface AlertDialogProps {
   msgUndo: string,
   dialogTitle: string,
   dialogDescription: string,
+
+  prevStep?: () => void,
 }
 
-export default function AlertDialog({ open, setOpen, msgUndo, dialogTitle, dialogDescription }: AlertDialogProps) {
+export default function AlertDialog({ prevStep, open, setOpen, msgUndo, dialogTitle, dialogDescription }: AlertDialogProps) {
   const history = useHistory();
   const { t } = useTranslation();
 
   const handleClose = () => {
     setOpen(false);
+    prevStep !== undefined && prevStep();
   };
 
   const handleProceed = (): void => {
     setOpen(false);
+    prevStep !== undefined && prevStep();
     history.push('/admin/events');
   }
 
   const handleCancel = (): void => {
     setOpen(false);
+    prevStep !== undefined && prevStep();
   }
 
   return (

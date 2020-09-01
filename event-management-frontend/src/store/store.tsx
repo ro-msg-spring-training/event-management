@@ -6,6 +6,7 @@ import { EventsPageState } from "../reducers/EventsPageReducers";
 import { LocationPageState } from "../reducers/LocationPageReducer";
 import { EventState } from "../reducers/HeaderEventCrudReducer";
 import { ReserveFirstPageState } from "../reducers/ReservePageReducer";
+import { ReserveSecondPageState } from "../reducers/TicketReservationReducer";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -17,4 +18,5 @@ export interface AppState {
   eventCrud: EventState;
   location: LocationPageState;
   reserveTicket: ReserveFirstPageState;
+  ticketCategories: ReserveSecondPageState;
 }

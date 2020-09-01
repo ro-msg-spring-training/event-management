@@ -35,7 +35,7 @@ function OverviewSmart(props: OverviewSmartProps) {
 
   const handleChangeStatus = (newStatus: string) => {
     let newEvent = Object.assign({}, props.eventCrud);
-    newEvent.status = newStatus === "true"? true: false
+    newEvent.status = newStatus === "true" ? true : false
     props.updateEvent(newEvent)
   }
 
@@ -226,32 +226,32 @@ function OverviewSmart(props: OverviewSmartProps) {
   const handleEnterKey = (e: any): void => { e.keyCode === 13 && e.preventDefault(); }
 
   return (
-      <OverviewDumb
-        newEvent={props.newEvent}
-        event={props.eventCrud}
-        admin={props.admin}
-        handleEnterKey={handleEnterKey}
-        handleChange={handleChange}
-        formErrors={props.formErrors}
-        handleChangeCheckboxState={handleChangeCheckboxState}
-        setStatus={handleChangeStatus}
-      />
+    <OverviewDumb
+      newEvent={props.newEvent}
+      event={props.eventCrud}
+      admin={props.admin}
+      handleEnterKey={handleEnterKey}
+      handleChange={handleChange}
+      formErrors={props.formErrors}
+      handleChangeCheckboxState={handleChangeCheckboxState}
+      setStatus={handleChangeStatus}
+    />
   );
 }
 
 const mapStateToProps = ({ eventCrud }: any) => {
-  return({
-  eventCrud: eventCrud.event,
-  formErrors: eventCrud.formErrors,
-  error: eventCrud.error
+  return ({
+    eventCrud: eventCrud.event,
+    formErrors: eventCrud.formErrors,
+    error: eventCrud.error
   })
 };
 
-const mapDispatchToProps = (dispatch: any) => { 
+const mapDispatchToProps = (dispatch: any) => {
   return {
     updateEvent: (event: EventCrud) => dispatch(updateEvent(event)),
     updateFormErrors: (errors: EventFormErrors) => dispatch(updateFormErrors(errors))
   }
 }
 
-export default connect( mapStateToProps, mapDispatchToProps)(OverviewSmart);
+export default connect(mapStateToProps, mapDispatchToProps)(OverviewSmart);

@@ -11,6 +11,7 @@ import {
 } from "./EventsPageSaga";
 import { loadEventWatcher, deleteProductWatcher, addProductWatcher, editProductWatcher } from "./HeaderEventCrudSaga";
 import { fetchLocationsActionWatcher } from "./LocationPageSaga";
+import { loadTicketCategoriesWatcher, addBookingsWatcher } from "./TicketReservationSaga";
 import { fetchReserveEventActionWatcher } from "./ReservePageSaga";
 
 export default function* rootSaga() {
@@ -22,15 +23,18 @@ export default function* rootSaga() {
     watchNextPageAsync(),
     watchPrevPageAsync(),
 
+    watchFetchCustomEventsAsync(),
+    watchFetchCustomHomeEventsAsync(),
+
+    loadTicketCategoriesWatcher(),
+    addBookingsWatcher(),
+
     loadEventWatcher(),
     deleteProductWatcher(),
     addProductWatcher(),
     editProductWatcher(),
 
     fetchLocationsActionWatcher(),
-
-    watchFetchCustomEventsAsync(),
-    watchFetchCustomHomeEventsAsync(),
 
     fetchReserveEventActionWatcher(),
   ]);
