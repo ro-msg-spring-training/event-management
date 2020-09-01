@@ -63,7 +63,7 @@ const EventDetailBuyPageDumb = (props: Props) => {
         row
         aria-label="position"
         name="position"
-        defaultValue="top"
+        defaultValue={props.radionButtonState}
         className={reserveTicketFirstPage.radioGroup}
       >
         <FormControlLabel

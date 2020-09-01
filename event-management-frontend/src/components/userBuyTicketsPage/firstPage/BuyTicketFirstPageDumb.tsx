@@ -2,7 +2,7 @@ import React from "react";
 import { EventReserveTicketType } from "../../../types/EventReserveTicketType";
 import { Paper, IconButton, Tooltip, Grid, CircularProgress } from "@material-ui/core";
 import useStylesbuyTicketFirstPage from "../../../styles/BuyTicketsFirstPageStyle";
-import { Link } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router-dom";
 import { useStyles } from "../../../styles/CommonStyles";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import "../../../styles/ReservePageStyle.css";
@@ -16,6 +16,7 @@ interface Props {
   isLoading: boolean;
   radioButtonState: string;
   handleChangeRadioButtonState: (value: string) => void;
+  matching:  RouteComponentProps<any>;
 }
 
 const BuyTicketFirstPageDumb = (props: Props) => {
@@ -45,7 +46,7 @@ const BuyTicketFirstPageDumb = (props: Props) => {
             )}
           </Paper>
 
-          <Link to={`/user`} className={reserveTicketFirstPage.link}>
+          <Link to={`/user/reserve-tickets/second-page/${props.matching.match.params.id}`} className={reserveTicketFirstPage.link}>
             <Tooltip title="Go to second page">
               <IconButton
                 className={`${classes.buttonStyle3} ${reserveTicketFirstPage.nextButton} ${reserveTicketFirstPage.textStyle} `}

@@ -31,8 +31,11 @@ interface OwnProps {
 
 const BuyTicketFirstPageSmart: React.FC<Props> = (props: Props) => {
   useEffect(() => {
+
     props.reserveEventFetch(props.matching.match.params.id);
     props.reserveEventisLoading(false);
+    updateRadioButton(props.radioButtonState);
+    
   }, []);
 
   const handleChangeRadioButtonState = (value: string) => {
@@ -47,6 +50,7 @@ const BuyTicketFirstPageSmart: React.FC<Props> = (props: Props) => {
         isLoading={props.isLoading}
         radioButtonState={props.radioButtonState}
         handleChangeRadioButtonState={handleChangeRadioButtonState}
+        matching={props.matching}
       ></BuyTicketFirstPageDumb>
     </div>
   );
