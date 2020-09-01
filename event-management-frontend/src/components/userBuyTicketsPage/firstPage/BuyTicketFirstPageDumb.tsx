@@ -10,6 +10,7 @@ import ErrorIcon from "@material-ui/icons/Error";
 import EventDetailBuyPageDumb from "./EventDetailBuyPageDumb";
 import CloseIcon from "@material-ui/icons/Close";
 import { BuyTicketsSecondPageStyle } from "../../../styles/BuyTicketsSecondPageStyle";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   event: EventReserveTicketType;
@@ -22,7 +23,7 @@ interface Props {
 
 const BuyTicketFirstPageDumb = (props: Props) => {
   const reserveTicketFirstPage = useStylesbuyTicketFirstPage();
-  const buttonClasses = BuyTicketsSecondPageStyle();
+  const { t } = useTranslation();
   
   return (
     <div className={reserveTicketFirstPage.pagecontainer}>
@@ -48,9 +49,9 @@ const BuyTicketFirstPageDumb = (props: Props) => {
           </Paper>
 
           <Link to={`/user/reserve-tickets/second-page/${props.matching.match.params.id}`} className={reserveTicketFirstPage.link}>
-            <Tooltip title="Go to second page">
+            <Tooltip title={t("buyTicketsFirstPage.nextPage") as string}>
               <IconButton
-                className={`${reserveTicketFirstPage.nextButton} ${reserveTicketFirstPage.textStyle} ${buttonClasses.positionRight}`}
+                className={`${reserveTicketFirstPage.nextButton} buttonStyleRight`}
                 disabled={props.radioButtonState === "seat"}
               >
                 <NavigateNextIcon color="secondary" />
@@ -59,9 +60,9 @@ const BuyTicketFirstPageDumb = (props: Props) => {
           </Link>
 
           <Link to={`/user`} className={reserveTicketFirstPage.link}>
-            <Tooltip title="Cancel">
+            <Tooltip title={t("buyTicketsFirstPage.cancel") as string}>
               <IconButton
-                className={`${reserveTicketFirstPage.cancelButton} ${reserveTicketFirstPage.textStyle} ${buttonClasses.positionLeft}`}
+                className={`${reserveTicketFirstPage.cancelButton} buttonStyleLeft`}
               >
                 <CloseIcon color="secondary" />
               </IconButton>

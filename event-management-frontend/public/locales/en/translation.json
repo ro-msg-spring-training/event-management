@@ -159,7 +159,9 @@
         "radioButtonSeat": "Select a seat from building plan",
         "generalTicketInfo": "General ticket informations",
         "toDate": "to",
-        "toTime": "to"
+        "toTime": "to",
+        "nextPage": "Go to second page",
+        "cancel": "Cancel purchase"
     },
 
     "buyTicketsSecondPage": {

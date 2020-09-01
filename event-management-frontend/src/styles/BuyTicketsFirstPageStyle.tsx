@@ -29,7 +29,7 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
   },
   nextButton: {
     float: "right",
-    marginRight: "10%",
+    // marginRight: "10%",
     fontSize: "large !important ",
     background: themeDark.palette.secondary.dark,
     "&:hover": {
@@ -40,6 +40,8 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
       color: "black !important",
       backgroundImage: "linear-gradient(90deg, rgba(245,253,255,1) 0%, rgba(202,202,209,1) 1%)",
     },
+    right: '35%',
+    margin: '3%',
   },
   link: {
     textDecoration: "none",
@@ -60,7 +62,7 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
   newLineSpan: {
     display: "inline-block",
     marginLeft: "1%",
-    fontSize: 15,
+    fontSize: "0.8em",
     fontFamily: "LATO !important",
   },
   spacing: {
@@ -68,10 +70,11 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
   },
   locationName: {
     fontWeight: 700,
-    fontSize: "1.05rem",
+    fontSize: "1rem",
   },
   styleInline: {
     display: "inline-block",
+    width: "60%",
   },
   textStyle: {
     fontSize: 16,
@@ -100,16 +103,18 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
     textTransform: "uppercase",
   },
   styleblock: {
-    display: "block",
+    display: "inline-block",
   },
   cancelButton: {
-    float: "right",
+    // float: "right",
     fontSize: "large !important ",
     background: themeDark.palette.secondary.contrastText,
     "&:hover": {
       backgroundColor: "#FF6171",
     },
-    marginRight: "3%",
+    // marginRight: "3%",
+    left: '20%',
+    margin: '3%',
   },
 }));
 

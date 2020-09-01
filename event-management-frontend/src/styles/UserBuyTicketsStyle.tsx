@@ -17,7 +17,8 @@ export const userBuyTicketsStyle = makeStyles((theme: Theme) => ({
     color: theme.palette.primary.dark,
   },
   buttonPosition: {
-    left: "7%"
+    left: "7%",
+    marginBottom: "5%",
   },
   alignHelpIcon: {
     margin: "10px",

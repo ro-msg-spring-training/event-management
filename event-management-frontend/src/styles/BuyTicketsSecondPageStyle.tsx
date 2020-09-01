@@ -17,15 +17,17 @@ export const BuyTicketsSecondPageStyle = makeStyles((theme: Theme) => ({
   },
   positionLeft: {
     position: 'absolute',
-    bottom: "0.5%",
+    bottom: "2%",
     left: '20%',
     marginRight: '0px',
+    marginLeft: '3%',
   },
   positionRight: {
     position: 'absolute',
-    bottom: "0.5%",
+    bottom: "2%",
     right: '20%',
     marginLeft: '0px',
+    marginRight: '3%',
   },
 }))
 

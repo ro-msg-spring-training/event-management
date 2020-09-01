@@ -158,7 +158,9 @@
         "radioButtonSeat": "Selectați un loc din planul clădirii",
         "generalTicketInfo": "Informați generale despre bilete",
         "toDate": "pâna în",
-        "toTime": "până la"
+        "toTime": "până la",
+        "nextPage": "Mergi la a doua pagină",
+        "cancel": "Renunță la achiziție"
     },
 
     "buyTicketsSecondPage": {
