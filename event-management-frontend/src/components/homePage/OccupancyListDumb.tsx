@@ -21,7 +21,7 @@ const OccupancyListDumb = (props: Props) => {
         {props.eventsList.map((event: OccupancyCardType) => (
           <div className={classCardStyle.block} key={event.id}>
             <Box component="div" display="inline">
-              <ListItem className={classCardStyle.listItem}>
+              <div className={classCardStyle.listItem}>
                 <Typography className={`${classCardStyle.title} ${classCardStyle.text}`}>{event.title}</Typography>
                 <Typography className={`${classCardStyle.occupancyRate} ${classCardStyle.text}`}>
                   {t("occupancyCards.occupancyRate")} {event.occupancyRate} %
@@ -31,7 +31,7 @@ const OccupancyListDumb = (props: Props) => {
                   <DateRangeIcon className={classCardStyle.dateIcon} />
                   <OccupancyCardDate startDate={event.startDate} endDate={event.endDate} />
                 </Typography>
-              </ListItem>
+              </div>
             </Box>
 
             <Divider variant={"middle"} />
