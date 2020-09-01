@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ro.msg.event.management.eventmanagementbackend.controller.converter.CategoryAndTicketsMapReverseConverter;
 import ro.msg.event.management.eventmanagementbackend.controller.converter.Converter;
+import ro.msg.event.management.eventmanagementbackend.controller.dto.BookingCalendarDto;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.BookingDto;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.BookingSaveDto;
 import ro.msg.event.management.eventmanagementbackend.entity.Booking;
@@ -20,6 +21,7 @@ import ro.msg.event.management.eventmanagementbackend.security.User;
 import ro.msg.event.management.eventmanagementbackend.service.BookingService;
 
 import java.io.IOException;
+import javax.mail.MessagingException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -61,6 +63,8 @@ public class BookingController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, noSuchElementException.getMessage(), noSuchElementException);
         } catch (DocumentException | IOException documentException) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, documentException.getMessage(), documentException);
+        }catch (MessagingException messagingException){
+            throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED);
         }
     }
 
