@@ -18,7 +18,7 @@ import Booking from '../model/Booking'
 import { TicketsPerCateory, TicketNames } from "../model/UserReserveTicket"
 import { TicketsStepFormErrors, TicketAvailabilityData, EmailStepFormErrors, NamesStepFormErrors } from "../model/BuyTicketsSecondPage"
 
-export interface EventState {
+export interface ReserveSecondPageState {
   ticketCategory: TicketAvailabilityData[],
   isError: boolean,
   isLoading: boolean,
@@ -42,7 +42,7 @@ const initialBooking = {
   tickets: []
 }
 
-const initialState: EventState = {
+const initialState: ReserveSecondPageState = {
   ticketCategory: [{
     title: "",
     remaining: 0,

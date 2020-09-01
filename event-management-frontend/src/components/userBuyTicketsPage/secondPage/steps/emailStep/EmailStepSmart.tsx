@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { EmailStepFormErrors } from '../../../../../model/BuyTicketsSecondPage';
 import { updateEmailFormErrors } from '../../../../../actions/TicketReservationActions';
 import { useTranslation } from 'react-i18next';
+import { Dispatch } from 'redux';
+import { AppState } from '../../../../../store/store';
 
 interface EmailStepSmartProps {
   nextStep: () => void,
@@ -49,13 +51,13 @@ function EmailStepSmart({ nextStep, prevStep, handleEnterKey, email, updateBooki
   );
 };
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: AppState) => {
   return {
     emailFormErrors: state.ticketCategories.emailFormErrors,
   }
 }
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     updateEmailFormErrors: (emailFormErrors: EmailStepFormErrors) => dispatch(updateEmailFormErrors(emailFormErrors)),
   }

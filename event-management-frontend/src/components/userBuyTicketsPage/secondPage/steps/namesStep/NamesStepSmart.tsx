@@ -8,6 +8,8 @@ import { NamesStepFormErrors } from '../../../../../model/BuyTicketsSecondPage';
 import { updateNamesStepFormErrors } from '../../../../../actions/TicketReservationActions';
 import { initializeNamesStepFormErrors, createNamesStepFields, updateNamesStepErrorsLocally, verifyExistenceOfTickets } from '../../../../../utils/ticketReservationUtils/NamesStepUtils';
 import { useTranslation } from 'react-i18next';
+import { Dispatch } from 'redux';
+import { AppState } from '../../../../../store/store';
 
 interface NamesStepProps {
   prevStep: () => void,
@@ -107,14 +109,14 @@ function NamesStepSmart({ handleBuy, prevStep, handleEnterKey, ticketAmount, tic
   );
 };
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: AppState) => {
   return {
     ticketAmount: state.ticketCategories.ticketAmount,
     namesStepFormErrors: state.ticketCategories.namesStepFormErrors,
   }
 }
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     updateNamesStepFormErrors: (namesStepFormErrors: NamesStepFormErrors[]) => dispatch(updateNamesStepFormErrors(namesStepFormErrors)),
   }

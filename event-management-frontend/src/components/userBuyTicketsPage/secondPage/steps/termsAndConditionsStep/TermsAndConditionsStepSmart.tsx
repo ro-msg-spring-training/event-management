@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { verifyIfNoErrors, verifyIfNoNullFields, verifyIfNoErrorsInTicketsStep, verifyIfNoErrorsInEmailStep, verifyIfNoErrorsInNamesStep } from '../../../../../utils/ticketReservationUtils/TermsAndConditionsUtils';
 import { Container, CircularProgress, Grid } from '@material-ui/core';
 import BuyTicketsPopupSmart from './popup/BuyTicketsPopupSmart';
+import { AppState } from '../../../../../store/store';
 
 interface TermsAndConditionsStepSmartProps {
   prevStep: () => void,
@@ -151,7 +152,7 @@ function TermsAndConditionsStepSmart({ prevStep, checked, booking, updateBooking
   );
 };
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: AppState) => {
   return {
     ticketsStepFormErrors: state.ticketCategories.ticketsStepFormErrors,
     emailFormErrors: state.ticketCategories.emailFormErrors,

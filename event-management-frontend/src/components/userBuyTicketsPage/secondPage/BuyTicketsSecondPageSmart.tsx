@@ -8,6 +8,8 @@ import Booking from '../../../model/Booking';
 import { TicketsPerCateory, TicketNames } from '../../../model/UserReserveTicket';
 import { TicketAvailabilityData } from '../../../model/BuyTicketsSecondPage';
 import ErrorIcon from "@material-ui/icons/Error";
+import { Dispatch } from 'redux';
+import { AppState } from '../../../store/store';
 
 interface BuyTicketsSecondPageSmartProps {
   match: any,
@@ -106,7 +108,7 @@ function BuyTicketsSecondPageSmart({ match, fetchedData, ticketCategories, fetch
   );
 };
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: AppState) => {
   return {
     fetchedData: state.ticketCategories,
     booking: state.ticketCategories.booking,
@@ -117,7 +119,7 @@ const mapStateToProps = (state: any) => {
   }
 }
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     fetchTicketCategories: (idEvent: string) => dispatch(loadTicketCategories(idEvent)),
     addBookings: (booking: Booking) => dispatch(addBookings(booking)),

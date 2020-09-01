@@ -9,6 +9,8 @@ import { TicketsStepFormErrors, TicketAvailabilityData } from '../../../../../mo
 import Booking from '../../../../../model/Booking';
 import { initializeTicketsStepFormErrors, updateTicketsStepErrorsLocally } from '../../../../../utils/ticketReservationUtils/TicketsStepUtils';
 import { useTranslation } from 'react-i18next';
+import { Dispatch } from 'redux';
+import { AppState } from '../../../../../store/store';
 
 interface TicketsStepSmartProps {
   nextStep: () => void,
@@ -107,7 +109,7 @@ function TicketsStepSmart({ nextStep, handleEnterKey, updateTicketAmount, ticket
   );
 };
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: AppState) => {
   return {
     booking: state.ticketCategories.booking,
     ticketAmount: state.ticketCategories.ticketAmount,
@@ -115,7 +117,7 @@ const mapStateToProps = (state: any) => {
   }
 }
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     updateBookings: (booking: Booking) => dispatch(updateBookings(booking)),
     updateTicketAmount: (ticketAmount: TicketsPerCateory[]) => dispatch(updateTicketAmount(ticketAmount)),
