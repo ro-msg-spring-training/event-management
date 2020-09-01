@@ -1,9 +1,9 @@
 import React, { KeyboardEvent } from "react";
 import { Grid, TextField, MenuItem, InputAdornment, FormControlLabel } from "@material-ui/core";
 import { TFunction } from "i18next";
-import { YellowCheckbox } from "../../../styles/YellowCheckbox";
-import { MathRelation } from "../../../model/MathRelation";
-import { useFilterStyles } from "../../../styles/FilterStyles";
+import { YellowCheckbox } from "../../../../styles/YellowCheckbox";
+import { MathRelation } from "../../../../model/MathRelation";
+import { useFilterStyles } from "../../../../styles/FilterStyles";
 import moment from 'moment';
 
 interface AdvancedFiltersProps {

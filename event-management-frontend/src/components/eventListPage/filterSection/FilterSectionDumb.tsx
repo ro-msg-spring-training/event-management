@@ -6,8 +6,8 @@ import { useStyles } from '../../../styles/CommonStyles';
 import { EventFilters } from '../../../model/EventFilters';
 import { TFunction } from 'i18next';
 import { useFilterStyles } from '../../../styles/FilterStyles';
-import StandardFilters from './StandardFilters'
-import AdvancedFilters from './AdvancedFilters'
+import StandardFilters from './filters/StandardFilters'
+import AdvancedFilters from './filters/AdvancedFilters'
 
 interface FilterSectionProps {
     t: TFunction;

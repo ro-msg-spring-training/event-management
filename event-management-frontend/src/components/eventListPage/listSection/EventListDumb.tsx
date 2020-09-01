@@ -116,12 +116,8 @@ const EventListDumb = (props: Props) => {
 
   useScrollPosition(
     ({ prevPos, currPos }) => {
-      // compute the height of the sticky area
-      const elementHeight = stickyDiv.current ? stickyDiv.current.offsetHeight : 0;
-
-      // get the maximum value between sticky area height and window height
-      const height = elementHeight < window.outerHeight ? elementHeight : window.outerHeight;
-
+      const height = 250;
+      
       // collapse on scrolling up or on a quick scroll down
       if (prevPos.y > currPos.y + height || prevPos.y < currPos.y) {
         setExpanded(false);
@@ -206,7 +202,7 @@ const EventListDumb = (props: Props) => {
                 ) : (
                   <PaginationCell />
                 )}
-                <PaginationCell style={{ textAlign: "center" }}>{`${page+1}/${lastPage}`}</PaginationCell>
+                <PaginationCell style={{ textAlign: "center" }}>{`${page+1}/${lastPage? lastPage : 1}`}</PaginationCell>
                 {page+1 < lastPage ? (
                   <PaginationCell>
                     <Button onClick={props.incrementPage} style={{ color: "#F9C929" }}>
@@ -319,7 +315,7 @@ const EventListDumb = (props: Props) => {
                   )}
                   <PaginationCell />
                   <PaginationCell />
-                  <PaginationCell>{`${page+1}/${lastPage}`}</PaginationCell>
+                  <PaginationCell>{`${page+1}/${lastPage? lastPage : 1}`}</PaginationCell>
                   <PaginationCell />
                   <PaginationCell />
                   {page+1 < lastPage ? (
