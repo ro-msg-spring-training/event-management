@@ -35,7 +35,7 @@ const computeFilterQueryString = (filters: EventFilters) => {
     if (filters.subtitle) {
         filtersToSend.subtitle = filters.subtitle
     }
-    if (filters.status) {
+    if (filters.status !== 'none') {
         filtersToSend.status = filters.status
     }
     if (filters.location) {
@@ -74,7 +74,7 @@ export const fetchFilteredEvents = (filters: EventFilters, page: number) => {
     const limitToSend = computeLimit();
 
     const url = new URL(serverEventsURL);
-    console.log("77", filtersToSend)
+    console.log(page)
     url.search = new URLSearchParams(filtersToSend).toString();
     url.search += "&";
     url.search += new URLSearchParams(pageToSend).toString();

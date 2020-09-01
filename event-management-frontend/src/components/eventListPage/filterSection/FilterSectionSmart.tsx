@@ -204,9 +204,9 @@ function FilterSectionSmart({ page, filters, expanded, setExpanded, updateFilter
 
     const submitForm = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        filterEvents(filters, page)
-        resetPage()
-        setExpanded(false)
+        resetPage();
+        filterEvents(filters, page);
+        setExpanded(false);
     }
 
     const toggle = () => {

@@ -109,12 +109,10 @@ class EventListSmart extends React.Component<Props, State> {
 
         // Using the map function, we will get all the events from the array 
         // to move this code!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        const eventDetails = events
-            .map((event: Event) =>
+        const eventDetails = events?.map((event: Event) =>
                 <EventDetailsDumb key={event.id} event={event} />);
         // On mobile we would like to keep only title and date
-        const eventDetailsMobile = events
-            .map((event: Event) =>
+        const eventDetailsMobile = events?.map((event: Event) =>
                 <EventDetailsMobileDumb key={event.id} event={event} />);
 
         return (
