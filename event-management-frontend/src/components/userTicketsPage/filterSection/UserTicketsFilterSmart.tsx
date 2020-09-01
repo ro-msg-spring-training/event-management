@@ -4,7 +4,7 @@ import {TicketFilters} from "../../../model/TicketFilters";
 import {AppState} from "../../../store/store";
 import {fetchTickets, resetFilters, updateFilters, resetPage} from "../../../actions/TicketsPageActions";
 import {connect} from "react-redux";
-import { equalDate, startDateBeforeEndDate, startTimeGreaterThenEndTime } from '../../../utils/compareDateTimes';
+import { equalDate, startDateBeforeEndDate } from '../../../utils/compareDateTimes';
 import { useTranslation } from 'react-i18next';
 
 
