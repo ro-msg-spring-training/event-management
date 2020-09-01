@@ -8,15 +8,20 @@ import { useTranslation } from 'react-i18next';
 import { useDropzone } from 'react-dropzone';
 import ImagesDialog from './ImagesDialog';
 
-
 interface ImagesSectionProps {
-    isError: boolean,
-    isLoading: boolean,
-    eventImages: EventImage[],
-    updateEventImages: (images: EventImage[]) => void,
+    isError: boolean;
+    isLoading: boolean;
+    eventImages: EventImage[];
+    updateEventImages: (images: EventImage[]) => void;
 }
 
-function ImagesSectionSmart({ isError, isLoading, eventImages, updateEventImages }: ImagesSectionProps) {
+function ImagesSectionSmart({ 
+    isError, 
+    isLoading, 
+    eventImages, 
+    updateEventImages 
+}: ImagesSectionProps) {
+    
     const [images, setImages] = useState<EventImage[]>(eventImages);
     const [open, setOpen] = useState(false);
     const [itemToDelete, setItemToDelete] = useState<EventImage>();
@@ -56,7 +61,7 @@ function ImagesSectionSmart({ isError, isLoading, eventImages, updateEventImages
     };
 
     const handleClickOpen = (item: EventImage) => {
-        setItemToDelete(item)
+        setItemToDelete(item);
         setOpen(true);
     };
 

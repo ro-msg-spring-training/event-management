@@ -5,10 +5,9 @@ import { useStyle } from '../../../styles/ImagesSectionStyles'
 import { EventImage } from '../../../model/EventImage'
 import CancelIcon from '@material-ui/icons/Cancel';
 import { TFunction } from 'i18next'
-import { useDropzone } from 'react-dropzone'
 
 interface ImagesSectionProps {
-  t: TFunction,
+  t: TFunction;
   isError: boolean;
   isLoading: boolean;
   getRootProps: any;
@@ -18,20 +17,30 @@ interface ImagesSectionProps {
   handleClickOpen: (item: EventImage) => void;
 }
 
-function ImagesSectionDumb({ t, isError, isLoading, getRootProps, getInputProps, images, setImages, handleClickOpen }: ImagesSectionProps) {
+function ImagesSectionDumb({
+  t,
+  isError,
+  isLoading,
+  getRootProps,
+  getInputProps,
+  images,
+  setImages,
+  handleClickOpen
+}: ImagesSectionProps) {
+
   const classes = useStyle();
 
   return (
     <div className={classes.imagesArea}>
       <div {...getRootProps()} className={classes.dragndrop}>
         <input {...getInputProps()} />
-        <p>{t("welcome.imageDragAndDrop")}</p>
+        <p> {t("images.imageDragAndDrop")} </p>
       </div>
 
       <div className={classes.imagesContainerWrapper}>
         {
           isError ?
-            <p>{t("welcome.imageErrorMessage")}</p> :
+            <p>{t("images.imageErrorMessage")}</p> :
             isLoading ?
               <LinearProgress /> :
               images.length !== 0 ?
@@ -53,15 +62,16 @@ function ImagesSectionDumb({ t, isError, isLoading, getRootProps, getInputProps,
                         onClick={() => handleClickOpen(item)}
                         className={classes.deleteButton} />
 
-                      <img alt={item.name} src={item.url} className={classes.image} />
+                      <img
+                        alt={item.name}
+                        src={item.url}
+                        className={classes.image} />
                     </Grid>
                   ))}
 
-                </ReactSortable> :
-                null
+                </ReactSortable> : ''
         }
       </div>
-      
     </div>
   )
 }

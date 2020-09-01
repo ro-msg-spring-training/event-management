@@ -3,39 +3,45 @@ import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, B
 import { TFunction } from 'i18next';
 
 interface ImagesDialogProps {
-    open: boolean,
-    handleCloseDecline: () => void,
-    handleCloseConfirm: () => void,
-    t: TFunction
+  t: TFunction
+  open: boolean,
+  handleCloseDecline: () => void,
+  handleCloseConfirm: () => void,
 }
 
-function ImagesDialog({open, t, handleCloseDecline, handleCloseConfirm}: ImagesDialogProps) {
-    return(
-        <Dialog
-        open={open}
-        onClose={handleCloseDecline}>
+function ImagesDialog({
+  t,
+  open,
+  handleCloseDecline,
+  handleCloseConfirm
+}: ImagesDialogProps) {
 
-        <DialogTitle>
-          {t("welcome.imageDialogTitle")}
-        </DialogTitle>
+  return (
+    <Dialog
+      open={open}
+      onClose={handleCloseDecline}>
 
-        <DialogContent>
-          <DialogContentText>
-            {t("welcome.imageDialogContent")}
-          </DialogContentText>
-        </DialogContent>
+      <DialogTitle>
+        {t("images.imageDialogTitle")}
+      </DialogTitle>
 
-        <DialogActions>
-          <Button onClick={handleCloseDecline} color="primary">
-            {t("welcome.imageDialogDisagree")}
-          </Button>
+      <DialogContent>
+        <DialogContentText>
+          {t("images.imageDialogContent")}
+        </DialogContentText>
+      </DialogContent>
 
-          <Button onClick={handleCloseConfirm} color="primary" autoFocus>
-            {t("welcome.imageDialogAgree")}
-          </Button>
-        </DialogActions>
-      </Dialog>
-    );
+      <DialogActions>
+        <Button onClick={handleCloseDecline} color="primary">
+          {t("images.imageDialogDisagree")}
+        </Button>
+
+        <Button onClick={handleCloseConfirm} color="primary" autoFocus>
+          {t("images.imageDialogAgree")}
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
 }
 
 export default ImagesDialog;
