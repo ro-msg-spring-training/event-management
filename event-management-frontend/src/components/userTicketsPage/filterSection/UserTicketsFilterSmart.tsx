@@ -2,7 +2,6 @@ import React, {FormEvent, useState} from 'react'
 import UserTicketsFilterDumb from "./UserTicketsFilterDumb";
 import {Container} from "@material-ui/core";
 import {TicketFilters} from "../../../model/TicketFilters";
-import {useTranslation} from "react-i18next";
 import {AppState} from "../../../store/store";
 import {fetchTickets, resetFilters, updateFilters, resetPage} from "../../../actions/TicketsPageActions";
 import {connect} from "react-redux";
@@ -20,8 +19,7 @@ interface Props {
 }
 
 const UserTicketsFilterSmart = ({ expanded, setExpanded, filters, page, resetFilters, updateFilters, fetchTickets, resetPage }: Props) => {
-    const [errorDate, setErrorDate] = useState('')
-    const [t] = useTranslation();
+    const [errorDate, ] = useState('')
 
     const handleChange = () => {
         const newFilters = Object.assign({}, filters)

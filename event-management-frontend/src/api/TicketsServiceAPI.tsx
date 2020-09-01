@@ -1,4 +1,4 @@
-import {headersAuth, serverEventsURL, serverURL} from "./Api";
+import {headersAuth, serverURL} from "./Api";
 import { fetchWrapper } from "./FetchWrapper";
 import {TicketFilters} from "../model/TicketFilters";
 

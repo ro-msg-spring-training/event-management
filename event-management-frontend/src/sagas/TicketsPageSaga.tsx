@@ -4,8 +4,7 @@ import {
     FETCH_TICKETS,
     fetchTicketsError,
     fetchTicketsRequest,
-    fetchTicketsSuccess,
-    OPEN, CLOSE, openDetails, closeDetails
+    fetchTicketsSuccess
 } from "../actions/TicketsPageActions";
 import {TicketFilters} from "../model/TicketFilters";
 
