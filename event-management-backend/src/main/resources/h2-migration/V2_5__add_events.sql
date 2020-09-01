@@ -30,6 +30,12 @@ insert into `ticket` values (3,'AndrewM','aM@yahoo.com',2,3);
 insert into `ticket` values (4,'AndrewS','aS@yahoo.com',2,3);
 insert into `ticket` values (5,'AndrewM','aM@yahoo.com',3,1);
 insert into `ticket` values (6,'AndrewS','aS@yahoo.com',4,3);
+insert into ticket_document values (1, 'pdf_url', false);
+insert into ticket_document values (2, 'pdf2_url', false);
+insert into ticket_document values (3, 'pdf3_url', false);
+insert into ticket_document values (4, 'pdf4_url', false);
+insert into ticket_document values (5, 'pdf5_url', false);
+insert into ticket_document values (6, 'pdf6_url', false);
 
 insert into picture values(1,'https://event-management-pictures.s3-eu-west-1.amazonaws.com/image-88200-1597822468303-pizza.jpg',1);
 insert into picture values(2,'https://event-management-pictures.s3-eu-west-1.amazonaws.com/image-142400-1598019891841-typescript_print.png',2);

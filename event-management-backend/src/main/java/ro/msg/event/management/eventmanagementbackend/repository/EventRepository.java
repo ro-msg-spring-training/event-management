@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import ro.msg.event.management.eventmanagementbackend.entity.Event;
 
+import org.springframework.data.domain.Pageable;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -36,5 +38,11 @@ public interface EventRepository extends JpaRepository<Event, Long> {
             " WHERE b.user = :user" +
             " AND e.startDate > current_date() ORDER BY e.startDate ASC")
     Page<Event> findByUserInFuture(@Param("user") String user, Pageable pageable);
+
+    @Query("SELECT e FROM Event e INNER JOIN" +
+            " Booking b on e.id = b.event.id" +
+            " INNER JOIN Ticket t on b.id = t.booking.id" +
+            " WHERE t.id= :id")
+    Event findEventByTicket(@Param("id") long idTicket);
 
 }

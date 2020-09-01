@@ -13,16 +13,21 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import ro.msg.event.management.eventmanagementbackend.controller.converter.Converter;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.AvailableTicketsPerCategory;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.TicketListingDto;
+import ro.msg.event.management.eventmanagementbackend.entity.Ticket;
 import ro.msg.event.management.eventmanagementbackend.entity.view.TicketView;
+import ro.msg.event.management.eventmanagementbackend.exception.TicketCorrespondingEventException;
+import ro.msg.event.management.eventmanagementbackend.exception.TicketValidateException;
 import ro.msg.event.management.eventmanagementbackend.security.User;
 import ro.msg.event.management.eventmanagementbackend.service.TicketService;
 
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @AllArgsConstructor
@@ -67,5 +72,27 @@ public class TicketController {
         headers.add("Expires", "0");
 
         return new ResponseEntity<>(new InputStreamResource(pdfInputStream), headers, HttpStatus.OK);
+    }
+    @PatchMapping("/validate/{idTicket}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<JSONObject> validateTicket(@RequestParam long idEvent, @PathVariable Long idTicket) {
+        String participantName;
+        String participantEmail;
+        try {
+            Ticket ticket = ticketService.validateTicket(idEvent, idTicket);
+            participantName = ticket.getName();
+            participantEmail = ticket.getEmailAddress();
+        } catch (TicketValidateException ticketValidateException) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, ticketValidateException.getMessage(), ticketValidateException);
+        } catch (TicketCorrespondingEventException ticketCorrespondingEventException) {
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, ticketCorrespondingEventException.getMessage(), ticketCorrespondingEventException);
+        } catch (NoSuchElementException noSuchElementException) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, noSuchElementException.getMessage(), noSuchElementException);
+        }
+
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("name", participantName);
+        responseBody.put("email", participantEmail);
+        return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
 }
