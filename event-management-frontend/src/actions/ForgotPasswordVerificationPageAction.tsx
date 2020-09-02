@@ -57,35 +57,35 @@ export type VerificationAction =
   | VerificationEmailAction
   | VerificationCodeAction;
 
-export const loginisLoading = (loadingStatus: boolean): VerificationLoadingStatusAction => {
+export const verificationisLoading = (loadingStatus: boolean): VerificationLoadingStatusAction => {
   return {
     type: VerificationActionTypes.VERIFICATION_LOADING,
     loadingStatus: loadingStatus,
   };
 };
 
-export const loginError = (errorStatus: string): VerificationErrorAction => {
+export const verificationError = (errorStatus: string): VerificationErrorAction => {
   return {
     type: VerificationActionTypes.VERIFICATION_ERROR,
     errorStatus: errorStatus,
   };
 };
 
-export const loginPassword = (password: string): VerificationUpdateNewPasswordAction => {
+export const verificationPassword = (password: string): VerificationUpdateNewPasswordAction => {
   return {
     type: VerificationActionTypes.NEW_PASSWORD_INPUT,
     password: password,
   };
 };
 
-export const loginUsername = (email: string): VerificationEmailAction => {
+export const verificationEmail = (email: string): VerificationEmailAction => {
   return {
     type: VerificationActionTypes.EMAIL_INPUT,
     email: email,
   };
 };
 
-export const loginSuccess = (code: string): VerificationCodeAction => {
+export const verificationCode = (code: string): VerificationCodeAction => {
   return {
     type: VerificationActionTypes.VERIFICATION_CODE_INPUT,
     code: code,

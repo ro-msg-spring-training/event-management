@@ -6,6 +6,7 @@ import { EventsPageState } from "../reducers/EventsPageReducers";
 import { LocationPageState } from "../reducers/LocationPageReducer";
 import { EventState } from "../reducers/HeaderEventCrudReducer";
 import { LoginPageState } from "../reducers/LoginPageReducer";
+import { VerificationPageState } from "../reducers/ForgotPasswordVerificationPageReducer";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -17,4 +18,5 @@ export interface AppState {
   eventCrud: EventState;
   location: LocationPageState;
   login: LoginPageState;
+  forgotPasswordVerification: VerificationPageState;
 }

@@ -1,4 +1,3 @@
-import { LoginAction, LoginActionTypes } from "../actions/LoginPageActions";
 import { VerificationAction, VerificationActionTypes } from "../actions/ForgotPasswordVerificationPageAction";
 
 export interface VerificationPageState {

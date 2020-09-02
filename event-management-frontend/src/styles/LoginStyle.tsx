@@ -38,6 +38,21 @@ const useStylesLogin = makeStyles((theme: Theme) => ({
   link: {
     textDecoration: "none",
   },
+  flags: {
+    "&:hover": {
+      cursor: "pointer",
+    },
+    width: "20%",
+    display: "inline-block",
+  },
+  small: {
+    width: theme.spacing(3),
+    height: theme.spacing(3),
+    padding: 10,
+  },
+  inline: {
+    display: "inline",
+  },
 }));
 
 export default useStylesLogin;

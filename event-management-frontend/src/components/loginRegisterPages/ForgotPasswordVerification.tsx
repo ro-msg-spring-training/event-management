@@ -1,36 +1,37 @@
 import React, { useState } from "react";
 import { Auth } from "aws-amplify";
-import {
-  FormGroup,
-  TextField,
-  Button,
-  FormControl,
-  InputLabel,
-  InputAdornment,
-  IconButton,
-  OutlinedInput,
-  FormHelperText,
-} from "@material-ui/core";
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import useStylesLogin from "../../styles/LoginStyle";
-import { useStyles } from "../../styles/CommonStyles";
 import { useHistory } from "react-router-dom";
 import { validatePasswordRequirements, validateEmail, displayErrorMessage } from "../../validation/LoginValidation";
-import { FormErrors } from "./FormErrors";
 import { Trans } from "react-i18next";
+import { AppState } from "../../store/store";
+import { Dispatch } from "redux";
+import {
+  verificationEmail,
+  verificationPassword,
+  verificationCode,
+  verificationisLoading,
+  verificationError,
+} from "../../actions/ForgotPasswordVerificationPageAction";
+import { connect } from "react-redux";
+import VerificationDumb from "./ForgotPasswordVerificationDumb";
 
-const ForgotPasswordVerification = () => {
-  const [email, setEmail] = useState("");
+interface Props {
+  isLoading: boolean;
+  email: string;
+  newpassword: string;
+  error: string;
+  code: string;
+  verificationPassword: (newpassword: string) => void;
+  verificationEmail: (email: string) => void;
+  verificationError: (error: string) => void;
+  verificationisLoading: (isLoading: boolean) => void;
+  verificationCode: (code: string) => void;
+}
+
+const ForgotPasswordVerification = (props: Props) => {
   const [emailError, setEmailError] = useState("");
-  const [verificationCode, setVerificationCode] = useState("");
-  const [newpassword, setPassword] = useState("");
   const [newpasswordError, setPasswordError] = useState("");
-  const [error, setError] = useState("");
-  const classes = useStyles();
-  const classesLogin = useStylesLogin();
   const history = useHistory();
-
   const [values, setValues] = React.useState<{ showPassword: boolean }>({
     showPassword: false,
   });
@@ -43,102 +44,58 @@ const ForgotPasswordVerification = () => {
     event.preventDefault();
 
     if (
-      validatePasswordRequirements(newpassword, newpasswordError, setPasswordError) ||
-      validateEmail(email, emailError, setEmailError)
+      validatePasswordRequirements(props.newpassword, newpasswordError, setPasswordError) ||
+      validateEmail(props.email, emailError, setEmailError)
     ) {
       return;
     }
 
     try {
-      await Auth.forgotPasswordSubmit(email, verificationCode, newpassword);
+      await Auth.forgotPasswordSubmit(props.email, props.code, props.newpassword);
 
       history.push("/changepasswordconfirmation");
     } catch (error) {
       displayErrorMessage(
         <Trans i18nKey="forgotPasswordVerification.errorMessage">Invalid verification code or email address!</Trans>,
-        setError
+        props.verificationError
       );
     }
   };
 
   return (
-    <div className={classesLogin.root}>
-      <FormGroup>
-        <h1 className={classes.typography}>
-          <Trans i18nKey="forgotPasswordVerification.title">Set new password</Trans>
-        </h1>
-
-        <p>
-          <Trans i18nKey="forgotPasswordVerification.message">
-            Please enter the verification code sent to your email address below, your email address and a new password.
-          </Trans>
-        </p>
-
-        <TextField
-          className={classesLogin.loginformItems}
-          label={<Trans i18nKey="forgotPasswordVerification.code">Verification Code</Trans>}
-          type="text"
-          value={verificationCode}
-          required
-          variant="outlined"
-          onChange={(e) => setVerificationCode(e.target.value)}
-        />
-
-        <TextField
-          className={classesLogin.loginformItems}
-          label="Email"
-          type="email"
-          value={email}
-          variant="outlined"
-          required
-          helperText={emailError}
-          error={emailError !== "" || validateEmail(email, emailError, setEmailError)}
-          onChange={(e) => {
-            setEmail(e.target.value);
-            setEmailError("");
-          }}
-        />
-
-        <FormControl className={classesLogin.loginformItems} required variant="outlined">
-          <InputLabel htmlFor="outlined-adornment-password">
-            <Trans i18nKey="forgotPasswordVerification.password">Password</Trans>
-          </InputLabel>
-
-          <OutlinedInput
-            labelWidth={80}
-            type={values.showPassword ? "text" : "password"}
-            value={newpassword}
-            required
-            error={
-              newpasswordError !== "" || validatePasswordRequirements(newpassword, newpasswordError, setPasswordError)
-            }
-            onChange={(event) => {
-              setPassword(event.target.value);
-              setPasswordError("");
-            }}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword} edge="end">
-                  {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-          <FormHelperText>{newpasswordError}</FormHelperText>
-          <FormErrors error={error} />
-        </FormControl>
-
-        <Button
-          variant="contained"
-          type="submit"
-          onClick={onSubmit}
-          className={`${classes.buttonStyle2} ${classes.buttonStyle3} ${classesLogin.loginButton}`}
-        >
-          Submit
-        </Button>
-      </FormGroup>
-    </div>
+    <VerificationDumb
+      email={props.email}
+      newpassword={props.newpassword}
+      error={props.error}
+      code={props.code}
+      values={values}
+      verificationPassword={props.verificationPassword}
+      verificationCode={props.verificationCode}
+      verificationEmail={props.verificationEmail}
+      handleClickShowPassword={handleClickShowPassword}
+      onSubmit={onSubmit}
+      newpasswordError={newpasswordError}
+      setPasswordError={setPasswordError}
+      emailError={emailError}
+      setEmailError={setEmailError}
+      validateEmail={validateEmail}
+      validatePasswordRequirements={validatePasswordRequirements}
+    ></VerificationDumb>
   );
 };
+const mapStateToProps = (state: AppState) => ({
+  email: state.forgotPasswordVerification.email,
+  newpassword: state.forgotPasswordVerification.newpassword,
+  isLoading: state.forgotPasswordVerification.isLoading,
+  error: state.forgotPasswordVerification.error,
+  code: state.forgotPasswordVerification.code,
+});
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  verificationEmail: (email: string) => dispatch(verificationEmail(email)),
+  verificationPassword: (newpassword: string) => dispatch(verificationPassword(newpassword)),
+  verificationisLoading: (loadingStatus: boolean) => dispatch(verificationisLoading(loadingStatus)),
+  verificationError: (error: string) => dispatch(verificationError(error)),
+  verificationCode: (code: string) => dispatch(verificationCode(code)),
+});
 
-export default ForgotPasswordVerification;
+export default connect(mapStateToProps, mapDispatchToProps)(ForgotPasswordVerification);

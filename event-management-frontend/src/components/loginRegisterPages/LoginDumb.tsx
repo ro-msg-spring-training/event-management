@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   FormGroup,
   TextField,
@@ -8,8 +8,9 @@ import {
   InputAdornment,
   IconButton,
   Button,
+  Avatar,
 } from "@material-ui/core";
-import { Trans } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { SuccessMessage } from "./SuccessMessage";
 import { FormErrors } from "./FormErrors";
 import { useStyles } from "../../styles/CommonStyles";
@@ -17,6 +18,8 @@ import useStylesLogin from "../../styles/LoginStyle";
 import { Link } from "react-router-dom";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import RO from "../../languageImages/RO.png";
+import EN from "../../languageImages/EN.png";
 
 interface Props {
   username: string;
@@ -24,7 +27,6 @@ interface Props {
   error: string;
   loginPassword: (password: string) => void;
   loginUsername: (username: string) => void;
-
   success: string;
   values: { showPassword: boolean };
   handleClickShowPassword: () => void;
@@ -34,6 +36,12 @@ interface Props {
 const LoginDumb = (props: Props) => {
   const classesLogin = useStylesLogin();
   const classes = useStyles();
+  const [t, i18n] = useTranslation();
+
+  const handleChangeAppLanguage = (language: string) => {
+    i18n.changeLanguage(language);
+    localStorage.setItem("i18nextLng", language);
+  };
   return (
     <div className={classesLogin.root}>
       <FormGroup className={`${classesLogin.loginform} loginformResponsive`}>
@@ -103,6 +111,14 @@ const LoginDumb = (props: Props) => {
               </Link>
             </Trans>
           </p>
+        </div>
+        <div>
+          <div onClick={() => handleChangeAppLanguage("ro")} className={classesLogin.flags}>
+            <Avatar alt="RO" variant="square" className={classesLogin.small} src={RO} />
+          </div>
+          <div onClick={() => handleChangeAppLanguage("en")} className={classesLogin.flags}>
+            <Avatar alt="EN" variant="square" className={classesLogin.small} src={EN} />
+          </div>
         </div>
       </FormGroup>
     </div>
