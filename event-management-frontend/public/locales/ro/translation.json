@@ -221,5 +221,18 @@
     "errorMessage": "Oops, eroare",
     "noEvents": "Nu există evenimente",
     "carousselError": "Încărcare nereușită. Mai încearcă!"
+  },
+
+  "validateTicket": {
+    "exitValidation": "Ieșire",
+    "validateNext": "Validează următorul",
+    "notFoundError": "Biletul nu a fost găsit. Acest număr de bilet nu există.",
+    "conflictError": "Acest bilet a fost deja validat.",
+    "notAcceptableError": "Acest bilet aparține unui alt eveniment.",
+    "defaultError": "Ceva nu s-a desfășurat corespunzător. Încearcă din nou!",
+    "qrReaderError": "Scanarea biletului a eșuat. Încearcă din nou!",
+    "errorMessage": "Eroare!",
+    "successfulValidation": "Validare reușită!",
+    "customerData": "Biletul a fost validat cu succes. Datele clientului: "
   }
 }

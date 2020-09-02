@@ -1,4 +1,4 @@
-import { all } from "redux-saga/effects";
+import { all } from 'redux-saga/effects';
 import {
   watchFetchFilteredEventsAsync,
   watchFetchEventsAsync,
@@ -8,20 +8,21 @@ import {
   watchFetchCustomEventsAsync,
   watchFetchHomeEventsAsync,
   watchFetchCustomHomeEventsAsync,
-} from "./EventsPageSaga";
-import { loadEventWatcher, deleteProductWatcher, addProductWatcher, editProductWatcher } from "./HeaderEventCrudSaga";
-import { fetchLocationsActionWatcher } from "./LocationPageSaga";
-import { watchFetchTicketsAsync, watchOpenAsync, watchCloseAsync } from "./TicketsPageSaga";
-import { fetchUpcomingEventsActionWatcher, fetchHistoryEventsActionWatcher } from "./AdminHomePageSaga";
-import { watchFetchUserEventsAsync, watchFetchUserEventsLocationsAsync } from "./UserEventsPageSaga";
-import { loadEventWithLocationsWatcher } from "./UserEventDetailsSaga";
+  watchValidateTicket,
+} from './EventsPageSaga';
+import { loadEventWatcher, deleteProductWatcher, addProductWatcher, editProductWatcher } from './HeaderEventCrudSaga';
+import { fetchLocationsActionWatcher } from './LocationPageSaga';
+import { watchFetchTicketsAsync, watchOpenAsync, watchCloseAsync } from './TicketsPageSaga';
+import { fetchUpcomingEventsActionWatcher, fetchHistoryEventsActionWatcher } from './AdminHomePageSaga';
+import { watchFetchUserEventsAsync, watchFetchUserEventsLocationsAsync } from './UserEventsPageSaga';
+import { loadEventWithLocationsWatcher } from './UserEventDetailsSaga';
 
 import {
   watchFetchBookingsAsync,
   watchFetchUserPastEventsAsync,
   watchFetchUserUpcomingEventsAsync,
   watchFetchHighlightedEventsAsync,
-} from "./UserHomePageSaga";
+} from './UserHomePageSaga';
 
 export default function* rootSaga() {
   yield all([
@@ -62,5 +63,7 @@ export default function* rootSaga() {
     loadEventWithLocationsWatcher(),
 
     watchFetchHighlightedEventsAsync(),
+
+    watchValidateTicket(),
   ]);
 }

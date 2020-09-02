@@ -1,7 +1,7 @@
-import { serverURL, headersAuth } from "./Api";
-import { fetchWrapper } from "./FetchWrapper";
-import { Booking } from "../model/userHome/Booking";
-import { BookingServer } from "../model/userHome/BookingServer";
+import { serverURL, headersAuth } from './Api';
+import { fetchWrapper } from './FetchWrapper';
+import { Booking } from '../model/userHome/Booking';
+import { BookingServer } from '../model/userHome/BookingServer';
 
 export const fetchBookings = () => {
   let url = `${serverURL}/bookings`;
@@ -55,11 +55,9 @@ const convertToBooking = (bookings_from_server: BookingServer[]) => {
 export const fetchHighlightedEvents = () => {
   let url = `${serverURL}/events/highlighted`;
   const urlOptions = { headers: headersAuth };
-  console.log("api: ");
   return fetchWrapper(url, urlOptions)
     .then((response) => response.json())
     .then((json) => {
-      console.log("api: ", json[1].title, json[1].id, json[1].picture);
       return json;
     });
 };

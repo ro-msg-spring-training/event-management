@@ -25,11 +25,15 @@ import {
   RESET_PAGE,
   RESET_PAGE_HOME,
   RESET_FILTERS,
-} from "../actions/EventsPageActions";
-import { MathRelation } from "../model/MathRelation";
-import { EventFilters } from "../model/EventFilters";
-import { fetchSortedEvents } from "../api/EventsServiceAPI";
-import { EventSort } from "../model/EventSort";
+  VALIDATE_TICKET_ERROR,
+  VALIDATE_TICKET_SUCCESS,
+  VALIDATE_TICKET_REQUEST,
+  SET_IS_ERROR,
+} from '../actions/EventsPageActions';
+import { MathRelation } from '../model/MathRelation';
+import { EventFilters } from '../model/EventFilters';
+import { fetchSortedEvents } from '../api/EventsServiceAPI';
+import { EventSort } from '../model/EventSort';
 
 export interface EventsPageState {
   filters: EventFilters;
@@ -37,6 +41,10 @@ export interface EventsPageState {
   allEventsHome: [];
   isLoading: boolean;
   isError: boolean;
+  isValid: boolean;
+  errorStatus: number;
+  ticketCustomerName: string;
+  ticketCustomerEmail: string;
   isLoadingHome: boolean;
   isErrorHome: boolean;
   eventsSort: EventSort;
@@ -46,27 +54,31 @@ export interface EventsPageState {
 
 const initialState: EventsPageState = {
   filters: {
-    title: "",
-    subtitle: "",
-    status: "none",
+    title: '',
+    subtitle: '',
+    status: 'none',
     highlighted: undefined,
-    location: "",
+    location: '',
     startDate: undefined,
     endDate: undefined,
     startHour: undefined,
     endHour: undefined,
-    rate: "",
+    rate: '',
     rateSign: MathRelation.GREATER,
-    maxPeople: "",
+    maxPeople: '',
     maxPeopleSign: MathRelation.GREATER,
   },
-  isLoading: true,
+  isLoading: false,
   isError: false,
+  isValid: false,
+  errorStatus: 0,
+  ticketCustomerName: '',
+  ticketCustomerEmail: '',
   isLoadingHome: true,
   isErrorHome: false,
   allEvents: [],
   allEventsHome: [],
-  eventsSort: { criteria: "", type: "" },
+  eventsSort: { criteria: '', type: '' },
   page: 1,
   homePage: 1,
 };
@@ -76,6 +88,10 @@ interface ReducerActionProps {
   payload: any;
   sort: any;
   page: number;
+  errorStatus: number;
+  name: string;
+  email: string;
+  error: boolean;
 }
 
 export const EventsPageReducer = (state = initialState, action: ReducerActionProps) => {
@@ -115,18 +131,18 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
       return {
         ...state,
         filters: {
-          title: "",
-          subtitle: "",
-          status: "none",
+          title: '',
+          subtitle: '',
+          status: 'none',
           highlighted: undefined,
-          location: "",
+          location: '',
           startDate: undefined,
           endDate: undefined,
           startHour: undefined,
           endHour: undefined,
-          rate: "",
+          rate: '',
           rateSign: MathRelation.GREATER,
-          maxPeople: "",
+          maxPeople: '',
           maxPeopleSign: MathRelation.GREATER,
         },
       };
@@ -149,7 +165,7 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
     case FILTER_EVENTS:
       return {
         ...state,
-        eventsSort: { criteria: "", type: "" },
+        eventsSort: { criteria: '', type: '' },
       };
     case FILTER_EVENTS_SUCCESS:
       return {
@@ -232,12 +248,50 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
         isErrorHome: false,
         allEventsHome: action.payload,
       };
+
     case FETCH_CUSTOM_EVENTS_ERROR_HOME:
       return {
         ...state,
         isLoadingHome: false,
         isErrorHome: true,
       };
+
+    case VALIDATE_TICKET_REQUEST:
+      console.log('REDUCER REQUEST');
+      return {
+        ...state,
+        isLoading: true,
+        errorStatus: '',
+        isValid: false,
+      };
+
+    case VALIDATE_TICKET_SUCCESS:
+      console.log('REDUCER SUCCESS', action.name, action.email);
+      return {
+        ...state,
+        isLoading: false,
+        isValid: true,
+        ticketCustomerName: action.name,
+        ticketCustomerEmail: action.email,
+        errorStatus: '',
+      };
+
+    case VALIDATE_TICKET_ERROR:
+      console.log('REDUCER ERROR');
+      return {
+        ...state,
+        isValid: false,
+        isLoading: false,
+        isError: true,
+        errorStatus: action.errorStatus,
+      };
+
+    case SET_IS_ERROR:
+      return {
+        ...state,
+        isError: action.error,
+      };
+
     default:
       return state;
   }

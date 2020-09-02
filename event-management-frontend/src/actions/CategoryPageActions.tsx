@@ -1,5 +1,5 @@
-import { CategoryCardItem } from "../types/TicketType";
-export enum ActionTypes {
+import { CategoryCardItem } from '../types/TicketType';
+/*export enum ActionTypes {
   ADD_CATEGORY_CARD = " ADD_CATEGORY_CARD ",
   REMOVE_CATEGORY_CARD = "REMOVE_CATEGORY_CARD",
   ADD_EMPTY_CATEGORY_CARD = "ADD_EMPTY_CATEGORY_CARD",
@@ -87,3 +87,4 @@ export type CategoryPageAction =
   | LoadCardsAction
   | RemoveCategoryCardAction
   | SetCardsAction;
+*/

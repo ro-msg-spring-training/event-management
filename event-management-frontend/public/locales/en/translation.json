@@ -221,5 +221,18 @@
     "errorMessage": "Oops, error",
     "noEvents": "There are no events",
     "carousselError": "Unable to load. Try again later."
+  },
+
+  "validateTicket": {
+    "exitValidation": "Exit",
+    "validateNext": "Validate Next",
+    "notFoundError": "Ticket not found. This ticket number does not exist.",
+    "conflictError": "This ticket has already been validated.",
+    "notAcceptableError": "This ticket belongs to another event.",
+    "defaultError": "Something went wrong. Try again!",
+    "qrReaderError": "Failed to scan the ticket. Try again!",
+    "errorMessage": "Error!",
+    "successfulValidation": "Validation successful!",
+    "customerData": "The ticket has been validated successfully. The customer's data: "
   }
 }

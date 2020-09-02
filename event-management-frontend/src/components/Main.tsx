@@ -1,9 +1,10 @@
-import React from 'react'
-import { Switch, Route } from 'react-router-dom'
-import Home from './homePage/Home'
-import EventList from "./eventListPage/listSection/EventListSmart";
+import React from 'react';
+import { Switch, Route } from 'react-router-dom';
+import Home from './homePage/Home';
+import EventList from './eventListPage/listSection/EventListSmart';
 import Header from './header/Header';
 import EventDetails from './eventCreateOrEdit/EventDetails';
+import ValidateTicket from './validateTicket/ValidateTicketSmart';
 
 // The Main component renders one of the three provided
 // Routes (provided that one matches). The /events
@@ -12,22 +13,24 @@ import EventDetails from './eventCreateOrEdit/EventDetails';
 // when the pathname is exactly the string "/"
 
 const Main = () => {
-    return (
-            <div>
-                <Header />
-                <main>
-                    <Switch>
-                        <Route exact path='/admin/events/:id'
-                               render={props => <EventDetails match={props.match} admin={true} />} />
-                        <Route exact path='/admin/events' component={EventList} />
-                        <Route exact path='/admin/newEvent'
-                               render={props => <EventDetails match={props.match} admin={true} />} />
-                        <Route exact path='/admin' component={Home} />
-                    </Switch>
-                </main>
-            </div>
-        );
-}
+  return (
+    <div>
+      <Header />
+      <main>
+        <Switch>
+          <Route exact path="/admin/events/:id" render={(props) => <EventDetails match={props.match} admin={true} />} />
+          <Route
+            exact
+            path="/admin/validate/:id"
+            render={(props) => <ValidateTicket match={props.match} isAdmin={true} />}
+          />
+          <Route exact path="/admin/events" component={EventList} />
+          <Route exact path="/admin/newEvent" render={(props) => <EventDetails match={props.match} admin={true} />} />
+          <Route exact path="/admin" component={Home} />
+        </Switch>
+      </main>
+    </div>
+  );
+};
 
-
-export default Main
+export default Main;
