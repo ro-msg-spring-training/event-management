@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { fetchAllEvents } from '../../../actions/EventsPageActions'
 import { AppState } from "../../../store/store";
 import EventListDumb from "./EventListDumb";
-import { sortEvents, prevPage, nextPage, fetchCustomEvents, updateSortCriteria, incrementPage, decrementPage } from "../../../actions/EventsPageActions";
+import { fetchCustomEvents, updateSortCriteria, incrementPage, decrementPage } from "../../../actions/EventsPageActions";
 import { EventFilters } from "../../../model/EventFilters";
 import EventDetailsMobileDumb from "./EventDetailsMobileDumb";
 import { EventSort } from '../../../model/EventSort';
@@ -19,10 +19,7 @@ interface Props {
     isLoading: boolean;
     isError: boolean;
     fetchAllEvents: () => { type: string; };
-    sortEvents: (sort: EventSort, page: number) => void;
     page: number;
-    prevPage: (filters: EventFilters, sort: EventSort) => void;
-    nextPage: (filters: EventFilters, sort: EventSort) => void;
     fetchCustomEvents: (filters: EventFilters, sort: EventSort, page: number) => void;
     updateSortCriteria: (sortCriteria: EventSort) => void;
     incrementPage: () => void;
@@ -85,8 +82,6 @@ class EventListSmart extends React.Component<Props, State> {
             }
             if (sortParams.criteria === undefined || (criteria === this.state.sortCriteria && type === this.state.sortType)) {
                 return
-            } else {
-                //this.props.sortEvents(sortParams, this.props.page);
             }
             this.setState({ sortCriteria: criteria, sortType: type });
         }
@@ -145,4 +140,6 @@ const mapStateToProps = (state: AppState) => ({
     filters: state.events.filters
 });
 
-export default connect(mapStateToProps, { fetchAllEvents, sortEvents, prevPage, nextPage, fetchCustomEvents, updateSortCriteria, incrementPage, decrementPage })(EventListSmart)
+
+export default connect(mapStateToProps, { fetchAllEvents, fetchCustomEvents,
+    updateSortCriteria, incrementPage, decrementPage })(EventListSmart);

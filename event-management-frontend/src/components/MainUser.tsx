@@ -7,6 +7,7 @@ import UserEventsPage from "./userEventListPage/UserEventsPage";
 import UserEventDetailsSmart from "./userEventDetailsPage/UserEventDetailsSmart";
 import { SecureRoute } from "./SecureRoute";
 
+
 const MainUser = () => {
   return (
     <div>
@@ -22,5 +23,6 @@ const MainUser = () => {
     </div>
   );
 };
+
 
 export default MainUser;

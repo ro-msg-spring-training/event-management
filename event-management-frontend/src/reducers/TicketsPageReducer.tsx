@@ -3,7 +3,7 @@ import {
     FETCH_TICKETS_REQUEST,
     FETCH_TICKETS_SUCCESS,
     FETCH_TICKETS_ERROR, INCREMENT_PAGE,
-    OPEN, CLOSE, UPDATE_FILTERS_TICKETS, RESET_FILTERS_TICKETS, RESET_PAGE_TICKETS
+    UPDATE_FILTERS_TICKETS, RESET_FILTERS_TICKETS, RESET_PAGE_TICKETS
 } from "../actions/TicketsPageActions"
 import { TicketFilters } from "../model/TicketFilters";
 
@@ -21,7 +21,8 @@ const initialState: TicketsPageState = {
     allTickets: [],
     filters: {
         title: '',
-        date: undefined
+        startDate: undefined,
+        endDate: undefined,
     },
     open: false,
     page: 1,
@@ -64,16 +65,6 @@ export const TicketsPageReducer = (state = initialState, action: ReducerActionPr
             return {
                 ...state,
                 page: state.page + 1
-            }
-        case OPEN:
-            return {
-                ...state,
-                open: true
-            }
-        case CLOSE:
-            return {
-                ...state,
-                open: false
             }
         case UPDATE_FILTERS_TICKETS:
             return {

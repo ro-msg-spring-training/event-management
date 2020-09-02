@@ -19,6 +19,12 @@ export const useStylesTickets = makeStyles(theme => ({
     linkDecoration: {
         textDecoration: 'none'
     },
+    grayBackground: {
+        backgroundColor: "#F4F5F9"
+    },
+    ticketTableLayout: {
+        tableLayout: "fixed"
+    },
     pageContainer: {
         display: 'flex',
         flexDirection: 'column',
@@ -26,7 +32,7 @@ export const useStylesTickets = makeStyles(theme => ({
         alignItems: 'center',
         alignContent: 'center',
         overflow: 'visible',
-        margin: 20
+        marginTop: 10
     },
     ticketColumnMobile: {
         [theme.breakpoints.down("sm")]: {

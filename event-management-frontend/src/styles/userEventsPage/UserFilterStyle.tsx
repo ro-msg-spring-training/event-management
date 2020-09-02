@@ -2,7 +2,8 @@ import { makeStyles } from "@material-ui/core";
 
 export const useUserFilterStyles = makeStyles({
     root: {
-        margin: '3% 0',
+        marginTop: 10,
+        marginBottom: 10,
         padding: '3% 0'
     },
     filterArea: {

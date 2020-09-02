@@ -1,10 +1,11 @@
 import React, {FormEvent, useState} from 'react'
 import UserTicketsFilterDumb from "./UserTicketsFilterDumb";
-import {Container} from "@material-ui/core";
 import {TicketFilters} from "../../../model/TicketFilters";
 import {AppState} from "../../../store/store";
 import {fetchTickets, resetFilters, updateFilters, resetPage} from "../../../actions/TicketsPageActions";
 import {connect} from "react-redux";
+import { equalDate, startDateBeforeEndDate } from '../../../utils/compareDateTimes';
+import { useTranslation } from 'react-i18next';
 
 
 interface Props {
@@ -19,7 +20,9 @@ interface Props {
 }
 
 const UserTicketsFilterSmart = ({ expanded, setExpanded, filters, page, resetFilters, updateFilters, fetchTickets, resetPage }: Props) => {
-    const [errorDate, ] = useState('')
+    const [errorStartDate, setErrorStartDate] = useState('')
+    const [errorEndDate, setErrorEndDate] = useState('')
+    const [t] = useTranslation();
 
     const handleChange = () => {
         const newFilters = Object.assign({}, filters)
@@ -31,8 +34,39 @@ const UserTicketsFilterSmart = ({ expanded, setExpanded, filters, page, resetFil
         handleChange()
     }
 
-    const handleChangeDate = (date: string) => {
-        filters.date = new Date(date)
+    const handleChangeStartDate = (date: string) => {
+        filters.startDate = new Date(date)
+
+        if (filters.endDate !== undefined) {
+            if (equalDate(filters.startDate, filters.endDate)) {
+                return;
+            }
+            else if (startDateBeforeEndDate(filters.startDate, filters.endDate)) {
+                setErrorStartDate(t('eventList.invalidDate'))
+                return;
+            }
+        }
+
+        setErrorStartDate('')
+        setErrorEndDate('')
+        handleChange()
+    }
+
+    const handleChangeEndDate = (date: string) => {
+        filters.endDate = new Date(date)
+
+        if (filters.startDate !== undefined) {
+            if (equalDate(filters.startDate, filters.endDate)) {
+                return;
+            }
+            else if (startDateBeforeEndDate(filters.startDate, filters.endDate)) {
+                setErrorEndDate(t('eventList.invalidDate'))
+                return;
+            }
+        }
+
+        setErrorStartDate('')
+        setErrorEndDate('')
         handleChange()
     }
 
@@ -51,22 +85,24 @@ const UserTicketsFilterSmart = ({ expanded, setExpanded, filters, page, resetFil
     const clear = () => {
         resetFilters()
         resetPage()
-        fetchTickets(1, { title: '', date: undefined })
+        setErrorStartDate('')
+        setErrorEndDate('')
+        fetchTickets(1, { title: '', startDate: undefined, endDate: undefined })
     }
 
     return (
-        <Container>
             <UserTicketsFilterDumb
                 isExpanded={expanded}
                 filters={filters}
-                errorDate={errorDate}
+                errorStartDate={errorStartDate}
+                errorEndDate={errorEndDate}
                 clear={clear}
                 updateFilters={updateFilters}
                 toggle={toggle}
                 submitForm={submitForm}
                 handleChangeTitle={handleChangeTitle}
-                handleChangeDate={handleChangeDate}/>
-        </Container>
+                handleChangeStartDate={handleChangeStartDate}
+                handleChangeEndDate={handleChangeEndDate}/>
     );
 }
 

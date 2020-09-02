@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -21,11 +21,10 @@ interface Props {
     ticketsDetails: Ticket[];
 }
 
-const TicketListDumb = (props: Props) => {
+const TicketListDumb = ({isError, isLoading, ticketsDetails}: Props) => {
     const classes = useStylesTickets();
     const [t] = useTranslation();
 
-    const ticketsDetails = props.ticketsDetails;
     const groupBy = (array: Ticket[]) => {
         return array.reduce((result: any, currentValue: Ticket) => {
             (result[currentValue.bookingId] = result[currentValue.bookingId] || []).push(
@@ -62,28 +61,25 @@ const TicketListDumb = (props: Props) => {
         setOpen(finalState)
     }
 
-    useEffect(() => {
-    }, [open])
-
     return (
             <div className={`${classes.pageContainer} ticketResponsive`} >
                 <Typography className={classes.ticketsTitle}>{t("ticketList.myTickets")}</Typography>
                 <TableContainer component={Paper} className={classes.pageContainer} >
 
-                    { props.isError ?
+                    { isError ?
                         <Grid container alignItems={"center"} justify={"center"}>
                             <ErrorIcon color={"primary"} fontSize={"large"} />
                             Oops, there was an error
                         </Grid> :
 
-                        props.isLoading ?
+                        isLoading ?
                             <Grid container alignItems={"center"} justify={"center"}>
                                 <CircularProgress />
                             </Grid> :
 
-                            <Table style={{tableLayout: "fixed"}} >
-                                <TableHead>
-                                    <TableRow >
+                            <Table className={classes.ticketTableLayout}>
+                                <TableHead className={classes.grayBackground}>
+                                    <TableRow>
                                         <TableCell/>
                                         <TableCell key={"id"} align={"center"}
                                                    padding={"default"} size={"medium"}>
@@ -109,7 +105,7 @@ const TicketListDumb = (props: Props) => {
                                         <TableCell key={"name"} align={"center"}
                                                    padding={"default"} size={"medium"}
                                                    className={classes.ticketColumnMobile}>
-                                            {t("ticketList.name")}
+                                            {t("ticketList.buyer")}
                                         </TableCell>
 
                                         <TableCell key={"pdf"} align={"center"}
@@ -123,7 +119,7 @@ const TicketListDumb = (props: Props) => {
                                     {
                                         ticketDictionary.map((groupTicket, index) => {
                                             return <TicketGroupDumb key={index}
-                                                                    ticket={groupTicket[1]}
+                                                                    tickets={groupTicket[1]}
                                                                     open={open}
                                                                     index={index}
                                                                     handleChange={handleChange}/>

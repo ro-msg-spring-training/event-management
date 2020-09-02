@@ -8,6 +8,7 @@ import { AdminHomePageReducer } from "./AdminHomePageReducer";
 import { UserEventsReducer } from "./UserEventsPageReducer";
 import UserEventDetailsReducer from "./UserEventDetailsReducer";
 
+
 export default combineReducers({
   events: EventsPageReducer,
   tickets: TicketsPageReducer,
