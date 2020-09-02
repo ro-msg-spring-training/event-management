@@ -105,7 +105,7 @@ class EventListSmart extends React.Component<Props, State> {
                 sort={this.props.eventsSort}
                 filters={this.props.filters}
                 page={this.props.page}
-                lastPage={this.props.noPages}
+                noPages={this.props.noPages}
 
                 eventsDetails={eventDetails}
                 eventsDetailsMobile={eventDetailsMobile}
