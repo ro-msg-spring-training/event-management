@@ -3,12 +3,11 @@ import { Grid, CardMedia } from '@material-ui/core';
 import Arrow from './Arrow';
 import { EventImage } from '../../model/EventImage';
 import { carouselSlideStyle } from '../../styles/CarouselSlideStyles';
+import { testImages } from '../../utils/CarouselSlideUtils';
 
 interface Props {
   images: EventImage[];
 }
-
-const testImages = [{ url: 'https://i.ibb.co/KNwnXRj/no-image.jpg' }];
 
 function CarouselSlide({ images }: Props) {
   const [index, setIndex] = useState(0);
