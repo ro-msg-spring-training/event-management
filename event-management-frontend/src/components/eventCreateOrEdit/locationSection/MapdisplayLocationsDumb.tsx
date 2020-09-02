@@ -28,8 +28,7 @@ const MapDisplayLocationsDumb = (props: Props) => {
           <Popup>
             <div className={classesMap.wrapperPopup}>
               <h1 className={classesMap.locationTitle}>{location.name} </h1>
-              {location.address}
-              <br />{" "}
+              <p className={classesMap.locationAddress}>{location.address}</p>
               <Button
                 className={`${classes.buttonStyle2} ${classes.buttonStyle3} ${classesMap.buttonPopup}`}
                 onClick={(e) => {

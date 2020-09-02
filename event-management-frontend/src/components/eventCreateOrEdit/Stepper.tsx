@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   rootResponsive: {
     "& .MuiTab-root": {
       minWidth: "20px",
-      padding: "0px",
+      padding: "0",
     },
     "& .MuiGrid-grid-xs": {
       maxWidth: "50%",
