@@ -36,8 +36,8 @@ function TicketsStepDumb({ nextStep, inputs }: TicketsStepDumbProps) {
         {inputs}
 
         <Grid item container direction="row" justify="center" alignItems="center" className={classes.button}>
-          <Grid item xs={4} sm={3} md={2} lg={1} xl={1} />
-          <Grid item xs={4} sm={3} md={2} lg={1} xl={1} >
+          <Grid item xs={4} sm={2} md={2} lg={1} xl={1} />
+          <Grid item xs={4} sm={2} md={2} lg={1} xl={1} >
             <Button variant="contained" className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition}`} onClick={nextStep}> {t("eventList.next")} </Button>
           </Grid>
         </Grid>

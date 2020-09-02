@@ -45,21 +45,17 @@ function BuyTicketsSecondPageDumb({ gotoFirstPage, gotoEventListPage, ticketCate
 
   const buttons =
     <>
-      {/* <div className={`${classes.positionLeft} buttonStyleLeft`}> */}
       <Tooltip title={t("buyTicketsSecondPage.gotoFirstPage") as string}>
         <IconButton onClick={gotoFirstPage} className={`${classes.positionLeft} buttonStyleLeft ${classes.prevButtonStyle}`}  >
           <NavigateNextIcon color="secondary" />
         </IconButton>
       </Tooltip>
-      {/* </div> */}
 
-      {/* <div className={`${classes.positionRight} buttonStyleRight`}> */}
       <Tooltip title={t("buyTicketsSecondPage.cancelPurchase") as string}>
         <IconButton onClick={gotoEventListPage} className={`${classes.positionRight} buttonStyleRight ${classes.cancelButtonStyle}`}>
           <CloseIcon color="secondary" />
         </IconButton>
       </Tooltip>
-      {/* </div> */}
     </>
 
   const [open, setOpen] = useState(false);
