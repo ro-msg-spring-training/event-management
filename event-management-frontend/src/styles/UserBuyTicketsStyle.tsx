@@ -4,10 +4,10 @@ export const userBuyTicketsStyle = makeStyles((theme: Theme) => ({
   position: {
     margin: "1%",
     width: "50%",
-    left: "25%"
+    left: "25%",
   },
   button: {
-    position: 'absolute',
+    position: "absolute",
     bottom: "2%",
     left: 0,
   },
@@ -24,8 +24,8 @@ export const userBuyTicketsStyle = makeStyles((theme: Theme) => ({
     margin: "10px",
   },
   gridStyle: {
-    maxHeight: '40vh',
-    minWidth: '40vw',
+    maxHeight: "40vh",
+    minWidth: "40vw",
     overflowY: "scroll",
-  }
+  },
 }));

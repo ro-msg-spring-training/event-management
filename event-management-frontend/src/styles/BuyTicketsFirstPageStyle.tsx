@@ -40,8 +40,8 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
       color: "black !important",
       backgroundImage: "linear-gradient(90deg, rgba(245,253,255,1) 0%, rgba(202,202,209,1) 1%)",
     },
-    right: '35%',
-    margin: '3%',
+    right: "35%",
+    margin: "3%",
   },
   link: {
     textDecoration: "none",
@@ -49,7 +49,7 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
   title: { fontSize: 50, fontFamily: "LATO !important", margin: "5px" },
   pagecontainer: {
     background: "linear-gradient(45deg, #21C6F3 10%, #1E5FA4 90%)",
-    minHeight: "100vh",
+    minHeight: "105vh",
     paddingTop: "4%",
   },
   generalInfoContainer: {
@@ -113,8 +113,8 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
       backgroundColor: "#FF6171",
     },
     // marginRight: "3%",
-    left: '20%',
-    margin: '3%',
+    left: "20%",
+    margin: "3%",
   },
 }));
 

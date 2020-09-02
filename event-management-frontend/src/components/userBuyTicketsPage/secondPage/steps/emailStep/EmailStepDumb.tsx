@@ -1,21 +1,29 @@
-import React from 'react';
-import { useStyles } from '../../../../../styles/CommonStyles';
-import { Button, Grid, Typography, TextField } from '@material-ui/core';
-import { userBuyTicketsStyle } from '../../../../../styles/UserBuyTicketsStyle';
-import { EmailStepFormErrors } from '../../../../../model/BuyTicketsSecondPage';
-import { useTranslation } from 'react-i18next';
+import React from "react";
+import { useStyles } from "../../../../../styles/CommonStyles";
+import { Button, Grid, Typography, TextField } from "@material-ui/core";
+import { userBuyTicketsStyle } from "../../../../../styles/UserBuyTicketsStyle";
+import { EmailStepFormErrors } from "../../../../../model/BuyTicketsSecondPage";
+import { useTranslation } from "react-i18next";
+import "../../../../../styles/ReservePageStyle.css";
 
 interface EmailStepDumbProps {
-  nextStep: () => void,
-  prevStep: () => void,
-  handleEnterKey: (e: any) => void,
-  email: string,
+  nextStep: () => void;
+  prevStep: () => void;
+  handleEnterKey: (e: any) => void;
+  email: string;
 
-  handleEmailStepChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
-  emailFormErrors: EmailStepFormErrors,
+  handleEmailStepChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  emailFormErrors: EmailStepFormErrors;
 }
 
-function EmailStepDumb({ nextStep, prevStep, handleEnterKey, email, handleEmailStepChange, emailFormErrors }: EmailStepDumbProps) {
+function EmailStepDumb({
+  nextStep,
+  prevStep,
+  handleEnterKey,
+  email,
+  handleEmailStepChange,
+  emailFormErrors,
+}: EmailStepDumbProps) {
   const buttonClass = useStyles();
   const classes = userBuyTicketsStyle();
 
@@ -23,7 +31,9 @@ function EmailStepDumb({ nextStep, prevStep, handleEnterKey, email, handleEmailS
 
   return (
     <>
-      <Typography className={classes.typography} align="center">{t("buyTicketsSecondPage.myEmailAddress")}</Typography>
+      <Typography className={classes.typography} align="center">
+        {t("buyTicketsSecondPage.myEmailAddress")}
+      </Typography>
       <Grid container direction="row" justify="center" alignItems="center">
         <Grid item xs={12}>
           <TextField
@@ -40,18 +50,39 @@ function EmailStepDumb({ nextStep, prevStep, handleEnterKey, email, handleEmailS
           />
         </Grid>
 
-        <Grid item container direction="row" justify="center" alignItems="center" className={classes.button}>
-          <Grid item xs={4} sm={3} md={2} lg={1} xl={1}>
-            <Button variant="contained" className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition}`} onClick={prevStep}> {t("eventList.previous")} </Button>
+        <Grid
+          item
+          container
+          direction="row"
+          justify="center"
+          alignItems="center"
+          className={`${classes.button} buttonStyleResp`}
+        >
+          <Grid item xs={4} sm={2} md={2} lg={1} xl={1}>
+            <Button
+              variant="contained"
+              className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition} `}
+              onClick={prevStep}
+            >
+              {" "}
+              {t("eventList.previous")}{" "}
+            </Button>
           </Grid>
 
-          <Grid item xs={4} sm={3} md={2} lg={1} xl={1}>
-            <Button variant="contained" className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition}`} onClick={nextStep}> {t("eventList.next")} </Button>
+          <Grid item xs={4} sm={2} md={2} lg={1} xl={1}>
+            <Button
+              variant="contained"
+              className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition}`}
+              onClick={nextStep}
+            >
+              {" "}
+              {t("eventList.next")}{" "}
+            </Button>
           </Grid>
         </Grid>
       </Grid>
     </>
   );
-};
+}
 
 export default EmailStepDumb;
