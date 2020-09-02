@@ -49,7 +49,7 @@ class EventListSmart extends React.Component<Props, State> {
         if (prevProps.eventsSort.criteria !== this.props.eventsSort.criteria ||
             prevProps.eventsSort.type !== this.props.eventsSort.type ||
             prevProps.page !== this.props.page) {
-            this.props.fetchCustomEvents(this.props.filters, this.props.eventsSort, this.props.page)
+            this.props.fetchCustomEvents(this.props.filters, this.props.eventsSort, this.props.page);
         }
     }
 
