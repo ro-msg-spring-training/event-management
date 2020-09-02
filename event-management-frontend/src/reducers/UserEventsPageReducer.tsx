@@ -20,13 +20,14 @@ export interface UserEventsPageState {
 }
 
 const initialPage = 0
+const defaultLimit = 4
 
 const initialState = {
     events: [],
     isError: false,
     isFetching: false,
     page: initialPage,
-    limit: 4,
+    limit: defaultLimit,
     isMore: false,
     filters: {
         title: '',
@@ -93,7 +94,7 @@ export const UserEventsReducer = (state = initialState, action: ReducerActionPro
         case UPDATE_USER_FILTERS:
             return {
                 ...state,
-                filters: action.payload
+                filters: action.payload,
             }
         case RESET_USER_FILTERS:
             return {
@@ -113,7 +114,7 @@ export const UserEventsReducer = (state = initialState, action: ReducerActionPro
         case SET_FILTER_USER_EVENTS_MODE:
             return {
                 ...state,
-                page: 1,
+                page: initialPage,
                 isMore: false,
                 events: [],
                 isFilter: state.isFilter === UserEventIsFilterType.NOT_IN_USE ?
@@ -128,7 +129,7 @@ export const UserEventsReducer = (state = initialState, action: ReducerActionPro
                 isError: false,
                 isFetching: false,
                 page: initialPage,
-                limit: 4,
+                limit: defaultLimit,
                 isMore: false,
                 filters: {
                     title: '',
