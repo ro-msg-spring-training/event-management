@@ -1,5 +1,4 @@
-
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Auth } from 'aws-amplify';
 import { displayErrorMessage } from '../../validation/LoginValidation';
 import '../../styles/Responsivity.css';
@@ -27,7 +26,6 @@ interface Props {
 }
 
 const Login: React.FC<Props> = (props: Props) => {
-
   const [values, setValues] = React.useState<{ showPassword: boolean }>({
     showPassword: false,
   });
@@ -41,27 +39,32 @@ const Login: React.FC<Props> = (props: Props) => {
 
   const onSubmit = async () => {
     props.loginisLoading(true);
-    try {
-      const user = await Auth.signIn(props.username, props.password);
-      localStorage.setItem('idToken', user.signInUserSession.idToken.jwtToken);
-      localStorage.setItem('username', props.username);
+    Auth.signIn(props.username, props.password)
+      .then((user) => {
+        localStorage.removeItem('idToken');
+        localStorage.removeItem('role');
 
-      if (user.signInUserSession.accessToken.payload['cognito:groups'] !== undefined) {
-        localStorage.setItem('role', 'admin');
-        history.push('/admin/');
-      } else {
-        localStorage.setItem('role', 'user');
-        history.push('/user/');
-      }
-      displaySuccessMessage(<Trans i18nKey="login.successMessage">Successful login</Trans>, props.loginSuccess);
-      props.loginError('');
-    } catch (error) {
-      displayErrorMessage(
-        <Trans i18nKey="login.errorMessage">Incorrect username or password.</Trans>,
-        props.loginError
-      );
-      props.loginisLoading(false);
-    }
+        localStorage.setItem('idToken', user.signInUserSession.idToken.jwtToken);
+        localStorage.setItem('username', props.username);
+
+        if (user.signInUserSession.accessToken.payload['cognito:groups'] !== undefined) {
+          localStorage.setItem('role', 'admin');
+          history.push('/admin/');
+        } else {
+          localStorage.setItem('role', 'user');
+          history.push('/user/');
+        }
+
+        displaySuccessMessage(<Trans i18nKey="login.successMessage">Successful login</Trans>, props.loginSuccess);
+        props.loginError('');
+      })
+      .catch((error) => {
+        displayErrorMessage(
+          <Trans i18nKey="login.errorMessage">Incorrect username or password.</Trans>,
+          props.loginError
+        );
+        props.loginisLoading(false);
+      });
   };
 
   return (
@@ -77,7 +80,6 @@ const Login: React.FC<Props> = (props: Props) => {
         handleClickShowPassword={handleClickShowPassword}
         onSubmit={onSubmit}
       ></LoginDumb>
-
     </div>
   );
 };
