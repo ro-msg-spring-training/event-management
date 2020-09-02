@@ -142,4 +142,4 @@ const mapStateToProps = (state: AppState) => ({
 
 
 export default connect(mapStateToProps, { fetchAllEvents, fetchCustomEvents,
-    updateSortCriteria, incrementPage, decrementPage })(EventListSmart)
+    updateSortCriteria, incrementPage, decrementPage })(EventListSmart);
