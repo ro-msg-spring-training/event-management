@@ -17,7 +17,7 @@ import { useStylesOverviewDumb } from '../../../styles/OverviewStyles';
 interface OverviewDumbProps {
   newEvent: boolean;
   event: EventCrud;
-  admin: boolean;
+  isAdmin: boolean;
   handleEnterKey: any;
   handleChange: any;
   formErrors: {
@@ -47,7 +47,7 @@ function OverviewDumb(props: OverviewDumbProps) {
             <form className={overviewClasses.root} autoComplete="off">
               <TextField
                 onKeyDown={props.handleEnterKey}
-                disabled={!props.admin}
+                disabled={!props.isAdmin}
                 name="title"
                 fullWidth
                 label={t('welcome.overviewTitle')}
@@ -66,7 +66,7 @@ function OverviewDumb(props: OverviewDumbProps) {
               <TextField
                 onKeyDown={props.handleEnterKey}
                 name="subtitle"
-                disabled={!props.admin}
+                disabled={!props.isAdmin}
                 fullWidth
                 label={t('welcome.overviewSubtitle')}
                 variant="outlined"
@@ -84,7 +84,7 @@ function OverviewDumb(props: OverviewDumbProps) {
               <TextField
                 onKeyDown={props.handleEnterKey}
                 name="maxPeople"
-                disabled={!props.admin}
+                disabled={!props.isAdmin}
                 type="number"
                 fullWidth
                 label={t('welcome.overviewMaxPpl')}
@@ -106,7 +106,7 @@ function OverviewDumb(props: OverviewDumbProps) {
                 className={overviewClasses.margin}
                 onKeyDown={props.handleEnterKey}
                 name="description"
-                disabled={!props.admin}
+                disabled={!props.isAdmin}
                 label={t('welcome.overviewDescription')}
                 variant="outlined"
                 multiline
@@ -138,7 +138,7 @@ function OverviewDumb(props: OverviewDumbProps) {
                 <TextField
                   label={t('welcome.overviewStartDate')}
                   name="startDate"
-                  disabled={!props.admin}
+                  disabled={!props.isAdmin}
                   type="date"
                   onChange={props.handleChange}
                   defaultValue={props.event.startDate}
@@ -156,7 +156,7 @@ function OverviewDumb(props: OverviewDumbProps) {
                 <TextField
                   label={t('welcome.overviewStartTime')}
                   name="startTime"
-                  disabled={!props.admin}
+                  disabled={!props.isAdmin}
                   type="time"
                   onChange={props.handleChange}
                   defaultValue={props.event.startHour}
@@ -187,7 +187,7 @@ function OverviewDumb(props: OverviewDumbProps) {
                 <TextField
                   label={t('welcome.overviewEndDate')}
                   name="endDate"
-                  disabled={!props.admin}
+                  disabled={!props.isAdmin}
                   type="date"
                   onChange={props.handleChange}
                   defaultValue={props.event.endDate}
@@ -205,7 +205,7 @@ function OverviewDumb(props: OverviewDumbProps) {
                 <TextField
                   label={t('welcome.overviewEndTime')}
                   name="endTime"
-                  disabled={!props.admin}
+                  disabled={!props.isAdmin}
                   type="time"
                   onChange={props.handleChange}
                   defaultValue={props.event.endHour}
@@ -227,7 +227,7 @@ function OverviewDumb(props: OverviewDumbProps) {
       <Grid item container className={overviewClasses.grid} direction="row" justify="center" alignItems="center">
         <Grid item xl={1} lg={2} md={2} sm={4} xs={7}>
           <FormControlLabel
-            disabled={!props.admin}
+            disabled={!props.isAdmin}
             control={
               <YellowCheckbox
                 checked={props.event.highlighted}
@@ -243,7 +243,7 @@ function OverviewDumb(props: OverviewDumbProps) {
           <FormControl className={overviewClasses.formControl}>
             <InputLabel>Status</InputLabel>
             <Select
-              disabled={!props.admin}
+              disabled={!props.isAdmin}
               value={props.event.status ? 'true' : 'false'}
               onChange={(e) => props.setStatus(e.target.value as string)}
             >

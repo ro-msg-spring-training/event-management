@@ -7,19 +7,19 @@ import SaveIcon from '@material-ui/icons/Save';
 import { headerCrudDumbStyles } from '../../../styles/HeaderCrudStyles';
 
 interface Props {
-  admin: boolean;
+  isAdmin: boolean;
   title: string;
   handleEventDelete: any;
   handleEventSave: any;
 }
 
-function HeaderDumb({ admin, title, handleEventDelete, handleEventSave }: Props) {
+function HeaderDumb({ isAdmin, title, handleEventDelete, handleEventSave }: Props) {
   const buttonStyle = useStyles();
   const gridStyle = headerCrudDumbStyles();
   const { t } = useTranslation();
 
   const cancelButton =
-    admin === true ? (
+    isAdmin === true ? (
       title === t('welcome.newEventTitle') ? (
         <Button
           variant="contained"
@@ -46,7 +46,7 @@ function HeaderDumb({ admin, title, handleEventDelete, handleEventSave }: Props)
   );
 
   const cancelIconButton =
-    admin === true ? (
+    isAdmin === true ? (
       title === t('welcome.newEventTitle') ? (
         <Tooltip title="Cancel">{cancelIcon}</Tooltip>
       ) : (
@@ -55,7 +55,7 @@ function HeaderDumb({ admin, title, handleEventDelete, handleEventSave }: Props)
     ) : null;
 
   const saveButton =
-    admin === true ? (
+    isAdmin === true ? (
       <Button
         variant="contained"
         className={`${buttonStyle.mainButtonStyle} ${buttonStyle.pinkGradientButtonStyle}`}
@@ -66,7 +66,7 @@ function HeaderDumb({ admin, title, handleEventDelete, handleEventSave }: Props)
     ) : null;
 
   const saveIconButton =
-    admin === true ? (
+    isAdmin === true ? (
       <Tooltip title="Save">
         <IconButton onClick={handleEventSave}>
           <SaveIcon color="secondary" />

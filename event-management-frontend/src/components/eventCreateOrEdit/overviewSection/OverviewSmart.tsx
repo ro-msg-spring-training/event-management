@@ -11,7 +11,7 @@ import { AppState } from '../../../store/store';
 
 interface OverviewSmartProps {
   newEvent: boolean;
-  admin: boolean;
+  isAdmin: boolean;
   setOpen: any;
   setMsgUndo: any;
   setDialogTitle: any;
@@ -232,7 +232,7 @@ function OverviewSmart(props: OverviewSmartProps) {
     <OverviewDumb
       newEvent={props.newEvent}
       event={props.eventCrud}
-      admin={props.admin}
+      isAdmin={props.isAdmin}
       handleEnterKey={handleEnterKey}
       handleChange={handleChange}
       formErrors={props.formErrors}

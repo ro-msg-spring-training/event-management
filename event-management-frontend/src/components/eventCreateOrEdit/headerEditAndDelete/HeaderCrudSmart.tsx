@@ -4,11 +4,11 @@ import HeaderDumb from './HeaderCrudDumb';
 interface Props {
   saveEvent: any;
   deleteEvent: any;
-  admin: boolean;
+  isAdmin: boolean;
   title: string;
 }
 
-function HeaderSmart({ saveEvent, deleteEvent, admin, title }: Props) {
+function HeaderSmart({ saveEvent, deleteEvent, isAdmin, title }: Props) {
   let handleEventSave = (): void => {
     saveEvent();
   };
@@ -17,7 +17,7 @@ function HeaderSmart({ saveEvent, deleteEvent, admin, title }: Props) {
     deleteEvent();
   };
 
-  return <HeaderDumb admin={admin} title={title} handleEventDelete={handleEventDelete} handleEventSave={handleEventSave} /> 
+  return <HeaderDumb isAdmin={isAdmin} title={title} handleEventDelete={handleEventDelete} handleEventSave={handleEventSave} /> 
 }
 
 export default HeaderSmart;

@@ -18,7 +18,7 @@ import { eventDetailsStyles } from '../../styles/EventDetailsStyle';
 
 interface Props {
   match: any;
-  admin: boolean;
+  isAdmin: boolean;
   fetchEventF: (id: string) => void;
   deleteEventF: (id: string) => void;
   addEventF: (event: EventCrud, images: EventImage[]) => void;
@@ -37,7 +37,7 @@ interface Props {
 
 function EventDetails({
   match,
-  admin,
+  isAdmin,
   fetchEventF,
   deleteEventF,
   addEventF,
@@ -210,7 +210,7 @@ function EventDetails({
   const overviewComponent = (
     <OverviewSmart
       newEvent={newEvent}
-      admin={admin}
+      isAdmin={isAdmin}
       setOpen={setOpen}
       setMsgUndo={setMsgUndo}
       setDialogTitle={setDialogTitle}
@@ -232,7 +232,7 @@ function EventDetails({
   let title = newEvent === false ? fetchEvent.event.title : t('welcome.newEventTitle');
   return (
     <Paper className={backgroundStyle.paper}>
-      <Header saveEvent={saveEvent} deleteEvent={deleteEvent} admin={admin} title={title} />
+      <Header saveEvent={saveEvent} deleteEvent={deleteEvent} isAdmin={isAdmin} title={title} />
       <Stepper
         overviewComponent={overviewComponent}
         locationComponent={locationComponent}
