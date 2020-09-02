@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import useStylesSearchBar from "../../../styles/SearchBarStyle";
-import { Input, InputAdornment } from "@material-ui/core";
-import SearchIcon from "@material-ui/icons/Search";
-import { useTranslation } from "react-i18next";
+import React, { useState, useEffect } from 'react';
+import useStylesSearchBar from '../../../styles/SearchBarStyle';
+import { Input, InputAdornment } from '@material-ui/core';
+import SearchIcon from '@material-ui/icons/Search';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   myLocations: any[];
@@ -83,7 +83,7 @@ const SearchBar = (props: Props) => {
   return (
     <div className={classesSearch.searchBar}>
       <Input
-        placeholder={t("location.searchBarText")}
+        placeholder={t('location.searchBarText')}
         className={classesSearch.searchBarInput}
         value={props.searchValue}
         onChange={(e) => props.setSearchValue(e.target.value)}

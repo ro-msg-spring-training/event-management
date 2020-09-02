@@ -1,17 +1,16 @@
-import React from "react";
-import { Route, Redirect, Switch } from "react-router-dom";
-import Login from "./loginRegisterPages/Login";
-import ForgotPassword from "./loginRegisterPages/ForgotPassword";
-import ForgotPasswordVerification from "./loginRegisterPages/ForgotPasswordVerification";
-import ChangePasswordConfirm from "./loginRegisterPages/ChangePasswordConfirm";
-import RegistrationPage from "./loginRegisterPages/RegistrationPage";
-import "../styles/Responsivity.css";
-import "../App.css"
+import React from 'react';
+import { Route, Redirect, Switch } from 'react-router-dom';
+import Login from './loginRegisterPages/Login';
+import ForgotPassword from './loginRegisterPages/ForgotPassword';
+import ForgotPasswordVerification from './loginRegisterPages/ForgotPasswordVerification';
+import ChangePasswordConfirm from './loginRegisterPages/ChangePasswordConfirm';
+import RegistrationPage from './loginRegisterPages/RegistrationPage';
+import '../styles/Responsivity.css';
+import '../App.css';
 
 const AuthWrapper = () => {
   return (
-  <div className="App">
-
+    <div className="App">
       <div className="authComponentsResponsive">
         {/* <Button onClick={() => changeLanguage("en")}>en</Button>
         <Button onClick={() => changeLanguage("ro")}>ro</Button>
@@ -27,7 +26,7 @@ const AuthWrapper = () => {
           <Route path="/register" component={RegistrationPage}></Route>
         </Switch>
       </div>
-      </div>
+    </div>
   );
 };
 

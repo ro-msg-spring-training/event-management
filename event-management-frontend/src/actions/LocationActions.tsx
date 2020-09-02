@@ -1,10 +1,10 @@
-import { LocationType } from "../types/LocationType";
+import { LocationType } from '../types/LocationType';
 
 export enum LocationActionTypes {
-  LOCATION_FETCH = "LOCATION_FETCH",
-  LOCATION_LOADING = "LOCATION_LOADING",
-  LOCATION_FETCH_SUCCESS = "LOCATION_FETCH_SUCCESS",
-  LOCATION_ERROR = "LOCATION_ERROR",
+  LOCATION_FETCH = 'LOCATION_FETCH',
+  LOCATION_LOADING = 'LOCATION_LOADING',
+  LOCATION_FETCH_SUCCESS = 'LOCATION_FETCH_SUCCESS',
+  LOCATION_ERROR = 'LOCATION_ERROR',
 }
 
 export class LocationFetchAction {

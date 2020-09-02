@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Auth } from "aws-amplify";
+import React, { useState } from 'react';
+import { Auth } from 'aws-amplify';
 import {
   FormGroup,
   TextField,
@@ -10,23 +10,23 @@ import {
   IconButton,
   OutlinedInput,
   FormHelperText,
-} from "@material-ui/core";
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import useStylesLogin from "../../styles/LoginStyle";
-import { useStyles } from "../../styles/CommonStyles";
-import { useHistory } from "react-router-dom";
-import { validatePasswordRequirements, validateEmail, displayErrorMessage } from "../../validation/LoginValidation";
-import { FormErrors } from "./FormErrors";
-import { Trans } from "react-i18next";
+} from '@material-ui/core';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import useStylesLogin from '../../styles/LoginStyle';
+import { useStyles } from '../../styles/CommonStyles';
+import { useHistory } from 'react-router-dom';
+import { validatePasswordRequirements, validateEmail, displayErrorMessage } from '../../validation/LoginValidation';
+import { FormErrors } from './FormErrors';
+import { Trans } from 'react-i18next';
 
 const ForgotPasswordVerification = () => {
-  const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [verificationCode, setVerificationCode] = useState("");
-  const [newpassword, setPassword] = useState("");
-  const [newpasswordError, setPasswordError] = useState("");
-  const [error, setError] = useState("");
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [verificationCode, setVerificationCode] = useState('');
+  const [newpassword, setPassword] = useState('');
+  const [newpasswordError, setPasswordError] = useState('');
+  const [error, setError] = useState('');
   const classes = useStyles();
   const classesLogin = useStylesLogin();
   const history = useHistory();
@@ -52,7 +52,7 @@ const ForgotPasswordVerification = () => {
     try {
       await Auth.forgotPasswordSubmit(email, verificationCode, newpassword);
 
-      history.push("/changepasswordconfirmation");
+      history.push('/changepasswordconfirmation');
     } catch (error) {
       displayErrorMessage(
         <Trans i18nKey="forgotPasswordVerification.errorMessage">Invalid verification code or email address!</Trans>,
@@ -92,10 +92,10 @@ const ForgotPasswordVerification = () => {
           variant="outlined"
           required
           helperText={emailError}
-          error={emailError !== "" || validateEmail(email, emailError, setEmailError)}
+          error={emailError !== '' || validateEmail(email, emailError, setEmailError)}
           onChange={(e) => {
             setEmail(e.target.value);
-            setEmailError("");
+            setEmailError('');
           }}
         />
 
@@ -106,15 +106,15 @@ const ForgotPasswordVerification = () => {
 
           <OutlinedInput
             labelWidth={80}
-            type={values.showPassword ? "text" : "password"}
+            type={values.showPassword ? 'text' : 'password'}
             value={newpassword}
             required
             error={
-              newpasswordError !== "" || validatePasswordRequirements(newpassword, newpasswordError, setPasswordError)
+              newpasswordError !== '' || validatePasswordRequirements(newpassword, newpasswordError, setPasswordError)
             }
             onChange={(event) => {
               setPassword(event.target.value);
-              setPasswordError("");
+              setPasswordError('');
             }}
             endAdornment={
               <InputAdornment position="end">

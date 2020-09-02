@@ -13,13 +13,13 @@ import {
   withStyles,
   Checkbox,
   CheckboxProps,
-} from "@material-ui/core";
-import { useStylesCategoryCard } from "../../../../styles/CategoryCardStyle";
-import React from "react";
-import "../../../../styles/Responsivity.css";
-import { EventCrud } from "../../../../model/EventCrud";
-import { useTranslation } from "react-i18next";
-import { CategoryCardErrors } from "../../../../model/EventFormErrors";
+} from '@material-ui/core';
+import { useStylesCategoryCard } from '../../../../styles/CategoryCardStyle';
+import React from 'react';
+import '../../../../styles/Responsivity.css';
+import { EventCrud } from '../../../../model/EventCrud';
+import { useTranslation } from 'react-i18next';
+import { CategoryCardErrors } from '../../../../model/EventFormErrors';
 
 type Props = {
   event: EventCrud;
@@ -39,9 +39,9 @@ type Props = {
 
 const YellowCheckbox = withStyles({
   root: {
-    color: "#f9c929",
-    "&$checked": {
-      color: "#f2ac0a",
+    color: '#f9c929',
+    '&$checked': {
+      color: '#f2ac0a',
     },
   },
   checked: {},
@@ -82,7 +82,7 @@ const CategoryCardDumb: React.FC<Props> = ({
                 name="title"
                 fullWidth
                 variant="outlined"
-                label={t("categoryCard.title")}
+                label={t('categoryCard.title')}
                 error={formErrors.ticketCategoryDtoList[index].title.length > 0}
                 helperText={formErrors.ticketCategoryDtoList[index].title}
                 defaultValue={title}
@@ -103,7 +103,7 @@ const CategoryCardDumb: React.FC<Props> = ({
                 }}
                 fullWidth
                 name="subtitle"
-                label={t("categoryCard.subtitle")}
+                label={t('categoryCard.subtitle')}
                 defaultValue={subtitle}
                 disabled={id >= 0 ? true : false || !available}
                 onChange={handleChange}
@@ -114,7 +114,7 @@ const CategoryCardDumb: React.FC<Props> = ({
 
             <Grid item xl={4} lg={5} sm={7} xs={10}>
               <FormControl className={classes.marginShort} variant="outlined" required>
-                <InputLabel>{t("categoryCard.price")}</InputLabel>
+                <InputLabel>{t('categoryCard.price')}</InputLabel>
                 <OutlinedInput
                   id="outlined-adornment-weight"
                   defaultValue={price}
@@ -148,7 +148,7 @@ const CategoryCardDumb: React.FC<Props> = ({
                 rowsMax="4"
                 disabled={id >= 0 ? true : false || !available}
                 variant="outlined"
-                label={t("categoryCard.description")}
+                label={t('categoryCard.description')}
                 defaultValue={description}
                 onChange={handleChange}
                 error={formErrors.ticketCategoryDtoList[index].description.length > 0}
@@ -169,10 +169,10 @@ const CategoryCardDumb: React.FC<Props> = ({
                   }}
                   name="ticketsPerCategory"
                   variant="outlined"
-                  label={t("categoryCard.nrOfTickets")}
+                  label={t('categoryCard.nrOfTickets')}
                   type="number"
                   disabled={!available}
-                  defaultValue={ticketsPerCategory === 0 ? "" : ticketsPerCategory}
+                  defaultValue={ticketsPerCategory === 0 ? '' : ticketsPerCategory}
                   onChange={handleChange}
                   error={formErrors.ticketCategoryDtoList[index].ticketsPerCategory.length > 0}
                   helperText={formErrors.ticketCategoryDtoList[index].ticketsPerCategory}
@@ -183,13 +183,13 @@ const CategoryCardDumb: React.FC<Props> = ({
                 <FormControlLabel
                   className={classes.availableStyle}
                   control={<YellowCheckbox checked={available} onChange={handleChange} name="available" />}
-                  label={t("categoryCard.available")}
+                  label={t('categoryCard.available')}
                 />
               </Grid>
 
               <Grid item lg={2} md={3} sm={3} xs={3}>
                 <Button disabled={!available} className={classes.removeButton} onClick={removeThisCard} size="small">
-                  {t("categoryCard.remove")}
+                  {t('categoryCard.remove')}
                 </Button>
               </Grid>
             </Grid>

@@ -1,8 +1,8 @@
-import React from "react";
-import { useStylesCarousel } from "../../../styles/CarouselSlideStyle";
-import LocationOnIcon from "@material-ui/icons/LocationOn";
-import DescriptionIcon from "@material-ui/icons/Description";
-import QueryBuilderIcon from "@material-ui/icons/QueryBuilder";
+import React from 'react';
+import { useStylesCarousel } from '../../../styles/CarouselSlideStyle';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
+import DescriptionIcon from '@material-ui/icons/Description';
+import QueryBuilderIcon from '@material-ui/icons/QueryBuilder';
 import {
   Card,
   CardActionArea,
@@ -12,7 +12,7 @@ import {
   Grid,
   Container,
   CircularProgress,
-} from "@material-ui/core";
+} from '@material-ui/core';
 
 type Props = {
   isLoading: boolean;
@@ -72,7 +72,7 @@ const CarouselSlide = ({
               <div className={classes.dateStyle}>
                 <QueryBuilderIcon className={classes.iconStyle} />
                 <Typography variant="body1" className={classes.textStyle}>
-                  {startDate + "/" + startHour + " - " + endDate + "/" + endHour}
+                  {startDate + '/' + startHour + ' - ' + endDate + '/' + endHour}
                 </Typography>
               </div>
             </Grid>

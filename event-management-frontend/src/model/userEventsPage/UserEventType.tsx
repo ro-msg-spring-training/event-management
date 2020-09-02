@@ -1,4 +1,4 @@
 export enum UserEventType {
-    UPCOMING,
-    PAST
+  UPCOMING,
+  PAST,
 }

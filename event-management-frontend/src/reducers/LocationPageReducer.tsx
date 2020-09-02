@@ -1,8 +1,5 @@
-import { LocationType } from "../types/LocationType";
-import {
-  LocationAction,
-  LocationActionTypes,
-} from "../actions/LocationActions";
+import { LocationType } from '../types/LocationType';
+import { LocationAction, LocationActionTypes } from '../actions/LocationActions';
 
 export interface LocationPageState {
   locations: LocationType[];
@@ -13,7 +10,7 @@ export interface LocationPageState {
 const initialState: LocationPageState = {
   isLoading: true,
   locations: [],
-  error: "",
+  error: '',
 };
 
 export const LocationPageReducer = (

@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from "react";
-import { Map, TileLayer, Marker, Popup } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
-import useStylesMapWrapper from "../../../styles/MapWrapperStyle";
-import "../../../styles/Map.css";
-import L from "leaflet";
-import black_marker from "../../../assets/marker_black.png";
-import green_marker from "../../../assets/marker_green.png";
-import red_marker from "../../../assets/marker_red.png";
-import marker_shadow from "../../../assets/marker-shadow.png";
-import { Button } from "@material-ui/core";
-import { useStyles } from "../../../styles/CommonStyles";
-import { LocationType } from "../../../types/LocationType";
-import { AppState } from "../../../store/store";
-import { Dispatch } from "redux";
-import { connect } from "react-redux";
-import { useTranslation } from "react-i18next";
-import { locationFetch, locationFetchSucces, locationisLoading } from "../../../actions/LocationActions";
-import SearchBar from "./SearchBar";
-import { updateLocation } from "../../../actions/HeaderEventCrudActions";
+import React, { useEffect, useState } from 'react';
+import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import useStylesMapWrapper from '../../../styles/MapWrapperStyle';
+import '../../../styles/Map.css';
+import L from 'leaflet';
+import black_marker from '../../../assets/marker_black.png';
+import green_marker from '../../../assets/marker_green.png';
+import red_marker from '../../../assets/marker_red.png';
+import marker_shadow from '../../../assets/marker-shadow.png';
+import { Button } from '@material-ui/core';
+import { useStyles } from '../../../styles/CommonStyles';
+import { LocationType } from '../../../types/LocationType';
+import { AppState } from '../../../store/store';
+import { Dispatch } from 'redux';
+import { connect } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { locationFetch, locationFetchSucces, locationisLoading } from '../../../actions/LocationActions';
+import SearchBar from './SearchBar';
+import { updateLocation } from '../../../actions/HeaderEventCrudActions';
 
 export const blackMarkerPoint = new L.Icon({
   iconUrl: black_marker,
@@ -70,14 +70,14 @@ const MapWrapper: React.FC<Props> = (props: Props) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const [position, setPosition]: any = useState([46.77121, 23.623634]);
-  const [searchValue, setsearchValue] = useState("");
+  const [searchValue, setsearchValue] = useState('');
   const [currentLocation, setcurrentLocation] = useState<LocationType>();
   const [searchLocation, setsearchLocation] = useState({
     id: 0,
-    name: "",
-    address: "",
-    latitude: "",
-    longitude: "",
+    name: '',
+    address: '',
+    latitude: '',
+    longitude: '',
     sublocations: [],
     program: [],
   });
@@ -150,7 +150,7 @@ const MapWrapper: React.FC<Props> = (props: Props) => {
               <div className={classesMap.wrapperPopup}>
                 <h1 className={classesMap.locationTitle}>{location.name} </h1>
                 {location.address}
-                <br />{" "}
+                <br />{' '}
                 <Button
                   className={`${classes.buttonStyle2} ${classes.buttonStyle3} ${classesMap.buttonPopup}`}
                   onClick={(e) => {
@@ -158,7 +158,7 @@ const MapWrapper: React.FC<Props> = (props: Props) => {
                   }}
                   disabled={submitDisabled}
                 >
-                  {t("location.selectButton")}
+                  {t('location.selectButton')}
                 </Button>
               </div>
             </Popup>
@@ -171,7 +171,7 @@ const MapWrapper: React.FC<Props> = (props: Props) => {
               <Popup>
                 <div className={classesMap.wrapperPopup}>
                   <h1 className={classesMap.locationTitle}> {currentLocation?.name} </h1>
-                  <p className={classesMap.text}>{t("location.selectedLocationMessage")}</p>
+                  <p className={classesMap.text}>{t('location.selectedLocationMessage')}</p>
                 </div>
               </Popup>
             </Marker>
@@ -185,7 +185,7 @@ const MapWrapper: React.FC<Props> = (props: Props) => {
                 <div className={classesMap.wrapperPopup}>
                   <h1 className={classesMap.locationTitle}>{searchLocation.name} </h1>
                   {searchLocation.address}
-                  <br />{" "}
+                  <br />{' '}
                   <Button
                     className={`${classes.buttonStyle2} ${classes.buttonStyle3} ${classesMap.buttonPopup}`}
                     onClick={(e) => {
@@ -193,7 +193,7 @@ const MapWrapper: React.FC<Props> = (props: Props) => {
                     }}
                     disabled={submitDisabled}
                   >
-                    {t("location.selectButton")}
+                    {t('location.selectButton')}
                   </Button>
                 </div>
               </Popup>

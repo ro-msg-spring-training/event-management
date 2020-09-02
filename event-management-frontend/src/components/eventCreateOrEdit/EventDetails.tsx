@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { CircularProgress, Container, Paper, makeStyles } from "@material-ui/core";
-import { loadEvent, deleteEvent, addEvent, editEvent, resetStore } from "../../actions/HeaderEventCrudActions";
-import { connect } from "react-redux";
-import Header from "./headerEditAndDelete/HeaderCrudSmart";
-import Stepper from "./Stepper";
-import { useHistory } from "react-router-dom";
-import AlertDialog from "./AlertDialog";
-import OverviewSmart from "./overviewSection/OverviewSmart";
-import { EventCrud } from "../../model/EventCrud";
-import { useTranslation } from "react-i18next";
-import ImagesSectionSmart from "./imagesSection/ImagesSectionSmart";
-import { EventImage } from "../../model/EventImage";
-import MapWrapper from "./locationSection/Map";
-import { EventFormErrors } from "../../model/EventFormErrors";
-import CategoryPageSmart from "./ticketsSection/CategoryPage/CategoryPageSmart";
-import { fetchEvents } from "../../api/EventsServiceAPI";
+import React, { useEffect, useState } from 'react';
+import { CircularProgress, Container, Paper, makeStyles } from '@material-ui/core';
+import { loadEvent, deleteEvent, addEvent, editEvent, resetStore } from '../../actions/HeaderEventCrudActions';
+import { connect } from 'react-redux';
+import Header from './headerEditAndDelete/HeaderCrudSmart';
+import Stepper from './Stepper';
+import { useHistory } from 'react-router-dom';
+import AlertDialog from './AlertDialog';
+import OverviewSmart from './overviewSection/OverviewSmart';
+import { EventCrud } from '../../model/EventCrud';
+import { useTranslation } from 'react-i18next';
+import ImagesSectionSmart from './imagesSection/ImagesSectionSmart';
+import { EventImage } from '../../model/EventImage';
+import MapWrapper from './locationSection/Map';
+import { EventFormErrors } from '../../model/EventFormErrors';
+import CategoryPageSmart from './ticketsSection/CategoryPage/CategoryPageSmart';
+import { fetchEvents } from '../../api/EventsServiceAPI';
 
 interface Props {
   match: any;
@@ -37,9 +37,9 @@ interface Props {
 
 const useStyles = makeStyles({
   paper: {
-    width: "100%",
-    minHeight: "93.9vh",
-    background: "linear-gradient(45deg, #21C6F3 50%, #1E5FA4 90%)",
+    width: '100%',
+    minHeight: '93.9vh',
+    background: 'linear-gradient(45deg, #21C6F3 50%, #1E5FA4 90%)',
   },
 });
 
@@ -57,14 +57,14 @@ function EventDetails({
   const classes = useStyles();
   const { t } = useTranslation();
 
-  let newEvent = match.path === "/admin/newEvent" ? true : false;
+  let newEvent = match.path === '/admin/newEvent' ? true : false;
 
   const [open, setOpen] = useState(false);
-  const [msgUndo, setMsgUndo] = useState("");
-  const [dialogTitle, setDialogTitle] = useState("");
-  const [dialogDescription, setDialogDescription] = useState("");
+  const [msgUndo, setMsgUndo] = useState('');
+  const [dialogTitle, setDialogTitle] = useState('');
+  const [dialogDescription, setDialogDescription] = useState('');
 
-  const [idLocation, setidLocation] = useState("");
+  const [idLocation, setidLocation] = useState('');
 
   useEffect(() => {
     if (newEvent === false) {
@@ -81,16 +81,16 @@ function EventDetails({
       !(new Date(event.startDate) < new Date(event.endDate))
     ) {
       if (event.startHour >= event.endHour) {
-        setMsgUndo(t("welcome.popupMsgTryAgain"));
-        setDialogTitle(t("welcome.popupMsgErrTitle"));
-        setDialogDescription(t("welcome.popupMsgTimeErrDescription"));
+        setMsgUndo(t('welcome.popupMsgTryAgain'));
+        setDialogTitle(t('welcome.popupMsgErrTitle'));
+        setDialogDescription(t('welcome.popupMsgTimeErrDescription'));
         setOpen(true);
         return false;
       }
     } else if (new Date(event.startDate) > new Date(event.endDate)) {
-      setMsgUndo(t("welcome.popupMsgTryAgain"));
-      setDialogTitle(t("welcome.popupMsgErrTitle"));
-      setDialogDescription(t("welcome.popupMsgDateErrDescription"));
+      setMsgUndo(t('welcome.popupMsgTryAgain'));
+      setDialogTitle(t('welcome.popupMsgErrTitle'));
+      setDialogDescription(t('welcome.popupMsgDateErrDescription'));
       setOpen(true);
       return false;
     }
@@ -110,9 +110,9 @@ function EventDetails({
       errors.ticketsPerUser.length > 0 ||
       errors.ticketInfo.length > 0
     ) {
-      setMsgUndo(t("welcome.popupErrMsgUnderstood"));
-      setDialogTitle(t("welcome.popupMsgErrTitle"));
-      setDialogDescription(t("welcome.popupErrMsgDescription"));
+      setMsgUndo(t('welcome.popupErrMsgUnderstood'));
+      setDialogTitle(t('welcome.popupMsgErrTitle'));
+      setDialogDescription(t('welcome.popupErrMsgDescription'));
       setOpen(true);
       return false;
     }
@@ -124,9 +124,9 @@ function EventDetails({
         ticketError.description.length > 0 ||
         ticketError.ticketsPerCategory.length > 0
       ) {
-        setMsgUndo(t("welcome.popupErrMsgUnderstood"));
-        setDialogTitle(t("welcome.popupMsgErrTitle"));
-        setDialogDescription(t("welcome.popupErrMsgDescription"));
+        setMsgUndo(t('welcome.popupErrMsgUnderstood'));
+        setDialogTitle(t('welcome.popupMsgErrTitle'));
+        setDialogDescription(t('welcome.popupErrMsgDescription'));
         setOpen(true);
         return false;
       }
@@ -145,23 +145,23 @@ function EventDetails({
       event.ticketsPerUser === 0 ||
       event.ticketInfo.length === 0
     ) {
-      setMsgUndo(t("welcome.popupErrMsgUnderstood"));
-      setDialogTitle(t("welcome.popupMsgErrTitle"));
-      setDialogDescription(t("welcome.popupErrMsgNotFilled"));
+      setMsgUndo(t('welcome.popupErrMsgUnderstood'));
+      setDialogTitle(t('welcome.popupMsgErrTitle'));
+      setDialogDescription(t('welcome.popupErrMsgNotFilled'));
       setOpen(true);
       return false;
     }
 
     for (var category of event.ticketCategoryDtoList) {
       if (
-        category.title.trim() === "" ||
+        category.title.trim() === '' ||
         category.price === 0 ||
-        category.description.trim() === "" ||
+        category.description.trim() === '' ||
         category.ticketsPerCategory === 0
       ) {
-        setMsgUndo(t("welcome.popupErrMsgUnderstood"));
-        setDialogTitle(t("welcome.popupMsgErrTitle"));
-        setDialogDescription(t("welcome.popupErrMsgNotFilled"));
+        setMsgUndo(t('welcome.popupErrMsgUnderstood'));
+        setDialogTitle(t('welcome.popupMsgErrTitle'));
+        setDialogDescription(t('welcome.popupErrMsgNotFilled'));
         setOpen(true);
         return false;
       }
@@ -191,9 +191,9 @@ function EventDetails({
 
   let deleteEvent = (): void => {
     if (newEvent === true) {
-      setMsgUndo(t("welcome.popupMsgCancelUndo"));
-      setDialogTitle(t("welcome.popupMsgCancelTitle"));
-      setDialogDescription(t("welcome.popupMsgCancelDescription"));
+      setMsgUndo(t('welcome.popupMsgCancelUndo'));
+      setDialogTitle(t('welcome.popupMsgCancelTitle'));
+      setDialogDescription(t('welcome.popupMsgCancelDescription'));
       setOpen(true);
       resetStoreF();
     } else {
@@ -203,17 +203,17 @@ function EventDetails({
 
   useEffect(() => {
     if (fetchEvent.isDeleted) {
-      history.push("/admin/events");
+      history.push('/admin/events');
     }
     return () => resetStoreF();
-  }, [fetchEvent.isDeleted])
+  }, [fetchEvent.isDeleted]);
 
   useEffect(() => {
     if (fetchEvent.isSaved) {
-      history.push("/admin/events");
+      history.push('/admin/events');
     }
     return () => resetStoreF();
-  }, [fetchEvent.isSaved])
+  }, [fetchEvent.isSaved]);
 
   const overviewComponent = (
     <OverviewSmart
@@ -237,7 +237,7 @@ function EventDetails({
     );
   }
 
-  let title = newEvent === false ? fetchEvent.event.title : t("welcome.newEventTitle");
+  let title = newEvent === false ? fetchEvent.event.title : t('welcome.newEventTitle');
   return (
     <Paper className={classes.paper}>
       <Header saveEvent={saveEvent} deleteEvent={deleteEvent} admin={admin} title={title} />
@@ -260,7 +260,7 @@ function EventDetails({
 
 const mapStateToProps = (state: any) => {
   return {
-    fetchEvent: state.eventCrud
+    fetchEvent: state.eventCrud,
   };
 };
 

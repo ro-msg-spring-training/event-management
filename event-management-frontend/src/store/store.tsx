@@ -1,14 +1,16 @@
-import { createStore, applyMiddleware } from "redux";
-import rootReducer from "../reducers/rootReducer";
-import createSagaMiddleware from "redux-saga";
-import rootSaga from "../sagas/rootSaga";
-import { EventsPageState } from "../reducers/EventsPageReducer";
-import { LocationPageState } from "../reducers/LocationPageReducer";
-import { EventState } from "../reducers/HeaderEventCrudReducer";
-import { TicketsPageState } from "../reducers/TicketsPageReducer";
-import { OccupancyCardsState } from "../reducers/AdminHomePageReducer";
-import { UserEventsPageState } from "../reducers/UserEventsPageReducer";
-import { UserHomePageState } from "../reducers/UserHomePageReducer";
+import { createStore, applyMiddleware } from 'redux';
+import rootReducer from '../reducers/rootReducer';
+import createSagaMiddleware from 'redux-saga';
+import rootSaga from '../sagas/rootSaga';
+import { EventsPageState } from '../reducers/EventsPageReducer';
+import { LocationPageState } from '../reducers/LocationPageReducer';
+import { EventState } from '../reducers/HeaderEventCrudReducer';
+import { TicketsPageState } from '../reducers/TicketsPageReducer';
+import { OccupancyCardsState } from '../reducers/AdminHomePageReducer';
+import { UserEventsPageState } from '../reducers/UserEventsPageReducer';
+import { UserHomePageState } from '../reducers/UserHomePageReducer';
+import { ReserveFirstPageState } from '../reducers/ReservePageReducer';
+import { ReserveSecondPageState } from '../reducers/TicketReservationReducer';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -23,4 +25,6 @@ export interface AppState {
   adminHomeCard: OccupancyCardsState;
   userEvents: UserEventsPageState;
   userHome: UserHomePageState;
+  reserveTicket: ReserveFirstPageState;
+  ticketCategories: ReserveSecondPageState;
 }

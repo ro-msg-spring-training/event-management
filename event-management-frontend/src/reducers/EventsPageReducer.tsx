@@ -30,22 +30,21 @@ import {
   UPDATE_ERROR_END_DATE,
   UPDATE_ERROR_START_HOUR,
   UPDATE_ERROR_END_HOUR,
-} from "../actions/EventsPageActions";
-import { MathRelation } from "../model/MathRelation";
-import { EventFilters } from "../model/EventFilters";
-import { EventSort } from "../model/EventSort";
-
+} from '../actions/EventsPageActions';
+import { MathRelation } from '../model/MathRelation';
+import { EventFilters } from '../model/EventFilters';
+import { EventSort } from '../model/EventSort';
 
 export interface EventsPageState {
   filters: EventFilters;
   errors: {
-    errorRate: string,
-    errorMaxPeople: string,
-    errorStartDate: string,
-    errorEndDate: string,
-    errorStartHour: string,
-    errorEndHour: string
-  },
+    errorRate: string;
+    errorMaxPeople: string;
+    errorStartDate: string;
+    errorEndDate: string;
+    errorStartHour: string;
+    errorEndHour: string;
+  };
   allEvents: [];
   allEventsHome: [];
   isLoading: boolean;
@@ -60,18 +59,18 @@ export interface EventsPageState {
 
 const initialState: EventsPageState = {
   filters: {
-    title: "",
-    subtitle: "",
-    status: "none",
+    title: '',
+    subtitle: '',
+    status: 'none',
     highlighted: undefined,
-    location: "",
+    location: '',
     startDate: undefined,
     endDate: undefined,
     startHour: undefined,
     endHour: undefined,
-    rate: "",
+    rate: '',
     rateSign: MathRelation.GREATER,
-    maxPeople: "",
+    maxPeople: '',
     maxPeopleSign: MathRelation.GREATER,
   },
   errors: {
@@ -80,7 +79,7 @@ const initialState: EventsPageState = {
     errorStartDate: '',
     errorEndDate: '',
     errorStartHour: '',
-    errorEndHour: ''
+    errorEndHour: '',
   },
   isLoading: true,
   isError: false,
@@ -88,10 +87,10 @@ const initialState: EventsPageState = {
   isErrorHome: false,
   allEvents: [],
   allEventsHome: [],
-  eventsSort: { criteria: "", type: "" },
+  eventsSort: { criteria: '', type: '' },
   page: 0,
   homePage: 1,
-  noPages: 0
+  noPages: 0,
 };
 
 interface ReducerActionProps {
@@ -137,22 +136,22 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
       return {
         ...state,
         filters: {
-          title: "",
-          subtitle: "",
-          status: "none",
+          title: '',
+          subtitle: '',
+          status: 'none',
           highlighted: undefined,
-          location: "",
+          location: '',
           startDate: undefined,
           endDate: undefined,
           startHour: undefined,
           endHour: undefined,
-          rate: "",
+          rate: '',
           rateSign: MathRelation.GREATER,
-          maxPeople: "",
+          maxPeople: '',
           maxPeopleSign: MathRelation.GREATER,
         },
         page: 0,
-        eventsSort: { criteria: "", type: "" },
+        eventsSort: { criteria: '', type: '' },
         allEvents: [],
         isLoading: false,
         isError: false,
@@ -170,13 +169,13 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
     case FILTER_EVENTS:
       return {
         ...state,
-        eventsSort: { criteria: "", type: "" },
+        eventsSort: { criteria: '', type: '' },
       };
     case FILTER_EVENTS_SUCCESS:
       return {
         ...state,
         allEvents: action.payload.events,
-        noPages: action.payload.noPages
+        noPages: action.payload.noPages,
       };
     case FILTER_EVENTS_ERROR:
       return {
@@ -212,7 +211,7 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
         isLoading: false,
         isError: false,
         allEvents: action.payload.events,
-        noPages: action.payload.noPages
+        noPages: action.payload.noPages,
       };
     case FETCH_CUSTOM_EVENTS_ERROR:
       return {
@@ -267,48 +266,48 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
         ...state,
         errors: {
           ...state.errors,
-          errorRate: action.payload
-        }
+          errorRate: action.payload,
+        },
       };
     case UPDATE_ERROR_MAX_PEOPLE:
       return {
         ...state,
         errors: {
           ...state.errors,
-          errorMaxPeople: action.payload
-        }
+          errorMaxPeople: action.payload,
+        },
       };
     case UPDATE_ERROR_START_DATE:
       return {
         ...state,
         errors: {
           ...state.errors,
-          errorStartDate: action.payload
-        }
+          errorStartDate: action.payload,
+        },
       };
     case UPDATE_ERROR_END_DATE:
       return {
         ...state,
         errors: {
           ...state.errors,
-          errorEndDate: action.payload
-        }
+          errorEndDate: action.payload,
+        },
       };
     case UPDATE_ERROR_START_HOUR:
       return {
         ...state,
         errors: {
           ...state.errors,
-          errorStartHour: action.payload
-        }
+          errorStartHour: action.payload,
+        },
       };
     case UPDATE_ERROR_END_HOUR:
       return {
         ...state,
         errors: {
           ...state.errors,
-          errorEndHour: action.payload
-        }
+          errorEndHour: action.payload,
+        },
       };
     default:
       return state;
