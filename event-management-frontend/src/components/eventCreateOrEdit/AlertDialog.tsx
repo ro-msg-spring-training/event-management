@@ -8,6 +8,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Grid, Container, CircularProgress } from '@material-ui/core';
+import { useStyles } from '../../styles/CommonStyles';
 
 interface AlertDialogProps {
   open: boolean;
@@ -37,6 +38,7 @@ export default function AlertDialog({
   isRequest,
   handleGoToEventsPage
 }: AlertDialogProps) {
+  const buttonClass = useStyles();
   const history = useHistory();
   const { t } = useTranslation();
 
@@ -77,24 +79,30 @@ export default function AlertDialog({
               </Grid>
             </DialogContent> :
             isError ?
-              <DialogContent>
-                {console.log("error", errorMsg)}
-                <DialogContentText id="alert-dialog-description">Error {errorMsg}</DialogContentText>
-                <DialogActions>
-                  <Button onClick={handleGoToEventsPage} color="primary" autoFocus>
-                    OK
+              <>
+                <DialogTitle id="alert-dialog-title">Error {errorMsg}</DialogTitle>
+                <DialogContent>
+                  {console.log("error", errorMsg)}
+                  {/* <DialogContentText id="alert-dialog-description">Error {errorMsg}</DialogContentText> */}
+                  <DialogActions>
+                    <Button onClick={handleGoToEventsPage} color="primary" autoFocus className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3}`}>
+                      OK
                   </Button>
-                </DialogActions>
-              </DialogContent> :
-              <DialogContent>
-                {console.log("Success")}
-                <DialogContentText id="alert-dialog-description">Success</DialogContentText>
-                <DialogActions>
-                  <Button onClick={handleGoToEventsPage} color="primary" autoFocus>
-                    OK
+                  </DialogActions>
+                </DialogContent>
+              </> :
+              <>
+                <DialogTitle id="alert-dialog-title">Success</DialogTitle>
+                <DialogContent>
+                  {console.log("Success")}
+                  {/* <DialogContentText id="alert-dialog-description">Success</DialogContentText> */}
+                  <DialogActions>
+                    <Button onClick={handleGoToEventsPage} color="primary" autoFocus className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3}`}>
+                      OK
                   </Button>
-                </DialogActions>
-              </DialogContent> :
+                  </DialogActions>
+                </DialogContent>
+              </> :
           <>
             <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
             <DialogContent>

@@ -44,8 +44,7 @@ function TicketsStepDumb({ nextStep, inputs }: TicketsStepDumbProps) {
               className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition}`}
               onClick={nextStep}
             >
-              {' '}
-              {t('eventList.next')}{' '}
+              {t('eventList.next')}
             </Button>
           </Grid>
         </Grid>
