@@ -74,8 +74,6 @@ class HomeEventListSmart extends React.Component<Props, State> {
 
         return (
             <HomeEventListDumb
-                incrementPage={goToNextPage}
-                decrementPage={goToPrevPage}
                 page={this.props.page}
                 lastPage={this.state.lastPage}
                 eventsDetails={eventDetails}

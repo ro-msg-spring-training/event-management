@@ -101,6 +101,11 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     background: "transparent",
   },
+  mobileButton: {
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 10
+    },
+  },
   buttonCollapse: {
     [theme.breakpoints.up("md")]: {
       display: "none",

@@ -13,12 +13,10 @@ interface Props {
     ticket: Ticket;
 }
 
-const TicketCollapseDumb = (props: Props) => {
+const TicketCollapseDumb = ({ticket}: Props) => {
 
     const commonClasses = useStyles()
     const classes = useStylesTickets()
-
-    const ticket = props.ticket;
 
     const [t] = useTranslation();
 
@@ -49,7 +47,7 @@ const TicketCollapseDumb = (props: Props) => {
                 <StyledTableCell key={"pdfUrl"} align={"center"}
                                  size={"medium"} className={`${classes.pdfButton} ${classes.tableCellPadding}`}>
                     <Link to={''} className={classes.linkDecoration}>
-                        <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3}`}>
+                        <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3} ${commonClasses.mobileButton}`}>
                             {t("eventList.open")}
                         </Button>
                     </Link>

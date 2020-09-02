@@ -13,6 +13,7 @@ interface ActionType {
     type: string;
 }
 
+
 function* fetchTicketsAsync(action: ActionType) {
     yield put(fetchTicketsRequest())
     try {
@@ -28,11 +29,6 @@ export function* watchFetchTicketsAsync() {
     yield takeEvery(FETCH_TICKETS, fetchTicketsAsync)
 }
 
-export function* watchOpenAsync() {
-}
-
-export function* watchCloseAsync() {
-}
 
 
 

@@ -3,6 +3,7 @@ import { Grid } from "@material-ui/core";
 import OccupancyListSmart from "./OccupancyListSmart";
 import useStylesCards from "../../styles/OccupancyCardsStyle";
 
+
 const Home = () => {
   const classHome = useStylesCards();
 
@@ -14,5 +15,6 @@ const Home = () => {
     </div>
   );
 };
+
 
 export default Home
