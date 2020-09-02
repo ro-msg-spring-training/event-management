@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   rootResponsive: {
     '& .MuiTab-root': {
       minWidth: '20px',
-      padding: '0px',
+      padding: '0',
     },
     '& .MuiGrid-grid-xs': {
       maxWidth: '50%',
@@ -139,6 +139,7 @@ function Stepper(props: EventProps) {
   const smallWindow = (
     <div className={`${classes.root} ${classes.rootResponsive}`}>
       <Grid container direction="row" justify="flex-start">
+
         <Grid item xl={1} lg={2} md={2} sm={2} xs={1}>
           {iconTab}
         </Grid>

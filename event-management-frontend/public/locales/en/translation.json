@@ -57,13 +57,13 @@
     "registerLink": "Don't have an account? <1>Register here</1>",
     "username": "Username",
     "password": "Password",
-    "successMessage": "Succesful login",
+    "successMessage": "Successful login",
     "passwordError": " Requirements: min. 8 characters, an uppercase letter and a number.",
     "emailError": "Enter a valid email address!",
     "errorMessage": "Incorrect username or password."
   },
   "messages": {
-    "loginSuccess": "Succesful login",
+    "loginSuccess": "Successful login",
     "loginEmptyPassword": "Password cannot be empty",
     "registrationSuccess": "Registration successful"
   },
@@ -170,7 +170,7 @@
   "location": {
     "selectButton": "Select",
     "cancelButton": "Cancel",
-    "selectedLocationMessage": " Selected location for the event",
+    "selectedLocationMessage": "Selected location for the event",
     "searchBarText": "Search location"
   },
   "occupancyCards": {

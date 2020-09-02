@@ -19,11 +19,11 @@ const useStylesLogin = makeStyles((theme: Theme) => ({
   },
 
   loginformItems: {
-    paddingBottom: "1.250em",
+    paddingBottom: "1.250em !important",
   },
 
   loginButton: {
-    marginLeft: "7%",
+    marginLeft: "7% !important",
   },
 
   successDiv: {
@@ -32,10 +32,26 @@ const useStylesLogin = makeStyles((theme: Theme) => ({
 
   alignLeftDiv: {
     float: "right",
+    marginTop: "-3%",
   },
 
   link: {
     textDecoration: "none",
+  },
+  flags: {
+    "&:hover": {
+      cursor: "pointer",
+    },
+    width: "20%",
+    display: "inline-block",
+  },
+  small: {
+    width: theme.spacing(3),
+    height: theme.spacing(3),
+    padding: 10,
+  },
+  inline: {
+    display: "inline",
   },
 }));
 

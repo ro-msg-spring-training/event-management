@@ -9,6 +9,8 @@ import { TicketsPageState } from '../reducers/TicketsPageReducer';
 import { OccupancyCardsState } from '../reducers/AdminHomePageReducer';
 import { UserEventsPageState } from '../reducers/UserEventsPageReducer';
 import { UserHomePageState } from '../reducers/UserHomePageReducer';
+import { LoginPageState } from '../reducers/LoginPageReducer';
+import { VerificationPageState } from '../reducers/ForgotPasswordVerificationPageReducer';
 import { ReserveFirstPageState } from '../reducers/ReservePageReducer';
 import { ReserveSecondPageState } from '../reducers/TicketReservationReducer';
 
@@ -21,6 +23,8 @@ export interface AppState {
   events: EventsPageState;
   eventCrud: EventState;
   location: LocationPageState;
+  login: LoginPageState;
+  forgotPasswordVerification: VerificationPageState;
   tickets: TicketsPageState;
   adminHomeCard: OccupancyCardsState;
   userEvents: UserEventsPageState;
