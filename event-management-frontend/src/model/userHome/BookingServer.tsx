@@ -1,5 +1,5 @@
 export interface BookingServer {
-    id: number,
-    list: string[],
-    title: string
+  id: number;
+  list: string[];
+  title: string;
 }

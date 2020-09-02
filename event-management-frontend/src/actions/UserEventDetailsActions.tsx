@@ -1,36 +1,35 @@
-import { EventWithLocation } from "../model/EventWithLocation"
+import { EventWithLocation } from '../model/EventWithLocation';
 
-export const LOAD_EVENT_WITH_LOCATIONS = 'LOAD_EVENT_WITH_LOCATIONS'
-export const FETCH_EVENT_WITH_LOCATION_REQUEST = 'FETCH_EVENT_WITH_LOCATION_REQUEST'
-export const FETCH_EVENT_WITH_LOCATION_SUCCESS = 'FETCH_EVENT_WITH_LOCATION_SUCCESS'
-export const FETCH_EVENT_WITH_LOCATION_FAILURE = 'FETCH_EVENT_WITH_LOCATION_FAILURE'
+export const LOAD_EVENT_WITH_LOCATIONS = 'LOAD_EVENT_WITH_LOCATIONS';
+export const FETCH_EVENT_WITH_LOCATION_REQUEST = 'FETCH_EVENT_WITH_LOCATION_REQUEST';
+export const FETCH_EVENT_WITH_LOCATION_SUCCESS = 'FETCH_EVENT_WITH_LOCATION_SUCCESS';
+export const FETCH_EVENT_WITH_LOCATION_FAILURE = 'FETCH_EVENT_WITH_LOCATION_FAILURE';
 
 //-------------------------------------------------------------for SAGA
 export const loadEventWithLocations = (id: string) => {
   return {
     type: LOAD_EVENT_WITH_LOCATIONS,
-    payload: id
-  }
-}
+    payload: id,
+  };
+};
 
 //-------------------------------------------------------------
 export const fetchEventWithLocationRequest = () => {
   return {
-    type: FETCH_EVENT_WITH_LOCATION_REQUEST
-  }
-}
+    type: FETCH_EVENT_WITH_LOCATION_REQUEST,
+  };
+};
 
 export const fetchEventWithLocationSuccess = (event: EventWithLocation) => {
   return {
     type: FETCH_EVENT_WITH_LOCATION_SUCCESS,
-    payload: event
-  }
-}
+    payload: event,
+  };
+};
 
 export const fetchEventWithLocationFailure = (error: string) => {
   return {
     type: FETCH_EVENT_WITH_LOCATION_FAILURE,
-    payload: error
-  }
-}
-
+    payload: error,
+  };
+};

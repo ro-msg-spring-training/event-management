@@ -103,6 +103,7 @@ const MapWrapper: React.FC<Props> = (props: Props) => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
+
         <MapDisplayLocationsDumb locations={props.locations} submitLocation={submitLocation}></MapDisplayLocationsDumb>
         <MapDisplaySelectedLocationDumb currentLocation={currentLocation} selectedMarker={selectedMarker} />
         <MapDisplaySearchMarker

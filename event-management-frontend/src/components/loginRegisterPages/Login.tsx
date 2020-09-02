@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Auth } from 'aws-amplify';
 import { displayErrorMessage } from '../../validation/LoginValidation';
@@ -26,6 +27,7 @@ interface Props {
 }
 
 const Login: React.FC<Props> = (props: Props) => {
+
   const [values, setValues] = React.useState<{ showPassword: boolean }>({
     showPassword: false,
   });
@@ -43,6 +45,7 @@ const Login: React.FC<Props> = (props: Props) => {
       const user = await Auth.signIn(props.username, props.password);
       localStorage.setItem('idToken', user.signInUserSession.idToken.jwtToken);
       localStorage.setItem('username', props.username);
+
       if (user.signInUserSession.accessToken.payload['cognito:groups'] !== undefined) {
         localStorage.setItem('role', 'admin');
         history.push('/admin/');
@@ -74,6 +77,7 @@ const Login: React.FC<Props> = (props: Props) => {
         handleClickShowPassword={handleClickShowPassword}
         onSubmit={onSubmit}
       ></LoginDumb>
+
     </div>
   );
 };

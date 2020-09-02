@@ -7,6 +7,7 @@ import { LocationType } from "../../../types/LocationType";
 import { LatLngExpression } from "leaflet";
 import RenderSuggestions from "./SearchBarSuggestions";
 
+
 interface Props {
   myLocations: LocationType[];
   searchValue: string;
@@ -60,7 +61,7 @@ const SearchBar = (props: Props) => {
   return (
     <div className={classesSearch.searchBar}>
       <Input
-        placeholder={t("location.searchBarText")}
+        placeholder={t('location.searchBarText')}
         className={classesSearch.searchBarInput}
         value={props.searchValue}
         onChange={(e) => props.updateSearchValue(e.target.value)}

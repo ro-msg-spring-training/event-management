@@ -1,4 +1,4 @@
-import { LocationType } from "../types/LocationType";
+import { LocationType } from '../types/LocationType';
 
 export enum LocationActionTypes {
   LOCATION_FETCH = "LOCATION_FETCH",

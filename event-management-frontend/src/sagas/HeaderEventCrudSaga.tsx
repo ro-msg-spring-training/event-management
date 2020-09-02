@@ -1,4 +1,4 @@
-import { takeLatest, call, put } from "redux-saga/effects";
+import { takeLatest, call, put } from 'redux-saga/effects';
 import {
   LOAD_EVENT,
   fetchEventRequest,
@@ -16,16 +16,16 @@ import {
   editEventSuccess,
   editEventFailure,
   EDIT_EVENT,
-} from "../actions/HeaderEventCrudActions";
+} from '../actions/HeaderEventCrudActions';
 import {
   fetchEventAPI,
   deleteEventAPI,
   addEventAPI,
   editEventAPI,
   updateImagesFromS3,
-} from "../api/HeaderEventCrudAPI";
-import { EventCrud } from "../model/EventCrud";
-import { EventImage } from "../model/EventImage";
+} from '../api/HeaderEventCrudAPI';
+import { EventCrud } from '../model/EventCrud';
+import { EventImage } from '../model/EventImage';
 
 interface Props {
   type: string;

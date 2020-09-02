@@ -7,20 +7,27 @@ import { Container, CircularProgress } from '@material-ui/core';
 import { loadEventWithLocations } from '../../actions/UserEventDetailsActions';
 
 interface UserEventDetailsProps {
-  match: any,
-  fetchData: (id: string) => void,
-  loading: boolean,
-  event: EventCrud,
-  images: EventImage[],
-  locationAddress: string,
-  locationName: string,
+  match: any;
+  fetchData: (id: string) => void;
+  loading: boolean;
+  event: EventCrud;
+  images: EventImage[];
+  locationAddress: string;
+  locationName: string;
 }
 
-function UserEventDetailsSmart({ match, fetchData, loading, event, images, locationAddress, locationName }: UserEventDetailsProps) {
-
+function UserEventDetailsSmart({
+  match,
+  fetchData,
+  loading,
+  event,
+  images,
+  locationAddress,
+  locationName,
+}: UserEventDetailsProps) {
   useEffect(() => {
-    fetchData(match.params.id)
-  }, [match.params.id, fetchData])
+    fetchData(match.params.id);
+  }, [match.params.id, fetchData]);
 
   if (loading) {
     return (
@@ -31,12 +38,7 @@ function UserEventDetailsSmart({ match, fetchData, loading, event, images, locat
   }
 
   return (
-    <UserEventDetailsDumb
-      event={event}
-      images={images}
-      locationAddress={locationAddress}
-      locationName={locationName}
-    />
+    <UserEventDetailsDumb event={event} images={images} locationAddress={locationAddress} locationName={locationName} />
   );
 }
 
@@ -46,14 +48,14 @@ const mapStateToProps = (state: any) => {
     loading: state.eventWithLocation.loading,
     images: state.eventWithLocation.images,
     locationAddress: state.eventWithLocation.locationAddress,
-    locationName: state.eventWithLocation.locationName
-  }
-}
+    locationName: state.eventWithLocation.locationName,
+  };
+};
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    fetchData: (id: string) => dispatch(loadEventWithLocations(id))
-  }
-}
+    fetchData: (id: string) => dispatch(loadEventWithLocations(id)),
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserEventDetailsSmart);

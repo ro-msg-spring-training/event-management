@@ -53,7 +53,7 @@ const ForgotPasswordVerification = (props: Props) => {
     try {
       await Auth.forgotPasswordSubmit(props.email, props.code, props.newpassword);
 
-      history.push("/changepasswordconfirmation");
+      history.push('/changepasswordconfirmation');
     } catch (error) {
       displayErrorMessage(
         <Trans i18nKey="forgotPasswordVerification.errorMessage">Invalid verification code or email address!</Trans>,
@@ -81,6 +81,7 @@ const ForgotPasswordVerification = (props: Props) => {
       validateEmail={validateEmail}
       validatePasswordRequirements={validatePasswordRequirements}
     ></VerificationDumb>
+
   );
 };
 const mapStateToProps = (state: AppState) => ({

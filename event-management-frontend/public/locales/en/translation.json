@@ -225,5 +225,38 @@
     "errorMessage": "Oops, error",
     "noEvents": "There are no events",
     "carousselError": "Unable to load. Try again later."
+  },
+  "buyTicketsFirstPage": {
+    "radioButtonNoSeat": "Proceed without choosing a seat",
+    "radioButtonSeat": "Select a seat from building plan",
+    "generalTicketInfo": "General ticket information",
+    "toDate": "to",
+    "toTime": "to",
+    "nextPage": "Go to second page",
+    "cancel": "Cancel purchase",
+    "errorMessage": " Oops, there was an error"
+  },
+
+  "buyTicketsSecondPage": {
+    "gotoFirstPage": "Go to first page",
+    "cancelPurchase": "Cancel purchase",
+    "wrongInput": "Wrong input",
+    "ticketsLeft_1": "There are only",
+    "ticketsLeft_2": " tickets left in ",
+    "chooseDesiredTickets": "Please choose the desired number of tickets from the existing categories",
+    "numberOfTickets": "Number of Tickets",
+    "invalidEmailAddress": "Invalid email address",
+    "myEmailAddress": "My Email Address",
+    "buyTickets": "Buy Tickets",
+    "noTicketsSelected": "There have not been any tickets selected.",
+    "namesOnTickets": "Names on the Tickets",
+    "noTicketsSelectedHelp": "You did not choose the desired number of tickets. In order to proceed with the transaction, please return to the Number of Tickets step and choose the desired number of tickets from the categories you prefer",
+    "ticketsSelectedHelp": "Please input the names of the people whom are to use the tickets",
+    "termsAndConditionsErr": "You haven't checked the Terms and Conditions agreement, in order to buy the tickets you need to read and accept the Terms and Conditions statements",
+    "noErrorsInTicketsStep": "There are still errors in the tickets section, in order to buy the tickets you need to resolve them",
+    "noErrorsInEmailStep": "There are still errors in the email section, in order to buy the tickets you need to resolve them",
+    "noErrorsInNamesStep": "There are still errors in the names section, in order to buy the tickets you need to resolve them",
+    "termsAndConditions": "Terms and Conditions",
+    "agreement": "I agree"
   }
 }

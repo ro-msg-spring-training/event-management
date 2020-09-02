@@ -1,8 +1,8 @@
-import React from "react";
-import { Carousel } from "react-responsive-carousel";
-import { useStylesCarousel } from "../../../styles/CarouselSlideStyle";
-import "../../../styles/CarouselStyle.css";
-import { HighlightedEvent } from "../../../reducers/UserHomePageReducer";
+import React from 'react';
+import { Carousel } from 'react-responsive-carousel';
+import { useStylesCarousel } from '../../../styles/CarouselSlideStyle';
+import '../../../styles/CarouselStyle.css';
+import { HighlightedEvent } from '../../../reducers/UserHomePageReducer';
 import CarouselSlide from './CarouselSlide';
 
 

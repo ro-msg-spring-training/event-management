@@ -138,7 +138,8 @@ function Stepper(props: EventProps) {
 
   const smallWindow = (
     <div className={`${classes.root} ${classes.rootResponsive}`}>
-      <Grid container direction="row" justify="flex-start" alignItems="center">
+      <Grid container direction="row" justify="flex-start">
+
         <Grid item xl={1} lg={2} md={2} sm={2} xs={1}>
           {iconTab}
         </Grid>
