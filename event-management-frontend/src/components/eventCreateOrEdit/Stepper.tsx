@@ -32,6 +32,10 @@ const useStyles = makeStyles((theme: Theme) => ({
   tab: {
     paddingBottom: "25px",
     paddingTop: "25px",
+  },
+  iconTabs: {
+    borderRight: `1px solid ${theme.palette.primary.dark}`,
+    marginTop: (window.innerHeight / 4)
   }
 
 }));
@@ -88,7 +92,7 @@ function Stepper(props: EventProps) {
       orientation="vertical"
       value={value}
       onChange={handleChange}
-      className={classes.tabs}
+      className={classes.iconTabs}
       centered
     >
       <Tab icon={<Overview />} {...a11yProps(0)} />
@@ -146,7 +150,7 @@ function Stepper(props: EventProps) {
   </div>
 
   const smallWindow = <div className={`${classes.root} ${classes.rootResponsive}`}>
-    <Grid container direction="row" justify="flex-start" alignItems="center">
+    <Grid container direction="row" justify="flex-start">
       <Grid item xl={1} lg={2} md={2} sm={2} xs={1}>
         {iconTab}
       </Grid>

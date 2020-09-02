@@ -5,11 +5,12 @@ import { fetchAllEventsHome} from "../../actions/EventsPageActions";
 import { AppState} from "../../store/store";
 import HomeEventListDumb from "./HomeEventListDumb";
 import { incrementPageHome, decrementPageHome, fetchCustomEventsHome } from "../../actions/EventsPageActions";
-import { getLastNumberHome } from "../../api/EventsServiceAPI";
+import { getLastNumberHome} from "../../api/EventsServiceAPI";
+import { Event } from "../../model/Event";
 
 
 interface Props {
-    events: { Event: any; }[];
+    events: [];
     fetchAllEventsHome: () => { type: string; };
     fetchCustomEventsHome: (page: number) => void;
     page: number;
@@ -33,10 +34,11 @@ class HomeEventListSmart extends React.Component<Props, State> {
 
     componentWillMount() {
         this.props.fetchAllEventsHome();
-        this.setState({
-            lastPage: getLastNumberHome()
-        })
-
+        getLastNumberHome().then(result => {
+            this.setState({
+                lastPage: result
+            })
+        });
     }
 
     componentDidUpdate(prevProps: any, prevState: any) {
@@ -66,16 +68,12 @@ class HomeEventListSmart extends React.Component<Props, State> {
 
         // Using the map function, we will get all the events from the array
         const eventDetails = events
-            .map((event: any) => {
-                return (<HomeEventDetailsDumb key={event.title} id={event.id} title={event.title} subtitle={event.subtitle}
-                                  location={event.location} date={event.startDate} hour={event.startHour} occRate={event.occupancyRate}
-                                  name={event.name} />);
+            .map((event: Event) => {
+                return (<HomeEventDetailsDumb key={event.id} events={event} />);
             })
 
         return (
             <HomeEventListDumb
-                incrementPage={goToNextPage}
-                decrementPage={goToPrevPage}
                 page={this.props.page}
                 lastPage={this.state.lastPage}
                 eventsDetails={eventDetails}

@@ -1,14 +1,11 @@
-import { withStyles, CheckboxProps, Checkbox } from "@material-ui/core";
-import React from "react";
+import { withStyles, Checkbox } from '@material-ui/core';
 
-const YellowCheckbox = withStyles({
+export const YellowCheckbox = withStyles({
   root: {
-    color: "#f2ac0a",
+    color: '#f2ac0a',
     '&$checked': {
-      color: "#f2ac0a",
+      color: '#f2ac0a',
     },
   },
   checked: {},
-})((props: CheckboxProps) => <Checkbox color="default" {...props} />);
-
-export default YellowCheckbox;
+})(Checkbox);
