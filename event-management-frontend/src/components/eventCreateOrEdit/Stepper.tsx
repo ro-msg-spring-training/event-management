@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { Grid, useMediaQuery } from '@material-ui/core';
@@ -12,10 +12,10 @@ import TabPanel from './TabPanel';
 import { a11yProps } from '../../utils/CrudStepperUtils';
 
 interface EventProps {
-  overviewComponent: any;
-  locationComponent: any;
-  ticketsComponent: any;
-  imagesComponent: any;
+  overviewComponent: React.ReactNode;
+  locationComponent: React.ReactNode;
+  ticketsComponent: React.ReactNode;
+  imagesComponent: React.ReactNode;
 }
 
 function Stepper(props: EventProps) {
@@ -24,12 +24,12 @@ function Stepper(props: EventProps) {
   const [value, setValue] = React.useState(0);
   const { t } = useTranslation();
 
-  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+  const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
   };
 
   const iconTab = (
-    <Tabs orientation="vertical" value={value} onChange={handleChange} className={stepperClasses.iconTabs} centered>
+    <Tabs orientation="vertical" value={value} onChange={handleTabChange} className={stepperClasses.iconTabs} centered>
       <Tab icon={<Overview />} {...a11yProps(0)} />
       <Tab icon={<Location />} {...a11yProps(1)} />
       <Tab icon={<Tickets />} {...a11yProps(2)} />
@@ -38,7 +38,7 @@ function Stepper(props: EventProps) {
   );
 
   const textTab = (
-    <Tabs orientation="vertical" value={value} onChange={handleChange} className={stepperClasses.tabs} centered>
+    <Tabs orientation="vertical" value={value} onChange={handleTabChange} className={stepperClasses.tabs} centered>
       <Tab label={t('welcome.overviewTab')} {...a11yProps(0)} />
       <Tab label={t('welcome.locationTab')} {...a11yProps(1)} />
       <Tab label={t('welcome.ticketsTab')} {...a11yProps(2)} />

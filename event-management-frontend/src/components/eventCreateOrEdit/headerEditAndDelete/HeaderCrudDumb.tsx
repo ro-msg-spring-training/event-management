@@ -111,16 +111,7 @@ function HeaderDumb({ isAdmin, title, handleEventDelete, handleEventSave }: Prop
         </Typography>
       </Grid>
 
-      <Grid
-        item
-        container
-        sm={5}
-        xs={4}
-        className={gridStyle.secondGrid}
-        direction="row"
-        justify="flex-end"
-        alignItems="center"
-      >
+      <Grid item container sm={5} xs={4} className={gridStyle.secondGrid} direction="row" justify="flex-end" alignItems="center">
         {cancelIconButton}
         {saveIconButton}
       </Grid>

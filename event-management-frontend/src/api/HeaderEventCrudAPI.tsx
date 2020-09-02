@@ -1,7 +1,7 @@
-import { EventCrud } from "../model/EventCrud";
-import { EventImage } from "../model/EventImage";
-import { headersAuth, serverURL, token, s3URL } from "./Api";
-import { fetchWrapper } from "./FetchWrapper";
+import { EventCrud } from '../model/EventCrud';
+import { EventImage } from '../model/EventImage';
+import { headersAuth, serverURL, token, s3URL } from './Api';
+import { fetchWrapper } from './FetchWrapper';
 
 export const fetchEventAPI = (id: string) => {
   return fetchWrapper(`${serverURL}/events/${id}`, {
@@ -10,15 +10,15 @@ export const fetchEventAPI = (id: string) => {
 };
 
 export const deleteEventAPI = (id: string) => {
-  return fetchWrapper(`${serverURL}/events/${id}`, { method: "DELETE", headers: headersAuth });
+  return fetchWrapper(`${serverURL}/events/${id}`, { method: 'DELETE', headers: headersAuth });
 };
 
 export const addEventAPI = (event: EventCrud) => {
   return fetchWrapper(`${serverURL}/events`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(event),
@@ -27,10 +27,10 @@ export const addEventAPI = (event: EventCrud) => {
 
 export const editEventAPI = (event: EventCrud) => {
   return fetchWrapper(`${serverURL}/events/${event.id}`, {
-    method: "PUT",
+    method: 'PUT',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(event),
@@ -40,11 +40,11 @@ export const editEventAPI = (event: EventCrud) => {
 const sendImagesToAddAndDeteteToServer = async (newAddedImagesIds: string[], imagesToDelete: string[]) => {
   const pictures = { picturesToSave: newAddedImagesIds, picturesToDelete: imagesToDelete };
   return fetchWrapper(`${serverURL}/pictures`, {
-    method: "POST",
+    method: 'POST',
     body: JSON.stringify(pictures),
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
   }).then((response) => response.json());
@@ -52,9 +52,9 @@ const sendImagesToAddAndDeteteToServer = async (newAddedImagesIds: string[], ima
 
 const saveEventImage = async (newAddedImages: File, newAddedImagesURLsToUpload: string) => {
   return fetchWrapper(newAddedImagesURLsToUpload, {
-    method: "PUT",
+    method: 'PUT',
     headers: {
-      "Content-Type": "image/*",
+      'Content-Type': 'image/*',
     },
     body: newAddedImages,
   }).then((res) => {

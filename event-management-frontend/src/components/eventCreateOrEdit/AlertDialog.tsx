@@ -59,7 +59,7 @@ export default function AlertDialog({
   };
 
   return (
-    <div>
+    <>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -121,6 +121,6 @@ export default function AlertDialog({
           </>
         }
       </Dialog>
-    </div>
+    </>
   );
 }

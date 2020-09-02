@@ -49,7 +49,7 @@ function EventDetails({
   const backgroundStyle = eventDetailsStyles();
   const { t } = useTranslation();
 
-  let newEvent = match.path === '/admin/newEvent' ? true : false;
+  let newEvent = match.path === '/admin/newEvent';
 
   const [open, setOpen] = useState(false);
   const [msgUndo, setMsgUndo] = useState('');
@@ -68,9 +68,11 @@ function EventDetails({
   }, [fetchEventAction, resetStoreAction, match.params.id, newEvent]);
 
   const verifyDateAndTimePeriods = (event: EventCrud): boolean => {
+    const startDate = new Date(event.startDate);
+    const endDate = new Date(event.endDate);
     if (
-      !(new Date(event.startDate) > new Date(event.endDate)) &&
-      !(new Date(event.startDate) < new Date(event.endDate))
+      !(startDate > endDate) &&
+      !(startDate < endDate)
     ) {
       if (event.startHour >= event.endHour) {
         setMsgUndo(t('welcome.popupMsgTryAgain'));
@@ -79,7 +81,7 @@ function EventDetails({
         setOpen(true);
         return false;
       }
-    } else if (new Date(event.startDate) > new Date(event.endDate)) {
+    } else if (startDate > endDate) {
       setMsgUndo(t('welcome.popupMsgTryAgain'));
       setDialogTitle(t('welcome.popupMsgErrTitle'));
       setDialogDescription(t('welcome.popupMsgDateErrDescription'));
@@ -161,7 +163,7 @@ function EventDetails({
     return true;
   };
 
-  const formValid = (event: EventCrud, errors: EventFormErrors): boolean => {
+  const isFormValid = (event: EventCrud, errors: EventFormErrors): boolean => {
     if (
       true === verifyDateAndTimePeriods(event) &&
       true === verifyErrorMessages(errors) &&
@@ -172,7 +174,7 @@ function EventDetails({
   };
 
   let saveEvent = (): void => {
-    if (formValid(fetchedEvent.event, fetchedEvent.formErrors)) {
+    if (isFormValid(fetchedEvent.event, fetchedEvent.formErrors)) {
       if (newEvent) {
         addEventAction(fetchedEvent.event, fetchedEvent.images);
       } else {
@@ -229,7 +231,7 @@ function EventDetails({
     );
   }
 
-  let title = newEvent === false ? fetchedEvent.event.title : t('welcome.newEventTitle');
+  let title = !newEvent ? fetchedEvent.event.title : t('welcome.newEventTitle');
   return (
     <Paper className={backgroundStyle.paper}>
       <Header saveEvent={saveEvent} deleteEvent={deleteEvent} isAdmin={isAdmin} title={title} />
