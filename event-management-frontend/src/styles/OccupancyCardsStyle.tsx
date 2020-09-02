@@ -27,6 +27,8 @@ const useStylesCards = makeStyles(() => ({
   },
   listItem: {
     display: "block !important",
+    paddingLeft: '10%',
+    paddingRight: '10%'
   },
   list: {
     listStyleType: "none !important ",
@@ -47,6 +49,7 @@ const useStylesCards = makeStyles(() => ({
   },
   block: {
     display: "inline !important",
+    textAlign: 'left'
   },
   occupancyRate: {
     paddingLeft: "10px",

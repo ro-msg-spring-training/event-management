@@ -41,8 +41,7 @@ export const useStylesCategoryPage = makeStyles((theme: Theme) => ({
     textAlign: "center",
     color: theme.palette.secondary.main,
     textTransform: "uppercase",
-    background: "linear-gradient(90deg, #f9c929 20%, #f2ac0a 90%)",
+    // background: "linear-gradient(90deg, #f9c929 20%, #f2ac0a 90%)",
     borderRadius: "30px",
-    boxShadow: "0 1px 7px 1px #133C55",
   },
 }));
