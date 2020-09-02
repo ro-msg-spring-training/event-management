@@ -1,12 +1,16 @@
-import { createStore, applyMiddleware } from "redux";
-import rootReducer from "../reducers/rootReducer";
-import createSagaMiddleware from "redux-saga";
-import rootSaga from "../sagas/rootSaga";
-import { EventsPageState } from "../reducers/EventsPageReducers";
-import { LocationPageState } from "../reducers/LocationPageReducer";
-import { EventState } from "../reducers/HeaderEventCrudReducer";
-import { LoginPageState } from "../reducers/LoginPageReducer";
-import { VerificationPageState } from "../reducers/ForgotPasswordVerificationPageReducer";
+import { createStore, applyMiddleware } from 'redux';
+import rootReducer from '../reducers/rootReducer';
+import createSagaMiddleware from 'redux-saga';
+import rootSaga from '../sagas/rootSaga';
+import { EventsPageState } from '../reducers/EventsPageReducer';
+import { LocationPageState } from '../reducers/LocationPageReducer';
+import { EventState } from '../reducers/HeaderEventCrudReducer';
+import { TicketsPageState } from '../reducers/TicketsPageReducer';
+import { OccupancyCardsState } from '../reducers/AdminHomePageReducer';
+import { UserEventsPageState } from '../reducers/UserEventsPageReducer';
+import { UserHomePageState } from '../reducers/UserHomePageReducer';
+import { LoginPageState } from '../reducers/LoginPageReducer';
+import { VerificationPageState } from '../reducers/ForgotPasswordVerificationPageReducer';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -19,4 +23,8 @@ export interface AppState {
   location: LocationPageState;
   login: LoginPageState;
   forgotPasswordVerification: VerificationPageState;
+  tickets: TicketsPageState;
+  adminHomeCard: OccupancyCardsState;
+  userEvents: UserEventsPageState;
+  userHome: UserHomePageState;
 }

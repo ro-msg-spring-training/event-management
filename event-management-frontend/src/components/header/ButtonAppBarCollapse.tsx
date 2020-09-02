@@ -4,6 +4,7 @@ import IconButton from "@material-ui/core/IconButton";
 import DehazeIcon from '@material-ui/icons/Dehaze';
 import {useStyles} from "../../styles/CommonStyles";
 
+
 const ButtonAppBarCollapse = (props: any) => {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -11,6 +12,7 @@ const ButtonAppBarCollapse = (props: any) => {
     const handleMenu = (event: any) => {
         setAnchorEl(event.currentTarget);
     };
+
     const handleClose = () => {
         setAnchorEl(null);
     };
@@ -40,5 +42,6 @@ const ButtonAppBarCollapse = (props: any) => {
         </div>
     );
 }
+
 
 export default ButtonAppBarCollapse;

@@ -1,36 +1,40 @@
-import React from "react";
-import { makeStyles, Theme } from "@material-ui/core/styles";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Box from "@material-ui/core/Box";
-import { Grid, useMediaQuery } from "@material-ui/core";
-import { useTranslation } from "react-i18next";
-import Overview from "@material-ui/icons/Assignment";
-import Location from "@material-ui/icons/Room";
-import Tickets from "@material-ui/icons/ConfirmationNumber";
-import Images from "@material-ui/icons/Image";
+import React from 'react';
+import { makeStyles, Theme } from '@material-ui/core/styles';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Box from '@material-ui/core/Box';
+import { Grid, useMediaQuery } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
+import Overview from '@material-ui/icons/Assignment';
+import Location from '@material-ui/icons/Room';
+import Tickets from '@material-ui/icons/ConfirmationNumber';
+import Images from '@material-ui/icons/Image';
 
 const useStyles = makeStyles((theme: Theme) => ({
   rootResponsive: {
-    "& .MuiTab-root": {
-      minWidth: "20px",
-      padding: "0",
+    '& .MuiTab-root': {
+      minWidth: '20px',
+      padding: '0',
     },
-    "& .MuiGrid-grid-xs": {
-      maxWidth: "50%",
+    '& .MuiGrid-grid-xs': {
+      maxWidth: '50%',
     },
   },
   root: {
-    display: "flex",
+    display: 'flex',
     color: theme.palette.text.primary,
-    height: "100%",
+    height: '100%',
   },
   tabs: {
     borderRight: `1px solid ${theme.palette.primary.dark}`,
   },
   tab: {
-    paddingBottom: "25px",
-    paddingTop: "25px",
+    paddingBottom: '25px',
+    paddingTop: '25px',
+  },
+  iconTabs: {
+    borderRight: `1px solid ${theme.palette.primary.dark}`,
+    marginTop: window.innerHeight / 4,
   },
 }));
 
@@ -58,7 +62,7 @@ function TabPanel(props: TabPanelProps) {
 function a11yProps(index: any) {
   return {
     id: `vertical-tab-${index}`,
-    "aria-controls": `vertical-tabpanel-${index}`,
+    'aria-controls': `vertical-tabpanel-${index}`,
   };
 }
 
@@ -81,7 +85,7 @@ function Stepper(props: EventProps) {
 
   const iconTab = (
     <>
-      <Tabs orientation="vertical" value={value} onChange={handleChange} className={classes.tabs} centered>
+      <Tabs orientation="vertical" value={value} onChange={handleChange} className={classes.iconTabs} centered>
         <Tab icon={<Overview />} {...a11yProps(0)} />
         <Tab icon={<Location />} {...a11yProps(1)} />
         <Tab icon={<Tickets />} {...a11yProps(2)} />
@@ -93,10 +97,10 @@ function Stepper(props: EventProps) {
   const textTab = (
     <>
       <Tabs orientation="vertical" value={value} onChange={handleChange} className={classes.tabs} centered>
-        <Tab label={t("welcome.overviewTab")} {...a11yProps(0)} />
-        <Tab label={t("welcome.locationTab")} {...a11yProps(1)} />
-        <Tab label={t("welcome.ticketsTab")} {...a11yProps(2)} />
-        <Tab label={t("welcome.imagesTab")} {...a11yProps(3)} />
+        <Tab label={t('welcome.overviewTab')} {...a11yProps(0)} />
+        <Tab label={t('welcome.locationTab')} {...a11yProps(1)} />
+        <Tab label={t('welcome.ticketsTab')} {...a11yProps(2)} />
+        <Tab label={t('welcome.imagesTab')} {...a11yProps(3)} />
       </Tabs>
     </>
   );
@@ -125,7 +129,7 @@ function Stepper(props: EventProps) {
           {textTab}
         </Grid>
 
-        <Grid item xl={11} lg={10} md={10} sm={9} xs={9} style={{ minHeight: "93vh", backgroundColor: "white" }}>
+        <Grid item xl={11} lg={10} md={10} sm={9} xs={9} style={{ minHeight: '93vh', backgroundColor: 'white' }}>
           {tabPanel}
         </Grid>
       </Grid>
@@ -146,7 +150,7 @@ function Stepper(props: EventProps) {
           md={10}
           sm={9}
           xs={8}
-          style={{ minHeight: "93vh", backgroundColor: "white", minWidth: "91.6vw" }}
+          style={{ minHeight: '93vh', backgroundColor: 'white', minWidth: '91.6vw' }}
         >
           {tabPanel}
         </Grid>
@@ -154,7 +158,7 @@ function Stepper(props: EventProps) {
     </div>
   );
 
-  const matches = useMediaQuery("(max-width:599px)");
+  const matches = useMediaQuery('(max-width:599px)');
   return <>{matches ? smallWindow : bigWindow}</>;
 }
 

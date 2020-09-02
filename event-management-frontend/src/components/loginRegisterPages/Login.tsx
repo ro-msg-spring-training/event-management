@@ -1,16 +1,16 @@
-import React from "react";
-import { Auth } from "aws-amplify";
-import { displayErrorMessage } from "../../validation/LoginValidation";
-import "../../styles/Responsivity.css";
-import { Trans } from "react-i18next";
-import useStylesLogin from "../../styles/LoginStyle";
-import { displaySuccessMessage } from "../../validation/RegistrationValidation";
-import { useHistory } from "react-router-dom";
-import { AppState } from "../../store/store";
-import { Dispatch } from "redux";
-import { loginUsername, loginPassword, loginisLoading, loginError, loginSuccess } from "../../actions/LoginPageActions";
-import { connect } from "react-redux";
-import LoginDumb from "./LoginDumb";
+import React from 'react';
+import { Auth } from 'aws-amplify';
+import { displayErrorMessage } from '../../validation/LoginValidation';
+import '../../styles/Responsivity.css';
+import { Trans } from 'react-i18next';
+import useStylesLogin from '../../styles/LoginStyle';
+import { displaySuccessMessage } from '../../validation/RegistrationValidation';
+import { useHistory } from 'react-router-dom';
+import { AppState } from '../../store/store';
+import { Dispatch } from 'redux';
+import { loginUsername, loginPassword, loginisLoading, loginError, loginSuccess } from '../../actions/LoginPageActions';
+import { connect } from 'react-redux';
+import LoginDumb from './LoginDumb';
 
 interface Props {
   isLoading: boolean;
@@ -41,17 +41,17 @@ const Login: React.FC<Props> = (props: Props) => {
     props.loginisLoading(true);
     try {
       const user = await Auth.signIn(props.username, props.password);
-      localStorage.setItem("idToken", user.signInUserSession.idToken.jwtToken);
-      localStorage.setItem("username", props.username);
-      if (user.signInUserSession.accessToken.payload["cognito:groups"] !== undefined) {
-        localStorage.setItem("role", "admin");
-        history.push("/admin/");
+      localStorage.setItem('idToken', user.signInUserSession.idToken.jwtToken);
+      localStorage.setItem('username', props.username);
+      if (user.signInUserSession.accessToken.payload['cognito:groups'] !== undefined) {
+        localStorage.setItem('role', 'admin');
+        history.push('/admin/');
       } else {
-        localStorage.setItem("role", "user");
-        history.push("/user/");
+        localStorage.setItem('role', 'user');
+        history.push('/user/');
       }
       displaySuccessMessage(<Trans i18nKey="login.successMessage">Successful login</Trans>, props.loginSuccess);
-      props.loginError("");
+      props.loginError('');
     } catch (error) {
       displayErrorMessage(
         <Trans i18nKey="login.errorMessage">Incorrect username or password.</Trans>,
