@@ -48,11 +48,108 @@
 @media (min-width: 960px) {
   .qrReaderResponsive {
     margin-left: 30%;
+    width: 40%;
   }
 }
 
 @media (max-width: 960px) {
   .qrReaderResponsive {
-    margin-left: 15%;
+    margin-left: 7.5%;
+    width: 85%;
+  }
+}
+
+@media (min-width: 960px) {
+  .alertResponsive {
+    left: 25%;
+    width: 50%;
+  }
+}
+
+@media (max-width: 960px) {
+  .alertResponsive {
+    left: 10%;
+    width: 80%;
+  }
+}
+
+@media (min-width: 700px) {
+  .alertResponsive {
+    top: 35%;
+  }
+}
+
+@media (max-width: 700px) {
+  .alertResponsive {
+    top: 16.5%;
+  }
+}
+
+@media (max-width: 300px) {
+  .alertResponsive {
+    top: 0%;
+  }
+}
+
+@media (min-width: 1000px) {
+  .alertMessage {
+    margin-left: 20%;
+  }
+}
+
+@media (max-width: 1000px) {
+  .alertMessage {
+    margin-left: 19%;
+  }
+}
+
+@media (max-width: 700px) {
+  .alertMessage {
+    margin-left: 5%;
+    margin-top: 10%;
+  }
+}
+
+@media (max-width: 500px) {
+  .alertMessage {
+    margin-left: 5%;
+    margin-top: 15%;
+  }
+}
+
+@media (max-width: 300px) {
+  .alertMessage {
+    margin-left: 5%;
+    margin-top: 18%;
+  }
+}
+
+@media (min-width: 700px) {
+  .alertContentResponsive {
+    height: 150px;
+  }
+}
+
+@media (max-width: 700px) {
+  .alertContentResponsive {
+    height: 200px;
+  }
+}
+
+@media (min-width: 700px) {
+  .titleResponsive {
+    padding-left: 20%;
+  }
+}
+
+@media (max-width: 700px) {
+  .titleResponsive {
+    padding-left: 30%;
+  }
+}
+
+@media (max-width: 300px) {
+  .titleResponsive {
+    padding-left: 40%;
   }
 }

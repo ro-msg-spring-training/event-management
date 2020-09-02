@@ -225,7 +225,7 @@
 
   "validateTicket": {
     "exitValidation": "Exit",
-    "validateNext": "Validate Next",
+    "validateNext": "Next",
     "notFoundError": "Ticket not found. This ticket number does not exist.",
     "conflictError": "This ticket has already been validated.",
     "notAcceptableError": "This ticket belongs to another event.",
@@ -233,6 +233,8 @@
     "qrReaderError": "Failed to scan the ticket. Try again!",
     "errorMessage": "Error!",
     "successfulValidation": "Validation successful!",
-    "customerData": "The ticket has been validated successfully. The customer's data: "
+    "successfulMessage": "The ticket has been validated successfully. ",
+    "customerName": "Customer's name: ",
+    "customerEmail": "Customer's email: "
   }
 }

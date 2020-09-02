@@ -225,7 +225,7 @@
 
   "validateTicket": {
     "exitValidation": "Ieșire",
-    "validateNext": "Validează următorul",
+    "validateNext": "Următorul",
     "notFoundError": "Biletul nu a fost găsit. Acest număr de bilet nu există.",
     "conflictError": "Acest bilet a fost deja validat.",
     "notAcceptableError": "Acest bilet aparține unui alt eveniment.",
@@ -233,6 +233,8 @@
     "qrReaderError": "Scanarea biletului a eșuat. Încearcă din nou!",
     "errorMessage": "Eroare!",
     "successfulValidation": "Validare reușită!",
-    "customerData": "Biletul a fost validat cu succes. Datele clientului: "
+    "successfulMessage": "Biletul a fost validat cu succes.",
+    "customerName": "Numele clientului: ",
+    "customerEmail": "Adresa de e-mail a clientului: "
   }
 }

@@ -196,7 +196,7 @@ export const getLastNumberHome = () => {
 };
 
 export const validateTicketAPI = (ticketID: number, eventID: number) => {
-  return fetchWrapper(`${serverURL}/tickets/validate/${44}?idEvent=${1}`, {
+  return fetchWrapper(`${serverURL}/tickets/validate/${53}?idEvent=${2}`, {
     method: 'PATCH',
     headers: {
       Accept: 'application/json',

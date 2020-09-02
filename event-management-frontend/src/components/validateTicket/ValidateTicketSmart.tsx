@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Container, CircularProgress } from '@material-ui/core';
 import { connect } from 'react-redux';
-import { validateTicket, setIsError } from '../../actions/EventsPageActions';
-import { AppState, store } from '../../store/store';
+import { validateTicket, setIsError, setIsValid } from '../../actions/EventsPageActions';
+import { AppState } from '../../store/store';
 import { ValidateTicketDumb } from './ValidateTicketDumb';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
@@ -21,6 +21,7 @@ type Props = {
 
   validateTicket: (ticketID: number, eventID: number) => void;
   setIsError: (error: boolean) => void;
+  setIsValid: (isValid: boolean) => void;
 };
 
 const ValidateTicket = ({
@@ -33,6 +34,7 @@ const ValidateTicket = ({
   isValid,
   validateTicket,
   setIsError,
+  setIsValid,
 }: Props) => {
   const [ticketID, setTicketID] = useState(0);
   const [alertVisible, setAlertVisible] = useState(false);
@@ -67,6 +69,7 @@ const ValidateTicket = ({
 
   const validateNext = () => {
     setIsError(false);
+    setIsValid(false);
     setAlertVisible(false);
     setAlertTitle('');
     setAlertDescription('');
@@ -76,16 +79,6 @@ const ValidateTicket = ({
   const exitValidation = () => {
     history.push('/admin/events');
   };
-
-  if (isLoading) {
-    return (
-      <div className={classes.root}>
-        <Container maxWidth="lg">
-          <CircularProgress />
-        </Container>
-      </div>
-    );
-  }
 
   if (errorStatus && !alertDescription && isError) {
     setAlertSeverity('error');
@@ -109,29 +102,39 @@ const ValidateTicket = ({
   if (isValid && !alertTitle) {
     setAlertSeverity('success');
     setAlertTitle(t('validateTicket.successfulValidation'));
-    setAlertDescription(t('validateTicket.customerData') + 'Name: ' + customerName + 'Email: ' + customerEmail);
+    setAlertDescription(t('validateTicket.successfulMessage'));
     setAlertVisible(true);
   }
 
+  if (isLoading) {
+    return (
+      <div className={classes.root}>
+        <Container maxWidth="xl">
+          <CircularProgress className={classes.loading} />
+        </Container>
+      </div>
+    );
+  }
+
   return (
-    <>
-      {alertVisible ? (
-        <div className={classes.root}>
-          <ValidateTicketDumb handleScan={handleScan} handleError={handleError} />
+    <div className={classes.root}>
+      <div className={classes.wrapper}>
+        <ValidateTicketDumb handleScan={handleScan} handleError={handleError} />
+        {alertVisible ? (
           <ValidateTicketAlert
             alertTitle={alertTitle}
             alertSeverity={alertSeverity}
             alertDescription={alertDescription}
+            customerName={customerName}
+            customerEmail={customerEmail}
             validateNext={validateNext}
             exitValidation={exitValidation}
           />
-        </div>
-      ) : (
-        <div className={classes.root}>
-          <ValidateTicketDumb handleScan={handleScan} handleError={handleError} />
-        </div>
-      )}
-    </>
+        ) : (
+          ''
+        )}
+      </div>
+    </div>
   );
 };
 
@@ -149,7 +152,9 @@ const mapStateToProps = (state: AppState) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     setIsError: (isError: boolean) => dispatch(setIsError(isError)),
+    setIsValid: (isValid: boolean) => dispatch(setIsValid(isValid)),
     validateTicket: (ticketID: number, eventID: number) => dispatch(validateTicket(ticketID, eventID)),
   };
 };
+
 export default connect(mapStateToProps, mapDispatchToProps)(ValidateTicket);

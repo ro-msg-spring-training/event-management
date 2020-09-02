@@ -29,6 +29,7 @@ import {
   VALIDATE_TICKET_SUCCESS,
   VALIDATE_TICKET_REQUEST,
   SET_IS_ERROR,
+  SET_IS_VALID,
 } from '../actions/EventsPageActions';
 import { MathRelation } from '../model/MathRelation';
 import { EventFilters } from '../model/EventFilters';
@@ -92,6 +93,7 @@ interface ReducerActionProps {
   name: string;
   email: string;
   error: boolean;
+  isValid: boolean;
 }
 
 export const EventsPageReducer = (state = initialState, action: ReducerActionProps) => {
@@ -287,6 +289,12 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
       return {
         ...state,
         isError: action.error,
+      };
+
+    case SET_IS_VALID:
+      return {
+        ...state,
+        isValid: action.isValid,
       };
 
     default:

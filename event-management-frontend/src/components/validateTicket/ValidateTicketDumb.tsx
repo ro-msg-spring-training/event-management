@@ -1,4 +1,3 @@
-import { Grid } from '@material-ui/core';
 import React from 'react';
 import { useValidateTicketStyles } from '../../styles/ValidateTicketStyle';
 import QrReader from 'react-qr-reader';
@@ -14,9 +13,7 @@ export const ValidateTicketDumb: React.FC<Props> = ({ handleScan, handleError }:
 
   return (
     <div className={'qrReaderResponsive'}>
-      <Grid item xl={6} lg={6} md={8} sm={10} xs={10}>
-        <QrReader className={classes.readerStyle} delay={800} onError={handleError} onScan={handleScan} />
-      </Grid>
+      <QrReader className={classes.qrReaderStyle} delay={800} onError={handleError} onScan={handleScan} />
     </div>
   );
 };

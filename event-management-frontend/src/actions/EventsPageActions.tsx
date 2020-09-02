@@ -44,6 +44,7 @@ export const VALIDATE_TICKET_REQUEST = 'VALIDATE_TICKET_REQUEST';
 export const VALIDATE_TICKET_SUCCESS = 'VALIDATE_TICKET_SUCCESS';
 export const VALIDATE_TICKET_ERROR = 'VALIDATE_TICKET_ERROR';
 export const SET_IS_ERROR = 'SET_IS_ERROR';
+export const SET_IS_VALID = 'SET_IS_VALID';
 
 export const prevPage = (filters: EventFilters, sort: EventSort) => {
   return {
@@ -282,5 +283,12 @@ export const setIsError = (isError: boolean) => {
   return {
     type: SET_IS_ERROR,
     isError: isError,
+  };
+};
+
+export const setIsValid = (isValid: boolean) => {
+  return {
+    type: SET_IS_VALID,
+    isValid: isValid,
   };
 };
