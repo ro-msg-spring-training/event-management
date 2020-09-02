@@ -39,10 +39,11 @@ const ValidateTicket = ({
   const [alertTitle, setAlertTitle] = useState('');
   const [alertDescription, setAlertDescription] = useState('');
   const [alertSeverity, setAlertSeverity] = useState(initialSeverity);
+
   const eventID = match.params.id;
+
   const { t } = useTranslation();
   const history = useHistory();
-
   const classes = useValidateTicketStyles();
 
   const handleScan = (data: string | null) => {
@@ -53,7 +54,6 @@ const ValidateTicket = ({
       setTicketID(parseInt(data.split(' ')[1]));
       if (ticketID) {
         validateTicket(ticketID, eventID);
-        console.log('ifben');
       }
     }
   };
@@ -61,15 +61,12 @@ const ValidateTicket = ({
   const handleError = () => {
     setAlertSeverity('error');
     setAlertTitle(t('validateTicket.errorMessage'));
-    setAlertDescription(t('validateTicket.qrReaderError'));
+    setAlertDescription(t('validateTicket.defaultError'));
     setAlertVisible(true);
   };
 
   const validateNext = () => {
-    console.log('validate next');
-    console.log('elotte: ', store.getState().events);
     setIsError(false);
-    console.log('utana: ', store.getState()?.events);
     setAlertVisible(false);
     setAlertTitle('');
     setAlertDescription('');
@@ -77,23 +74,22 @@ const ValidateTicket = ({
   };
 
   const exitValidation = () => {
-    console.log('exitValidation');
     history.push('/admin/events');
-    setAlertTitle('');
-    setAlertDescription('');
   };
 
   if (isLoading) {
     return (
-      <Container maxWidth="lg">
-        <CircularProgress />
-      </Container>
+      <div className={classes.root}>
+        <Container maxWidth="lg">
+          <CircularProgress />
+        </Container>
+      </div>
     );
   }
 
   if (errorStatus && !alertDescription && isError) {
     setAlertSeverity('error');
-    console.log('Errorstatus and no alert desc');
+    setAlertTitle(t('validateTicket.errorMessage'));
     switch (errorStatus) {
       case 404:
         setAlertDescription(t('validateTicket.notFoundError'));
@@ -107,18 +103,10 @@ const ValidateTicket = ({
       default:
         setAlertDescription(t('validateTicket.defaultError'));
     }
-  }
-
-  if (isError && !alertTitle) {
-    console.log('isError and no alert title');
-    setAlertTitle(t('validateTicket.errorMessage'));
-    setAlertSeverity('error');
     setAlertVisible(true);
   }
 
   if (isValid && !alertTitle) {
-    console.log('Valid, ticketData: ', store.getState().events);
-    console.log('Valid and no alert title');
     setAlertSeverity('success');
     setAlertTitle(t('validateTicket.successfulValidation'));
     setAlertDescription(t('validateTicket.customerData') + 'Name: ' + customerName + 'Email: ' + customerEmail);
@@ -148,7 +136,6 @@ const ValidateTicket = ({
 };
 
 const mapStateToProps = (state: AppState) => {
-  console.log('Customer data: ', state.events.ticketCustomerName, state.events.ticketCustomerEmail);
   return {
     customerName: state.events.ticketCustomerName,
     customerEmail: state.events.ticketCustomerEmail,

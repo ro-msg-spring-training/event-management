@@ -160,7 +160,6 @@ function* validateTicketAsync(props: ValidateProps) {
     const ticketID = props.ticketID;
     const eventID = props.eventID;
     const response = yield call(() => validateTicketAPI(ticketID, eventID));
-    console.log('SAGA: response staus: ', response.status, '/nResponse: ', response);
     if (response.status) {
       throw response.status;
     } else {

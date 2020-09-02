@@ -6,9 +6,9 @@ export const useValidateTicketStyles = makeStyles((theme) => ({
     width: '100%',
   },
 
-  gridStyle: {
-    // marginLeft: '30%',
-    //marginRight: '10%',
+  alertButton: {
+    display: 'flex',
+    width: '100%',
   },
 
   root: {
@@ -18,9 +18,5 @@ export const useValidateTicketStyles = makeStyles((theme) => ({
     background: 'linear-gradient(45deg, #21C6F3 50%, #1E5FA4 90%)',
     paddingTop: theme.spacing(5),
     paddingBottom: theme.spacing(5),
-  },
-
-  dialogStyle: {
-    //background: 'green',
   },
 }));

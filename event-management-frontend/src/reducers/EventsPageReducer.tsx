@@ -257,7 +257,6 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
       };
 
     case VALIDATE_TICKET_REQUEST:
-      console.log('REDUCER REQUEST');
       return {
         ...state,
         isLoading: true,
@@ -266,7 +265,6 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
       };
 
     case VALIDATE_TICKET_SUCCESS:
-      console.log('REDUCER SUCCESS', action.name, action.email);
       return {
         ...state,
         isLoading: false,
@@ -277,7 +275,6 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
       };
 
     case VALIDATE_TICKET_ERROR:
-      console.log('REDUCER ERROR');
       return {
         ...state,
         isValid: false,
