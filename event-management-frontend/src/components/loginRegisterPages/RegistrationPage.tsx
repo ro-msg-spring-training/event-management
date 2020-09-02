@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import { Auth } from "aws-amplify";
-import { Trans, useTranslation } from "react-i18next";
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import { RegistrationSucces } from "./SuccessfulRegistrationMessage";
-import { Link } from "react-router-dom";
-import { FormErrors } from "./FormErrors";
-import { useStyles } from "../../styles/CommonStyles";
-import { useStylesRegistration } from "../../styles/RegistrationPageStyle";
+import React, { useState } from 'react';
+import { Auth } from 'aws-amplify';
+import { Trans, useTranslation } from 'react-i18next';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { RegistrationSucces } from './SuccessfulRegistrationMessage';
+import { Link } from 'react-router-dom';
+import { FormErrors } from './FormErrors';
+import { useStyles } from '../../styles/CommonStyles';
+import { useStylesRegistration } from '../../styles/RegistrationPageStyle';
 import {
   TextField,
   Button,
@@ -19,7 +19,7 @@ import {
   IconButton,
   OutlinedInput,
   Avatar,
-} from "@material-ui/core";
+} from '@material-ui/core';
 import {
   validateEmail,
   validatePassword,
@@ -30,10 +30,10 @@ import {
   displayUsernameError,
   displayErrorMessage,
   displaySuccessMessage,
-} from "../../validation/RegistrationValidation";
-import useStylesLogin from "../../styles/LoginStyle";
-import RO from "../../languageImages/RO.png";
-import EN from "../../languageImages/EN.png";
+} from '../../validation/RegistrationValidation';
+import useStylesLogin from '../../styles/LoginStyle';
+import RO from '../../languageImages/RO.png';
+import EN from '../../languageImages/EN.png';
 
 const RegisterPage = () => {
   const [firstName, setFirstName] = useState('');
@@ -58,14 +58,14 @@ const RegisterPage = () => {
   const classes = useStylesRegistration();
   const classes2 = useStyles();
   const classesLogin = useStylesLogin();
-  const [t, i18n] = useTranslation();
+  const [, i18n] = useTranslation();
   const handleClickShowPassword = () => {
     setValues({ showPassword: !values.showPassword });
   };
 
   const handleChangeAppLanguage = (language: string) => {
     i18n.changeLanguage(language);
-    localStorage.setItem("i18nextLng", language);
+    localStorage.setItem('i18nextLng', language);
   };
   const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -225,10 +225,10 @@ const RegisterPage = () => {
           </Trans>
         </div>
         <div>
-          <div onClick={() => handleChangeAppLanguage("ro")} className={classesLogin.flags}>
+          <div onClick={() => handleChangeAppLanguage('ro')} className={classesLogin.flags}>
             <Avatar alt="RO" variant="square" className={classesLogin.small} src={RO} />
           </div>
-          <div onClick={() => handleChangeAppLanguage("en")} className={classesLogin.flags}>
+          <div onClick={() => handleChangeAppLanguage('en')} className={classesLogin.flags}>
             <Avatar alt="EN" variant="square" className={classesLogin.small} src={EN} />
           </div>
         </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   FormGroup,
   TextField,
@@ -9,17 +9,17 @@ import {
   IconButton,
   Button,
   Avatar,
-} from "@material-ui/core";
-import { Trans, useTranslation } from "react-i18next";
-import { SuccessMessage } from "./SuccessMessage";
-import { FormErrors } from "./FormErrors";
-import { useStyles } from "../../styles/CommonStyles";
-import useStylesLogin from "../../styles/LoginStyle";
-import { Link } from "react-router-dom";
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import RO from "../../languageImages/RO.png";
-import EN from "../../languageImages/EN.png";
+} from '@material-ui/core';
+import { Trans, useTranslation } from 'react-i18next';
+import { SuccessMessage } from './SuccessMessage';
+import { FormErrors } from './FormErrors';
+import { useStyles } from '../../styles/CommonStyles';
+import useStylesLogin from '../../styles/LoginStyle';
+import { Link } from 'react-router-dom';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import RO from '../../languageImages/RO.png';
+import EN from '../../languageImages/EN.png';
 
 interface Props {
   username: string;
@@ -36,11 +36,11 @@ interface Props {
 const LoginDumb = (props: Props) => {
   const classesLogin = useStylesLogin();
   const classes = useStyles();
-  const [t, i18n] = useTranslation();
+  const [, i18n] = useTranslation();
 
   const handleChangeAppLanguage = (language: string) => {
     i18n.changeLanguage(language);
-    localStorage.setItem("i18nextLng", language);
+    localStorage.setItem('i18nextLng', language);
   };
   return (
     <div className={classesLogin.root}>
@@ -70,7 +70,7 @@ const LoginDumb = (props: Props) => {
           <OutlinedInput
             labelWidth={80}
             id="outlined-adornment-password"
-            type={props.values.showPassword ? "text" : "password"}
+            type={props.values.showPassword ? 'text' : 'password'}
             value={props.password}
             required
             onChange={(event) => props.loginPassword(event.target.value)}
@@ -86,7 +86,7 @@ const LoginDumb = (props: Props) => {
 
         <div className="field">
           <p className={classesLogin.alignLeftDiv}>
-            <Link to={"/forgotpassword"} className={classesLogin.link}>
+            <Link to={'/forgotpassword'} className={classesLogin.link}>
               <Trans i18nKey="login.forgotPassword">Forgot password?</Trans>
             </Link>
           </p>
@@ -106,17 +106,17 @@ const LoginDumb = (props: Props) => {
           <p className="control">
             <Trans i18nKey="login.registerLink">
               Don't have an account?
-              <Link to={"/register"} className={classesLogin.link}>
+              <Link to={'/register'} className={classesLogin.link}>
                 Register here
               </Link>
             </Trans>
           </p>
         </div>
         <div>
-          <div onClick={() => handleChangeAppLanguage("ro")} className={classesLogin.flags}>
+          <div onClick={() => handleChangeAppLanguage('ro')} className={classesLogin.flags}>
             <Avatar alt="RO" variant="square" className={classesLogin.small} src={RO} />
           </div>
-          <div onClick={() => handleChangeAppLanguage("en")} className={classesLogin.flags}>
+          <div onClick={() => handleChangeAppLanguage('en')} className={classesLogin.flags}>
             <Avatar alt="EN" variant="square" className={classesLogin.small} src={EN} />
           </div>
         </div>

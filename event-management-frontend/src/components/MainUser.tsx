@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 import UserHomePage from './userHomePage/UserHomePage';
 import Header from './header/Header';
 import UserTicketsPage from './userTicketsPage/UserTicketsPage';
@@ -11,7 +11,7 @@ import BuyTicketsSecondPageSmart from './userBuyTicketsPage/secondPage/BuyTicket
 
 const MainUser = () => {
   return (
-    <div>
+    <>
       <Header />
       <main>
         <Switch>
@@ -35,7 +35,7 @@ const MainUser = () => {
           />
         </Switch>
       </main>
-    </div>
+    </>
   );
 };
 

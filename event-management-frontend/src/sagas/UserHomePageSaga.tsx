@@ -1,8 +1,3 @@
-import {
-  UserHomePageActionTypes,
-  FetchUserPastEventsAction,
-  FetchUserUpcomingEventsAction,
-} from '../types/UserHomePageActionTypes';
 import { takeEvery, put, call } from 'redux-saga/effects';
 import {
   fetchBookingsRequest,
@@ -17,6 +12,9 @@ import {
   fetchHighlightedEventsRequest,
   fetchHighlightedEventsSuccess,
   fetchHighlightedEventsError,
+  UserHomePageActionTypes,
+  FetchUserPastEventsAction,
+  FetchUserUpcomingEventsAction,
 } from '../actions/UserHomePageActions';
 import { fetchHighlightedEvents, fetchBookings, fetchPastEvents, fetchUpcomingEvents } from '../api/UserHomePageAPI';
 

@@ -14,7 +14,6 @@ import { EventImage } from '../../model/EventImage';
 import MapWrapper from './locationSection/Map';
 import { EventFormErrors } from '../../model/EventFormErrors';
 import CategoryPageSmart from './ticketsSection/CategoryPage/CategoryPageSmart';
-import { fetchEvents } from '../../api/EventsServiceAPI';
 
 interface Props {
   match: any;

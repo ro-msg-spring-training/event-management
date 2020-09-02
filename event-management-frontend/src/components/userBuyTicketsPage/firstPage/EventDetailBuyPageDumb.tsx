@@ -1,19 +1,7 @@
-import React, { ChangeEvent } from 'react';
+import React from 'react';
 import { EventReserveTicketType } from '../../../model/EventReserveTicketType';
 import useStylesbuyTicketFirstPage from '../../../styles/BuyTicketsFirstPageStyle';
-import {
-  Paper,
-  FormControl,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  Button,
-  Typography,
-  IconButton,
-  Tooltip,
-  Grid,
-  CircularProgress,
-} from '@material-ui/core';
+import { FormControlLabel, Radio, RadioGroup, Typography } from '@material-ui/core';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import DateRangeRoundedIcon from '@material-ui/icons/DateRangeRounded';
 import ScheduleRoundedIcon from '@material-ui/icons/ScheduleRounded';

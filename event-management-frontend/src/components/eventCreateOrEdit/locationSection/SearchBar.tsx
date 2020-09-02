@@ -43,7 +43,7 @@ const SearchBar = (props: Props) => {
   }, [props.searchValue]);
 
   const searchLocationCoord = (value: string) => {
-    props.myLocations.map((location) => {
+    props.myLocations.forEach((location) => {
       if (location.name === value) {
         props.setLocation(location);
         props.setPosition([location.latitude, location.longitude]);

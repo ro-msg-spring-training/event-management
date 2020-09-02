@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
+import { Map, TileLayer } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import useStylesMapWrapper from '../../../styles/MapWrapperStyle';
 import '../../../styles/Map.css';
-import L, { LatLngExpression, LatLng } from 'leaflet';
-import { useStyles } from '../../../styles/CommonStyles';
+import { LatLngExpression } from 'leaflet';
 import { AppState } from '../../../store/store';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { useTranslation } from 'react-i18next';
 import {
   locationFetch,
   locationFetchSucces,

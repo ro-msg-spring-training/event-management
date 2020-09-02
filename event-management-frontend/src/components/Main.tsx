@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 import Home from './homePage/Home';
 import EventList from './eventListPage/listSection/EventListSmart';
 import Header from './header/Header';
@@ -8,7 +8,7 @@ import { SecureRoute } from './SecureRoute';
 
 const Main = () => {
   return (
-    <div>
+    <>
       <Header />
       <main>
         <Switch>
@@ -28,7 +28,7 @@ const Main = () => {
           <SecureRoute admin exact path="/admin" component={Home} />
         </Switch>
       </main>
-    </div>
+    </>
   );
 };
 
