@@ -3,13 +3,11 @@ import { EventReserveTicketType } from '../../../types/EventReserveTicketType';
 import { Paper, IconButton, Tooltip, Grid, CircularProgress } from '@material-ui/core';
 import useStylesbuyTicketFirstPage from '../../../styles/BuyTicketsFirstPageStyle';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { useStyles } from '../../../styles/CommonStyles';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import '../../../styles/ReservePageStyle.css';
 import ErrorIcon from '@material-ui/icons/Error';
 import EventDetailBuyPageDumb from './EventDetailBuyPageDumb';
 import CloseIcon from '@material-ui/icons/Close';
-import { BuyTicketsSecondPageStyle } from '../../../styles/BuyTicketsSecondPageStyle';
 import { useTranslation } from 'react-i18next';
 
 interface Props {

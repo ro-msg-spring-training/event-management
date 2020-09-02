@@ -50,3 +50,17 @@
     left: 20% !important;
   }
 }
+
+.newclass ol {
+  list-style: none;
+  counter-reset: item;
+}
+.newclass li {
+  counter-increment: item;
+  text-align: justify;
+}
+.newclass li:before {
+  margin-right: 10px;
+  content: counters(item, '.') ' ';
+  display: inline-block;
+}
