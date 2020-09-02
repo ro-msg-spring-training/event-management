@@ -92,7 +92,7 @@ export const fetchFilteredEvents = (filters: EventFilters, page: number) => {
     return fetchWrapper(`${url}`, { headers: headersAuth })
         .then((response) => response.json())
         .then((json) => {
-            return json.events;
+            return json;
         });
 }
 
@@ -122,7 +122,7 @@ export const fetchSortedEvents = (sort: EventSort, filters: EventFilters, page: 
     return fetchWrapper(`${url}`, { headers: headersAuth })
         .then((response) => response.json())
         .then((json) => {
-            return json.events;
+            return json;
         });
 }
 
@@ -130,7 +130,7 @@ export const fetchEvents = () => {
     return fetchWrapper(`${serverURL}/events?limit=2&page=0&size=2`, { headers: headersAuth })
         .then(response => response.json())
         .then(json => {
-            return json.events;
+            return json;
         })
 }
 

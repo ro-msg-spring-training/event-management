@@ -55,6 +55,7 @@ export interface EventsPageState {
   eventsSort: EventSort;
   page: number;
   homePage: number;
+  noPages: number;
 }
 
 const initialState: EventsPageState = {
@@ -90,6 +91,7 @@ const initialState: EventsPageState = {
   eventsSort: { criteria: "", type: "" },
   page: 0,
   homePage: 1,
+  noPages: 0
 };
 
 interface ReducerActionProps {
@@ -173,7 +175,8 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
     case FILTER_EVENTS_SUCCESS:
       return {
         ...state,
-        allEvents: action.payload,
+        allEvents: action.payload.events,
+        noPages: action.payload.noPages
       };
     case FILTER_EVENTS_ERROR:
       return {
@@ -187,7 +190,8 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
     case FETCH_EVENTS_SUCCESS:
       return {
         ...state,
-        allEvents: action.payload,
+        allEvents: action.payload.events,
+        noPages: action.payload.noPages,
         isLoading: false,
         isError: false,
       };
@@ -207,7 +211,8 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
         ...state,
         isLoading: false,
         isError: false,
-        allEvents: action.payload,
+        allEvents: action.payload.events,
+        noPages: action.payload.noPages
       };
     case FETCH_CUSTOM_EVENTS_ERROR:
       return {

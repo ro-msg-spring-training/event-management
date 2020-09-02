@@ -1,8 +1,9 @@
-import React, { useState, FormEvent, KeyboardEvent, useEffect } from 'react';
+import React, { useState, FormEvent, KeyboardEvent } from 'react';
 import FilterSectionDumb from './FilterSectionDumb';
 import { Container } from '@material-ui/core';
 import { updateFilters, filterEvents, resetPage, resetFilters, fetchAllEvents, setErrorRate, setErrorMaxPeople, setErrorStartDate, setErrorEndDate, setErrorStartHour, setErrorEndHour } from '../../../actions/EventsPageActions';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import { MathRelation } from '../../../model/MathRelation';
 import { EventFilters } from '../../../model/EventFilters';
 import { useTranslation } from "react-i18next";
@@ -308,7 +309,7 @@ const mapStateToProps = ({ events }: AppState) => ({
     errorEndHour: events.errors.errorEndHour
 });
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
         updateFilters: (filters: EventFilters) => dispatch(updateFilters(filters)),
         filterEvents: (filters: EventFilters, page: number) => dispatch(filterEvents(filters, page)),
