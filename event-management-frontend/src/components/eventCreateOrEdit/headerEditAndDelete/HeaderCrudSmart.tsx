@@ -9,15 +9,7 @@ interface Props {
 }
 
 function HeaderSmart({ saveEvent, deleteEvent, isAdmin, title }: Props) {
-  let handleEventSave = (): void => {
-    saveEvent();
-  };
-
-  let handleEventDelete = (): void => {
-    deleteEvent();
-  };
-
-  return <HeaderDumb isAdmin={isAdmin} title={title} handleEventDelete={handleEventDelete} handleEventSave={handleEventSave} /> 
+  return <HeaderDumb isAdmin={isAdmin} title={title} handleEventDelete={deleteEvent} handleEventSave={saveEvent} /> 
 }
 
 export default HeaderSmart;

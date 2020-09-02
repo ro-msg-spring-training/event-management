@@ -20,7 +20,7 @@ function Arrow({ direction, clickFunction }: ArrowProps) {
         </IconButton>
       );
 
-  return <>{icon}</>;
+  return icon;
 }
 
 export default Arrow;

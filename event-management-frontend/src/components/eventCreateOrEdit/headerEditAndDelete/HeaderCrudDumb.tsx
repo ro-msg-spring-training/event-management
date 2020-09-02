@@ -19,25 +19,9 @@ function HeaderDumb({ isAdmin, title, handleEventDelete, handleEventSave }: Prop
   const { t } = useTranslation();
 
   const cancelButton =
-    isAdmin === true ? (
-      title === t('welcome.newEventTitle') ? (
-        <Button
-          variant="contained"
-          className={`${buttonStyle.mainButtonStyle} ${buttonStyle.pinkGradientButtonStyle}`}
-          onClick={handleEventDelete}
-        >
-          {t('welcome.headerCRUDCancel')}
-        </Button>
-      ) : (
-        <Button
-          variant="contained"
-          className={`${buttonStyle.mainButtonStyle} ${buttonStyle.pinkGradientButtonStyle}`}
-          onClick={handleEventDelete}
-        >
-          {t('welcome.headerCRUDDelete')}
-        </Button>
-      )
-    ) : null;
+    <Button variant="contained" className={`${buttonStyle.mainButtonStyle} ${buttonStyle.pinkGradientButtonStyle}`} onClick={handleEventDelete}>
+      { isAdmin && t("welcome.newEventTitle") === title  ?  t("welcome.headerCRUDCancel") :  t("welcome.headerCRUDDelete") }
+    </Button>
 
   const cancelIcon = (
     <IconButton onClick={handleEventDelete}>
