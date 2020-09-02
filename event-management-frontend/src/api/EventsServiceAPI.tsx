@@ -155,7 +155,7 @@ export const getLastNumber = (filters: EventFilters) => {
     return fetchWrapper(`${url}`, { headers: headersAuth })
         .then((response) => response.json())
         .then((json) => {
-            return json.noPages - 1
+            return json.noPages
         });
 }
 
