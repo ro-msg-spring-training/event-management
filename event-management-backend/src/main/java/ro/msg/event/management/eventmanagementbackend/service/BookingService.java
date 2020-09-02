@@ -14,7 +14,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.BookingCalendarDto;
 import ro.msg.event.management.eventmanagementbackend.entity.*;
@@ -31,14 +30,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
-import java.awt.print.Book;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
@@ -62,12 +59,6 @@ public class BookingService {
 
     @Value("${event-management.s3.tickets.bucketName}")
     private String bucketName;
-
-    @Value("${event-management.font.family}")
-    private String fontFamily;
-
-    @Value("${event-management.font.size}")
-    private String fontSize;
 
     private final TicketDocumentRepository ticketDocumentRepository;
     private final TicketCategoryRepository ticketCategoryRepository;
@@ -183,22 +174,33 @@ public class BookingService {
             PdfStamper pdfStamper = new PdfStamper(pdfReader, fileOutputStream);
             AcroFields acroFields = pdfStamper.getAcroFields();
             PdfContentByte pdfContentByte = pdfStamper.getOverContent(1);
+            BaseFont baseFont = BaseFont.createFont("EbGaramond12Regular.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
 
-            acroFields.setField("eventName", event.getTitle());
-            acroFields.setField("location", location.getName());
-            acroFields.setField("address", location.getAddress());
+            this.replaceFieldWithParagraph(acroFields, pdfContentByte, "eventNameLabel", new Paragraph("Nume eveniment:"), baseFont);
+            this.replaceFieldWithParagraph(acroFields, pdfContentByte, "locationLabel", new Paragraph("Locația:"), baseFont);
+            this.replaceFieldWithParagraph(acroFields, pdfContentByte, "addressLabel", new Paragraph("Adresa:"), baseFont);
+            this.replaceFieldWithParagraph(acroFields, pdfContentByte, "dateLabel", new Paragraph("Data:"), baseFont);
+            this.replaceFieldWithParagraph(acroFields, pdfContentByte, "hourLabel", new Paragraph("Ora:"), baseFont);
+            this.replaceFieldWithParagraph(acroFields, pdfContentByte, "participantNameLabel", new Paragraph("Nume participant:"), baseFont);
+            this.replaceFieldWithParagraph(acroFields, pdfContentByte, "ticketCategoryLabel", new Paragraph("Categoria:"), baseFont);
+            this.replaceFieldWithParagraph(acroFields, pdfContentByte, "ticketCategoryDescriptionLabel", new Paragraph("Descrierea categoriei:"), baseFont);
+
+            this.replaceFieldWithParagraph(acroFields, pdfContentByte, "eventName", new Paragraph(event.getTitle()), baseFont);
+            this.replaceFieldWithParagraph(acroFields, pdfContentByte, "location", new Paragraph(location.getName()), baseFont);
+            this.replaceFieldWithParagraph(acroFields, pdfContentByte, "address", new Paragraph(location.getAddress()), baseFont);
+
             if(event.getStartDate().isEqual(event.getEndDate()))
             {
-                acroFields.setField("date", event.getStartDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+                this.replaceFieldWithParagraph(acroFields, pdfContentByte, "date", new Paragraph(event.getStartDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))), baseFont);
             }
             else
             {
-                acroFields.setField("date", event.getStartDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) + " - " + event.getEndDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+                this.replaceFieldWithParagraph(acroFields, pdfContentByte, "date", new Paragraph(event.getStartDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) + " - " + event.getEndDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))), baseFont);
             }
-            acroFields.setField("hour", event.getStartHour() + "");
-            acroFields.setField("participantName", ticket.getName());
-            acroFields.setField("ticketCategory", ticketCategory.getTitle());
-            acroFields.setField("ticketCategoryDescription", ticketCategory.getDescription());
+            this.replaceFieldWithParagraph(acroFields, pdfContentByte, "hour", new Paragraph(String.valueOf(event.getStartHour())), baseFont);
+            this.replaceFieldWithParagraph(acroFields, pdfContentByte, "participantName", new Paragraph(ticket.getName()), baseFont);
+            this.replaceFieldWithParagraph(acroFields, pdfContentByte, "ticketCategory", new Paragraph(ticketCategory.getTitle()), baseFont);
+            this.replaceFieldWithParagraph(acroFields, pdfContentByte, "ticketCategoryDescription", new Paragraph(ticketCategory.getDescription()), baseFont);
 
             Image image = Image.getInstance(new URL("https://event-management-pictures.s3-eu-west-1.amazonaws.com/image-135725-1597848333216-tr30-June-Ibiza.jpg"));
             this.replaceFieldWithImage(acroFields, pdfContentByte, "image", image);
@@ -209,9 +211,8 @@ public class BookingService {
             this.replaceFieldWithImage(acroFields, pdfContentByte, "qrCode", qrCodeImage);
 
             Paragraph eventTicketInfoParagraph = new Paragraph(event.getTicketInfo());
-            this.replaceFieldWithParagraph(acroFields, pdfContentByte, "eventTicketInfo", eventTicketInfoParagraph);
+            this.replaceFieldWithParagraph(acroFields, pdfContentByte, "eventTicketInfo", eventTicketInfoParagraph, baseFont);
 
-            pdfStamper.setFormFlattening(true);
             pdfStamper.close();
 
             File file = new File(fileName);
@@ -249,11 +250,10 @@ public class BookingService {
         }
     }
 
-    private void replaceFieldWithParagraph(AcroFields acroFields, PdfContentByte pdfContentByte, String fieldName, Paragraph paragraph) throws DocumentException {
+    private void replaceFieldWithParagraph(AcroFields acroFields, PdfContentByte pdfContentByte, String fieldName, Paragraph paragraph, BaseFont baseFont) throws DocumentException {
         if (acroFields.getFieldPositions(fieldName) != null) {
             Rectangle rectangle = acroFields.getFieldPositions(fieldName).get(0).position;
-            Font font= new Font(Font.FontFamily.valueOf(this.fontFamily), Float.parseFloat(this.fontSize),Font.NORMAL,BaseColor.BLACK);
-            paragraph.setFont(font);
+            paragraph.setFont(new Font(baseFont, 12));
             acroFields.removeField(fieldName);
             ColumnText columnText = new ColumnText(pdfContentByte);
             columnText.setSimpleColumn(rectangle);
