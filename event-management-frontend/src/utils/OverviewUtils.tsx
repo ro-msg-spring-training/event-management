@@ -1,5 +1,8 @@
 import React from "react";
 import { Grid, TextField } from "@material-ui/core";
+import { compareDates, compareTimes } from "./CompareUtilsForOverview";
+import { EventFormErrors } from "../model/EventFormErrors";
+import { TFunction } from "i18next";
 
 export const createTextField = (
   style: string,
@@ -96,3 +99,38 @@ export const createTimeTextField = (
     </Grid>
   );
 }
+
+export const setStartDateError = (date1: string, date2: string, date3: string, t: TFunction): string => {
+  let result = '';
+  compareDates(date1, date2) === -1
+    ? result = t('welcome.errMsgOverviewFirstDayInPast')
+    : compareDates(date1, date3) === 1
+      ? result = t('welcome.errMsgOverviewFirstDayAfterLast')
+      : result = '';
+
+  return result;
+}
+
+export const setStartTimeError = (date1: string, date2: string, time1: string, time2: string, t: TFunction): string => {
+  let result = '';
+  if (compareDates(date1, date2) === 0 && compareTimes(time1, time2) !== -1)
+    result = t('welcome.errMsgOverviewOneDayEventStartTimeErr')
+  return result;
+}
+
+export const setEndTimeError = (date1: string, date2: string, time1: string, time2: string, t: TFunction): string => {
+  let result = '';
+  if (compareDates(date1, date2) === 0 && compareTimes(time1, time2) !== -1)
+    result = t('welcome.errMsgOverviewOneDayEventEndTimeErr')
+  return result;
+}
+
+export const resetErrors = (newFormErrors: EventFormErrors): EventFormErrors => {
+  newFormErrors.startDate = '';
+  newFormErrors.endDate = '';
+  newFormErrors.startTime = '';
+  newFormErrors.endTime = '';
+
+  return newFormErrors;
+}
+
