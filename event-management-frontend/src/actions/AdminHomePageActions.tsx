@@ -1,4 +1,3 @@
-import { OccupancyCardType } from '../types/OcuupancyCardsType';
 import {
   AdminHomePageActionTypes,
   UpcomingEventsLoadingStatusAction,
@@ -10,6 +9,7 @@ import {
   HistoryEventsFetchSuccessAction,
   HistoryEventsFetchAction,
 } from '../types/AdminHomePageActionTypes';
+import { OccupancyCardType } from '../model/OcuupancyCardsType';
 
 export const upcomingEventsisLoading = (loadingStatus: boolean): UpcomingEventsLoadingStatusAction => {
   return {

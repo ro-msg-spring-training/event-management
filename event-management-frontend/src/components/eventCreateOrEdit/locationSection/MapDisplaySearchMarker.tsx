@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { LocationType } from "../../../types/LocationType";
-import { Marker, Popup } from "react-leaflet";
-import { Button } from "@material-ui/core";
-import { redMarkerPoint } from "./markerPointIcons";
-import useStylesMapWrapper from "../../../styles/MapWrapperStyle";
-import { useTranslation } from "react-i18next";
-import { useStyles } from "../../../styles/CommonStyles";
-import { LatLngExpression } from "leaflet";
+import React from 'react';
+import { Marker, Popup } from 'react-leaflet';
+import { Button } from '@material-ui/core';
+import { redMarkerPoint } from './markerPointIcons';
+import useStylesMapWrapper from '../../../styles/MapWrapperStyle';
+import { useTranslation } from 'react-i18next';
+import { useStyles } from '../../../styles/CommonStyles';
+import { LatLngExpression } from 'leaflet';
+import { LocationType } from '../../../model/LocationType';
 
 interface Props {
   searchMarker: LatLngExpression[];
@@ -28,7 +28,7 @@ const MapDisplaySearchMarker = (props: Props) => {
               <div className={classesMap.wrapperPopup}>
                 <h1 className={classesMap.locationTitle}>{props.searchLocation.name} </h1>
                 {props.searchLocation.address}
-                <br />{" "}
+                <br />{' '}
                 <Button
                   className={`${classes.buttonStyle2} ${classes.buttonStyle3} ${classesMap.buttonPopup}`}
                   onClick={(e) => {
@@ -41,7 +41,7 @@ const MapDisplaySearchMarker = (props: Props) => {
                   }}
                   disabled={false}
                 >
-                  {t("location.selectButton")}
+                  {t('location.selectButton')}
                 </Button>
               </div>
             </Popup>

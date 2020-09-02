@@ -1,12 +1,12 @@
 import React from 'react';
-import { ListItem, Typography, Divider, Box } from '@material-ui/core';
-import { OccupancyCardType } from '../../types/OcuupancyCardsType';
+import { Typography, Divider, Box } from '@material-ui/core';
 import useStylesCards from '../../styles/OccupancyCardsStyle';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 import { useTranslation } from 'react-i18next';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import OccupancyCardDate from './OccupancyCardDate';
+import { OccupancyCardType } from '../../model/OcuupancyCardsType';
 
 interface Props {
   eventsList: OccupancyCardType[];

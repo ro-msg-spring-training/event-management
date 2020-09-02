@@ -22,8 +22,8 @@ import {
 import { EventCrud } from '../model/EventCrud';
 import { EventImage } from '../model/EventImage';
 import { EventFormErrors, CategoryCardErrors } from '../model/EventFormErrors';
-import { CategoryCardItem } from '../types/TicketType';
 import { TicketAvailabilityData } from '../model/TicketAvailabilityData';
+import { CategoryCardItem } from '../model/TicketType';
 
 export interface EventState {
   loading: boolean;

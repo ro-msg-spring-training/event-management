@@ -1,4 +1,4 @@
-import { EventReserveTicketType } from '../types/EventReserveTicketType';
+import { EventReserveTicketType } from '../model/EventReserveTicketType';
 
 export enum ReserveTicketActionTypes {
   RESERVE_EVENT_FETCH = 'RESERVE_EVENT_FETCH',

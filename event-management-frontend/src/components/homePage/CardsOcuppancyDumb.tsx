@@ -3,11 +3,11 @@ import { Card, CardContent, Typography, CircularProgress, Grid } from '@material
 import OccupancyListDumb from './OccupancyListDumb';
 import { useStyles } from '../../styles/CommonStyles';
 import useStylesCards from '../../styles/OccupancyCardsStyle';
-import { OccupancyCardType } from '../../types/OcuupancyCardsType';
 import '../../styles/OccupancyCards.css';
 import ErrorIcon from '@material-ui/icons/Error';
 import { useTranslation } from 'react-i18next';
 import HomeEventListSmart from './HomeEventListSmart';
+import { OccupancyCardType } from '../../model/OcuupancyCardsType';
 
 interface Props {
   upcomingEvents: OccupancyCardType[];

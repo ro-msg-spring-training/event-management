@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, KeyboardEvent } from 'react';
 import { Grid, TextField } from '@material-ui/core';
 import { userBuyTicketsStyle } from '../../../../../styles/UserBuyTicketsStyle';
 import { TicketsPerCateory, TicketNames } from '../../../../../model/UserReserveTicket';
@@ -21,7 +21,7 @@ import { AppState } from '../../../../../store/store';
 
 interface TicketsStepSmartProps {
   nextStep: () => void;
-  handleEnterKey: (e: any) => void;
+  handleEnterKey: (e: KeyboardEvent<HTMLDivElement>) => void;
   updateTicketAmount: (ticketAmount: TicketsPerCateory[]) => void;
   ticketCategories: TicketAvailabilityData[];
   ticketAmount: TicketsPerCateory[];

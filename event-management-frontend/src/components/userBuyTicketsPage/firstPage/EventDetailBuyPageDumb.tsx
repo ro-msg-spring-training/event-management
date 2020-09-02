@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from 'react';
-import { EventReserveTicketType } from '../../../types/EventReserveTicketType';
+import { EventReserveTicketType } from '../../../model/EventReserveTicketType';
 import useStylesbuyTicketFirstPage from '../../../styles/BuyTicketsFirstPageStyle';
 import {
   Paper,

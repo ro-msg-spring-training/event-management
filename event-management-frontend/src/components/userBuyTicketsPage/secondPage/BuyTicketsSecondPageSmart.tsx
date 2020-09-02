@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, KeyboardEvent } from 'react';
 import { connect } from 'react-redux';
 import {
   loadTicketCategories,
@@ -40,7 +40,7 @@ interface BuyTicketsSecondPageSmartProps {
   checked: boolean;
 }
 
-const handleEnterKey = (e: any): void => {
+const handleEnterKey = (e: KeyboardEvent<HTMLDivElement>): void => {
   e.keyCode === 13 && e.preventDefault();
 };
 

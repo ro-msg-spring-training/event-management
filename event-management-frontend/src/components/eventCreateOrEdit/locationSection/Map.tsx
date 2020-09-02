@@ -1,26 +1,26 @@
-import React, { useEffect, useState } from "react";
-import { Map, TileLayer, Marker, Popup } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
-import useStylesMapWrapper from "../../../styles/MapWrapperStyle";
-import "../../../styles/Map.css";
-import L, { LatLngExpression, LatLng } from "leaflet";
-import { useStyles } from "../../../styles/CommonStyles";
-import { LocationType } from "../../../types/LocationType";
-import { AppState } from "../../../store/store";
-import { Dispatch } from "redux";
-import { connect } from "react-redux";
-import { useTranslation } from "react-i18next";
+import React, { useEffect, useState } from 'react';
+import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import useStylesMapWrapper from '../../../styles/MapWrapperStyle';
+import '../../../styles/Map.css';
+import L, { LatLngExpression, LatLng } from 'leaflet';
+import { useStyles } from '../../../styles/CommonStyles';
+import { AppState } from '../../../store/store';
+import { Dispatch } from 'redux';
+import { connect } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import {
   locationFetch,
   locationFetchSucces,
   locationisLoading,
   updateSearchValue,
-} from "../../../actions/LocationActions";
-import SearchBar from "./SearchBar";
-import { updateLocation } from "../../../actions/HeaderEventCrudActions";
-import MapDisplayLocationsDumb from "./MapdisplayLocationsDumb";
-import MapDisplaySelectedLocationDumb from "./MapDisplaySelectedLocation";
-import MapDisplaySearchMarker from "./MapDisplaySearchMarker";
+} from '../../../actions/LocationActions';
+import SearchBar from './SearchBar';
+import { updateLocation } from '../../../actions/HeaderEventCrudActions';
+import MapDisplayLocationsDumb from './MapdisplayLocationsDumb';
+import MapDisplaySelectedLocationDumb from './MapDisplaySelectedLocation';
+import MapDisplaySearchMarker from './MapDisplaySearchMarker';
+import { LocationType } from '../../../model/LocationType';
 
 interface Props {
   isLoading: boolean;
@@ -43,13 +43,13 @@ interface OwnProps {
 const MapWrapper: React.FC<Props> = (props: Props) => {
   const classesMap = useStylesMapWrapper();
   const [position, setPosition]: any = useState([46.77121, 23.623634]);
-  const [currentLocation, setcurrentLocation] = useState("");
+  const [currentLocation, setcurrentLocation] = useState('');
   const [searchLocation, setsearchLocation] = useState({
     id: 0,
-    name: "",
-    address: "",
-    latitude: "",
-    longitude: "",
+    name: '',
+    address: '',
+    latitude: '',
+    longitude: '',
   });
   const [selectedMarker, setSelectedMarker] = useState<LatLngExpression[]>([]);
   const [searchMarker, setSearchMarker] = useState<LatLngExpression[]>([]);

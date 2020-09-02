@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { EventReserveTicketType } from '../../../types/EventReserveTicketType';
+import { EventReserveTicketType } from '../../../model/EventReserveTicketType';
 import { Container, CircularProgress } from '@material-ui/core';
 import { AppState } from '../../../store/store';
 import { Dispatch } from 'redux';

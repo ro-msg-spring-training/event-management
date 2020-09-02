@@ -1,5 +1,5 @@
 import React from 'react';
-import { EventReserveTicketType } from '../../../types/EventReserveTicketType';
+import { EventReserveTicketType } from '../../../model/EventReserveTicketType';
 import { Paper, IconButton, Tooltip, Grid, CircularProgress } from '@material-ui/core';
 import useStylesbuyTicketFirstPage from '../../../styles/BuyTicketsFirstPageStyle';
 import { Link, RouteComponentProps } from 'react-router-dom';

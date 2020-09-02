@@ -1,7 +1,7 @@
 import { UserEventList } from '../model/userEventsPage/UserEventList';
 import { UserEventFilters } from '../model/userEventsPage/UserEventFilters';
-import { LocationType } from '../types/LocationType';
 import { UserEventIsFilterType } from '../model/userEventsPage/UserEventIsFilterType';
+import { LocationType } from '../model/LocationType';
 
 export const FETCH_USER_EVENTS = 'FETCH_USER_EVENTS';
 export const FETCH_USER_EVENTS_REQUEST = 'FETCH_USER_EVENTS_REQUEST';

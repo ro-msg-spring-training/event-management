@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { LocationType } from "../../../types/LocationType";
-import { Marker, Popup } from "react-leaflet";
-import { Button } from "@material-ui/core";
-import { blackMarkerPoint, greenMarkerPoint } from "./markerPointIcons";
-import useStylesMapWrapper from "../../../styles/MapWrapperStyle";
-import { useTranslation } from "react-i18next";
-import { LatLngExpression } from "leaflet";
+import React from 'react';
+import { Marker, Popup } from 'react-leaflet';
+import { greenMarkerPoint } from './markerPointIcons';
+import useStylesMapWrapper from '../../../styles/MapWrapperStyle';
+import { useTranslation } from 'react-i18next';
+import { LatLngExpression } from 'leaflet';
 
 interface Props {
   selectedMarker: LatLngExpression[];
@@ -24,7 +22,7 @@ const MapDisplaySelectedLocationDumb = (props: Props) => {
             <Popup>
               <div className={classesMap.wrapperPopup}>
                 <h1 className={classesMap.locationTitle}> {props.currentLocation} </h1>
-                <p className={classesMap.text}>{t("location.selectedLocationMessage")}</p>
+                <p className={classesMap.text}>{t('location.selectedLocationMessage')}</p>
               </div>
             </Popup>
           </Marker>

@@ -1,4 +1,4 @@
-import { EventReserveTicketType } from '../types/EventReserveTicketType';
+import { EventReserveTicketType } from '../model/EventReserveTicketType';
 import { ReserveTicketAction, ReserveTicketActionTypes } from '../actions/ReserveTicketsActions';
 
 export interface ReserveFirstPageState {

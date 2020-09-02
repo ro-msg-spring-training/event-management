@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { LocationType } from "../../../types/LocationType";
-import useStylesSearchBar from "../../../styles/SearchBarStyle";
+import React from 'react';
+import useStylesSearchBar from '../../../styles/SearchBarStyle';
+import { LocationType } from '../../../model/LocationType';
 
 interface Props {
   suggestions: LocationType[];
