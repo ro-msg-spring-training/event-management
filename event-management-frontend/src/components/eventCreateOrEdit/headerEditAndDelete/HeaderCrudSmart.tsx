@@ -2,8 +2,8 @@ import React from 'react';
 import HeaderDumb from './HeaderCrudDumb';
 
 interface Props {
-  saveEvent: any;
-  deleteEvent: any;
+  saveEvent: () => void;
+  deleteEvent: () => void;
   isAdmin: boolean;
   title: string;
 }

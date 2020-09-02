@@ -9,8 +9,8 @@ import { headerCrudDumbStyles } from '../../../styles/HeaderCrudStyles';
 interface Props {
   isAdmin: boolean;
   title: string;
-  handleEventDelete: any;
-  handleEventSave: any;
+  handleEventDelete: () => void;
+  handleEventSave: () => void;
 }
 
 function HeaderDumb({ isAdmin, title, handleEventDelete, handleEventSave }: Props) {

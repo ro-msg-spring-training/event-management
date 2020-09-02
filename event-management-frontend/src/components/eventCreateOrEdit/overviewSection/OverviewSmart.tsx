@@ -13,10 +13,10 @@ import { resetErrors, setStartDateError, setStartTimeError, setEndTimeError } fr
 interface OverviewSmartProps {
   newEvent: boolean;
   isAdmin: boolean;
-  setOpen: any;
-  setMsgUndo: any;
-  setDialogTitle: any;
-  setDialogDescription: any;
+  setOpen: (open: boolean) => void;
+  setMsgUndo: (msgUndo: string) => void;
+  setDialogTitle: (dialogTitle: string) => void;
+  setDialogDescription: (dialogDescription: string) => void;
 
   eventCrud: EventCrud;
   formErrors: EventFormErrors;
