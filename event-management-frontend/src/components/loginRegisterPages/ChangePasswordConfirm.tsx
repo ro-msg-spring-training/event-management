@@ -26,7 +26,7 @@ const ChangePasswordConfirm = () => {
 
         <Grid item xs={12}>
           <Link to={'/login'} className={classesChangePassword.link}>
-            <Button className={`${classes.buttonStyle2} ${classes.buttonStyle3} ${classesChangePassword.loginButton}`}>
+            <Button className={`${classes.mainButtonStyle} ${classes.pinkGradientButtonStyle} ${classesChangePassword.loginButton}`}>
               <Trans i18nKey="changePassword.button">Login</Trans>
             </Button>
           </Link>

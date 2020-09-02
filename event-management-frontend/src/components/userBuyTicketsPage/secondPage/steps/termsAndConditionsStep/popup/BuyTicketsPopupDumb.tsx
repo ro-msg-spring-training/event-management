@@ -72,7 +72,7 @@ function BuyTicketsPopupDumb({
               <Grid item xs={8}>
                 <Button
                   onClick={handleProceed}
-                  className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition}`}
+                  className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle} ${classes.buttonPosition}`}
                 >
                   {t('buyTicketsSecondPage.buyTickets')}
                 </Button>

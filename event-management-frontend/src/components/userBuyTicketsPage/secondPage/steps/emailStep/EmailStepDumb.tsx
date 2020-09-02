@@ -61,7 +61,7 @@ function EmailStepDumb({
           <Grid item xs={4} sm={2} md={2} lg={1} xl={1}>
             <Button
               variant="contained"
-              className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition} `}
+              className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle} ${classes.buttonPosition} `}
               onClick={prevStep}
             >
               {' '}
@@ -72,7 +72,7 @@ function EmailStepDumb({
           <Grid item xs={4} sm={2} md={2} lg={1} xl={1}>
             <Button
               variant="contained"
-              className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition}`}
+              className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle} ${classes.buttonPosition}`}
               onClick={nextStep}
             >
               {' '}

@@ -71,7 +71,7 @@ function UserEventCard({ event, translation, goToEventDetails }: UserEventCardPr
 
       <CardActions className={classes.cardActions}>
         <Button
-          className={`${communStyles.buttonStyle2} ${communStyles.buttonStyle3} ${classes.detailsButton}`}
+          className={`${communStyles.mainButtonStyle} ${communStyles.pinkGradientButtonStyle} ${classes.detailsButton}`}
           onClick={(e) => goToEventDetails(event.id)}
         >
           {translation('userEventList.detailsButton')}

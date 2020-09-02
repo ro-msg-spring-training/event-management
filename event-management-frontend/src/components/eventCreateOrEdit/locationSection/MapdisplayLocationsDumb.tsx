@@ -30,7 +30,7 @@ const MapDisplayLocationsDumb = (props: Props) => {
               <h1 className={classesMap.locationTitle}>{location.name} </h1>
               <p className={classesMap.locationAddress}>{location.address}</p>
               <Button
-                className={`${classes.buttonStyle2} ${classes.buttonStyle3} ${classesMap.buttonPopup}`}
+                className={`${classes.mainButtonStyle} ${classes.pinkGradientButtonStyle} ${classesMap.buttonPopup}`}
                 onClick={(e) => {
                   return props.submitLocation(location.id, location.latitude, location.longitude, location.name);
                 }}

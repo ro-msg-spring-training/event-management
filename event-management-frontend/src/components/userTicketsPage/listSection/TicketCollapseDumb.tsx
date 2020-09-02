@@ -68,7 +68,7 @@ const TicketCollapseDumb = ({ ticket }: Props) => {
         >
           <Link to={''} className={classes.linkDecoration}>
             <Button
-              className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3} ${commonClasses.mobileButton}`}
+              className={`${commonClasses.mainButtonStyle} ${commonClasses.pinkGradientButtonStyle} ${commonClasses.mobileButton}`}
             >
               {t('eventList.open')}
             </Button>

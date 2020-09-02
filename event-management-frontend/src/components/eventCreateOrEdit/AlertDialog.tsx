@@ -85,7 +85,7 @@ export default function AlertDialog({
                   {console.log("error", errorMsg)}
                   {/* <DialogContentText id="alert-dialog-description">Error {errorMsg}</DialogContentText> */}
                   <DialogActions>
-                    <Button onClick={handleGoToEventsPage} color="primary" autoFocus className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3}`}>
+                    <Button onClick={handleGoToEventsPage} color="primary" autoFocus className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle}`}>
                       OK
                   </Button>
                   </DialogActions>
@@ -97,7 +97,7 @@ export default function AlertDialog({
                   {console.log("Success")}
                   {/* <DialogContentText id="alert-dialog-description">Success</DialogContentText> */}
                   <DialogActions>
-                    <Button onClick={handleGoToEventsPage} color="primary" autoFocus className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3}`}>
+                    <Button onClick={handleGoToEventsPage} color="primary" autoFocus className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle}`}>
                       OK
                   </Button>
                   </DialogActions>

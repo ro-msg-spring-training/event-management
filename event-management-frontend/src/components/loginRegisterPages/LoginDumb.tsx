@@ -97,7 +97,7 @@ const LoginDumb = (props: Props) => {
           variant="contained"
           type="submit"
           onClick={props.onSubmit}
-          className={`${classes.buttonStyle2} ${classes.buttonStyle3} ${classesLogin.loginButton}`}
+          className={`${classes.mainButtonStyle} ${classes.pinkGradientButtonStyle} ${classesLogin.loginButton}`}
         >
           <Trans i18nKey="login.button">Login</Trans>
         </Button>

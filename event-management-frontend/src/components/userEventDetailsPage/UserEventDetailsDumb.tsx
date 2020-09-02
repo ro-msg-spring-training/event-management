@@ -127,14 +127,14 @@ function UserEventDetailsDumb(props: UserEventDetailsDumbProps) {
 
       <Grid item container justify="center" alignItems="flex-end" direction="row" className={classes.position}>
         <Grid item xs={3} sm={2} md={1} lg={1} xl={1}>
-          <Button className={`${classes2.buttonStyle2} ${classes2.buttonStyle3}`} onClick={handleBackButton}>
+          <Button className={`${classes2.mainButtonStyle} ${classes2.pinkGradientButtonStyle}`} onClick={handleBackButton}>
             {t('welcome.backButton')}{' '}
           </Button>
         </Grid>
 
         <Grid item xs={3} sm={2} md={1} lg={1} xl={1}>
           <Button
-            className={`${classes2.buttonStyle2} ${classes2.buttonStyle3} ${classes.disabled}`}
+            className={`${classes2.mainButtonStyle} ${classes2.pinkGradientButtonStyle} ${classes.disabled}`}
             disabled={props.event.endDate < today}
             onClick={handleJoinButton}>
             {t('welcome.joinButton')}{' '}

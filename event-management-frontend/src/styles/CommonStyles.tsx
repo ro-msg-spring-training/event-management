@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     width: "85%",
     boxShadow: "0 1px 7px 1px #133C55",
   },
-  buttonStyle2: {
+  mainButtonStyle: {
     color: theme.palette.secondary.main,
     textTransform: "uppercase",
     borderRadius: "20px",
@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
       backgroundPosition: "right",
     },
   },
-  buttonStyle3: {
+  pinkGradientButtonStyle: {
     backgroundImage: "linear-gradient(45deg, #f9c929 10%, #f2ac0a 50%, #ed4d6e 90%)",
   },
   buttonStyle4: {
