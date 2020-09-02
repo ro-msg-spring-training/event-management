@@ -1,10 +1,10 @@
-import React from "react";
-import { useStyles } from "../../../../../styles/CommonStyles";
-import { Button, Grid, Typography } from "@material-ui/core";
-import { userBuyTicketsStyle } from "../../../../../styles/UserBuyTicketsStyle";
-import { HtmlTooltip } from "../../../../../styles/BuyTicketsSecondPageStyle";
-import HelpIcon from "@material-ui/icons/Help";
-import { useTranslation } from "react-i18next";
+import React from 'react';
+import { useStyles } from '../../../../../styles/CommonStyles';
+import { Button, Grid, Typography } from '@material-ui/core';
+import { userBuyTicketsStyle } from '../../../../../styles/UserBuyTicketsStyle';
+import { HtmlTooltip } from '../../../../../styles/BuyTicketsSecondPageStyle';
+import HelpIcon from '@material-ui/icons/Help';
+import { useTranslation } from 'react-i18next';
 
 interface NamesStepPropsDumb {
   noTicketsSelected: boolean;
@@ -25,8 +25,8 @@ function NamesStepDumb({ noTicketsSelected, handleBuy, prevStep, inputs }: Names
         title={
           <>
             {noTicketsSelected
-              ? t("buyTicketsSecondPage.noTicketsSelectedHelp")
-              : t("buyTicketsSecondPage.ticketsSelectedHelp")}
+              ? t('buyTicketsSecondPage.noTicketsSelectedHelp')
+              : t('buyTicketsSecondPage.ticketsSelectedHelp')}
           </>
         }
       >
@@ -35,11 +35,11 @@ function NamesStepDumb({ noTicketsSelected, handleBuy, prevStep, inputs }: Names
 
       {noTicketsSelected ? (
         <Typography className={classes.typography} align="center">
-          {t("buyTicketsSecondPage.noTicketsSelected")}
+          {t('buyTicketsSecondPage.noTicketsSelected')}
         </Typography>
       ) : (
         <Typography className={classes.typography} align="center">
-          {t("buyTicketsSecondPage.namesOnTickets")}
+          {t('buyTicketsSecondPage.namesOnTickets')}
         </Typography>
       )}
 
@@ -62,8 +62,8 @@ function NamesStepDumb({ noTicketsSelected, handleBuy, prevStep, inputs }: Names
               className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition}`}
               onClick={prevStep}
             >
-              {" "}
-              {t("eventList.previous")}{" "}
+              {' '}
+              {t('eventList.previous')}{' '}
             </Button>
           </Grid>
 
@@ -73,8 +73,8 @@ function NamesStepDumb({ noTicketsSelected, handleBuy, prevStep, inputs }: Names
               className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition}`}
               onClick={handleBuy}
             >
-              {" "}
-              {t("buyTicketsSecondPage.buyTickets")}{" "}
+              {' '}
+              {t('buyTicketsSecondPage.buyTickets')}{' '}
             </Button>
           </Grid>
         </Grid>

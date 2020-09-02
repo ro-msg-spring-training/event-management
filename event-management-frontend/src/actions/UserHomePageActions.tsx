@@ -1,13 +1,13 @@
-import { Booking } from "../model/userHome/Booking";
-import { EventCard } from "../model/userHome/EventCard";
-import { HighlightedEvent } from "../reducers/UserHomePageReducer";
+import { Booking } from '../model/userHome/Booking';
+import { EventCard } from '../model/userHome/EventCard';
+import { HighlightedEvent } from '../reducers/UserHomePageReducer';
 import {
   UserHomePageActionTypes,
   FetchHighlightedEventsAction,
   FetchHighlightedEventsSuccessAction,
   FetchHighlightedEventsRequestAction,
   FetchHighlightedEventsErrorAction,
-} from "../types/UserHomePageActionTypes";
+} from '../types/UserHomePageActionTypes';
 
 export const fetchBookings = () => {
   return {

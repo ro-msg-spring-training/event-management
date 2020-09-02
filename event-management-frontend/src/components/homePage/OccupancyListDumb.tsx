@@ -1,12 +1,12 @@
-import React from "react";
-import { ListItem, Typography, Divider, Box } from "@material-ui/core";
-import { OccupancyCardType } from "../../types/OcuupancyCardsType";
-import useStylesCards from "../../styles/OccupancyCardsStyle";
-import DateRangeIcon from "@material-ui/icons/DateRange";
-import { useTranslation } from "react-i18next";
-import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-import OccupancyCardDate from "./OccupancyCardDate";
+import React from 'react';
+import { ListItem, Typography, Divider, Box } from '@material-ui/core';
+import { OccupancyCardType } from '../../types/OcuupancyCardsType';
+import useStylesCards from '../../styles/OccupancyCardsStyle';
+import DateRangeIcon from '@material-ui/icons/DateRange';
+import { useTranslation } from 'react-i18next';
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import OccupancyCardDate from './OccupancyCardDate';
 
 interface Props {
   eventsList: OccupancyCardType[];
@@ -24,17 +24,17 @@ const OccupancyListDumb = (props: Props) => {
               <div className={classCardStyle.listItem}>
                 <Typography className={`${classCardStyle.title} ${classCardStyle.text}`}>{event.title}</Typography>
                 <Typography className={`${classCardStyle.occupancyRate} ${classCardStyle.text}`}>
-                  {t("occupancyCards.occupancyRate")} {event.occupancyRate} %
+                  {t('occupancyCards.occupancyRate')} {event.occupancyRate} %
                 </Typography>
 
-                <Typography component={"div"} className={`${classCardStyle.dateRange} ${classCardStyle.text}`}>
+                <Typography component={'div'} className={`${classCardStyle.dateRange} ${classCardStyle.text}`}>
                   <DateRangeIcon className={classCardStyle.dateIcon} />
                   <OccupancyCardDate startDate={event.startDate} endDate={event.endDate} />
                 </Typography>
               </div>
             </Box>
 
-            <Divider variant={"middle"} />
+            <Divider variant={'middle'} />
           </div>
         ))}
       </Carousel>

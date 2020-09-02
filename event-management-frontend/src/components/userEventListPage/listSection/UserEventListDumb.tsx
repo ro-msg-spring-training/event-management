@@ -6,33 +6,23 @@ import { TFunction } from 'i18next';
 import { useUserListStyles } from '../../../styles/userEventsPage/UserListStyle';
 
 interface UserEventListProps {
-    events: UserEventList[],
-    translation: TFunction,
-    goToEventDetails: (eventId: number) => void
+  events: UserEventList[];
+  translation: TFunction;
+  goToEventDetails: (eventId: number) => void;
 }
 
-function UserEventListDumb({ 
-    events, 
-    translation, 
-    goToEventDetails 
-}: UserEventListProps) {
-    const classes = useUserListStyles();
+function UserEventListDumb({ events, translation, goToEventDetails }: UserEventListProps) {
+  const classes = useUserListStyles();
 
-    return (
-        <Grid container spacing={3} className={classes.root}>
-            {
-                events.map(event =>
-                    <Grid item key={event.id} xs={12} sm={6} md={4} xl={3}>
-                        <UserEventCard
-                            event={event}
-                            goToEventDetails={goToEventDetails}
-                            translation={translation}
-                        />
-                    </Grid>
-                )
-            }
+  return (
+    <Grid container spacing={3} className={classes.root}>
+      {events.map((event) => (
+        <Grid item key={event.id} xs={12} sm={6} md={4} xl={3}>
+          <UserEventCard event={event} goToEventDetails={goToEventDetails} translation={translation} />
         </Grid>
-    )
+      ))}
+    </Grid>
+  );
 }
 
 export default UserEventListDumb;

@@ -233,7 +233,8 @@
     "toDate": "pâna în",
     "toTime": "până la",
     "nextPage": "Mergi la a doua pagină",
-    "cancel": "Renunță la achiziție"
+    "cancel": "Renunță la achiziție",
+    "errorMessage": " Oops, error"
   },
 
   "buyTicketsSecondPage": {
@@ -245,7 +246,7 @@
     "chooseDesiredTickets": "Vă rugăm să alegeți numărul de bilete dorit din categoriile existente",
     "numberOfTickets": "Numărul de bilete",
     "invalidEmailAddress": "Adresă greșită",
-    "myEmailAddress": "Adresa mea de Email",
+    "myEmailAddress": "Adresa mea de email",
     "buyTickets": "Cumpără",
     "noTicketsSelected": "Nu au fost selectate bilete.",
     "namesOnTickets": "Nume pentru bilete",

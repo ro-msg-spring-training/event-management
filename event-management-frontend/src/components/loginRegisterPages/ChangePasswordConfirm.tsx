@@ -1,9 +1,9 @@
-import React from "react";
-import { useStyles } from "../../styles/CommonStyles";
-import useStylesChangePassword from "../../styles/ChangePasswordStyle";
-import { Grid, Button } from "@material-ui/core";
-import { Link } from "react-router-dom";
-import { Trans } from "react-i18next";
+import React from 'react';
+import { useStyles } from '../../styles/CommonStyles';
+import useStylesChangePassword from '../../styles/ChangePasswordStyle';
+import { Grid, Button } from '@material-ui/core';
+import { Link } from 'react-router-dom';
+import { Trans } from 'react-i18next';
 
 const ChangePasswordConfirm = () => {
   const classes = useStyles();
@@ -25,7 +25,7 @@ const ChangePasswordConfirm = () => {
         </Grid>
 
         <Grid item xs={12}>
-          <Link to={"/login"} className={classesChangePassword.link}>
+          <Link to={'/login'} className={classesChangePassword.link}>
             <Button className={`${classes.buttonStyle2} ${classes.buttonStyle3} ${classesChangePassword.loginButton}`}>
               <Trans i18nKey="changePassword.button">Login</Trans>
             </Button>

@@ -1,6 +1,6 @@
-import React, { ChangeEvent } from "react";
-import { EventReserveTicketType } from "../../../types/EventReserveTicketType";
-import useStylesbuyTicketFirstPage from "../../../styles/BuyTicketsFirstPageStyle";
+import React, { ChangeEvent } from 'react';
+import { EventReserveTicketType } from '../../../types/EventReserveTicketType';
+import useStylesbuyTicketFirstPage from '../../../styles/BuyTicketsFirstPageStyle';
 import {
   Paper,
   FormControl,
@@ -13,13 +13,13 @@ import {
   Tooltip,
   Grid,
   CircularProgress,
-} from "@material-ui/core";
-import LocationOnIcon from "@material-ui/icons/LocationOn";
-import DateRangeRoundedIcon from "@material-ui/icons/DateRangeRounded";
-import ScheduleRoundedIcon from "@material-ui/icons/ScheduleRounded";
-import DateDisplayDumb from "./DateDisplayDumb";
-import { useStyles } from "../../../styles/CommonStyles";
-import { useTranslation } from "react-i18next";
+} from '@material-ui/core';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
+import DateRangeRoundedIcon from '@material-ui/icons/DateRangeRounded';
+import ScheduleRoundedIcon from '@material-ui/icons/ScheduleRounded';
+import DateDisplayDumb from './DateDisplayDumb';
+import { useStyles } from '../../../styles/CommonStyles';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   event: EventReserveTicketType;
@@ -53,10 +53,10 @@ const EventDetailBuyPageDumb = (props: Props) => {
       </p>
       <p className={` ${reserveTicketFirstPage.textStyle}`}>
         <ScheduleRoundedIcon className={reserveTicketFirstPage.iconStyle} />
-        {props.event.startHour.replace(/:\d\d([ ap]|$)/, "$1")}
+        {props.event.startHour.replace(/:\d\d([ ap]|$)/, '$1')}
 
-        <span className={reserveTicketFirstPage.spacing}>{t("buyTicketsFirstPage.toTime")}</span>
-        {props.event.endHour.replace(/:\d\d([ ap]|$)/, "$1")}
+        <span className={reserveTicketFirstPage.spacing}>{t('buyTicketsFirstPage.toTime')}</span>
+        {props.event.endHour.replace(/:\d\d([ ap]|$)/, '$1')}
       </p>
 
       <RadioGroup
@@ -76,7 +76,7 @@ const EventDetailBuyPageDumb = (props: Props) => {
               onChange={(e) => props.handleChangeRadioButtonState(e.target.value)}
             />
           }
-          label={<span className={reserveTicketFirstPage.textStyle}>{t("buyTicketsFirstPage.radioButtonNoSeat")}</span>}
+          label={<span className={reserveTicketFirstPage.textStyle}>{t('buyTicketsFirstPage.radioButtonNoSeat')}</span>}
           labelPlacement="start"
         />
         <FormControlLabel
@@ -84,12 +84,12 @@ const EventDetailBuyPageDumb = (props: Props) => {
           control={
             <Radio color="primary" value="seat" onChange={(e) => props.handleChangeRadioButtonState(e.target.value)} />
           }
-          label={<span className={reserveTicketFirstPage.textStyle}>{t("buyTicketsFirstPage.radioButtonSeat")}</span>}
+          label={<span className={reserveTicketFirstPage.textStyle}>{t('buyTicketsFirstPage.radioButtonSeat')}</span>}
           labelPlacement="start"
         />
       </RadioGroup>
       <div className={reserveTicketFirstPage.tag}>
-        <Typography className={reserveTicketFirstPage.tagText}>{t("buyTicketsFirstPage.generalTicketInfo")}</Typography>
+        <Typography className={reserveTicketFirstPage.tagText}>{t('buyTicketsFirstPage.generalTicketInfo')}</Typography>
       </div>
 
       <div className={`${reserveTicketFirstPage.generalInfoContainer} ${reserveTicketFirstPage.textStyle}`}>

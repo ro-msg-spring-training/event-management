@@ -1,15 +1,15 @@
-import React from "react";
-import { useStyles } from "../../../../../styles/CommonStyles";
-import { Button, Grid, Typography, TextField } from "@material-ui/core";
-import { userBuyTicketsStyle } from "../../../../../styles/UserBuyTicketsStyle";
-import { EmailStepFormErrors } from "../../../../../model/BuyTicketsSecondPage";
-import { useTranslation } from "react-i18next";
-import "../../../../../styles/ReservePageStyle.css";
+import React, { KeyboardEvent } from 'react';
+import { useStyles } from '../../../../../styles/CommonStyles';
+import { Button, Grid, Typography, TextField } from '@material-ui/core';
+import { userBuyTicketsStyle } from '../../../../../styles/UserBuyTicketsStyle';
+import { EmailStepFormErrors } from '../../../../../model/BuyTicketsSecondPage';
+import { useTranslation } from 'react-i18next';
+import '../../../../../styles/ReservePageStyle.css';
 
 interface EmailStepDumbProps {
   nextStep: () => void;
   prevStep: () => void;
-  handleEnterKey: (e: any) => void;
+  handleEnterKey: (e: KeyboardEvent<HTMLDivElement>) => void;
   email: string;
 
   handleEmailStepChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -32,7 +32,7 @@ function EmailStepDumb({
   return (
     <>
       <Typography className={classes.typography} align="center">
-        {t("buyTicketsSecondPage.myEmailAddress")}
+        {t('buyTicketsSecondPage.myEmailAddress')}
       </Typography>
       <Grid container direction="row" justify="center" alignItems="center">
         <Grid item xs={12}>
@@ -64,8 +64,8 @@ function EmailStepDumb({
               className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition} `}
               onClick={prevStep}
             >
-              {" "}
-              {t("eventList.previous")}{" "}
+              {' '}
+              {t('eventList.previous')}{' '}
             </Button>
           </Grid>
 
@@ -75,8 +75,8 @@ function EmailStepDumb({
               className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition}`}
               onClick={nextStep}
             >
-              {" "}
-              {t("eventList.next")}{" "}
+              {' '}
+              {t('eventList.next')}{' '}
             </Button>
           </Grid>
         </Grid>

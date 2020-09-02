@@ -229,17 +229,18 @@
   "buyTicketsFirstPage": {
     "radioButtonNoSeat": "Proceed without choosing a seat",
     "radioButtonSeat": "Select a seat from building plan",
-    "generalTicketInfo": "General ticket informations",
+    "generalTicketInfo": "General ticket information",
     "toDate": "to",
     "toTime": "to",
     "nextPage": "Go to second page",
-    "cancel": "Cancel purchase"
+    "cancel": "Cancel purchase",
+    "errorMessage": " Oops, there was an error"
   },
 
   "buyTicketsSecondPage": {
     "gotoFirstPage": "Go to first page",
     "cancelPurchase": "Cancel purchase",
-    "wrongInput": "Wrong Input",
+    "wrongInput": "Wrong input",
     "ticketsLeft_1": "There are only",
     "ticketsLeft_2": " tickets left in ",
     "chooseDesiredTickets": "Please choose the desired number of tickets from the existing categories",

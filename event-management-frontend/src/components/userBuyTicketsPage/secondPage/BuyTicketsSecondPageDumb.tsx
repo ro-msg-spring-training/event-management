@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import TicketsStep from "./steps/ticketsStep/TicketsStepSmart";
-import EmailStep from "./steps/emailStep/EmailStepSmart";
-import NamesStep from "./steps/namesStep/NamesStepSmart";
-import TermsAndConditionsStep from "./steps/termsAndConditionsStep/TermsAndConditionsStepSmart";
-import Booking from "../../../model/Booking";
-import { Tooltip, IconButton, Paper, Grid } from "@material-ui/core";
-import NavigateNextIcon from "@material-ui/icons/NavigateNext";
-import CloseIcon from "@material-ui/icons/Close";
-import { BuyTicketsSecondPageStyle, buyTicketsSecondPageDumbStyle } from "../../../styles/BuyTicketsSecondPageStyle";
-import { TicketNames } from "../../../model/UserReserveTicket";
-import { TicketAvailabilityData } from "../../../model/BuyTicketsSecondPage";
-import "../../../styles/ReservePageStyle.css";
-import { useTranslation } from "react-i18next";
+import React, { useState, KeyboardEvent } from 'react';
+import TicketsStep from './steps/ticketsStep/TicketsStepSmart';
+import EmailStep from './steps/emailStep/EmailStepSmart';
+import NamesStep from './steps/namesStep/NamesStepSmart';
+import TermsAndConditionsStep from './steps/termsAndConditionsStep/TermsAndConditionsStepSmart';
+import Booking from '../../../model/Booking';
+import { Tooltip, IconButton, Paper, Grid } from '@material-ui/core';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import CloseIcon from '@material-ui/icons/Close';
+import { BuyTicketsSecondPageStyle, buyTicketsSecondPageDumbStyle } from '../../../styles/BuyTicketsSecondPageStyle';
+import { TicketNames } from '../../../model/UserReserveTicket';
+import { TicketAvailabilityData } from '../../../model/BuyTicketsSecondPage';
+import '../../../styles/ReservePageStyle.css';
+import { useTranslation } from 'react-i18next';
 
 interface BuyTicketsSecondPageDumbProps {
   gotoFirstPage: () => void;
@@ -31,7 +31,7 @@ interface BuyTicketsSecondPageDumbProps {
   step: number;
   nextStep: () => void;
   prevStep: () => void;
-  handleEnterKey: (e: any) => void;
+  handleEnterKey: (e: KeyboardEvent<HTMLDivElement>) => void;
 }
 
 function BuyTicketsSecondPageDumb({
@@ -51,14 +51,14 @@ function BuyTicketsSecondPageDumb({
   prevStep,
   handleEnterKey,
 }: BuyTicketsSecondPageDumbProps) {
-  const { t } = useTranslation();
+  const [t] = useTranslation();
 
   const classes = BuyTicketsSecondPageStyle();
   const classes2 = buyTicketsSecondPageDumbStyle();
 
   const buttons = (
     <>
-      <Tooltip title={t("buyTicketsSecondPage.gotoFirstPage") as string}>
+      <Tooltip title={t('buyTicketsSecondPage.gotoFirstPage') as string}>
         <IconButton
           onClick={gotoFirstPage}
           className={`${classes.positionLeft} buttonStyleLeft ${classes.prevButtonStyle} buttonStyleLeftSecond`}
@@ -67,7 +67,7 @@ function BuyTicketsSecondPageDumb({
         </IconButton>
       </Tooltip>
 
-      <Tooltip title={t("buyTicketsSecondPage.cancelPurchase") as string}>
+      <Tooltip title={t('buyTicketsSecondPage.cancelPurchase') as string}>
         <IconButton
           onClick={gotoEventListPage}
           className={`${classes.positionRight} buttonStyleRight ${classes.cancelButtonStyle} buttonStyleRightSecond`}
@@ -88,7 +88,7 @@ function BuyTicketsSecondPageDumb({
   switch (step) {
     case 1:
       currentPage = (
-        <div style={{ marginTop: "2vh" }}>
+        <div style={{ marginTop: '2vh' }}>
           <TicketsStep
             nextStep={nextStep}
             handleEnterKey={handleEnterKey}
@@ -102,7 +102,7 @@ function BuyTicketsSecondPageDumb({
 
     case 2:
       currentPage = (
-        <div style={{ marginTop: "15vh" }}>
+        <div style={{ marginTop: '15vh' }}>
           <EmailStep
             nextStep={nextStep}
             prevStep={prevStep}
@@ -142,7 +142,7 @@ function BuyTicketsSecondPageDumb({
       );
       break;
     default:
-      console.error("Wrong step");
+      console.error('Wrong step');
   }
 
   return (

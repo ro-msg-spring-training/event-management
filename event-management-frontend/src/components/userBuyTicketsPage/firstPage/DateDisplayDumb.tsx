@@ -1,6 +1,6 @@
-import React from "react";
-import useStylesbuyTicketFirstPage from "../../../styles/BuyTicketsFirstPageStyle";
-import { useTranslation } from "react-i18next";
+import React from 'react';
+import useStylesbuyTicketFirstPage from '../../../styles/BuyTicketsFirstPageStyle';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   startDate: string;
@@ -16,7 +16,7 @@ const DateDisplayDumb = (props: Props) => {
       <span>
         {props.startDate}
 
-        <span className={reserveTicketFirstPage.spacing}>{t("buyTicketsFirstPage.toDate")}</span>
+        <span className={reserveTicketFirstPage.spacing}>{t('buyTicketsFirstPage.toDate')}</span>
         {props.endDate}
       </span>
     );

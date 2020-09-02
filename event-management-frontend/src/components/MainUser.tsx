@@ -23,15 +23,15 @@ const MainUser = () => {
           <SecureRoute exact path="/user/tickets" component={UserTicketsPage} />
           <SecureRoute exact path="/user/events" component={UserEventsPage} />
           <SecureRoute exact path="/user" component={UserHomePage} />
-          <Route
+          <SecureRoute
             exact
             path="/user/reserve-tickets/first-page/:id"
-            render={(renderProps) => <BuyTicketFirstPageSmart matching={renderProps}></BuyTicketFirstPageSmart>}
+            component={(renderProps: any) => <BuyTicketFirstPageSmart matching={renderProps}></BuyTicketFirstPageSmart>}
           />
-          <Route
+          <SecureRoute
             exact
             path="/user/reserve-tickets/second-page/:id"
-            render={(props) => <BuyTicketsSecondPageSmart match={props.match} />}
+            component={(props: any) => <BuyTicketsSecondPageSmart match={props.match} />}
           />
         </Switch>
       </main>

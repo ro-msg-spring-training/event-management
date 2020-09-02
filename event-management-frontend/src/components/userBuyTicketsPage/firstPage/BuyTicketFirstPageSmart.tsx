@@ -1,17 +1,17 @@
-import React, { useEffect } from "react";
-import { RouteComponentProps } from "react-router-dom";
-import { EventReserveTicketType } from "../../../types/EventReserveTicketType";
-import { Container, CircularProgress } from "@material-ui/core";
-import { AppState } from "../../../store/store";
-import { Dispatch } from "redux";
-import { connect } from "react-redux";
+import React, { useEffect } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
+import { EventReserveTicketType } from '../../../types/EventReserveTicketType';
+import { Container, CircularProgress } from '@material-ui/core';
+import { AppState } from '../../../store/store';
+import { Dispatch } from 'redux';
+import { connect } from 'react-redux';
 import {
   reserveEventisLoading,
   reserveEventFetchSucces,
   reserveEventFetch,
   updateRadioButton,
-} from "../../../actions/ReserveTicketsActions";
-import BuyTicketFirstPageDumb from "./BuyTicketFirstPageDumb";
+} from '../../../actions/ReserveTicketsActions';
+import BuyTicketFirstPageDumb from './BuyTicketFirstPageDumb';
 
 interface Props {
   eventReserve: EventReserveTicketType;
@@ -31,11 +31,9 @@ interface OwnProps {
 
 const BuyTicketFirstPageSmart: React.FC<Props> = (props: Props) => {
   useEffect(() => {
-
     props.reserveEventFetch(props.matching.match.params.id);
     props.reserveEventisLoading(false);
     updateRadioButton(props.radioButtonState);
-    
   }, []);
 
   const handleChangeRadioButtonState = (value: string) => {

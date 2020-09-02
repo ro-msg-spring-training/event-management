@@ -1,9 +1,9 @@
 export interface TicketsPerCateory {
-  category: string,
-  quantity: number
+  category: string;
+  quantity: number;
 }
 
 export interface TicketNames {
-  ticketTitle: string,
-  names: string[],
+  ticketTitle: string;
+  names: string[];
 }

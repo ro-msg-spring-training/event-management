@@ -1,5 +1,5 @@
-import { EventReserveTicketType } from "../types/EventReserveTicketType";
-import { ReserveTicketAction, ReserveTicketActionTypes } from "../actions/ReserveTicketsActions";
+import { EventReserveTicketType } from '../types/EventReserveTicketType';
+import { ReserveTicketAction, ReserveTicketActionTypes } from '../actions/ReserveTicketsActions';
 
 export interface ReserveFirstPageState {
   event: EventReserveTicketType;
@@ -12,17 +12,17 @@ const initialState: ReserveFirstPageState = {
   isLoading: true,
   event: {
     id: 0,
-    title: "",
-    subtitle: "",
-    locationAddress: "",
-    locationName: "",
-    startDate: "",
-    endDate: "",
-    startHour: "",
-    endHour: "",
-    ticketInfo: "",
+    title: '',
+    subtitle: '',
+    locationAddress: '',
+    locationName: '',
+    startDate: '',
+    endDate: '',
+    startHour: '',
+    endHour: '',
+    ticketInfo: '',
   },
-  radioButtonState: "seat",
+  radioButtonState: 'seat',
   isError: false,
 };
 

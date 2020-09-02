@@ -1,6 +1,6 @@
-import { Booking } from "../model/userHome/Booking";
-import { EventCard } from "../model/userHome/EventCard";
-import { UserHomePageActionTypes, UserHomePageActions } from "../types/UserHomePageActionTypes";
+import { Booking } from '../model/userHome/Booking';
+import { EventCard } from '../model/userHome/EventCard';
+import { UserHomePageActionTypes, UserHomePageActions } from '../types/UserHomePageActionTypes';
 
 export interface HighlightedEvent {
   id: number;

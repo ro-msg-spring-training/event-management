@@ -1,16 +1,17 @@
-import { EventReserveTicketType } from "../types/EventReserveTicketType";
+import { EventReserveTicketType } from '../types/EventReserveTicketType';
 
 export enum ReserveTicketActionTypes {
-  RESERVE_EVENT_FETCH = " RESERVE_EVENT_FETCH",
-  RESERVE_EVENT_LOADING = " RESERVE_EVENT_LOADING",
-  RESERVE_EVENT_FETCH_SUCCESS = " RESERVE_EVENT_FETCH_SUCCESS",
-  RESERVE_EVENT_ERROR = " RESERVE_EVENT_ERROR",
-  UPDATE_RADIOBUTTON = "UPDATE_RADIOBUTTON",
+  RESERVE_EVENT_FETCH = 'RESERVE_EVENT_FETCH',
+  RESERVE_EVENT_LOADING = 'RESERVE_EVENT_LOADING',
+  RESERVE_EVENT_FETCH_SUCCESS = 'RESERVE_EVENT_FETCH_SUCCESS',
+  RESERVE_EVENT_ERROR = 'RESERVE_EVENT_ERROR',
+  UPDATE_RADIOBUTTON = 'UPDATE_RADIOBUTTON',
 }
 
 export class ReserveEventFetchAction {
   public readonly type = ReserveTicketActionTypes.RESERVE_EVENT_FETCH;
   public id: number;
+
   constructor(id: number) {
     this.id = id;
   }

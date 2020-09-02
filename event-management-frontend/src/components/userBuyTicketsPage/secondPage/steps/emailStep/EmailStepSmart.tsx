@@ -9,25 +9,34 @@ import { Dispatch } from 'redux';
 import { AppState } from '../../../../../store/store';
 
 interface EmailStepSmartProps {
-  nextStep: () => void,
-  prevStep: () => void,
-  handleEnterKey: (e: any) => void,
-  email: string,
+  nextStep: () => void;
+  prevStep: () => void;
+  handleEnterKey: (e: any) => void;
+  email: string;
 
-  updateBookings: (booking: Booking) => void,
-  booking: Booking,
+  updateBookings: (booking: Booking) => void;
+  booking: Booking;
 
-  emailFormErrors: EmailStepFormErrors,
-  updateEmailFormErrors: (emailFormErrors: EmailStepFormErrors) => void,
+  emailFormErrors: EmailStepFormErrors;
+  updateEmailFormErrors: (emailFormErrors: EmailStepFormErrors) => void;
 }
 
 const emailRegex = RegExp(
   /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@(([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 );
 
-function EmailStepSmart({ nextStep, prevStep, handleEnterKey, email, updateBookings, booking, emailFormErrors, updateEmailFormErrors }: EmailStepSmartProps) {
+function EmailStepSmart({
+  nextStep,
+  prevStep,
+  handleEnterKey,
+  email,
+  updateBookings,
+  booking,
+  emailFormErrors,
+  updateEmailFormErrors,
+}: EmailStepSmartProps) {
   const { t } = useTranslation();
-  
+
   const handleEmailStepChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const value = e.target.value;
     let newBooking = { ...booking };
@@ -35,9 +44,9 @@ function EmailStepSmart({ nextStep, prevStep, handleEnterKey, email, updateBooki
     updateBookings(newBooking);
 
     let emailError = { ...emailFormErrors };
-    emailError.error = emailRegex.test(value) ? "" : t("buyTicketsSecondPage.invalidEmailAddress");
+    emailError.error = emailRegex.test(value) ? '' : t('buyTicketsSecondPage.invalidEmailAddress');
     updateEmailFormErrors(emailError);
-  }
+  };
 
   return (
     <EmailStepDumb
@@ -49,18 +58,18 @@ function EmailStepSmart({ nextStep, prevStep, handleEnterKey, email, updateBooki
       emailFormErrors={emailFormErrors}
     />
   );
-};
+}
 
 const mapStateToProps = (state: AppState) => {
   return {
     emailFormErrors: state.ticketCategories.emailFormErrors,
-  }
-}
+  };
+};
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     updateEmailFormErrors: (emailFormErrors: EmailStepFormErrors) => dispatch(updateEmailFormErrors(emailFormErrors)),
-  }
-}
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(EmailStepSmart);

@@ -1,10 +1,10 @@
-import React from "react";
-import { Button, Grid, Typography } from "@material-ui/core";
-import { useStyles } from "../../../../../styles/CommonStyles";
-import { userBuyTicketsStyle } from "../../../../../styles/UserBuyTicketsStyle";
-import HelpIcon from "@material-ui/icons/Help";
-import { HtmlTooltip } from "../../../../../styles/BuyTicketsSecondPageStyle";
-import { useTranslation } from "react-i18next";
+import React from 'react';
+import { Button, Grid, Typography } from '@material-ui/core';
+import { useStyles } from '../../../../../styles/CommonStyles';
+import { userBuyTicketsStyle } from '../../../../../styles/UserBuyTicketsStyle';
+import HelpIcon from '@material-ui/icons/Help';
+import { HtmlTooltip } from '../../../../../styles/BuyTicketsSecondPageStyle';
+import { useTranslation } from 'react-i18next';
 
 interface TicketsStepDumbProps {
   nextStep: () => void;
@@ -18,12 +18,12 @@ function TicketsStepDumb({ nextStep, inputs }: TicketsStepDumbProps) {
 
   return (
     <>
-      <HtmlTooltip className={classes.alignHelpIcon} title={<>{t("buyTicketsSecondPage.chooseDesiredTickets")}</>}>
+      <HtmlTooltip className={classes.alignHelpIcon} title={<>{t('buyTicketsSecondPage.chooseDesiredTickets')}</>}>
         <HelpIcon color="primary" fontSize="small" />
       </HtmlTooltip>
 
       <Typography className={classes.typography} align="center">
-        {t("buyTicketsSecondPage.numberOfTickets")}
+        {t('buyTicketsSecondPage.numberOfTickets')}
       </Typography>
 
       <Grid container justify="center" alignItems="center">
@@ -44,8 +44,8 @@ function TicketsStepDumb({ nextStep, inputs }: TicketsStepDumbProps) {
               className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition}`}
               onClick={nextStep}
             >
-              {" "}
-              {t("eventList.next")}{" "}
+              {' '}
+              {t('eventList.next')}{' '}
             </Button>
           </Grid>
         </Grid>

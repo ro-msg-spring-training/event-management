@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import { Auth } from "aws-amplify";
-import { Trans } from "react-i18next";
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import { RegistrationSucces } from "./SuccessfulRegistrationMessage";
-import { Link } from "react-router-dom";
-import { FormErrors } from "./FormErrors";
-import { useStyles } from "../../styles/CommonStyles";
-import { useStylesRegistration } from "../../styles/RegistrationPageStyle";
+import React, { useState } from 'react';
+import { Auth } from 'aws-amplify';
+import { Trans } from 'react-i18next';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { RegistrationSucces } from './SuccessfulRegistrationMessage';
+import { Link } from 'react-router-dom';
+import { FormErrors } from './FormErrors';
+import { useStyles } from '../../styles/CommonStyles';
+import { useStylesRegistration } from '../../styles/RegistrationPageStyle';
 import {
   TextField,
   Button,
@@ -18,7 +18,7 @@ import {
   InputAdornment,
   IconButton,
   OutlinedInput,
-} from "@material-ui/core";
+} from '@material-ui/core';
 import {
   validateEmail,
   validatePassword,
@@ -29,23 +29,23 @@ import {
   displayUsernameError,
   displayErrorMessage,
   displaySuccessMessage,
-} from "../../validation/RegistrationValidation";
+} from '../../validation/RegistrationValidation';
 
 const RegisterPage = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [usernameError, setUsernameError] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [firstNameError, setFirstNameError] = useState("");
-  const [lastNameError, setLastNameError] = useState("");
-  const [confirmPasswordError, setConfirmPasswordError] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [usernameError, setUsernameError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [firstNameError, setFirstNameError] = useState('');
+  const [lastNameError, setLastNameError] = useState('');
+  const [confirmPasswordError, setConfirmPasswordError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const [values, setValues] = React.useState<{ showPassword: boolean }>({
     showPassword: false,
@@ -83,14 +83,14 @@ const RegisterPage = () => {
         },
       });
 
-      setErrorMessage("");
+      setErrorMessage('');
       displaySuccessMessage(
         <Trans i18nKey="registration.successMessage">Registration successful</Trans>,
         setSuccessMessage
       );
     } catch (error) {
       switch (error.code) {
-        case "UsernameExistsException":
+        case 'UsernameExistsException':
           displayUsernameError(<Trans i18nKey="registration.userExists">User already exists</Trans>, setUsernameError);
           displayErrorMessage(<Trans i18nKey="registration.userExists">User already exists</Trans>, setErrorMessage);
           break;
@@ -115,9 +115,9 @@ const RegisterPage = () => {
           value={firstName}
           onChange={(event) => {
             setFirstName(event.target.value);
-            setFirstNameError("");
+            setFirstNameError('');
           }}
-          error={firstNameError !== ""}
+          error={firstNameError !== ''}
           helperText={firstNameError}
         />
         <TextField
@@ -128,9 +128,9 @@ const RegisterPage = () => {
           value={lastName}
           onChange={(event) => {
             setLastName(event.target.value);
-            setLastNameError("");
+            setLastNameError('');
           }}
-          error={lastNameError !== ""}
+          error={lastNameError !== ''}
           helperText={lastNameError}
         />
         <TextField
@@ -142,9 +142,9 @@ const RegisterPage = () => {
           value={email}
           onChange={(event) => {
             setEmail(event.target.value);
-            setEmailError("");
+            setEmailError('');
           }}
-          error={validateEmail(email, emailError, setEmailError) || emailError !== ""}
+          error={validateEmail(email, emailError, setEmailError) || emailError !== ''}
           helperText={emailError}
         />
         <TextField
@@ -155,9 +155,9 @@ const RegisterPage = () => {
           value={username}
           onChange={(event) => {
             setUsername(event.target.value);
-            setUsernameError("");
+            setUsernameError('');
           }}
-          error={usernameError !== ""}
+          error={usernameError !== ''}
           helperText={usernameError}
         />
         <FormControl required variant="outlined" className={classes.registrationformItems}>
@@ -165,14 +165,14 @@ const RegisterPage = () => {
             <Trans i18nKey="registration.password">Password</Trans>
           </InputLabel>
           <OutlinedInput
-            type={values.showPassword ? "text" : "password"}
+            type={values.showPassword ? 'text' : 'password'}
             labelWidth={80}
             value={password}
             onChange={(event) => {
               setPassword(event.target.value);
-              setPasswordError("");
+              setPasswordError('');
             }}
-            error={validatePassword(password, passwordError, setPasswordError) || passwordError !== ""}
+            error={validatePassword(password, passwordError, setPasswordError) || passwordError !== ''}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword} edge="end">
@@ -196,7 +196,7 @@ const RegisterPage = () => {
             value={confirmPassword}
             onChange={(event) => {
               setConfirmPassword(event.target.value);
-              setConfirmPasswordError("");
+              setConfirmPasswordError('');
             }}
             error={validateConfirmPassword(password, confirmPassword, confirmPasswordError, setConfirmPasswordError)}
           />

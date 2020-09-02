@@ -1,6 +1,6 @@
-import { put, takeLatest, call } from "redux-saga/effects";
-import { ReserveTicketActionTypes, reserveEventFetchSucces } from "../actions/ReserveTicketsActions";
-import { fetchReserveEventAPI } from "../api/ReservePageAPI";
+import { put, takeLatest, call } from 'redux-saga/effects';
+import { ReserveTicketActionTypes, reserveEventFetchSucces } from '../actions/ReserveTicketsActions';
+import { fetchReserveEventAPI } from '../api/ReservePageAPI';
 
 interface Props {
   type: string;

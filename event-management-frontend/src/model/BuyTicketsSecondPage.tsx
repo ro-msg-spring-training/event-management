@@ -1,6 +1,6 @@
 export interface TicketsStepFormErrors {
-  ticketCategoryTitle: string,
-  error: string
+  ticketCategoryTitle: string;
+  error: string;
 }
 
 export interface TicketAvailabilityData {
@@ -10,11 +10,10 @@ export interface TicketAvailabilityData {
 }
 
 export interface EmailStepFormErrors {
-  error: string
+  error: string;
 }
 
 export interface NamesStepFormErrors {
-  textFieldName: string,   // ex VIP_0
-  error: string
+  textFieldName: string; // ex VIP_0
+  error: string;
 }
-

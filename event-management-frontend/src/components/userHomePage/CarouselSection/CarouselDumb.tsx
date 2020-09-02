@@ -1,9 +1,10 @@
-import React from "react";
-import { Carousel } from "react-responsive-carousel";
-import { useStylesCarousel } from "../../../styles/CarouselSlideStyle";
-import "../../../styles/CarouselStyle.css";
-import { HighlightedEvent } from "../../../reducers/UserHomePageReducer";
-import CarouselSlide from "./CarouselSlide";
+import React from 'react';
+import { Carousel } from 'react-responsive-carousel';
+import { useStylesCarousel } from '../../../styles/CarouselSlideStyle';
+import '../../../styles/CarouselStyle.css';
+import { HighlightedEvent } from '../../../reducers/UserHomePageReducer';
+import CarouselSlide from './CarouselSlide';
+//import CarouselSlide from './CarouselSlide';
 
 type Props = {
   events: HighlightedEvent[];

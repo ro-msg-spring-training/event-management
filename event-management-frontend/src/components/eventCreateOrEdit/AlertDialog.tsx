@@ -9,16 +9,23 @@ import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 interface AlertDialogProps {
-  open: boolean,
-  setOpen: any,
-  msgUndo: string,
-  dialogTitle: string,
-  dialogDescription: string,
+  open: boolean;
+  setOpen: any;
+  msgUndo: string;
+  dialogTitle: string;
+  dialogDescription: string;
 
-  prevStep?: () => void,
+  prevStep?: () => void;
 }
 
-export default function AlertDialog({ prevStep, open, setOpen, msgUndo, dialogTitle, dialogDescription }: AlertDialogProps) {
+export default function AlertDialog({
+  prevStep,
+  open,
+  setOpen,
+  msgUndo,
+  dialogTitle,
+  dialogDescription,
+}: AlertDialogProps) {
   const history = useHistory();
   const { t } = useTranslation();
 
@@ -31,12 +38,12 @@ export default function AlertDialog({ prevStep, open, setOpen, msgUndo, dialogTi
     setOpen(false);
     prevStep !== undefined && prevStep();
     history.push('/admin/events');
-  }
+  };
 
   const handleCancel = (): void => {
     setOpen(false);
     prevStep !== undefined && prevStep();
-  }
+  };
 
   return (
     <div>
@@ -48,17 +55,14 @@ export default function AlertDialog({ prevStep, open, setOpen, msgUndo, dialogTi
       >
         <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {dialogDescription}
-          </DialogContentText>
+          <DialogContentText id="alert-dialog-description">{dialogDescription}</DialogContentText>
         </DialogContent>
         <DialogActions>
-          {
-            msgUndo === t("welcome.popupMsgCancelUndo") ?
-              <Button onClick={handleProceed} color="primary">
-                {t("welcome.popupMsgContinueUndo")}
-              </Button> : null
-          }
+          {msgUndo === t('welcome.popupMsgCancelUndo') ? (
+            <Button onClick={handleProceed} color="primary">
+              {t('welcome.popupMsgContinueUndo')}
+            </Button>
+          ) : null}
           <Button onClick={handleCancel} color="primary" autoFocus>
             {msgUndo}
           </Button>

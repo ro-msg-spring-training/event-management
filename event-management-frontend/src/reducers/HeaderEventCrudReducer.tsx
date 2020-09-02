@@ -18,12 +18,12 @@ import {
   RESET_STORE,
   ADD_EMPTY_CATEGORY_CARD,
   REMOVE_CATEGORY_CARD,
-} from "../actions/HeaderEventCrudActions";
-import { EventCrud } from "../model/EventCrud";
-import { EventImage } from "../model/EventImage";
-import { EventFormErrors, CategoryCardErrors } from "../model/EventFormErrors";
-import { CategoryCardItem } from "../types/TicketType";
-import { TicketAvailabilityData } from "../model/TicketAvailabilityData";
+} from '../actions/HeaderEventCrudActions';
+import { EventCrud } from '../model/EventCrud';
+import { EventImage } from '../model/EventImage';
+import { EventFormErrors, CategoryCardErrors } from '../model/EventFormErrors';
+import { CategoryCardItem } from '../types/TicketType';
+import { TicketAvailabilityData } from '../model/TicketAvailabilityData';
 
 export interface EventState {
   loading: boolean;
@@ -40,31 +40,31 @@ export interface EventState {
   isSaved: boolean;
 }
 
-let today = new Date(new Date().toString().split("GMT")[0] + " UTC").toISOString().split(".")[0];
-const dateAndTime = today.split("T");
+let today = new Date(new Date().toString().split('GMT')[0] + ' UTC').toISOString().split('.')[0];
+const dateAndTime = today.split('T');
 const currDate = dateAndTime[0];
-const currTime = dateAndTime[1].replace(/:\d\d([ ap]|$)/, "$1");
+const currTime = dateAndTime[1].replace(/:\d\d([ ap]|$)/, '$1');
 
 export const noCardError: CategoryCardErrors = {
-  title: "",
-  subtitle: "",
-  price: "",
-  description: "",
-  ticketsPerCategory: "",
+  title: '',
+  subtitle: '',
+  price: '',
+  description: '',
+  ticketsPerCategory: '',
 };
 
 export const emptyCard: CategoryCardItem = {
   id: -1,
-  title: "",
-  subtitle: "",
+  title: '',
+  subtitle: '',
   price: 0,
-  description: "",
+  description: '',
   ticketsPerCategory: 0,
   available: true,
 };
 
 export const newTicket: TicketAvailabilityData = {
-  title: "",
+  title: '',
   remaining: -1,
   sold: 0,
 };
@@ -73,12 +73,12 @@ export const initialState: EventState = {
   loading: false,
   event: {
     id: -1,
-    title: "",
-    subtitle: "",
+    title: '',
+    subtitle: '',
     status: true,
     highlighted: false,
-    description: "",
-    observations: "",
+    description: '',
+    observations: '',
     location: -1,
     startDate: currDate,
     endDate: currDate,
@@ -91,37 +91,37 @@ export const initialState: EventState = {
     noTicketEvent: true,
     ticketCategoryDtoList: [emptyCard],
     ticketCategoryToDelete: [],
-    ticketInfo: "",
+    ticketInfo: '',
   },
   ticketData: [newTicket],
   formErrors: {
-    title: "",
-    subtitle: "",
-    description: "",
-    startDate: "",
-    endDate: "",
-    startTime: "",
-    endTime: "",
-    maxPeople: "",
-    ticketsPerUser: "",
-    ticketInfo: "",
+    title: '',
+    subtitle: '',
+    description: '',
+    startDate: '',
+    endDate: '',
+    startTime: '',
+    endTime: '',
+    maxPeople: '',
+    ticketsPerUser: '',
+    ticketInfo: '',
     ticketCategoryDtoList: [noCardError],
   },
-  error: "",
+  error: '',
   isError: false,
   isLoading: false,
   images: [],
 
-  locationAddress: "",
-  locationName: "",
+  locationAddress: '',
+  locationName: '',
 
   isDeleted: false,
-  isSaved: false
+  isSaved: false,
 };
 
 const getEventImages = (imagesStr: string[]) => {
   const images = imagesStr.map((img: string) => {
-    let fullName = img.split("/").pop();
+    let fullName = img.split('/').pop();
     return { id: fullName, name: fullName, url: img };
   });
   return images as EventImage[];
@@ -153,14 +153,14 @@ const HeaderReducer = (
       let ticketCategoryErrors: CategoryCardErrors[] = [];
       let TCElenght = action.payload.ticketCategoryDtoList.length;
       for (var i = 0; i < TCElenght; i++) {
-        ticketCategoryErrors.push({ title: "", subtitle: "", price: "", description: "", ticketsPerCategory: "" });
+        ticketCategoryErrors.push({ title: '', subtitle: '', price: '', description: '', ticketsPerCategory: '' });
       }
       return {
         ...state,
         loading: false,
         event: action.payload,
         ticketData: action.ticketCategoryData,
-        error: "",
+        error: '',
         isError: false,
         isLoading: false,
         images: getEventImages(action.payload.picturesUrlSave),
@@ -189,7 +189,7 @@ const HeaderReducer = (
       return {
         ...state,
         ...initialState,
-        isDeleted: true
+        isDeleted: true,
       };
 
     case DELETE_EVENT_FAILURE:
@@ -208,7 +208,7 @@ const HeaderReducer = (
       return {
         ...state,
         loading: false,
-        isSaved: true
+        isSaved: true,
       };
 
     case ADD_EVENT_FAILURE:
@@ -228,7 +228,7 @@ const HeaderReducer = (
       return {
         ...state,
         loading: false,
-        isSaved: true
+        isSaved: true,
       };
 
     case EDIT_EVENT_FAILURE:
@@ -270,10 +270,10 @@ const HeaderReducer = (
             ...state.event.ticketCategoryDtoList,
             {
               id: nextId,
-              title: "",
-              subtitle: "",
+              title: '',
+              subtitle: '',
               price: 0,
-              description: "",
+              description: '',
               ticketsPerCategory: 0,
               available: true,
             },
@@ -283,7 +283,7 @@ const HeaderReducer = (
           ...state.formErrors,
           ticketCategoryDtoList: [
             ...state.formErrors.ticketCategoryDtoList,
-            { title: "", subtitle: "", price: "", description: "", ticketsPerCategory: "" },
+            { title: '', subtitle: '', price: '', description: '', ticketsPerCategory: '' },
           ],
         },
       };

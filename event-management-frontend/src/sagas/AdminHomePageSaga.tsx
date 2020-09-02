@@ -1,7 +1,7 @@
-import { put, takeLatest, call } from "redux-saga/effects";
-import { upcomingEventsFetchSucces, historyEventsFetchSucces } from "../actions/AdminHomePageActions";
-import { fetchUpcomingEventsAPI, fetchHistoryEventsAPI } from "../api/AdminHomePageAPI";
-import { AdminHomePageActionTypes } from "../types/AdminHomePageActionTypes";
+import { put, takeLatest, call } from 'redux-saga/effects';
+import { upcomingEventsFetchSucces, historyEventsFetchSucces } from '../actions/AdminHomePageActions';
+import { fetchUpcomingEventsAPI, fetchHistoryEventsAPI } from '../api/AdminHomePageAPI';
+import { AdminHomePageActionTypes } from '../types/AdminHomePageActionTypes';
 
 function* fetchUpcomingEvents() {
   const response = yield call(() => fetchUpcomingEventsAPI());
