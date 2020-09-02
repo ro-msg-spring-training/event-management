@@ -25,6 +25,12 @@ import {
   RESET_PAGE,
   RESET_PAGE_HOME,
   RESET_FILTERS,
+  UPDATE_ERROR_RATE,
+  UPDATE_ERROR_MAX_PEOPLE,
+  UPDATE_ERROR_START_DATE,
+  UPDATE_ERROR_END_DATE,
+  UPDATE_ERROR_START_HOUR,
+  UPDATE_ERROR_END_HOUR,
 } from "../actions/EventsPageActions";
 import { MathRelation } from "../model/MathRelation";
 import { EventFilters } from "../model/EventFilters";
@@ -33,6 +39,14 @@ import { EventSort } from "../model/EventSort";
 
 export interface EventsPageState {
   filters: EventFilters;
+  errors: {
+    errorRate: string,
+    errorMaxPeople: string,
+    errorStartDate: string,
+    errorEndDate: string,
+    errorStartHour: string,
+    errorEndHour: string
+  },
   allEvents: [];
   allEventsHome: [];
   isLoading: boolean;
@@ -59,6 +73,14 @@ const initialState: EventsPageState = {
     rateSign: MathRelation.GREATER,
     maxPeople: "",
     maxPeopleSign: MathRelation.GREATER,
+  },
+  errors: {
+    errorRate: '',
+    errorMaxPeople: '',
+    errorStartDate: '',
+    errorEndDate: '',
+    errorStartHour: '',
+    errorEndHour: ''
   },
   isLoading: true,
   isError: false,
@@ -242,6 +264,54 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
         ...state,
         isLoadingHome: false,
         isErrorHome: true,
+      };
+    case UPDATE_ERROR_RATE:
+      return {
+        ...state,
+        errors: {
+          ...state.errors,
+          errorRate: action.payload
+        }
+      };
+    case UPDATE_ERROR_MAX_PEOPLE:
+      return {
+        ...state,
+        errors: {
+          ...state.errors,
+          errorMaxPeople: action.payload
+        }
+      };
+    case UPDATE_ERROR_START_DATE:
+      return {
+        ...state,
+        errors: {
+          ...state.errors,
+          errorStartDate: action.payload
+        }
+      };
+    case UPDATE_ERROR_END_DATE:
+      return {
+        ...state,
+        errors: {
+          ...state.errors,
+          errorEndDate: action.payload
+        }
+      };
+    case UPDATE_ERROR_START_HOUR:
+      return {
+        ...state,
+        errors: {
+          ...state.errors,
+          errorStartHour: action.payload
+        }
+      };
+    case UPDATE_ERROR_END_HOUR:
+      return {
+        ...state,
+        errors: {
+          ...state.errors,
+          errorEndHour: action.payload
+        }
       };
     default:
       return state;
