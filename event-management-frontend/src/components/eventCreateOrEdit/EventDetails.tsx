@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { CircularProgress, Container, Paper, makeStyles } from '@material-ui/core';
+import { CircularProgress, Container, Paper } from '@material-ui/core';
 import { loadEvent, deleteEvent, addEvent, editEvent, resetStore } from '../../actions/HeaderEventCrudActions';
 import { connect } from 'react-redux';
 import Header from './headerEditAndDelete/HeaderCrudSmart';
@@ -19,13 +19,13 @@ import { eventDetailsStyles } from '../../styles/EventDetailsStyle';
 interface Props {
   match: any;
   isAdmin: boolean;
-  fetchEventF: (id: string) => void;
-  deleteEventF: (id: string) => void;
-  addEventF: (event: EventCrud, images: EventImage[]) => void;
-  editEventF: (event: EventCrud, images: EventImage[]) => void;
-  resetStoreF: () => void;
-  fetchEvent: {
-    loading: boolean;
+  fetchEventAction: (id: string) => void;
+  deleteEventAction: (id: string) => void;
+  addEventAction: (event: EventCrud, images: EventImage[]) => void;
+  editEventAction: (event: EventCrud, images: EventImage[]) => void;
+  resetStoreAction: () => void;
+  fetchedEvent: {
+    eventIsLoading: boolean;
     event: EventCrud;
     error: string;
     images: EventImage[];
@@ -38,12 +38,12 @@ interface Props {
 function EventDetails({
   match,
   isAdmin,
-  fetchEventF,
-  deleteEventF,
-  addEventF,
-  editEventF,
-  resetStoreF,
-  fetchEvent,
+  fetchEventAction,
+  deleteEventAction,
+  addEventAction,
+  editEventAction,
+  resetStoreAction,
+  fetchedEvent,
 }: Props) {
   const history = useHistory();
   const backgroundStyle = eventDetailsStyles();
@@ -60,12 +60,12 @@ function EventDetails({
 
   useEffect(() => {
     if (newEvent === false) {
-      fetchEventF(match.params.id);
+      fetchEventAction(match.params.id);
     }
     return () => {
-      resetStoreF();
+      resetStoreAction();
     };
-  }, [fetchEventF, resetStoreF, match.params.id, newEvent]);
+  }, [fetchEventAction, resetStoreAction, match.params.id, newEvent]);
 
   const verifyDateAndTimePeriods = (event: EventCrud): boolean => {
     if (
@@ -172,11 +172,11 @@ function EventDetails({
   };
 
   let saveEvent = (): void => {
-    if (formValid(fetchEvent.event, fetchEvent.formErrors)) {
+    if (formValid(fetchedEvent.event, fetchedEvent.formErrors)) {
       if (newEvent) {
-        addEventF(fetchEvent.event, fetchEvent.images);
+        addEventAction(fetchedEvent.event, fetchedEvent.images);
       } else {
-        editEventF(fetchEvent.event, fetchEvent.images);
+        editEventAction(fetchedEvent.event, fetchedEvent.images);
       }
     }
   };
@@ -187,25 +187,25 @@ function EventDetails({
       setDialogTitle(t('welcome.popupMsgCancelTitle'));
       setDialogDescription(t('welcome.popupMsgCancelDescription'));
       setOpen(true);
-      resetStoreF();
+      resetStoreAction();
     } else {
-      deleteEventF(match.params.id);
+      deleteEventAction(match.params.id);
     }
   };
 
   useEffect(() => {
-    if (fetchEvent.isDeleted) {
-      history.push('/admin');
+    if (fetchedEvent.isDeleted) {
+      history.push('/admin/events');
     }
-    return () => resetStoreF();
-  }, [fetchEvent.isDeleted]);
+    return () => resetStoreAction();
+  }, [fetchedEvent.isDeleted]);
 
   useEffect(() => {
-    if (fetchEvent.isSaved) {
-      history.push('/admin');
+    if (fetchedEvent.isSaved) {
+      history.push('/admin/events');
     }
-    return () => resetStoreF();
-  }, [fetchEvent.isSaved]);
+    return () => resetStoreAction();
+  }, [fetchedEvent.isSaved]);
 
   const overviewComponent = (
     <OverviewSmart
@@ -221,7 +221,7 @@ function EventDetails({
   const ticketsComponent = <CategoryPageSmart newEvent={newEvent} />;
   const imagesComponent = <ImagesSectionSmart />;
 
-  if (fetchEvent.loading) {
+  if (fetchedEvent.eventIsLoading) {
     return (
       <Container maxWidth="lg">
         <CircularProgress />
@@ -229,7 +229,7 @@ function EventDetails({
     );
   }
 
-  let title = newEvent === false ? fetchEvent.event.title : t('welcome.newEventTitle');
+  let title = newEvent === false ? fetchedEvent.event.title : t('welcome.newEventTitle');
   return (
     <Paper className={backgroundStyle.paper}>
       <Header saveEvent={saveEvent} deleteEvent={deleteEvent} isAdmin={isAdmin} title={title} />
@@ -253,17 +253,17 @@ function EventDetails({
 
 const mapStateToProps = (state: any) => {
   return {
-    fetchEvent: state.eventCrud,
+    fetchedEvent: state.eventCrud,
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    fetchEventF: (id: string) => dispatch(loadEvent(id)),
-    deleteEventF: (id: string) => dispatch(deleteEvent(id)),
-    addEventF: (event: EventCrud, images: EventImage[]) => dispatch(addEvent(event, images)),
-    editEventF: (event: EventCrud, images: EventImage[]) => dispatch(editEvent(event, images)),
-    resetStoreF: () => dispatch(resetStore()),
+    fetchEventAction: (id: string) => dispatch(loadEvent(id)),
+    deleteEventAction: (id: string) => dispatch(deleteEvent(id)),
+    addEventAction: (event: EventCrud, images: EventImage[]) => dispatch(addEvent(event, images)),
+    editEventAction: (event: EventCrud, images: EventImage[]) => dispatch(editEvent(event, images)),
+    resetStoreAction: () => dispatch(resetStore()),
   };
 };
 

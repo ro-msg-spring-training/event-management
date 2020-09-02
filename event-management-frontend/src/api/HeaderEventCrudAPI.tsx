@@ -47,7 +47,7 @@ const sendImagesToAddAndDeteteToServer = async (newAddedImagesIds: string[], ima
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-  }).then((response) => response.json()); // return string[]
+  }).then((response) => response.json());
 };
 
 const saveEventImage = async (newAddedImages: File, newAddedImagesURLsToUpload: string) => {
