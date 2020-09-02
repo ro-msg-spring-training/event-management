@@ -224,15 +224,15 @@ const RegisterPage = () => {
             Already have an account? <Link to="/login">Sign in!</Link>
           </Trans>
         </div>
+        <div>
+          <div onClick={() => handleChangeAppLanguage("ro")} className={classesLogin.flags}>
+            <Avatar alt="RO" variant="square" className={classesLogin.small} src={RO} />
+          </div>
+          <div onClick={() => handleChangeAppLanguage("en")} className={classesLogin.flags}>
+            <Avatar alt="EN" variant="square" className={classesLogin.small} src={EN} />
+          </div>
+        </div>
       </FormGroup>
-      <div>
-        <div onClick={() => handleChangeAppLanguage("ro")} className={classesLogin.flags}>
-          <Avatar alt="RO" variant="square" className={classesLogin.small} src={RO} />
-        </div>
-        <div onClick={() => handleChangeAppLanguage("en")} className={classesLogin.flags}>
-          <Avatar alt="EN" variant="square" className={classesLogin.small} src={EN} />
-        </div>
-      </div>
     </div>
   );
 };

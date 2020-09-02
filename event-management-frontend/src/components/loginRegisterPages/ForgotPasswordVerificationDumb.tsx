@@ -117,7 +117,7 @@ const VerificationDumb = (props: Props) => {
           onClick={props.onSubmit}
           className={`${classes.buttonStyle2} ${classes.buttonStyle3} ${classesLogin.loginButton}`}
         >
-          Submit
+          <Trans i18nKey="forgotPasswordVerification.button">Submit</Trans>
         </Button>
       </FormGroup>
     </div>
