@@ -15,6 +15,13 @@ export const FETCH_HOME_EVENTS_REQUEST = 'FETCH_HOME_EVENTS_REQUEST'
 export const FETCH_HOME_EVENTS_SUCCESS = 'FETCH_HOME_EVENTS_SUCCESS'
 export const FETCH_HOME_EVENTS_ERROR = 'FETCH_HOME_EVENTS_ERROR'
 
+export const UPDATE_ERROR_RATE = 'UPDATE_ERROR_RATE'
+export const UPDATE_ERROR_MAX_PEOPLE = 'UPDATE_ERROR_MAX_PEOPLE'
+export const UPDATE_ERROR_START_DATE = 'UPDATE_ERROR_START_DATE'
+export const UPDATE_ERROR_END_DATE = 'UPDATE_ERROR_END_DATE'
+export const UPDATE_ERROR_START_HOUR = 'UPDATE_ERROR_START_HOUR'
+export const UPDATE_ERROR_END_HOUR = 'UPDATE_ERROR_END_HOUR'
+
 export const FETCH_CUSTOM_EVENTS = 'FETCH_CUSTOM_EVENTS'
 export const FETCH_CUSTOM_EVENTS_REQUEST = 'FETCH_CUSTOM_EVENTS_REQUEST'
 export const FETCH_CUSTOM_EVENTS_SUCCESS = 'FETCH_CUSTOM_EVENTS_SUCCESS'
@@ -211,5 +218,47 @@ export const decrementPageHome = () => {
 export const resetFilters = () => {
     return {
         type: RESET_FILTERS
+    }
+}
+
+export const setErrorRate = (message: string) => {
+    return {
+        type: UPDATE_ERROR_RATE,
+        payload: message
+    }
+}
+
+export const setErrorMaxPeople = (message: string) => {
+    return {
+        type: UPDATE_ERROR_MAX_PEOPLE,
+        payload: message
+    }
+}
+
+export const setErrorStartDate = (message: string) => {
+    return {
+        type: UPDATE_ERROR_START_DATE,
+        payload: message
+    }
+}
+
+export const setErrorEndDate = (message: string) => {
+    return {
+        type: UPDATE_ERROR_END_DATE,
+        payload: message
+    }
+}
+
+export const setErrorStartHour = (message: string) => {
+    return {
+        type: UPDATE_ERROR_START_HOUR,
+        payload: message
+    }
+}
+
+export const setErrorEndHour = (message: string) => {
+    return {
+        type: UPDATE_ERROR_END_HOUR,
+        payload: message
     }
 }

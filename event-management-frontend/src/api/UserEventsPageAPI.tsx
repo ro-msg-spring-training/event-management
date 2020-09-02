@@ -8,29 +8,29 @@ const computeFilterStringQuery = (filters: UserEventFilters, page: number, limit
     let query = filters.type === UserEventType.UPCOMING ? 'upcoming?' : 'history?';
     let queryArr: string[] = [];
 
-    queryArr.push(`pageNumber=${page}`)
-    queryArr.push(`limit=${limit}`)
+    queryArr.push(`page=${page}`);
+    queryArr.push(`size=${limit}`);
 
     if (filters.title) {
-        queryArr.push(`title=${filters.title}`)
+        queryArr.push(`title=${filters.title}`);
     }
     if (filters.rate || filters.rate === 0) {
-        queryArr.push(`rate=${filters.rate}&rateSign=${filters.rateSign}`)
+        queryArr.push(`rate=${filters.rate}&rateSign=${filters.rateSign}`);
     }
     if (filters.locations) {
-        filters.locations.map(loc => queryArr.push(`multipleLocations=${loc}`))
+        filters.locations.map(loc => queryArr.push(`multipleLocations=${loc}`));
     }
-    return query + queryArr.join('&')
+    return query + queryArr.join('&');
 }
 
 export const fetchEvents = (page: number, limit: number, filters?: UserEventFilters) => {
-    let url = `${serverURL}/events/user/`
+    let url = `${serverURL}/events/user/`;
 
     if (filters) {
-        url += computeFilterStringQuery(filters, page, limit)
+        url += computeFilterStringQuery(filters, page, limit);
     }
     else {
-        url += `upcoming?pageNumber=${page}&limit=${limit}`;
+        url += `upcoming?page=${page}&size=${limit}`;
     }
     const urlOptions = { headers: headersAuth };
 

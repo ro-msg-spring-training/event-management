@@ -6,19 +6,19 @@ import { fetchWrapper } from "./FetchWrapper";
 
 
 const computeLimit = () => {
-    let limit: { limit: string } = { limit: "2"};
+    let limit: { limit: string } = { limit: "2" };
 
     return limit;
 }
 
 const computeSize = () => {
-    let size: { size: string } = { size: "2"};
+    let size: { size: string } = { size: "2" };
 
     return size;
 }
 
 const computePage = (page: number) => {
-    let pageToSend: { page: string } = { page: page.toString()};
+    let pageToSend: { page: string } = { page: page.toString() };
 
     return pageToSend
 }
@@ -48,27 +48,27 @@ const computeFilterQueryString = (filters: EventFilters) => {
         filtersToSend.location = filters.location
     }
     if (filters.startDate) {
-        filtersToSend['startDate'] = moment(filters.startDate).format("YYYY-MM-DD")
+        filtersToSend.startDate = moment(filters.startDate).format("YYYY-MM-DD")
     }
     if (filters.endDate) {
-        filtersToSend['endDate'] = moment(filters.endDate).format("YYYY-MM-DD")
+        filtersToSend.endDate = moment(filters.endDate).format("YYYY-MM-DD")
     }
-    if (filters.rate) {
-        filtersToSend['rate'] = filters.rate
-        filtersToSend['rateSign'] = filters.rateSign
+    if (filters.rate || filters.rate === 0) {
+        filtersToSend.rate = filters.rate
+        filtersToSend.rateSign = filters.rateSign
     }
-    if (filters.maxPeople) {
-        filtersToSend['maxPeople'] = filters.maxPeople
-        filtersToSend['maxPeopleSign'] = filters.maxPeopleSign
+    if (filters.maxPeople || filters.maxPeople === 0) {
+        filtersToSend.maxPeople = filters.maxPeople
+        filtersToSend.maxPeopleSign = filters.maxPeopleSign
     }
     if (filters.startHour) {
-        filtersToSend['startHour'] = filters.startHour
+        filtersToSend.startHour = filters.startHour
     }
     if (filters.endHour) {
-        filtersToSend['endHour'] = filters.endHour
+        filtersToSend.endHour = filters.endHour
     }
-    if (filters.highlighted) {
-        filtersToSend['highlighted'] = filters.highlighted
+    if (filters.highlighted || filters.highlighted === false) {
+        filtersToSend.highlighted = filters.highlighted
     }
 
     return filtersToSend
@@ -92,7 +92,7 @@ export const fetchFilteredEvents = (filters: EventFilters, page: number) => {
     return fetchWrapper(`${url}`, { headers: headersAuth })
         .then((response) => response.json())
         .then((json) => {
-            return json.events;
+            return json;
         });
 }
 
@@ -104,10 +104,11 @@ export const fetchSortedEvents = (sort: EventSort, filters: EventFilters, page: 
     const sizeToSend = computeSize();
 
     const url = new URL(serverEventsURL);
-    if (filtersToSend.length !== undefined) {
+    if (filtersToSend !== {}) {
         url.search += new URLSearchParams(filtersToSend).toString();
         url.search += "&";
-    } else if (sortToSend.sortCriteria !== '') {
+    }
+    if (sortToSend.sortCriteria !== '') {
         url.search += new URLSearchParams(sortToSend).toString();
         url.search += "&";
     }
@@ -121,7 +122,7 @@ export const fetchSortedEvents = (sort: EventSort, filters: EventFilters, page: 
     return fetchWrapper(`${url}`, { headers: headersAuth })
         .then((response) => response.json())
         .then((json) => {
-            return json.events;
+            return json;
         });
 }
 
@@ -129,7 +130,7 @@ export const fetchEvents = () => {
     return fetchWrapper(`${serverURL}/events?limit=2&page=0&size=2`, { headers: headersAuth })
         .then(response => response.json())
         .then(json => {
-            return json.events;
+            return json;
         })
 }
 
@@ -154,7 +155,7 @@ export const getLastNumber = (filters: EventFilters) => {
     return fetchWrapper(`${url}`, { headers: headersAuth })
         .then((response) => response.json())
         .then((json) => {
-            return json.noPages - 1
+            return json.noPages
         });
 }
 
@@ -182,11 +183,11 @@ export const fetchPaginatedHomeEvents = (page: number) => {
         });
 }
 
-export const getLastNumberHome =  () => {
+export const getLastNumberHome = () => {
     // Last number from home events
     const url = serverEventsURL + "/latest?page=0&size=2&limit=2"
 
-    return fetchWrapper(`${url}`, {headers: headersAuth})
+    return fetchWrapper(`${url}`, { headers: headersAuth })
         .then((response) => response.json())
         .then((json) => {
             return json.noPages

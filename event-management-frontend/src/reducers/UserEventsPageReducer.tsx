@@ -5,6 +5,9 @@ import { UserEventType } from '../model/userEventsPage/UserEventType'
 import { UserMathRelation } from '../model/userEventsPage/UserMathRelation'
 import { UserEventIsFilterType } from '../model/userEventsPage/UserEventIsFilterType'
 
+const INITIAL_PAGE = 0
+const DEFAULT_LIMIT = 6
+
 export interface UserEventsPageState {
     events: UserEventList[],
     isError: boolean,
@@ -19,14 +22,12 @@ export interface UserEventsPageState {
     isFilter: UserEventIsFilterType
 }
 
-const initialPage = 1
-
 const initialState = {
     events: [],
     isError: false,
     isFetching: false,
-    page: initialPage,
-    limit: 4,
+    page: INITIAL_PAGE,
+    limit: DEFAULT_LIMIT,
     isMore: false,
     filters: {
         title: '',
@@ -52,7 +53,7 @@ export const UserEventsReducer = (state = initialState, action: ReducerActionPro
             return {
                 ...state,
                 isFatching: true,
-            }
+            };
         case FETCH_USER_EVENTS_SUCCESS:
             return {
                 ...state,
@@ -60,46 +61,46 @@ export const UserEventsReducer = (state = initialState, action: ReducerActionPro
                 isMore: action.payload.more,
                 isFetching: false,
                 page: state.page + 1
-            }
+            };
         case FETCH_USER_EVENTS_ERROR:
             return {
                 ...state,
                 isError: true,
                 isMore: false,
                 isFetching: false
-            }
+            };
         case FETCH_USER_EVENTS_LOCATIONS_REQUEST:
             return {
                 ...state,
                 isLocationsLoading: true
-            }
+            };
         case FETCH_USER_EVENTS_LOCATIONS_SUCCESS:
             return {
                 ...state,
                 locations: action.payload,
                 isLocationsLoading: false,
-            }
+            };
         case FETCH_USER_EVENTS_LOCATIONS_ERROR:
             return {
                 ...state,
                 isLocationsLoading: false,
                 isLocationsError: true
-            }
+            };
         case UPDATE_IS_FETCHING:
             return {
                 ...state,
                 isFetching: action.payload
-            }
+            };
         case UPDATE_USER_FILTERS:
             return {
                 ...state,
-                filters: action.payload
-            }
+                filters: action.payload,
+            };
         case RESET_USER_FILTERS:
             return {
                 ...state,
                 events: state.isFilter === UserEventIsFilterType.NOT_IN_USE ? state.events : [],
-                page: state.isFilter === UserEventIsFilterType.NOT_IN_USE ? state.page : initialPage,
+                page: state.isFilter === UserEventIsFilterType.NOT_IN_USE ? state.page : INITIAL_PAGE,
                 isMore: state.isFilter === UserEventIsFilterType.NOT_IN_USE ? state.isMore : false,
                 isFilter: UserEventIsFilterType.NOT_IN_USE,
                 filters: {
@@ -109,11 +110,11 @@ export const UserEventsReducer = (state = initialState, action: ReducerActionPro
                     rateSign: UserMathRelation.GREATER,
                     type: UserEventType.UPCOMING
                 }
-            }
+            };
         case SET_FILTER_USER_EVENTS_MODE:
             return {
                 ...state,
-                page: 1,
+                page: INITIAL_PAGE,
                 isMore: false,
                 events: [],
                 isFilter: state.isFilter === UserEventIsFilterType.NOT_IN_USE ?
@@ -121,14 +122,14 @@ export const UserEventsReducer = (state = initialState, action: ReducerActionPro
                     state.isFilter === UserEventIsFilterType.IN_USE_STATE_1 ?
                         UserEventIsFilterType.IN_USE_STATE_2 :
                         UserEventIsFilterType.IN_USE_STATE_1,
-            }
+            };
         case RESET_USER_EVENT_LIST_STORE:
             return {
                 events: [],
                 isError: false,
                 isFetching: false,
-                page: initialPage,
-                limit: 4,
+                page: INITIAL_PAGE,
+                limit: DEFAULT_LIMIT,
                 isMore: false,
                 filters: {
                     title: '',
@@ -141,7 +142,7 @@ export const UserEventsReducer = (state = initialState, action: ReducerActionPro
                 isLocationsLoading: false,
                 isLocationsError: false,
                 isFilter: UserEventIsFilterType.NOT_IN_USE
-            }
+            };
         default:
             return state
     }

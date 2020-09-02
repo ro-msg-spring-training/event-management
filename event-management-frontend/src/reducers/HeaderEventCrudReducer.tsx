@@ -36,6 +36,8 @@ export interface EventState {
   formErrors: EventFormErrors;
   locationAddress: string;
   locationName: string;
+  isDeleted: boolean;
+  isSaved: boolean;
 }
 
 let today = new Date(new Date().toString().split("GMT")[0] + " UTC").toISOString().split(".")[0];
@@ -77,7 +79,7 @@ export const initialState: EventState = {
     highlighted: false,
     description: "",
     observations: "",
-    location: 1,
+    location: -1,
     startDate: currDate,
     endDate: currDate,
     startHour: currTime,
@@ -112,6 +114,9 @@ export const initialState: EventState = {
 
   locationAddress: "",
   locationName: "",
+
+  isDeleted: false,
+  isSaved: false
 };
 
 const getEventImages = (imagesStr: string[]) => {
@@ -128,10 +133,7 @@ const HeaderReducer = (
 ) => {
   switch (action.type) {
     case RESET_STORE:
-      return {
-        ...initialState,
-      };
-
+      return initialState;
     case UPDATE_LOCATION:
       const newEvent = JSON.parse(JSON.stringify(state.event));
       newEvent.location = action.payload;
@@ -187,6 +189,7 @@ const HeaderReducer = (
       return {
         ...state,
         ...initialState,
+        isDeleted: true
       };
 
     case DELETE_EVENT_FAILURE:
@@ -205,6 +208,7 @@ const HeaderReducer = (
       return {
         ...state,
         loading: false,
+        isSaved: true
       };
 
     case ADD_EVENT_FAILURE:
@@ -224,6 +228,7 @@ const HeaderReducer = (
       return {
         ...state,
         loading: false,
+        isSaved: true
       };
 
     case EDIT_EVENT_FAILURE:

@@ -17,7 +17,7 @@ function EventRow({ id, title, startDate, endDate, handleOnClick }: EventRowProp
 
     return (
         <div onClick={() => handleOnClick(id)}>
-            <Typography variant='subtitle1' className={classes.eventTitle}>{title}</Typography>
+            <Typography variant='h6' className={classes.eventTitle}>{title}</Typography>
 
             <div className={classes.eventDivInfo}>
                 <EventIcon className={classes.eventIconInfo} />

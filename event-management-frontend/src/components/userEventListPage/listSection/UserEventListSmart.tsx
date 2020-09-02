@@ -64,7 +64,7 @@ function UserEventListSmart({
 
     useEffect(()=>{
         return () => resetState();
-    }, [resetState])
+    }, [resetState]);
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
