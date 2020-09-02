@@ -12,15 +12,13 @@ function Arrow({ direction, clickFunction }: ArrowProps) {
   const icon =
     direction === 'left' ? (
       <IconButton onClick={clickFunction}>
-        {' '}
-        <ArrowLeft fontSize="large" />{' '}
+        <ArrowLeft fontSize="large" />
       </IconButton>
     ) : (
-      <IconButton onClick={clickFunction}>
-        {' '}
-        <ArrowRight fontSize="large" />{' '}
-      </IconButton>
-    );
+        <IconButton onClick={clickFunction}>
+          <ArrowRight fontSize="large" />
+        </IconButton>
+      );
 
   return <>{icon}</>;
 }

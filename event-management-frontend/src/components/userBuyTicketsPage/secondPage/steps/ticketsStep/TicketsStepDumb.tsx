@@ -13,16 +13,16 @@ interface TicketsStepDumbProps {
 
 function TicketsStepDumb({ nextStep, inputs }: TicketsStepDumbProps) {
   const buttonClass = useStyles();
-  const classes = userBuyTicketsStyle();
+  const ticketsPageStyle = userBuyTicketsStyle();
   const { t } = useTranslation();
 
   return (
     <>
-      <HtmlTooltip className={classes.alignHelpIcon} title={<>{t('buyTicketsSecondPage.chooseDesiredTickets')}</>}>
+      <HtmlTooltip className={ticketsPageStyle.alignHelpIcon} title={<>{t('buyTicketsSecondPage.chooseDesiredTickets')}</>}>
         <HelpIcon color="primary" fontSize="small" />
       </HtmlTooltip>
 
-      <Typography className={classes.typography} align="center">
+      <Typography className={ticketsPageStyle.typography} align="center">
         {t('buyTicketsSecondPage.numberOfTickets')}
       </Typography>
 
@@ -35,13 +35,13 @@ function TicketsStepDumb({ nextStep, inputs }: TicketsStepDumbProps) {
           direction="row"
           justify="center"
           alignItems="center"
-          className={`${classes.button} buttonStyleResp`}
+          className={`${ticketsPageStyle.button} buttonStyleResp`}
         >
           <Grid item xs={4} sm={2} md={2} lg={1} xl={1} />
           <Grid item xs={4} sm={2} md={2} lg={1} xl={1}>
             <Button
               variant="contained"
-              className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle} ${classes.buttonPosition}`}
+              className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle} ${ticketsPageStyle.buttonPosition}`}
               onClick={nextStep}
             >
               {t('eventList.next')}

@@ -1,70 +1,18 @@
 import React from 'react';
 import {
   Grid,
-  makeStyles,
-  Theme,
   Typography,
   TextField,
   FormControl,
   InputLabel,
   Select,
   MenuItem,
-  withStyles,
-  CheckboxProps,
-  Checkbox,
   FormControlLabel,
 } from '@material-ui/core';
 import { EventCrud } from '../../../model/EventCrud';
 import { useTranslation } from 'react-i18next';
-
-const YellowCheckbox = withStyles({
-  root: {
-    color: '#f2ac0a',
-    '&$checked': {
-      color: '#f2ac0a',
-    },
-  },
-  checked: {},
-})((props: CheckboxProps) => <Checkbox color="default" {...props} />);
-
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    '& .MuiTextField-root': {
-      margin: theme.spacing(1),
-      width: '80%',
-    },
-  },
-  grid: {
-    width: '100%',
-    margin: '0px',
-  },
-  typography: {
-    padding: '1%',
-    fontSize: '2em',
-    color: theme.palette.primary.dark,
-  },
-  formControl: {
-    minWidth: 100,
-    marginBottom: '1.2em',
-  },
-  fundal: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    marginTop: '5%',
-    marginBottom: '5%',
-    marginLeft: '5%',
-  },
-  checkbox: {
-    color: theme.palette.secondary.dark,
-  },
-  newBkg: {
-    background: 'linear-gradient(45deg, #f9c929 10%, #f2ac0a 90%)',
-  },
-  margin: {
-    marginTop: '1%',
-    marginBottom: '1%',
-  },
-}));
+import { YellowCheckbox } from '../../../styles/YellowCheckbox';
+import { useStylesOverviewDumb } from '../../../styles/OverviewStyles';
 
 interface OverviewDumbProps {
   newEvent: boolean;
@@ -87,16 +35,16 @@ interface OverviewDumbProps {
 }
 
 function OverviewDumb(props: OverviewDumbProps) {
-  const classes = useStyles();
+  const overviewClasses = useStylesOverviewDumb();
   const { t } = useTranslation();
   return (
-    <div className={classes.fundal}>
-      <Typography className={classes.typography}></Typography>
+    <div className={overviewClasses.fundal}>
+      <Typography className={overviewClasses.typography}></Typography>
 
       <Grid container direction="column" justify="center" alignItems="center">
         <Grid item container direction="row" justify="center" alignItems="center">
           <Grid item xl={4} lg={4} sm={8} xs={11}>
-            <form className={classes.root} autoComplete="off">
+            <form className={overviewClasses.root} autoComplete="off">
               <TextField
                 onKeyDown={props.handleEnterKey}
                 disabled={!props.admin}
@@ -114,7 +62,7 @@ function OverviewDumb(props: OverviewDumbProps) {
           </Grid>
 
           <Grid item xl={4} lg={4} sm={8} xs={11}>
-            <form className={classes.root} autoComplete="off">
+            <form className={overviewClasses.root} autoComplete="off">
               <TextField
                 onKeyDown={props.handleEnterKey}
                 name="subtitle"
@@ -132,7 +80,7 @@ function OverviewDumb(props: OverviewDumbProps) {
           </Grid>
 
           <Grid item xl={4} lg={4} sm={8} xs={11}>
-            <form className={classes.root} autoComplete="off">
+            <form className={overviewClasses.root} autoComplete="off">
               <TextField
                 onKeyDown={props.handleEnterKey}
                 name="maxPeople"
@@ -151,11 +99,11 @@ function OverviewDumb(props: OverviewDumbProps) {
           </Grid>
         </Grid>
 
-        <Grid item container className={classes.grid} direction="row" justify="center" alignItems="center">
+        <Grid item container className={overviewClasses.grid} direction="row" justify="center" alignItems="center">
           <Grid item xl={7} lg={7} sm={8} xs={7}>
-            <form className={classes.root}>
+            <form className={overviewClasses.root}>
               <TextField
-                className={classes.margin}
+                className={overviewClasses.margin}
                 onKeyDown={props.handleEnterKey}
                 name="description"
                 disabled={!props.admin}
@@ -175,18 +123,18 @@ function OverviewDumb(props: OverviewDumbProps) {
           </Grid>
         </Grid>
 
-        <Grid item container spacing={2} className={classes.grid} direction="row" justify="center" alignItems="center">
+        <Grid item container spacing={2} className={overviewClasses.grid} direction="row" justify="center" alignItems="center">
           <Grid
             item
             container
             spacing={2}
-            className={classes.grid}
+            className={overviewClasses.grid}
             direction="row"
             justify="center"
             alignItems="center"
           >
             <Grid item xl={2} lg={4} md={5} sm={7} xs={12}>
-              <form className={classes.root} autoComplete="off">
+              <form className={overviewClasses.root} autoComplete="off">
                 <TextField
                   label={t('welcome.overviewStartDate')}
                   name="startDate"
@@ -204,7 +152,7 @@ function OverviewDumb(props: OverviewDumbProps) {
             </Grid>
 
             <Grid item xl={2} lg={4} md={5} sm={7} xs={12}>
-              <form className={classes.root} autoComplete="off">
+              <form className={overviewClasses.root} autoComplete="off">
                 <TextField
                   label={t('welcome.overviewStartTime')}
                   name="startTime"
@@ -229,13 +177,13 @@ function OverviewDumb(props: OverviewDumbProps) {
             item
             container
             spacing={2}
-            className={classes.grid}
+            className={overviewClasses.grid}
             direction="row"
             justify="center"
             alignItems="center"
           >
             <Grid item xl={2} lg={4} md={5} sm={7} xs={12}>
-              <form className={classes.root} autoComplete="off">
+              <form className={overviewClasses.root} autoComplete="off">
                 <TextField
                   label={t('welcome.overviewEndDate')}
                   name="endDate"
@@ -253,7 +201,7 @@ function OverviewDumb(props: OverviewDumbProps) {
             </Grid>
 
             <Grid item xl={2} lg={4} md={5} sm={7} xs={12}>
-              <form className={classes.root} autoComplete="off">
+              <form className={overviewClasses.root} autoComplete="off">
                 <TextField
                   label={t('welcome.overviewEndTime')}
                   name="endTime"
@@ -276,7 +224,7 @@ function OverviewDumb(props: OverviewDumbProps) {
         </Grid>
       </Grid>
 
-      <Grid item container className={classes.grid} direction="row" justify="center" alignItems="center">
+      <Grid item container className={overviewClasses.grid} direction="row" justify="center" alignItems="center">
         <Grid item xl={1} lg={2} md={2} sm={4} xs={7}>
           <FormControlLabel
             disabled={!props.admin}
@@ -292,7 +240,7 @@ function OverviewDumb(props: OverviewDumbProps) {
         </Grid>
 
         <Grid item xl={1} lg={2} md={2} sm={4} xs={7}>
-          <FormControl className={classes.formControl}>
+          <FormControl className={overviewClasses.formControl}>
             <InputLabel>Status</InputLabel>
             <Select
               disabled={!props.admin}

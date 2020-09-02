@@ -42,7 +42,7 @@ function NamesStepSmart({
   namesStepFormErrors,
   updateNamesStepFormErrors,
 }: NamesStepProps) {
-  const classes = userBuyTicketsStyle();
+  const namesPageStyle = userBuyTicketsStyle();
   const { t } = useTranslation();
 
   namesStepFormErrors = initializeNamesStepFormErrors(namesStepFormErrors, ticketAmount);
@@ -96,7 +96,7 @@ function NamesStepSmart({
       inputs.push(
         <Grid item xs={12} key={ticketAmount[i].category + '#' + j}>
           <TextField
-            className={classes.position}
+            className={namesPageStyle.position}
             onKeyDown={handleEnterKey}
             type="text"
             name={textFieldName}

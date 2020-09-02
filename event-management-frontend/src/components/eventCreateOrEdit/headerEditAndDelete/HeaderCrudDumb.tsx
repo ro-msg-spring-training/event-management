@@ -26,7 +26,7 @@ function HeaderDumb({ admin, title, handleEventDelete, handleEventSave }: Props)
           className={`${buttonStyle.mainButtonStyle} ${buttonStyle.pinkGradientButtonStyle}`}
           onClick={handleEventDelete}
         >
-          {t('welcome.headerCRUDCancel')}{' '}
+          {t('welcome.headerCRUDCancel')}
         </Button>
       ) : (
         <Button
@@ -34,7 +34,7 @@ function HeaderDumb({ admin, title, handleEventDelete, handleEventSave }: Props)
           className={`${buttonStyle.mainButtonStyle} ${buttonStyle.pinkGradientButtonStyle}`}
           onClick={handleEventDelete}
         >
-          {t('welcome.headerCRUDDelete')}{' '}
+          {t('welcome.headerCRUDDelete')}
         </Button>
       )
     ) : null;
@@ -61,7 +61,7 @@ function HeaderDumb({ admin, title, handleEventDelete, handleEventSave }: Props)
         className={`${buttonStyle.mainButtonStyle} ${buttonStyle.pinkGradientButtonStyle}`}
         onClick={handleEventSave}
       >
-        {t('welcome.headerCRUDSave')}{' '}
+        {t('welcome.headerCRUDSave')}
       </Button>
     ) : null;
 

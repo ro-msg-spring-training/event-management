@@ -50,7 +50,7 @@ export default function AlertDialog({
   const handleProceed = (): void => {
     setOpen(false);
     prevStep !== undefined && prevStep();
-    history.push('/admin/events');
+    history.push('/admin');
   };
 
   const handleCancel = (): void => {

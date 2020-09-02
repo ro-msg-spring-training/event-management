@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Grid, CardMedia } from '@material-ui/core';
 import Arrow from './Arrow';
 import { EventImage } from '../../model/EventImage';
-import { useStyles } from '../../styles/CarouselSlideStyles';
+import { carouselSlideStyle } from '../../styles/CarouselSlideStyles';
 
 interface Props {
   images: EventImage[];
@@ -30,13 +30,13 @@ function CarouselSlide({ images }: Props) {
     setIndex(newIndex);
   };
 
-  const classes = useStyles();
+  const style = carouselSlideStyle();
   return (
-    <Grid item container direction="row" justify="center" alignItems="center" className={classes.position}>
+    <Grid item container direction="row" justify="center" alignItems="center" className={style.position}>
       {images.length > 1 && <Arrow direction="left" clickFunction={() => onArrowClick('left')} />}
 
       <Grid item xs={7} xl={6}>
-        <CardMedia className={classes.card} image={content.url} />
+        <CardMedia className={style.card} image={content.url} />
       </Grid>
 
       {images.length > 1 && <Arrow direction="right" clickFunction={() => onArrowClick('right')} />}
