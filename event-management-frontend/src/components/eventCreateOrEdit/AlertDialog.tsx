@@ -7,6 +7,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { Grid, Container, CircularProgress } from '@material-ui/core';
 
 interface AlertDialogProps {
   open: boolean;
@@ -16,6 +17,11 @@ interface AlertDialogProps {
   dialogDescription: string;
 
   prevStep?: () => void;
+  isLoading?: boolean;
+  isError?: boolean;
+  errorMsg?: string;
+  isRequest: boolean;
+  handleGoToEventsPage?: () => void
 }
 
 export default function AlertDialog({
@@ -25,6 +31,11 @@ export default function AlertDialog({
   msgUndo,
   dialogTitle,
   dialogDescription,
+  isLoading,
+  isError,
+  errorMsg,
+  isRequest,
+  handleGoToEventsPage
 }: AlertDialogProps) {
   const history = useHistory();
   const { t } = useTranslation();
@@ -53,20 +64,54 @@ export default function AlertDialog({
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">{dialogDescription}</DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          {msgUndo === t('welcome.popupMsgCancelUndo') ? (
-            <Button onClick={handleProceed} color="primary">
-              {t('welcome.popupMsgContinueUndo')}
-            </Button>
-          ) : null}
-          <Button onClick={handleCancel} color="primary" autoFocus>
-            {msgUndo}
-          </Button>
-        </DialogActions>
+        {console.log("REQUEST", isRequest)}
+        {isRequest ?
+          isLoading ?
+            <DialogContent>
+              {console.log("loading")}
+              <Grid container direction="row" justify="center" alignItems="center">
+                <Container maxWidth="lg">
+                  <CircularProgress />
+                </Container>
+                <DialogContentText id="alert-dialog-description">Loading</DialogContentText>
+              </Grid>
+            </DialogContent> :
+            isError ?
+              <DialogContent>
+                {console.log("error", errorMsg)}
+                <DialogContentText id="alert-dialog-description">Error {errorMsg}</DialogContentText>
+                <DialogActions>
+                  <Button onClick={handleGoToEventsPage} color="primary" autoFocus>
+                    OK
+                  </Button>
+                </DialogActions>
+              </DialogContent> :
+              <DialogContent>
+                {console.log("Success")}
+                <DialogContentText id="alert-dialog-description">Success</DialogContentText>
+                <DialogActions>
+                  <Button onClick={handleGoToEventsPage} color="primary" autoFocus>
+                    OK
+                  </Button>
+                </DialogActions>
+              </DialogContent> :
+          <>
+            <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">{dialogDescription}</DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              {msgUndo === t('welcome.popupMsgCancelUndo') ? (
+                <Button onClick={handleProceed} color="primary">
+                  {t('welcome.popupMsgContinueUndo')}
+                </Button>
+              ) : null}
+              <Button onClick={handleCancel} color="primary" autoFocus>
+                {msgUndo}
+              </Button>
+            </DialogActions>
+          </>
+        }
       </Dialog>
     </div>
   );

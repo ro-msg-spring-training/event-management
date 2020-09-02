@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import UserEventDetailsDumb from './UserEventDetailsDumb';
 import { Container, CircularProgress } from '@material-ui/core';
 import { loadEventWithLocations } from '../../actions/UserEventDetailsActions';
+import { useHistory } from 'react-router-dom';
 
 interface UserEventDetailsProps {
   match: any;
@@ -25,6 +26,7 @@ function UserEventDetailsSmart({
   locationAddress,
   locationName,
 }: UserEventDetailsProps) {
+
   useEffect(() => {
     fetchData(match.params.id);
   }, [match.params.id, fetchData]);

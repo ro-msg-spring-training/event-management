@@ -18,7 +18,7 @@ interface BuyTicketsPopupDumbProps {
   handleCheckboxChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 
   handleCancel: () => void;
-  handleProceed: () => void;
+  handleProceed: (e : any) => void;
   handleClose: () => void;
 }
 
@@ -66,8 +66,7 @@ function BuyTicketsPopupDumb({
             <Grid item container direction="row">
               <Grid item xs={4}>
                 <Button onClick={handleCancel} color="primary" className={classes.buttonPosition}>
-                  {' '}
-                  {t('welcome.headerCRUDCancel')}{' '}
+                  {t('welcome.headerCRUDCancel')}
                 </Button>
               </Grid>
               <Grid item xs={8}>
@@ -75,8 +74,7 @@ function BuyTicketsPopupDumb({
                   onClick={handleProceed}
                   className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition}`}
                 >
-                  {' '}
-                  {t('buyTicketsSecondPage.buyTickets')}{' '}
+                  {t('buyTicketsSecondPage.buyTickets')}
                 </Button>
               </Grid>
             </Grid>

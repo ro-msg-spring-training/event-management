@@ -41,9 +41,11 @@ export function* loadTicketCategoriesWatcher() {
 function* addBookingsAsync(props: AddProps) {
   try {
     yield put(addBookingsRequest());
-    yield call(() => addBookingsAPI(props.payload.bookings));
+    const res = yield call(() => addBookingsAPI(props.payload.bookings));
+    console.log("res", res);
     yield put(addBookingsSuccess());
   } catch (e) {
+    console.log("ERROR from saga", e);
     yield put(addBookingsFailure(e));
   }
 }

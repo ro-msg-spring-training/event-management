@@ -15,7 +15,7 @@ interface UserHomePageProps {
   fetchBookings: () => void;
 }
 
-function CheckInSectionSamrt({ bookings, isError, isLoading, fetchBookings }: UserHomePageProps) {
+function CheckInSectionSmart({ bookings, isError, isLoading, fetchBookings }: UserHomePageProps) {
   const [translation] = useTranslation();
   const history = useHistory();
 
@@ -48,4 +48,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   fetchBookings: () => dispatch(fetchBookings()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CheckInSectionSamrt);
+export default connect(mapStateToProps, mapDispatchToProps)(CheckInSectionSmart);

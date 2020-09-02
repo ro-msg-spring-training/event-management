@@ -26,6 +26,8 @@ export interface ReserveSecondPageState {
   ticketCategory: TicketAvailabilityData[];
   isError: boolean;
   isLoading: boolean;
+  isErrorTicketCategories: boolean;
+  isLoadingTicketCategories: boolean;
   errorMsg: string;
 
   booking: Booking;
@@ -55,6 +57,8 @@ const initialState: ReserveSecondPageState = {
   ],
   isError: false,
   isLoading: false,
+  isErrorTicketCategories: false,
+  isLoadingTicketCategories: false,
   errorMsg: '',
 
   booking: initialBooking,
@@ -76,21 +80,21 @@ const TicketCategoriesReducer = (
       return {
         ...state,
         loading: true,
-        isLoading: true,
+        isLoadingTicketCategories: true,
       };
     case FETCH_TICKET_CATEGORIES_SUCCESS:
       return {
         ...state,
         ticketCategory: action.payload as TicketAvailabilityData[],
-        isError: false,
-        isLoading: false,
+        isErrorTicketCategories: false,
+        isLoadingTicketCategories: false,
       };
     case FETCH_TICKET_CATEGORIES_FAILURE:
       return {
         ...state,
         ticketCategory: action.payload as TicketAvailabilityData[],
-        isError: true,
-        isLoading: false,
+        isErrorTicketCategories: true,
+        isLoadingTicketCategories: false,
       };
     case ADD_BOOKINGS_REQUEST:
       return {
@@ -98,14 +102,16 @@ const TicketCategoriesReducer = (
         isLoading: true,
       };
     case ADD_BOOKINGS_SUCCESS:
+      console.log("SUCCES from reducer");
       return {
         ...state,
         isLoading: false,
       };
     case ADD_BOOKINGS_FAILURE:
+      console.log("FAILURE from reducer");
       return {
         ...state,
-        loading: false,
+        isLoading: false,
         isError: true,
         errorMsg: action.payload,
       };

@@ -247,6 +247,7 @@ function EventDetails({
         imagesComponent={imagesComponent}
       />
       <AlertDialog
+        isRequest={false}
         open={open}
         setOpen={setOpen}
         msgUndo={msgUndo}

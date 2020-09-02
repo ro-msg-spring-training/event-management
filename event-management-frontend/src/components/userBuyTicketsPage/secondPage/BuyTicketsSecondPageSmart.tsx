@@ -20,10 +20,10 @@ import { AppState } from '../../../store/store';
 
 interface BuyTicketsSecondPageSmartProps {
   match: any;
-  fetchedData: {
-    isError: boolean;
-    isLoading: boolean;
-  };
+
+  isErrorTicketCategories: boolean;
+  isLoadingTicketCategories: boolean;
+
   ticketCategories: TicketAvailabilityData[];
   fetchTicketCategories: (idEvent: string) => void;
   addBookings: (booking: Booking) => void;
@@ -46,7 +46,8 @@ const handleEnterKey = (e: KeyboardEvent<HTMLDivElement>): void => {
 
 function BuyTicketsSecondPageSmart({
   match,
-  fetchedData,
+  isErrorTicketCategories,
+  isLoadingTicketCategories,
   ticketCategories,
   fetchTicketCategories,
   addBookings,
@@ -67,13 +68,13 @@ function BuyTicketsSecondPageSmart({
 
   useEffect(() => {
     let initialTicketState: TicketsPerCateory[] = [];
-    if (!fetchedData.isError) {
+    if (!isErrorTicketCategories) {
       ticketCategories.map((ticket) => initialTicketState.push({ category: ticket.title, quantity: 0 }));
       updateTicketAmount(initialTicketState);
     }
   }, [ticketCategories, updateTicketAmount]);
 
-  if (fetchedData.isLoading) {
+  if (isLoadingTicketCategories) {
     return (
       <Grid container direction="row" justify="center" alignItems="center">
         <Container maxWidth="lg">
@@ -82,7 +83,7 @@ function BuyTicketsSecondPageSmart({
         <h6>Loading</h6>
       </Grid>
     );
-  } else if (fetchedData.isError) {
+  } else if (isErrorTicketCategories) {
     return (
       <Grid container direction="row" justify="center" alignItems="center">
         <ErrorIcon color={'primary'} fontSize={'large'} />
@@ -103,7 +104,7 @@ function BuyTicketsSecondPageSmart({
   };
 
   const gotoEventListPage = () => {
-    history.push('/user');
+    history.push('/user/events');
   };
 
   return (
@@ -129,7 +130,8 @@ function BuyTicketsSecondPageSmart({
 
 const mapStateToProps = (state: AppState) => {
   return {
-    fetchedData: state.ticketCategories,
+    isErrorTicketCategories: state.ticketCategories.isErrorTicketCategories,
+    isLoadingTicketCategories: state.ticketCategories.isLoadingTicketCategories,
     booking: state.ticketCategories.booking,
     ticketCategories: state.ticketCategories.ticketCategory,
 

@@ -6,7 +6,7 @@ import { useStyles } from '../../styles/CommonStyles';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import CarouselSlide from './CarouselSlide';
-import { useStyles2 } from '../../styles/UserEventDetailsStyles';
+import { userEventDetailsStyles } from '../../styles/UserEventDetailsStyles';
 
 interface UserEventDetailsDumbProps {
   event: EventCrud;
@@ -17,7 +17,7 @@ interface UserEventDetailsDumbProps {
 
 function UserEventDetailsDumb(props: UserEventDetailsDumbProps) {
   const classes2 = useStyles();
-  const classes = useStyles2();
+  const classes = userEventDetailsStyles();
   const history = useHistory();
   const { t } = useTranslation();
 
@@ -26,8 +26,10 @@ function UserEventDetailsDumb(props: UserEventDetailsDumbProps) {
   };
 
   let handleJoinButton = (): void => {
-    //TODO goto Tickets page
+    history.push(`/user/reserve-tickets/first-page/${props.event.id}`);
   };
+
+  const today = new Date(new Date().toString().split('GMT')[0] + ' UTC').toISOString().split('.')[0];
 
   return (
     <Grid container spacing={0} direction="column" justify="space-between" alignItems="center">
@@ -114,8 +116,8 @@ function UserEventDetailsDumb(props: UserEventDetailsDumbProps) {
                   {props.event.status ? (
                     <TableCell align="right"> {t('welcome.overviewStatusActive')}</TableCell>
                   ) : (
-                    <TableCell align="right">{t('welcome.overviewStatusInactive')}</TableCell>
-                  )}
+                      <TableCell align="right">{t('welcome.overviewStatusInactive')}</TableCell>
+                    )}
                 </TableRow>
               </TableBody>
             </Table>
@@ -126,14 +128,15 @@ function UserEventDetailsDumb(props: UserEventDetailsDumbProps) {
       <Grid item container justify="center" alignItems="flex-end" direction="row" className={classes.position}>
         <Grid item xs={3} sm={2} md={1} lg={1} xl={1}>
           <Button className={`${classes2.buttonStyle2} ${classes2.buttonStyle3}`} onClick={handleBackButton}>
-            {' '}
             {t('welcome.backButton')}{' '}
           </Button>
         </Grid>
 
         <Grid item xs={3} sm={2} md={1} lg={1} xl={1}>
-          <Button className={`${classes2.buttonStyle2} ${classes2.buttonStyle3}`} onClick={handleJoinButton}>
-            {' '}
+          <Button
+            className={`${classes2.buttonStyle2} ${classes2.buttonStyle3} ${classes.disabled}`}
+            disabled={props.event.endDate < today}
+            onClick={handleJoinButton}>
             {t('welcome.joinButton')}{' '}
           </Button>
         </Grid>

@@ -7,7 +7,7 @@ interface BuyTicketsPopupSmartProps {
   setOpen: any;
   checked: boolean;
   handleCheckboxChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleProceedToBuy: () => void;
+  handleProceedToBuy: (e: any) => void;
 }
 
 function BuyTicketsPopupSmart({
@@ -22,9 +22,9 @@ function BuyTicketsPopupSmart({
     setOpen(false);
   };
 
-  const handleProceed = (): void => {
+  const handleProceed = (e: any): void => {
     setOpen(false);
-    handleProceedToBuy();
+    handleProceedToBuy(e);
   };
 
   const handleCancel = (): void => {
