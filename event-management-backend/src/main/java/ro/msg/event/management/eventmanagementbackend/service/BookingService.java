@@ -202,7 +202,7 @@ public class BookingService {
             this.replaceFieldWithParagraph(acroFields, pdfContentByte, "ticketCategory", new Paragraph(ticketCategory.getTitle()), baseFont);
             this.replaceFieldWithParagraph(acroFields, pdfContentByte, "ticketCategoryDescription", new Paragraph(ticketCategory.getDescription()), baseFont);
 
-            Image image = Image.getInstance(new URL("https://event-management-pictures.s3-eu-west-1.amazonaws.com/image-135725-1597848333216-tr30-June-Ibiza.jpg"));
+            Image image = Image.getInstance(event.getPictures().get(0).getUrl());
             this.replaceFieldWithImage(acroFields, pdfContentByte, "image", image);
 
             BarcodeQRCode qrCode = new BarcodeQRCode(savedBooking.getUser() + " " + ticket.getId().toString(), 1, 1, null);
