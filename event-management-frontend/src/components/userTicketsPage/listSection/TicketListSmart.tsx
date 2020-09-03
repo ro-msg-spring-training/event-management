@@ -44,8 +44,6 @@ const TicketListSmart = ({
 
       if (tickets.length > 0) {
         setIsFetching(false)
-      } else {
-        resetPage()
       }
     }
   }, [hasMore, tickets, isFetching]);

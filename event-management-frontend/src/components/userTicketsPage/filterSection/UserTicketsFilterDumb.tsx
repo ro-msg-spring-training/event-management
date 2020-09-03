@@ -60,10 +60,11 @@ const UserTicketsFilterDumb = ({
                 type="date"
                 error={errorStartDate !== ''}
                 label={t('ticketList.startDate')}
+                InputLabelProps={{ shrink: true }}
                 variant="outlined"
                 fullWidth
                 helperText={errorStartDate}
-                value={filters.startDate === undefined ? new Date() : moment(filters.startDate).format('YYYY-MM-DD')}
+                value={filters.startDate === undefined ? '' : moment(filters.startDate).format('YYYY-MM-DD')}
                 onChange={(e) => handleChangeStartDate(e.target.value)}
                 className={filterStyle.textOverflow}
               />
@@ -75,10 +76,11 @@ const UserTicketsFilterDumb = ({
                 type="date"
                 error={errorEndDate !== ''}
                 label={t('ticketList.endDate')}
+                InputLabelProps={{ shrink: true }}
                 variant="outlined"
                 fullWidth
                 helperText={errorEndDate}
-                value={filters.endDate === undefined ? new Date() : moment(filters.endDate).format('YYYY-MM-DD')}
+                value={filters.endDate === undefined ? '' : moment(filters.endDate).format('YYYY-MM-DD')}
                 onChange={(e) => handleChangeEndDate(e.target.value)}
                 className={filterStyle.textOverflow}
               />
