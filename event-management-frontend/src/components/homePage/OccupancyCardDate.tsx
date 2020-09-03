@@ -1,5 +1,5 @@
-import React from "react";
-import useStylesCards from "../../styles/OccupancyCardsStyle";
+import React from 'react';
+import useStylesCards from '../../styles/OccupancyCardsStyle';
 
 interface Props {
   startDate: string;

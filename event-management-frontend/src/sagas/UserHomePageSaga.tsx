@@ -1,9 +1,4 @@
-import {
-  UserHomePageActionTypes,
-  FetchUserPastEventsAction,
-  FetchUserUpcomingEventsAction,
-} from "../types/UserHomePageActionTypes";
-import { takeEvery, put, call } from "redux-saga/effects";
+import { takeEvery, put, call } from 'redux-saga/effects';
 import {
   fetchBookingsRequest,
   fetchBookingsSuccess,
@@ -17,8 +12,11 @@ import {
   fetchHighlightedEventsRequest,
   fetchHighlightedEventsSuccess,
   fetchHighlightedEventsError,
-} from "../actions/UserHomePageActions";
-import { fetchHighlightedEvents, fetchBookings, fetchPastEvents, fetchUpcomingEvents } from "../api/UserHomePageAPI";
+  UserHomePageActionTypes,
+  FetchUserPastEventsAction,
+  FetchUserUpcomingEventsAction,
+} from '../actions/UserHomePageActions';
+import { fetchHighlightedEvents, fetchBookings, fetchPastEvents, fetchUpcomingEvents } from '../api/UserHomePageAPI';
 
 function* fetchBookingsAsync() {
   yield put(fetchBookingsRequest());

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { ThemeProvider } from '@material-ui/core/styles';
-import { BrowserRouter as Router } from "react-router-dom";
+import { HashRouter as Router } from "react-router-dom";
 import {Provider} from 'react-redux'
 import { store } from './store/store';
 import './index.css';
@@ -12,7 +12,7 @@ import themeDark from './styles/Apptheme';
 
 ReactDOM.render(
     <Provider store={store}>
-        <Router>
+        <Router basename='/'>
             <ThemeProvider theme={themeDark}>
                 <App/>
             </ThemeProvider>

@@ -1,4 +1,4 @@
-import { takeLatest, call, put } from "redux-saga/effects";
+import { takeLatest, call, put } from 'redux-saga/effects';
 import {
   LOAD_EVENT,
   fetchEventRequest,
@@ -16,16 +16,16 @@ import {
   editEventSuccess,
   editEventFailure,
   EDIT_EVENT,
-} from "../actions/HeaderEventCrudActions";
+} from '../actions/HeaderEventCrudActions';
 import {
   fetchEventAPI,
   deleteEventAPI,
   addEventAPI,
   editEventAPI,
   updateImagesFromS3,
-} from "../api/HeaderEventCrudAPI";
-import { EventCrud } from "../model/EventCrud";
-import { EventImage } from "../model/EventImage";
+} from '../api/HeaderEventCrudAPI';
+import { EventCrud } from '../model/EventCrud';
+import { EventImage } from '../model/EventImage';
 
 interface Props {
   type: string;
@@ -49,7 +49,7 @@ function* loadEventAsync(props: Props) {
   }
 }
 
-export function* loadEventWatcher() {
+export function* watchLoadEventAsync() {
   yield takeLatest(LOAD_EVENT, loadEventAsync);
 }
 
@@ -64,7 +64,7 @@ function* deleteEventAsync(props: Props) {
   }
 }
 
-export function* deleteProductWatcher() {
+export function* watchDeletEventAsync() {
   yield takeLatest(DELETE_EVENT, deleteEventAsync);
 }
 
@@ -83,7 +83,7 @@ function* addEventAsync(props: AddProps) {
   }
 }
 
-export function* addProductWatcher() {
+export function* watchAddEventAsync() {
   yield takeLatest(ADD_EVENT, addEventAsync);
 }
 
@@ -102,6 +102,6 @@ function* editEventAsync(props: AddProps) {
   }
 }
 
-export function* editProductWatcher() {
+export function* watchEditEventAsync() {
   yield takeLatest(EDIT_EVENT, editEventAsync);
 }

@@ -7,3 +7,14 @@
 .carousel .carousel-status {
   display: none;
 }
+.carousel .control-dots .dot{
+  background: white !important;
+}
+
+.carousel .control-next.control-arrow:before {
+  border-left: 8px solid white !important;
+}
+
+.carousel .control-prev.control-arrow:before {
+  border-right: 8px solid white !important;
+}

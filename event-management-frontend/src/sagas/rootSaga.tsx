@@ -2,21 +2,24 @@ import { all } from 'redux-saga/effects';
 import {
   watchFetchFilteredEventsAsync,
   watchFetchEventsAsync,
-  watchSortEventsAsync,
-  watchPrevPageAsync,
-  watchNextPageAsync,
   watchFetchCustomEventsAsync,
   watchFetchHomeEventsAsync,
   watchFetchCustomHomeEventsAsync,
   watchValidateTicket,
 } from './EventsPageSaga';
-import { loadEventWatcher, deleteProductWatcher, addProductWatcher, editProductWatcher } from './HeaderEventCrudSaga';
-import { fetchLocationsActionWatcher } from './LocationPageSaga';
-import { watchFetchTicketsAsync, watchOpenAsync, watchCloseAsync } from './TicketsPageSaga';
-import { fetchUpcomingEventsActionWatcher, fetchHistoryEventsActionWatcher } from './AdminHomePageSaga';
+import {
+  watchLoadEventAsync,
+  watchEditEventAsync,
+  watchAddEventAsync,
+  watchDeletEventAsync,
+} from './HeaderEventCrudSaga';
+import { watchFetchLocationAsync } from './LocationPageSaga';
+import { watchLoadTicketCategoriesAsync, watchAddBookingsAsync } from './TicketReservationSaga';
+import { watchFetchReserveEventAsync } from './ReservePageSaga';
+import { watchFetchTicketsAsync } from './TicketsPageSaga';
+import { watchFetchUpcomingEventsAsync, watchFetchHistoryEventsAsync } from './AdminHomePageSaga';
 import { watchFetchUserEventsAsync, watchFetchUserEventsLocationsAsync } from './UserEventsPageSaga';
-import { loadEventWithLocationsWatcher } from './UserEventDetailsSaga';
-
+import { watchLoadEventWithLocationAsync } from './UserEventDetailsSaga';
 import {
   watchFetchBookingsAsync,
   watchFetchUserPastEventsAsync,
@@ -29,9 +32,6 @@ export default function* rootSaga() {
     watchFetchFilteredEventsAsync(),
     watchFetchEventsAsync(),
     watchFetchHomeEventsAsync(),
-    watchSortEventsAsync(),
-    watchNextPageAsync(),
-    watchPrevPageAsync(),
     watchFetchCustomEventsAsync(),
     watchFetchCustomHomeEventsAsync(),
 
@@ -40,30 +40,30 @@ export default function* rootSaga() {
     watchFetchBookingsAsync(),
     watchFetchUserPastEventsAsync(),
     watchFetchUserUpcomingEventsAsync(),
+    watchLoadTicketCategoriesAsync(),
+    watchAddBookingsAsync(),
 
-    loadEventWatcher(),
-    deleteProductWatcher(),
-    addProductWatcher(),
-    editProductWatcher(),
+    watchLoadEventAsync(),
+    watchDeletEventAsync(),
+    watchAddEventAsync(),
+    watchEditEventAsync(),
 
-    fetchLocationsActionWatcher(),
+    watchFetchLocationAsync(),
 
     watchFetchCustomEventsAsync(),
     watchFetchCustomHomeEventsAsync(),
 
-    fetchUpcomingEventsActionWatcher(),
-    fetchHistoryEventsActionWatcher(),
+    watchFetchUpcomingEventsAsync(),
+    watchFetchHistoryEventsAsync(),
 
     watchFetchUserEventsAsync(),
     watchFetchUserEventsLocationsAsync(),
 
-    watchOpenAsync(),
-    watchCloseAsync(),
-
-    loadEventWithLocationsWatcher(),
-
+    watchLoadEventWithLocationAsync(),
     watchFetchHighlightedEventsAsync(),
 
     watchValidateTicket(),
+
+    watchFetchReserveEventAsync(),
   ]);
 }

@@ -1,66 +1,39 @@
 import React from 'react';
 import { Button } from '@material-ui/core';
-import TableCell from '@material-ui/core/TableCell';
-import TableRow from '@material-ui/core/TableRow';
 import { Link } from 'react-router-dom';
 import { Event } from '../../../model/Event';
-import { createStyles, Theme, withStyles } from '@material-ui/core/styles';
 import { useStyles } from '../../../styles/CommonStyles';
 import { useTranslation } from 'react-i18next';
-
-const StyledTableCell = withStyles((theme: Theme) =>
-  createStyles({
-    body: {
-      fontSize: 14,
-    },
-  })
-)(TableCell);
-
-const StyledTableRow = withStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      '&:nth-of-type(even)': {
-        backgroundColor: '#F4F5F9',
-      },
-    },
-  })
-)(TableRow);
+import { StyledTableRow } from '../../../styles/StyledTableRow';
+import { StyledTableCell } from '../../../styles/StyledTableCell';
 
 interface Props {
   event: Event;
 }
 
-const EventDetailsDumb = (props: Props) => {
+const EventDetailsDumb = ({ event }: Props) => {
   const commonClasses = useStyles();
   const [t] = useTranslation();
 
-  const id = props.event.id;
-  const title = props.event.title;
-  const subtitle = props.event.subtitle;
-  const location = props.event.location;
-  const date = props.event.startDate;
-  const hour = props.event.startHour;
-  const occRate = props.event.occupancyRate;
-
   return (
     <StyledTableRow>
-      <StyledTableCell>{title}</StyledTableCell>
-      <StyledTableCell>{subtitle}</StyledTableCell>
-      <StyledTableCell>{location}</StyledTableCell>
-      <StyledTableCell>{date}</StyledTableCell>
-      <StyledTableCell>{hour}</StyledTableCell>
-      <StyledTableCell>{occRate}</StyledTableCell>
+      <StyledTableCell>{event.title}</StyledTableCell>
+      <StyledTableCell>{event.subtitle}</StyledTableCell>
+      <StyledTableCell>{event.location}</StyledTableCell>
+      <StyledTableCell>{event.startDate}</StyledTableCell>
+      <StyledTableCell>{event.startHour}</StyledTableCell>
+      <StyledTableCell>{event.occupancyRate}</StyledTableCell>
 
       <StyledTableCell>
-        <Link to={`/admin/events/${id}`} style={{ textDecoration: 'none' }}>
-          <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3}`}>
+        <Link to={`/admin/events/${event.id}`} style={{ textDecoration: 'none' }}>
+          <Button className={`${commonClasses.mainButtonStyle} ${commonClasses.pinkGradientButtonStyle}`}>
             {t('eventList.details')}
           </Button>
         </Link>
         <br />
         <br />
-        <Link to={`/admin/validate/${id}`} style={{ textDecoration: 'none' }}>
-          <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3}`}>
+        <Link to={`/admin/validate/${event.id}`} style={{ textDecoration: 'none' }}>
+          <Button className={`${commonClasses.mainButtonStyle} ${commonClasses.pinkGradientButtonStyle}`}>
             {t('eventList.validate')}
           </Button>
         </Link>

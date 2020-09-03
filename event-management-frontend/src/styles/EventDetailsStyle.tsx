@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 
-export const useEventDetailsStyles = makeStyles({
+export const eventDetailsStyles = makeStyles({
   paper: {
     width: '100%',
     minHeight: '93.9vh',

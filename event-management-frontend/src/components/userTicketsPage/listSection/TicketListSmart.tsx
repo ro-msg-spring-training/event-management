@@ -1,79 +1,85 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { AppState } from "../../../store/store";
-import { fetchTickets, incrementPage } from "../../../actions/TicketsPageActions";
-import { Ticket } from "../../../model/Ticket"
-import TicketListDumb from "./TicketListDumb";
-import {TicketFilters} from "../../../model/TicketFilters";
-
+import { AppState } from '../../../store/store';
+import { fetchTickets, incrementPage, resetPage, resetState, setIsFetching } from '../../../actions/TicketsPageActions';
+import TicketListDumb from './TicketListDumb';
+import { TicketFilters } from '../../../model/TicketFilters';
 
 interface Props {
-    tickets: [];
-    filters: TicketFilters;
-    page: number;
-    isLoading: boolean;
-    isError: boolean;
-    fetchTickets: (page: number, filters: TicketFilters) => void;
-    incrementPage: () => void;
+  tickets: [];
+  filters: TicketFilters;
+  page: number;
+  isLoading: boolean;
+  isError: boolean;
+  hasMore: boolean;
+  fetchTickets: (page: number, filters: TicketFilters) => void;
+  incrementPage: () => void;
+  resetPage: () => void;
+  resetState: () => void;
+  isFetching: boolean;
+  setIsFetching: (isLoading: boolean) => void;
 }
 
-const TicketListSmart = (props: Props) => {
+const TicketListSmart = ({
+  tickets,
+  filters,
+  page,
+  isLoading,
+  isError,
+  fetchTickets,
+  incrementPage,
+  resetPage,
+  resetState,
+  isFetching,
+  setIsFetching,
+  hasMore
+}: Props) => {
 
-    const [hasMore, setHasMore] = useState(false)
-    const [concatTickets, setConcatTickets] = useState(Array(0))
+  useEffect(() => {
+    if (!isFetching) return
 
-    useEffect(() => {
-        props.fetchTickets(props.page, props.filters)
-        setHasMore(props.page === 1 ? true : props.tickets.length > 0)
+    if (hasMore) {
+      incrementPage()
+      fetchTickets(page, filters);
 
-        if (props.tickets.length > 0) {
-            setConcatTickets([...concatTickets, ...props.tickets])
-        } else {
-            setConcatTickets([])
-        }
-    }, [props.page])
+      if (tickets.length > 0) {
+        setIsFetching(false)
+      } else {
+        resetPage()
+      }
+    }
+  }, [hasMore, tickets, isFetching]);
 
-    let tickets = props.tickets
+  const handleScroll = () => {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+      if (hasMore) {
+        setIsFetching(true);
+      }
+    } else {
+      setIsFetching(false)
+    }
+  };
 
-    const observer = useRef<any>()
-    const lastTicketRef = useCallback(node => {
-        if (observer.current) observer.current.disconnect()
-        observer.current = new IntersectionObserver(entries => {
-            if (entries[0].isIntersecting && hasMore) {
-                // Increment page in redux
-                props.incrementPage();
-            }
-        })
-        if (node) observer.current.observe(node)
-    }, [hasMore])
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [handleScroll]);
 
-    const ticketReferences = tickets !== undefined ? tickets
-        .map((ticket: Ticket, index: number) => {
-            if (tickets.length === index + 1) {
-                return <div ref={lastTicketRef} key={ticket.ticketId}/>
-            } else {
-                return <div key={ticket.ticketId}/>
-            }
-        }) : [];
-
-    return (
-            <>
-                {ticketReferences}
-                <TicketListDumb isError={props.isError}
-                                isLoading={props.isLoading}
-                                ticketsDetails={concatTickets} />
-            </>
-    );
-}
+  return (
+    <TicketListDumb isError={isError} isLoading={isLoading} ticketsDetails={tickets} />
+  );
+};
 
 const mapStateToProps = (state: AppState) => ({
-    tickets: state.tickets.allTickets,
-    filters: state.tickets.filters,
-    page: state.tickets.page,
-    isLoading: state.tickets.isLoading,
-    isError: state.tickets.isError
+  tickets: state.tickets.allTickets,
+  filters: state.tickets.filters,
+  page: state.tickets.page,
+  isLoading: state.tickets.isLoading,
+  isError: state.tickets.isError,
+  isFetching: state.tickets.isFetching,
+  hasMore: state.tickets.isMore,
 });
 
 
 export default connect(mapStateToProps,
-    { fetchTickets, incrementPage })(TicketListSmart)
+  { fetchTickets, incrementPage, resetPage, setIsFetching, resetState })(TicketListSmart);

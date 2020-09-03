@@ -10,79 +10,75 @@ import { useStyles } from '../../../styles/CommonStyles';
 import { TFunction } from 'i18next';
 
 interface UserEventCardProps {
-    event: UserEventList,
-    translation: TFunction,
-    goToEventDetails: (eventId: number) => void
+  event: UserEventList;
+  translation: TFunction;
+  goToEventDetails: (eventId: number) => void;
 }
 
-export const noImageAvailableSrc = 'https://www.thegreensheet.com/Public/build/images.min/nophoto.png'
+export const noImageAvailableSrc = 'https://www.thegreensheet.com/Public/build/images.min/nophoto.png';
 
-function UserEventCard({
-    event,
-    translation,
-    goToEventDetails
-}: UserEventCardProps) {
+function UserEventCard({ event, translation, goToEventDetails }: UserEventCardProps) {
+  const classes = useCardStyle();
+  const communStyles = useStyles();
 
-    const classes = useCardStyle();
-    const communStyles = useStyles();
+  return (
+    <Card className={classes.root}>
+      <CardActionArea>
+        <CardMedia
+          onClick={(e) => goToEventDetails(event.id)}
+          className={classes.imageWrapper}
+          image={event.picture ? event.picture : noImageAvailableSrc}
+        />
 
-    return (
-        <Card className={classes.root}>
-            <CardActionArea>
-                <CardMedia
-                    onClick={e => goToEventDetails(event.id)}
-                    className={classes.imageWrapper}
-                    image={event.picture ? event.picture : noImageAvailableSrc}
-                />
+        <CardContent className={classes.eventInfo}>
+          <Typography
+            variant="h6"
+            className={`${classes.eventTextInfo} ${classes.eventTitle}`}
+            onClick={(e) => goToEventDetails(event.id)}
+          >
+            {event.title}
+          </Typography>
 
-                <CardContent className={classes.eventInfo}>
-                    <Typography
-                        variant="h6"
-                        className={`${classes.eventTextInfo} ${classes.eventTitle}`}
-                        onClick={e => goToEventDetails(event.id)}
-                    >
-                        {event.title}
-                    </Typography>
+          <div className={classes.eventDivInfo}>
+            <LocationOnIcon className={classes.eventIconInfo} />
+            <Typography variant="subtitle1" className={classes.eventTextInfo}>
+              {event.location}
+            </Typography>
+          </div>
 
-                    <div className={classes.eventDivInfo}>
-                        <LocationOnIcon className={classes.eventIconInfo} />
-                        <Typography variant="subtitle1" className={classes.eventTextInfo}>
-                            {event.location}
-                        </Typography>
-                    </div>
+          <div className={classes.eventDivInfo}>
+            <EventIcon className={classes.eventIconInfo} />
+            <Typography variant="subtitle1" className={classes.eventTextInfo}>
+              {event.startDate} {event.startDate === event.endDate ? '' : ' - ' + event.endDate}
+            </Typography>
+          </div>
 
-                    <div className={classes.eventDivInfo}>
-                        <EventIcon className={classes.eventIconInfo} />
-                        <Typography variant="subtitle1" className={classes.eventTextInfo}>
-                            {event.startDate} {event.startDate === event.endDate ? '' : ' - ' + event.endDate}
-                        </Typography>
-                    </div>
+          <div className={classes.eventDivInfo}>
+            <QueryBuilderIcon className={classes.eventIconInfo} />
+            <Typography variant="subtitle1" className={classes.eventTextInfo}>
+              {event.startTime} - {event.endTime}
+            </Typography>
+          </div>
 
-                    <div className={classes.eventDivInfo}>
-                        <QueryBuilderIcon className={classes.eventIconInfo} />
-                        <Typography variant="subtitle1" className={classes.eventTextInfo}>
-                            {event.startTime} - {event.endTime}
-                        </Typography>
-                    </div>
+          <div className={classes.eventDivInfo}>
+            <GroupIcon className={classes.eventIconInfo} />
+            <Typography variant="subtitle1" className={classes.eventTextInfo}>
+              {event.rate}%
+            </Typography>
+          </div>
+        </CardContent>
+      </CardActionArea>
 
-                    <div className={classes.eventDivInfo}>
-                        <GroupIcon className={classes.eventIconInfo} />
-                        <Typography variant="subtitle1" className={classes.eventTextInfo}>
-                            {event.rate}%
-                        </Typography>
-                    </div>
-                </CardContent>
-            </CardActionArea>
-            
-            <CardActions className={classes.cardActions}>
-                <Button
-                    className={`${communStyles.buttonStyle2} ${communStyles.buttonStyle3} ${classes.detailsButton}`}
-                    onClick={(e) => goToEventDetails(event.id)}>
-                    {translation("userEventList.detailsButton")}
-                </Button>
-            </CardActions>
-        </Card>
-    )
+      <CardActions className={classes.cardActions}>
+        <Button
+          className={`${communStyles.mainButtonStyle} ${communStyles.pinkGradientButtonStyle} ${classes.detailsButton}`}
+          onClick={(e) => goToEventDetails(event.id)}
+        >
+          {translation('userEventList.detailsButton')}
+        </Button>
+      </CardActions>
+    </Card>
+  );
 }
 
 export default UserEventCard;

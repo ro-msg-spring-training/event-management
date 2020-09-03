@@ -1,20 +1,33 @@
-import { put, takeLatest, call } from "redux-saga/effects";
-import { upcomingEventsFetchSucces, historyEventsFetchSucces } from "../actions/AdminHomePageActions";
-import { fetchUpcomingEventsAPI, fetchHistoryEventsAPI } from "../api/AdminHomePageAPI";
-import { AdminHomePageActionTypes } from "../types/AdminHomePageActionTypes";
+import { put, takeLatest, call } from 'redux-saga/effects';
+import {
+  upcomingEventsFetchSucces,
+  historyEventsFetchSucces,
+  AdminHomePageActionTypes,
+  upcomingEventsError,
+  historyEventsError,
+} from '../actions/AdminHomePageActions';
+import { fetchUpcomingEventsAPI, fetchHistoryEventsAPI } from '../api/AdminHomePageAPI';
 
 function* fetchUpcomingEvents() {
-  const response = yield call(() => fetchUpcomingEventsAPI());
-  yield put(upcomingEventsFetchSucces(response));
+  try {
+    const response = yield call(() => fetchUpcomingEventsAPI());
+    yield put(upcomingEventsFetchSucces(response));
+  } catch (err) {
+    yield put(upcomingEventsError(true));
+  }
 }
-export function* fetchUpcomingEventsActionWatcher() {
+export function* watchFetchUpcomingEventsAsync() {
   yield takeLatest(AdminHomePageActionTypes.UPCOMING_EVENTS_FETCH, fetchUpcomingEvents);
 }
 
 function* fetchHistoryEvents() {
-  const response = yield call(() => fetchHistoryEventsAPI());
-  yield put(historyEventsFetchSucces(response));
+  try {
+    const response = yield call(() => fetchHistoryEventsAPI());
+    yield put(historyEventsFetchSucces(response));
+  } catch (err) {
+    yield put(historyEventsError(true));
+  }
 }
-export function* fetchHistoryEventsActionWatcher() {
+export function* watchFetchHistoryEventsAsync() {
   yield takeLatest(AdminHomePageActionTypes.HISTORY_EVENTS_FETCH, fetchHistoryEvents);
 }

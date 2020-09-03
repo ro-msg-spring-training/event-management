@@ -1,4 +1,5 @@
 export interface TicketFilters {
-    title: string,
-    date: Date | undefined,
+  title: string;
+  startDate: Date | undefined;
+  endDate: Date | undefined;
 }

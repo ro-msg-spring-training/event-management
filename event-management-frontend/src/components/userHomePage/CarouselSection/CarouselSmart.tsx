@@ -22,7 +22,7 @@ const CarouselSmart = ({ events, isError, isLoading, fetchHighlightedEvents }: P
 
   useEffect(() => {
     fetchHighlightedEvents();
-  }, []);
+  }, [fetchHighlightedEvents]);
 
   const goToEventDetails = (eventId: number) => {
     history.push(`/user/events/${eventId}`);

@@ -1,4 +1,4 @@
 export interface EventSort {
-    criteria: string,
-    type: string,
+  criteria: string;
+  type: string;
 }

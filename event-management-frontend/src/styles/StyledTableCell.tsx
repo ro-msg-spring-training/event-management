@@ -5,6 +5,7 @@ export const StyledTableCell = withStyles((theme: Theme) =>
     createStyles({
         body: {
             fontSize: 14,
+            padding: 10
         },
     }),
 )(TableCell);

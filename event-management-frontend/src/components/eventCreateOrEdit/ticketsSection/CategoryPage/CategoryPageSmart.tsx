@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
-import { AppState } from "../../../../store/store";
-import { connect } from "react-redux";
-import CategoryPageDumb from "./CategoryPageDumb";
-import { EventCrud } from "../../../../model/EventCrud";
-import { addEmptyCategoryCard, updateEvent, updateFormErrors } from "../../../../actions/HeaderEventCrudActions";
-import { EventFormErrors } from "../../../../model/EventFormErrors";
-import { useTranslation } from "react-i18next";
+import React from 'react';
+import { AppState } from '../../../../store/store';
+import { connect } from 'react-redux';
+import CategoryPageDumb from './CategoryPageDumb';
+import { EventCrud } from '../../../../model/EventCrud';
+import { addEmptyCategoryCard, updateEvent, updateFormErrors } from '../../../../actions/HeaderEventCrudActions';
+import { EventFormErrors } from '../../../../model/EventFormErrors';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   newEvent: boolean;
@@ -33,11 +33,11 @@ const CategoryPageSmart: React.FC<Props> = ({
     let newEvent = Object.assign({}, event);
 
     switch (name) {
-      case "ticketsPerUser":
+      case 'ticketsPerUser':
         newEvent.ticketsPerUser = parseInt(value);
         break;
 
-      case "ticketInfo":
+      case 'ticketInfo':
         newEvent.ticketInfo = value;
         break;
 
@@ -49,12 +49,12 @@ const CategoryPageSmart: React.FC<Props> = ({
     let newFormErrors = Object.assign({}, formErrors);
 
     switch (name) {
-      case "ticketsPerUser":
-        newFormErrors.ticketsPerUser = value <= 0 ? t("categoryCard.ticketPerUserError") : "";
+      case 'ticketsPerUser':
+        newFormErrors.ticketsPerUser = value <= 0 ? t('categoryCard.ticketPerUserError') : '';
         break;
 
-      case "ticketInfo":
-        newFormErrors.ticketInfo = value.length < 3 ? t("categoryCard.lengthError") : "";
+      case 'ticketInfo':
+        newFormErrors.ticketInfo = value.length < 3 ? t('categoryCard.lengthError') : '';
         break;
 
       default:

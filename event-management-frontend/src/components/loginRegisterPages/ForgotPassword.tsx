@@ -1,20 +1,20 @@
-import React, { useState } from "react";
-import { Auth } from "aws-amplify";
-import { FormGroup, TextField, Button } from "@material-ui/core";
-import useStylesLogin from "../../styles/LoginStyle";
-import { useStyles } from "../../styles/CommonStyles";
-import { useHistory } from "react-router-dom";
-import { validateEmail, displayErrorMessage } from "../../validation/LoginValidation";
-import { FormErrors } from "./FormErrors";
-import { Trans } from "react-i18next";
+import React, { useState } from 'react';
+import { Auth } from 'aws-amplify';
+import { FormGroup, TextField, Button } from '@material-ui/core';
+import useStylesLogin from '../../styles/LoginStyle';
+import { useStyles } from '../../styles/CommonStyles';
+import { useHistory } from 'react-router-dom';
+import { validateEmail, displayErrorMessage } from '../../validation/LoginValidation';
+import { FormErrors } from './FormErrors';
+import { Trans } from 'react-i18next';
 
 const ForgotPassword = () => {
-  const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState("");
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
   const classesLogin = useStylesLogin();
   const classes = useStyles();
   const history = useHistory();
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   const onSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -24,7 +24,7 @@ const ForgotPassword = () => {
     }
     try {
       await Auth.forgotPassword(email);
-      history.push("/forgotpasswordverification");
+      history.push('/forgotpasswordverification');
     } catch (error) {
       displayErrorMessage(<Trans i18nKey="forgotPassword.errorMessage">Enter your email address.</Trans>, setError);
     }
@@ -51,10 +51,10 @@ const ForgotPassword = () => {
           required
           variant="outlined"
           helperText={emailError}
-          error={emailError !== "" || validateEmail(email, emailError, setEmailError)}
+          error={emailError !== '' || validateEmail(email, emailError, setEmailError)}
           onChange={(e) => {
             setEmail(e.target.value);
-            setEmailError("");
+            setEmailError('');
           }}
         />
 
@@ -64,7 +64,7 @@ const ForgotPassword = () => {
           variant="contained"
           type="submit"
           onClick={onSubmit}
-          className={`${classes.buttonStyle2} ${classes.buttonStyle3} ${classesLogin.loginButton}`}
+          className={`${classes.mainButtonStyle} ${classes.pinkGradientButtonStyle} ${classesLogin.loginButton}`}
         >
           <Trans i18nKey="forgotPassword.button">Submit</Trans>
         </Button>

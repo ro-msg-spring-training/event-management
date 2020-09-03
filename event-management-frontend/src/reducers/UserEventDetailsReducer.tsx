@@ -1,11 +1,7 @@
-import { EventCrud } from "../model/EventCrud";
-import { EventImage } from "../model/EventImage";
-import { EventWithLocation } from "../model/EventWithLocation";
-import {
-  FETCH_EVENT_WITH_LOCATION_REQUEST,
-  FETCH_EVENT_WITH_LOCATION_SUCCESS,
-  FETCH_EVENT_WITH_LOCATION_FAILURE,
-} from "../actions/UserEventDetailsActions";
+import { EventCrud } from '../model/EventCrud';
+import { EventImage } from '../model/EventImage';
+import { EventWithLocation } from '../model/EventWithLocation';
+import { UserEventDetailsActions, UserEventDetailsActionTypes } from '../actions/UserEventDetailsActions';
 
 export interface UserEventDetailsState {
   event: EventCrud;
@@ -17,20 +13,20 @@ export interface UserEventDetailsState {
   locationName: string;
 }
 
-let today = new Date(new Date().toString().split("GMT")[0] + " UTC").toISOString().split(".")[0];
-const dateAndTime = today.split("T");
+let today = new Date(new Date().toString().split('GMT')[0] + ' UTC').toISOString().split('.')[0];
+const dateAndTime = today.split('T');
 const currDate = dateAndTime[0];
-const currTime = dateAndTime[1].replace(/:\d\d([ ap]|$)/, "$1");
+const currTime = dateAndTime[1].replace(/:\d\d([ ap]|$)/, '$1');
 
 const initialState: UserEventDetailsState = {
   event: {
     id: -1,
-    title: "",
-    subtitle: "",
+    title: '',
+    subtitle: '',
     status: true,
     highlighted: false,
-    description: "",
-    observations: "",
+    description: '',
+    observations: '',
     location: 1,
     startDate: currDate,
     endDate: currDate,
@@ -42,45 +38,45 @@ const initialState: UserEventDetailsState = {
     ticketsPerUser: 0,
     noTicketEvent: true,
     ticketCategoryDtoList: [
-      { id: -1, title: "", subtitle: "", price: 0, description: "", ticketsPerCategory: 0, available: true },
+      { id: -1, title: '', subtitle: '', price: 0, description: '', ticketsPerCategory: 0, available: true },
     ],
     ticketCategoryToDelete: [],
-    ticketInfo: "",
+    ticketInfo: '',
   },
   isError: false,
   isLoading: false,
   images: [],
 
-  locationAddress: "",
-  locationName: "",
+  locationAddress: '',
+  locationName: '',
 };
 
 const getEventImages = (imagesStr: string[]) => {
   const images = imagesStr.map((img: string) => {
-    let fullName = img.split("/").pop();
+    let fullName = img.split('/').pop();
     return { id: fullName, name: fullName, url: img };
   });
   return images as EventImage[];
 };
 
-const UserEventDetailsReducer = (state = initialState, action: { type: string; payload: EventWithLocation }) => {
+const UserEventDetailsReducer = (state = initialState, action: UserEventDetailsActions) => {
   switch (action.type) {
-    case FETCH_EVENT_WITH_LOCATION_REQUEST:
+    case UserEventDetailsActionTypes.FETCH_EVENT_WITH_LOCATION_REQUEST:
       return {
         ...state,
         isLoading: true,
       };
-    case FETCH_EVENT_WITH_LOCATION_SUCCESS:
+    case UserEventDetailsActionTypes.FETCH_EVENT_WITH_LOCATION_SUCCESS:
       return {
         ...state,
-        event: action.payload.eventDto,
-        locationAddress: action.payload.locationAddress,
-        locationName: action.payload.locationName,
+        event: action.event.eventDto,
+        locationAddress: action.event.locationAddress,
+        locationName: action.event.locationName,
         isError: false,
         isLoading: false,
-        images: getEventImages(action.payload.eventDto.picturesUrlSave),
+        images: getEventImages(action.event.eventDto.picturesUrlSave),
       };
-    case FETCH_EVENT_WITH_LOCATION_FAILURE:
+    case UserEventDetailsActionTypes.FETCH_EVENT_WITH_LOCATION_FAILURE:
       return {
         ...state,
         loading: false,

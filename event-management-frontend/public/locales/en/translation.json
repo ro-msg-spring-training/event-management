@@ -1,15 +1,20 @@
 {
   "ticketList": {
-    "id": "ID",
-    "date": "Date",
+    "id": "Booking ID",
+    "date": "Booking date",
     "category": "Category",
-    "name": "Name",
+    "name": "Buyer",
     "pdf": "PDF",
     "eventName": "Event name",
-    "myTickets": "My tickets"
+    "myTickets": "My tickets",
+    "buyer": "Buyer",
+    "startDate": "Event start date",
+    "endDate": "Event end date",
+    "more": "See more"
   },
   "eventList": {
     "account": "My account",
+    "logout": "Logout",
     "home": "Home",
     "buildings": "Buildings",
     "events": "Events",
@@ -54,13 +59,13 @@
     "registerLink": "Don't have an account? <1>Register here</1>",
     "username": "Username",
     "password": "Password",
-    "successMessage": "Succesful login",
+    "successMessage": "Successful login",
     "passwordError": " Requirements: min. 8 characters, an uppercase letter and a number.",
     "emailError": "Enter a valid email address!",
     "errorMessage": "Incorrect username or password."
   },
   "messages": {
-    "loginSuccess": "Succesful login",
+    "loginSuccess": "Successful login",
     "loginEmptyPassword": "Password cannot be empty",
     "registrationSuccess": "Registration successful"
   },
@@ -73,7 +78,8 @@
     "password": "Password",
     "confirmPassword": "Confirm Password",
     "button": "Register",
-    "loginLink": "Already have an account? <1>Sign in</1>",
+    "alreadyHaveAnAccount": "Already have an account? ",
+    "loginLink": "Sign in",
     "emptyError": "Enter a value",
     "emailError": "Enter a valid email address!",
     "passwordError": " Requirements: min. 8 characters, an uppercase letter and a number.",
@@ -86,7 +92,9 @@
     "message": "Your password has been successfully updated!",
     "button": "Login"
   },
-  "successfulRegistration": "We sent a verification code to your email account. After checking it please <1>log in</1> to continue.",
+  "successfulRegistration": "We sent a verification code to your email account. After checking it please ",
+  "successfulRegistrationLink": "log in",
+  "successfulRegistrationToContinue": " to continue.",
   "forgotPassword": {
     "title": "Forgot your password?",
     "message": "Please enter the email address associated with your account and we'll email you a password reset link.",
@@ -154,8 +162,9 @@
     "headerCRUDSave": "Save",
 
     "backButton": "Back",
-    "joinButton": "Join",
-
+    "joinButton": "Join"
+  },
+  "images": {
     "imageErrorMessage": "An error occurred while uploading images",
     "imageDragAndDrop": "Drag and drop some files here, or click to select files",
     "imageDialogTitle": "Do you want to remove this image?",
@@ -166,7 +175,7 @@
   "location": {
     "selectButton": "Select",
     "cancelButton": "Cancel",
-    "selectedLocationMessage": " Selected location for the event",
+    "selectedLocationMessage": "Selected location for the event",
     "searchBarText": "Search location"
   },
   "occupancyCards": {
@@ -181,7 +190,7 @@
     "noResults": "There is no results",
     "name": "Name",
     "locations": "Locations",
-    "rate": "Ocuppancy rate",
+    "rate": "Occupancy rate",
     "pastEvents": "Past events",
     "filterButton": "Filter",
     "clearButton": "Clear",
@@ -236,5 +245,39 @@
     "successfulMessage": "The ticket has been validated successfully. ",
     "customerName": "Customer's name: ",
     "customerEmail": "Customer's email: "
+  },
+
+  "buyTicketsFirstPage": {
+    "radioButtonNoSeat": "Proceed without choosing a seat",
+    "radioButtonSeat": "Select a seat from building plan",
+    "generalTicketInfo": "General ticket information",
+    "toDate": "to",
+    "toTime": "to",
+    "nextPage": "Go to second page",
+    "cancel": "Cancel purchase",
+    "errorMessage": " Oops, there was an error"
+  },
+
+  "buyTicketsSecondPage": {
+    "gotoFirstPage": "Go to first page",
+    "cancelPurchase": "Cancel purchase",
+    "wrongInput": "Wrong input",
+    "ticketsLeft_1": "There are only",
+    "ticketsLeft_2": " tickets left in ",
+    "chooseDesiredTickets": "Please choose the desired number of tickets from the existing categories",
+    "numberOfTickets": "Number of Tickets",
+    "invalidEmailAddress": "Invalid email address",
+    "myEmailAddress": "My Email Address",
+    "buyTickets": "Buy",
+    "noTicketsSelected": "There have not been any tickets selected.",
+    "namesOnTickets": "Names on the Tickets",
+    "noTicketsSelectedHelp": "You did not choose the desired number of tickets. In order to proceed with the transaction, please return to the Number of Tickets step and choose the desired number of tickets from the categories you prefer",
+    "ticketsSelectedHelp": "Please input the names of the people whom are to use the tickets",
+    "termsAndConditionsErr": "You haven't checked the Terms and Conditions agreement, in order to buy the tickets you need to read and accept the Terms and Conditions statements",
+    "noErrorsInTicketsStep": "There are still errors in the tickets section, in order to buy the tickets you need to resolve them",
+    "noErrorsInEmailStep": "There are still errors in the email section, in order to buy the tickets you need to resolve them",
+    "noErrorsInNamesStep": "There are still errors in the names section, in order to buy the tickets you need to resolve them",
+    "termsAndConditions": "Terms and Conditions",
+    "agreement": "I agree"
   }
 }

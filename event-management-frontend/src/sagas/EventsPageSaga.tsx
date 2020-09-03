@@ -2,6 +2,8 @@ import {
   FILTER_EVENTS,
   FETCH_EVENTS,
   FETCH_HOME_EVENTS,
+  FETCH_CUSTOM_EVENTS,
+  FETCH_CUSTOM_EVENTS_HOME,
   fetchEventsRequest,
   fetchEventsSuccess,
   fetchEventsError,
@@ -10,12 +12,6 @@ import {
   fetchEventsErrorHome,
   filterEventsSuccess,
   filterEventsError,
-  SORT_EVENTS,
-  PREV_PAGE,
-  NEXT_PAGE,
-  FETCH_CUSTOM_EVENTS,
-  FETCH_CUSTOM_EVENTS_HOME,
-  VALIDATE_TICKET,
   fetchCustomEventsRequest,
   fetchCustomEventsSuccess,
   fetchCustomEventsError,
@@ -25,6 +21,7 @@ import {
   validateTicketRequest,
   validateTicketSuccess,
   validateTicketFailure,
+  VALIDATE_TICKET,
 } from '../actions/EventsPageActions';
 
 import { takeLatest, takeEvery, put, call } from 'redux-saga/effects';
@@ -70,30 +67,6 @@ export function* watchFetchFilteredEventsAsync() {
   yield takeLatest(FILTER_EVENTS, fetchFilteredEventsAsync);
 }
 
-function* sortEventsAsync() {
-  yield delay(1000);
-}
-
-export function* watchSortEventsAsync() {
-  yield takeEvery(SORT_EVENTS, sortEventsAsync);
-}
-
-function* prevPageAsync() {
-  yield delay(1000);
-}
-
-export function* watchPrevPageAsync() {
-  yield takeEvery(PREV_PAGE, prevPageAsync);
-}
-
-function* nextPageAsync() {
-  yield delay(1000);
-}
-
-export function* watchNextPageAsync() {
-  yield takeEvery(NEXT_PAGE, nextPageAsync);
-}
-
 function* fetchEventsAsync() {
   yield put(fetchEventsRequest());
   try {
@@ -122,7 +95,7 @@ export function* watchFetchHomeEventsAsync() {
   yield takeEvery(FETCH_HOME_EVENTS, fetchHomeEventsAsync);
 }
 
-// custom events
+// Custom events
 
 function* fetchCustomEventsAsync(action: any) {
   yield put(fetchCustomEventsRequest());

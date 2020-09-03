@@ -1,13 +1,13 @@
-import { CategoryCardItem } from "../../../../types/TicketType";
-import React from "react";
-import { useStylesCategoryPage } from "../../../../styles/CategoryPageStyle";
-import { TextField, Button, Grid } from "@material-ui/core";
-import CategoryCard from "../CategoryCard/CategoryCardSmart";
-import "../../../../styles/Responsivity.css";
-import { EventCrud } from "../../../../model/EventCrud";
-import { useTranslation } from "react-i18next";
-import { CategoryCardErrors } from "../../../../model/EventFormErrors";
-import { useStyles } from "../../../../styles/CommonStyles";
+import React from 'react';
+import { useStylesCategoryPage } from '../../../../styles/CategoryPageStyle';
+import { TextField, Button, Grid } from '@material-ui/core';
+import CategoryCard from '../CategoryCard/CategoryCardSmart';
+import '../../../../styles/Responsivity.css';
+import { EventCrud } from '../../../../model/EventCrud';
+import { useTranslation } from 'react-i18next';
+import { CategoryCardErrors } from '../../../../model/EventFormErrors';
+import { useStyles } from '../../../../styles/CommonStyles';
+import { CategoryCardItem } from '../../../../model/TicketType';
 
 type Props = {
   newEvent: boolean;
@@ -32,7 +32,7 @@ const CategoryPageDumb: React.FC<Props> = ({ newEvent, event, addCard, handleCha
   return (
     <div>
       <h1 className={classes.title}>General</h1>
-      <Grid className={classes.gridStyleHeader} container spacing={1} sm={12} xs={12}>
+      <Grid className={classes.gridStyleHeader} container spacing={1}>
         <Grid container item xl={2} lg={2} md={2} sm={9} xs={10}>
           <TextField
             required
@@ -43,7 +43,7 @@ const CategoryPageDumb: React.FC<Props> = ({ newEvent, event, addCard, handleCha
             }}
             type="number"
             variant="outlined"
-            label={t("categoryCard.maxTicketPerUser")}
+            label={t('categoryCard.maxTicketPerUser')}
             error={formErrors.ticketsPerUser.length > 0}
             helperText={formErrors.ticketsPerUser}
             defaultValue={event.ticketsPerUser}
@@ -64,7 +64,7 @@ const CategoryPageDumb: React.FC<Props> = ({ newEvent, event, addCard, handleCha
             fullWidth
             rowsMax="4"
             variant="outlined"
-            label={t("categoryCard.ticketInfo")}
+            label={t('categoryCard.ticketInfo')}
             defaultValue={event.ticketInfo}
             onChange={handleChange}
             error={formErrors.ticketInfo.length > 0}
@@ -74,19 +74,18 @@ const CategoryPageDumb: React.FC<Props> = ({ newEvent, event, addCard, handleCha
 
         <Grid container item xl={2} lg={2} md={3} sm={8} xs={10}>
           <Button
-            className={`${classes.button} ${classes2.buttonStyle2} ${classes2.buttonStyle3} addButtonResponsive`}
+            className={`${classes.button} ${classes2.mainButtonStyle} ${classes2.pinkGradientButtonStyle} addButtonResponsive`}
             onClick={addNewCard}
           >
-            {t("categoryCard.addCategory")}
+            {t('categoryCard.addCategory')}
           </Button>
         </Grid>
       </Grid>
       <br />
       <Grid className={classes.gridStyle} container spacing={4}>
         {event.ticketCategoryDtoList.map((category: CategoryCardItem) => (
-          <Grid container item xl={6} lg={6} md={7} sm={12} xs={12}>
+          <Grid container item xl={6} lg={6} md={7} sm={12} xs={12} key={category.id}>
             <CategoryCard
-              key={category.id}
               id={category.id}
               title={category.title}
               subtitle={category.subtitle}

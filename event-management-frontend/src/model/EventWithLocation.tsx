@@ -1,7 +1,7 @@
-import { EventCrud } from "./EventCrud";
+import { EventCrud } from './EventCrud';
 
 export interface EventWithLocation {
-  eventDto: EventCrud,
-  locationAddress: string,
-  locationName: string
+  eventDto: EventCrud;
+  locationAddress: string;
+  locationName: string;
 }

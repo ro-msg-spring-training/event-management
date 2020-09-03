@@ -1,53 +1,53 @@
-import { headersAuth, serverURL } from "./Api";
-import { fetchWrapper } from "./FetchWrapper";
-import { UserEventFilters } from "../model/userEventsPage/UserEventFilters";
-import { UserEventType } from "../model/userEventsPage/UserEventType";
+import { headersAuth, serverURL } from './Api';
+import { fetchWrapper } from './FetchWrapper';
+import { UserEventFilters } from '../model/userEventsPage/UserEventFilters';
+import { UserEventType } from '../model/userEventsPage/UserEventType';
 
+const computeFilterStringQuery = (filters: UserEventFilters | undefined, page: number, size: number) => {
+  let query: any = {};
 
-const computeFilterStringQuery = (filters: UserEventFilters, page: number, limit: number) => {
-    let query = filters.type === UserEventType.UPCOMING ? 'upcoming?' : 'history?';
-    let queryArr: string[] = [];
+  query.page = page;
+  query.size = size;
 
-    queryArr.push(`pageNumber=${page}`)
-    queryArr.push(`limit=${limit}`)
+  if (filters && filters.title) {
+    query.title = filters.title;
+  }
+  if (filters && (filters.rate || filters.rate === 0)) {
+    query.rate = filters.rate;
+    query.rateSign = filters.rateSign;
+  }
+  if (filters && filters.locations.length) {
+    query.multipleLocations = filters.locations;
+  }
 
-    if (filters.title) {
-        queryArr.push(`title=${filters.title}`)
-    }
-    if (filters.rate || filters.rate === 0) {
-        queryArr.push(`rate=${filters.rate}&rateSign=${filters.rateSign}`)
-    }
-    if (filters.locations) {
-        filters.locations.map(loc => queryArr.push(`multipleLocations=${loc}`))
-    }
-    return query + queryArr.join('&')
-}
+  return query;
+};
 
 export const fetchEvents = (page: number, limit: number, filters?: UserEventFilters) => {
-    let url = `${serverURL}/events/user/`
+  const url = `${serverURL}/events/user/${
+    !filters || filters.type === UserEventType.UPCOMING ? 'upcoming?' : 'history?'
+  }`;
 
-    if (filters) {
-        url += computeFilterStringQuery(filters, page, limit)
-    }
-    else {
-        url += `upcoming?pageNumber=${page}&limit=${limit}`;
-    }
-    const urlOptions = { headers: headersAuth };
+  const urlQuery = new URL(url);
+  const stringQuery = computeFilterStringQuery(filters, page, limit);
+  urlQuery.search = new URLSearchParams(stringQuery).toString();
 
-    return fetchWrapper(url, urlOptions)
-        .then((response) => response.json())
-        .then((json) => {
-            return json;
-        });
-}
+  const urlOptions = { headers: headersAuth };
+
+  return fetchWrapper(`${urlQuery}`, urlOptions)
+    .then((response) => response.json())
+    .then((json) => {
+      return json;
+    });
+};
 
 export const fetchEventsLocations = () => {
-    const url = `${serverURL}/locations`;
-    const urlOptions = { headers: headersAuth };
+  const url = `${serverURL}/locations`;
+  const urlOptions = { headers: headersAuth };
 
-    return fetchWrapper(url, urlOptions)
-        .then((response) => response.json())
-        .then((json) => {
-            return json;
-        });
-}
+  return fetchWrapper(url, urlOptions)
+    .then((response) => response.json())
+    .then((json) => {
+      return json;
+    });
+};

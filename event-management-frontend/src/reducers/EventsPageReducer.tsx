@@ -8,7 +8,6 @@ import {
   FETCH_HOME_EVENTS_SUCCESS,
   FETCH_HOME_EVENTS_ERROR,
   FETCH_HOME_EVENTS_REQUEST,
-  SORT_EVENTS,
   FILTER_EVENTS,
   UPDATE_SORT_CRITERIA,
   FETCH_CUSTOM_EVENTS_REQUEST,
@@ -35,15 +34,29 @@ import {
   SET_ALERT_TITLE,
   SET_ALERT_DESCRIPTION,
   SET_ALERT_SEVERITY,
+  UPDATE_ERROR_RATE,
+  UPDATE_ERROR_MAX_PEOPLE,
+  UPDATE_ERROR_START_DATE,
+  UPDATE_ERROR_END_DATE,
+  UPDATE_ERROR_START_HOUR,
+  UPDATE_ERROR_END_HOUR,
+  LAST_PAGE_HOME,
 } from '../actions/EventsPageActions';
+import { Severity, initialSeverity } from '../components/validateTicket/ValidateTicketAlert';
 import { MathRelation } from '../model/MathRelation';
 import { EventFilters } from '../model/EventFilters';
-import { fetchSortedEvents } from '../api/EventsServiceAPI';
 import { EventSort } from '../model/EventSort';
-import { Severity, initialSeverity } from '../components/validateTicket/ValidateTicketAlert';
 
 export interface EventsPageState {
   filters: EventFilters;
+  errors: {
+    errorRate: string;
+    errorMaxPeople: string;
+    errorStartDate: string;
+    errorEndDate: string;
+    errorStartHour: string;
+    errorEndHour: string;
+  };
   allEvents: [];
   allEventsHome: [];
   isLoading: boolean;
@@ -62,6 +75,8 @@ export interface EventsPageState {
   alertTitle: string;
   alertDescription: string;
   alertSeverity: Severity;
+  noPages: number;
+  lastPageHome: number;
 }
 
 const initialState: EventsPageState = {
@@ -80,6 +95,14 @@ const initialState: EventsPageState = {
     maxPeople: '',
     maxPeopleSign: MathRelation.GREATER,
   },
+  errors: {
+    errorRate: '',
+    errorMaxPeople: '',
+    errorStartDate: '',
+    errorEndDate: '',
+    errorStartHour: '',
+    errorEndHour: '',
+  },
   isLoading: false,
   isError: false,
   isValid: false,
@@ -91,13 +114,15 @@ const initialState: EventsPageState = {
   allEvents: [],
   allEventsHome: [],
   eventsSort: { criteria: '', type: '' },
-  page: 1,
-  homePage: 1,
   ticketID: 0,
   alertVisible: false,
   alertTitle: '',
   alertDescription: '',
   alertSeverity: initialSeverity,
+  page: 0,
+  homePage: 1,
+  noPages: 0,
+  lastPageHome: 0,
 };
 
 interface ReducerActionProps {
@@ -119,6 +144,11 @@ interface ReducerActionProps {
 
 export const EventsPageReducer = (state = initialState, action: ReducerActionProps) => {
   switch (action.type) {
+    case LAST_PAGE_HOME:
+      return {
+        ...state,
+        lastPageHome: action.payload,
+      };
     case INCREMENT_PAGE:
       return {
         ...state,
@@ -129,7 +159,6 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
         ...state,
         page: state.page - 1,
       };
-
     case INCREMENT_PAGE_HOME:
       return {
         ...state,
@@ -143,7 +172,7 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
     case RESET_PAGE:
       return {
         ...state,
-        page: 1,
+        page: 0,
       };
     case RESET_PAGE_HOME:
       return {
@@ -168,14 +197,13 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
           maxPeople: '',
           maxPeopleSign: MathRelation.GREATER,
         },
+        page: 0,
+        eventsSort: { criteria: '', type: '' },
+        allEvents: [],
+        isLoading: false,
+        isError: false,
       };
     case UPDATE_SORT_CRITERIA:
-      return {
-        ...state,
-        eventsSort: action.payload,
-      };
-    case SORT_EVENTS:
-      fetchSortedEvents(action.payload, state.filters, action.page);
       return {
         ...state,
         eventsSort: action.payload,
@@ -193,7 +221,8 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
     case FILTER_EVENTS_SUCCESS:
       return {
         ...state,
-        allEvents: action.payload,
+        allEvents: action.payload.events,
+        noPages: action.payload.noPages,
       };
     case FILTER_EVENTS_ERROR:
       return {
@@ -207,7 +236,8 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
     case FETCH_EVENTS_SUCCESS:
       return {
         ...state,
-        allEvents: action.payload,
+        allEvents: action.payload.events,
+        noPages: action.payload.noPages,
         isLoading: false,
         isError: false,
       };
@@ -227,7 +257,8 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
         ...state,
         isLoading: false,
         isError: false,
-        allEvents: action.payload,
+        allEvents: action.payload.events,
+        noPages: action.payload.noPages,
       };
     case FETCH_CUSTOM_EVENTS_ERROR:
       return {
@@ -348,6 +379,54 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
         alertSeverity: action.alertSeverity,
       };
 
+    case UPDATE_ERROR_RATE:
+      return {
+        ...state,
+        errors: {
+          ...state.errors,
+          errorRate: action.payload,
+        },
+      };
+    case UPDATE_ERROR_MAX_PEOPLE:
+      return {
+        ...state,
+        errors: {
+          ...state.errors,
+          errorMaxPeople: action.payload,
+        },
+      };
+    case UPDATE_ERROR_START_DATE:
+      return {
+        ...state,
+        errors: {
+          ...state.errors,
+          errorStartDate: action.payload,
+        },
+      };
+    case UPDATE_ERROR_END_DATE:
+      return {
+        ...state,
+        errors: {
+          ...state.errors,
+          errorEndDate: action.payload,
+        },
+      };
+    case UPDATE_ERROR_START_HOUR:
+      return {
+        ...state,
+        errors: {
+          ...state.errors,
+          errorStartHour: action.payload,
+        },
+      };
+    case UPDATE_ERROR_END_HOUR:
+      return {
+        ...state,
+        errors: {
+          ...state.errors,
+          errorEndHour: action.payload,
+        },
+      };
     default:
       return state;
   }

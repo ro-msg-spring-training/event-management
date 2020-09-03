@@ -1,7 +1,7 @@
-import React from "react";
-import { Grid } from "@material-ui/core";
-import OccupancyListSmart from "./OccupancyListSmart";
-import useStylesCards from "../../styles/OccupancyCardsStyle";
+import React from 'react';
+import { Grid } from '@material-ui/core';
+import OccupancyListSmart from './OccupancyListSmart';
+import useStylesCards from '../../styles/OccupancyCardsStyle';
 
 const Home = () => {
   const classHome = useStylesCards();
@@ -9,10 +9,10 @@ const Home = () => {
   return (
     <div className={classHome.adminHomeContainer}>
       <Grid container direction="row">
-          <OccupancyListSmart />
+        <OccupancyListSmart />
       </Grid>
     </div>
   );
 };
 
-export default Home
+export default Home;

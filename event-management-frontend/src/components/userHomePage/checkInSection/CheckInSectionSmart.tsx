@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import CheckInSectionDumb from './CheckInSectionDumb';
 import { AppState } from '../../../store/store';
 import { Dispatch } from 'redux';
@@ -9,43 +9,43 @@ import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 interface UserHomePageProps {
-    bookings: Booking[],
-    isError: boolean,
-    isLoading: boolean,
-    fetchBookings: () => void
+  bookings: Booking[];
+  isError: boolean;
+  isLoading: boolean;
+  fetchBookings: () => void;
 }
 
-function CheckInSectionSamrt({ bookings, isError, isLoading, fetchBookings }: UserHomePageProps) {
-    const [translation] = useTranslation();
-    const history = useHistory();
+function CheckInSectionSmart({ bookings, isError, isLoading, fetchBookings }: UserHomePageProps) {
+  const [translation] = useTranslation();
+  const history = useHistory();
 
-    useEffect(() => {
-        fetchBookings();
-    }, [fetchBookings]);
+  useEffect(() => {
+    fetchBookings();
+  }, [fetchBookings]);
 
-    const handleOnClick = () => {
-        history.push('/user/tickets');
-    }
+  const handleOnClick = () => {
+    history.push('/user/tickets');
+  };
 
-    return (
-        <CheckInSectionDumb 
-            bookings={bookings}
-            isLoading={isLoading}
-            isError={isError}
-            translation={translation}
-            handleOnClick={handleOnClick}
-        />
-    );
+  return (
+    <CheckInSectionDumb
+      bookings={bookings}
+      isLoading={isLoading}
+      isError={isError}
+      translation={translation}
+      handleOnClick={handleOnClick}
+    />
+  );
 }
 
 const mapStateToProps = (state: AppState) => ({
-    bookings: state.userHome.bookings.bookings,
-    isError: state.userHome.bookings.isError,
-    isLoading: state.userHome.bookings.isLoading
+  bookings: state.userHome.bookings.bookings,
+  isError: state.userHome.bookings.isError,
+  isLoading: state.userHome.bookings.isLoading,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-    fetchBookings: () => dispatch(fetchBookings())
+  fetchBookings: () => dispatch(fetchBookings()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CheckInSectionSamrt);
+export default connect(mapStateToProps, mapDispatchToProps)(CheckInSectionSmart);

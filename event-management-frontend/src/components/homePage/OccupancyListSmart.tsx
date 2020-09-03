@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
-import { OccupancyCardType } from "../../types/OcuupancyCardsType";
-import { AppState } from "../../store/store";
-import { Dispatch } from "redux";
+import React, { useEffect } from 'react';
+import { AppState } from '../../store/store';
+import { Dispatch } from 'redux';
 import {
   upcomingEventsFetch,
   historyEventsFetch,
@@ -9,9 +8,10 @@ import {
   historyEventsFetchSucces,
   upcomingEventsisLoading,
   historyEventsisLoading,
-} from "../../actions/AdminHomePageActions";
-import { connect } from "react-redux";
-import CardsOccupancyDumb from "./CardsOcuppancyDumb";
+} from '../../actions/AdminHomePageActions';
+import { connect } from 'react-redux';
+import CardsOccupancyDumb from './CardsOcuppancyDumb';
+import { OccupancyCardType } from '../../model/OcuupancyCardsType';
 
 interface Props {
   isLoading: boolean;

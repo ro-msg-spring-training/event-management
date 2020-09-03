@@ -14,40 +14,42 @@ import { EventImage } from '../../model/EventImage';
 import MapWrapper from './locationSection/Map';
 import { EventFormErrors } from '../../model/EventFormErrors';
 import CategoryPageSmart from './ticketsSection/CategoryPage/CategoryPageSmart';
-import { useEventDetailsStyles } from '../../styles/EventDetailsStyle';
+import { eventDetailsStyles } from '../../styles/EventDetailsStyle';
 
 interface Props {
   match: any;
-  admin: boolean;
-  fetchEventF: (id: string) => void;
-  deleteEventF: (id: string) => void;
-  addEventF: (event: EventCrud, images: EventImage[]) => void;
-  editEventF: (event: EventCrud, images: EventImage[]) => void;
-  resetStoreF: () => void;
-  fetchEvent: {
-    loading: boolean;
+  isAdmin: boolean;
+  fetchEventAction: (id: string) => void;
+  deleteEventAction: (id: string) => void;
+  addEventAction: (event: EventCrud, images: EventImage[]) => void;
+  editEventAction: (event: EventCrud, images: EventImage[]) => void;
+  resetStoreAction: () => void;
+  fetchedEvent: {
+    eventIsLoading: boolean;
     event: EventCrud;
     error: string;
     images: EventImage[];
     formErrors: EventFormErrors;
+    isDeleted: boolean;
+    isSaved: boolean;
   };
 }
 
 function EventDetails({
   match,
-  admin,
-  fetchEventF,
-  deleteEventF,
-  addEventF,
-  editEventF,
-  resetStoreF,
-  fetchEvent,
+  isAdmin,
+  fetchEventAction,
+  deleteEventAction,
+  addEventAction,
+  editEventAction,
+  resetStoreAction,
+  fetchedEvent,
 }: Props) {
   const history = useHistory();
-  const classes = useEventDetailsStyles();
+  const backgroundStyle = eventDetailsStyles();
   const { t } = useTranslation();
 
-  let newEvent = match.path === '/admin/newEvent' ? true : false;
+  let newEvent = match.path === '/admin/newEvent';
 
   const [open, setOpen] = useState(false);
   const [msgUndo, setMsgUndo] = useState('');
@@ -58,18 +60,17 @@ function EventDetails({
 
   useEffect(() => {
     if (newEvent === false) {
-      fetchEventF(match.params.id);
+      fetchEventAction(match.params.id);
     }
     return () => {
-      resetStoreF();
+      resetStoreAction();
     };
-  }, [fetchEventF, resetStoreF, match.params.id, newEvent]);
+  }, [fetchEventAction, resetStoreAction, match.params.id, newEvent]);
 
   const verifyDateAndTimePeriods = (event: EventCrud): boolean => {
-    if (
-      !(new Date(event.startDate) > new Date(event.endDate)) &&
-      !(new Date(event.startDate) < new Date(event.endDate))
-    ) {
+    const startDate = new Date(event.startDate);
+    const endDate = new Date(event.endDate);
+    if (!(startDate > endDate) && !(startDate < endDate)) {
       if (event.startHour >= event.endHour) {
         setMsgUndo(t('welcome.popupMsgTryAgain'));
         setDialogTitle(t('welcome.popupMsgErrTitle'));
@@ -77,7 +78,7 @@ function EventDetails({
         setOpen(true);
         return false;
       }
-    } else if (new Date(event.startDate) > new Date(event.endDate)) {
+    } else if (startDate > endDate) {
       setMsgUndo(t('welcome.popupMsgTryAgain'));
       setDialogTitle(t('welcome.popupMsgErrTitle'));
       setDialogDescription(t('welcome.popupMsgDateErrDescription'));
@@ -159,25 +160,17 @@ function EventDetails({
     return true;
   };
 
-  const formValid = (event: EventCrud, errors: EventFormErrors): boolean => {
-    if (
-      true === verifyDateAndTimePeriods(event) &&
-      true === verifyErrorMessages(errors) &&
-      true === verifyNullFields(event)
-    )
-      return true;
+  const isFormValid = (event: EventCrud, errors: EventFormErrors): boolean => {
+    if (verifyDateAndTimePeriods(event) && verifyErrorMessages(errors) && verifyNullFields(event)) return true;
     return false;
   };
 
   let saveEvent = (): void => {
-    if (formValid(fetchEvent.event, fetchEvent.formErrors)) {
+    if (isFormValid(fetchedEvent.event, fetchedEvent.formErrors)) {
       if (newEvent) {
-        addEventF(fetchEvent.event, fetchEvent.images);
+        addEventAction(fetchedEvent.event, fetchedEvent.images);
       } else {
-        editEventF(fetchEvent.event, fetchEvent.images);
-      }
-      if (fetchEvent.error === '') {
-        history.push('/admin/events');
+        editEventAction(fetchedEvent.event, fetchedEvent.images);
       }
     }
   };
@@ -188,17 +181,30 @@ function EventDetails({
       setDialogTitle(t('welcome.popupMsgCancelTitle'));
       setDialogDescription(t('welcome.popupMsgCancelDescription'));
       setOpen(true);
-      resetStoreF();
+      resetStoreAction();
     } else {
-      deleteEventF(match.params.id);
-      history.push('/admin/events');
+      deleteEventAction(match.params.id);
     }
   };
+
+  useEffect(() => {
+    if (fetchedEvent.isDeleted) {
+      history.push('/admin/events');
+    }
+    return () => resetStoreAction();
+  }, [fetchedEvent.isDeleted]);
+
+  useEffect(() => {
+    if (fetchedEvent.isSaved) {
+      history.push('/admin/events');
+    }
+    return () => resetStoreAction();
+  }, [fetchedEvent.isSaved]);
 
   const overviewComponent = (
     <OverviewSmart
       newEvent={newEvent}
-      admin={admin}
+      isAdmin={isAdmin}
       setOpen={setOpen}
       setMsgUndo={setMsgUndo}
       setDialogTitle={setDialogTitle}
@@ -209,7 +215,7 @@ function EventDetails({
   const ticketsComponent = <CategoryPageSmart newEvent={newEvent} />;
   const imagesComponent = <ImagesSectionSmart />;
 
-  if (fetchEvent.loading) {
+  if (fetchedEvent.eventIsLoading) {
     return (
       <Container maxWidth="lg">
         <CircularProgress />
@@ -217,10 +223,10 @@ function EventDetails({
     );
   }
 
-  let title = newEvent === false ? fetchEvent.event.title : t('welcome.newEventTitle');
+  let title = !newEvent ? fetchedEvent.event.title : t('welcome.newEventTitle');
   return (
-    <Paper className={classes.paper}>
-      <Header saveEvent={saveEvent} deleteEvent={deleteEvent} admin={admin} title={title} />
+    <Paper className={backgroundStyle.paper}>
+      <Header saveEvent={saveEvent} deleteEvent={deleteEvent} isAdmin={isAdmin} title={title} />
       <Stepper
         overviewComponent={overviewComponent}
         locationComponent={locationComponent}
@@ -228,6 +234,7 @@ function EventDetails({
         imagesComponent={imagesComponent}
       />
       <AlertDialog
+        isRequest={false}
         open={open}
         setOpen={setOpen}
         msgUndo={msgUndo}
@@ -240,17 +247,17 @@ function EventDetails({
 
 const mapStateToProps = (state: any) => {
   return {
-    fetchEvent: state.eventCrud,
+    fetchedEvent: state.eventCrud,
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    fetchEventF: (id: string) => dispatch(loadEvent(id)),
-    deleteEventF: (id: string) => dispatch(deleteEvent(id)),
-    addEventF: (event: EventCrud, images: EventImage[]) => dispatch(addEvent(event, images)),
-    editEventF: (event: EventCrud, images: EventImage[]) => dispatch(editEvent(event, images)),
-    resetStoreF: () => dispatch(resetStore()),
+    fetchEventAction: (id: string) => dispatch(loadEvent(id)),
+    deleteEventAction: (id: string) => dispatch(deleteEvent(id)),
+    addEventAction: (event: EventCrud, images: EventImage[]) => dispatch(addEvent(event, images)),
+    editEventAction: (event: EventCrud, images: EventImage[]) => dispatch(editEvent(event, images)),
+    resetStoreAction: () => dispatch(resetStore()),
   };
 };
 

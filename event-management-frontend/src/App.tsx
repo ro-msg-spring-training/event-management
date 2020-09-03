@@ -1,17 +1,17 @@
-import React, { Suspense } from "react";
-import Amplify from "aws-amplify";
-import config from "./config";
-import AuthWrapper from "./components/Routes";
-import { Route, Switch } from "react-router-dom";
-import Main from "./components/Main";
-import { CircularProgress, Grid } from "@material-ui/core";
-import "./App.css";
-import MainUser from "./components/MainUser";
+import React, { Suspense } from 'react';
+import Amplify from 'aws-amplify';
+import config from './config';
+import AuthWrapper from './components/Routes';
+import { Route, Switch } from 'react-router-dom';
+import Main from './components/Main';
+import { CircularProgress, Grid } from '@material-ui/core';
+import './App.css';
+import MainUser from './components/MainUser';
 
 // loading component for suspense fallback
 const Loader = () => (
   <div className="App">
-    <Grid container alignItems={"center"} justify={"center"}>
+    <Grid container alignItems={'center'} justify={'center'}>
       <br />
       <br />
       <br />
@@ -34,13 +34,13 @@ Amplify.configure({
 // This component will be rendered by our <Router>
 const App = () => {
   return (
-    <Suspense fallback={<Loader />}>
-      <AuthWrapper />
-      <Switch>
-        <Route path="/admin" component={Main} />
-        <Route path="/user" component={MainUser} />
-      </Switch>
-    </Suspense>
+      <Suspense fallback={<Loader />}>
+        <AuthWrapper />
+        <Switch>
+          <Route path="/admin" component={Main} />
+          <Route path="/user" component={MainUser} />
+        </Switch>
+      </Suspense>
   );
 };
 

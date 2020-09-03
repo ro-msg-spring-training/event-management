@@ -1,4 +1,4 @@
-import { CategoryCardItem } from "../types/TicketType";
+import { CategoryCardItem } from "./TicketType";
 
 export interface EventCrud {
   id: number;
