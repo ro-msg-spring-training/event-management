@@ -1,5 +1,3 @@
-import React from 'react';
-
 export interface Event {
   endDate: string;
   endHour: string;

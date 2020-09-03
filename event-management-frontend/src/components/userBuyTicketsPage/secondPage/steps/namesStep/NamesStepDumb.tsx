@@ -15,13 +15,13 @@ interface NamesStepPropsDumb {
 
 function NamesStepDumb({ noTicketsSelected, handleBuy, prevStep, inputs }: NamesStepPropsDumb) {
   const buttonClass = useStyles();
-  const classes = userBuyTicketsStyle();
+  const namesPageStyle = userBuyTicketsStyle();
   const { t } = useTranslation();
 
   return (
     <>
       <HtmlTooltip
-        className={classes.alignHelpIcon}
+        className={namesPageStyle.alignHelpIcon}
         title={
           <>
             {noTicketsSelected
@@ -34,47 +34,38 @@ function NamesStepDumb({ noTicketsSelected, handleBuy, prevStep, inputs }: Names
       </HtmlTooltip>
 
       {noTicketsSelected ? (
-        <Typography className={classes.typography} align="center">
+        <Typography className={namesPageStyle.typography} align="center">
           {t('buyTicketsSecondPage.noTicketsSelected')}
         </Typography>
       ) : (
-        <Typography className={classes.typography} align="center">
-          {t('buyTicketsSecondPage.namesOnTickets')}
-        </Typography>
-      )}
+          <Typography className={namesPageStyle.typography} align="center">
+            {t('buyTicketsSecondPage.namesOnTickets')}
+          </Typography>
+        )}
 
       <Grid container direction="row" justify="center" alignItems="center">
-        <Grid item xs={12} container justify="center" alignItems="center" className={classes.gridStyle}>
+        <Grid item xs={12} container justify="center" alignItems="center" className={namesPageStyle.gridStyle}>
           {inputs}
         </Grid>
 
-        <Grid
-          item
-          container
-          direction="row"
-          justify="center"
-          alignItems="center"
-          className={`${classes.button} buttonStyleResp`}
-        >
+        <Grid item container direction="row" justify="center" alignItems="center" className={`${namesPageStyle.button} buttonStyleResp`} >
           <Grid item xs={4} sm={3} md={2} lg={1} xl={1}>
             <Button
               variant="contained"
-              className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition}`}
+              className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle} ${namesPageStyle.buttonPosition}`}
               onClick={prevStep}
             >
-              {' '}
-              {t('eventList.previous')}{' '}
+              {t('eventList.previous')}
             </Button>
           </Grid>
 
           <Grid item xs={4} sm={3} md={2} lg={1} xl={1}>
             <Button
               variant="contained"
-              className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition}`}
+              className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle} ${namesPageStyle.buttonPosition}`}
               onClick={handleBuy}
             >
-              {' '}
-              {t('buyTicketsSecondPage.buyTickets')}{' '}
+              {t('buyTicketsSecondPage.buyTickets')}
             </Button>
           </Grid>
         </Grid>

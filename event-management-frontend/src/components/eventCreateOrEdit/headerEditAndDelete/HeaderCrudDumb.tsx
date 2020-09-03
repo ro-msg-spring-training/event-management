@@ -7,39 +7,21 @@ import SaveIcon from '@material-ui/icons/Save';
 import { headerCrudDumbStyles } from '../../../styles/HeaderCrudStyles';
 
 interface Props {
-  admin: boolean;
+  isAdmin: boolean;
   title: string;
-  handleEventDelete: any;
-  handleEventSave: any;
+  handleEventDelete: () => void;
+  handleEventSave: () => void;
 }
 
-function HeaderDumb({ admin, title, handleEventDelete, handleEventSave }: Props) {
-  const classes = useStyles();
-  const classes2 = headerCrudDumbStyles();
+function HeaderDumb({ isAdmin, title, handleEventDelete, handleEventSave }: Props) {
+  const buttonStyle = useStyles();
+  const gridStyle = headerCrudDumbStyles();
   const { t } = useTranslation();
 
   const cancelButton =
-    admin === true ? (
-      title === t('welcome.newEventTitle') ? (
-        <Button
-          variant="contained"
-          className={`${classes.buttonStyle2} ${classes.buttonStyle3}`}
-          onClick={handleEventDelete}
-        >
-          {' '}
-          {t('welcome.headerCRUDCancel')}{' '}
-        </Button>
-      ) : (
-        <Button
-          variant="contained"
-          className={`${classes.buttonStyle2} ${classes.buttonStyle3}`}
-          onClick={handleEventDelete}
-        >
-          {' '}
-          {t('welcome.headerCRUDDelete')}{' '}
-        </Button>
-      )
-    ) : null;
+    <Button variant="contained" className={`${buttonStyle.mainButtonStyle} ${buttonStyle.pinkGradientButtonStyle}`} onClick={handleEventDelete}>
+      { isAdmin && t("welcome.newEventTitle") === title  ?  t("welcome.headerCRUDCancel") :  t("welcome.headerCRUDDelete") }
+    </Button>
 
   const cancelIcon = (
     <IconButton onClick={handleEventDelete}>
@@ -48,7 +30,7 @@ function HeaderDumb({ admin, title, handleEventDelete, handleEventSave }: Props)
   );
 
   const cancelIconButton =
-    admin === true ? (
+    isAdmin === true ? (
       title === t('welcome.newEventTitle') ? (
         <Tooltip title="Cancel">{cancelIcon}</Tooltip>
       ) : (
@@ -57,19 +39,18 @@ function HeaderDumb({ admin, title, handleEventDelete, handleEventSave }: Props)
     ) : null;
 
   const saveButton =
-    admin === true ? (
+    isAdmin === true ? (
       <Button
         variant="contained"
-        className={`${classes.buttonStyle2} ${classes.buttonStyle3}`}
+        className={`${buttonStyle.mainButtonStyle} ${buttonStyle.pinkGradientButtonStyle}`}
         onClick={handleEventSave}
       >
-        {' '}
-        {t('welcome.headerCRUDSave')}{' '}
+        {t('welcome.headerCRUDSave')}
       </Button>
     ) : null;
 
   const saveIconButton =
-    admin === true ? (
+    isAdmin === true ? (
       <Tooltip title="Save">
         <IconButton onClick={handleEventSave}>
           <SaveIcon color="secondary" />
@@ -78,10 +59,9 @@ function HeaderDumb({ admin, title, handleEventDelete, handleEventSave }: Props)
     ) : null;
 
   const bigWindow = (
-    <Grid container spacing={2} className={classes2.grid} direction="row" justify="space-between" alignItems="center">
+    <Grid container spacing={2} className={gridStyle.grid} direction="row" justify="space-between" alignItems="center">
       <Grid item sm={4} xs={5}>
-        <Typography align="left" className={`${classes2.typography} ${classes2.position}`}>
-          {' '}
+        <Typography align="left" className={`${gridStyle.typography} ${gridStyle.position}`}>
           {title}
         </Typography>
       </Grid>
@@ -90,7 +70,7 @@ function HeaderDumb({ admin, title, handleEventDelete, handleEventSave }: Props)
         <Grid
           container
           spacing={2}
-          className={classes2.secondGrid}
+          className={gridStyle.secondGrid}
           direction="row"
           justify="flex-end"
           alignItems="center"
@@ -108,24 +88,14 @@ function HeaderDumb({ admin, title, handleEventDelete, handleEventSave }: Props)
   );
 
   const smallWindow = (
-    <Grid container className={classes2.grid} direction="row" justify="space-between" alignItems="center">
+    <Grid container className={gridStyle.grid} direction="row" justify="space-between" alignItems="center">
       <Grid item sm={7} xs={8}>
-        <Typography align="left" className={`${classes2.typography} ${classes2.position}`}>
-          {' '}
+        <Typography align="left" className={`${gridStyle.typography} ${gridStyle.position}`}>
           {title}
         </Typography>
       </Grid>
 
-      <Grid
-        item
-        container
-        sm={5}
-        xs={4}
-        className={classes2.secondGrid}
-        direction="row"
-        justify="flex-end"
-        alignItems="center"
-      >
+      <Grid item container sm={5} xs={4} className={gridStyle.secondGrid} direction="row" justify="flex-end" alignItems="center">
         {cancelIconButton}
         {saveIconButton}
       </Grid>

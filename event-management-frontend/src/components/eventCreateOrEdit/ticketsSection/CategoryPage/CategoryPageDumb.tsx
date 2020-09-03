@@ -74,7 +74,7 @@ const CategoryPageDumb: React.FC<Props> = ({ newEvent, event, addCard, handleCha
 
         <Grid container item xl={2} lg={2} md={3} sm={8} xs={10}>
           <Button
-            className={`${classes.button} ${classes2.buttonStyle2} ${classes2.buttonStyle3} addButtonResponsive`}
+            className={`${classes.button} ${classes2.mainButtonStyle} ${classes2.pinkGradientButtonStyle} addButtonResponsive`}
             onClick={addNewCard}
           >
             {t('categoryCard.addCategory')}

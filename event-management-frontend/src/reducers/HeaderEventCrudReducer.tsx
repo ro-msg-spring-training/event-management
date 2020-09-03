@@ -26,7 +26,7 @@ import { TicketAvailabilityData } from '../model/TicketAvailabilityData';
 import { CategoryCardItem } from '../model/TicketType';
 
 export interface EventState {
-  loading: boolean;
+  eventIsLoading: boolean;
   event: EventCrud;
   ticketData: TicketAvailabilityData[];
   error: string;
@@ -70,7 +70,7 @@ export const newTicket: TicketAvailabilityData = {
 };
 
 export const initialState: EventState = {
-  loading: false,
+  eventIsLoading: false,
   event: {
     id: -1,
     title: '',
@@ -145,7 +145,7 @@ const HeaderReducer = (
     case FETCH_EVENT_REQUEST:
       return {
         ...state,
-        loading: true,
+        eventIsLoading: true,
         isLoading: true,
       };
 
@@ -157,7 +157,7 @@ const HeaderReducer = (
       }
       return {
         ...state,
-        loading: false,
+        eventIsLoading: false,
         event: action.payload,
         ticketData: action.ticketCategoryData,
         error: '',
@@ -173,7 +173,7 @@ const HeaderReducer = (
     case FETCH_EVENT_FAILURE:
       return {
         ...state,
-        loading: false,
+        eventIsLoading: false,
         event: action.payload,
         isError: true,
         isLoading: false,
@@ -182,7 +182,7 @@ const HeaderReducer = (
     case DELETE_EVENT_REQUEST:
       return {
         ...state,
-        loading: true,
+        eventIsLoading: true,
       };
 
     case DELETE_EVENT_SUCCESS:
@@ -201,40 +201,40 @@ const HeaderReducer = (
     case ADD_EVENT_REQUEST:
       return {
         ...state,
-        loading: true,
+        eventIsLoading: true,
       };
 
     case ADD_EVENT_SUCCESS:
       return {
         ...state,
-        loading: false,
+        eventIsLoading: false,
         isSaved: true,
       };
 
     case ADD_EVENT_FAILURE:
       return {
         ...state,
-        loading: false,
+        eventIsLoading: false,
         newProduct: action.payload,
       };
 
     case EDIT_EVENT_REQUEST:
       return {
         ...state,
-        loading: true,
+        eventIsLoading: true,
       };
 
     case EDIT_EVENT_SUCCESS:
       return {
         ...state,
-        loading: false,
+        eventIsLoading: false,
         isSaved: true,
       };
 
     case EDIT_EVENT_FAILURE:
       return {
         ...state,
-        loading: false,
+        eventIsLoading: false,
         newProduct: action.payload,
       };
 

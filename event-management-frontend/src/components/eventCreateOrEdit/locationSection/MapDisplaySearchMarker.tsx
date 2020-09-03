@@ -30,7 +30,7 @@ const MapDisplaySearchMarker = (props: Props) => {
                 {props.searchLocation.address}
                 <br />{' '}
                 <Button
-                  className={`${classes.buttonStyle2} ${classes.buttonStyle3} ${classesMap.buttonPopup}`}
+                  className={`${classes.mainButtonStyle} ${classes.pinkGradientButtonStyle} ${classesMap.buttonPopup}`}
                   onClick={(e) => {
                     return props.submitLocation(
                       props.searchLocation.id,

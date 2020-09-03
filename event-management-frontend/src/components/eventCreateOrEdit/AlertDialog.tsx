@@ -12,7 +12,7 @@ import { useStyles } from '../../styles/CommonStyles';
 
 interface AlertDialogProps {
   open: boolean;
-  setOpen: any;
+  setOpen: (open: boolean) => void;
   msgUndo: string;
   dialogTitle: string;
   dialogDescription: string;
@@ -50,7 +50,7 @@ export default function AlertDialog({
   const handleProceed = (): void => {
     setOpen(false);
     prevStep !== undefined && prevStep();
-    history.push('/admin/events');
+    history.push('/admin');
   };
 
   const handleCancel = (): void => {
@@ -59,7 +59,7 @@ export default function AlertDialog({
   };
 
   return (
-    <div>
+    <>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -83,9 +83,8 @@ export default function AlertDialog({
                 <DialogTitle id="alert-dialog-title">Error {errorMsg}</DialogTitle>
                 <DialogContent>
                   {console.log("error", errorMsg)}
-                  {/* <DialogContentText id="alert-dialog-description">Error {errorMsg}</DialogContentText> */}
                   <DialogActions>
-                    <Button onClick={handleGoToEventsPage} color="primary" autoFocus className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3}`}>
+                    <Button onClick={handleGoToEventsPage} color="primary" autoFocus className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle}`}>
                       OK
                   </Button>
                   </DialogActions>
@@ -95,9 +94,8 @@ export default function AlertDialog({
                 <DialogTitle id="alert-dialog-title">Success</DialogTitle>
                 <DialogContent>
                   {console.log("Success")}
-                  {/* <DialogContentText id="alert-dialog-description">Success</DialogContentText> */}
                   <DialogActions>
-                    <Button onClick={handleGoToEventsPage} color="primary" autoFocus className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3}`}>
+                    <Button onClick={handleGoToEventsPage} color="primary" autoFocus className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle}`}>
                       OK
                   </Button>
                   </DialogActions>
@@ -121,6 +119,6 @@ export default function AlertDialog({
           </>
         }
       </Dialog>
-    </div>
+    </>
   );
 }

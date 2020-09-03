@@ -4,10 +4,10 @@ import BuyTicketsPopupDumb from './BuyTicketsPopupDumb';
 interface BuyTicketsPopupSmartProps {
   prevStep: () => void;
   open: boolean;
-  setOpen: any;
+  setOpen: (open: boolean) => void;
   checked: boolean;
   handleCheckboxChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleProceedToBuy: (e: any) => void;
+  handleProceedToBuy: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
 function BuyTicketsPopupSmart({
@@ -22,7 +22,7 @@ function BuyTicketsPopupSmart({
     setOpen(false);
   };
 
-  const handleProceed = (e: any): void => {
+  const handleProceed = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
     setOpen(false);
     handleProceedToBuy(e);
   };

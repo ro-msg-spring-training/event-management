@@ -152,7 +152,7 @@ function UserEventsListFilterDumb({
           <Grid item xs={12} sm={3} md={2} xl={2} container spacing={3}>
             <Grid item xs={12} sm={12} md={12} xl={12}>
               <Button
-                className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3} ${classes.filterButtons}`}
+                className={`${commonClasses.mainButtonStyle} ${commonClasses.pinkGradientButtonStyle} ${classes.filterButtons}`}
                 disabled={errorRate !== ''}
                 type="submit"
               >
@@ -162,7 +162,7 @@ function UserEventsListFilterDumb({
 
             <Grid item xs={12} sm={12} md={12} xl={12}>
               <Button
-                className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3} ${classes.filterButtons}`}
+                className={`${commonClasses.mainButtonStyle} ${commonClasses.pinkGradientButtonStyle} ${classes.filterButtons}`}
                 onClick={resetUserFilters}
               >
                 {translation('userEventList.clearButton')}

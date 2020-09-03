@@ -1,21 +1,22 @@
-import React from 'react';
+import React, { KeyboardEvent } from 'react';
 import OverviewDumb from './OverviewDumb';
 import { EventCrud } from '../../../model/EventCrud';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { EventFormErrors } from '../../../model/EventFormErrors';
 import { updateFormErrors, updateEvent } from '../../../actions/HeaderEventCrudActions';
-import { compareDates, compareTimes } from '../../../utils/CompareUtilsForOverview';
+import { compareDates } from '../../../utils/CompareUtilsForOverview';
 import { Dispatch } from 'redux';
 import { AppState } from '../../../store/store';
+import { resetErrors, setStartDateError, setStartTimeError, setEndTimeError } from '../../../utils/OverviewUtils';
 
 interface OverviewSmartProps {
   newEvent: boolean;
-  admin: boolean;
-  setOpen: any;
-  setMsgUndo: any;
-  setDialogTitle: any;
-  setDialogDescription: any;
+  isAdmin: boolean;
+  setOpen: (open: boolean) => void;
+  setMsgUndo: (msgUndo: string) => void;
+  setDialogTitle: (dialogTitle: string) => void;
+  setDialogDescription: (dialogDescription: string) => void;
 
   eventCrud: EventCrud;
   formErrors: EventFormErrors;
@@ -41,7 +42,7 @@ function OverviewSmart(props: OverviewSmartProps) {
     props.updateEvent(newEvent);
   };
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const { name, value } = e.target;
 
@@ -95,122 +96,37 @@ function OverviewSmart(props: OverviewSmartProps) {
         break;
 
       case 'startDate':
-        newFormErrors.startDate = '';
-        newFormErrors.endDate = '';
-        newFormErrors.startTime = '';
-        newFormErrors.endTime = '';
+        newFormErrors = resetErrors(newFormErrors);
 
-        newFormErrors.startDate =
-          compareDates(value, currDate) === -1
-            ? t('welcome.errMsgOverviewFirstDayInPast')
-            : compareDates(value, props.eventCrud.endDate) === 1
-            ? t('welcome.errMsgOverviewFirstDayAfterLast')
-            : '';
-
-        newFormErrors.startTime =
-          compareDates(value, props.eventCrud.endDate) === 0
-            ? compareTimes(props.eventCrud.startHour, props.eventCrud.endHour) !== -1
-              ? t('welcome.errMsgOverviewOneDayEventStartTimeErr')
-              : ''
-            : '';
-
-        newFormErrors.endTime =
-          compareDates(value, props.eventCrud.endDate) === 0
-            ? compareTimes(props.eventCrud.startHour, props.eventCrud.endHour) !== -1
-              ? t('welcome.errMsgOverviewOneDayEventEndTimeErr')
-              : ''
-            : '';
-
+        newFormErrors.startDate = setStartDateError(value, currDate, props.eventCrud.endDate, t);
+        newFormErrors.endDate = compareDates(value, props.eventCrud.endDate) === 1 ? t('welcome.errMsgOverviewLastDayBeforeFirst') : '';
+        newFormErrors.startTime = setStartTimeError(value, props.eventCrud.endDate, props.eventCrud.startHour, props.eventCrud.endHour, t);
+        newFormErrors.endTime = setEndTimeError(value, props.eventCrud.endDate, props.eventCrud.startHour, props.eventCrud.endHour, t);
         break;
 
       case 'endDate':
-        newFormErrors.startDate = '';
-        newFormErrors.endDate = '';
-        newFormErrors.startTime = '';
-        newFormErrors.endTime = '';
+        newFormErrors = resetErrors(newFormErrors);
 
-        newFormErrors.endDate =
-          compareDates(props.eventCrud.startDate, value) === 1 ? t('welcome.errMsgOverviewLastDayBeforeFirst') : '';
-
-        newFormErrors.startDate =
-          compareDates(props.eventCrud.startDate, currDate) === -1
-            ? t('welcome.errMsgOverviewFirstDayInPast')
-            : compareDates(props.eventCrud.startDate, value) === 1
-            ? t('welcome.errMsgOverviewFirstDayAfterLast')
-            : '';
-
-        newFormErrors.startTime =
-          compareDates(props.eventCrud.startDate, value) === 0
-            ? compareTimes(props.eventCrud.startHour, props.eventCrud.endHour) !== -1
-              ? t('welcome.errMsgOverviewOneDayEventStartTimeErr')
-              : ''
-            : '';
-
-        newFormErrors.endTime =
-          compareDates(props.eventCrud.startDate, value) === 0
-            ? compareTimes(props.eventCrud.startHour, props.eventCrud.endHour) !== -1
-              ? t('welcome.errMsgOverviewOneDayEventEndTimeErr')
-              : ''
-            : '';
-
+        newFormErrors.startDate = setStartDateError(props.eventCrud.startDate, currDate, value, t);
+        newFormErrors.endDate = compareDates(props.eventCrud.startDate, value) === 1 ? t('welcome.errMsgOverviewLastDayBeforeFirst') : '';
+        newFormErrors.startTime = setStartTimeError(props.eventCrud.startDate, value, props.eventCrud.startHour, props.eventCrud.endHour, t);
+        newFormErrors.endTime = setEndTimeError(props.eventCrud.startDate, value, props.eventCrud.startHour, props.eventCrud.endHour, t);
         break;
 
       case 'startTime':
-        newFormErrors.startDate = '';
-        newFormErrors.endDate = '';
-        newFormErrors.startTime = '';
-        newFormErrors.endTime = '';
+        newFormErrors = resetErrors(newFormErrors);
 
-        newFormErrors.startTime =
-          compareDates(props.eventCrud.startDate, props.eventCrud.endDate) === 0
-            ? compareTimes(value, props.eventCrud.endHour) !== -1
-              ? t('welcome.errMsgOverviewOneDayEventStartTimeErr')
-              : ''
-            : '';
-
-        newFormErrors.startDate =
-          compareDates(props.eventCrud.startDate, currDate) === -1
-            ? t('welcome.errMsgOverviewFirstDayInPast')
-            : compareDates(props.eventCrud.startDate, props.eventCrud.endDate) === 1
-            ? t('welcome.errMsgOverviewFirstDayAfterLast')
-            : '';
-
-        newFormErrors.endTime =
-          compareDates(props.eventCrud.startDate, props.eventCrud.endDate) === 0
-            ? compareTimes(value, props.eventCrud.endHour) !== -1
-              ? t('welcome.errMsgOverviewOneDayEventEndTimeErr')
-              : ''
-            : '';
-
+        newFormErrors.startTime = setStartTimeError(props.eventCrud.startDate, props.eventCrud.endDate, value, props.eventCrud.endHour, t);
+        newFormErrors.startDate = setStartDateError(props.eventCrud.startDate, currDate, props.eventCrud.endDate, t);
+        newFormErrors.endTime = setEndTimeError(props.eventCrud.startDate, props.eventCrud.endDate, value, props.eventCrud.endHour, t);
         break;
 
       case 'endTime':
-        newFormErrors.startDate = '';
-        newFormErrors.endDate = '';
-        newFormErrors.startTime = '';
-        newFormErrors.endTime = '';
+        newFormErrors = resetErrors(newFormErrors);
 
-        newFormErrors.endTime =
-          compareDates(props.eventCrud.startDate, props.eventCrud.endDate) === 0
-            ? compareTimes(props.eventCrud.startHour, value) !== -1
-              ? t('welcome.errMsgOverviewOneDayEventEndTimeErr')
-              : ''
-            : '';
-
-        newFormErrors.startDate =
-          compareDates(props.eventCrud.startDate, currDate) === -1
-            ? t('welcome.errMsgOverviewFirstDayInPast')
-            : compareDates(props.eventCrud.startDate, props.eventCrud.endDate) === 1
-            ? t('welcome.errMsgOverviewFirstDayAfterLast')
-            : '';
-
-        newFormErrors.startTime =
-          compareDates(props.eventCrud.startDate, props.eventCrud.endDate) === 0
-            ? compareTimes(props.eventCrud.startHour, value) !== -1
-              ? t('welcome.errMsgOverviewOneDayEventStartTimeErr')
-              : ''
-            : '';
-
+        newFormErrors.endTime = setEndTimeError(props.eventCrud.startDate, props.eventCrud.endDate, props.eventCrud.startHour, value, t);
+        newFormErrors.startDate = setStartDateError(props.eventCrud.startDate, currDate, props.eventCrud.endDate, t);
+        newFormErrors.startTime = setStartTimeError(props.eventCrud.startDate, props.eventCrud.endDate, props.eventCrud.startHour, value, t);
         break;
 
       case 'maxPeople':
@@ -224,7 +140,7 @@ function OverviewSmart(props: OverviewSmartProps) {
     props.updateFormErrors(newFormErrors);
   };
 
-  const handleEnterKey = (e: any): void => {
+  const handleEnterKey = (e: KeyboardEvent<HTMLDivElement>): void => {
     e.keyCode === 13 && e.preventDefault();
   };
 
@@ -232,7 +148,7 @@ function OverviewSmart(props: OverviewSmartProps) {
     <OverviewDumb
       newEvent={props.newEvent}
       event={props.eventCrud}
-      admin={props.admin}
+      isAdmin={props.isAdmin}
       handleEnterKey={handleEnterKey}
       handleChange={handleChange}
       formErrors={props.formErrors}

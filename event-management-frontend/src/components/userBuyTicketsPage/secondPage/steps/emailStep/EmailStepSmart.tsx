@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { KeyboardEvent } from 'react';
 import Booking from '../../../../../model/Booking';
 import EmailStepDumb from './EmailStepDumb';
 import { connect } from 'react-redux';
@@ -11,7 +11,7 @@ import { AppState } from '../../../../../store/store';
 interface EmailStepSmartProps {
   nextStep: () => void;
   prevStep: () => void;
-  handleEnterKey: (e: any) => void;
+  handleEnterKey: (e: KeyboardEvent<HTMLDivElement>) => void;
   email: string;
 
   updateBookings: (booking: Booking) => void;

@@ -17,8 +17,8 @@ interface BuyTicketsPopupDumbProps {
   checked: boolean;
   handleCheckboxChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 
-  handleCancel: () => void;
-  handleProceed: (e : any) => void;
+  handleCancel: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  handleProceed: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   handleClose: () => void;
 }
 
@@ -30,12 +30,13 @@ function BuyTicketsPopupDumb({
   handleProceed,
   handleClose,
 }: BuyTicketsPopupDumbProps) {
+
   const buttonClass = useStyles();
-  const classes = userBuyTicketsStyle();
+  const popupStyle = userBuyTicketsStyle();
   const { t } = useTranslation();
 
   return (
-    <div>
+    <>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -65,14 +66,14 @@ function BuyTicketsPopupDumb({
 
             <Grid item container direction="row">
               <Grid item xs={4}>
-                <Button onClick={handleCancel} color="primary" className={classes.buttonPosition}>
+                <Button onClick={handleCancel} color="primary" className={popupStyle.buttonPosition}>
                   {t('welcome.headerCRUDCancel')}
                 </Button>
               </Grid>
               <Grid item xs={8}>
                 <Button
                   onClick={handleProceed}
-                  className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition}`}
+                  className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle} ${popupStyle.buttonPosition}`}
                 >
                   {t('buyTicketsSecondPage.buyTickets')}
                 </Button>
@@ -81,7 +82,7 @@ function BuyTicketsPopupDumb({
           </Grid>
         </DialogActions>
       </Dialog>
-    </div>
+    </>
   );
 }
 
