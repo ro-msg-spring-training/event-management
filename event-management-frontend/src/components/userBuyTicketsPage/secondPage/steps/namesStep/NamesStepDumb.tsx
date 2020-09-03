@@ -54,7 +54,7 @@ function NamesStepDumb({ noTicketsSelected, handleBuy, prevStep, inputs }: Names
           <Tooltip title={t('eventList.previous') as string}>
             <IconButton
               onClick={prevStep}
-              className={`${buttonStyles.positionLeft} buttonStyleLeft ${buttonStyles.prevButtonStyle} buttonStyleLeftSecond`}
+              className={`${buttonStyles.positionLeft} ${buttonStyles.prevButtonStyle} buttonStyleLeftSecond`}
             >
               <NavigateNextIcon color='secondary' />
             </IconButton>
@@ -63,7 +63,7 @@ function NamesStepDumb({ noTicketsSelected, handleBuy, prevStep, inputs }: Names
           <Tooltip title={t('buyTicketsSecondPage.buyTickets') as string}>
             <IconButton
               onClick={handleBuy}
-              className={`${buttonStyles.positionRight} buttonStyleRight ${buttonStyles.nextButtonStyle} buttonStyleRightSecond`}
+              className={`${buttonStyles.positionRight} ${buttonStyles.nextButtonStyle} buttonStyleRightSecond`}
             >
               <NavigateNextIcon color='secondary' />
             </IconButton>

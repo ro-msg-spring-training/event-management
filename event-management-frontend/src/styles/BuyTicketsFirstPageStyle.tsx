@@ -27,6 +27,10 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
     fontFamily: 'LATO !important',
   },
   nextButton: {
+    position: 'absolute',
+    bottom: '2%',
+    marginRight: '3%',
+
     float: 'right',
     fontSize: 'large !important ',
     background: themeDark.palette.secondary.dark,
@@ -39,7 +43,6 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
       backgroundImage: 'linear-gradient(90deg, rgba(245,253,255,1) 0%, rgba(202,202,209,1) 1%)',
     },
     right: '15%',
-    margin: '3%',
   },
   link: {
     textDecoration: 'none',
@@ -104,13 +107,15 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
     display: 'inline-block',
   },
   cancelButton: {
+    position: 'absolute',
+    bottom: '2%',
+    marginLeft: '3%',
     fontSize: 'large !important ',
     background: themeDark.palette.secondary.contrastText,
     '&:hover': {
       backgroundColor: '#FF6171',
     },
     left: '15%',
-    margin: '3%',
   },
 }));
 

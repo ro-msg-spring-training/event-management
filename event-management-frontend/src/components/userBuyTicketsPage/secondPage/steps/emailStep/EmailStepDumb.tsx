@@ -63,7 +63,7 @@ function EmailStepDumb({
           <Tooltip title={t('eventList.previous') as string}>
             <IconButton
               onClick={prevStep}
-              className={`${buttonStyles.positionLeft} buttonStyleLeft ${buttonStyles.prevButtonStyle} buttonStyleLeftSecond`}
+              className={`${buttonStyles.positionLeft} ${buttonStyles.prevButtonStyle} buttonStyleLeftSecond`}
             >
               <NavigateNextIcon color='secondary' />
             </IconButton>
@@ -72,7 +72,7 @@ function EmailStepDumb({
           <Tooltip title={t('eventList.next') as string}>
             <IconButton
               onClick={nextStep}
-              className={`${buttonStyles.positionRight} buttonStyleRight ${buttonStyles.nextButtonStyle} buttonStyleRightSecond`}
+              className={`${buttonStyles.positionRight} ${buttonStyles.nextButtonStyle} buttonStyleRightSecond`}
             >
               <NavigateNextIcon color='secondary' />
             </IconButton>

@@ -159,7 +159,7 @@
         "headerCRUDSave": "Salvează",
 
         "backButton": "Înapoi",
-        "joinButton": "Alătură-te"
+        "joinButton": "Participă"
     },
     "images": {
         "imageErrorMessage": "A apărut o eroare la încărcarea imaginilor",
@@ -170,13 +170,13 @@
         "imageDialogDisagree": "Nu"
     },
     "location": {
-        "selectButton": "Selecteaza",
-        "cancelButton": "Anuleaza",
-        "selectedLocationMessage": "Locatia selectata pentru eveniment",
-        "searchBarText": "Cauta locatie"
+        "selectButton": "Selectează",
+        "cancelButton": "Anulează",
+        "selectedLocationMessage": "Locația selectată pentru eveniment",
+        "searchBarText": "Caută locație"
     },
     "occupancyCards": {
-        "toDateText": "pana in ",
+        "toDateText": "până în ",
         "occupancyRate": "Rata de ocupare:",
         "historyEvents": "Ultimele evenimente",
         "upcomingEvents": "Evenimente viitoare"

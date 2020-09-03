@@ -36,13 +36,13 @@ function UserEventDetailsDumb(props: UserEventDetailsDumbProps) {
 
       <Grid item container justify="center">
         <Grid item>
-          <Typography className={userEventDetailsStyle.typography}>{props.event.title}</Typography>
+          <Typography className={userEventDetailsStyle.typographyTitle}>{props.event.title}</Typography>
         </Grid>
       </Grid>
 
       <Grid item container justify="center">
         <Grid item>
-          <Typography className={userEventDetailsStyle.typography}>{props.event.subtitle}</Typography>
+          <Typography className={userEventDetailsStyle.typographySubtitle}>{props.event.subtitle}</Typography>
         </Grid>
       </Grid>
 

@@ -7,11 +7,17 @@ export const userEventDetailsStyles = makeStyles(theme => ({
     margin: '0px',
     flexGrow: 1,
   },
-  typography: {
+  typographyTitle: {
     fontSize: 22,
-    fontFamily: 'Monospace',
+    // fontFamily: 'Monospace',
     textTransform: "uppercase",
-    alignText: "center"
+    textAlign: "center"
+  },
+  typographySubtitle: {
+    fontSize: 16,
+    // fontFamily: 'Monospace',
+    textTransform: "uppercase",
+    textAlign: "center"
   },
   position: {
     marginTop: "2vh",

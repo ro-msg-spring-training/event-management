@@ -21,7 +21,7 @@ const EventDetailBuyPageDumb = (props: Props) => {
 
   return (
     <div>
-      <h1 className={reserveTicketFirstPage.title}>{props.event.title}</h1>
+      <h1 className={`${reserveTicketFirstPage.title} titleResponsive`}>{props.event.title}</h1>
 
       <div className={reserveTicketFirstPage.styleblock}>
         <LocationOnIcon className={reserveTicketFirstPage.iconStyleLocation} />

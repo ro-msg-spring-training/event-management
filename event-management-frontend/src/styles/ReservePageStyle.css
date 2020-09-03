@@ -11,26 +11,35 @@
     }
 }
 
+@media (max-width: 850px) {
+    .titleResponsive {
+        font-size: 30px !important;
+    }
+}
+
 @media (min-width: 1700px) {
     .buttonStyleRight {
         margin-left: 10% !important;
         right: 27% !important;
     }
+    .buttonStyleLeftSecond {
+        margin-right: 10% !important;
+        left: 35% !important;
+    }
     .buttonStyleLeft {
         margin-right: 10% !important;
         left: 27% !important;
     }
+    .buttonStyleRightSecond {
+        margin-left: 10% !important;
+        right: 19% !important;
+    }
+    .paperResponsivity {
+        margin: auto !important;
+    }
 }
 
 @media (min-width: 1650px) {
-    .buttonStyleRightSecond {
-        margin-left: 10% !important;
-        right: 39% !important;
-    }
-    .buttonStyleLeftSecond {
-        margin-right: 10% !important;
-        left: 20% !important;
-    }
     .buttonStyleResp {
         margin-right: 10% !important;
         left: -8% !important;
