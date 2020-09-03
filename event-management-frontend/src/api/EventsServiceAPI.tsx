@@ -6,13 +6,13 @@ import { fetchWrapper } from "./FetchWrapper";
 
 
 const computeLimit = () => {
-    let limit: { limit: string } = { limit: "2" };
+    let limit: { limit: string } = { limit: "5" };
 
     return limit;
 }
 
 const computeSize = () => {
-    let size: { size: string } = { size: "2" };
+    let size: { size: string } = { size: "5" };
 
     return size;
 }
@@ -127,7 +127,7 @@ export const fetchSortedEvents = (sort: EventSort, filters: EventFilters, page: 
 }
 
 export const fetchEvents = () => {
-    return fetchWrapper(`${serverURL}/events?limit=2&page=0&size=2`, { headers: headersAuth })
+    return fetchWrapper(`${serverURL}/events?limit=5&page=0&size=5`, { headers: headersAuth })
         .then(response => response.json())
         .then(json => {
             return json;

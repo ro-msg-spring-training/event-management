@@ -25,6 +25,9 @@ export const useStylesTickets = makeStyles(theme => ({
     ticketTableLayout: {
         tableLayout: "fixed"
     },
+    displayNone: {
+        display: 'none'
+    },
     pageContainer: {
         display: 'flex',
         flexDirection: 'column',
@@ -40,7 +43,8 @@ export const useStylesTickets = makeStyles(theme => ({
         }
     },
     tableCellPadding: {
-      //paddingRight: 30,
+      //paddingLeft: 20,
+        //paddingRight: 20
     },
     paddingTable: {
         margin: 30,
