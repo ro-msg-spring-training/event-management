@@ -63,7 +63,7 @@ function BuyTicketsSecondPageDumb({
           onClick={gotoFirstPage}
           className={`${buttonStyles.positionLeft} buttonStyleLeft ${buttonStyles.prevButtonStyle} buttonStyleLeftSecond`}
         >
-          <NavigateNextIcon color="secondary" />
+          <NavigateNextIcon color='secondary' />
         </IconButton>
       </Tooltip>
 
@@ -72,7 +72,7 @@ function BuyTicketsSecondPageDumb({
           onClick={gotoEventListPage}
           className={`${buttonStyles.positionRight} buttonStyleRight ${buttonStyles.cancelButtonStyle} buttonStyleRightSecond`}
         >
-          <CloseIcon color="secondary" />
+          <CloseIcon color='secondary' />
         </IconButton>
       </Tooltip>
     </>
@@ -147,7 +147,7 @@ function BuyTicketsSecondPageDumb({
 
   return (
     <div className={generalStyle.root}>
-      <Grid container direction="row" justify="center" alignItems="center">
+      <Grid container direction='row' justify='center' alignItems='center'>
         <Grid item xs={12}>
           <Paper className={`${generalStyle.paperStyle} buyPageResponsive `}>{currentPage}</Paper>
         </Grid>

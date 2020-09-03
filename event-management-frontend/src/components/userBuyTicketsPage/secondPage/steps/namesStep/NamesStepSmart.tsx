@@ -98,13 +98,13 @@ function NamesStepSmart({
           <TextField
             className={namesPageStyle.position}
             onKeyDown={handleEnterKey}
-            type="text"
+            type='text'
             name={textFieldName}
             id={textFieldName}
             fullWidth
             defaultValue={ticketNames.find((ticket) => ticket.ticketTitle === ticketAmount[i].category)?.names[j]}
             label={ticketAmount[i].category + ' #' + Number(j + 1)}
-            variant="outlined"
+            variant='outlined'
             onChange={handleNameStepChange}
             error={currError.length > 0}
             helperText={currError}

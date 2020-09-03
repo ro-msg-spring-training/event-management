@@ -29,7 +29,7 @@ function Stepper(props: EventProps) {
   };
 
   const iconTab = (
-    <Tabs orientation="vertical" value={value} onChange={handleTabChange} className={stepperClasses.iconTabs} centered>
+    <Tabs orientation='vertical' value={value} onChange={handleTabChange} className={stepperClasses.iconTabs} centered>
       <Tab icon={<Overview />} {...a11yProps(0)} />
       <Tab icon={<Location />} {...a11yProps(1)} />
       <Tab icon={<Tickets />} {...a11yProps(2)} />
@@ -38,7 +38,7 @@ function Stepper(props: EventProps) {
   );
 
   const textTab = (
-    <Tabs orientation="vertical" value={value} onChange={handleTabChange} className={stepperClasses.tabs} centered>
+    <Tabs orientation='vertical' value={value} onChange={handleTabChange} className={stepperClasses.tabs} centered>
       <Tab label={t('welcome.overviewTab')} {...a11yProps(0)} />
       <Tab label={t('welcome.locationTab')} {...a11yProps(1)} />
       <Tab label={t('welcome.ticketsTab')} {...a11yProps(2)} />
@@ -65,7 +65,7 @@ function Stepper(props: EventProps) {
 
   const bigWindow = (
     <div className={stepperClasses.root}>
-      <Grid container direction="row" justify="flex-start" alignItems="center">
+      <Grid container direction='row' justify='flex-start' alignItems='center'>
         <Grid item xl={1} lg={2} md={2} sm={3} xs={3}>
           {textTab}
         </Grid>
@@ -79,7 +79,7 @@ function Stepper(props: EventProps) {
 
   const smallWindow = (
     <div className={`${stepperClasses.root} ${stepperClasses.rootResponsive}`}>
-      <Grid container direction="row" justify="flex-start">
+      <Grid container direction='row' justify='flex-start'>
         <Grid item xl={1} lg={2} md={2} sm={2} xs={1}>
           {iconTab}
         </Grid>

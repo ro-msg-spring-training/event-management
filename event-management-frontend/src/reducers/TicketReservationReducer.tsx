@@ -102,13 +102,13 @@ const TicketCategoriesReducer = (
         isLoading: true,
       };
     case ADD_BOOKINGS_SUCCESS:
-      console.log("SUCCES from reducer");
+      console.log('SUCCES from reducer');
       return {
         ...state,
         isLoading: false,
       };
     case ADD_BOOKINGS_FAILURE:
-      console.log("FAILURE from reducer");
+      console.log('FAILURE from reducer');
       return {
         ...state,
         isLoading: false,

@@ -76,8 +76,8 @@ function BuyTicketsSecondPageSmart({
 
   if (isLoadingTicketCategories) {
     return (
-      <Grid container direction="row" justify="center" alignItems="center">
-        <Container maxWidth="lg">
+      <Grid container direction='row' justify='center' alignItems='center'>
+        <Container maxWidth='lg'>
           <CircularProgress />
         </Container>
         <h6>Loading</h6>
@@ -85,7 +85,7 @@ function BuyTicketsSecondPageSmart({
     );
   } else if (isErrorTicketCategories) {
     return (
-      <Grid container direction="row" justify="center" alignItems="center">
+      <Grid container direction='row' justify='center' alignItems='center'>
         <ErrorIcon color={'primary'} fontSize={'large'} />
         <h2>Oops, there was an error</h2>
       </Grid>

@@ -31,19 +31,19 @@ function EmailStepDumb({
 
   return (
     <>
-      <Typography className={emailPageStyle.typography} align="center">
+      <Typography className={emailPageStyle.typography} align='center'>
         {t('buyTicketsSecondPage.myEmailAddress')}
       </Typography>
-      <Grid container direction="row" justify="center" alignItems="center">
+      <Grid container direction='row' justify='center' alignItems='center'>
         <Grid item xs={12}>
           <TextField
             className={emailPageStyle.position}
             onKeyDown={handleEnterKey}
-            name="Email"
+            name='Email'
             fullWidth
             defaultValue={email}
-            label="Email"
-            variant="outlined"
+            label='Email'
+            variant='outlined'
             onChange={handleEmailStepChange}
             error={emailFormErrors.error.length > 0}
             helperText={emailFormErrors.error}
@@ -53,14 +53,14 @@ function EmailStepDumb({
         <Grid
           item
           container
-          direction="row"
-          justify="center"
-          alignItems="center"
+          direction='row'
+          justify='center'
+          alignItems='center'
           className={`${emailPageStyle.button} buttonStyleResp`}
         >
           <Grid item xs={4} sm={2} md={2} lg={1} xl={1}>
             <Button
-              variant="contained"
+              variant='contained'
               className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle} ${emailPageStyle.buttonPosition} `}
               onClick={prevStep}
             >
@@ -70,7 +70,7 @@ function EmailStepDumb({
 
           <Grid item xs={4} sm={2} md={2} lg={1} xl={1}>
             <Button
-              variant="contained"
+              variant='contained'
               className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle} ${emailPageStyle.buttonPosition}`}
               onClick={nextStep}
             >
