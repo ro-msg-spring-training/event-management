@@ -46,7 +46,7 @@ const sendImagesToAddAndDeteteToServer = async (newAddedImagesIds: string[], ima
 };
 
 const saveEventImage = async (newAddedImages: File, newAddedImagesURLsToUpload: string) => {
-  return fetchWrapper(newAddedImagesURLsToUpload, {
+  return fetch(newAddedImagesURLsToUpload, {
     method: 'PUT',
     headers: {
       'Content-Type': 'image/*',
