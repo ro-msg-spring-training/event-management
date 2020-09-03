@@ -1,5 +1,5 @@
-import { fetchWrapper } from "./FetchWrapper";
-import { serverURL, headersAuth } from "./Api";
+import { fetchWrapper } from './FetchWrapper';
+import { serverURL, headersAuth } from './Api';
 
 export const fetchEventWithLocationsAPI = (id: string) => {
   return fetchWrapper(`${serverURL}/events/${id}?type=userEventDetails`, {

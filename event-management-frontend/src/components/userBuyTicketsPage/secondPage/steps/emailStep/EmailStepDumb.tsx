@@ -25,25 +25,25 @@ function EmailStepDumb({
   emailFormErrors,
 }: EmailStepDumbProps) {
   const buttonClass = useStyles();
-  const classes = userBuyTicketsStyle();
+  const emailPageStyle = userBuyTicketsStyle();
 
   const { t } = useTranslation();
 
   return (
     <>
-      <Typography className={classes.typography} align="center">
+      <Typography className={emailPageStyle.typography} align='center'>
         {t('buyTicketsSecondPage.myEmailAddress')}
       </Typography>
-      <Grid container direction="row" justify="center" alignItems="center">
+      <Grid container direction='row' justify='center' alignItems='center'>
         <Grid item xs={12}>
           <TextField
-            className={classes.position}
+            className={emailPageStyle.position}
             onKeyDown={handleEnterKey}
-            name="Email"
+            name='Email'
             fullWidth
             defaultValue={email}
-            label="Email"
-            variant="outlined"
+            label='Email'
+            variant='outlined'
             onChange={handleEmailStepChange}
             error={emailFormErrors.error.length > 0}
             helperText={emailFormErrors.error}
@@ -53,30 +53,28 @@ function EmailStepDumb({
         <Grid
           item
           container
-          direction="row"
-          justify="center"
-          alignItems="center"
-          className={`${classes.button} buttonStyleResp`}
+          direction='row'
+          justify='center'
+          alignItems='center'
+          className={`${emailPageStyle.button} buttonStyleResp`}
         >
           <Grid item xs={4} sm={2} md={2} lg={1} xl={1}>
             <Button
-              variant="contained"
-              className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition} `}
+              variant='contained'
+              className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle} ${emailPageStyle.buttonPosition} `}
               onClick={prevStep}
             >
-              {' '}
-              {t('eventList.previous')}{' '}
+              {t('eventList.previous')}
             </Button>
           </Grid>
 
           <Grid item xs={4} sm={2} md={2} lg={1} xl={1}>
             <Button
-              variant="contained"
-              className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition}`}
+              variant='contained'
+              className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle} ${emailPageStyle.buttonPosition}`}
               onClick={nextStep}
             >
-              {' '}
-              {t('eventList.next')}{' '}
+              {t('eventList.next')}
             </Button>
           </Grid>
         </Grid>

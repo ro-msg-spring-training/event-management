@@ -123,7 +123,7 @@ const EventListDumb = ({
       <TableContainer component={Paper}>
         <Link to={`/admin/newEvent`} style={{ textDecoration: 'none' }}>
           <Button
-            className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3} ${commonClasses.buttonStyle4}`}
+            className={`${commonClasses.mainButtonStyle} ${commonClasses.pinkGradientButtonStyle} ${commonClasses.buttonStyle4}`}
           >
             {t('eventList.createNewEventButton')}
           </Button>
@@ -204,7 +204,7 @@ const EventListDumb = ({
           <div className={classes.stickyArea} ref={stickyDiv}>
             <Link to={`/admin/newEvent`} style={{ textDecoration: 'none' }}>
               <Button
-                className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3} ${commonClasses.buttonStyle4}`}
+                className={`${commonClasses.mainButtonStyle} ${commonClasses.pinkGradientButtonStyle} ${commonClasses.buttonStyle4}`}
               >
                 {t('eventList.createNewEventButton')}
               </Button>

@@ -20,22 +20,11 @@ const useStyles = makeStyles((theme) => ({
     color: "#133655",
     width: 100,
   },
-  buttonStyle1: {
-    textAlign: "center",
-    color: theme.palette.secondary.main,
-    textTransform: "uppercase",
-    letterSpacing: "2px",
-    background: "linear-gradient(90deg, #f9c929 20%, #f2ac0a 90%)",
-    borderRadius: "20px",
-    width: "85%",
-    boxShadow: "0 1px 7px 1px #133C55",
-  },
-  buttonStyle2: {
+  mainButtonStyle: {
     color: theme.palette.secondary.main,
     textTransform: "uppercase",
     borderRadius: "20px",
     width: "85%",
-    // boxShadow: '0 1px 7px 1px #133C55',
     cursor: "pointer",
     backgroundSize: "200%",
     transition: "0.3s",
@@ -43,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
       backgroundPosition: "right",
     },
   },
-  buttonStyle3: {
+  pinkGradientButtonStyle: {
     backgroundImage: "linear-gradient(45deg, #f9c929 10%, #f2ac0a 50%, #ed4d6e 90%)",
   },
   buttonStyle4: {
@@ -150,4 +139,5 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 20,
   },
 }));
+
 export { useStyles };

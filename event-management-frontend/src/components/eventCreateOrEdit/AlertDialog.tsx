@@ -7,15 +7,22 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { Grid, Container, CircularProgress } from '@material-ui/core';
+import { useStyles } from '../../styles/CommonStyles';
 
 interface AlertDialogProps {
   open: boolean;
-  setOpen: any;
+  setOpen: (open: boolean) => void;
   msgUndo: string;
   dialogTitle: string;
   dialogDescription: string;
 
   prevStep?: () => void;
+  isLoading?: boolean;
+  isError?: boolean;
+  errorMsg?: string;
+  isRequest: boolean;
+  handleGoToEventsPage?: () => void
 }
 
 export default function AlertDialog({
@@ -25,7 +32,13 @@ export default function AlertDialog({
   msgUndo,
   dialogTitle,
   dialogDescription,
+  isLoading,
+  isError,
+  errorMsg,
+  isRequest,
+  handleGoToEventsPage
 }: AlertDialogProps) {
+  const buttonClass = useStyles();
   const history = useHistory();
   const { t } = useTranslation();
 
@@ -37,7 +50,7 @@ export default function AlertDialog({
   const handleProceed = (): void => {
     setOpen(false);
     prevStep !== undefined && prevStep();
-    history.push('/admin/events');
+    history.push('/admin');
   };
 
   const handleCancel = (): void => {
@@ -46,28 +59,66 @@ export default function AlertDialog({
   };
 
   return (
-    <div>
+    <>
       <Dialog
         open={open}
         onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
       >
-        <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">{dialogDescription}</DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          {msgUndo === t('welcome.popupMsgCancelUndo') ? (
-            <Button onClick={handleProceed} color="primary">
-              {t('welcome.popupMsgContinueUndo')}
-            </Button>
-          ) : null}
-          <Button onClick={handleCancel} color="primary" autoFocus>
-            {msgUndo}
-          </Button>
-        </DialogActions>
+        {console.log('REQUEST', isRequest)}
+        {isRequest ?
+          isLoading ?
+            <DialogContent>
+              {console.log('loading')}
+              <Grid container direction='row' justify='center' alignItems='center'>
+                <Container maxWidth='lg'>
+                  <CircularProgress />
+                </Container>
+                <DialogContentText id='alert-dialog-description'>Loading</DialogContentText>
+              </Grid>
+            </DialogContent> :
+            isError ?
+              <>
+                <DialogTitle id='alert-dialog-title'>Error {errorMsg}</DialogTitle>
+                <DialogContent>
+                  {console.log('error', errorMsg)}
+                  <DialogActions>
+                    <Button onClick={handleGoToEventsPage} color='primary' autoFocus className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle}`}>
+                      OK
+                  </Button>
+                  </DialogActions>
+                </DialogContent>
+              </> :
+              <>
+                <DialogTitle id='alert-dialog-title'>Success</DialogTitle>
+                <DialogContent>
+                  {console.log('Success')}
+                  <DialogActions>
+                    <Button onClick={handleGoToEventsPage} color='primary' autoFocus className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle}`}>
+                      OK
+                  </Button>
+                  </DialogActions>
+                </DialogContent>
+              </> :
+          <>
+            <DialogTitle id='alert-dialog-title'>{dialogTitle}</DialogTitle>
+            <DialogContent>
+              <DialogContentText id='alert-dialog-description'>{dialogDescription}</DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              {msgUndo === t('welcome.popupMsgCancelUndo') ? (
+                <Button onClick={handleProceed} color='primary'>
+                  {t('welcome.popupMsgContinueUndo')}
+                </Button>
+              ) : null}
+              <Button onClick={handleCancel} color='primary' autoFocus>
+                {msgUndo}
+              </Button>
+            </DialogActions>
+          </>
+        }
       </Dialog>
-    </div>
+    </>
   );
 }
