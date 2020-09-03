@@ -159,8 +159,11 @@
         "headerCRUDSave": "Save",
 
         "backButton": "Back",
-        "joinButton": "Join"
+        "joinButton": "Join",
+
+        "loading": "Loading"
     },
+
     "images": {
         "imageErrorMessage": "An error occurred while uploading images",
         "imageDragAndDrop": "Drag and drop some files here, or click to select files",
@@ -169,18 +172,21 @@
         "imageDialogAgree": "Yes",
         "imageDialogDisagree": "No"
     },
+
     "location": {
         "selectButton": "Select",
         "cancelButton": "Cancel",
         "selectedLocationMessage": "Selected location for the event",
         "searchBarText": "Search location"
     },
+
     "occupancyCards": {
         "toDateText": "to",
         "occupancyRate": "Occupancy Rate:",
         "historyEvents": "Last events",
         "upcomingEvents": "Upcoming Events"
     },
+
     "userEventList": {
         "detailsButton": "Details",
         "errorMessage": "Oops, there was an error",
@@ -228,6 +234,7 @@
         "noEvents": "There are no events",
         "carousselError": "Unable to load. Try again later."
     },
+
     "buyTicketsFirstPage": {
         "radioButtonNoSeat": "Proceed without choosing a seat",
         "radioButtonSeat": "Select a seat from building plan",

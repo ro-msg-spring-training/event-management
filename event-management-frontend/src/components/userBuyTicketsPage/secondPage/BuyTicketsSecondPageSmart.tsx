@@ -17,6 +17,7 @@ import { TicketAvailabilityData } from '../../../model/BuyTicketsSecondPage';
 import ErrorIcon from '@material-ui/icons/Error';
 import { Dispatch } from 'redux';
 import { AppState } from '../../../store/store';
+import { useTranslation } from 'react-i18next';
 
 interface BuyTicketsSecondPageSmartProps {
   match: any;
@@ -61,7 +62,8 @@ function BuyTicketsSecondPageSmart({
 }: BuyTicketsSecondPageSmartProps) {
   const [step, setStep] = useState(1);
   const history = useHistory();
-
+  const [ t ] = useTranslation();
+  
   useEffect(() => {
     fetchTicketCategories(match.params.id);
   }, [match.params.id, fetchTicketCategories]);
@@ -80,14 +82,14 @@ function BuyTicketsSecondPageSmart({
         <Container maxWidth='lg'>
           <CircularProgress />
         </Container>
-        <h6>Loading</h6>
+        <h6>{t("welcome.loading")}</h6>
       </Grid>
     );
   } else if (isErrorTicketCategories) {
     return (
       <Grid container direction='row' justify='center' alignItems='center'>
         <ErrorIcon color={'primary'} fontSize={'large'} />
-        <h2>Oops, there was an error</h2>
+        <h2>{t("userEventList.errorMessage")}</h2>
       </Grid>
     );
   }

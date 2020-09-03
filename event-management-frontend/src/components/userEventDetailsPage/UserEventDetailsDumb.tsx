@@ -17,6 +17,10 @@ interface UserEventDetailsDumbProps {
 
 function UserEventDetailsDumb(props: UserEventDetailsDumbProps) {
   const today = new Date(new Date().toString().split('GMT')[0] + ' UTC').toISOString().split('.')[0];
+  const dateAndTime = today.split('T');
+  const currDate = dateAndTime[0];
+  const currTime = dateAndTime[1];
+
   const commonStyles = useStyles();
   const userEventDetailsStyle = userEventDetailsStyles();
   const history = useHistory();
@@ -126,7 +130,7 @@ function UserEventDetailsDumb(props: UserEventDetailsDumbProps) {
         <Grid item xs={3} sm={2} md={1} lg={1} xl={1}>
           <Button
             className={`${commonStyles.mainButtonStyle} ${commonStyles.pinkGradientButtonStyle} ${userEventDetailsStyle.disabled}`}
-            disabled={props.event.endDate < today}
+            disabled={props.event.endDate < currDate || (props.event.endDate === currDate && props.event.endHour < currTime)}
             onClick={handleJoinButton}>
             {t('welcome.joinButton')}
           </Button>
