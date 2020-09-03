@@ -30,6 +30,7 @@ import {
   UPDATE_ERROR_END_DATE,
   UPDATE_ERROR_START_HOUR,
   UPDATE_ERROR_END_HOUR,
+  LAST_PAGE_HOME
 } from '../actions/EventsPageActions';
 import { MathRelation } from '../model/MathRelation';
 import { EventFilters } from '../model/EventFilters';
@@ -55,6 +56,7 @@ export interface EventsPageState {
   page: number;
   homePage: number;
   noPages: number;
+  lastPageHome: number;
 }
 
 const initialState: EventsPageState = {
@@ -91,6 +93,7 @@ const initialState: EventsPageState = {
   page: 0,
   homePage: 1,
   noPages: 0,
+  lastPageHome: 0
 };
 
 interface ReducerActionProps {
@@ -102,6 +105,11 @@ interface ReducerActionProps {
 
 export const EventsPageReducer = (state = initialState, action: ReducerActionProps) => {
   switch (action.type) {
+    case LAST_PAGE_HOME:
+      return {
+        ...state,
+        lastPageHome: action.payload
+      }
     case INCREMENT_PAGE:
       return {
         ...state,
