@@ -13,6 +13,7 @@
   },
   "eventList": {
     "account": "Contul meu",
+    "logout": "Deconectare",
     "home": "Acasă",
     "buildings": "Clădiri",
     "events": "Evenimente",

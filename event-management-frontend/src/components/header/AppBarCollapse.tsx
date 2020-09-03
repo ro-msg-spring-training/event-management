@@ -10,9 +10,11 @@ const AppBarCollapse = () => {
   const classes = useStyles();
   const [activeIndex, setActiveIndex] = React.useState('home');
   const [t] = useTranslation();
+
   const handleOnClick = (index: string) => {
     setActiveIndex(index);
   };
+  
   const role = localStorage.getItem('role');
 
   return (

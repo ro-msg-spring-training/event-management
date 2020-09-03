@@ -41,9 +41,6 @@ const Login: React.FC<Props> = (props: Props) => {
     props.loginisLoading(true);
     Auth.signIn(props.username, props.password)
       .then((user) => {
-        localStorage.removeItem('idToken');
-        localStorage.removeItem('role');
-
         localStorage.setItem('idToken', user.signInUserSession.idToken.jwtToken);
         localStorage.setItem('username', props.username);
 
