@@ -77,7 +77,7 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
   textStyle: {
     fontSize: 16,
     fontFamily: 'LATO !important',
-    marginTop: 0,
+    marginTop: 10,
   },
   tag: {
     width: '50%',
@@ -92,7 +92,7 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
     },
     color: 'white',
     paddingTop: '3%',
-    paddingLeft: '4%',
+    paddingLeft: '5%',
     marginTop: '2%',
   },
   tagText: {

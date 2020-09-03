@@ -76,7 +76,7 @@ const EventDetailBuyPageDumb = (props: Props) => {
           labelPlacement="start"
         />
       </RadioGroup>
-      <div className={reserveTicketFirstPage.tag}>
+      <div className={`${reserveTicketFirstPage.tag} tagResponsive`}>
         <Typography className={reserveTicketFirstPage.tagText}>{t('buyTicketsFirstPage.generalTicketInfo')}</Typography>
       </div>
 
