@@ -13,6 +13,7 @@ import { LoginPageState } from '../reducers/LoginPageReducer';
 import { VerificationPageState } from '../reducers/ForgotPasswordVerificationPageReducer';
 import { ReserveFirstPageState } from '../reducers/ReservePageReducer';
 import { ReserveSecondPageState } from '../reducers/TicketReservationReducer';
+import { RegistrationPageState } from '../reducers/RegistrationPageReducer';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -24,6 +25,7 @@ export interface AppState {
   eventCrud: EventState;
   location: LocationPageState;
   login: LoginPageState;
+  registration: RegistrationPageState;
   forgotPasswordVerification: VerificationPageState;
   tickets: TicketsPageState;
   adminHomeCard: OccupancyCardsState;

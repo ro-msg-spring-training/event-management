@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Auth } from 'aws-amplify';
 import { displayErrorMessage } from '../../validation/LoginValidation';
@@ -27,7 +26,6 @@ interface Props {
 }
 
 const Login: React.FC<Props> = (props: Props) => {
-
   const [values, setValues] = React.useState<{ showPassword: boolean }>({
     showPassword: false,
   });
@@ -77,7 +75,6 @@ const Login: React.FC<Props> = (props: Props) => {
         handleClickShowPassword={handleClickShowPassword}
         onSubmit={onSubmit}
       ></LoginDumb>
-
     </div>
   );
 };
