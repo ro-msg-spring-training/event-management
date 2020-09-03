@@ -40,6 +40,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 //h2-console
                 .antMatchers("/h2-console/**").permitAll()
                 //resources that require authentication
+                .antMatchers(HttpMethod.OPTIONS,"/**/{[path:[^\\.]*}").permitAll()
                 .antMatchers("/").authenticated()
                 .and()
                 .addFilterBefore(awsCognitoJwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
