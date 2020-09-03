@@ -26,6 +26,7 @@ import ro.msg.event.management.eventmanagementbackend.service.TicketService;
 import ro.msg.event.management.eventmanagementbackend.utils.ComparisonSign;
 import ro.msg.event.management.eventmanagementbackend.utils.SortCriteria;
 
+import javax.servlet.http.HttpServletResponse;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -51,6 +52,11 @@ public class EventController {
 
     private static final LocalDate MAX_DATE = LocalDate.parse("2999-12-31");
     private static final LocalDate MIN_DATE = LocalDate.parse("1900-01-01");
+
+    @RequestMapping(value = "/**/{[path:[^\\.]*}",method = RequestMethod.OPTIONS)
+    public ResponseEntity options(HttpServletResponse response) {
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
