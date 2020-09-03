@@ -34,20 +34,9 @@ export const useValidateTicketStyles = makeStyles((theme) => ({
 
   alertIconStyle: {
     '& .MuiAlert-icon': {
-      fontSize: '4em',
-      marginRight: theme.spacing(2),
-      marginBottom: theme.spacing(2),
+      fontSize: '2em',
       height: '10px',
     },
-    '& .MuiAlert-message': {
-      width: '100%',
-      marginLeft: '-5%',
-      position: 'absolute',
-    },
-    '& .MuiAlert-root': {
-      width: '100%',
-    },
-    position: 'relative',
     fontSize: '1.1em',
   },
 

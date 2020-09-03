@@ -35,44 +35,43 @@ export const ValidateTicketAlert = ({
 
   return (
     <div className={`${classes.alertStyle} alertResponsive`}>
-      <Alert severity={alertSeverity} className={`${classes.alertIconStyle} alertContentResponsive`}>
-        <AlertTitle className={`${classes.titleStyle} titleResponsive`}>{alertTitle}</AlertTitle>
-        <div className="alertMessage">{alertDescription}</div>
+      <Alert severity={alertSeverity} className={classes.alertIconStyle}>
+        <AlertTitle className={classes.titleStyle}>
+          <strong>{alertTitle}</strong>
+        </AlertTitle>
+        {alertDescription}
         {alertSeverity === 'success' ? (
           <>
             <p>
-              {t('validateTicket.customerName')} {customerName}
+              <strong>{t('validateTicket.customerName')}</strong>
+              <div>Iakab Julia</div>
             </p>
             <p>
-              {t('validateTicket.customerEmail')}
-              {customerEmail}
+              <strong>{t('validateTicket.customerEmail')}</strong>
+              <div> julia_julcsi@yahoo.com</div>
             </p>
           </>
-        ) : (
-          ''
-        )}
-        <div className={`${classes.alertButtons} buttonsResponsive`}>
-          <Grid container>
-            <Grid item xl={4} lg={4} md={4} sm={6} xs={6}>
-              <Button
-                onClick={exitValidation}
-                className={`${classes2.buttonStyle2} ${classes2.buttonStyle3} ${classes.exitButton}`}
-                color="primary"
-              >
-                {t('validateTicket.exitValidation')}
-              </Button>
-            </Grid>{' '}
-            <Grid item xl={7} lg={7} md={7} sm={6} xs={6}>
-              <Button
-                onClick={validateNext}
-                className={`${classes2.buttonStyle2} ${classes2.buttonStyle3} ${classes.nextButton}`}
-                autoFocus
-              >
-                {t('validateTicket.validateNext')}
-              </Button>
-            </Grid>
+        ) : null}
+        <Grid container>
+          <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
+            <Button
+              onClick={exitValidation}
+              className={`${classes2.mainButtonStyle} ${classes2.pinkGradientButtonStyle} ${classes.exitButton}`}
+              color="primary"
+            >
+              {t('validateTicket.exitValidation')}
+            </Button>
           </Grid>
-        </div>
+          <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
+            <Button
+              onClick={validateNext}
+              className={`${classes2.mainButtonStyle} ${classes2.pinkGradientButtonStyle} ${classes.nextButton}`}
+              autoFocus
+            >
+              {t('validateTicket.validateNext')}
+            </Button>
+          </Grid>
+        </Grid>
       </Alert>
     </div>
   );
