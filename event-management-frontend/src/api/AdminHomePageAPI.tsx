@@ -1,11 +1,8 @@
-import { headersAuth, serverURL } from "./Api";
-import { fetchWrapper } from "./FetchWrapper"
-
+import { serverURL } from './Api';
+import { fetchWrapper } from './FetchWrapper';
 
 export function fetchUpcomingEventsAPI() {
-  return fetchWrapper(`${serverURL}/events/upcoming`, {
-    headers: headersAuth,
-  })
+  return fetchWrapper(`${serverURL}/events/upcoming`)
     .then((response) => response.json())
     .then((json) => {
       return json;
@@ -13,9 +10,7 @@ export function fetchUpcomingEventsAPI() {
 }
 
 export function fetchHistoryEventsAPI() {
-  return fetchWrapper(`${serverURL}/events/history`, {
-    headers: headersAuth,
-  })
+  return fetchWrapper(`${serverURL}/events/history`)
     .then((response) => response.json())
     .then((json) => {
       return json;

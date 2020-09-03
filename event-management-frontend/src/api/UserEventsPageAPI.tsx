@@ -1,4 +1,4 @@
-import { headersAuth, serverURL } from './Api';
+import { serverURL } from './Api';
 import { fetchWrapper } from './FetchWrapper';
 import { UserEventFilters } from '../model/userEventsPage/UserEventFilters';
 import { UserEventType } from '../model/userEventsPage/UserEventType';
@@ -32,9 +32,7 @@ export const fetchEvents = (page: number, limit: number, filters?: UserEventFilt
   const stringQuery = computeFilterStringQuery(filters, page, limit);
   urlQuery.search = new URLSearchParams(stringQuery).toString();
 
-  const urlOptions = { headers: headersAuth };
-
-  return fetchWrapper(`${urlQuery}`, urlOptions)
+  return fetchWrapper(`${urlQuery}`)
     .then((response) => response.json())
     .then((json) => {
       return json;
@@ -43,9 +41,8 @@ export const fetchEvents = (page: number, limit: number, filters?: UserEventFilt
 
 export const fetchEventsLocations = () => {
   const url = `${serverURL}/locations`;
-  const urlOptions = { headers: headersAuth };
 
-  return fetchWrapper(url, urlOptions)
+  return fetchWrapper(url)
     .then((response) => response.json())
     .then((json) => {
       return json;
