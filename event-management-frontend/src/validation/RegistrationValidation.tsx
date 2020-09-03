@@ -75,8 +75,5 @@ export const validateUserName = (username: string, usernameError: string, setUse
   }
 };
 export const displaySuccessMessage = (message: React.ReactElement, setSuccessMessage: (arg0: any) => void) => {
-  console.log('DisplaySuccess');
-  console.log('bef', store.getState().registration);
   setSuccessMessage(message);
-  console.log('aft', store.getState().registration);
 };
