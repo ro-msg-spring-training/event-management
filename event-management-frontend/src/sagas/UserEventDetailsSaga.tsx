@@ -24,6 +24,6 @@ function* loadEventWithLocationsAsync(props: Props) {
   }
 }
 
-export function* loadEventWithLocationsWatcher() {
+export function* watchLoadEventWithLocationAsync() {
   yield takeLatest(LOAD_EVENT_WITH_LOCATIONS, loadEventWithLocationsAsync);
 }
