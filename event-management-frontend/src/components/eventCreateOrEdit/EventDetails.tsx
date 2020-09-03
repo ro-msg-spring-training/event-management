@@ -221,7 +221,7 @@ function EventDetails({
 
   if (fetchedEvent.eventIsLoading) {
     return (
-      <Container maxWidth="lg">
+      <Container maxWidth='lg'>
         <CircularProgress />
       </Container>
     );

@@ -123,12 +123,12 @@ function TicketsStepSmart({
         <TextField
           className={ticketsPageStyle.position}
           onKeyDown={handleEnterKey}
-          type="number"
+          type='number'
           name={ticketCategories[i].title}
           fullWidth
           defaultValue={ticketAmount.find((ticket) => ticket.category === ticketCategories[i].title)?.quantity}
           label={ticketCategories[i].title}
-          variant="outlined"
+          variant='outlined'
           onChange={handleTicketsStepChange}
           error={currError.length > 0}
           helperText={currError}

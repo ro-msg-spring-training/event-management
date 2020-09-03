@@ -92,7 +92,7 @@ function TermsAndConditionsStepSmart({
   }
 
   useEffect(() => {
-    console.log("checked ", checked);
+    console.log('checked ', checked);
   }, [isLoading])
 
   const handleProceedToBuy = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {

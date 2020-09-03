@@ -40,19 +40,19 @@ function BuyTicketsPopupDumb({
       <Dialog
         open={open}
         onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
       >
-        <DialogTitle id="alert-dialog-title">{t('buyTicketsSecondPage.termsAndConditions')}</DialogTitle>
+        <DialogTitle id='alert-dialog-title'>{t('buyTicketsSecondPage.termsAndConditions')}</DialogTitle>
 
         <DialogContent>
-          <DialogContentText id="alert-dialog-description" component={'span'}>
+          <DialogContentText id='alert-dialog-description' component={'span'}>
             {termsAndConditionsText}
           </DialogContentText>
         </DialogContent>
 
         <DialogActions>
-          <Grid container justify="center" direction="column" alignItems="center">
+          <Grid container justify='center' direction='column' alignItems='center'>
             <FormControlLabel
               control={
                 <YellowCheckbox
@@ -64,9 +64,9 @@ function BuyTicketsPopupDumb({
               label={t('buyTicketsSecondPage.agreement')}
             />
 
-            <Grid item container direction="row">
+            <Grid item container direction='row'>
               <Grid item xs={4}>
-                <Button onClick={handleCancel} color="primary" className={popupStyle.buttonPosition}>
+                <Button onClick={handleCancel} color='primary' className={popupStyle.buttonPosition}>
                   {t('welcome.headerCRUDCancel')}
                 </Button>
               </Grid>

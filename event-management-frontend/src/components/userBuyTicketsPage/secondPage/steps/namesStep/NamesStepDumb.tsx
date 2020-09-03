@@ -30,28 +30,28 @@ function NamesStepDumb({ noTicketsSelected, handleBuy, prevStep, inputs }: Names
           </>
         }
       >
-        <HelpIcon color="primary" fontSize="small" />
+        <HelpIcon color='primary' fontSize='small' />
       </HtmlTooltip>
 
       {noTicketsSelected ? (
-        <Typography className={namesPageStyle.typography} align="center">
+        <Typography className={namesPageStyle.typography} align='center'>
           {t('buyTicketsSecondPage.noTicketsSelected')}
         </Typography>
       ) : (
-          <Typography className={namesPageStyle.typography} align="center">
+          <Typography className={namesPageStyle.typography} align='center'>
             {t('buyTicketsSecondPage.namesOnTickets')}
           </Typography>
         )}
 
-      <Grid container direction="row" justify="center" alignItems="center">
-        <Grid item xs={12} container justify="center" alignItems="center" className={namesPageStyle.gridStyle}>
+      <Grid container direction='row' justify='center' alignItems='center'>
+        <Grid item xs={12} container justify='center' alignItems='center' className={namesPageStyle.gridStyle}>
           {inputs}
         </Grid>
 
-        <Grid item container direction="row" justify="center" alignItems="center" className={`${namesPageStyle.button} buttonStyleResp`} >
+        <Grid item container direction='row' justify='center' alignItems='center' className={`${namesPageStyle.button} buttonStyleResp`} >
           <Grid item xs={4} sm={3} md={2} lg={1} xl={1}>
             <Button
-              variant="contained"
+              variant='contained'
               className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle} ${namesPageStyle.buttonPosition}`}
               onClick={prevStep}
             >
@@ -61,7 +61,7 @@ function NamesStepDumb({ noTicketsSelected, handleBuy, prevStep, inputs }: Names
 
           <Grid item xs={4} sm={3} md={2} lg={1} xl={1}>
             <Button
-              variant="contained"
+              variant='contained'
               className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle} ${namesPageStyle.buttonPosition}`}
               onClick={handleBuy}
             >
