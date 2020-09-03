@@ -6,14 +6,19 @@ import {
   watchFetchHomeEventsAsync,
   watchFetchCustomHomeEventsAsync,
 } from './EventsPageSaga';
-import { loadEventWatcher, deleteProductWatcher, addProductWatcher, editProductWatcher } from './HeaderEventCrudSaga';
-import { fetchLocationsActionWatcher } from './LocationPageSaga';
-import { loadTicketCategoriesWatcher, addBookingsWatcher } from './TicketReservationSaga';
-import { fetchReserveEventActionWatcher } from './ReservePageSaga';
+import {
+  watchLoadEventAsync,
+  watchEditEventAsync,
+  watchAddEventAsync,
+  watchDeletEventAsync,
+} from './HeaderEventCrudSaga';
+import { watchFetchLocationAsync } from './LocationPageSaga';
+import { watchLoadTicketCategoriesAsync, watchAddBookingsAsync } from './TicketReservationSaga';
+import { watchFetchReserveEventAsync } from './ReservePageSaga';
 import { watchFetchTicketsAsync } from './TicketsPageSaga';
-import { fetchUpcomingEventsActionWatcher, fetchHistoryEventsActionWatcher } from './AdminHomePageSaga';
+import { watchFetchUpcomingEventsAsync, watchFetchHistoryEventsAsync } from './AdminHomePageSaga';
 import { watchFetchUserEventsAsync, watchFetchUserEventsLocationsAsync } from './UserEventsPageSaga';
-import { loadEventWithLocationsWatcher } from './UserEventDetailsSaga';
+import { watchLoadEventWithLocationAsync } from './UserEventDetailsSaga';
 import {
   watchFetchBookingsAsync,
   watchFetchUserPastEventsAsync,
@@ -34,28 +39,27 @@ export default function* rootSaga() {
     watchFetchBookingsAsync(),
     watchFetchUserPastEventsAsync(),
     watchFetchUserUpcomingEventsAsync(),
-    loadTicketCategoriesWatcher(),
-    addBookingsWatcher(),
+    watchLoadTicketCategoriesAsync(),
+    watchAddBookingsAsync(),
 
-    loadEventWatcher(),
-    deleteProductWatcher(),
-    addProductWatcher(),
-    editProductWatcher(),
+    watchLoadEventAsync(),
+    watchDeletEventAsync(),
+    watchAddEventAsync(),
+    watchEditEventAsync(),
 
-    fetchLocationsActionWatcher(),
+    watchFetchLocationAsync(),
 
     watchFetchCustomEventsAsync(),
     watchFetchCustomHomeEventsAsync(),
 
-    fetchUpcomingEventsActionWatcher(),
-    fetchHistoryEventsActionWatcher(),
+    watchFetchUpcomingEventsAsync(),
+    watchFetchHistoryEventsAsync(),
 
     watchFetchUserEventsAsync(),
     watchFetchUserEventsLocationsAsync(),
 
-    loadEventWithLocationsWatcher(),
-
+    watchLoadEventWithLocationAsync(),
     watchFetchHighlightedEventsAsync(),
-    fetchReserveEventActionWatcher(),
+    watchFetchReserveEventAsync(),
   ]);
 }

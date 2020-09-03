@@ -16,14 +16,14 @@ const Main = () => {
             admin
             exact
             path="/admin/events/:id"
-            component={(props: any) => <EventDetails match={props.match} admin={true} />}
+            component={(props: any) => <EventDetails match={props.match} isAdmin={true} />}
           />
           <SecureRoute admin exact path="/admin/events" component={EventList} />
           <SecureRoute
             admin
             exact
             path="/admin/newEvent"
-            component={(props: any) => <EventDetails match={props.match} admin={true} />}
+            component={(props: any) => <EventDetails match={props.match} isAdmin={true} />}
           />
           <SecureRoute admin exact path="/admin" component={Home} />
         </Switch>

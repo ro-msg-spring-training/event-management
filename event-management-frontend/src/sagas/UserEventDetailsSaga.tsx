@@ -20,6 +20,6 @@ function* loadEventWithLocationsAsync(props: LoadEventWithLocationsAction) {
   }
 }
 
-export function* loadEventWithLocationsWatcher() {
+export function* watchLoadEventWithLocationAsync() {
   yield takeLatest(UserEventDetailsActionTypes.LOAD_EVENT_WITH_LOCATIONS, loadEventWithLocationsAsync);
 }

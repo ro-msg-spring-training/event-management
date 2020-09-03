@@ -18,7 +18,6 @@ import {
   verifyIfNoErrorsInEmailStep,
   verifyIfNoErrorsInNamesStep,
 } from '../../../../../utils/ticketReservationUtils/TermsAndConditionsUtils';
-import { Container, CircularProgress, Grid } from '@material-ui/core';
 import BuyTicketsPopupSmart from './popup/BuyTicketsPopupSmart';
 import { AppState } from '../../../../../store/store';
 
@@ -66,6 +65,7 @@ function TermsAndConditionsStepSmart({
   const [msgUndo, setMsgUndo] = useState('');
   const [dialogTitle, setDialogTitle] = useState('');
   const [dialogDescription, setDialogDescription] = useState('');
+  const [isRequest, setRequest] = useState(false);
   const history = useHistory();
 
   useEffect(() => {
@@ -86,7 +86,17 @@ function TermsAndConditionsStepSmart({
     updateBookings(newBooking);
   }, []);
 
-  const handleProceedToBuy = () => {
+
+  let handleGoToEventsPage = (): void => {
+    return history.push('/user/events');
+  }
+
+  useEffect(() => {
+    console.log('checked ', checked);
+  }, [isLoading])
+
+  const handleProceedToBuy = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
     let noErrors = verifyIfNoErrors(ticketsStepFormErrors, emailFormErrors, namesStepFormErrors, booking);
 
     if (!checked) {
@@ -97,22 +107,10 @@ function TermsAndConditionsStepSmart({
       setDialogDescription(t('buyTicketsSecondPage.termsAndConditionsErr'));
       setOpenErrorPopup(true);
     } else if (noErrors) {
-      addBookings(booking);
+      setRequest(true);
+      setOpen(false);
+      setOpenErrorPopup(true);
 
-      if (isLoading) {
-        return (
-          <Grid container direction="row" justify="center" alignItems="center">
-            <Container maxWidth="lg">
-              <CircularProgress />
-            </Container>
-            <h6>Loading</h6>
-          </Grid>
-        );
-      } else if (isError) {
-        alert('ERROR ' + errorMsg);
-      } else {
-        return history.push('/user/events');
-      }
     } else if (!verifyIfNoNullFields(booking)) {
       setOpen(false);
 
@@ -120,6 +118,7 @@ function TermsAndConditionsStepSmart({
       setDialogTitle(t('welcome.popupMsgErrTitle'));
       setDialogDescription(t('welcome.popupErrMsgNotFilled'));
       setOpenErrorPopup(true);
+
     } else if (!verifyIfNoErrorsInTicketsStep(ticketsStepFormErrors)) {
       setOpen(false);
 
@@ -144,6 +143,12 @@ function TermsAndConditionsStepSmart({
     }
   };
 
+  useEffect(() => {
+    if (isRequest) {
+      addBookings(booking);
+    }
+  }, [isRequest])
+
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     updateChecked(e.target.checked);
   };
@@ -159,6 +164,11 @@ function TermsAndConditionsStepSmart({
         handleProceedToBuy={handleProceedToBuy}
       />
       <AlertDialog
+        handleGoToEventsPage={handleGoToEventsPage}
+        isRequest={isRequest}
+        isError={isError}
+        errorMsg={errorMsg}
+        isLoading={isLoading}
         prevStep={prevStep}
         open={openErrorPopup}
         setOpen={setOpenErrorPopup}

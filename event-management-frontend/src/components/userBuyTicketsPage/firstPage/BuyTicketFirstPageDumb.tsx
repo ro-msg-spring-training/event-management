@@ -60,7 +60,7 @@ const BuyTicketFirstPageDumb = (props: Props) => {
             </Tooltip>
           </Link>
 
-          <Link to={`/user`} className={reserveTicketFirstPage.link}>
+          <Link to={`/user/events`} className={reserveTicketFirstPage.link}>
             <Tooltip title={t('buyTicketsFirstPage.cancel') as string}>
               <IconButton className={`${reserveTicketFirstPage.cancelButton} buttonStyleLeft`}>
                 <CloseIcon color="secondary" />

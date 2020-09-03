@@ -53,26 +53,26 @@ function BuyTicketsSecondPageDumb({
 }: BuyTicketsSecondPageDumbProps) {
   const [t] = useTranslation();
 
-  const classes = BuyTicketsSecondPageStyle();
-  const classes2 = buyTicketsSecondPageDumbStyle();
+  const buttonStyles = BuyTicketsSecondPageStyle();
+  const generalStyle = buyTicketsSecondPageDumbStyle();
 
   const buttons = (
     <>
       <Tooltip title={t('buyTicketsSecondPage.gotoFirstPage') as string}>
         <IconButton
           onClick={gotoFirstPage}
-          className={`${classes.positionLeft} buttonStyleLeft ${classes.prevButtonStyle} buttonStyleLeftSecond`}
+          className={`${buttonStyles.positionLeft} buttonStyleLeft ${buttonStyles.prevButtonStyle} buttonStyleLeftSecond`}
         >
-          <NavigateNextIcon color="secondary" />
+          <NavigateNextIcon color='secondary' />
         </IconButton>
       </Tooltip>
 
       <Tooltip title={t('buyTicketsSecondPage.cancelPurchase') as string}>
         <IconButton
           onClick={gotoEventListPage}
-          className={`${classes.positionRight} buttonStyleRight ${classes.cancelButtonStyle} buttonStyleRightSecond`}
+          className={`${buttonStyles.positionRight} buttonStyleRight ${buttonStyles.cancelButtonStyle} buttonStyleRightSecond`}
         >
-          <CloseIcon color="secondary" />
+          <CloseIcon color='secondary' />
         </IconButton>
       </Tooltip>
     </>
@@ -146,10 +146,10 @@ function BuyTicketsSecondPageDumb({
   }
 
   return (
-    <div className={classes2.root}>
-      <Grid container direction="row" justify="center" alignItems="center">
+    <div className={generalStyle.root}>
+      <Grid container direction='row' justify='center' alignItems='center'>
         <Grid item xs={12}>
-          <Paper className={`${classes2.paperStyle} buyPageResponsive `}>{currentPage}</Paper>
+          <Paper className={`${generalStyle.paperStyle} buyPageResponsive `}>{currentPage}</Paper>
         </Grid>
       </Grid>
       {buttons}

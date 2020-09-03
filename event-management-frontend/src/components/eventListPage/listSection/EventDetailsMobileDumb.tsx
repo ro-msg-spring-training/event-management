@@ -22,14 +22,14 @@ const EventDetailsMobileDumb = ({ event }: Props) => {
 
       <StyledTableCell>
         <Link to={`/admin/events/${event.id}`} style={{ textDecoration: 'none' }}>
-          <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3}`}>
+          <Button className={`${commonClasses.mainButtonStyle} ${commonClasses.pinkGradientButtonStyle}`}>
             {t('eventList.details')}
           </Button>
         </Link>
         <br />
         <br />
         <Link to={`/admin/validate/${event.id}`} style={{ textDecoration: 'none' }}>
-          <Button className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3}`}>
+          <Button className={`${commonClasses.mainButtonStyle} ${commonClasses.pinkGradientButtonStyle}`}>
             {t('eventList.validate')}
           </Button>
         </Link>

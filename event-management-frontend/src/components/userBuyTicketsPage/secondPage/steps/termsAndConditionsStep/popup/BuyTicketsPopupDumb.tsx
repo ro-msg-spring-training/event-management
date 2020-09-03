@@ -17,8 +17,8 @@ interface BuyTicketsPopupDumbProps {
   checked: boolean;
   handleCheckboxChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 
-  handleCancel: () => void;
-  handleProceed: () => void;
+  handleCancel: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  handleProceed: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   handleClose: () => void;
 }
 
@@ -30,28 +30,29 @@ function BuyTicketsPopupDumb({
   handleProceed,
   handleClose,
 }: BuyTicketsPopupDumbProps) {
+
   const buttonClass = useStyles();
-  const classes = userBuyTicketsStyle();
+  const popupStyle = userBuyTicketsStyle();
   const { t } = useTranslation();
 
   return (
-    <div>
+    <>
       <Dialog
         open={open}
         onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
       >
-        <DialogTitle id="alert-dialog-title">{t('buyTicketsSecondPage.termsAndConditions')}</DialogTitle>
+        <DialogTitle id='alert-dialog-title'>{t('buyTicketsSecondPage.termsAndConditions')}</DialogTitle>
 
         <DialogContent>
-          <DialogContentText id="alert-dialog-description" component={'span'}>
+          <DialogContentText id='alert-dialog-description' component={'span'}>
             {termsAndConditionsText}
           </DialogContentText>
         </DialogContent>
 
         <DialogActions>
-          <Grid container justify="center" direction="column" alignItems="center">
+          <Grid container justify='center' direction='column' alignItems='center'>
             <FormControlLabel
               control={
                 <YellowCheckbox
@@ -63,27 +64,25 @@ function BuyTicketsPopupDumb({
               label={t('buyTicketsSecondPage.agreement')}
             />
 
-            <Grid item container direction="row">
+            <Grid item container direction='row'>
               <Grid item xs={4}>
-                <Button onClick={handleCancel} color="primary" className={classes.buttonPosition}>
-                  {' '}
-                  {t('welcome.headerCRUDCancel')}{' '}
+                <Button onClick={handleCancel} color='primary' className={popupStyle.buttonPosition}>
+                  {t('welcome.headerCRUDCancel')}
                 </Button>
               </Grid>
               <Grid item xs={8}>
                 <Button
                   onClick={handleProceed}
-                  className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3} ${classes.buttonPosition}`}
+                  className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle} ${popupStyle.buttonPosition}`}
                 >
-                  {' '}
-                  {t('buyTicketsSecondPage.buyTickets')}{' '}
+                  {t('buyTicketsSecondPage.buyTickets')}
                 </Button>
               </Grid>
             </Grid>
           </Grid>
         </DialogActions>
       </Dialog>
-    </div>
+    </>
   );
 }
 
