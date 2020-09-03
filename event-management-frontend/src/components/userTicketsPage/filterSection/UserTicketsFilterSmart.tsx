@@ -2,10 +2,11 @@ import React, { FormEvent, useState } from 'react';
 import UserTicketsFilterDumb from './UserTicketsFilterDumb';
 import { TicketFilters } from '../../../model/TicketFilters';
 import { AppState } from '../../../store/store';
-import { fetchTickets, resetFilters, updateFilters, resetPage } from '../../../actions/TicketsPageActions';
+import { fetchTickets, resetFilters, updateFilters, resetPage, resetState } from '../../../actions/TicketsPageActions';
 import { connect } from 'react-redux';
 import { equalDate, startDateBeforeEndDate } from '../../../utils/compareDateTimes';
 import { useTranslation } from 'react-i18next';
+
 
 interface Props {
   expanded: boolean;
@@ -16,6 +17,7 @@ interface Props {
   updateFilters: (filters: TicketFilters) => void;
   fetchTickets: (page: number, filters: TicketFilters) => void;
   resetPage: () => void;
+  resetState: () => void;
 }
 
 const UserTicketsFilterSmart = ({
@@ -27,6 +29,7 @@ const UserTicketsFilterSmart = ({
   updateFilters,
   fetchTickets,
   resetPage,
+  resetState,
 }: Props) => {
   const [errorStartDate, setErrorStartDate] = useState('');
   const [errorEndDate, setErrorEndDate] = useState('');
@@ -80,8 +83,8 @@ const UserTicketsFilterSmart = ({
     event.preventDefault();
     setExpanded(false);
     handleChange();
-    resetPage();
-    fetchTickets(page, filters);
+    resetState();
+    fetchTickets(1, filters);
   };
 
   const toggle = () => {
@@ -90,7 +93,7 @@ const UserTicketsFilterSmart = ({
 
   const clear = () => {
     resetFilters();
-    resetPage();
+    resetState();
     setErrorStartDate('');
     setErrorEndDate('');
     fetchTickets(1, { title: '', startDate: undefined, endDate: undefined });
@@ -124,7 +127,9 @@ const mapDispatchToProps = (dispatch: any) => {
     resetFilters: () => dispatch(resetFilters()),
     fetchTickets: (page: number, filters: TicketFilters) => dispatch(fetchTickets(page, filters)),
     resetPage: () => dispatch(resetPage()),
+    resetState: () => dispatch(resetState())
   };
 };
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserTicketsFilterSmart);

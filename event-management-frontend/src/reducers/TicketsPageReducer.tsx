@@ -7,6 +7,8 @@ import {
   UPDATE_FILTERS_TICKETS,
   RESET_FILTERS_TICKETS,
   RESET_PAGE_TICKETS,
+  UPDATE_IS_FETCHING,
+  RESET_STATE_TICKETS
 } from '../actions/TicketsPageActions';
 import { TicketFilters } from '../model/TicketFilters';
 
@@ -14,9 +16,11 @@ export interface TicketsPageState {
   allTickets: [];
   filters: TicketFilters;
   open: boolean;
+  isMore: boolean;
   page: number;
   isLoading: boolean;
   isError: boolean;
+  isFetching: boolean;
 }
 
 const initialState: TicketsPageState = {
@@ -27,14 +31,16 @@ const initialState: TicketsPageState = {
     endDate: undefined,
   },
   open: false,
+  isMore: true,
   page: 1,
   isLoading: true,
   isError: false,
+  isFetching: true
 };
 
 interface ReducerActionProps {
   type: string;
-  payload: [];
+  payload: { tickets: [], more: boolean }
 }
 
 export const TicketsPageReducer = (state = initialState, action: ReducerActionProps) => {
@@ -54,13 +60,15 @@ export const TicketsPageReducer = (state = initialState, action: ReducerActionPr
         ...state,
         isLoading: false,
         isError: false,
-        allTickets: action.payload,
+        isMore: action.payload.more,
+        allTickets: state.allTickets.concat(action.payload.tickets),
       };
     case FETCH_TICKETS_ERROR:
       return {
         ...state,
         isLoading: false,
         isError: true,
+        isMore: false
       };
     case INCREMENT_PAGE:
       return {
@@ -71,6 +79,11 @@ export const TicketsPageReducer = (state = initialState, action: ReducerActionPr
       return {
         ...state,
         filters: action.payload,
+      };
+    case UPDATE_IS_FETCHING:
+      return {
+        ...state,
+        isFetching: action.payload,
       };
     case RESET_FILTERS_TICKETS:
       return {
@@ -85,6 +98,12 @@ export const TicketsPageReducer = (state = initialState, action: ReducerActionPr
         ...state,
         page: 1,
       };
+    case RESET_STATE_TICKETS:
+      return {
+        ...state,
+        page: 1,
+        allTickets: []
+      }
     default:
       return state;
   }

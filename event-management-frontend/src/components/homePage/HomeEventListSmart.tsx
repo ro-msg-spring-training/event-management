@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { fetchAllEventsHome } from '../../actions/EventsPageActions';
 import { AppState } from '../../store/store';
 import HomeEventListDumb from './HomeEventListDumb';
-import { incrementPageHome, decrementPageHome, fetchCustomEventsHome } from '../../actions/EventsPageActions';
+import { incrementPageHome, decrementPageHome, fetchCustomEventsHome, setLastPageHome } from '../../actions/EventsPageActions';
 import { getLastNumberHome } from '../../api/EventsServiceAPI';
 import { Event } from '../../model/Event';
 
@@ -17,32 +17,28 @@ interface Props {
   decrementPageHome: () => void;
   isLoading: boolean;
   isError: boolean;
+  lastPage: number;
+  setLastPageHome: (page: number) => void;
 }
 
 interface State {
-  lastPage: number;
 }
 
 class HomeEventListSmart extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = {
-      lastPage: 0,
-    };
   }
 
   componentWillMount() {
     this.props.fetchAllEventsHome();
-    getLastNumberHome().then((result) => {
-      this.setState({
-        lastPage: result,
-      });
+    getLastNumberHome().then(result => {
+      this.props.setLastPageHome(result)
     });
   }
 
   componentDidUpdate(prevProps: any, prevState: any) {
     if (prevProps.page !== this.props.page) {
-      this.props.fetchCustomEventsHome(this.props.page);
+      this.props.fetchCustomEventsHome(this.props.page)
     }
   }
 
@@ -58,7 +54,7 @@ class HomeEventListSmart extends React.Component<Props, State> {
     };
 
     const goToNextPage = () => {
-      if (this.props.page >= this.state.lastPage) {
+      if (this.props.page >= this.props.lastPage) {
         return;
       } else {
         this.props.incrementPageHome();
@@ -73,7 +69,7 @@ class HomeEventListSmart extends React.Component<Props, State> {
     return (
       <HomeEventListDumb
         page={this.props.page}
-        lastPage={this.state.lastPage}
+        lastPage={this.props.lastPage}
         eventsDetails={eventDetails}
         goToPrevPage={goToPrevPage}
         goToNextPage={goToNextPage}
@@ -89,6 +85,7 @@ const mapStateToProps = (state: AppState) => ({
   page: state.events.homePage,
   isLoading: state.events.isLoadingHome,
   isError: state.events.isErrorHome,
+  lastPage: state.events.lastPageHome
 });
 
 export default connect(mapStateToProps, {
@@ -96,4 +93,5 @@ export default connect(mapStateToProps, {
   fetchCustomEventsHome,
   incrementPageHome,
   decrementPageHome,
+  setLastPageHome
 })(HomeEventListSmart);
