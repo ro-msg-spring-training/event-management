@@ -289,7 +289,7 @@ public class EventService {
         if (sortCriteria != null) {
             switch (sortCriteria) {
                 case DATE:
-                    criteria = "startDate";
+                    criteria = "endDate";
                     break;
                 case HOUR:
                     criteria = "startHour";
