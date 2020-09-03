@@ -1,10 +1,12 @@
 import React, { KeyboardEvent } from 'react';
 import { useStyles } from '../../../../../styles/CommonStyles';
-import { Button, Grid, Typography, TextField } from '@material-ui/core';
+import { Button, Grid, Typography, TextField, Tooltip, IconButton } from '@material-ui/core';
 import { userBuyTicketsStyle } from '../../../../../styles/UserBuyTicketsStyle';
 import { EmailStepFormErrors } from '../../../../../model/BuyTicketsSecondPage';
 import { useTranslation } from 'react-i18next';
 import '../../../../../styles/ReservePageStyle.css';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import { BuyTicketsSecondPageStyle } from '../../../../../styles/BuyTicketsSecondPageStyle';
 
 interface EmailStepDumbProps {
   nextStep: () => void;
@@ -24,8 +26,8 @@ function EmailStepDumb({
   handleEmailStepChange,
   emailFormErrors,
 }: EmailStepDumbProps) {
-  const buttonClass = useStyles();
   const emailPageStyle = userBuyTicketsStyle();
+  const buttonStyles = BuyTicketsSecondPageStyle();
 
   const { t } = useTranslation();
 
@@ -58,25 +60,23 @@ function EmailStepDumb({
           alignItems='center'
           className={`${emailPageStyle.button} buttonStyleResp`}
         >
-          <Grid item xs={4} sm={2} md={2} lg={1} xl={1}>
-            <Button
-              variant='contained'
-              className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle} ${emailPageStyle.buttonPosition} `}
+          <Tooltip title={t('eventList.previous') as string}>
+            <IconButton
               onClick={prevStep}
+              className={`${buttonStyles.positionLeft} buttonStyleLeft ${buttonStyles.prevButtonStyle} buttonStyleLeftSecond`}
             >
-              {t('eventList.previous')}
-            </Button>
-          </Grid>
+              <NavigateNextIcon color='secondary' />
+            </IconButton>
+          </Tooltip>
 
-          <Grid item xs={4} sm={2} md={2} lg={1} xl={1}>
-            <Button
-              variant='contained'
-              className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle} ${emailPageStyle.buttonPosition}`}
+          <Tooltip title={t('eventList.next') as string}>
+            <IconButton
               onClick={nextStep}
+              className={`${buttonStyles.positionRight} buttonStyleRight ${buttonStyles.nextButtonStyle} buttonStyleRightSecond`}
             >
-              {t('eventList.next')}
-            </Button>
-          </Grid>
+              <NavigateNextIcon color='secondary' />
+            </IconButton>
+          </Tooltip>
         </Grid>
       </Grid>
     </>

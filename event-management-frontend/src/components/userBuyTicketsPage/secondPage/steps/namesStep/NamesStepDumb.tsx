@@ -1,10 +1,12 @@
 import React from 'react';
 import { useStyles } from '../../../../../styles/CommonStyles';
-import { Button, Grid, Typography } from '@material-ui/core';
+import { Button, Grid, Typography, Tooltip, IconButton } from '@material-ui/core';
 import { userBuyTicketsStyle } from '../../../../../styles/UserBuyTicketsStyle';
 import { HtmlTooltip } from '../../../../../styles/BuyTicketsSecondPageStyle';
 import HelpIcon from '@material-ui/icons/Help';
 import { useTranslation } from 'react-i18next';
+import { BuyTicketsSecondPageStyle } from '../../../../../styles/BuyTicketsSecondPageStyle';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 
 interface NamesStepPropsDumb {
   noTicketsSelected: boolean;
@@ -14,7 +16,7 @@ interface NamesStepPropsDumb {
 }
 
 function NamesStepDumb({ noTicketsSelected, handleBuy, prevStep, inputs }: NamesStepPropsDumb) {
-  const buttonClass = useStyles();
+  const buttonStyles = BuyTicketsSecondPageStyle();
   const namesPageStyle = userBuyTicketsStyle();
   const { t } = useTranslation();
 
@@ -49,25 +51,24 @@ function NamesStepDumb({ noTicketsSelected, handleBuy, prevStep, inputs }: Names
         </Grid>
 
         <Grid item container direction='row' justify='center' alignItems='center' className={`${namesPageStyle.button} buttonStyleResp`} >
-          <Grid item xs={4} sm={3} md={2} lg={1} xl={1}>
-            <Button
-              variant='contained'
-              className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle} ${namesPageStyle.buttonPosition}`}
+          <Tooltip title={t('eventList.previous') as string}>
+            <IconButton
               onClick={prevStep}
+              className={`${buttonStyles.positionLeft} buttonStyleLeft ${buttonStyles.prevButtonStyle} buttonStyleLeftSecond`}
             >
-              {t('eventList.previous')}
-            </Button>
-          </Grid>
+              <NavigateNextIcon color='secondary' />
+            </IconButton>
+          </Tooltip>
 
-          <Grid item xs={4} sm={3} md={2} lg={1} xl={1}>
-            <Button
-              variant='contained'
-              className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle} ${namesPageStyle.buttonPosition}`}
+          <Tooltip title={t('buyTicketsSecondPage.buyTickets') as string}>
+            <IconButton
               onClick={handleBuy}
+              className={`${buttonStyles.positionRight} buttonStyleRight ${buttonStyles.nextButtonStyle} buttonStyleRightSecond`}
             >
-              {t('buyTicketsSecondPage.buyTickets')}
-            </Button>
-          </Grid>
+              <NavigateNextIcon color='secondary' />
+            </IconButton>
+          </Tooltip>
+
         </Grid>
       </Grid>
     </>

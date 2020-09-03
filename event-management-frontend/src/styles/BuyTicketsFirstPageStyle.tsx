@@ -5,7 +5,7 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
   paperStyle: {
     display: 'block',
     maxWidth: '900px',
-    marginLeft: '10%',
+    margin: '0 auto',
     minHeight: '150px',
     padding: '3%',
   },
