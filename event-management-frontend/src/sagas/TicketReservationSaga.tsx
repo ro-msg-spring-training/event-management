@@ -33,7 +33,7 @@ function* loadTicketCategoriesAsync(props: Props) {
   }
 }
 
-export function* loadTicketCategoriesWatcher() {
+export function* watchLoadTicketCategoriesAsync() {
   yield takeLatest(LOAD_TICKET_CATEGORIES, loadTicketCategoriesAsync);
 }
 
@@ -53,6 +53,6 @@ function* addBookingsAsync(props: AddProps) {
   }
 }
 
-export function* addBookingsWatcher() {
+export function* watchAddBookingsAsync() {
   yield takeLatest(ADD_BOOKINGS, addBookingsAsync);
 }

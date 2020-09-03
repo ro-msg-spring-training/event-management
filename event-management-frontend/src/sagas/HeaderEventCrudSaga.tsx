@@ -49,7 +49,7 @@ function* loadEventAsync(props: Props) {
   }
 }
 
-export function* loadEventWatcher() {
+export function* watchLoadEventAsync() {
   yield takeLatest(LOAD_EVENT, loadEventAsync);
 }
 
@@ -64,7 +64,7 @@ function* deleteEventAsync(props: Props) {
   }
 }
 
-export function* deleteProductWatcher() {
+export function* watchDeletEventAsync() {
   yield takeLatest(DELETE_EVENT, deleteEventAsync);
 }
 
@@ -83,7 +83,7 @@ function* addEventAsync(props: AddProps) {
   }
 }
 
-export function* addProductWatcher() {
+export function* watchAddEventAsync() {
   yield takeLatest(ADD_EVENT, addEventAsync);
 }
 
@@ -102,6 +102,6 @@ function* editEventAsync(props: AddProps) {
   }
 }
 
-export function* editProductWatcher() {
+export function* watchEditEventAsync() {
   yield takeLatest(EDIT_EVENT, editEventAsync);
 }

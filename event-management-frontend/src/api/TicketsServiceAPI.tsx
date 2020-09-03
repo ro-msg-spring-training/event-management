@@ -5,7 +5,7 @@ import moment from 'moment';
 
 
 export const fetchTicketsPaginated = (page: number, filters: TicketFilters) => {
-    let paginatedUrl = serverURL + "/tickets/filter?page=" + (page-1) + "&size=2";
+    let paginatedUrl = serverURL + "/tickets/filter?page=" + (page-1) + "&size=15";
 
     if (filters.title !== '') {
       paginatedUrl += "&title=" + filters.title
@@ -17,9 +17,9 @@ export const fetchTicketsPaginated = (page: number, filters: TicketFilters) => {
       paginatedUrl += "&endDate=" + moment(filters.endDate).format('YYYY-MM-DD')
     }
 
-    return fetchWrapper(`${paginatedUrl}`, { headers: headersAuth })
+    return fetch(`${paginatedUrl}`, { headers: headersAuth })
       .then((response) => response.json())
       .then((json) => {
-        return json.tickets;
+        return json;
       });
 }

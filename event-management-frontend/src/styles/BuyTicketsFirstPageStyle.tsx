@@ -3,7 +3,7 @@ import themeDark from './Apptheme';
 
 const useStylesbuyTicketFirstPage = makeStyles(() => ({
   paperStyle: {
-    display: 'block',
+    display: 'flex',
     maxWidth: '900px',
     margin: '0 auto',
     minHeight: '150px',
@@ -38,7 +38,7 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
       color: 'black !important',
       backgroundImage: 'linear-gradient(90deg, rgba(245,253,255,1) 0%, rgba(202,202,209,1) 1%)',
     },
-    right: '35%',
+    right: '15%',
     margin: '3%',
   },
   link: {
@@ -83,7 +83,7 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
     width: '50%',
     height: '50px',
     background: themeDark.palette.primary.dark,
-    marginLeft: '-5.4%',
+    marginLeft: '-7.2%',
     '&:after': {
       marginTop: '0.5em',
       float: 'left',
@@ -109,7 +109,7 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
     '&:hover': {
       backgroundColor: '#FF6171',
     },
-    left: '20%',
+    left: '15%',
     margin: '3%',
   },
 }));
