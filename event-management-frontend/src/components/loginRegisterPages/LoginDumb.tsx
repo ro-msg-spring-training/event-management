@@ -91,8 +91,7 @@ const LoginDumb = (props: Props) => {
             </Link>
           </p>
         </div>
-
-        <FormErrors error={props.error} />
+        {props.error ? <FormErrors error={props.error} /> : null}
         <Button
           variant="contained"
           type="submit"

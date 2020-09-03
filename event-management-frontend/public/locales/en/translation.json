@@ -76,7 +76,8 @@
     "password": "Password",
     "confirmPassword": "Confirm Password",
     "button": "Register",
-    "loginLink": "Already have an account? <1>Sign in</1>",
+    "alreadyHaveAnAccount": "Already have an account? ",
+    "loginLink": "Sign in",
     "emptyError": "Enter a value",
     "emailError": "Enter a valid email address!",
     "passwordError": " Requirements: min. 8 characters, an uppercase letter and a number.",
@@ -89,7 +90,9 @@
     "message": "Your password has been successfully updated!",
     "button": "Login"
   },
-  "successfulRegistration": "We sent a verification code to your email account. After checking it please <1>log in</1> to continue.",
+  "successfulRegistration": "We sent a verification code to your email account. After checking it please ",
+  "successfulRegistrationLink": "log in",
+  "successfulRegistrationToContinue": " to continue.",
   "forgotPassword": {
     "title": "Forgot your password?",
     "message": "Please enter the email address associated with your account and we'll email you a password reset link.",

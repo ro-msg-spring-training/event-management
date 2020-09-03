@@ -76,7 +76,8 @@
     "password": "Parola",
     "confirmPassword": "Confirmă parola",
     "button": "Înregistare",
-    "loginLink": "Ai deja un cont? <1>Autentifică-te!</1>",
+    "alreadyHaveAnAccount": "Ai deja un cont? ",
+    "loginLink": "Autentifică-te!",
     "emptyError": "Introduceți o valoare",
     "emailError": "Introduceți o adresă de email validă!",
     "passwordError": "Cerințe: min. 8 caractere, litere mari și un număr.",
@@ -89,7 +90,9 @@
     "message": "Parola ta a fost resetată cu succes!",
     "button": "Autentificare"
   },
-  "successfulRegistration": "Am trimis un cod de verificare în contul dvs. de email. După verificare, vă rugăm să <1>vă autentificați</1> pentru a continua.",
+  "successfulRegistration": "Am trimis un cod de verificare în contul dvs. de email. După verificare, vă rugăm să ",
+  "successfulRegistrationLink": "vă autentificați",
+  "successfulRegistrationToContinue": " pentru a continua.",
   "forgotPassword": {
     "title": "Ți-ai uitat parola?",
     "message": "Vă rugăm să introduceți adresa de email asociată contului dvs. Vă vom trimite un link pentru resetarea parolei.",

@@ -11,6 +11,7 @@ import LoginPageReducer from './LoginPageReducer';
 import VerificationPageReducer from './ForgotPasswordVerificationPageReducer';
 import ReservePageReducer from './ReservePageReducer';
 import TicketCategoriesReducer from './TicketReservationReducer';
+import RegistrationPageReducer from './RegistrationPageReducer';
 
 export default combineReducers({
   events: EventsPageReducer,
@@ -22,8 +23,8 @@ export default combineReducers({
   eventWithLocation: UserEventDetailsReducer,
   userHome: UserHomePageReducer,
   login: LoginPageReducer,
+  registration: RegistrationPageReducer,
   forgotPasswordVerification: VerificationPageReducer,
   reserveTicket: ReservePageReducer,
   ticketCategories: TicketCategoriesReducer,
-
 });

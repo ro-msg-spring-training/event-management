@@ -10,6 +10,12 @@ export interface RegistrationPageState {
   username: string;
   password: string;
   confirmPassword: string;
+  firstNameError: string;
+  lastNameError: string;
+  emailError: string;
+  usernameError: string;
+  passwordError: string;
+  confirmPasswordError: string;
 }
 
 const initialState: RegistrationPageState = {
@@ -22,6 +28,12 @@ const initialState: RegistrationPageState = {
   username: '',
   password: '',
   confirmPassword: '',
+  firstNameError: '',
+  lastNameError: '',
+  emailError: '',
+  usernameError: '',
+  passwordError: '',
+  confirmPasswordError: '',
 };
 
 export const RegistrationPageReducer = (
@@ -46,7 +58,7 @@ export const RegistrationPageReducer = (
     case RegistrationActionTypes.REGISTRATION_SUCCESS: {
       return {
         ...state,
-        success: action.success,
+        success: action.successStatus,
       };
     }
 
@@ -92,6 +104,47 @@ export const RegistrationPageReducer = (
       };
     }
 
+    case RegistrationActionTypes.FIRST_NAME_INPUT_ERROR: {
+      return {
+        ...state,
+        firstNameError: action.firstNameError,
+      };
+    }
+
+    case RegistrationActionTypes.LAST_NAME_INPUT_ERROR: {
+      return {
+        ...state,
+        lastNameError: action.lastNameError,
+      };
+    }
+
+    case RegistrationActionTypes.EMAIL_INPUT_ERROR: {
+      return {
+        ...state,
+        emailError: action.emailError,
+      };
+    }
+
+    case RegistrationActionTypes.USERNAME_INPUT_ERROR: {
+      return {
+        ...state,
+        usernameError: action.usernameError,
+      };
+    }
+
+    case RegistrationActionTypes.PASSWORD_INPUT_ERROR: {
+      return {
+        ...state,
+        passwordError: action.passwordError,
+      };
+    }
+
+    case RegistrationActionTypes.CONFIRM_PASSWORD_INPUT_ERROR: {
+      return {
+        ...state,
+        confirmPasswordError: action.confirmPasswordError,
+      };
+    }
     default:
       return state;
   }

@@ -12,6 +12,12 @@ import {
   registrationUsername,
   registrationPassword,
   registrationConfirmPassword,
+  registrationFirstNameError,
+  registrationLastNameError,
+  registrationEmailError,
+  registrationUsernameError,
+  registrationPasswordError,
+  registrationConfirmPasswordError,
 } from '../../actions/RegistrationPageActions';
 import { connect } from 'react-redux';
 import {
@@ -21,11 +27,8 @@ import {
   validateConfirmPassword,
   validateEmail,
   validatePassword,
-  displayUsernameError,
-  displayErrorMessage,
-  displaySuccessMessage,
 } from '../../validation/RegistrationValidation';
-import { Trans } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import RegistrationDumb from './RegistrationDumb';
 
 interface Props {
@@ -38,6 +41,12 @@ interface Props {
   username: string;
   password: string;
   confirmPassword: string;
+  firstNameError: string;
+  lastNameError: string;
+  emailError: string;
+  usernameError: string;
+  passwordError: string;
+  confirmPasswordError: string;
 
   registrationisLoading: (isLoading: boolean) => void;
   registrationError: (error: string) => void;
@@ -48,10 +57,15 @@ interface Props {
   registrationUsername: (username: string) => void;
   registrationPassword: (password: string) => void;
   registrationConfirmPassword: (confirmPassword: string) => void;
+  registrationFirstNameError: (firstNameError: string) => void;
+  registrationLastNameError: (lastNameError: string) => void;
+  registrationEmailError: (emailError: string) => void;
+  registrationUsernameError: (usernameError: string) => void;
+  registrationPasswordError: (passwordError: string) => void;
+  registrationConfirmPasswordError: (confirmPasswordError: string) => void;
 }
 
 const Registration = ({
-  isLoading,
   error,
   success,
   firstName,
@@ -60,6 +74,12 @@ const Registration = ({
   username,
   password,
   confirmPassword,
+  firstNameError,
+  lastNameError,
+  emailError,
+  usernameError,
+  passwordError,
+  confirmPasswordError,
   registrationisLoading,
   registrationError,
   registrationSuccess,
@@ -69,29 +89,36 @@ const Registration = ({
   registrationUsername,
   registrationPassword,
   registrationConfirmPassword,
+  registrationFirstNameError,
+  registrationLastNameError,
+  registrationEmailError,
+  registrationUsernameError,
+  registrationPasswordError,
+  registrationConfirmPasswordError,
 }: Props) => {
   const [values, setValues] = useState<{ showPassword: boolean }>({
     showPassword: false,
   });
 
-  const [firstNameError, setFirstNameError] = useState('');
-  const [lastNameError, setLastNameError] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [usernameError, setUsernameError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [confirmPasswordError, setConfirmPasswordError] = useState('');
+  /* const [firstNameError, setFirstNameError] = useState('');
+  const [lastNameError, registrationLastNameError,] = useState('');
+  const [emailError, registrationEmailError] = useState('');
+  const [usernameError, registrationUsernameError] = useState('');
+  const [passwordError, registrationPasswordError] = useState('');
+  const [confirmPasswordError, registrationConfirmPasswordError] = useState('');*/
   const handleClickShowPassword = () => {
     setValues({ showPassword: !values.showPassword });
   };
+  const { t } = useTranslation();
   const onSubmit = async () => {
     registrationisLoading(true);
     if (
-      validateFirstName(firstName, firstNameError, setFirstNameError) ||
-      validateLastName(lastName, lastNameError, setLastNameError) ||
-      validateUserName(username, usernameError, setUsernameError) ||
-      validateConfirmPassword(password, confirmPassword, confirmPasswordError, setConfirmPasswordError) ||
-      validateEmail(email, emailError, setEmailError) ||
-      validatePassword(password, passwordError, setPasswordError)
+      validateFirstName(firstName, firstNameError, registrationFirstNameError) ||
+      validateLastName(lastName, lastNameError, registrationLastNameError) ||
+      validateUserName(username, usernameError, registrationUsernameError) ||
+      validateConfirmPassword(password, confirmPassword, confirmPasswordError, registrationConfirmPasswordError) ||
+      validateEmail(email, emailError, registrationEmailError) ||
+      validatePassword(password, passwordError, registrationPasswordError)
     ) {
       return;
     }
@@ -107,17 +134,15 @@ const Registration = ({
       });
 
       registrationError('');
-      displaySuccessMessage(
-        <Trans i18nKey="registration.successMessage">Registration successful</Trans>,
-        registrationSuccess
-      );
+      registrationSuccess(t('registration.successMessage'));
     } catch (error) {
       switch (error.code) {
         case 'UsernameExistsException':
-          displayUsernameError(<Trans i18nKey="registration.userExists">User already exists</Trans>, setUsernameError);
-          displayErrorMessage(<Trans i18nKey="registration.userExists">User already exists</Trans>, registrationError);
+          registrationUsernameError(t('registration.userExists'));
+          registrationError(t('registration.userExists'));
           break;
       }
+      registrationisLoading(false);
     }
   };
   return (
@@ -143,12 +168,12 @@ const Registration = ({
       setUsername={registrationUsername}
       setPassword={registrationPassword}
       setConfirmPassword={registrationConfirmPassword}
-      setFirstNameError={setFirstNameError}
-      setLastNameError={setLastNameError}
-      setEmailError={setEmailError}
-      setUsernameError={setUsernameError}
-      setPasswordError={setPasswordError}
-      setConfirmPasswordError={setConfirmPasswordError}
+      setFirstNameError={registrationFirstNameError}
+      setLastNameError={registrationLastNameError}
+      setEmailError={registrationEmailError}
+      setUsernameError={registrationUsernameError}
+      setPasswordError={registrationPasswordError}
+      setConfirmPasswordError={registrationConfirmPasswordError}
       handleClickShowPassword={handleClickShowPassword}
       onSubmit={onSubmit}
     ></RegistrationDumb>
@@ -158,13 +183,19 @@ const Registration = ({
 const mapStateToProps = (state: AppState) => ({
   isLoading: state.registration.isLoading,
   error: state.registration.error,
-  succes: state.registration.success,
+  success: state.registration.success,
   firstName: state.registration.firstName,
   lastName: state.registration.lastName,
   email: state.registration.email,
   username: state.registration.username,
   password: state.registration.password,
   confirmPassword: state.registration.confirmPassword,
+  firstNameError: state.registration.firstNameError,
+  lastNameError: state.registration.lastNameError,
+  emailError: state.registration.emailError,
+  usernameError: state.registration.usernameError,
+  passwordError: state.registration.passwordError,
+  confirmPasswordError: state.registration.confirmPasswordError,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -177,6 +208,14 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   registrationUsername: (username: string) => dispatch(registrationUsername(username)),
   registrationPassword: (password: string) => dispatch(registrationPassword(password)),
   registrationConfirmPassword: (confirmPassword: string) => dispatch(registrationConfirmPassword(confirmPassword)),
+
+  registrationFirstNameError: (firstNameError: string) => dispatch(registrationFirstNameError(firstNameError)),
+  registrationLastNameError: (lastNameError: string) => dispatch(registrationLastNameError(lastNameError)),
+  registrationEmailError: (emailError: string) => dispatch(registrationEmailError(emailError)),
+  registrationUsernameError: (usernameError: string) => dispatch(registrationUsernameError(usernameError)),
+  registrationPasswordError: (passwordError: string) => dispatch(registrationPasswordError(passwordError)),
+  registrationConfirmPasswordError: (confirmPasswordError: string) =>
+    dispatch(registrationConfirmPasswordError(confirmPasswordError)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Registration);

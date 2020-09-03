@@ -11,7 +11,7 @@ import {
   Avatar,
   FormHelperText,
 } from '@material-ui/core';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { FormErrors } from './FormErrors';
 import { useStyles } from '../../styles/CommonStyles';
 import useStylesLogin from '../../styles/LoginStyle';
@@ -88,30 +88,26 @@ const RegistrationDumb = ({
   handleClickShowPassword,
   onSubmit,
 }: Props) => {
-  const [, i18n] = useTranslation();
+  const [t, i18n] = useTranslation();
   const classes = useStylesRegistration();
   const classes2 = useStyles();
   const classesLogin = useStylesLogin();
-
   const handleChangeAppLanguage = (language: string) => {
     i18n.changeLanguage(language);
-    localStorage.registrationItem('i18nextLng', language);
+    localStorage.setItem('i18nextLng', language);
   };
-
   return (
     <div className={classes.root}>
-      <FormGroup className={`${classes.registrationform}`}>
-        <h1 className={` ${classes2.typography}`}>
-          <Trans i18nKey="registration.title">Registration</Trans>
-        </h1>
-        <RegistrationSucces successMessage={success} />
-        <FormErrors error={error} />
+      <FormGroup className={classes.registrationform}>
+        <h1 className={classes2.typography}>{t('registration.title')}</h1>
+        {success ? <RegistrationSucces successMessage={success} /> : null}
+        {error ? <FormErrors error={error} /> : null}
         <br />
         <TextField
           required
           variant="outlined"
           className={classes.registrationformItems}
-          label={<Trans i18nKey="registration.firstName">First Name</Trans>}
+          label={t('registration.firstName')}
           value={firstName}
           onChange={(event) => {
             setFirstName(event.target.value);
@@ -124,7 +120,7 @@ const RegistrationDumb = ({
           required
           variant="outlined"
           className={classes.registrationformItems}
-          label={<Trans i18nKey="registration.lastName">Last Name</Trans>}
+          label={t('registration.lastName')}
           value={lastName}
           onChange={(event) => {
             setLastName(event.target.value);
@@ -138,7 +134,7 @@ const RegistrationDumb = ({
           variant="outlined"
           className={classes.registrationformItems}
           name="email"
-          label={<Trans i18nKey="registration.email">Email Address</Trans>}
+          label={t('registration.email')}
           value={email}
           onChange={(event) => {
             setEmail(event.target.value);
@@ -151,7 +147,7 @@ const RegistrationDumb = ({
           required
           variant="outlined"
           className={classes.registrationformItems}
-          label={<Trans i18nKey="registration.username">Username</Trans>}
+          label={t('registration.username')}
           value={username}
           onChange={(event) => {
             setUsername(event.target.value);
@@ -161,9 +157,7 @@ const RegistrationDumb = ({
           helperText={usernameError}
         />
         <FormControl required variant="outlined" className={classes.registrationformItems}>
-          <InputLabel>
-            <Trans i18nKey="registration.password">Password</Trans>
-          </InputLabel>
+          <InputLabel>{t('registration.password')}</InputLabel>
           <OutlinedInput
             type={values.showPassword ? 'text' : 'password'}
             labelWidth={80}
@@ -184,9 +178,7 @@ const RegistrationDumb = ({
           <FormHelperText>{passwordError}</FormHelperText>
         </FormControl>
         <FormControl required variant="outlined" className={classes.registrationformItems}>
-          <InputLabel>
-            <Trans i18nKey="registration.confirmPassword">Confirm Password</Trans>
-          </InputLabel>
+          <InputLabel>{t('registration.confirmPassword')}</InputLabel>
           <OutlinedInput
             type="password"
             labelWidth={145}
@@ -208,12 +200,11 @@ const RegistrationDumb = ({
           type="submit"
           onClick={onSubmit}
         >
-          <Trans i18nKey="registration.button">Register</Trans>
+          {t('registration.button')}
         </Button>
         <div className={classes.loginLink}>
-          <Trans i18nKey="registration.loginLink">
-            Already have an account? <Link to="/login">Sign in!</Link>
-          </Trans>
+          {t('registration.alreadyHaveAnAccount')}
+          <Link to="/login">{t('registration.loginLink')}</Link>
         </div>
         <div>
           <div onClick={() => handleChangeAppLanguage('ro')} className={classesLogin.flags}>

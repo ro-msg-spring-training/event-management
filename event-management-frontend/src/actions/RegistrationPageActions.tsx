@@ -8,6 +8,12 @@ export enum RegistrationActionTypes {
   USERNAME_INPUT = 'USERNAME_INPUT',
   PASSWORD_INPUT = 'PASSWORD_INPUT',
   CONFIRM_PASSWORD_INPUT = 'CONFIRM_PASSWORD_INPUT',
+  FIRST_NAME_INPUT_ERROR = 'FIRST_NAME_INPUT_ERROR',
+  LAST_NAME_INPUT_ERROR = 'LAST_NAME_INPUT_ERROR',
+  EMAIL_INPUT_ERROR = 'EMAIL_INPUT_ERROR',
+  USERNAME_INPUT_ERROR = 'USERNAME_INPUT_ERROR',
+  PASSWORD_INPUT_ERROR = 'PASSWORD_INPUT_ERROR',
+  CONFIRM_PASSWORD_INPUT_ERROR = 'CONFIRM_PASSWORD_INPUT_ERROR',
 }
 
 export class RegistrationLoadingStatusAction {
@@ -30,10 +36,10 @@ export class RegistrationErrorAction {
 
 export class RegistrationSuccessAction {
   public readonly type = RegistrationActionTypes.REGISTRATION_SUCCESS;
-  public success: string;
+  public successStatus: string;
 
-  constructor(success: string) {
-    this.success = success;
+  constructor(successStatus: string) {
+    this.successStatus = successStatus;
   }
 }
 
@@ -91,6 +97,60 @@ export class RegistrationUpdateConfirmPasswordAction {
   }
 }
 
+export class RegistrationUpdateFirstNameErrorAction {
+  public readonly type = RegistrationActionTypes.FIRST_NAME_INPUT_ERROR;
+  public firstNameError: string;
+
+  constructor(firstNameError: string) {
+    this.firstNameError = firstNameError;
+  }
+}
+
+export class RegistrationUpdateLastNameErrorAction {
+  public readonly type = RegistrationActionTypes.LAST_NAME_INPUT_ERROR;
+  public lastNameError: string;
+
+  constructor(lastNameError: string) {
+    this.lastNameError = lastNameError;
+  }
+}
+
+export class RegistrationUpdateEmailErrorAction {
+  public readonly type = RegistrationActionTypes.EMAIL_INPUT_ERROR;
+  public emailError: string;
+
+  constructor(emailError: string) {
+    this.emailError = emailError;
+  }
+}
+
+export class RegistrationUpdateUsernameErrorAction {
+  public readonly type = RegistrationActionTypes.USERNAME_INPUT_ERROR;
+  public usernameError: string;
+
+  constructor(usernameError: string) {
+    this.usernameError = usernameError;
+  }
+}
+
+export class RegistrationUpdatePasswordErrorAction {
+  public readonly type = RegistrationActionTypes.PASSWORD_INPUT_ERROR;
+  public passwordError: string;
+
+  constructor(passwordError: string) {
+    this.passwordError = passwordError;
+  }
+}
+
+export class RegistrationUpdateConfirmPasswordErrorAction {
+  public readonly type = RegistrationActionTypes.CONFIRM_PASSWORD_INPUT_ERROR;
+  public confirmPasswordError: string;
+
+  constructor(confirmPasswordError: string) {
+    this.confirmPasswordError = confirmPasswordError;
+  }
+}
+
 export type RegistrationAction =
   | RegistrationLoadingStatusAction
   | RegistrationErrorAction
@@ -100,7 +160,13 @@ export type RegistrationAction =
   | RegistrationUpdateEmailAction
   | RegistrationUpdateUsernameAction
   | RegistrationUpdatePasswordAction
-  | RegistrationUpdateConfirmPasswordAction;
+  | RegistrationUpdateConfirmPasswordAction
+  | RegistrationUpdateFirstNameErrorAction
+  | RegistrationUpdateLastNameErrorAction
+  | RegistrationUpdateEmailErrorAction
+  | RegistrationUpdateUsernameErrorAction
+  | RegistrationUpdatePasswordErrorAction
+  | RegistrationUpdateConfirmPasswordErrorAction;
 
 export const registrationisLoading = (loadingStatus: boolean): RegistrationLoadingStatusAction => {
   return {
@@ -116,10 +182,10 @@ export const registrationError = (errorStatus: string): RegistrationErrorAction 
   };
 };
 
-export const registrationSuccess = (success: string): RegistrationSuccessAction => {
+export const registrationSuccess = (successStatus: string): RegistrationSuccessAction => {
   return {
     type: RegistrationActionTypes.REGISTRATION_SUCCESS,
-    success: success,
+    successStatus: successStatus,
   };
 };
 
@@ -162,5 +228,49 @@ export const registrationConfirmPassword = (confirmPassword: string): Registrati
   return {
     type: RegistrationActionTypes.CONFIRM_PASSWORD_INPUT,
     confirmPassword: confirmPassword,
+  };
+};
+
+export const registrationFirstNameError = (firstNameError: string): RegistrationUpdateFirstNameErrorAction => {
+  return {
+    type: RegistrationActionTypes.FIRST_NAME_INPUT_ERROR,
+    firstNameError: firstNameError,
+  };
+};
+
+export const registrationLastNameError = (lastNameError: string): RegistrationUpdateLastNameErrorAction => {
+  return {
+    type: RegistrationActionTypes.LAST_NAME_INPUT_ERROR,
+    lastNameError: lastNameError,
+  };
+};
+
+export const registrationEmailError = (emailError: string): RegistrationUpdateEmailErrorAction => {
+  return {
+    type: RegistrationActionTypes.EMAIL_INPUT_ERROR,
+    emailError: emailError,
+  };
+};
+
+export const registrationUsernameError = (usernameError: string): RegistrationUpdateUsernameErrorAction => {
+  return {
+    type: RegistrationActionTypes.USERNAME_INPUT_ERROR,
+    usernameError: usernameError,
+  };
+};
+
+export const registrationPasswordError = (passwordError: string): RegistrationUpdatePasswordErrorAction => {
+  return {
+    type: RegistrationActionTypes.PASSWORD_INPUT_ERROR,
+    passwordError: passwordError,
+  };
+};
+
+export const registrationConfirmPasswordError = (
+  confirmPasswordError: string
+): RegistrationUpdateConfirmPasswordErrorAction => {
+  return {
+    type: RegistrationActionTypes.CONFIRM_PASSWORD_INPUT_ERROR,
+    confirmPasswordError: confirmPasswordError,
   };
 };
