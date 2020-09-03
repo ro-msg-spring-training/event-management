@@ -1,6 +1,5 @@
 import { Trans } from 'react-i18next';
 import React from 'react';
-import { store } from '../store/store';
 
 export const validateEmail = (email: string, emailError: string, setEmailError: (arg0: any) => void) => {
   if (email.trim() === '' || /^[a-zA-Z0-9_.\-$]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email)) {
