@@ -25,12 +25,12 @@ const EventDetailBuyPageDumb = (props: Props) => {
 
       <div className={reserveTicketFirstPage.styleblock}>
         <LocationOnIcon className={reserveTicketFirstPage.iconStyleLocation} />
-        <p className={reserveTicketFirstPage.styleInline}>
+        <div className={reserveTicketFirstPage.styleInline}>
           <span className={reserveTicketFirstPage.locationName}>{props.event.locationName}</span>
           <Typography className={`${reserveTicketFirstPage.newLineSpan} ${classes.typography}`}>
             {props.event.locationAddress}
           </Typography>
-        </p>
+        </div>
       </div>
 
       <p className={` ${reserveTicketFirstPage.textStyle}`}>

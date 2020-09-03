@@ -7,15 +7,15 @@
 @media (min-width: 1700px) {
   .buttonStyleRight {
     margin-left: 10% !important;
-    right: 55% !important;
+    right: 27% !important;
   }
   .buttonStyleLeft {
     margin-right: 10% !important;
-    left: 15% !important;
+    left: 27% !important;
   }
 }
 
-@media (min-width: 1700px) {
+@media (min-width: 1650px) {
   .buttonStyleRightSecond {
     margin-left: 10% !important;
     right: 39% !important;
@@ -30,7 +30,7 @@
   }
 }
 
-@media (max-width: 850px) {
+@media (max-width: 970px) {
   .buttonStyleRight {
     margin-left: 10% !important;
     right: 0.3% !important;
@@ -40,14 +40,14 @@
     left: 0.3% !important;
   }
 }
-@media (min-width: 830px) and (max-width: 1250px) {
+@media (min-width: 970px) and (max-width: 1250px) {
   .buttonStyleRight {
     margin-left: 10% !important;
-    right: 20% !important;
+    right: 10% !important;
   }
   .buttonStyleLeft {
     margin-right: 10% !important;
-    left: 20% !important;
+    left: 10% !important;
   }
 }
 

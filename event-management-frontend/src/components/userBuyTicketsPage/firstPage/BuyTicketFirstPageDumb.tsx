@@ -50,7 +50,7 @@ const BuyTicketFirstPageDumb = (props: Props) => {
             to={`/user/reserve-tickets/second-page/${props.matching.match.params.id}`}
             className={reserveTicketFirstPage.link}
           >
-            <Tooltip title={t('buyTicketsFirstPage.nextPage') as string}>
+            <Tooltip title={<span>{t('buyTicketsFirstPage.nextPage') as string}</span>}>
               <IconButton
                 className={`${reserveTicketFirstPage.nextButton} buttonStyleRight`}
                 disabled={props.radioButtonState === 'seat'}
@@ -61,7 +61,7 @@ const BuyTicketFirstPageDumb = (props: Props) => {
           </Link>
 
           <Link to={`/user/events`} className={reserveTicketFirstPage.link}>
-            <Tooltip title={t('buyTicketsFirstPage.cancel') as string}>
+            <Tooltip title={<span>{t('buyTicketsFirstPage.cancel') as string}</span>}>
               <IconButton className={`${reserveTicketFirstPage.cancelButton} buttonStyleLeft`}>
                 <CloseIcon color="secondary" />
               </IconButton>
