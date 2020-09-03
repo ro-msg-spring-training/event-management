@@ -3,9 +3,9 @@ import themeDark from './Apptheme';
 
 const useStylesbuyTicketFirstPage = makeStyles(() => ({
   paperStyle: {
-    display: 'block',
+    display: 'flex',
     maxWidth: '900px',
-    marginLeft: '10%',
+    margin: ' 0 auto',
     minHeight: '150px',
     padding: '3%',
   },
@@ -83,7 +83,7 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
     width: '50%',
     height: '50px',
     background: themeDark.palette.primary.dark,
-    marginLeft: '-5.4%',
+    marginLeft: '-7.2%',
     '&:after': {
       marginTop: '0.5em',
       float: 'left',
