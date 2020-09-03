@@ -253,6 +253,11 @@ public class BookingService {
     private void replaceFieldWithParagraph(AcroFields acroFields, PdfContentByte pdfContentByte, String fieldName, Paragraph paragraph, BaseFont baseFont) throws DocumentException {
         if (acroFields.getFieldPositions(fieldName) != null) {
             Rectangle rectangle = acroFields.getFieldPositions(fieldName).get(0).position;
+            if(fieldName.equals("eventTicketInfo"))
+            {
+                paragraph = new Paragraph("Informații despre bilet:\n" + paragraph.getContent());
+            }
+
             paragraph.setFont(new Font(baseFont, 12));
             acroFields.removeField(fieldName);
             ColumnText columnText = new ColumnText(pdfContentByte);
