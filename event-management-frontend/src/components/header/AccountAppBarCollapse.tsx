@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Typography, Menu, MenuItem } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
@@ -8,7 +8,7 @@ import { useStylesHeader } from '../../styles/HeaderStyle';
 import { Auth } from 'aws-amplify';
 
 const AccountAppBarCollapse = () => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = React.useState<null | Element>(null);
   const open = Boolean(anchorEl);
   const classes = useStylesHeader();
   const history = useHistory();
@@ -17,7 +17,8 @@ const AccountAppBarCollapse = () => {
   const [t] = useTranslation();
   const result = userName === null ? '' : userName.slice(0, count) + (userName.length > count ? '...' : '');
 
-  const handleMenu = (event: any) => {
+  const handleMenu = (event: MouseEvent) => {
+    event.preventDefault();
     setAnchorEl(event.currentTarget);
   };
 
