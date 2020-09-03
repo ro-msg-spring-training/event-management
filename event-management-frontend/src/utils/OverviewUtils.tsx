@@ -1,4 +1,4 @@
-import React from "react";
+import React, { KeyboardEvent } from "react";
 import { Grid, TextField } from "@material-ui/core";
 import { compareDates, compareTimes } from "./CompareUtilsForOverview";
 import { EventFormErrors } from "../model/EventFormErrors";
@@ -6,11 +6,11 @@ import { TFunction } from "i18next";
 
 export const createTextField = (
   style: string,
-  handleEnterKey: (e: any) => void,
+  handleEnterKey: (e: KeyboardEvent<HTMLDivElement>) => void,
   isAdmin: boolean,
   name: string,
   labelText: string,
-  handleChange: (e: any) => void,
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
   defaultValueText: string | number,
   errorText: string,
   inputType: string) => {
@@ -42,7 +42,7 @@ export const createDateTextField = (
   isAdmin: boolean,
   name: string,
   labelText: string,
-  handleChange: (e: any) => void,
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
   defaultValueText: string,
   errorText: string) => {
 
@@ -72,7 +72,7 @@ export const createTimeTextField = (
   isAdmin: boolean,
   name: string,
   labelText: string,
-  handleChange: (e: any) => void,
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
   defaultValueText: string,
   errorText: string) => {
 

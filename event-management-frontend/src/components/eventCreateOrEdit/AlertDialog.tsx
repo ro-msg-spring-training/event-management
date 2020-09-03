@@ -12,7 +12,7 @@ import { useStyles } from '../../styles/CommonStyles';
 
 interface AlertDialogProps {
   open: boolean;
-  setOpen: any;
+  setOpen: (open: boolean) => void;
   msgUndo: string;
   dialogTitle: string;
   dialogDescription: string;
@@ -83,7 +83,6 @@ export default function AlertDialog({
                 <DialogTitle id="alert-dialog-title">Error {errorMsg}</DialogTitle>
                 <DialogContent>
                   {console.log("error", errorMsg)}
-                  {/* <DialogContentText id="alert-dialog-description">Error {errorMsg}</DialogContentText> */}
                   <DialogActions>
                     <Button onClick={handleGoToEventsPage} color="primary" autoFocus className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle}`}>
                       OK
@@ -95,7 +94,6 @@ export default function AlertDialog({
                 <DialogTitle id="alert-dialog-title">Success</DialogTitle>
                 <DialogContent>
                   {console.log("Success")}
-                  {/* <DialogContentText id="alert-dialog-description">Success</DialogContentText> */}
                   <DialogActions>
                     <Button onClick={handleGoToEventsPage} color="primary" autoFocus className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle}`}>
                       OK

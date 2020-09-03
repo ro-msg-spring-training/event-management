@@ -164,11 +164,7 @@ function EventDetails({
   };
 
   const isFormValid = (event: EventCrud, errors: EventFormErrors): boolean => {
-    if (
-      true === verifyDateAndTimePeriods(event) &&
-      true === verifyErrorMessages(errors) &&
-      true === verifyNullFields(event)
-    )
+    if (verifyDateAndTimePeriods(event) && verifyErrorMessages(errors) && verifyNullFields(event))
       return true;
     return false;
   };

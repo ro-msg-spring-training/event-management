@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react';
+import React, { KeyboardEvent } from 'react';
 import {
   Grid,
   Typography,
@@ -19,8 +19,8 @@ interface OverviewDumbProps {
   newEvent: boolean;
   event: EventCrud;
   isAdmin: boolean;
-  handleEnterKey: (e: any) => void;
-  handleChange: (e: any) => void;
+  handleEnterKey: (e: KeyboardEvent<HTMLDivElement>) => void;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   formErrors: {
     title: string;
     subtitle: string;
@@ -31,8 +31,8 @@ interface OverviewDumbProps {
     endTime: string;
     maxPeople: string;
   };
-  handleChangeCheckboxState: any;
-  setStatus: any;
+  handleChangeCheckboxState: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  setStatus: (status: string) => void;
 }
 
 function OverviewDumb(props: OverviewDumbProps) {

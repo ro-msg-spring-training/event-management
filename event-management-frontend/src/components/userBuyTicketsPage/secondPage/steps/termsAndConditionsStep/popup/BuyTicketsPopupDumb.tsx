@@ -17,8 +17,8 @@ interface BuyTicketsPopupDumbProps {
   checked: boolean;
   handleCheckboxChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 
-  handleCancel: () => void;
-  handleProceed: (e : any) => void;
+  handleCancel: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  handleProceed: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   handleClose: () => void;
 }
 

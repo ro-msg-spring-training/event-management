@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { KeyboardEvent } from 'react';
 import OverviewDumb from './OverviewDumb';
 import { EventCrud } from '../../../model/EventCrud';
 import { useTranslation } from 'react-i18next';
@@ -42,7 +42,7 @@ function OverviewSmart(props: OverviewSmartProps) {
     props.updateEvent(newEvent);
   };
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const { name, value } = e.target;
 
@@ -140,7 +140,7 @@ function OverviewSmart(props: OverviewSmartProps) {
     props.updateFormErrors(newFormErrors);
   };
 
-  const handleEnterKey = (e: any): void => {
+  const handleEnterKey = (e: KeyboardEvent<HTMLDivElement>): void => {
     e.keyCode === 13 && e.preventDefault();
   };
 

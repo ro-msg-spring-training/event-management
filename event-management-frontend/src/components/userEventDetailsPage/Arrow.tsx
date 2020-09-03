@@ -5,7 +5,7 @@ import ArrowRight from '@material-ui/icons/ArrowRight';
 
 interface ArrowProps {
   direction: string;
-  clickFunction: any;
+  clickFunction: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
 function Arrow({ direction, clickFunction }: ArrowProps) {
