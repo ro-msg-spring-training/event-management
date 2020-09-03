@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { EventFilters } from '../model/EventFilters';
 import { EventSort } from '../model/EventSort';
-import { serverURL, token } from './Api';
+import { serverURL } from './Api';
 import { fetchWrapper } from './FetchWrapper';
 
 const computeLimit = () => {
@@ -127,7 +127,7 @@ export const fetchSortedEvents = (sort: EventSort, filters: EventFilters, page: 
 };
 
 export const fetchEvents = () => {
-  return fetchWrapper(`${serverURL}/events?limit=5&page=0&size=5`, { headers: headersAuth })
+  return fetchWrapper(`${serverURL}/events?limit=5&page=0&size=5`)
     .then((response) => response.json())
     .then((json) => {
       return json;
@@ -200,7 +200,6 @@ export const validateTicketAPI = (ticketID: number, eventID: number) => {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
     },
   }).then((response) => response.json());
 };
