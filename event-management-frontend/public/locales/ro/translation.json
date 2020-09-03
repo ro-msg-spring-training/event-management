@@ -9,7 +9,8 @@
     "myTickets": "Biletele mele",
     "buyer": "Cumpărător",
     "startDate": "Dată de început eveniment",
-    "endDate": "Dată de încheiere eveniment"
+    "endDate": "Dată de încheiere eveniment",
+    "more": "Vezi mai mult"
   },
   "eventList": {
     "account": "Contul meu",

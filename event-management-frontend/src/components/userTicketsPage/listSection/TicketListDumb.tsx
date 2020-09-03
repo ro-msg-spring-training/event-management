@@ -75,7 +75,7 @@ const TicketListDumb = ({ isError, isLoading, ticketsDetails }: Props) => {
           <Table className={classes.ticketTableLayout}>
             <TableHead className={classes.grayBackground}>
               <TableRow>
-                <TableCell />
+                <TableCell/>
                 <TableCell key={'id'} align={'center'} padding={'default'} size={'medium'}>
                   {t('ticketList.id')}
                 </TableCell>
