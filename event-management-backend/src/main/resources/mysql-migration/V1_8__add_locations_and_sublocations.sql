@@ -3,8 +3,12 @@ insert into `location` values(2,'Campus Observator','str Observatorului nr 34', 
 insert into `location` values(3,'Universitatea Babes','str Mihail Kogalniceanu nr. 1', 46.767481, 23.591372);
 insert into `location` values(4,'Catedrala Romano-Catolica','Piata Unirii', 46.769869, 23.589141);
 insert into `location` values(5,'Parcul IL Caragiale','Strada George Baritiu', 46.772590, 23.586433);
+insert into `location` values(6,'Castelul Banffy','Bontida', 46.910299, 23.810966);
+insert into `location` values(7,'Primaria Cluj-Napoca', 'Calea Motilor nr. 3', 46.768167, 23.584578);
 insert into `sublocation` values(1,'Gradina Botanica',200,1);
-insert into `sublocation` values(2,'Campus Observator',300,2);
+insert into `sublocation` values(2,'Campus Observator',400,2);
 insert into `sublocation` values(3,'Universitatea Babes',300,3);
-insert into `sublocation` values(4,'Catedrala Romano-Catolica',300,4);
+insert into `sublocation` values(4,'Catedrala Romano-Catolica',200,4);
 insert into `sublocation` values(5,'Parcul IL Caragiale',300,5);
+insert into `sublocation` values(6,'Castelul Banffy',700,6);
+insert into `sublocation` values(7,'Primaria Cluj-Napoca', 150,7);
