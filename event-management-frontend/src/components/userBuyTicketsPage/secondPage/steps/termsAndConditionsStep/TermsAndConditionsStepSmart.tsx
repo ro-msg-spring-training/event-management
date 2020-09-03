@@ -86,7 +86,6 @@ function TermsAndConditionsStepSmart({
     updateBookings(newBooking);
   }, []);
 
-
   let handleGoToEventsPage = (): void => {
     return history.push('/user/events');
   }

@@ -70,7 +70,6 @@ export default function AlertDialog({
         {isRequest ?
           isLoading ?
             <DialogContent>
-              {console.log('loading')}
               <Grid container direction='row' justify='center' alignItems='center'>
                 <Container maxWidth='lg'>
                   <CircularProgress />
@@ -82,20 +81,18 @@ export default function AlertDialog({
               <>
                 <DialogTitle id='alert-dialog-title'>Error {errorMsg}</DialogTitle>
                 <DialogContent>
-                  {console.log('error', errorMsg)}
                   <DialogActions>
-                    <Button onClick={handleGoToEventsPage} color='primary' autoFocus className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle}`}>
+                    <Button onClick={handleGoToEventsPage} color='primary' autoFocus className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle} ${buttonClass.buttonSize}`}>
                       OK
-                  </Button>
+                    </Button>
                   </DialogActions>
                 </DialogContent>
               </> :
               <>
-                <DialogTitle id='alert-dialog-title'>Success</DialogTitle>
+                <DialogTitle id='alert-dialog-title'>{t("buyTicketsSecondPage.success")}</DialogTitle>
                 <DialogContent>
-                  {console.log('Success')}
                   <DialogActions>
-                    <Button onClick={handleGoToEventsPage} color='primary' autoFocus className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle}`}>
+                    <Button onClick={handleGoToEventsPage} color='primary' autoFocus className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle} ${buttonClass.buttonSize}`}>
                       OK
                   </Button>
                   </DialogActions>
