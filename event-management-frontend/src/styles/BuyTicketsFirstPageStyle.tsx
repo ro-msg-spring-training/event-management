@@ -38,7 +38,7 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
       color: 'black !important',
       backgroundImage: 'linear-gradient(90deg, rgba(245,253,255,1) 0%, rgba(202,202,209,1) 1%)',
     },
-    right: '35%',
+    right: '15%',
     margin: '3%',
   },
   link: {
@@ -109,7 +109,7 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
     '&:hover': {
       backgroundColor: '#FF6171',
     },
-    left: '20%',
+    left: '15%',
     margin: '3%',
   },
 }));
