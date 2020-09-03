@@ -64,7 +64,7 @@ export const UserEventsReducer = (state = initialState, action: ReducerActionPro
     case FETCH_USER_EVENTS_REQUEST:
       return {
         ...state,
-        isFatching: true,
+        isFetching: true,
       };
     case FETCH_USER_EVENTS_SUCCESS:
       return {

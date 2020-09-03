@@ -9,7 +9,8 @@
     "myTickets": "My tickets",
     "buyer": "Buyer",
     "startDate": "Event start date",
-    "endDate": "Event end date"
+    "endDate": "Event end date",
+    "more": "See more"
   },
   "eventList": {
     "account": "My account",

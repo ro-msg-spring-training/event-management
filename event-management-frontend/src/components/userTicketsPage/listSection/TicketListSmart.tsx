@@ -1,8 +1,7 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { AppState } from '../../../store/store';
-import { fetchTickets, incrementPage, resetPage } from '../../../actions/TicketsPageActions';
-import { Ticket } from '../../../model/Ticket';
+import { fetchTickets, incrementPage, resetPage, resetState, setIsFetching } from '../../../actions/TicketsPageActions';
 import TicketListDumb from './TicketListDumb';
 import { TicketFilters } from '../../../model/TicketFilters';
 
@@ -12,9 +11,13 @@ interface Props {
   page: number;
   isLoading: boolean;
   isError: boolean;
+  hasMore: boolean;
   fetchTickets: (page: number, filters: TicketFilters) => void;
   incrementPage: () => void;
   resetPage: () => void;
+  resetState: () => void;
+  isFetching: boolean;
+  setIsFetching: (isLoading: boolean) => void;
 }
 
 const TicketListSmart = ({
@@ -26,53 +29,44 @@ const TicketListSmart = ({
   fetchTickets,
   incrementPage,
   resetPage,
+  resetState,
+  isFetching,
+  setIsFetching,
+  hasMore
 }: Props) => {
-  const [hasMore, setHasMore] = useState(false);
-  const [concatTickets, setConcatTickets] = useState(Array(0));
 
   useEffect(() => {
-    fetchTickets(page, filters);
-    setHasMore(page === 1 ? true : tickets.length > 0);
+    if (!isFetching) return
 
-    if (tickets.length > 0) {
-      setConcatTickets([...concatTickets, ...tickets]);
-    } else {
-      setConcatTickets([]);
-      resetPage();
+    if (hasMore) {
+      incrementPage()
+      fetchTickets(page, filters);
+
+      if (tickets.length > 0) {
+        setIsFetching(false)
+      } else {
+        resetPage()
+      }
     }
-  }, [page]);
+  }, [hasMore, tickets, isFetching]);
 
-  const observer = useRef<any>();
-  const lastTicketRef = useCallback(
-    (node) => {
-      if (observer.current) observer.current.disconnect();
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && hasMore) {
-          // Increment page in redux
-          incrementPage();
-        }
-      });
-      if (node) observer.current.observe(node);
-    },
-    [hasMore]
-  );
+  const handleScroll = () => {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+      if (hasMore) {
+        setIsFetching(true);
+      }
+    } else {
+      setIsFetching(false)
+    }
+  };
 
-  const ticketReferences =
-    tickets !== undefined
-      ? tickets.map((ticket: Ticket, index: number) => {
-          if (tickets.length === index + 1) {
-            return <div ref={lastTicketRef} key={ticket.ticketId} />;
-          } else {
-            return <div key={ticket.ticketId} />;
-          }
-        })
-      : [];
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [handleScroll]);
 
   return (
-    <>
-      {ticketReferences}
-      <TicketListDumb isError={isError} isLoading={isLoading} ticketsDetails={concatTickets} />
-    </>
+    <TicketListDumb isError={isError} isLoading={isLoading} ticketsDetails={tickets} />
   );
 };
 
@@ -82,6 +76,10 @@ const mapStateToProps = (state: AppState) => ({
   page: state.tickets.page,
   isLoading: state.tickets.isLoading,
   isError: state.tickets.isError,
+  isFetching: state.tickets.isFetching,
+  hasMore: state.tickets.isMore,
 });
 
-export default connect(mapStateToProps, { fetchTickets, incrementPage, resetPage })(TicketListSmart);
+
+export default connect(mapStateToProps,
+  { fetchTickets, incrementPage, resetPage, setIsFetching, resetState })(TicketListSmart);
