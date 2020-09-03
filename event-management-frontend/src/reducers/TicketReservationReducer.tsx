@@ -12,6 +12,7 @@ import {
   UPDATE_TICKETS_STEP_FORM_ERRORS,
   UPDATE_EMAIL_FORM_ERRORS,
   UPDATE_NAMES_STEP_FORM_ERRORS,
+  RESET_ERRORS,
 } from '../actions/TicketReservationActions';
 import Booking from '../model/Booking';
 import { TicketsPerCateory, TicketNames } from '../model/UserReserveTicket';
@@ -76,6 +77,12 @@ const TicketCategoriesReducer = (
   action: { type: string; payload: TicketAvailabilityData[] | Booking }
 ) => {
   switch (action.type) {
+    case RESET_ERRORS:
+      return {
+        ...state,
+        isError: false,
+        errorMsg: '',
+      }
     case FETCH_TICKET_CATEGORIES_REQUEST:
       return {
         ...state,

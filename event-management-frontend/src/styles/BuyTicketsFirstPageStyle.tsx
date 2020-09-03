@@ -55,10 +55,11 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
   },
   generalInfoContainer: {
     display: 'block',
-    maxWidth: 'inherit',
+    maxWidth: '900px',
     minHeight: '70px',
     padding: '3%',
     paddingTop: '5%',
+    whiteSpace: 'pre-wrap',
   },
   newLineSpan: {
     display: 'inline-block',

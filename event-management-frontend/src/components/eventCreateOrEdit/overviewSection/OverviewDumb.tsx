@@ -95,7 +95,7 @@ function OverviewDumb(props: OverviewDumbProps) {
               t('welcome.overviewEndDate'), props.handleChange, props.event.endDate, props.formErrors.endDate)}
 
             {createTimeTextField(overviewClasses.root, props.isAdmin, 'endTime',
-              t('welcome.overviewStartTime'), props.handleChange, props.event.endHour, props.formErrors.endTime)}
+              t('welcome.overviewEndTime'), props.handleChange, props.event.endHour, props.formErrors.endTime)}
 
           </Grid>
         </Grid>

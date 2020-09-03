@@ -9,6 +9,7 @@ import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Grid, Container, CircularProgress } from '@material-ui/core';
 import { useStyles } from '../../styles/CommonStyles';
+import { displayErrorMessage } from '../../utils/AlertDialogUtils';
 
 interface AlertDialogProps {
   open: boolean;
@@ -19,10 +20,18 @@ interface AlertDialogProps {
 
   prevStep?: () => void;
   isLoading?: boolean;
+  eventIsLoading?: boolean;
   isError?: boolean;
   errorMsg?: string;
   isRequest: boolean;
-  handleGoToTicketsPage?: () => void
+  addRequest: boolean;
+  editRequest: boolean;
+  deleteRequest: boolean;
+  handleGoToTicketsPage?: () => void;
+  resetErrors: () => void;
+  setAddRequest?: (addRequest: boolean) => void,
+  setEditRequest?: (editRequest: boolean) => void,
+  setRequest?: (request: boolean) => void,
 }
 
 export default function AlertDialog({
@@ -36,16 +45,19 @@ export default function AlertDialog({
   isError,
   errorMsg,
   isRequest,
+  addRequest,
+  editRequest,
+  deleteRequest,
+  eventIsLoading,
   handleGoToTicketsPage,
+  resetErrors,
+  setAddRequest,
+  setEditRequest,
+  setRequest
 }: AlertDialogProps) {
   const buttonClass = useStyles();
   const history = useHistory();
   const { t } = useTranslation();
-
-  const handleClose = () => {
-    setOpen(false);
-    prevStep !== undefined && prevStep();
-  };
 
   const handleProceed = (): void => {
     setOpen(false);
@@ -58,36 +70,38 @@ export default function AlertDialog({
     prevStep !== undefined && prevStep();
   };
 
-  const displayErrorMessage = (status: string): string => {
-    let result = '';
+  const goBack = (): void => {
+    resetErrors();
+    setAddRequest !== undefined && setAddRequest(false);
+    setEditRequest !== undefined && setEditRequest(false);
+    setRequest !== undefined && setRequest(false);
 
-    switch (Number(status)) {
-      case 404:
-        result = t("serverErrors.tickets_404");
-        break;
-      case 409:
-        result = t("serverErrors.tickets_409");
-        break;
-      case 406:
-        result = t("serverErrors.tickets_406");
-        break;
-      default:
-        result = t("userEventList.errorMessage");
+    if (isRequest) {
+      handleCancel();
+    } else {
+      setOpen(false);
     }
+  }
 
-    return result;
+  const handleSuccessButton = (): void => {
+    if (isRequest) {
+      handleGoToTicketsPage !== undefined && handleGoToTicketsPage();
+    } else {
+      setOpen(false);
+      history.push('/admin/events');
+    }
   }
 
   return (
     <>
       <Dialog
         open={open}
-        onClose={handleClose}
+        onClose={handleCancel}
         aria-labelledby='alert-dialog-title'
         aria-describedby='alert-dialog-description'
       >
-        {isRequest ?
-          isLoading ?
+        {isRequest || addRequest || editRequest || deleteRequest ?
+          isLoading || eventIsLoading ?
             <DialogContent>
               <Grid container direction='row' justify='center' alignItems='center'>
                 <Container maxWidth='lg'>
@@ -98,20 +112,22 @@ export default function AlertDialog({
             </DialogContent> :
             isError ?
               <>
-                <DialogTitle id='alert-dialog-title'>Error {displayErrorMessage(errorMsg as string)}</DialogTitle>
+                <DialogTitle id='alert-dialog-title'>{displayErrorMessage(errorMsg as string, isRequest, addRequest, editRequest, deleteRequest, t)}</DialogTitle>
                 <DialogContent>
                   <DialogActions>
-                    <Button onClick={prevStep} color='primary' autoFocus className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle} ${buttonClass.buttonSize}`}>
+                    <Button onClick={goBack} color='primary' autoFocus className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle} ${buttonClass.buttonSize}`}>
                       OK
                     </Button>
                   </DialogActions>
                 </DialogContent>
               </> :
               <>
-                <DialogTitle id='alert-dialog-title'>{t("buyTicketsSecondPage.success")}</DialogTitle>
+                <DialogTitle id='alert-dialog-title'>
+                  {isRequest ? t("successMsg.successfulBuy") : addRequest ? t("successMsg.successfulAdd") : editRequest ? t("successMsg.successfulEdit") : t("successMsg.successfulDelete")}
+                </DialogTitle>
                 <DialogContent>
                   <DialogActions>
-                    <Button onClick={handleGoToTicketsPage} color='primary' autoFocus className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle} ${buttonClass.buttonSize}`}>
+                    <Button onClick={handleSuccessButton} color='primary' autoFocus className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle} ${buttonClass.buttonSize}`}>
                       OK
                   </Button>
                   </DialogActions>

@@ -261,20 +261,33 @@
         "noErrorsInEmailStep": "Există încă erori în secțiunea de e-mail, pentru a cumpăra biletele trebuie să le rezolvați",
         "noErrorsInNamesStep": "Există încă erori în secțiunea de nume, pentru a cumpăra biletele trebuie să le rezolvați",
         "termsAndConditions": "Termeni și Condiții",
-        "agreement": "Sunt de acord",
-        "success": "Achiziția a fost cu succes! Vă rugăm să vă verificați email-ul"
+        "agreement": "Sunt de acord"
+
     },
     "serverErrors": {
         "tickets_404": "Categoriile evenimentului nu au fost găsite!",
-        "tickets_406": "Numărul de bilete pentru o categorie depășește numărul disponibil de bilete!",
         "tickets_409": "Ați depășit numărul maxim de bilete pentru un utilizator!",
+        "tickets_417": "Oops, eroare!",
+        "tickets_500": "Eroare la server!",
 
-        "saveEvent_404": "",
-        "saveEvent_406": "",
-        "saveEvent_409": "",
+        "saveEvent_400": "Eroare in câmpurile de dată și timp!",
+        "saveEvent_404": "Evenimentul nu a fost găsit!",
+        "saveEvent_406": "Oops, eroare!",
+        "saveEvent_409": "Evenimentul se suprapune cu un alt eveniment deja programat sau numărul maxim de persoane depășește capacitatea de sublocații!",
+        "saveEvent_500": "Evenimentul nu are locație!",
 
-        "editEvent_404": "",
-        "editEvent_406": "",
-        "editEvent_409": ""
+        "editEvent_400": "Eroare in câmpurile de dată și timp!",
+        "editEvent_404": "Evenimentul nu a fost găsit!",
+        "editEvent_406": "Oops, eroare!",
+        "editEvent_409": "Evenimentul se suprapune cu un alt eveniment deja programat sau numărul maxim de persoane depășește capacitatea de sublocații!",
+
+        "deleteEvent_404": "Evenimentul nu a fost găsit!"
+    },
+    "successMsg": {
+        "successfulBuy": "Achiziția a fost cu succes! Vă rugăm să vă verificați email-ul",
+        "successfulDelete": "Ștergerea a fost cu succes!",
+        "successfulAdd": "Adăugarea a fost cu succes!",
+        "successfulEdit": "Editarea a fost cu succes!"
     }
+
 }

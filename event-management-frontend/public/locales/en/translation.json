@@ -266,22 +266,32 @@
         "noErrorsInEmailStep": "There are still errors in the email section, in order to buy the tickets you need to resolve them",
         "noErrorsInNamesStep": "There are still errors in the names section, in order to buy the tickets you need to resolve them",
         "termsAndConditions": "Terms and Conditions",
-        "agreement": "I agree",
-        "success": "The purchase was successful! Please check your email"
+        "agreement": "I agree"
     },
 
     "serverErrors": {
         "tickets_404": "Event categories not found!",
-        "tickets_406": "Number of tickets for a category exceeds the available number of tickets!",
         "tickets_409": "You exceeded the maximum number of tickets for a user!",
+        "tickets_417": "Oops, error!",
+        "tickets_500": "Server error!",
 
-        "saveEvent_404": "",
-        "saveEvent_406": "",
-        "saveEvent_409": "",
+        "saveEvent_400": "Error in date and time fields!",
+        "saveEvent_404": "Event not found!",
+        "saveEvent_406": "Oops, error!",
+        "saveEvent_409": "Event overlaps another scheduled event or the number of maximum people exceeds capacity of sublocations!",
 
-        "editEvent_404": "",
-        "editEvent_406": "",
-        "editEvent_409": ""
+        "editEvent_400": "Error in date and time fields!",
+        "editEvent_404": "Event not found!",
+        "editEvent_406": "Oops, error!",
+        "editEvent_409": "Event overlaps another scheduled event or the number of maximum people exceeds capacity of sublocations!",
+        "saveEvent_500": "The event doesn't have a location!",
 
+        "deleteEvent_404": "Event not found!"
+    },
+    "successMsg": {
+        "successfulBuy": "The purchase was successful! Please check your email",
+        "successfulDelete": "Deleted successfully!",
+        "successfulAdd": "Event added successfully!",
+        "successfulEdit": "Event updated successfully!"
     }
 }
