@@ -174,7 +174,7 @@ public class BookingService {
             PdfStamper pdfStamper = new PdfStamper(pdfReader, fileOutputStream);
             AcroFields acroFields = pdfStamper.getAcroFields();
             PdfContentByte pdfContentByte = pdfStamper.getOverContent(1);
-            BaseFont baseFont = BaseFont.createFont("EbGaramond12Regular.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            BaseFont baseFont = BaseFont.createFont("FreeSerif-4aeK.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
 
             this.replaceFieldWithParagraph(acroFields, pdfContentByte, "eventNameLabel", new Paragraph("Nume eveniment:"), baseFont);
             this.replaceFieldWithParagraph(acroFields, pdfContentByte, "locationLabel", new Paragraph("Locația:"), baseFont);
@@ -256,9 +256,13 @@ public class BookingService {
             if(fieldName.equals("eventTicketInfo"))
             {
                 paragraph = new Paragraph("Informații despre bilet:\n" + paragraph.getContent());
+                paragraph.setFont(new Font(baseFont, 8));
+            }
+            else
+            {
+                paragraph.setFont(new Font(baseFont, 10));
             }
 
-            paragraph.setFont(new Font(baseFont, 12));
             acroFields.removeField(fieldName);
             ColumnText columnText = new ColumnText(pdfContentByte);
             columnText.setSimpleColumn(rectangle);
