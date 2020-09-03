@@ -25,11 +25,9 @@ const BuyTicketFirstPageDumb = (props: Props) => {
   const { t } = useTranslation();
   const generalStyle = buyTicketsSecondPageDumbStyle();
   return (
-    // <div className={reserveTicketFirstPage.pagecontainer}>
     <div className={generalStyle.root}>
       <Grid container spacing={0} direction="column" justify="space-between">
         <Grid item xs={12}>
-          {/* <Paper className={`${reserveTicketFirstPage.paperStyle} buyPageResponsive `}> */}
           <Paper className={`${generalStyle.paperStyle} buyPageResponsive `}>
             {props.isLoading ? (
               <Grid container alignItems={'center'} justify={'center'}>

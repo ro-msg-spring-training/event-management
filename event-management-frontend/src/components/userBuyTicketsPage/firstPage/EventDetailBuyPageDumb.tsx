@@ -68,6 +68,7 @@ const EventDetailBuyPageDumb = (props: Props) => {
           labelPlacement="start"
         />
         <FormControlLabel
+          className={reserveTicketFirstPage.textStyle}
           value="seat"
           control={
             <Radio color="primary" value="seat" onChange={(e) => props.handleChangeRadioButtonState(e.target.value)} />
