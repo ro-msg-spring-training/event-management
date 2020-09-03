@@ -41,7 +41,6 @@ const Login: React.FC<Props> = (props: Props) => {
     props.loginisLoading(true);
     Auth.signIn(props.username, props.password)
       .then((user) => {
-        localStorage.setItem('idToken', user.signInUserSession.idToken.jwtToken);
         localStorage.setItem('username', props.username);
 
         if (user.signInUserSession.accessToken.payload['cognito:groups'] !== undefined) {

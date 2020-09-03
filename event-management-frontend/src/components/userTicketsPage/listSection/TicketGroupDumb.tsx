@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, Collapse, TableHead } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import { Link } from 'react-router-dom';
@@ -11,7 +11,6 @@ import IconButton from '@material-ui/core/IconButton';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import TicketCollapseDumb from './TicketCollapseDumb';
-import { StyledTableCell } from '../../../styles/StyledTableCell';
 
 interface Props {
   handleChange: (index: number) => void;
@@ -50,16 +49,16 @@ const TicketGroupDumb = ({ handleChange, tickets, open, index }: Props) => {
           </IconButton>
         </TableCell>
 
-        <StyledTableCell key={'id'} align={'center'} padding={'default'} size={'small'}>
+        <TableCell key={'id'} align={'center'} padding={'default'} size={'small'}>
           {id}
-        </StyledTableCell>
-        <StyledTableCell key={'date'} align={'center'} padding={'default'} size={'small'}>
+        </TableCell>
+        <TableCell key={'date'} align={'center'} padding={'default'} size={'small'}>
           {date}
-        </StyledTableCell>
-        <StyledTableCell key={'eventName'} align={'center'} padding={'default'} size={'small'}>
+        </TableCell>
+        <TableCell key={'eventName'} align={'center'} padding={'default'} size={'small'}>
           {eventName}
-        </StyledTableCell>
-        <StyledTableCell
+        </TableCell>
+        <TableCell
           key={'category'}
           align={'center'}
           padding={'default'}
@@ -67,8 +66,8 @@ const TicketGroupDumb = ({ handleChange, tickets, open, index }: Props) => {
           className={classes.ticketColumnMobile}
         >
           {category}
-        </StyledTableCell>
-        <StyledTableCell
+        </TableCell>
+        <TableCell
           key={'name'}
           align={'center'}
           padding={'default'}
@@ -76,9 +75,9 @@ const TicketGroupDumb = ({ handleChange, tickets, open, index }: Props) => {
           className={classes.ticketColumnMobile}
         >
           {name}
-        </StyledTableCell>
+        </TableCell>
 
-        <StyledTableCell key={'pdfUrl'} align={'center'} size={'medium'} className={classes.pdfButton}>
+        <TableCell key={'pdfUrl'} align={'center'} size={'medium'} className={classes.pdfButton}>
           <Link to={''} className={classes.linkDecoration}>
             <Button
               className={`${commonClasses.mainButtonStyle} ${commonClasses.pinkGradientButtonStyle} ${commonClasses.mobileButton}`}
@@ -86,56 +85,12 @@ const TicketGroupDumb = ({ handleChange, tickets, open, index }: Props) => {
               {t('eventList.open')}
             </Button>
           </Link>
-        </StyledTableCell>
+        </TableCell>
       </TableRow>
 
-      { tickets.length === 0 ? <></> :
-      <Collapse in={open[index]} timeout={0} unmountOnExit>
-        <Box className={classes.paddingTable} component={'table'}>
-          <TableHead>
-            <TableRow>
-              <TableCell />
-
-              <TableCell key={'date'} align={'center'} padding={'default'} size={'medium'}>
-                {t('ticketList.date')}
-              </TableCell>
-
-              <TableCell key={'eventName'} align={'center'} padding={'default'} size={'medium'}>
-                {t('ticketList.eventName')}
-              </TableCell>
-
-              <TableCell
-                key={'category'}
-                align={'center'}
-                padding={'default'}
-                size={'medium'}
-                className={classes.ticketColumnMobile}
-              >
-                {t('ticketList.category')}
-              </TableCell>
-
-              <TableCell
-                key={'name'}
-                align={'center'}
-                padding={'default'}
-                size={'medium'}
-                className={classes.ticketColumnMobile}
-              >
-                {t('ticketList.name')}
-              </TableCell>
-
-              <TableCell key={'pdf'} align={'center'} padding={'default'} size={'medium'}>
-                {t('ticketList.pdf')}
-              </TableCell>
-            </TableRow>
-          </TableHead>
-
-          {tickets.map((ticket: Ticket) => {
-            return <TicketCollapseDumb ticket={ticket} key={ticket.ticketId} />;
-          })}
-        </Box>
-      </Collapse>
-      }
+      {tickets.map((ticket: Ticket) => {
+        return <TicketCollapseDumb ticket={ticket} key={ticket.ticketId} open={open[index]} />;
+      })}
     </>
   );
 };

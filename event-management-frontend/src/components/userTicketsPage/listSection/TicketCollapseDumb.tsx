@@ -2,28 +2,38 @@ import React from 'react';
 import TableRow from '@material-ui/core/TableRow';
 import { Ticket } from '../../../model/Ticket';
 import { Link } from 'react-router-dom';
-import { Button, TableBody } from '@material-ui/core';
+import { Button, TableCell } from '@material-ui/core';
 import { useStyles } from '../../../styles/CommonStyles';
 import { useStylesTickets } from '../../../styles/ticketsListStyles';
 import { useTranslation } from 'react-i18next';
-import { StyledTableCell } from '../../../styles/StyledTableCell';
 
 interface Props {
   ticket: Ticket;
+  open: any;
 }
 
-const TicketCollapseDumb = ({ ticket }: Props) => {
+const TicketCollapseDumb = ({ ticket, open }: Props) => {
   const commonClasses = useStyles();
   const classes = useStylesTickets();
-
   const [t] = useTranslation();
+
+  const styles = {
+    none: {
+      display: 'none',
+    },
+    fixed: {
+      tableLayout: "fixed",
+      display: 'contents',
+    }
+  };
+  const { none, fixed } = styles;
 
   // TODO: when backend done, add link to PDFs here
   return (
-    <TableBody>
-      <TableRow>
-        <StyledTableCell className={classes.tableCellPadding} />
-        <StyledTableCell
+    <TableRow style={open ? fixed : none}>
+        <TableCell className={classes.tableCellPadding} />
+        <TableCell className={classes.tableCellPadding} />
+        <TableCell
           className={classes.tableCellPadding}
           key={'date'}
           align={'center'}
@@ -31,8 +41,8 @@ const TicketCollapseDumb = ({ ticket }: Props) => {
           size={'small'}
         >
           {ticket.bookingDate}
-        </StyledTableCell>
-        <StyledTableCell
+        </TableCell>
+        <TableCell
           className={classes.tableCellPadding}
           key={'eventName'}
           align={'center'}
@@ -40,8 +50,8 @@ const TicketCollapseDumb = ({ ticket }: Props) => {
           size={'small'}
         >
           {ticket.eventName}
-        </StyledTableCell>
-        <StyledTableCell
+        </TableCell>
+        <TableCell
           key={'category'}
           align={'center'}
           padding={'default'}
@@ -49,8 +59,8 @@ const TicketCollapseDumb = ({ ticket }: Props) => {
           className={`${classes.ticketColumnMobile} ${classes.tableCellPadding}`}
         >
           {ticket.ticketCategory}
-        </StyledTableCell>
-        <StyledTableCell
+        </TableCell>
+        <TableCell
           key={'name'}
           align={'center'}
           padding={'default'}
@@ -58,9 +68,9 @@ const TicketCollapseDumb = ({ ticket }: Props) => {
           className={`${classes.ticketColumnMobile} ${classes.tableCellPadding}`}
         >
           {ticket.name}
-        </StyledTableCell>
+        </TableCell>
 
-        <StyledTableCell
+        <TableCell
           key={'pdfUrl'}
           align={'center'}
           size={'medium'}
@@ -73,9 +83,8 @@ const TicketCollapseDumb = ({ ticket }: Props) => {
               {t('eventList.open')}
             </Button>
           </Link>
-        </StyledTableCell>
-      </TableRow>
-    </TableBody>
+        </TableCell>
+    </TableRow>
   );
 };
 

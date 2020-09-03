@@ -1,17 +1,17 @@
 import moment from 'moment';
 import { EventFilters } from '../model/EventFilters';
 import { EventSort } from '../model/EventSort';
-import { headersAuth, serverURL, serverEventsURL, token } from './Api';
+import { serverURL, token } from './Api';
 import { fetchWrapper } from './FetchWrapper';
 
 const computeLimit = () => {
-  let limit: { limit: string } = { limit: '2' };
+  let limit: { limit: string } = { limit: '5' };
 
   return limit;
 };
 
 const computeSize = () => {
-  let size: { size: string } = { size: '2' };
+  let size: { size: string } = { size: '5' };
 
   return size;
 };
@@ -79,7 +79,7 @@ export const fetchFilteredEvents = (filters: EventFilters, page: number) => {
   const limitToSend = computeLimit();
   const sizeToSend = computeSize();
 
-  const url = new URL(serverEventsURL);
+  const url = new URL(`${serverURL}/events`);
   url.search = new URLSearchParams(filtersToSend).toString();
   url.search += '&';
   url.search += new URLSearchParams(pageToSend).toString();
@@ -88,7 +88,7 @@ export const fetchFilteredEvents = (filters: EventFilters, page: number) => {
   url.search += '&';
   url.search += new URLSearchParams(sizeToSend).toString();
 
-  return fetchWrapper(`${url}`, { headers: headersAuth })
+  return fetchWrapper(`${url}`)
     .then((response) => response.json())
     .then((json) => {
       return json;
@@ -102,7 +102,8 @@ export const fetchSortedEvents = (sort: EventSort, filters: EventFilters, page: 
   const pageToSend = computePage(page);
   const sizeToSend = computeSize();
 
-  const url = new URL(serverEventsURL);
+  const url = new URL(`${serverURL}/events`);
+
   if (filtersToSend !== {}) {
     url.search += new URLSearchParams(filtersToSend).toString();
     url.search += '&';
@@ -118,7 +119,7 @@ export const fetchSortedEvents = (sort: EventSort, filters: EventFilters, page: 
   url.search += '&';
   url.search += new URLSearchParams(sizeToSend).toString();
 
-  return fetchWrapper(`${url}`, { headers: headersAuth })
+  return fetchWrapper(`${url}`)
     .then((response) => response.json())
     .then((json) => {
       return json;
@@ -126,7 +127,7 @@ export const fetchSortedEvents = (sort: EventSort, filters: EventFilters, page: 
 };
 
 export const fetchEvents = () => {
-  return fetchWrapper(`${serverURL}/events?limit=2&page=0&size=2`, { headers: headersAuth })
+  return fetchWrapper(`${serverURL}/events?limit=5&page=0&size=5`, { headers: headersAuth })
     .then((response) => response.json())
     .then((json) => {
       return json;
@@ -151,7 +152,7 @@ export const getLastNumber = (filters: EventFilters) => {
     url.search += new URLSearchParams(filtersToSend).toString();
   }
 
-  return fetchWrapper(`${url}`, { headers: headersAuth })
+  return fetchWrapper(`${url}`)
     .then((response) => response.json())
     .then((json) => {
       return json.noPages;
@@ -162,9 +163,9 @@ export const getLastNumber = (filters: EventFilters) => {
 
 export const fetchHomeEvents = () => {
   // All home events
-  const homeUrl = new URL(serverEventsURL + '/latest?page=0&size=2&limit=2');
+  const homeUrl = new URL(`${serverURL}/events/latest?page=0&size=2&limit=2`);
 
-  return fetchWrapper(`${homeUrl}`, { headers: headersAuth })
+  return fetchWrapper(`${homeUrl}`)
     .then((response) => response.json())
     .then((json) => {
       return json.events;
@@ -173,9 +174,9 @@ export const fetchHomeEvents = () => {
 
 export const fetchPaginatedHomeEvents = (page: number) => {
   // Paginated home events requests
-  const paginatedUrl = new URL(serverEventsURL + '/latest?page=' + Number(page - 1) + '&size=2&limit=2');
+  const paginatedUrl = new URL(`${serverURL}/events/latest?page=${Number(page - 1)}&size=2&limit=2`);
 
-  return fetchWrapper(`${paginatedUrl}`, { headers: headersAuth })
+  return fetchWrapper(`${paginatedUrl}`)
     .then((response) => response.json())
     .then((json) => {
       return json.events;
@@ -184,9 +185,9 @@ export const fetchPaginatedHomeEvents = (page: number) => {
 
 export const getLastNumberHome = () => {
   // Last number from home events
-  const url = serverEventsURL + '/latest?page=0&size=2&limit=2';
+  const url = `${serverURL}/events/latest?page=0&size=2&limit=2`;
 
-  return fetchWrapper(`${url}`, { headers: headersAuth })
+  return fetchWrapper(`${url}`)
     .then((response) => response.json())
     .then((json) => {
       return json.noPages;
@@ -194,7 +195,7 @@ export const getLastNumberHome = () => {
 };
 
 export const validateTicketAPI = (ticketID: number, eventID: number) => {
-  return fetchWrapper(`${serverURL}/tickets/validate/${8}?idEvent=${3}`, {
+  return fetchWrapper(`${serverURL}/tickets/validate/${ticketID}?idEvent=${eventID}`, {
     method: 'PATCH',
     headers: {
       Accept: 'application/json',
