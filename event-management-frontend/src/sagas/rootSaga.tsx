@@ -5,6 +5,7 @@ import {
   watchFetchCustomEventsAsync,
   watchFetchHomeEventsAsync,
   watchFetchCustomHomeEventsAsync,
+  watchValidateTicket,
 } from './EventsPageSaga';
 import {
   watchLoadEventAsync,
@@ -60,6 +61,9 @@ export default function* rootSaga() {
 
     watchLoadEventWithLocationAsync(),
     watchFetchHighlightedEventsAsync(),
+
+    watchValidateTicket(),
+
     watchFetchReserveEventAsync(),
   ]);
 }

@@ -1,16 +1,14 @@
 import { EventCrud } from '../model/EventCrud';
 import { EventImage } from '../model/EventImage';
-import { headersAuth, serverURL, token, s3URL } from './Api';
+import { serverURL, s3URL } from './Api';
 import { fetchWrapper } from './FetchWrapper';
 
 export const fetchEventAPI = (id: string) => {
-  return fetchWrapper(`${serverURL}/events/${id}`, {
-    headers: headersAuth,
-  }).then((response) => response.json());
+  return fetchWrapper(`${serverURL}/events/${id}`).then((response) => response.json());
 };
 
 export const deleteEventAPI = (id: string) => {
-  return fetchWrapper(`${serverURL}/events/${id}`, { method: 'DELETE', headers: headersAuth });
+  return fetchWrapper(`${serverURL}/events/${id}`, { method: 'DELETE' });
 };
 
 export const addEventAPI = (event: EventCrud) => {
@@ -19,7 +17,6 @@ export const addEventAPI = (event: EventCrud) => {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(event),
   }).then((response) => response.json());
@@ -31,7 +28,6 @@ export const editEventAPI = (event: EventCrud) => {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(event),
   }).then((response) => response.json());
@@ -45,13 +41,12 @@ const sendImagesToAddAndDeteteToServer = async (newAddedImagesIds: string[], ima
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
     },
   }).then((response) => response.json());
 };
 
 const saveEventImage = async (newAddedImages: File, newAddedImagesURLsToUpload: string) => {
-  return fetchWrapper(newAddedImagesURLsToUpload, {
+  return fetch(newAddedImagesURLsToUpload, {
     method: 'PUT',
     headers: {
       'Content-Type': 'image/*',
@@ -86,7 +81,7 @@ export const updateImagesFromS3 = async (images: EventImage[]) => {
 };
 
 export function fetchLocation() {
-  return fetchWrapper(`${serverURL}/locations`, { headers: headersAuth })
+  return fetchWrapper(`${serverURL}/locations`)
     .then((response) => response.json())
     .then((json) => {
       return json;

@@ -4,9 +4,9 @@ import Login from './loginRegisterPages/Login';
 import ForgotPassword from './loginRegisterPages/ForgotPassword';
 import ForgotPasswordVerification from './loginRegisterPages/ForgotPasswordVerification';
 import ChangePasswordConfirm from './loginRegisterPages/ChangePasswordConfirm';
-import RegistrationPage from './loginRegisterPages/RegistrationPage';
 import '../styles/Responsivity.css';
 import '../App.css';
+import Registration from './loginRegisterPages/Registration';
 
 const AuthWrapper = () => {
   return (
@@ -23,7 +23,7 @@ const AuthWrapper = () => {
           <Route path="/forgotpassword" component={ForgotPassword}></Route>
           <Route path="/forgotpasswordverification" component={ForgotPasswordVerification}></Route>
           <Route path="/changepasswordconfirmation" component={ChangePasswordConfirm}></Route>
-          <Route path="/register" component={RegistrationPage}></Route>
+          <Route path="/register" component={Registration}></Route>
         </Switch>
       </div>
     </div>

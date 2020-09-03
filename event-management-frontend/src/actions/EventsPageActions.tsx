@@ -1,6 +1,7 @@
 import { EventFilters } from '../model/EventFilters';
 import { EventSort } from '../model/EventSort';
 import { Event } from '../model/Event';
+import { Severity } from '../components/validateTicket/ValidateTicketAlert';
 
 export const UPDATE_FILTERS = 'UPDATE_FILTERS';
 export const FILTER_EVENTS = 'FILTER_EVENTS';
@@ -43,7 +44,19 @@ export const RESET_PAGE = 'RESET_PAGE';
 export const RESET_PAGE_HOME = 'RESET_PAGE_HOME';
 export const RESET_FILTERS = 'RESET_FILTERS';
 
-export const LAST_PAGE_HOME = 'LAST_PAGE_HOME'
+export const VALIDATE_TICKET = 'VALIDATE_TICKET';
+export const VALIDATE_TICKET_REQUEST = 'VALIDATE_TICKET_REQUEST';
+export const VALIDATE_TICKET_SUCCESS = 'VALIDATE_TICKET_SUCCESS';
+export const VALIDATE_TICKET_ERROR = 'VALIDATE_TICKET_ERROR';
+export const SET_IS_ERROR = 'SET_IS_ERROR';
+export const SET_IS_VALID = 'SET_IS_VALID';
+export const SET_TICKET_ID = 'SET_TICKET_ID';
+export const SET_ALERT_VISIBLE = 'SET_ALERT_VISIBLE';
+export const SET_ALERT_TITLE = 'SET_ALERT_TITLE';
+export const SET_ALERT_DESCRIPTION = 'SET_ALERT_DESCRIPTION';
+export const SET_ALERT_SEVERITY = 'SET_ALERT_SEVERITY';
+
+export const LAST_PAGE_HOME = 'LAST_PAGE_HOME';
 
 export const updateFilters = (filters: EventFilters) => {
   return {
@@ -224,6 +237,83 @@ export const resetFilters = () => {
   };
 };
 
+export const validateTicket = (ticketID: number, eventID: number) => {
+  return {
+    type: VALIDATE_TICKET,
+    ticketID: ticketID,
+    eventID: eventID,
+  };
+};
+
+export const validateTicketRequest = () => {
+  return {
+    type: VALIDATE_TICKET_REQUEST,
+  };
+};
+
+export const validateTicketSuccess = (name: string, email: string) => {
+  return {
+    type: VALIDATE_TICKET_SUCCESS,
+    name: name,
+    email: email,
+  };
+};
+
+export const validateTicketFailure = (errorStatus: number) => {
+  return {
+    type: VALIDATE_TICKET_ERROR,
+    errorStatus: errorStatus,
+  };
+};
+
+export const setIsError = (isError: boolean) => {
+  return {
+    type: SET_IS_ERROR,
+    isError: isError,
+  };
+};
+
+export const setIsValid = (isValid: boolean) => {
+  return {
+    type: SET_IS_VALID,
+    isValid: isValid,
+  };
+};
+
+export const setTicketID = (ticketID: number) => {
+  return {
+    type: SET_TICKET_ID,
+    ticketID: ticketID,
+  };
+};
+
+export const setAlertVisible = (alertVisible: boolean) => {
+  return {
+    type: SET_ALERT_VISIBLE,
+    alertVisible: alertVisible,
+  };
+};
+
+export const setAlertTitle = (alertTitle: string) => {
+  return {
+    type: SET_ALERT_TITLE,
+    alertTitle: alertTitle,
+  };
+};
+
+export const setAlertDescription = (alertDescription: string) => {
+  return {
+    type: SET_ALERT_DESCRIPTION,
+    alertDescription: alertDescription,
+  };
+};
+
+export const setAlertSeverity = (alertSeverity: Severity) => {
+  return {
+    type: SET_ALERT_SEVERITY,
+    alertSeverity: alertSeverity,
+  };
+};
 export const setErrorRate = (message: string) => {
   return {
     type: UPDATE_ERROR_RATE,
@@ -269,6 +359,6 @@ export const setErrorEndHour = (message: string) => {
 export const setLastPageHome = (page: number) => {
   return {
     type: LAST_PAGE_HOME,
-    payload: page
-  }
-}
+    payload: page,
+  };
+};

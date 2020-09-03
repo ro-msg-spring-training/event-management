@@ -3,7 +3,7 @@ import { Button, MenuItem } from '@material-ui/core';
 import ButtonAppBarCollapse from './ButtonAppBarCollapse';
 import Typography from '@material-ui/core/Typography';
 import { useStyles } from '../../styles/CommonStyles';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 const AppBarCollapse = () => {
@@ -20,44 +20,44 @@ const AppBarCollapse = () => {
   return (
     <div className={classes.root}>
       <ButtonAppBarCollapse>
-        <a href={`/${role}`} className={classes.linkDecoration}>
+        <Link to={`/${role}`} className={classes.linkDecoration}>
           <MenuItem>
             <Typography variant="h6" className={classes.light}>
               {t('eventList.home')}
             </Typography>
           </MenuItem>
-        </a>
-        <a href={`/${role}/buildings`} className={classes.linkDecoration}>
+        </Link>
+        <Link to={`/${role}/buildings`} className={classes.linkDecoration}>
           <MenuItem>
             <Typography variant="h6" className={classes.light}>
               {t('eventList.buildings')}&nbsp;&nbsp;
             </Typography>
           </MenuItem>
-        </a>
-        <a href={`/${role}/events`} className={classes.linkDecoration}>
+        </Link>
+        <Link to={`/${role}/events`} className={classes.linkDecoration}>
           <MenuItem>
             <Typography variant="h6" className={classes.light}>
               {t('eventList.events')}&nbsp;&nbsp;
             </Typography>
           </MenuItem>
-        </a>
+        </Link>
 
         {role === 'admin' ? (
-          <a href={'/admin/statistics'} className={classes.linkDecoration}>
+          <Link to={'/admin/statistics'} className={classes.linkDecoration}>
             <MenuItem>
               <Typography variant="h6" className={classes.light}>
                 {t('eventList.statistics')}&nbsp;&nbsp;
               </Typography>
             </MenuItem>
-          </a>
+          </Link>
         ) : (
-          <a href={'/user/tickets'} className={classes.linkDecoration}>
+          <Link to={'/user/tickets'} className={classes.linkDecoration}>
             <MenuItem>
               <Typography variant="h6" className={classes.light}>
                 {t('eventList.tickets')}&nbsp;&nbsp;
               </Typography>
             </MenuItem>
-          </a>
+          </Link>
         )}
       </ButtonAppBarCollapse>
 

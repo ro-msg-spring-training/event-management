@@ -24,14 +24,25 @@ import {
   RESET_PAGE,
   RESET_PAGE_HOME,
   RESET_FILTERS,
+  VALIDATE_TICKET_ERROR,
+  VALIDATE_TICKET_SUCCESS,
+  VALIDATE_TICKET_REQUEST,
+  SET_IS_ERROR,
+  SET_IS_VALID,
+  SET_TICKET_ID,
+  SET_ALERT_VISIBLE,
+  SET_ALERT_TITLE,
+  SET_ALERT_DESCRIPTION,
+  SET_ALERT_SEVERITY,
   UPDATE_ERROR_RATE,
   UPDATE_ERROR_MAX_PEOPLE,
   UPDATE_ERROR_START_DATE,
   UPDATE_ERROR_END_DATE,
   UPDATE_ERROR_START_HOUR,
   UPDATE_ERROR_END_HOUR,
-  LAST_PAGE_HOME
+  LAST_PAGE_HOME,
 } from '../actions/EventsPageActions';
+import { Severity, initialSeverity } from '../components/validateTicket/ValidateTicketAlert';
 import { MathRelation } from '../model/MathRelation';
 import { EventFilters } from '../model/EventFilters';
 import { EventSort } from '../model/EventSort';
@@ -50,11 +61,20 @@ export interface EventsPageState {
   allEventsHome: [];
   isLoading: boolean;
   isError: boolean;
+  isValid: boolean;
+  errorStatus: number;
+  ticketCustomerName: string;
+  ticketCustomerEmail: string;
   isLoadingHome: boolean;
   isErrorHome: boolean;
   eventsSort: EventSort;
   page: number;
   homePage: number;
+  ticketID: number;
+  alertVisible: boolean;
+  alertTitle: string;
+  alertDescription: string;
+  alertSeverity: Severity;
   noPages: number;
   lastPageHome: number;
 }
@@ -83,17 +103,26 @@ const initialState: EventsPageState = {
     errorStartHour: '',
     errorEndHour: '',
   },
-  isLoading: true,
+  isLoading: false,
   isError: false,
+  isValid: false,
+  errorStatus: 0,
+  ticketCustomerName: '',
+  ticketCustomerEmail: '',
   isLoadingHome: true,
   isErrorHome: false,
   allEvents: [],
   allEventsHome: [],
   eventsSort: { criteria: '', type: '' },
+  ticketID: 0,
+  alertVisible: false,
+  alertTitle: '',
+  alertDescription: '',
+  alertSeverity: initialSeverity,
   page: 0,
   homePage: 1,
   noPages: 0,
-  lastPageHome: 0
+  lastPageHome: 0,
 };
 
 interface ReducerActionProps {
@@ -101,6 +130,16 @@ interface ReducerActionProps {
   payload: any;
   sort: any;
   page: number;
+  errorStatus: number;
+  name: string;
+  email: string;
+  error: boolean;
+  isValid: boolean;
+  ticketID: number;
+  alertVisible: boolean;
+  alertTitle: string;
+  alertDescription: string;
+  alertSeverity: Severity;
 }
 
 export const EventsPageReducer = (state = initialState, action: ReducerActionProps) => {
@@ -108,8 +147,8 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
     case LAST_PAGE_HOME:
       return {
         ...state,
-        lastPageHome: action.payload
-      }
+        lastPageHome: action.payload,
+      };
     case INCREMENT_PAGE:
       return {
         ...state,
@@ -263,12 +302,83 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
         isErrorHome: false,
         allEventsHome: action.payload,
       };
+
     case FETCH_CUSTOM_EVENTS_ERROR_HOME:
       return {
         ...state,
         isLoadingHome: false,
         isErrorHome: true,
       };
+
+    case VALIDATE_TICKET_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+        errorStatus: '',
+        isValid: false,
+      };
+
+    case VALIDATE_TICKET_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        isValid: true,
+        ticketCustomerName: action.name,
+        ticketCustomerEmail: action.email,
+        errorStatus: '',
+      };
+
+    case VALIDATE_TICKET_ERROR:
+      return {
+        ...state,
+        isValid: false,
+        isLoading: false,
+        isError: true,
+        errorStatus: action.errorStatus,
+      };
+
+    case SET_IS_ERROR:
+      return {
+        ...state,
+        isError: action.error,
+      };
+
+    case SET_IS_VALID:
+      return {
+        ...state,
+        isValid: action.isValid,
+      };
+
+    case SET_TICKET_ID:
+      return {
+        ...state,
+        ticketID: action.ticketID,
+      };
+
+    case SET_ALERT_VISIBLE:
+      return {
+        ...state,
+        alertVisible: action.alertVisible,
+      };
+
+    case SET_ALERT_TITLE:
+      return {
+        ...state,
+        alertTitle: action.alertTitle,
+      };
+
+    case SET_ALERT_DESCRIPTION:
+      return {
+        ...state,
+        alertDescription: action.alertDescription,
+      };
+
+    case SET_ALERT_SEVERITY:
+      return {
+        ...state,
+        alertSeverity: action.alertSeverity,
+      };
+
     case UPDATE_ERROR_RATE:
       return {
         ...state,

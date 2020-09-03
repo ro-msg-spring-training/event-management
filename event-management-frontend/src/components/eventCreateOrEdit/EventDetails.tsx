@@ -79,10 +79,7 @@ function EventDetails({
   const verifyDateAndTimePeriods = (event: EventCrud): boolean => {
     const startDate = new Date(event.startDate);
     const endDate = new Date(event.endDate);
-    if (
-      !(startDate > endDate) &&
-      !(startDate < endDate)
-    ) {
+    if (!(startDate > endDate) && !(startDate < endDate)) {
       if (event.startHour >= event.endHour) {
         setMsgUndo(t('welcome.popupMsgTryAgain'));
         setDialogTitle(t('welcome.popupMsgErrTitle'));
@@ -173,8 +170,7 @@ function EventDetails({
   };
 
   const isFormValid = (event: EventCrud, errors: EventFormErrors): boolean => {
-    if (verifyDateAndTimePeriods(event) && verifyErrorMessages(errors) && verifyNullFields(event))
-      return true;
+    if (verifyDateAndTimePeriods(event) && verifyErrorMessages(errors) && verifyNullFields(event)) return true;
     return false;
   };
 
@@ -243,7 +239,7 @@ function EventDetails({
 
   if (fetchedEvent.eventIsLoading) {
     return (
-      <Container maxWidth='lg'>
+      <Container maxWidth="lg">
         <CircularProgress />
       </Container>
     );

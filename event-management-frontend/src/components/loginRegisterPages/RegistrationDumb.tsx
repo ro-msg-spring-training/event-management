@@ -1,126 +1,113 @@
-import React, { useState } from 'react';
-import { Auth } from 'aws-amplify';
-import { Trans, useTranslation } from 'react-i18next';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import { RegistrationSucces } from './SuccessfulRegistrationMessage';
-import { Link } from 'react-router-dom';
-import { FormErrors } from './FormErrors';
-import { useStyles } from '../../styles/CommonStyles';
-import { useStylesRegistration } from '../../styles/RegistrationPageStyle';
+import React from 'react';
 import {
-  TextField,
-  Button,
   FormGroup,
+  TextField,
   FormControl,
-  FormHelperText,
   InputLabel,
+  OutlinedInput,
   InputAdornment,
   IconButton,
-  OutlinedInput,
+  Button,
   Avatar,
+  FormHelperText,
 } from '@material-ui/core';
-import {
-  validateEmail,
-  validatePassword,
-  validateConfirmPassword,
-  validateFirstName,
-  validateLastName,
-  validateUserName,
-  displayUsernameError,
-  displayErrorMessage,
-  displaySuccessMessage,
-} from '../../validation/RegistrationValidation';
+import { useTranslation } from 'react-i18next';
+import { FormErrors } from './FormErrors';
+import { useStyles } from '../../styles/CommonStyles';
 import useStylesLogin from '../../styles/LoginStyle';
+import { Link } from 'react-router-dom';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import RO from '../../languageImages/RO.png';
 import EN from '../../languageImages/EN.png';
+import { RegistrationSucces } from './SuccessfulRegistrationMessage';
+import { validateConfirmPassword, validatePassword, validateEmail } from '../../validation/RegistrationValidation';
+import { useStylesRegistration } from '../../styles/RegistrationPageStyle';
 
-const RegisterPage = () => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [usernameError, setUsernameError] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [firstNameError, setFirstNameError] = useState('');
-  const [lastNameError, setLastNameError] = useState('');
-  const [confirmPasswordError, setConfirmPasswordError] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+interface Props {
+  error: string;
+  success: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  username: string;
+  password: string;
+  confirmPassword: string;
+  values: { showPassword: boolean };
+  firstNameError: string;
+  lastNameError: string;
+  emailError: string;
+  usernameError: string;
+  passwordError: string;
+  confirmPasswordError: string;
 
-  const [values, setValues] = React.useState<{ showPassword: boolean }>({
-    showPassword: false,
-  });
+  setFirstName: (firstName: string) => void;
+  setLastName: (lastName: string) => void;
+  setEmail: (email: string) => void;
+  setUsername: (username: string) => void;
+  setPassword: (password: string) => void;
+  setConfirmPassword: (confirmPassword: string) => void;
+  setFirstNameError: (firstName: string) => void;
+  setLastNameError: (lastName: string) => void;
+  setEmailError: (email: string) => void;
+  setUsernameError: (username: string) => void;
+  setPasswordError: (password: string) => void;
+  setConfirmPasswordError: (confirmPassword: string) => void;
+  handleClickShowPassword: () => void;
+  onSubmit: () => void;
+}
 
+const RegistrationDumb = ({
+  error,
+  success,
+  firstName,
+  lastName,
+  email,
+  username,
+  password,
+  confirmPassword,
+  values,
+  firstNameError,
+  lastNameError,
+  emailError,
+  usernameError,
+  passwordError,
+  confirmPasswordError,
+  setFirstName,
+  setLastName,
+  setEmail,
+  setUsername,
+  setPassword,
+  setConfirmPassword,
+  setFirstNameError,
+  setLastNameError,
+  setEmailError,
+  setUsernameError,
+  setPasswordError,
+  setConfirmPasswordError,
+  handleClickShowPassword,
+  onSubmit,
+}: Props) => {
+  const [t, i18n] = useTranslation();
   const classes = useStylesRegistration();
   const classes2 = useStyles();
   const classesLogin = useStylesLogin();
-  const [, i18n] = useTranslation();
-  const handleClickShowPassword = () => {
-    setValues({ showPassword: !values.showPassword });
-  };
-
   const handleChangeAppLanguage = (language: string) => {
     i18n.changeLanguage(language);
     localStorage.setItem('i18nextLng', language);
   };
-  const handleSubmit = async (event: { preventDefault: () => void }) => {
-    event.preventDefault();
-
-    if (
-      validateFirstName(firstName, firstNameError, setFirstNameError) ||
-      validateLastName(lastName, lastNameError, setLastNameError) ||
-      validateUserName(username, usernameError, setUsernameError) ||
-      validateConfirmPassword(password, confirmPassword, confirmPasswordError, setConfirmPasswordError) ||
-      validateEmail(email, emailError, setEmailError) ||
-      validatePassword(password, passwordError, setPasswordError)
-    ) {
-      return;
-    }
-
-    try {
-      await Auth.signUp({
-        username: username,
-        password: password,
-        attributes: {
-          given_name: firstName,
-          family_name: lastName,
-          email: email,
-        },
-      });
-
-      setErrorMessage('');
-      displaySuccessMessage(
-        <Trans i18nKey="registration.successMessage">Registration successful</Trans>,
-        setSuccessMessage
-      );
-    } catch (error) {
-      switch (error.code) {
-        case 'UsernameExistsException':
-          displayUsernameError(<Trans i18nKey="registration.userExists">User already exists</Trans>, setUsernameError);
-          displayErrorMessage(<Trans i18nKey="registration.userExists">User already exists</Trans>, setErrorMessage);
-          break;
-      }
-    }
-  };
-
   return (
     <div className={classes.root}>
-      <FormGroup className={`${classes.registrationform}`}>
-        <h1 className={` ${classes2.typography}`}>
-          <Trans i18nKey="registration.title">Registration</Trans>
-        </h1>
-        <RegistrationSucces successMessage={successMessage} />
-        <FormErrors error={errorMessage} />
+      <FormGroup className={classes.registrationform}>
+        <h1 className={classes2.typography}>{t('registration.title')}</h1>
+        {success ? <RegistrationSucces successMessage={success} /> : null}
+        {error ? <FormErrors error={error} /> : null}
         <br />
         <TextField
           required
           variant="outlined"
           className={classes.registrationformItems}
-          label={<Trans i18nKey="registration.firstName">First Name</Trans>}
+          label={t('registration.firstName')}
           value={firstName}
           onChange={(event) => {
             setFirstName(event.target.value);
@@ -133,7 +120,7 @@ const RegisterPage = () => {
           required
           variant="outlined"
           className={classes.registrationformItems}
-          label={<Trans i18nKey="registration.lastName">Last Name</Trans>}
+          label={t('registration.lastName')}
           value={lastName}
           onChange={(event) => {
             setLastName(event.target.value);
@@ -147,7 +134,7 @@ const RegisterPage = () => {
           variant="outlined"
           className={classes.registrationformItems}
           name="email"
-          label={<Trans i18nKey="registration.email">Email Address</Trans>}
+          label={t('registration.email')}
           value={email}
           onChange={(event) => {
             setEmail(event.target.value);
@@ -160,7 +147,7 @@ const RegisterPage = () => {
           required
           variant="outlined"
           className={classes.registrationformItems}
-          label={<Trans i18nKey="registration.username">Username</Trans>}
+          label={t('registration.username')}
           value={username}
           onChange={(event) => {
             setUsername(event.target.value);
@@ -170,9 +157,7 @@ const RegisterPage = () => {
           helperText={usernameError}
         />
         <FormControl required variant="outlined" className={classes.registrationformItems}>
-          <InputLabel>
-            <Trans i18nKey="registration.password">Password</Trans>
-          </InputLabel>
+          <InputLabel>{t('registration.password')}</InputLabel>
           <OutlinedInput
             type={values.showPassword ? 'text' : 'password'}
             labelWidth={80}
@@ -193,9 +178,7 @@ const RegisterPage = () => {
           <FormHelperText>{passwordError}</FormHelperText>
         </FormControl>
         <FormControl required variant="outlined" className={classes.registrationformItems}>
-          <InputLabel>
-            <Trans i18nKey="registration.confirmPassword">Confirm Password</Trans>
-          </InputLabel>
+          <InputLabel>{t('registration.confirmPassword')}</InputLabel>
           <OutlinedInput
             type="password"
             labelWidth={145}
@@ -215,14 +198,13 @@ const RegisterPage = () => {
           variant="contained"
           className={`${classes2.mainButtonStyle} ${classes2.pinkGradientButtonStyle} ${classes.registrationButton}`}
           type="submit"
-          onClick={handleSubmit}
+          onClick={onSubmit}
         >
-          <Trans i18nKey="registration.button">Register</Trans>
+          {t('registration.button')}
         </Button>
         <div className={classes.loginLink}>
-          <Trans i18nKey="registration.loginLink">
-            Already have an account? <Link to="/login">Sign in!</Link>
-          </Trans>
+          {t('registration.alreadyHaveAnAccount')}
+          <Link to="/login">{t('registration.loginLink')}</Link>
         </div>
         <div>
           <div onClick={() => handleChangeAppLanguage('ro')} className={classesLogin.flags}>
@@ -236,5 +218,4 @@ const RegisterPage = () => {
     </div>
   );
 };
-
-export default RegisterPage;
+export default RegistrationDumb;
