@@ -263,5 +263,18 @@
         "termsAndConditions": "Termeni și Condiții",
         "agreement": "Sunt de acord",
         "success": "Achiziția a fost cu succes! Vă rugăm să vă verificați email-ul"
+    },
+    "serverErrors": {
+        "tickets_404": "Categoriile evenimentului nu au fost găsite!",
+        "tickets_406": "Numărul de bilete pentru o categorie depășește numărul disponibil de bilete!",
+        "tickets_409": "Ați depășit numărul maxim de bilete pentru un utilizator!",
+
+        "saveEvent_404": "",
+        "saveEvent_406": "",
+        "saveEvent_409": "",
+
+        "editEvent_404": "",
+        "editEvent_406": "",
+        "editEvent_409": ""
     }
 }

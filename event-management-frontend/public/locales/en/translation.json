@@ -268,5 +268,20 @@
         "termsAndConditions": "Terms and Conditions",
         "agreement": "I agree",
         "success": "The purchase was successful! Please check your email"
+    },
+
+    "serverErrors": {
+        "tickets_404": "Event categories not found!",
+        "tickets_406": "Number of tickets for a category exceeds the available number of tickets!",
+        "tickets_409": "You exceeded the maximum number of tickets for a user!",
+
+        "saveEvent_404": "",
+        "saveEvent_406": "",
+        "saveEvent_409": "",
+
+        "editEvent_404": "",
+        "editEvent_406": "",
+        "editEvent_409": ""
+
     }
 }

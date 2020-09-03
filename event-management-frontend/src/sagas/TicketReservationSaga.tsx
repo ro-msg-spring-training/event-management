@@ -42,14 +42,13 @@ function* addBookingsAsync(props: AddProps) {
   try {
     yield put(addBookingsRequest());
     const res = yield call(() => addBookingsAPI(props.payload.bookings));
-    console.log("res", res);
     if (res.status) {
       throw res;
     } else {
       yield put(addBookingsSuccess());
     }
   } catch (e) {
-    yield put(addBookingsFailure(e.message));
+    yield put(addBookingsFailure(e.status));
   }
 }
 

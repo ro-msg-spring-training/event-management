@@ -36,7 +36,7 @@ export default function AlertDialog({
   isError,
   errorMsg,
   isRequest,
-  handleGoToTicketsPage
+  handleGoToTicketsPage,
 }: AlertDialogProps) {
   const buttonClass = useStyles();
   const history = useHistory();
@@ -58,6 +58,26 @@ export default function AlertDialog({
     prevStep !== undefined && prevStep();
   };
 
+  const displayErrorMessage = (status: string): string => {
+    let result = '';
+
+    switch (Number(status)) {
+      case 404:
+        result = t("serverErrors.tickets_404");
+        break;
+      case 409:
+        result = t("serverErrors.tickets_409");
+        break;
+      case 406:
+        result = t("serverErrors.tickets_406");
+        break;
+      default:
+        result = t("userEventList.errorMessage");
+    }
+
+    return result;
+  }
+
   return (
     <>
       <Dialog
@@ -66,7 +86,6 @@ export default function AlertDialog({
         aria-labelledby='alert-dialog-title'
         aria-describedby='alert-dialog-description'
       >
-        {console.log('REQUEST', isRequest)}
         {isRequest ?
           isLoading ?
             <DialogContent>
@@ -79,10 +98,10 @@ export default function AlertDialog({
             </DialogContent> :
             isError ?
               <>
-                <DialogTitle id='alert-dialog-title'>Error {errorMsg}</DialogTitle>
+                <DialogTitle id='alert-dialog-title'>Error {displayErrorMessage(errorMsg as string)}</DialogTitle>
                 <DialogContent>
                   <DialogActions>
-                    <Button onClick={handleGoToTicketsPage} color='primary' autoFocus className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle} ${buttonClass.buttonSize}`}>
+                    <Button onClick={prevStep} color='primary' autoFocus className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle} ${buttonClass.buttonSize}`}>
                       OK
                     </Button>
                   </DialogActions>
