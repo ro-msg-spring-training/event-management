@@ -1,8 +1,6 @@
 import { fetchWrapper } from './FetchWrapper';
-import { serverURL, headersAuth } from './Api';
+import { serverURL } from './Api';
 
 export const fetchEventWithLocationsAPI = (id: string) => {
-  return fetchWrapper(`${serverURL}/events/${id}?type=userEventDetails`, {
-    headers: headersAuth
-  }).then((response) => response.json());
+  return fetchWrapper(`${serverURL}/events/${id}?type=userEventDetails`).then((response) => response.json());
 };

@@ -29,7 +29,6 @@ const AccountAppBarCollapse = () => {
   const onSignOutClick = async () => {
     await Auth.signOut()
       .then(() => {
-        localStorage.removeItem('idToken');
         localStorage.removeItem('role');
         history.push('/login');
       })
