@@ -1,13 +1,13 @@
-import React, { useEffect } from "react";
-import "../../../styles/CarouselStyle.css";
-import { useHistory } from "react-router-dom";
-import CarouselDumb from "./CarouselDumb";
-import { AppState } from "../../../store/store";
-import { Dispatch } from "redux";
-import { connect } from "react-redux";
-import { fetchHighlightedEvents } from "../../../actions/UserHomePageActions";
-import { HighlightedEvent } from "../../../reducers/UserHomePageReducer";
-import { useTranslation } from "react-i18next";
+import React, { useEffect } from 'react';
+import '../../../styles/CarouselStyle.css';
+import { useHistory } from 'react-router-dom';
+import CarouselDumb from './CarouselDumb';
+import { AppState } from '../../../store/store';
+import { Dispatch } from 'redux';
+import { connect } from 'react-redux';
+import { fetchHighlightedEvents } from '../../../actions/UserHomePageActions';
+import { HighlightedEvent } from '../../../reducers/UserHomePageReducer';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   isError: boolean;
@@ -31,7 +31,7 @@ const CarouselSmart = ({ events, isError, isLoading, fetchHighlightedEvents }: P
   return (
     <>
       {isError ? (
-        <p style={{ textAlign: "center" }}> {t("userHomePage.carousselError")} </p>
+        <p style={{ textAlign: 'center' }}> {t('userHomePage.carousselError')} </p>
       ) : (
         <CarouselDumb events={events} isLoading={isLoading} goToEventDetails={goToEventDetails} />
       )}

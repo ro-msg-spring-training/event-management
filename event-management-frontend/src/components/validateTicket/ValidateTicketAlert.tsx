@@ -6,7 +6,7 @@ import { useValidateTicketStyles } from '../../styles/ValidateTicketStyle';
 import { useStyles } from '../../styles/CommonStyles';
 import '../../styles/Responsivity.css';
 
-type Severity = 'error' | 'success' | undefined;
+export type Severity = 'error' | 'success' | undefined;
 export const initialSeverity: Severity = undefined;
 
 type Props = {
@@ -51,9 +51,9 @@ export const ValidateTicketAlert = ({
         ) : (
           ''
         )}
-        <div className={classes.alertButtons}>
+        <div className={`${classes.alertButtons} buttonsResponsive`}>
           <Grid container>
-            <Grid item xl={4} lg={4} md={6} sm={6} xs={6}>
+            <Grid item xl={4} lg={4} md={4} sm={6} xs={6}>
               <Button
                 onClick={exitValidation}
                 className={`${classes2.buttonStyle2} ${classes2.buttonStyle3} ${classes.exitButton}`}
@@ -62,7 +62,7 @@ export const ValidateTicketAlert = ({
                 {t('validateTicket.exitValidation')}
               </Button>
             </Grid>{' '}
-            <Grid item xl={8} lg={8} md={6} sm={6} xs={6}>
+            <Grid item xl={7} lg={7} md={7} sm={6} xs={6}>
               <Button
                 onClick={validateNext}
                 className={`${classes2.buttonStyle2} ${classes2.buttonStyle3} ${classes.nextButton}`}

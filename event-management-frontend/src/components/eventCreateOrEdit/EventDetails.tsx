@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { CircularProgress, Container, Paper, makeStyles } from '@material-ui/core';
+import { CircularProgress, Container, Paper } from '@material-ui/core';
 import { loadEvent, deleteEvent, addEvent, editEvent, resetStore } from '../../actions/HeaderEventCrudActions';
 import { connect } from 'react-redux';
 import Header from './headerEditAndDelete/HeaderCrudSmart';
@@ -14,6 +14,7 @@ import { EventImage } from '../../model/EventImage';
 import MapWrapper from './locationSection/Map';
 import { EventFormErrors } from '../../model/EventFormErrors';
 import CategoryPageSmart from './ticketsSection/CategoryPage/CategoryPageSmart';
+import { useEventDetailsStyles } from '../../styles/EventDetailsStyle';
 
 interface Props {
   match: any;
@@ -32,14 +33,6 @@ interface Props {
   };
 }
 
-const useStyles = makeStyles({
-  paper: {
-    width: '100%',
-    minHeight: '93.9vh',
-    background: 'linear-gradient(45deg, #21C6F3 50%, #1E5FA4 90%)',
-  },
-});
-
 function EventDetails({
   match,
   admin,
@@ -51,7 +44,7 @@ function EventDetails({
   fetchEvent,
 }: Props) {
   const history = useHistory();
-  const classes = useStyles();
+  const classes = useEventDetailsStyles();
   const { t } = useTranslation();
 
   let newEvent = match.path === '/admin/newEvent' ? true : false;

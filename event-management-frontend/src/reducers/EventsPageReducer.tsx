@@ -30,11 +30,17 @@ import {
   VALIDATE_TICKET_REQUEST,
   SET_IS_ERROR,
   SET_IS_VALID,
+  SET_TICKET_ID,
+  SET_ALERT_VISIBLE,
+  SET_ALERT_TITLE,
+  SET_ALERT_DESCRIPTION,
+  SET_ALERT_SEVERITY,
 } from '../actions/EventsPageActions';
 import { MathRelation } from '../model/MathRelation';
 import { EventFilters } from '../model/EventFilters';
 import { fetchSortedEvents } from '../api/EventsServiceAPI';
 import { EventSort } from '../model/EventSort';
+import { Severity, initialSeverity } from '../components/validateTicket/ValidateTicketAlert';
 
 export interface EventsPageState {
   filters: EventFilters;
@@ -51,6 +57,11 @@ export interface EventsPageState {
   eventsSort: EventSort;
   page: number;
   homePage: number;
+  ticketID: number;
+  alertVisible: boolean;
+  alertTitle: string;
+  alertDescription: string;
+  alertSeverity: Severity;
 }
 
 const initialState: EventsPageState = {
@@ -82,6 +93,11 @@ const initialState: EventsPageState = {
   eventsSort: { criteria: '', type: '' },
   page: 1,
   homePage: 1,
+  ticketID: 0,
+  alertVisible: false,
+  alertTitle: '',
+  alertDescription: '',
+  alertSeverity: initialSeverity,
 };
 
 interface ReducerActionProps {
@@ -94,6 +110,11 @@ interface ReducerActionProps {
   email: string;
   error: boolean;
   isValid: boolean;
+  ticketID: number;
+  alertVisible: boolean;
+  alertTitle: string;
+  alertDescription: string;
+  alertSeverity: Severity;
 }
 
 export const EventsPageReducer = (state = initialState, action: ReducerActionProps) => {
@@ -295,6 +316,36 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
       return {
         ...state,
         isValid: action.isValid,
+      };
+
+    case SET_TICKET_ID:
+      return {
+        ...state,
+        ticketID: action.ticketID,
+      };
+
+    case SET_ALERT_VISIBLE:
+      return {
+        ...state,
+        alertVisible: action.alertVisible,
+      };
+
+    case SET_ALERT_TITLE:
+      return {
+        ...state,
+        alertTitle: action.alertTitle,
+      };
+
+    case SET_ALERT_DESCRIPTION:
+      return {
+        ...state,
+        alertDescription: action.alertDescription,
+      };
+
+    case SET_ALERT_SEVERITY:
+      return {
+        ...state,
+        alertSeverity: action.alertSeverity,
       };
 
     default:

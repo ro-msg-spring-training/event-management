@@ -1,12 +1,21 @@
 import React, { useState } from 'react';
 import { Container, CircularProgress } from '@material-ui/core';
 import { connect } from 'react-redux';
-import { validateTicket, setIsError, setIsValid } from '../../actions/EventsPageActions';
+import {
+  validateTicket,
+  setIsError,
+  setIsValid,
+  setTicketID,
+  setAlertVisible,
+  setAlertTitle,
+  setAlertDescription,
+  setAlertSeverity,
+} from '../../actions/EventsPageActions';
 import { AppState } from '../../store/store';
 import { ValidateTicketDumb } from './ValidateTicketDumb';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-import { ValidateTicketAlert, initialSeverity } from './ValidateTicketAlert';
+import { ValidateTicketAlert, initialSeverity, Severity } from './ValidateTicketAlert';
 import { useValidateTicketStyles } from '../../styles/ValidateTicketStyle';
 
 type Props = {
@@ -16,12 +25,22 @@ type Props = {
   errorStatus: number;
   customerName: string;
   customerEmail: string;
+  ticketID: number;
   isLoading: boolean;
   isValid: boolean;
+  alertVisible: boolean;
+  alertTitle: string;
+  alertDescription: string;
+  alertSeverity: Severity;
 
   validateTicket: (ticketID: number, eventID: number) => void;
   setIsError: (error: boolean) => void;
   setIsValid: (isValid: boolean) => void;
+  setTicketID: (ticketID: number) => void;
+  setAlertVisible: (alertVisible: boolean) => void;
+  setAlertTitle: (alertTitle: string) => void;
+  setAlertDescription: (alertDescription: string) => void;
+  setAlertSeverity: (alertSeverity: Severity) => void;
 };
 
 const ValidateTicket = ({
@@ -31,17 +50,21 @@ const ValidateTicket = ({
   errorStatus,
   customerName,
   customerEmail,
+  ticketID,
   isValid,
+  alertVisible,
+  alertTitle,
+  alertDescription,
+  alertSeverity,
   validateTicket,
   setIsError,
   setIsValid,
+  setTicketID,
+  setAlertVisible,
+  setAlertTitle,
+  setAlertDescription,
+  setAlertSeverity,
 }: Props) => {
-  const [ticketID, setTicketID] = useState(0);
-  const [alertVisible, setAlertVisible] = useState(false);
-  const [alertTitle, setAlertTitle] = useState('');
-  const [alertDescription, setAlertDescription] = useState('');
-  const [alertSeverity, setAlertSeverity] = useState(initialSeverity);
-
   const eventID = match.params.id;
 
   const { t } = useTranslation();
@@ -130,9 +153,7 @@ const ValidateTicket = ({
             validateNext={validateNext}
             exitValidation={exitValidation}
           />
-        ) : (
-          ''
-        )}
+        ) : null}
       </div>
     </div>
   );
@@ -143,9 +164,14 @@ const mapStateToProps = (state: AppState) => {
     customerName: state.events.ticketCustomerName,
     customerEmail: state.events.ticketCustomerEmail,
     errorStatus: state.events.errorStatus,
+    ticketID: state.events.ticketID,
     isError: state.events.isError,
     isLoading: state.events.isLoading,
     isValid: state.events.isValid,
+    alertVisible: state.events.alertVisible,
+    alertTitle: state.events.alertTitle,
+    alertDescription: state.events.alertDescription,
+    alertSeverity: state.events.alertSeverity,
   };
 };
 
@@ -153,7 +179,12 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     setIsError: (isError: boolean) => dispatch(setIsError(isError)),
     setIsValid: (isValid: boolean) => dispatch(setIsValid(isValid)),
+    setTicketID: (ticketID: number) => dispatch(setTicketID(ticketID)),
     validateTicket: (ticketID: number, eventID: number) => dispatch(validateTicket(ticketID, eventID)),
+    setAlertVisible: (alertVisible: boolean) => dispatch(setAlertVisible(alertVisible)),
+    setAlertTitle: (alertTitle: string) => dispatch(setAlertTitle(alertTitle)),
+    setAlertDescription: (alertDescription: string) => dispatch(setAlertDescription(alertDescription)),
+    setAlertSeverity: (alertSeverity: Severity) => dispatch(setAlertSeverity(alertSeverity)),
   };
 };
 
