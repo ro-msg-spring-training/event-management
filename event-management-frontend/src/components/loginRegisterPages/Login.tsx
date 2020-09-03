@@ -39,27 +39,29 @@ const Login: React.FC<Props> = (props: Props) => {
 
   const onSubmit = async () => {
     props.loginisLoading(true);
-    try {
-      const user = await Auth.signIn(props.username, props.password);
-      localStorage.setItem('idToken', user.signInUserSession.idToken.jwtToken);
-      localStorage.setItem('username', props.username);
+    Auth.signIn(props.username, props.password)
+      .then((user) => {
+        localStorage.setItem('idToken', user.signInUserSession.idToken.jwtToken);
+        localStorage.setItem('username', props.username);
 
-      if (user.signInUserSession.accessToken.payload['cognito:groups'] !== undefined) {
-        localStorage.setItem('role', 'admin');
-        history.push('/admin/');
-      } else {
-        localStorage.setItem('role', 'user');
-        history.push('/user/');
-      }
-      displaySuccessMessage(<Trans i18nKey="login.successMessage">Successful login</Trans>, props.loginSuccess);
-      props.loginError('');
-    } catch (error) {
-      displayErrorMessage(
-        <Trans i18nKey="login.errorMessage">Incorrect username or password.</Trans>,
-        props.loginError
-      );
-      props.loginisLoading(false);
-    }
+        if (user.signInUserSession.accessToken.payload['cognito:groups'] !== undefined) {
+          localStorage.setItem('role', 'admin');
+          history.push('/admin/');
+        } else {
+          localStorage.setItem('role', 'user');
+          history.push('/user/');
+        }
+
+        displaySuccessMessage(<Trans i18nKey="login.successMessage">Successful login</Trans>, props.loginSuccess);
+        props.loginError('');
+      })
+      .catch((error) => {
+        displayErrorMessage(
+          <Trans i18nKey="login.errorMessage">Incorrect username or password.</Trans>,
+          props.loginError
+        );
+        props.loginisLoading(false);
+      });
   };
 
   return (

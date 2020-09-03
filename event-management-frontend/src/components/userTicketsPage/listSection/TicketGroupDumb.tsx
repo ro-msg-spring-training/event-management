@@ -41,9 +41,10 @@ const TicketGroupDumb = ({ handleChange, tickets, open, index }: Props) => {
       <TableRow>
         <TableCell>
           <IconButton type="button" size="small" onClick={() => handleChange(index)}>
-            {open[index] === undefined || !open[index] ? (
-              <KeyboardArrowUpIcon>More</KeyboardArrowUpIcon>
-            ) : (
+            {tickets.length === 0 ? (
+              <></>
+            ) : open[index] === undefined || !open[index] ? (
+              <KeyboardArrowUpIcon /> ) : (
               <KeyboardArrowDownIcon />
             )}
           </IconButton>
@@ -80,7 +81,7 @@ const TicketGroupDumb = ({ handleChange, tickets, open, index }: Props) => {
         <StyledTableCell key={'pdfUrl'} align={'center'} size={'medium'} className={classes.pdfButton}>
           <Link to={''} className={classes.linkDecoration}>
             <Button
-              className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3} ${commonClasses.mobileButton}`}
+              className={`${commonClasses.mainButtonStyle} ${commonClasses.pinkGradientButtonStyle} ${commonClasses.mobileButton}`}
             >
               {t('eventList.open')}
             </Button>
@@ -88,6 +89,7 @@ const TicketGroupDumb = ({ handleChange, tickets, open, index }: Props) => {
         </StyledTableCell>
       </TableRow>
 
+      { tickets.length === 0 ? <></> :
       <Collapse in={open[index]} timeout={0} unmountOnExit>
         <Box className={classes.paddingTable} component={'table'}>
           <TableHead>
@@ -133,6 +135,7 @@ const TicketGroupDumb = ({ handleChange, tickets, open, index }: Props) => {
           })}
         </Box>
       </Collapse>
+      }
     </>
   );
 };

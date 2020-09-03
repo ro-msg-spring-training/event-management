@@ -12,7 +12,7 @@ import { useStyles } from '../../styles/CommonStyles';
 
 interface AlertDialogProps {
   open: boolean;
-  setOpen: any;
+  setOpen: (open: boolean) => void;
   msgUndo: string;
   dialogTitle: string;
   dialogDescription: string;
@@ -50,7 +50,7 @@ export default function AlertDialog({
   const handleProceed = (): void => {
     setOpen(false);
     prevStep !== undefined && prevStep();
-    history.push('/admin/events');
+    history.push('/admin');
   };
 
   const handleCancel = (): void => {
@@ -59,68 +59,66 @@ export default function AlertDialog({
   };
 
   return (
-    <div>
+    <>
       <Dialog
         open={open}
         onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
       >
-        {console.log("REQUEST", isRequest)}
+        {console.log('REQUEST', isRequest)}
         {isRequest ?
           isLoading ?
             <DialogContent>
-              {console.log("loading")}
-              <Grid container direction="row" justify="center" alignItems="center">
-                <Container maxWidth="lg">
+              {console.log('loading')}
+              <Grid container direction='row' justify='center' alignItems='center'>
+                <Container maxWidth='lg'>
                   <CircularProgress />
                 </Container>
-                <DialogContentText id="alert-dialog-description">Loading</DialogContentText>
+                <DialogContentText id='alert-dialog-description'>Loading</DialogContentText>
               </Grid>
             </DialogContent> :
             isError ?
               <>
-                <DialogTitle id="alert-dialog-title">Error {errorMsg}</DialogTitle>
+                <DialogTitle id='alert-dialog-title'>Error {errorMsg}</DialogTitle>
                 <DialogContent>
-                  {console.log("error", errorMsg)}
-                  {/* <DialogContentText id="alert-dialog-description">Error {errorMsg}</DialogContentText> */}
+                  {console.log('error', errorMsg)}
                   <DialogActions>
-                    <Button onClick={handleGoToEventsPage} color="primary" autoFocus className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3}`}>
+                    <Button onClick={handleGoToEventsPage} color='primary' autoFocus className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle}`}>
                       OK
                   </Button>
                   </DialogActions>
                 </DialogContent>
               </> :
               <>
-                <DialogTitle id="alert-dialog-title">Success</DialogTitle>
+                <DialogTitle id='alert-dialog-title'>Success</DialogTitle>
                 <DialogContent>
-                  {console.log("Success")}
-                  {/* <DialogContentText id="alert-dialog-description">Success</DialogContentText> */}
+                  {console.log('Success')}
                   <DialogActions>
-                    <Button onClick={handleGoToEventsPage} color="primary" autoFocus className={`${buttonClass.buttonStyle2} ${buttonClass.buttonStyle3}`}>
+                    <Button onClick={handleGoToEventsPage} color='primary' autoFocus className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle}`}>
                       OK
                   </Button>
                   </DialogActions>
                 </DialogContent>
               </> :
           <>
-            <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
+            <DialogTitle id='alert-dialog-title'>{dialogTitle}</DialogTitle>
             <DialogContent>
-              <DialogContentText id="alert-dialog-description">{dialogDescription}</DialogContentText>
+              <DialogContentText id='alert-dialog-description'>{dialogDescription}</DialogContentText>
             </DialogContent>
             <DialogActions>
               {msgUndo === t('welcome.popupMsgCancelUndo') ? (
-                <Button onClick={handleProceed} color="primary">
+                <Button onClick={handleProceed} color='primary'>
                   {t('welcome.popupMsgContinueUndo')}
                 </Button>
               ) : null}
-              <Button onClick={handleCancel} color="primary" autoFocus>
+              <Button onClick={handleCancel} color='primary' autoFocus>
                 {msgUndo}
               </Button>
             </DialogActions>
           </>
         }
       </Dialog>
-    </div>
+    </>
   );
 }

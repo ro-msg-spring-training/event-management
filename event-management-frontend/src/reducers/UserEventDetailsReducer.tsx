@@ -1,11 +1,7 @@
 import { EventCrud } from '../model/EventCrud';
 import { EventImage } from '../model/EventImage';
 import { EventWithLocation } from '../model/EventWithLocation';
-import {
-  FETCH_EVENT_WITH_LOCATION_REQUEST,
-  FETCH_EVENT_WITH_LOCATION_SUCCESS,
-  FETCH_EVENT_WITH_LOCATION_FAILURE,
-} from '../actions/UserEventDetailsActions';
+import { UserEventDetailsActions, UserEventDetailsActionTypes } from '../actions/UserEventDetailsActions';
 
 export interface UserEventDetailsState {
   event: EventCrud;
@@ -63,24 +59,24 @@ const getEventImages = (imagesStr: string[]) => {
   return images as EventImage[];
 };
 
-const UserEventDetailsReducer = (state = initialState, action: { type: string; payload: EventWithLocation }) => {
+const UserEventDetailsReducer = (state = initialState, action: UserEventDetailsActions) => {
   switch (action.type) {
-    case FETCH_EVENT_WITH_LOCATION_REQUEST:
+    case UserEventDetailsActionTypes.FETCH_EVENT_WITH_LOCATION_REQUEST:
       return {
         ...state,
         isLoading: true,
       };
-    case FETCH_EVENT_WITH_LOCATION_SUCCESS:
+    case UserEventDetailsActionTypes.FETCH_EVENT_WITH_LOCATION_SUCCESS:
       return {
         ...state,
-        event: action.payload.eventDto,
-        locationAddress: action.payload.locationAddress,
-        locationName: action.payload.locationName,
+        event: action.event.eventDto,
+        locationAddress: action.event.locationAddress,
+        locationName: action.event.locationName,
         isError: false,
         isLoading: false,
-        images: getEventImages(action.payload.eventDto.picturesUrlSave),
+        images: getEventImages(action.event.eventDto.picturesUrlSave),
       };
-    case FETCH_EVENT_WITH_LOCATION_FAILURE:
+    case UserEventDetailsActionTypes.FETCH_EVENT_WITH_LOCATION_FAILURE:
       return {
         ...state,
         loading: false,

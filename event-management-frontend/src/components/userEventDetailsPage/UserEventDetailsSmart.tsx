@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import UserEventDetailsDumb from './UserEventDetailsDumb';
 import { Container, CircularProgress } from '@material-ui/core';
 import { loadEventWithLocations } from '../../actions/UserEventDetailsActions';
-import { useHistory } from 'react-router-dom';
+import { Dispatch } from 'redux';
+import { AppState } from '../../store/store';
 
 interface UserEventDetailsProps {
   match: any;
@@ -44,17 +45,17 @@ function UserEventDetailsSmart({
   );
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: AppState) => {
   return {
     event: state.eventWithLocation.event,
-    loading: state.eventWithLocation.loading,
+    loading: state.eventWithLocation.isLoading,
     images: state.eventWithLocation.images,
     locationAddress: state.eventWithLocation.locationAddress,
     locationName: state.eventWithLocation.locationName,
   };
 };
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     fetchData: (id: string) => dispatch(loadEventWithLocations(id)),
   };

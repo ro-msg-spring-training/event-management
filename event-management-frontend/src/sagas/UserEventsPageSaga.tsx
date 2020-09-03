@@ -1,26 +1,26 @@
 import { takeEvery, put, call } from 'redux-saga/effects';
 import {
-  FETCH_USER_EVENTS,
   fetchUserEventsSuccess,
   fetchUserEventsError,
   fetchUserEventsRequest,
   fetchUserEventsLocationsSuccess,
   fetchUserEventsLocationsError,
-  FETCH_USER_EVENTS_LOCATIONS,
   fetchUserEventsLocationsRequest,
+  UserEventsPageActionTypes,
+  FetchUserEventsAction,
 } from '../actions/UserEventsPageActions';
 import { fetchEvents, fetchEventsLocations } from '../api/UserEventsPageAPI';
 import { UserEventIsFilterType } from '../model/userEventsPage/UserEventIsFilterType';
 
-function* fetchUserEventsAsync(action: any) {
+function* fetchUserEventsAsync(action: FetchUserEventsAction) {
   yield put(fetchUserEventsRequest());
   try {
-    if (action.payload.isFilter !== UserEventIsFilterType.NOT_IN_USE) {
-      const result = yield call(() => fetchEvents(action.payload.page, action.payload.limit, action.payload.filters));
-      yield put(fetchUserEventsSuccess(result));
+    if (action.isFilter !== UserEventIsFilterType.NOT_IN_USE) {
+      const result = yield call(() => fetchEvents(action.page, action.limit, action.filters));
+      yield put(fetchUserEventsSuccess(result.events, result.more));
     } else {
-      const result = yield call(() => fetchEvents(action.payload.page, action.payload.limit));
-      yield put(fetchUserEventsSuccess(result));
+      const result = yield call(() => fetchEvents(action.page, action.limit));
+      yield put(fetchUserEventsSuccess(result.events, result.more));
     }
   } catch (err) {
     yield put(fetchUserEventsError());
@@ -28,7 +28,7 @@ function* fetchUserEventsAsync(action: any) {
 }
 
 export function* watchFetchUserEventsAsync() {
-  yield takeEvery(FETCH_USER_EVENTS, fetchUserEventsAsync);
+  yield takeEvery(UserEventsPageActionTypes.FETCH_USER_EVENTS, fetchUserEventsAsync);
 }
 
 function* fetchUserEventsLocationsAsync() {
@@ -42,5 +42,5 @@ function* fetchUserEventsLocationsAsync() {
 }
 
 export function* watchFetchUserEventsLocationsAsync() {
-  yield takeEvery(FETCH_USER_EVENTS_LOCATIONS, fetchUserEventsLocationsAsync);
+  yield takeEvery(UserEventsPageActionTypes.FETCH_USER_EVENTS_LOCATIONS, fetchUserEventsLocationsAsync);
 }

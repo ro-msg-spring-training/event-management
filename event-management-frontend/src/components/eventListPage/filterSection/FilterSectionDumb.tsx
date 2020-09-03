@@ -128,13 +128,13 @@ function FilterSectionDumb({
               errorStartHour !== '' ||
               errorEndHour !== ''
             }
-            className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3} ${classes.filterButtons}`}
+            className={`${commonClasses.mainButtonStyle} ${commonClasses.pinkGradientButtonStyle} ${classes.filterButtons}`}
           >
             {t('eventList.filterButton')}
           </Button>
 
           <Button
-            className={`${commonClasses.buttonStyle2} ${commonClasses.buttonStyle3}  ${classes.filterButtons}`}
+            className={`${commonClasses.mainButtonStyle} ${commonClasses.pinkGradientButtonStyle}  ${classes.filterButtons}`}
             onClick={resetFilters}
           >
             {t('eventList.clearButton')}

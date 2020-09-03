@@ -9,6 +9,15 @@ export const INCREMENT_PAGE = 'INCREMENT_PAGE';
 export const UPDATE_FILTERS_TICKETS = 'UPDATE_FILTERS_TICKETS';
 export const RESET_FILTERS_TICKETS = 'RESET_FILTERS_TICKETS';
 export const RESET_PAGE_TICKETS = 'RESET_PAGE_TICKETS';
+export const UPDATE_IS_FETCHING = 'UPDATE_IS_FETCHING';
+export const RESET_STATE_TICKETS = 'RESET_STATE_TICKETS';
+
+export const setIsFetching = (isFetching: boolean) => {
+  return {
+    type: UPDATE_IS_FETCHING,
+    payload: isFetching,
+  };
+};
 
 export const fetchTickets = (page: number, filters: TicketFilters) => {
   return {
@@ -61,5 +70,11 @@ export const resetFilters = () => {
 export const resetPage = () => {
   return {
     type: RESET_PAGE_TICKETS,
+  };
+};
+
+export const resetState = () => {
+  return {
+    type: RESET_STATE_TICKETS,
   };
 };

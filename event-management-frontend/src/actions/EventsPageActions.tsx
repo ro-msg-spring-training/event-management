@@ -43,6 +43,8 @@ export const RESET_PAGE = 'RESET_PAGE';
 export const RESET_PAGE_HOME = 'RESET_PAGE_HOME';
 export const RESET_FILTERS = 'RESET_FILTERS';
 
+export const LAST_PAGE_HOME = 'LAST_PAGE_HOME'
+
 export const updateFilters = (filters: EventFilters) => {
   return {
     type: UPDATE_FILTERS,
@@ -263,3 +265,10 @@ export const setErrorEndHour = (message: string) => {
     payload: message,
   };
 };
+
+export const setLastPageHome = (page: number) => {
+  return {
+    type: LAST_PAGE_HOME,
+    payload: page
+  }
+}

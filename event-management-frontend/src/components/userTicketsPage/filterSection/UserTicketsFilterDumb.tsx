@@ -88,8 +88,8 @@ const UserTicketsFilterDumb = ({
           <Grid item xs={12} sm={10} md={12} xl={12} container spacing={3}>
             <Grid item xs={12} sm={6} md={6} xl={6}>
               <Button
-                className={`${commonClasses.buttonStyle2} 
-                                ${commonClasses.buttonStyle3} 
+                className={`${commonClasses.mainButtonStyle} 
+                                ${commonClasses.pinkGradientButtonStyle} 
                                 ${filterStyle.filterButtons}`}
                 onClick={clear}
               >
@@ -100,8 +100,8 @@ const UserTicketsFilterDumb = ({
             <Grid item xs={12} sm={6} md={6} xl={6}>
               <Button
                 type="submit"
-                className={`${commonClasses.buttonStyle2} 
-                                ${commonClasses.buttonStyle3} 
+                className={`${commonClasses.mainButtonStyle} 
+                                ${commonClasses.pinkGradientButtonStyle} 
                                 ${filterStyle.filterButtons}`}
                 disabled={errorStartDate !== '' || errorEndDate !== ''}
               >

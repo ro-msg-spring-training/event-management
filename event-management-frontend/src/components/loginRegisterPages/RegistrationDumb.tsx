@@ -196,7 +196,7 @@ const RegistrationDumb = ({
         </FormControl>
         <Button
           variant="contained"
-          className={`${classes2.buttonStyle2} ${classes2.buttonStyle3} ${classes.registrationButton}`}
+          className={`${classes2.mainButtonStyle} ${classes2.pinkGradientButtonStyle} ${classes.registrationButton}`}
           type="submit"
           onClick={onSubmit}
         >

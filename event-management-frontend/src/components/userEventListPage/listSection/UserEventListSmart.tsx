@@ -85,7 +85,7 @@ function UserEventListSmart({
       ) : (
         <UserEventListDumb translation={translation} events={events} goToEventDetails={goToEventDetails} />
       )}
-      {isFetching && <LinearProgress style={{ margin: '30px' }} />}
+      {isFetching && events.length && <LinearProgress style={{ margin: '30px' }} />}
     </>
   );
 }

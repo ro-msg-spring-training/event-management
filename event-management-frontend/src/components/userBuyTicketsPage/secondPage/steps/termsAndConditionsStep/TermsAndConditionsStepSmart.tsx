@@ -92,10 +92,10 @@ function TermsAndConditionsStepSmart({
   }
 
   useEffect(() => {
-    console.log("checked ", checked);
+    console.log('checked ', checked);
   }, [isLoading])
 
-  const handleProceedToBuy = (e: any) => {
+  const handleProceedToBuy = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     let noErrors = verifyIfNoErrors(ticketsStepFormErrors, emailFormErrors, namesStepFormErrors, booking);
 
