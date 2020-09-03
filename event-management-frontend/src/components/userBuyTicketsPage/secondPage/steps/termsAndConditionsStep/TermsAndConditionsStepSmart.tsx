@@ -86,8 +86,8 @@ function TermsAndConditionsStepSmart({
     updateBookings(newBooking);
   }, []);
 
-  let handleGoToEventsPage = (): void => {
-    return history.push('/user/events');
+  let handleGoToTicketsPage = (): void => {
+    return history.push('/user/tickets');
   }
 
   useEffect(() => {
@@ -163,7 +163,7 @@ function TermsAndConditionsStepSmart({
         handleProceedToBuy={handleProceedToBuy}
       />
       <AlertDialog
-        handleGoToEventsPage={handleGoToEventsPage}
+        handleGoToTicketsPage={handleGoToTicketsPage}
         isRequest={isRequest}
         isError={isError}
         errorMsg={errorMsg}

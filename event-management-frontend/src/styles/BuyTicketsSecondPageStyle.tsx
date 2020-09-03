@@ -72,8 +72,6 @@ export const buyTicketsSecondPageDumbStyle = makeStyles((theme: Theme) => ({
     height: '60vh',
     maxWidth: '900px',
 
-    // marginLeft: '20vw',
-    // marginRight: '20vw',
     minHeight: '150px',
     padding: '3%',
     overflowY: 'scroll',

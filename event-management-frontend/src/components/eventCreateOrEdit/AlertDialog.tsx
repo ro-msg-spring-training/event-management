@@ -22,7 +22,7 @@ interface AlertDialogProps {
   isError?: boolean;
   errorMsg?: string;
   isRequest: boolean;
-  handleGoToEventsPage?: () => void
+  handleGoToTicketsPage?: () => void
 }
 
 export default function AlertDialog({
@@ -36,7 +36,7 @@ export default function AlertDialog({
   isError,
   errorMsg,
   isRequest,
-  handleGoToEventsPage
+  handleGoToTicketsPage
 }: AlertDialogProps) {
   const buttonClass = useStyles();
   const history = useHistory();
@@ -82,7 +82,7 @@ export default function AlertDialog({
                 <DialogTitle id='alert-dialog-title'>Error {errorMsg}</DialogTitle>
                 <DialogContent>
                   <DialogActions>
-                    <Button onClick={handleGoToEventsPage} color='primary' autoFocus className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle} ${buttonClass.buttonSize}`}>
+                    <Button onClick={handleGoToTicketsPage} color='primary' autoFocus className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle} ${buttonClass.buttonSize}`}>
                       OK
                     </Button>
                   </DialogActions>
@@ -92,7 +92,7 @@ export default function AlertDialog({
                 <DialogTitle id='alert-dialog-title'>{t("buyTicketsSecondPage.success")}</DialogTitle>
                 <DialogContent>
                   <DialogActions>
-                    <Button onClick={handleGoToEventsPage} color='primary' autoFocus className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle} ${buttonClass.buttonSize}`}>
+                    <Button onClick={handleGoToTicketsPage} color='primary' autoFocus className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle} ${buttonClass.buttonSize}`}>
                       OK
                   </Button>
                   </DialogActions>
