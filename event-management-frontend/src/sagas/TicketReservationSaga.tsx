@@ -33,7 +33,7 @@ function* loadTicketCategoriesAsync(props: Props) {
   }
 }
 
-export function* loadTicketCategoriesWatcher() {
+export function* watchLoadTicketCategoriesAsync() {
   yield takeLatest(LOAD_TICKET_CATEGORIES, loadTicketCategoriesAsync);
 }
 
@@ -42,14 +42,14 @@ function* addBookingsAsync(props: AddProps) {
   try {
     yield put(addBookingsRequest());
     const res = yield call(() => addBookingsAPI(props.payload.bookings));
-    console.log("res", res);
+    console.log('res', res);
     yield put(addBookingsSuccess());
   } catch (e) {
-    console.log("ERROR from saga", e);
+    console.log('ERROR from saga', e);
     yield put(addBookingsFailure(e));
   }
 }
 
-export function* addBookingsWatcher() {
+export function* watchAddBookingsAsync() {
   yield takeLatest(ADD_BOOKINGS, addBookingsAsync);
 }
