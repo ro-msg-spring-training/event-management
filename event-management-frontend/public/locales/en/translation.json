@@ -295,12 +295,12 @@
 
         "saveEvent_400": "Error in date and time fields!",
         "saveEvent_404": "Event not found!",
-        "saveEvent_406": "Oops, error!",
+        "saveEvent_406": "Sum of number of tickets per category exceeds the maximum number of people for the event!",
         "saveEvent_409": "Event overlaps another scheduled event or the number of maximum people exceeds capacity of sublocations!",
 
         "editEvent_400": "Error in date and time fields!",
         "editEvent_404": "Event not found!",
-        "editEvent_406": "Oops, error!",
+        "editEvent_406": "Sum of number of tickets per category exceeds the maximum number of people for the event!",
         "editEvent_409": "Event overlaps another scheduled event or the number of maximum people exceeds capacity of sublocations!",
         "saveEvent_500": "The event doesn't have a location!",
 
