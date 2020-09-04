@@ -291,13 +291,13 @@
         "saveEvent_400": "Eroare in câmpurile de dată și timp!",
         "saveEvent_404": "Evenimentul nu a fost găsit!",
         "saveEvent_406": "Suma numărului de bilete pe categorie depășește numărul maxim de persoane pentru eveniment!!",
-        "saveEvent_409": "Evenimentul se suprapune cu un alt eveniment deja programat sau numărul maxim de persoane depășește capacitatea de sublocații!",
+        "saveEvent_409": "Evenimentul se suprapune cu un alt eveniment deja programat!",
         "saveEvent_500": "Evenimentul nu are locație!",
 
         "editEvent_400": "Eroare in câmpurile de dată și timp!",
         "editEvent_404": "Evenimentul nu a fost găsit!",
         "editEvent_406": "Suma numărului de bilete pe categorie depășește numărul maxim de persoane pentru eveniment!",
-        "editEvent_409": "Evenimentul se suprapune cu un alt eveniment deja programat sau numărul maxim de persoane depășește capacitatea de sublocații!",
+        "editEvent_409": "Evenimentul se suprapune cu un alt eveniment deja programat!",
 
         "deleteEvent_404": "Evenimentul nu a fost găsit!"
     },
