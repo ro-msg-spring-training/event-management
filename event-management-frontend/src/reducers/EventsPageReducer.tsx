@@ -41,6 +41,7 @@ import {
   UPDATE_ERROR_START_HOUR,
   UPDATE_ERROR_END_HOUR,
   LAST_PAGE_HOME,
+  CLEAR_VALIDATION_DATA,
 } from '../actions/EventsPageActions';
 import { Severity, initialSeverity } from '../components/validateTicket/ValidateTicketAlert';
 import { MathRelation } from '../model/MathRelation';
@@ -426,6 +427,16 @@ export const EventsPageReducer = (state = initialState, action: ReducerActionPro
           ...state.errors,
           errorEndHour: action.payload,
         },
+      };
+
+    case CLEAR_VALIDATION_DATA:
+      return {
+        ...state,
+        ticketID: 0,
+        alertVisible: false,
+        alertTitle: '',
+        alertDescription: '',
+        alertSeverity: initialSeverity,
       };
     default:
       return state;

@@ -89,7 +89,7 @@ export const initialState: EventState = {
     picturesUrlDelete: [],
     ticketsPerUser: 0,
     noTicketEvent: true,
-    ticketCategoryDtoList: [emptyCard],
+    ticketCategoryDtoList: [],
     ticketCategoryToDelete: [],
     ticketInfo: '',
   },
@@ -133,7 +133,10 @@ const HeaderReducer = (
 ) => {
   switch (action.type) {
     case RESET_STORE:
-      return initialState;
+      console.log('Initial state: ', initialState);
+      return {
+        ...initialState,
+      };
     case UPDATE_LOCATION:
       const newEvent = JSON.parse(JSON.stringify(state.event));
       newEvent.location = action.payload;

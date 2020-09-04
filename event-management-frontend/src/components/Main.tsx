@@ -22,7 +22,7 @@ const Main = () => {
           <Route
             exact
             path="/admin/validate/:id"
-            component={(props: any) => <ValidateTicket match={props.match} isAdmin={true} />}
+            component={(props: any) => <ValidateTicket match={props.match} newEvent={true} isAdmin={true} />}
           />
           <SecureRoute admin exact path="/admin/events" component={EventList} />
           <SecureRoute

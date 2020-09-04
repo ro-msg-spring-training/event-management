@@ -60,7 +60,7 @@
     "username": "Nume de utilizator",
     "password": "Parolă",
     "successMessage": "Autentificare reușită!",
-    "passwordError": "Cerințe: min. 8 caractere, litere mari și un număr.",
+    "passwordError": "Cerințe: min. 8 caractere, o literă mare și o cifră.",
     "emailError": "Introduceți o adresă de email validă!",
     "errorMessage": "Nume de utilizator sau parolă incorectă."
   },

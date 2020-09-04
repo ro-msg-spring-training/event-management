@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AppState } from '../../../../store/store';
 import { connect } from 'react-redux';
 import CategoryPageDumb from './CategoryPageDumb';
@@ -25,6 +25,13 @@ const CategoryPageSmart: React.FC<Props> = ({
   updateFormErrors,
 }: Props) => {
   const { t } = useTranslation();
+
+  useEffect(() => {
+    if (newEvent === true) {
+      addEmptyCategoryCard();
+    }
+  }, []);
+
   const handleChange = (e: { preventDefault: () => void; target: { name: string; value: any } }) => {
     e.preventDefault();
     const { name, value } = e.target;

@@ -1,6 +1,6 @@
-import React from "react";
-import { useStyles } from "../../styles/CommonStyles";
-import useStylesLogin from "../../styles/LoginStyle";
+import React from 'react';
+import { useStyles } from '../../styles/CommonStyles';
+import useStylesLogin from '../../styles/LoginStyle';
 import {
   FormGroup,
   TextField,
@@ -11,11 +11,11 @@ import {
   IconButton,
   FormHelperText,
   Button,
-} from "@material-ui/core";
-import { Trans } from "react-i18next";
-import { FormErrors } from "./FormErrors";
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
+} from '@material-ui/core';
+import { Trans } from 'react-i18next';
+import { FormErrors } from './FormErrors';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 interface Props {
   email: string;
@@ -74,10 +74,10 @@ const VerificationDumb = (props: Props) => {
           variant="outlined"
           required
           helperText={props.emailError}
-          error={props.emailError !== "" || props.validateEmail(props.email, props.emailError, props.setEmailError)}
+          error={props.emailError !== '' || props.validateEmail(props.email, props.emailError, props.setEmailError)}
           onChange={(e) => {
             props.verificationEmail(e.target.value);
-            props.setEmailError("");
+            props.setEmailError('');
           }}
         />
 
@@ -88,16 +88,16 @@ const VerificationDumb = (props: Props) => {
 
           <OutlinedInput
             labelWidth={80}
-            type={props.values.showPassword ? "text" : "password"}
+            type={props.values.showPassword ? 'text' : 'password'}
             value={props.newpassword}
             required
             error={
-              props.newpasswordError !== "" ||
+              props.newpasswordError !== '' ||
               props.validatePasswordRequirements(props.newpassword, props.newpasswordError, props.setPasswordError)
             }
             onChange={(event) => {
               props.verificationPassword(event.target.value);
-              props.setPasswordError("");
+              props.setPasswordError('');
             }}
             endAdornment={
               <InputAdornment position="end">
@@ -108,7 +108,7 @@ const VerificationDumb = (props: Props) => {
             }
           />
           <FormHelperText>{props.newpasswordError}</FormHelperText>
-          <FormErrors error={props.error} />
+          {props.error ? <FormErrors error={props.error} /> : null}
         </FormControl>
 
         <Button
