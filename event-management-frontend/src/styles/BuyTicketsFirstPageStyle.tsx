@@ -5,7 +5,7 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
   paperStyle: {
     display: 'flex',
     maxWidth: '900px',
-    margin: ' 0 auto',
+    margin: '0 auto',
     minHeight: '150px',
     padding: '3%',
   },
@@ -27,6 +27,10 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
     fontFamily: 'LATO !important',
   },
   nextButton: {
+    position: 'absolute',
+    bottom: '2%',
+    marginRight: '3%',
+
     float: 'right',
     fontSize: 'large !important ',
     background: themeDark.palette.secondary.dark,
@@ -39,7 +43,6 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
       backgroundImage: 'linear-gradient(90deg, rgba(245,253,255,1) 0%, rgba(202,202,209,1) 1%)',
     },
     right: '15%',
-    margin: '3%',
   },
   link: {
     textDecoration: 'none',
@@ -52,10 +55,11 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
   },
   generalInfoContainer: {
     display: 'block',
-    maxWidth: 'inherit',
+    maxWidth: '900px',
     minHeight: '70px',
     padding: '3%',
     paddingTop: '5%',
+    whiteSpace: 'pre-wrap',
   },
   newLineSpan: {
     display: 'inline-block',
@@ -77,7 +81,7 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
   textStyle: {
     fontSize: 16,
     fontFamily: 'LATO !important',
-    marginTop: 0,
+    marginTop: 10,
   },
   tag: {
     width: '50%',
@@ -92,7 +96,7 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
     },
     color: 'white',
     paddingTop: '3%',
-    paddingLeft: '4%',
+    paddingLeft: '5%',
     marginTop: '2%',
   },
   tagText: {
@@ -104,13 +108,15 @@ const useStylesbuyTicketFirstPage = makeStyles(() => ({
     display: 'inline-block',
   },
   cancelButton: {
+    position: 'absolute',
+    bottom: '2%',
+    marginLeft: '3%',
     fontSize: 'large !important ',
     background: themeDark.palette.secondary.contrastText,
     '&:hover': {
       backgroundColor: '#FF6171',
     },
     left: '15%',
-    margin: '3%',
   },
 }));
 

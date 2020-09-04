@@ -13,7 +13,8 @@ export const createTextField = (
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
   defaultValueText: string | number,
   errorText: string,
-  inputType: string) => {
+  inputType: string,
+  inputProps: { inputProps: { min: number } } | null) => {
 
   return (
     <Grid item xl={4} lg={4} sm={8} xs={11}>
@@ -31,6 +32,7 @@ export const createTextField = (
           error={errorText.length > 0}
           helperText={errorText}
           required
+          InputProps={inputProps as { inputProps: { min: number } }}
         />
       </form>
     </Grid>

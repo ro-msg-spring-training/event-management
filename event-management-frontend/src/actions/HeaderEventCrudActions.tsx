@@ -28,7 +28,9 @@ export const UPDATE_EVENT_IMAGES = 'UPDATE_EVENT_IMAGES';
 export const UPDATE_FORM_ERRORS = 'UPDATE_FORM_ERRORS';
 export const UPDATE_EVENT = 'UPDATE_EVENT';
 export const UPDATE_LOCATION = 'UPDATE_LOCATION';
+
 export const RESET_STORE = 'RESET_STORE';
+export const RESET_ERRORS = 'RESET_ERRORS';
 
 export const ADD_EMPTY_CATEGORY_CARD = 'ADD_EMPTY_CATEGORY_CARD';
 export const REMOVE_CATEGORY_CARD = 'REMOVE_CATEGORY_CARD';
@@ -174,6 +176,12 @@ export const resetStore = () => {
     type: RESET_STORE,
   };
 };
+
+export const resetErrors = () => {
+  return {
+    type: RESET_ERRORS,
+  }
+}
 
 //--------------- Category Card----------------------
 

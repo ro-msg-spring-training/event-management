@@ -20,6 +20,8 @@ import {
 } from '../../../../../utils/ticketReservationUtils/TermsAndConditionsUtils';
 import BuyTicketsPopupSmart from './popup/BuyTicketsPopupSmart';
 import { AppState } from '../../../../../store/store';
+import { Dispatch } from 'redux';
+import { resetErrors } from '../../../../../actions/TicketReservationActions';
 
 interface TermsAndConditionsStepSmartProps {
   prevStep: () => void;
@@ -29,6 +31,8 @@ interface TermsAndConditionsStepSmartProps {
   addBookings: (booking: Booking) => void;
   updateBookings: (booking: Booking) => void;
   updateChecked: (checked: boolean) => void;
+
+  resetErrorsAction: () => void;
 
   ticketsStepFormErrors: TicketsStepFormErrors[];
   emailFormErrors: EmailStepFormErrors;
@@ -58,6 +62,7 @@ function TermsAndConditionsStepSmart({
   errorMsg,
   open,
   setOpen,
+  resetErrorsAction,
 }: TermsAndConditionsStepSmartProps) {
   const { t } = useTranslation();
 
@@ -86,14 +91,9 @@ function TermsAndConditionsStepSmart({
     updateBookings(newBooking);
   }, []);
 
-
-  let handleGoToEventsPage = (): void => {
-    return history.push('/user/events');
+  let handleGoToTicketsPage = (): void => {
+    return history.push('/user/tickets');
   }
-
-  useEffect(() => {
-    console.log('checked ', checked);
-  }, [isLoading])
 
   const handleProceedToBuy = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
@@ -164,10 +164,19 @@ function TermsAndConditionsStepSmart({
         handleProceedToBuy={handleProceedToBuy}
       />
       <AlertDialog
-        handleGoToEventsPage={handleGoToEventsPage}
+        handleGoToTicketsPage={handleGoToTicketsPage}
         isRequest={isRequest}
+
+        addRequest={false}
+        editRequest={false}
+        deleteRequest={false}
+
+        resetErrors={resetErrorsAction}
+        setRequest={setRequest}
+
         isError={isError}
         errorMsg={errorMsg}
+
         isLoading={isLoading}
         prevStep={prevStep}
         open={openErrorPopup}
@@ -192,4 +201,9 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 
-export default connect(mapStateToProps)(TermsAndConditionsStepSmart);
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    resetErrorsAction: () => dispatch(resetErrors()),
+  };
+}
+export default connect(mapStateToProps, mapDispatchToProps)(TermsAndConditionsStepSmart);

@@ -46,13 +46,13 @@ function OverviewDumb(props: OverviewDumbProps) {
       <Grid container direction='column' justify='center' alignItems='center'>
         <Grid item container direction='row' justify='center' alignItems='center'>
           {createTextField(overviewClasses.root, props.handleEnterKey, props.isAdmin, 'title',
-            t('welcome.overviewTitle'), props.handleChange, props.event.title, props.formErrors.title, 'string')}
+            t('welcome.overviewTitle'), props.handleChange, props.event.title, props.formErrors.title, 'string', null)}
 
           {createTextField(overviewClasses.root, props.handleEnterKey, props.isAdmin, 'subtitle',
-            t('welcome.overviewSubtitle'), props.handleChange, props.event.subtitle, props.formErrors.subtitle, 'string')}
+            t('welcome.overviewSubtitle'), props.handleChange, props.event.subtitle, props.formErrors.subtitle, 'string', null)}
 
           {createTextField(overviewClasses.root, props.handleEnterKey, props.isAdmin, 'maxPeople',
-            t('welcome.overviewMaxPpl'), props.handleChange, props.event.maxPeople, props.formErrors.maxPeople, 'number')}
+            t('welcome.overviewMaxPpl'), props.handleChange, props.event.maxPeople, props.formErrors.maxPeople, 'number', { inputProps: { min: 0 } })}
 
         </Grid>
 
@@ -95,7 +95,7 @@ function OverviewDumb(props: OverviewDumbProps) {
               t('welcome.overviewEndDate'), props.handleChange, props.event.endDate, props.formErrors.endDate)}
 
             {createTimeTextField(overviewClasses.root, props.isAdmin, 'endTime',
-              t('welcome.overviewStartTime'), props.handleChange, props.event.endHour, props.formErrors.endTime)}
+              t('welcome.overviewEndTime'), props.handleChange, props.event.endHour, props.formErrors.endTime)}
 
           </Grid>
         </Grid>

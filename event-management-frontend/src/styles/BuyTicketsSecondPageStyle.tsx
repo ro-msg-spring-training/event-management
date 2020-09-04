@@ -8,6 +8,12 @@ export const BuyTicketsSecondPageStyle = makeStyles((theme: Theme) => ({
       backgroundColor: '#f9c929',
     },
   },
+  nextButtonStyle: {
+    background: theme.palette.secondary.dark,
+    '&:hover': {
+      backgroundColor: '#f9c929',
+    },
+  },
   cancelButtonStyle: {
     background: theme.palette.secondary.contrastText,
     transform: 'rotate(-180deg)',
@@ -19,14 +25,14 @@ export const BuyTicketsSecondPageStyle = makeStyles((theme: Theme) => ({
     position: 'absolute',
     bottom: '2%',
     left: '20%',
-    marginRight: '0px',
+    marginRight: 0,
     marginLeft: '3%',
   },
   positionRight: {
     position: 'absolute',
     bottom: '2%',
     right: '20%',
-    marginLeft: '0px',
+    marginLeft: 0,
     marginRight: '3%',
   },
 }));
@@ -66,10 +72,10 @@ export const buyTicketsSecondPageDumbStyle = makeStyles((theme: Theme) => ({
     height: '60vh',
     maxWidth: '900px',
 
-    marginLeft: '20vw',
-    marginRight: '20vw',
     minHeight: '150px',
     padding: '3%',
+    overflowY: 'scroll',
+    margin: '0 auto',
   },
 }));
 

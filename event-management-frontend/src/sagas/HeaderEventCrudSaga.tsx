@@ -57,10 +57,14 @@ export function* watchLoadEventAsync() {
 function* deleteEventAsync(props: Props) {
   try {
     yield put(deleteEventRequest());
-    yield call(() => deleteEventAPI(props.payload));
-    yield put(deleteEventSuccess());
+    const res = yield call(() => deleteEventAPI(props.payload));
+    if (res.status !== 200) {
+      throw res;
+    } else {
+      yield put(deleteEventSuccess());
+    }
   } catch (e) {
-    yield put(deleteEventFailure(e));
+    yield put(deleteEventFailure(e.status));
   }
 }
 
@@ -76,10 +80,14 @@ function* addEventAsync(props: AddProps) {
     const event: EventCrud = props.payload.event;
     event.picturesUrlSave = imagesURL;
     event.picturesUrlDelete = [];
-    yield call(() => addEventAPI(event));
-    yield put(addEventSuccess());
+    const res = yield call(() => addEventAPI(event));
+    if (res.status !== true) {
+      throw res;
+    } else {
+      yield put(addEventSuccess());
+    }
   } catch (e) {
-    yield put(addEventFailure(e));
+    yield put(addEventFailure(e.status));
   }
 }
 
@@ -95,10 +103,14 @@ function* editEventAsync(props: AddProps) {
     const event: EventCrud = props.payload.event;
     event.picturesUrlSave = imagesURL;
     event.picturesUrlDelete = [];
-    yield call(() => editEventAPI(event));
-    yield put(editEventSuccess());
+    const res = yield call(() => editEventAPI(event));
+    if (res.status !== true) {
+      throw res;
+    } else {
+      yield put(editEventSuccess());
+    }
   } catch (e) {
-    yield put(editEventFailure(e));
+    yield put(editEventFailure(e.status));
   }
 }
 
