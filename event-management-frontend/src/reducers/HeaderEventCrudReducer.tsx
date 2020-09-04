@@ -133,7 +133,6 @@ const HeaderReducer = (
 ) => {
   switch (action.type) {
     case RESET_STORE:
-      console.log('Initial state: ', initialState);
       return {
         ...initialState,
       };
