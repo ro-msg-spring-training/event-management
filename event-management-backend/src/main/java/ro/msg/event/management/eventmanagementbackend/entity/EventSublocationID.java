@@ -1,4 +1,4 @@
-package ro.msg.event.management.eventmanagementbackend.embeddedid;
+package ro.msg.event.management.eventmanagementbackend.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

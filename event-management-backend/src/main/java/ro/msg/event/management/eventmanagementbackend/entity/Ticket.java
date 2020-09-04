@@ -22,7 +22,6 @@ public class Ticket extends BaseEntity {
     @JoinColumn(name = "booking")
     private Booking booking;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "ticket")
+    @OneToOne(mappedBy = "ticket", cascade = CascadeType.ALL, optional = true, fetch = FetchType.LAZY)
     private TicketDocument ticketDocument;
 }

@@ -18,7 +18,7 @@ public class Booking extends BaseEntity {
 
     private LocalDateTime bookingDate;
 
-    private Long user;
+    private String user;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "event")

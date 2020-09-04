@@ -1,12 +1,10 @@
 package ro.msg.event.management.eventmanagementbackend.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 
@@ -15,6 +13,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
+@Table(name = "event")
 public class Event extends BaseEntity {
 
     private String title;
@@ -23,9 +23,13 @@ public class Event extends BaseEntity {
 
     private boolean status;
 
-    private LocalDateTime startDate;
+    private LocalDate startDate;
 
-    private LocalDateTime endDate;
+    private LocalDate endDate;
+
+    private LocalTime endHour;
+
+    private LocalTime startHour;
 
     private int maxPeople;
 
@@ -39,11 +43,13 @@ public class Event extends BaseEntity {
 
     private String creator;
 
+
     @OneToMany(mappedBy = "event",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     private List<Picture> pictures;
+
 
     @OneToMany(mappedBy = "event",
             fetch = FetchType.LAZY,
@@ -51,9 +57,13 @@ public class Event extends BaseEntity {
             orphanRemoval = true)
     private List<EventSublocation> eventSublocations;
 
+
+
     @OneToMany(mappedBy = "event",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     private List<Booking> bookings;
+
+
 }

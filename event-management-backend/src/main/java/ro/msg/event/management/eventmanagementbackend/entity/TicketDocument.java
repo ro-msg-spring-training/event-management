@@ -5,9 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -20,7 +18,8 @@ public class TicketDocument extends BaseEntity {
 
     private boolean validate;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id")
     @MapsId
     private Ticket ticket;
 }

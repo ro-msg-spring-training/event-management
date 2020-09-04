@@ -9,7 +9,7 @@ import java.util.Collection;
 public class JWTAuthentication extends AbstractAuthenticationToken {
 
     private final Object principal;
-    private JWTClaimsSet jwtClaimsSet;
+    private final JWTClaimsSet jwtClaimsSet;
 
     public JWTAuthentication(Object principal, JWTClaimsSet jwtClaimsSet, Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
