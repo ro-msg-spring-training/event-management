@@ -26,6 +26,8 @@ export const UPDATE_TICKETS_STEP_FORM_ERRORS = 'UPDATE_TICKETS_STEP_FORM_ERRORS'
 export const UPDATE_EMAIL_FORM_ERRORS = 'UPDATE_EMAIL_FORM_ERRORS';
 export const UPDATE_NAMES_STEP_FORM_ERRORS = 'UPDATE_NAMES_STEP_FORM_ERRORS';
 
+export const RESET_ERRORS = 'RESET_ERRORS';
+
 //---------------------------------------------------for SAGA
 export const loadTicketCategories = (idEvent: string) => {
   return {
@@ -133,3 +135,9 @@ export const updateNamesStepFormErrors = (namesStepFormErrors: NamesStepFormErro
     payload: namesStepFormErrors,
   };
 };
+
+export const resetErrors = () => {
+  return {
+    type: RESET_ERRORS,
+  }
+}
