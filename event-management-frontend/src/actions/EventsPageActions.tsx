@@ -55,6 +55,7 @@ export const SET_ALERT_VISIBLE = 'SET_ALERT_VISIBLE';
 export const SET_ALERT_TITLE = 'SET_ALERT_TITLE';
 export const SET_ALERT_DESCRIPTION = 'SET_ALERT_DESCRIPTION';
 export const SET_ALERT_SEVERITY = 'SET_ALERT_SEVERITY';
+export const CLEAR_VALIDATION_DATA = 'CLEAR_VALIDATION_DATA';
 
 export const LAST_PAGE_HOME = 'LAST_PAGE_HOME';
 
@@ -314,6 +315,13 @@ export const setAlertSeverity = (alertSeverity: Severity) => {
     alertSeverity: alertSeverity,
   };
 };
+
+export const clearValidationData = () => {
+  return {
+    type: CLEAR_VALIDATION_DATA,
+  };
+};
+
 export const setErrorRate = (message: string) => {
   return {
     type: UPDATE_ERROR_RATE,

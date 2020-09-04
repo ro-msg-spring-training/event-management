@@ -44,11 +44,11 @@ export const ValidateTicketAlert = ({
           <>
             <p>
               <strong>{t('validateTicket.customerName')}</strong>
-              <div>Iakab Julia</div>
+              <div>{customerName}</div>
             </p>
             <p>
               <strong>{t('validateTicket.customerEmail')}</strong>
-              <div> julia_julcsi@yahoo.com</div>
+              <div>{customerEmail}</div>
             </p>
           </>
         ) : null}

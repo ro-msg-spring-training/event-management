@@ -58,7 +58,7 @@ const ForgotPassword = () => {
           }}
         />
 
-        <FormErrors error={error} />
+        {error ? <FormErrors error={error} /> : null}
 
         <Button
           variant="contained"

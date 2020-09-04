@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, CircularProgress } from '@material-ui/core';
 import { connect } from 'react-redux';
 import {
@@ -10,6 +10,7 @@ import {
   setAlertTitle,
   setAlertDescription,
   setAlertSeverity,
+  clearValidationData,
 } from '../../actions/EventsPageActions';
 import { AppState } from '../../store/store';
 import { ValidateTicketDumb } from './ValidateTicketDumb';
@@ -20,6 +21,7 @@ import { useValidateTicketStyles } from '../../styles/ValidateTicketStyle';
 
 type Props = {
   match: any;
+  newEvent: boolean;
   isAdmin: boolean;
   isError: boolean;
   errorStatus: number;
@@ -41,10 +43,12 @@ type Props = {
   setAlertTitle: (alertTitle: string) => void;
   setAlertDescription: (alertDescription: string) => void;
   setAlertSeverity: (alertSeverity: Severity) => void;
+  clearValidationData: () => void;
 };
 
 const ValidateTicket = ({
   match,
+  newEvent,
   isError,
   isLoading,
   errorStatus,
@@ -64,12 +68,19 @@ const ValidateTicket = ({
   setAlertTitle,
   setAlertDescription,
   setAlertSeverity,
+  clearValidationData,
 }: Props) => {
   const eventID = match.params.id;
 
   const { t } = useTranslation();
   const history = useHistory();
   const classes = useValidateTicketStyles();
+
+  useEffect(() => {
+    if (newEvent === true) {
+      clearValidationData();
+    }
+  }, []);
 
   const handleScan = (data: string | null) => {
     if (data) {
@@ -185,6 +196,7 @@ const mapDispatchToProps = (dispatch: any) => {
     setAlertTitle: (alertTitle: string) => dispatch(setAlertTitle(alertTitle)),
     setAlertDescription: (alertDescription: string) => dispatch(setAlertDescription(alertDescription)),
     setAlertSeverity: (alertSeverity: Severity) => dispatch(setAlertSeverity(alertSeverity)),
+    clearValidationData: () => dispatch(clearValidationData()),
   };
 };
 
