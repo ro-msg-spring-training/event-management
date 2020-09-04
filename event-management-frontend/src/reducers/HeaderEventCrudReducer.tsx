@@ -18,6 +18,7 @@ import {
   RESET_STORE,
   ADD_EMPTY_CATEGORY_CARD,
   REMOVE_CATEGORY_CARD,
+  RESET_ERRORS,
 } from '../actions/HeaderEventCrudActions';
 import { EventCrud } from '../model/EventCrud';
 import { EventImage } from '../model/EventImage';
@@ -38,6 +39,8 @@ export interface EventState {
   locationName: string;
   isDeleted: boolean;
   isSaved: boolean;
+
+  modifyEventError: boolean;
 }
 
 let today = new Date(new Date().toString().split('GMT')[0] + ' UTC').toISOString().split('.')[0];
@@ -117,6 +120,8 @@ export const initialState: EventState = {
 
   isDeleted: false,
   isSaved: false,
+
+  modifyEventError: false,
 };
 
 const getEventImages = (imagesStr: string[]) => {
@@ -132,6 +137,14 @@ const HeaderReducer = (
   action: { type: string; payload: EventCrud; id: number; ticketCategoryData: TicketAvailabilityData[] }
 ) => {
   switch (action.type) {
+    case RESET_ERRORS:
+      return {
+        ...state,
+        isError: false,
+        modifyEventError: false,
+        error: '',
+      };
+
     case RESET_STORE:
       return {
         ...initialState,
@@ -180,7 +193,7 @@ const HeaderReducer = (
         isError: true,
         isLoading: false,
       };
-
+    //--------------------------------------
     case DELETE_EVENT_REQUEST:
       return {
         ...state,
@@ -192,14 +205,20 @@ const HeaderReducer = (
         ...state,
         ...initialState,
         isDeleted: true,
+        eventIsLoading: false,
+        error: '',
+        modifyEventError: false,
       };
 
     case DELETE_EVENT_FAILURE:
       return {
         ...state,
+        eventIsLoading: false,
         error: action.payload,
+        modifyEventError: true,
       };
 
+    //--------------------------------------------
     case ADD_EVENT_REQUEST:
       return {
         ...state,
@@ -211,15 +230,18 @@ const HeaderReducer = (
         ...state,
         eventIsLoading: false,
         isSaved: true,
+        modifyEventError: false,
+        error: '',
       };
 
     case ADD_EVENT_FAILURE:
       return {
         ...state,
         eventIsLoading: false,
-        newProduct: action.payload,
+        modifyEventError: true,
+        error: action.payload,
       };
-
+    //-------------------------------------
     case EDIT_EVENT_REQUEST:
       return {
         ...state,
@@ -231,13 +253,16 @@ const HeaderReducer = (
         ...state,
         eventIsLoading: false,
         isSaved: true,
+        error: '',
+        modifyEventError: false,
       };
 
     case EDIT_EVENT_FAILURE:
       return {
         ...state,
         eventIsLoading: false,
-        newProduct: action.payload,
+        error: action.payload,
+        modifyEventError: true,
       };
 
     case UPDATE_EVENT_IMAGES:

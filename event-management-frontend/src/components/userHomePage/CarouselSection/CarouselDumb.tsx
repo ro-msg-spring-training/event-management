@@ -5,6 +5,7 @@ import '../../../styles/CarouselStyle.css';
 import { HighlightedEvent } from '../../../reducers/UserHomePageReducer';
 import CarouselSlide from './CarouselSlide';
 
+
 type Props = {
   events: HighlightedEvent[];
   isLoading: boolean;

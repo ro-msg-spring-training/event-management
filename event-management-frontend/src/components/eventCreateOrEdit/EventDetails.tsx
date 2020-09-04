@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { CircularProgress, Container, Paper } from '@material-ui/core';
-import { loadEvent, deleteEvent, addEvent, editEvent, resetStore } from '../../actions/HeaderEventCrudActions';
+import { loadEvent, deleteEvent, addEvent, editEvent, resetStore, resetErrors } from '../../actions/HeaderEventCrudActions';
 import { connect } from 'react-redux';
 import Header from './headerEditAndDelete/HeaderCrudSmart';
 import Stepper from './Stepper';
@@ -15,6 +15,8 @@ import MapWrapper from './locationSection/Map';
 import { EventFormErrors } from '../../model/EventFormErrors';
 import CategoryPageSmart from './ticketsSection/CategoryPage/CategoryPageSmart';
 import { eventDetailsStyles } from '../../styles/EventDetailsStyle';
+import { AppState } from '../../store/store';
+import { Dispatch } from 'redux';
 
 interface Props {
   match: any;
@@ -24,6 +26,7 @@ interface Props {
   addEventAction: (event: EventCrud, images: EventImage[]) => void;
   editEventAction: (event: EventCrud, images: EventImage[]) => void;
   resetStoreAction: () => void;
+  resetErrorsAction: () => void;
   fetchedEvent: {
     eventIsLoading: boolean;
     event: EventCrud;
@@ -32,6 +35,7 @@ interface Props {
     formErrors: EventFormErrors;
     isDeleted: boolean;
     isSaved: boolean;
+    modifyEventError: boolean;
   };
 }
 
@@ -43,6 +47,7 @@ function EventDetails({
   addEventAction,
   editEventAction,
   resetStoreAction,
+  resetErrorsAction,
   fetchedEvent,
 }: Props) {
   const history = useHistory();
@@ -55,6 +60,10 @@ function EventDetails({
   const [msgUndo, setMsgUndo] = useState('');
   const [dialogTitle, setDialogTitle] = useState('');
   const [dialogDescription, setDialogDescription] = useState('');
+
+  const [addRequest, setAddRequest] = useState(false);
+  const [editRequest, setEditRequest] = useState(false);
+  const [deleteRequest, setDeleteRequest] = useState(false);
 
   const [idLocation, setidLocation] = useState('');
 
@@ -168,9 +177,11 @@ function EventDetails({
   let saveEvent = (): void => {
     if (isFormValid(fetchedEvent.event, fetchedEvent.formErrors)) {
       if (newEvent) {
-        addEventAction(fetchedEvent.event, fetchedEvent.images);
+        setAddRequest(true);
+        setOpen(true);
       } else {
-        editEventAction(fetchedEvent.event, fetchedEvent.images);
+        setEditRequest(true);
+        setOpen(true);
       }
     }
   };
@@ -183,20 +194,31 @@ function EventDetails({
       setOpen(true);
       resetStoreAction();
     } else {
-      deleteEventAction(match.params.id);
+      setDeleteRequest(true);
+      setOpen(true);
     }
   };
 
   useEffect(() => {
+    if (addRequest) {
+      addEventAction(fetchedEvent.event, fetchedEvent.images);
+    } else if (editRequest) {
+      editEventAction(fetchedEvent.event, fetchedEvent.images);
+    } else if (deleteRequest) {
+      deleteEventAction(match.params.id);
+    }
+  }, [addRequest, editRequest, deleteRequest])
+
+  useEffect(() => {
     if (fetchedEvent.isDeleted) {
-      history.push('/admin/events');
+      // history.push('/admin/events');
     }
     return () => resetStoreAction();
   }, [fetchedEvent.isDeleted]);
 
   useEffect(() => {
     if (fetchedEvent.isSaved) {
-      history.push('/admin/events');
+      // history.push('/admin/events');
     }
     return () => resetStoreAction();
   }, [fetchedEvent.isSaved]);
@@ -235,29 +257,43 @@ function EventDetails({
       />
       <AlertDialog
         isRequest={false}
+
+        addRequest={addRequest}
+        editRequest={editRequest}
+        deleteRequest={deleteRequest}
+        eventIsLoading={fetchedEvent.eventIsLoading}
+        isError={fetchedEvent.modifyEventError}
+        errorMsg={fetchedEvent.error}
+
+        resetErrors={resetErrorsAction}
+
         open={open}
         setOpen={setOpen}
         msgUndo={msgUndo}
         dialogTitle={dialogTitle}
         dialogDescription={dialogDescription}
+
+        setAddRequest={setAddRequest}
+        setEditRequest={setEditRequest}
       />
     </Paper>
   );
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: AppState) => {
   return {
     fetchedEvent: state.eventCrud,
   };
 };
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     fetchEventAction: (id: string) => dispatch(loadEvent(id)),
     deleteEventAction: (id: string) => dispatch(deleteEvent(id)),
     addEventAction: (event: EventCrud, images: EventImage[]) => dispatch(addEvent(event, images)),
     editEventAction: (event: EventCrud, images: EventImage[]) => dispatch(editEvent(event, images)),
     resetStoreAction: () => dispatch(resetStore()),
+    resetErrorsAction: () => dispatch(resetErrors()),
   };
 };
 
