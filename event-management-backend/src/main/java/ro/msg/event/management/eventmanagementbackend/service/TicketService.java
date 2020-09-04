@@ -79,14 +79,6 @@ public class TicketService {
 
     public InputStream getPdf(long id) {
         Optional<Ticket> ticketOptional = this.ticketRepository.findById(id);
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) auth.getPrincipal();
-
-        if(ticketOptional.isEmpty() || !(ticketOptional.get().getBooking().getUser().equals(user.getIdentificationString())))
-        {
-            throw new NoSuchElementException("No ticket with id= " + id + "for this user!");
-        }
         return s3Client.getObject(bucketName, id + ".pdf").getObjectContent();
     }
 
