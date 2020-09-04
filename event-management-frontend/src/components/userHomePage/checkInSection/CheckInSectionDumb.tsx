@@ -47,6 +47,7 @@ function CheckInSectionDumb({ bookings, isError, isLoading, translation, handleO
     const titles = bookings?.filter((b) => b.date === clickedDate).map((b) => b.title);
     const isEvents = titles?.length > 0;
     const isCurrentDate = clickedDate === moment().format('YYYY-MM-DD');
+    const isPastEvent = day ? moment() > day : false;
 
     return (
       <Tooltip arrow title={tooltipTitle(titles)}>
@@ -54,7 +55,7 @@ function CheckInSectionDumb({ bookings, isError, isLoading, translation, handleO
           {React.cloneElement(dayComponent, {
             style: {
               marginBottom: '5px',
-              backgroundColor: `${isCurrentDate ? '#f2ac0a' : isEvents ? '#6BB7D0' : 'none'}`,
+              backgroundColor: `${isCurrentDate ? '#f2ac0a' : isEvents ? isPastEvent? 'rgb(107, 183, 208, 0.4)' : '#6BB7D0' : 'none'}`,
               color: `${isEvents ? 'white' : ''}`,
             },
             onClick: () => {
