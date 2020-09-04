@@ -4,6 +4,9 @@ import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+/**
+ * Contains configuration information.
+ */
 @Component
 @NoArgsConstructor
 @ConfigurationProperties(
@@ -13,16 +16,24 @@ public class JWTConfiguration {
     private String userPoolId;
     private String identityPoolId;
     private String jwkUrl;
-    private String region = "eu-west-1";
+    private String region;
     private String userNameField = "cognito:username";
     private int connectionTimeout = 2000;
     private int readTimeout = 2000;
     private String httpHeader = "Authorization";
 
+    /**
+     * Returns the URL which contains the public keys used to verify the JWT.
+     * @return a String representing the AWS Cognito public keys URL
+     */
     public String getJwkUrl() {
         return this.jwkUrl != null && !this.jwkUrl.isEmpty() ? this.jwkUrl : String.format("https://cognito-idp.%s.amazonaws.com/%s/.well-known/jwks.json", this.region, this.userPoolId);
     }
 
+    /**
+     * Returns the URL of the AWS Cognito identity pool in which the credentials of the users are stored.
+     * @return a String representing the AWS Cognito identity pool URL
+     */
     public String getCognitoIdentityPoolUrl() {
         return String.format("https://cognito-idp.%s.amazonaws.com/%s", this.region, this.userPoolId);
     }

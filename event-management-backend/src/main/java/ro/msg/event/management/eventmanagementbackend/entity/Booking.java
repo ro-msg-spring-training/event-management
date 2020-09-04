@@ -1,9 +1,6 @@
 package ro.msg.event.management.eventmanagementbackend.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 public class Booking extends BaseEntity {
 
     private LocalDateTime bookingDate;
@@ -24,6 +22,7 @@ public class Booking extends BaseEntity {
     @JoinColumn(name = "event")
     private Event event;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "booking",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,

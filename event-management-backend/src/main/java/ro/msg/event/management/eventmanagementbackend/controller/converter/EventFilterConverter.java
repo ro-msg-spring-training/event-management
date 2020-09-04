@@ -17,6 +17,7 @@ public class EventFilterConverter implements Converter<EventView, EventFiltering
                 .endHour(eventView.getEndHour())
                 .location(eventView.getLocation())
                 .occupancyRate(eventView.getRate())
+                .id(eventView.getId())
                 .build();
     }
 }

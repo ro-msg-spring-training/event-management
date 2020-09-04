@@ -39,18 +39,22 @@ public class Event extends BaseEntity {
 
     private String observations;
 
-    private boolean noTicketEvent;
+    private int ticketsPerUser;
 
     private String creator;
 
+    private String ticketInfo;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "event",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     private List<Picture> pictures;
 
-
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "event",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
@@ -58,12 +62,21 @@ public class Event extends BaseEntity {
     private List<EventSublocation> eventSublocations;
 
 
-
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "event",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     private List<Booking> bookings;
+
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "event",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<TicketCategory> ticketCategories;
 
 
 }

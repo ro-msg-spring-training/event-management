@@ -3,6 +3,7 @@ package ro.msg.event.management.eventmanagementbackend;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import ro.msg.event.management.eventmanagementbackend.entity.Event;
 import ro.msg.event.management.eventmanagementbackend.repository.EventRepository;
 import ro.msg.event.management.eventmanagementbackend.service.EventService;
@@ -10,8 +11,10 @@ import ro.msg.event.management.eventmanagementbackend.service.EventService;
 import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
+@ActiveProfiles("test")
 class DeleteEventIntegrationTests {
     private final EventService eventService;
     private final EventRepository eventRepository;
@@ -49,22 +52,9 @@ class DeleteEventIntegrationTests {
         this.eventRepository.save(event1);
         this.eventRepository.save(event2);
 
-        try {
-            this.eventService.deleteEvent(-1);
-            assert false;
-        }
-        catch (NoSuchElementException noSuchElementException)
-        {
-            assert true;
-        }
-
-        try {
-            this.eventService.deleteEvent(3);
-            assert false;
-        }
-        catch (NoSuchElementException noSuchElementException)
-        {
-            assert true;
-        }
+        assertThrows(NoSuchElementException.class,
+                () -> this.eventService.deleteEvent(-1));
+        assertThrows(NoSuchElementException.class,
+                () -> this.eventService.deleteEvent(1000));
     }
 }

@@ -1,9 +1,6 @@
 package ro.msg.event.management.eventmanagementbackend.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -12,6 +9,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
+@Table(name = "ticket")
 public class Ticket extends BaseEntity {
 
     private String name;
@@ -22,6 +21,13 @@ public class Ticket extends BaseEntity {
     @JoinColumn(name = "booking")
     private Booking booking;
 
-    @OneToOne(mappedBy = "ticket", cascade = CascadeType.ALL, optional = true, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "ticket_category")
+    private TicketCategory ticketCategory;
+
+    @OneToOne(mappedBy = "ticket",
+            cascade = CascadeType.ALL,
+            optional = true,
+            fetch = FetchType.LAZY)
     private TicketDocument ticketDocument;
 }

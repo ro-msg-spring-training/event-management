@@ -15,6 +15,8 @@ import java.util.List;
 @Builder
 public class EventDto {
 
+    private long id;
+
     private String title;
 
     private String subtitle;
@@ -37,13 +39,17 @@ public class EventDto {
 
     private String observations;
 
-    private boolean noTicketEvent;
-
     private String creator;
 
     private long location;
 
     private List<String> picturesUrlSave;
 
-    private List<String> picturesUrlDelete;
+    private int ticketsPerUser;
+
+    private List<TicketCategoryDto> ticketCategoryDtoList;
+
+    private List<Long> ticketCategoryToDelete;
+
+    private String ticketInfo;
 }

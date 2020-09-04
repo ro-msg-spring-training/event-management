@@ -13,6 +13,7 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @Builder
 public class EventFilteringDto {
+    private long id;
     private String title;
     private String subtitle;
     private String location;
