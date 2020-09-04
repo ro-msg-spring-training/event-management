@@ -115,17 +115,19 @@ export const setStartDateError = (date1: string, date2: string, date3: string, t
 
 export const setStartTimeError = (date1: string, date2: string, time1: string, time2: string, t: TFunction): string => {
   let result = '';
-  if (compareDates(date1, date2) === 0 && compareTimes(time1, time2) !== -1)
+  if (compareTimes(time1, time2) !== -1)
     result = t('welcome.errMsgOverviewOneDayEventStartTimeErr')
   return result;
 }
+// compareDates(date1, date2) === 0 && 
 
 export const setEndTimeError = (date1: string, date2: string, time1: string, time2: string, t: TFunction): string => {
   let result = '';
-  if (compareDates(date1, date2) === 0 && compareTimes(time1, time2) !== -1)
+  if (compareTimes(time1, time2) !== -1)
     result = t('welcome.errMsgOverviewOneDayEventEndTimeErr')
   return result;
 }
+// compareDates(date1, date2) === 0 && 
 
 export const resetErrors = (newFormErrors: EventFormErrors): EventFormErrors => {
   newFormErrors.startDate = '';
