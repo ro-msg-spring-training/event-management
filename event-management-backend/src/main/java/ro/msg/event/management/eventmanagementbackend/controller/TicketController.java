@@ -65,7 +65,6 @@ public class TicketController {
     }
 
     @GetMapping(value = "/pdf/{id}", produces = "application/pdf")
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<InputStreamResource> getTicketPdf(@PathVariable long id)
     {
         InputStream pdfInputStream = this.ticketService.getPdf(id);
