@@ -1,11 +1,12 @@
 import React from 'react';
 import TableRow from '@material-ui/core/TableRow';
 import { Ticket } from '../../../model/Ticket';
-import { Link } from 'react-router-dom';
 import { Button, TableCell } from '@material-ui/core';
 import { useStyles } from '../../../styles/CommonStyles';
 import { useStylesTickets } from '../../../styles/ticketsListStyles';
 import { useTranslation } from 'react-i18next';
+import { serverURL } from '../../../api/Api';
+
 
 interface Props {
   ticket: Ticket;
@@ -23,12 +24,16 @@ const TicketCollapseDumb = ({ ticket, open }: Props) => {
     },
     fixed: {
       tableLayout: "fixed",
-      display: 'contents',
+      display: 'table-row',
     }
   };
   const { none, fixed } = styles;
+  const URL_PDF = serverURL + '/tickets/pdf/' + ticket.ticketId;
 
-  // TODO: when backend done, add link to PDFs here
+  const downloadTicketPdf = () => {
+    window.open(URL_PDF, 'Download');
+  };
+
   return (
     <TableRow style={open ? fixed : none}>
         <TableCell className={classes.tableCellPadding} />
@@ -76,13 +81,13 @@ const TicketCollapseDumb = ({ ticket, open }: Props) => {
           size={'medium'}
           className={`${classes.pdfButton} ${classes.tableCellPadding}`}
         >
-          <Link to={''} className={classes.linkDecoration}>
+          <div onClick={downloadTicketPdf}>
             <Button
               className={`${commonClasses.mainButtonStyle} ${commonClasses.pinkGradientButtonStyle} ${commonClasses.mobileButton}`}
             >
               {t('eventList.open')}
             </Button>
-          </Link>
+          </div>
         </TableCell>
     </TableRow>
   );
