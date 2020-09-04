@@ -145,10 +145,12 @@ const HeaderReducer = (
         modifyEventError: false,
         error: '',
       }
-    
+
     case RESET_STORE:
-      return initialState;
-    
+      return {
+        ...initialState
+      }
+
     case UPDATE_LOCATION:
       const newEvent = JSON.parse(JSON.stringify(state.event));
       newEvent.location = action.payload;

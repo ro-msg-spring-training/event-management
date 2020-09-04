@@ -119,7 +119,7 @@
 
         "popupMsgTryAgain": "Try again",
         "popupMsgErrTitle": "Error",
-        "popupMsgTimeErrDescription": "The time period is not properly selected. If the event takes place in a single day, start time must be before end time.",
+        "popupMsgTimeErrDescription": "The time period is not properly selected. Start time must be before end time.",
         "popupMsgDateErrDescription": "The date period is not properly selected. Start date must be before end date.",
 
         "popupErrMsgUnderstood": "I understand",
@@ -138,8 +138,8 @@
         "errMsgOverviewFirstDayInPast": "the first day of the event can't be in the past",
         "errMsgOverviewFirstDayAfterLast": "the first day of the event can't be after the last",
         "errMsgOverviewLastDayBeforeFirst": "the last day of the event can't be before the first",
-        "errMsgOverviewOneDayEventStartTimeErr": "if it is a one day event, you must choose the start time to be earlier than the end time",
-        "errMsgOverviewOneDayEventEndTimeErr": "if it is a one day event, you must choose the end time to be later than the start time",
+        "errMsgOverviewOneDayEventStartTimeErr": "you must choose the start time to be earlier than the end time",
+        "errMsgOverviewOneDayEventEndTimeErr": "you must choose the end time to be later than the start time",
         "errMsgOverviewMaxPpl": "minimum of 2 people required",
 
         "overviewHighlighted": "Highlighted",

@@ -119,7 +119,7 @@
 
         "popupMsgTryAgain": "Incercați încă o data",
         "popupMsgErrTitle": "Eroare",
-        "popupMsgTimeErrDescription": "Perioada de timp nu este selectată corect. Dacă evenimentul ia loc intr-o singură zi, timpul de început trebuie să fie inaintea timpului de încheiere.",
+        "popupMsgTimeErrDescription": "Perioada de timp nu este selectată corect. Timpul de început trebuie să fie inaintea timpului de încheiere.",
         "popupMsgDateErrDescription": "Perioada de timp nu este selectată corect. Ziua începerii trebuie să fie înaintea zilei de încheiere",
 
         "popupErrMsgUnderstood": "Am ințeles",
@@ -138,8 +138,8 @@
         "errMsgOverviewFirstDayInPast": "prima zi a evenimentului nu poate fi în trecut",
         "errMsgOverviewFirstDayAfterLast": "prima zi a evenimentului nu poate fi după ultima",
         "errMsgOverviewLastDayBeforeFirst": "ultima zi a evenimentului nu poate fi înainte de prima",
-        "errMsgOverviewOneDayEventStartTimeErr": "dacă evenimentul ia loc intr-o singură zi, timpul de inceput trebuie să fie inaintea timpului de incheiere",
-        "errMsgOverviewOneDayEventEndTimeErr": "dacă evenimentul ia loc intr-o singură zi, timpul incheierii trebuie să fie după timpul de începere",
+        "errMsgOverviewOneDayEventStartTimeErr": "timpul de inceput trebuie să fie inaintea timpului de incheiere",
+        "errMsgOverviewOneDayEventEndTimeErr": "timpul incheierii trebuie să fie după timpul de începere",
         "errMsgOverviewMaxPpl": "sunt necesare minim 2 persoane",
 
         "overviewHighlighted": "Evidențiat",

@@ -79,14 +79,13 @@ function EventDetails({
   const verifyDateAndTimePeriods = (event: EventCrud): boolean => {
     const startDate = new Date(event.startDate);
     const endDate = new Date(event.endDate);
-    if (!(startDate > endDate) && !(startDate < endDate)) {
-      if (event.startHour >= event.endHour) {
-        setMsgUndo(t('welcome.popupMsgTryAgain'));
-        setDialogTitle(t('welcome.popupMsgErrTitle'));
-        setDialogDescription(t('welcome.popupMsgTimeErrDescription'));
-        setOpen(true);
-        return false;
-      }
+    if (event.startHour >= event.endHour) {
+      setMsgUndo(t('welcome.popupMsgTryAgain'));
+      setDialogTitle(t('welcome.popupMsgErrTitle'));
+      setDialogDescription(t('welcome.popupMsgTimeErrDescription'));
+      setOpen(true);
+      return false;
+
     } else if (startDate > endDate) {
       setMsgUndo(t('welcome.popupMsgTryAgain'));
       setDialogTitle(t('welcome.popupMsgErrTitle'));
