@@ -164,7 +164,7 @@
         "backButton": "Înapoi",
         "joinButton": "Participă",
 
-        "loading": "Se incarcă"
+        "loading": "Se încarcă"
     },
     "images": {
         "imageErrorMessage": "A apărut o eroare la încărcarea imaginilor",
@@ -288,7 +288,7 @@
         "tickets_417": "Oops, eroare!",
         "tickets_500": "Eroare la server!",
 
-        "saveEvent_400": "Eroare in câmpurile de dată și timp!",
+        "saveEvent_400": "Eroare în câmpurile de dată și timp!",
         "saveEvent_404": "Evenimentul nu a fost găsit!",
         "saveEvent_406": "Suma numărului de bilete pe categorie depășește numărul maxim de persoane pentru eveniment!!",
         "saveEvent_409": "Evenimentul se suprapune cu un alt eveniment deja programat!",

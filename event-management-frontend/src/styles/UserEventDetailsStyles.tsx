@@ -9,13 +9,11 @@ export const userEventDetailsStyles = makeStyles(theme => ({
   },
   typographyTitle: {
     fontSize: 22,
-    // fontFamily: 'Monospace',
     textTransform: "uppercase",
     textAlign: "center"
   },
   typographySubtitle: {
     fontSize: 16,
-    // fontFamily: 'Monospace',
     textTransform: "uppercase",
     textAlign: "center"
   },

@@ -24,7 +24,6 @@ export const stepperStyles = makeStyles((theme: Theme) => ({
   },
   iconTabs: {
     borderRight: `1px solid ${theme.palette.primary.dark}`,
-    // marginTop: window.innerHeight / 4,
     marginTop: "60px",
   },
 }));
