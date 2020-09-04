@@ -222,7 +222,7 @@ public class EventController {
                                                          @RequestParam(required = false) List<String> multipleLocations,
                                                          @RequestParam(required = false) ComparisonSign rateSign,
                                                          @RequestParam(required = false) Float rate) {
-        Page<EventView> eventViews = eventService.filterEventsByEndDate(pageable, LocalDate.now(),(short)1);
+        Page<EventView> eventViews = eventService.filterEventsByEndDate(pageable,title,multipleLocations,rateSign,rate,LocalDate.now(),(short)1);
         return getUserCardsResponseEntity(eventViews);
     }
 
@@ -233,7 +233,7 @@ public class EventController {
                                                      @RequestParam(required = false) List<String> multipleLocations,
                                                      @RequestParam(required = false) ComparisonSign rateSign,
                                                      @RequestParam(required = false) Float rate) {
-        Page<EventView> eventViews = eventService.filterEventsByEndDate(pageable, LocalDate.now(),(short)0);
+        Page<EventView> eventViews = eventService.filterEventsByEndDate(pageable,title,multipleLocations,rateSign,rate,LocalDate.now(),(short)0);
         return getUserCardsResponseEntity(eventViews);
     }
 

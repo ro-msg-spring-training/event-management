@@ -318,7 +318,7 @@ public class EventService {
         return new PageImpl<>(result, pageable, count);
 
     }
-    public Page<EventView> filterEventsByEndDate(Pageable pageable,LocalDate startDate,short timeCriteria){
+    public Page<EventView> filterEventsByEndDate(Pageable pageable,String title,List<String> multipleLocations,ComparisonSign rateSign, Float rate, LocalDate startDate, short timeCriteria){
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<EventView> q = criteriaBuilder.createQuery(EventView.class);
         Root<EventView> c = q.from(EventView.class);
@@ -332,6 +332,20 @@ public class EventService {
             }
             predicate.add(predicate1);
         }
+        if (multipleLocations != null) {
+            Expression<String> path = c.get("location");
+            predicate.add(path.in(multipleLocations));
+
+        }
+        if (title != null) {
+            Expression<String> path = c.get("title");
+            Expression<String> upper = criteriaBuilder.upper(path);
+            predicate.add(criteriaBuilder.like(upper, "%" + title.toUpperCase() + "%"));
+        }
+        if (rateSign != null) {
+            predicate.add(this.getPredicate(rateSign, "rate", rate, criteriaBuilder, c));
+        }
+
         Predicate finalPredicate = criteriaBuilder.and(predicate.toArray(new Predicate[0]));
         q.where(finalPredicate);
         TypedQuery<EventView> typedQuery = entityManager.createQuery(q);
