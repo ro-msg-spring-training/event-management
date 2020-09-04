@@ -35,6 +35,8 @@ interface TicketsStepSmartProps {
 
   updateBookings: (booking: Booking) => void;
   booking: Booking;
+
+  gotoFirstPage: () => void;
 }
 
 function TicketsStepSmart({
@@ -49,6 +51,7 @@ function TicketsStepSmart({
   booking,
   updateBookings,
   eventId,
+  gotoFirstPage,
 }: TicketsStepSmartProps) {
   const ticketsPageStyle = userBuyTicketsStyle();
   const { t } = useTranslation();
@@ -138,7 +141,7 @@ function TicketsStepSmart({
     );
   }
 
-  return <TicketsStepDumb nextStep={nextStep} inputs={inputs} />;
+  return <TicketsStepDumb gotoFirstPage={gotoFirstPage} nextStep={nextStep} inputs={inputs} />;
 }
 
 const mapStateToProps = (state: AppState) => {

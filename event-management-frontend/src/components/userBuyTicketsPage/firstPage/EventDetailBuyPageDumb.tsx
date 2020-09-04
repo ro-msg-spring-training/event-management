@@ -21,7 +21,7 @@ const EventDetailBuyPageDumb = (props: Props) => {
 
   return (
     <div>
-      <h1 className={reserveTicketFirstPage.title}>{props.event.title}</h1>
+      <h1 className={`${reserveTicketFirstPage.title} titleResponsive`}>{props.event.title}</h1>
 
       <div className={reserveTicketFirstPage.styleblock}>
         <LocationOnIcon className={reserveTicketFirstPage.iconStyleLocation} />
@@ -68,6 +68,7 @@ const EventDetailBuyPageDumb = (props: Props) => {
           labelPlacement="start"
         />
         <FormControlLabel
+          className={reserveTicketFirstPage.textStyle}
           value="seat"
           control={
             <Radio color="primary" value="seat" onChange={(e) => props.handleChangeRadioButtonState(e.target.value)} />
@@ -76,7 +77,7 @@ const EventDetailBuyPageDumb = (props: Props) => {
           labelPlacement="start"
         />
       </RadioGroup>
-      <div className={reserveTicketFirstPage.tag}>
+      <div className={`${reserveTicketFirstPage.tag} tagResponsive`}>
         <Typography className={reserveTicketFirstPage.tagText}>{t('buyTicketsFirstPage.generalTicketInfo')}</Typography>
       </div>
 

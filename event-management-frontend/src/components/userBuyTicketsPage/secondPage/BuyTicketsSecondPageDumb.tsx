@@ -4,14 +4,11 @@ import EmailStep from './steps/emailStep/EmailStepSmart';
 import NamesStep from './steps/namesStep/NamesStepSmart';
 import TermsAndConditionsStep from './steps/termsAndConditionsStep/TermsAndConditionsStepSmart';
 import Booking from '../../../model/Booking';
-import { Tooltip, IconButton, Paper, Grid } from '@material-ui/core';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import CloseIcon from '@material-ui/icons/Close';
-import { BuyTicketsSecondPageStyle, buyTicketsSecondPageDumbStyle } from '../../../styles/BuyTicketsSecondPageStyle';
+import { Paper, Grid } from '@material-ui/core';
+import { buyTicketsSecondPageDumbStyle } from '../../../styles/BuyTicketsSecondPageStyle';
 import { TicketNames } from '../../../model/UserReserveTicket';
 import { TicketAvailabilityData } from '../../../model/BuyTicketsSecondPage';
 import '../../../styles/ReservePageStyle.css';
-import { useTranslation } from 'react-i18next';
 
 interface BuyTicketsSecondPageDumbProps {
   gotoFirstPage: () => void;
@@ -36,7 +33,6 @@ interface BuyTicketsSecondPageDumbProps {
 
 function BuyTicketsSecondPageDumb({
   gotoFirstPage,
-  gotoEventListPage,
   ticketCategories,
   eventId,
   booking,
@@ -51,32 +47,7 @@ function BuyTicketsSecondPageDumb({
   prevStep,
   handleEnterKey,
 }: BuyTicketsSecondPageDumbProps) {
-  const [t] = useTranslation();
-
-  const buttonStyles = BuyTicketsSecondPageStyle();
   const generalStyle = buyTicketsSecondPageDumbStyle();
-
-  const buttons = (
-    <>
-      <Tooltip title={t('buyTicketsSecondPage.gotoFirstPage') as string}>
-        <IconButton
-          onClick={gotoFirstPage}
-          className={`${buttonStyles.positionLeft} buttonStyleLeft ${buttonStyles.prevButtonStyle} buttonStyleLeftSecond`}
-        >
-          <NavigateNextIcon color='secondary' />
-        </IconButton>
-      </Tooltip>
-
-      <Tooltip title={t('buyTicketsSecondPage.cancelPurchase') as string}>
-        <IconButton
-          onClick={gotoEventListPage}
-          className={`${buttonStyles.positionRight} buttonStyleRight ${buttonStyles.cancelButtonStyle} buttonStyleRightSecond`}
-        >
-          <CloseIcon color='secondary' />
-        </IconButton>
-      </Tooltip>
-    </>
-  );
 
   const [open, setOpen] = useState(false);
   let handleBuy = (): void => {
@@ -90,6 +61,7 @@ function BuyTicketsSecondPageDumb({
       currentPage = (
         <div style={{ marginTop: '2vh' }}>
           <TicketsStep
+            gotoFirstPage={gotoFirstPage}
             nextStep={nextStep}
             handleEnterKey={handleEnterKey}
             ticketCategories={ticketCategories}
@@ -149,10 +121,9 @@ function BuyTicketsSecondPageDumb({
     <div className={generalStyle.root}>
       <Grid container direction='row' justify='center' alignItems='center'>
         <Grid item xs={12}>
-          <Paper className={`${generalStyle.paperStyle} buyPageResponsive `}>{currentPage}</Paper>
+          <Paper className={`${generalStyle.paperStyle} buyPageResponsive`}>{currentPage}</Paper>
         </Grid>
       </Grid>
-      {buttons}
     </div>
   );
 }

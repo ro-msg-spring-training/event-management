@@ -1,18 +1,20 @@
 import React from 'react';
-import { Button, Grid, Typography } from '@material-ui/core';
-import { useStyles } from '../../../../../styles/CommonStyles';
+import { Grid, Typography, Tooltip, IconButton } from '@material-ui/core';
 import { userBuyTicketsStyle } from '../../../../../styles/UserBuyTicketsStyle';
 import HelpIcon from '@material-ui/icons/Help';
-import { HtmlTooltip } from '../../../../../styles/BuyTicketsSecondPageStyle';
+import { HtmlTooltip, BuyTicketsSecondPageStyle } from '../../../../../styles/BuyTicketsSecondPageStyle';
 import { useTranslation } from 'react-i18next';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import '../../../../../styles/ReservePageStyle.css';
 
 interface TicketsStepDumbProps {
   nextStep: () => void;
   inputs: JSX.Element[];
+  gotoFirstPage: () => void,
 }
 
-function TicketsStepDumb({ nextStep, inputs }: TicketsStepDumbProps) {
-  const buttonClass = useStyles();
+function TicketsStepDumb({ nextStep, inputs, gotoFirstPage }: TicketsStepDumbProps) {
+  const buttonStyles = BuyTicketsSecondPageStyle();
   const ticketsPageStyle = userBuyTicketsStyle();
   const { t } = useTranslation();
 
@@ -37,16 +39,23 @@ function TicketsStepDumb({ nextStep, inputs }: TicketsStepDumbProps) {
           alignItems='center'
           className={`${ticketsPageStyle.button} buttonStyleResp`}
         >
-          <Grid item xs={4} sm={2} md={2} lg={1} xl={1} />
-          <Grid item xs={4} sm={2} md={2} lg={1} xl={1}>
-            <Button
-              variant='contained'
-              className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle} ${ticketsPageStyle.buttonPosition}`}
-              onClick={nextStep}
+          <Tooltip title={t('buyTicketsSecondPage.gotoFirstPage') as string}>
+            <IconButton
+              onClick={gotoFirstPage}
+              className={`${buttonStyles.positionLeft} ${buttonStyles.prevButtonStyle} buttonStyleLeftSecond`}
             >
-              {t('eventList.next')}
-            </Button>
-          </Grid>
+              <NavigateNextIcon color='secondary' />
+            </IconButton>
+          </Tooltip>
+
+          <Tooltip title={t('eventList.next') as string}>
+            <IconButton
+              onClick={nextStep}
+              className={`${buttonStyles.positionRight} ${buttonStyles.nextButtonStyle} buttonStyleRightSecond`}
+            >
+              <NavigateNextIcon color='secondary' />
+            </IconButton>
+          </Tooltip>
         </Grid>
       </Grid>
     </>

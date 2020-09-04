@@ -9,6 +9,7 @@ import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Grid, Container, CircularProgress } from '@material-ui/core';
 import { useStyles } from '../../styles/CommonStyles';
+import { displayErrorMessage } from '../../utils/AlertDialogUtils';
 
 interface AlertDialogProps {
   open: boolean;
@@ -19,10 +20,18 @@ interface AlertDialogProps {
 
   prevStep?: () => void;
   isLoading?: boolean;
+  eventIsLoading?: boolean;
   isError?: boolean;
   errorMsg?: string;
   isRequest: boolean;
-  handleGoToEventsPage?: () => void
+  addRequest: boolean;
+  editRequest: boolean;
+  deleteRequest: boolean;
+  handleGoToTicketsPage?: () => void;
+  resetErrors: () => void;
+  setAddRequest?: (addRequest: boolean) => void,
+  setEditRequest?: (editRequest: boolean) => void,
+  setRequest?: (request: boolean) => void,
 }
 
 export default function AlertDialog({
@@ -36,16 +45,19 @@ export default function AlertDialog({
   isError,
   errorMsg,
   isRequest,
-  handleGoToEventsPage
+  addRequest,
+  editRequest,
+  deleteRequest,
+  eventIsLoading,
+  handleGoToTicketsPage,
+  resetErrors,
+  setAddRequest,
+  setEditRequest,
+  setRequest
 }: AlertDialogProps) {
   const buttonClass = useStyles();
   const history = useHistory();
   const { t } = useTranslation();
-
-  const handleClose = () => {
-    setOpen(false);
-    prevStep !== undefined && prevStep();
-  };
 
   const handleProceed = (): void => {
     setOpen(false);
@@ -58,19 +70,39 @@ export default function AlertDialog({
     prevStep !== undefined && prevStep();
   };
 
+  const goBack = (): void => {
+    resetErrors();
+    setAddRequest !== undefined && setAddRequest(false);
+    setEditRequest !== undefined && setEditRequest(false);
+    setRequest !== undefined && setRequest(false);
+
+    if (isRequest) {
+      handleCancel();
+    } else {
+      setOpen(false);
+    }
+  }
+
+  const handleSuccessButton = (): void => {
+    if (isRequest) {
+      handleGoToTicketsPage !== undefined && handleGoToTicketsPage();
+    } else {
+      setOpen(false);
+      history.push('/admin/events');
+    }
+  }
+
   return (
     <>
       <Dialog
         open={open}
-        onClose={handleClose}
+        onClose={handleCancel}
         aria-labelledby='alert-dialog-title'
         aria-describedby='alert-dialog-description'
       >
-        {console.log('REQUEST', isRequest)}
-        {isRequest ?
-          isLoading ?
+        {isRequest || addRequest || editRequest || deleteRequest ?
+          isLoading || eventIsLoading ?
             <DialogContent>
-              {console.log('loading')}
               <Grid container direction='row' justify='center' alignItems='center'>
                 <Container maxWidth='lg'>
                   <CircularProgress />
@@ -80,22 +112,22 @@ export default function AlertDialog({
             </DialogContent> :
             isError ?
               <>
-                <DialogTitle id='alert-dialog-title'>Error {errorMsg}</DialogTitle>
+                <DialogTitle id='alert-dialog-title'>{displayErrorMessage(errorMsg as string, isRequest, addRequest, editRequest, deleteRequest, t)}</DialogTitle>
                 <DialogContent>
-                  {console.log('error', errorMsg)}
                   <DialogActions>
-                    <Button onClick={handleGoToEventsPage} color='primary' autoFocus className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle}`}>
+                    <Button onClick={goBack} color='primary' autoFocus className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle} ${buttonClass.buttonSize}`}>
                       OK
-                  </Button>
+                    </Button>
                   </DialogActions>
                 </DialogContent>
               </> :
               <>
-                <DialogTitle id='alert-dialog-title'>Success</DialogTitle>
+                <DialogTitle id='alert-dialog-title'>
+                  {isRequest ? t("successMsg.successfulBuy") : addRequest ? t("successMsg.successfulAdd") : editRequest ? t("successMsg.successfulEdit") : t("successMsg.successfulDelete")}
+                </DialogTitle>
                 <DialogContent>
-                  {console.log('Success')}
                   <DialogActions>
-                    <Button onClick={handleGoToEventsPage} color='primary' autoFocus className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle}`}>
+                    <Button onClick={handleSuccessButton} color='primary' autoFocus className={`${buttonClass.mainButtonStyle} ${buttonClass.pinkGradientButtonStyle} ${buttonClass.buttonSize}`}>
                       OK
                   </Button>
                   </DialogActions>

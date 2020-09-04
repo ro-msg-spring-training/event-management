@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
     color: "#133655",
     width: 100,
   },
+  buttonSize: {
+    maxWidth: "120px"
+  },
   mainButtonStyle: {
     color: theme.palette.secondary.main,
     textTransform: "uppercase",
