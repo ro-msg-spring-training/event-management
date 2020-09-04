@@ -28,7 +28,7 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     @Query("SELECT e FROM Event e LEFT JOIN Booking b" +
             " ON e.id = b.event.id" +
             " WHERE b.user = :user" +
-            " AND e.startDate < current_date()" +
+            " AND e.endDate < current_date()" +
             " GROUP BY e.id" +
             " ORDER BY e.startDate DESC")
     Page<Event> findByUserInPast(@Param("user") String user, Pageable pageable);
@@ -36,7 +36,7 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     @Query("SELECT e FROM Event e LEFT JOIN Booking b" +
             " ON e.id = b.event.id" +
             " WHERE b.user = :user" +
-            " AND e.startDate > current_date()" +
+            " AND e.endDate > current_date()" +
             " GROUP BY e.id" +
             " ORDER BY e.startDate ASC")
     Page<Event> findByUserInFuture(@Param("user") String user, Pageable pageable);

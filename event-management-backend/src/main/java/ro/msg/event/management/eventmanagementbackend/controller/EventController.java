@@ -222,10 +222,7 @@ public class EventController {
                                                          @RequestParam(required = false) List<String> multipleLocations,
                                                          @RequestParam(required = false) ComparisonSign rateSign,
                                                          @RequestParam(required = false) Float rate) {
-
-
-        Page<EventView> eventViews = eventService.filter(pageable, title, null, null, null, null, LocalDate.now(), MAX_DATE, null, null, rateSign, rate, null, null, SortCriteria.DATE, true, multipleLocations);
-
+        Page<EventView> eventViews = eventService.filterEventsByEndDate(pageable, LocalDate.now(),(short)1);
         return getUserCardsResponseEntity(eventViews);
     }
 
@@ -236,8 +233,7 @@ public class EventController {
                                                      @RequestParam(required = false) List<String> multipleLocations,
                                                      @RequestParam(required = false) ComparisonSign rateSign,
                                                      @RequestParam(required = false) Float rate) {
-        Page<EventView> eventViews = eventService.filter(pageable, title, null, null, null, null, MIN_DATE, LocalDate.now(), null, null, rateSign, rate, null, null, SortCriteria.DATE, false, multipleLocations);
-
+        Page<EventView> eventViews = eventService.filterEventsByEndDate(pageable, LocalDate.now(),(short)0);
         return getUserCardsResponseEntity(eventViews);
     }
 
@@ -251,7 +247,7 @@ public class EventController {
         return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
 
-    @GetMapping("user/past")
+    @GetMapping("/user/past")
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<JSONObject> userEventsAttended(Pageable pageable) {
 
@@ -270,7 +266,7 @@ public class EventController {
         return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
 
-    @GetMapping("user/future")
+    @GetMapping("/user/future")
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<JSONObject> userEventsWillAttend(Pageable pageable) {
 

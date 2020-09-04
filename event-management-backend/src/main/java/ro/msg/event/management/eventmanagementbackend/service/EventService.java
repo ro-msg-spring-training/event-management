@@ -261,8 +261,8 @@ public class EventService {
         if (startDate != null && endDate != null) {
             Predicate firstCase = criteriaBuilder.between(c.get("startDate"), startDate, endDate);
             Predicate secondCase = criteriaBuilder.between(c.get("endDate"), startDate, endDate);
-            Predicate thirdCase = criteriaBuilder.greaterThan(c.get("endDate"), endDate);
-            Predicate fourthCase = criteriaBuilder.lessThan(c.get("startDate"), startDate);
+            Predicate thirdCase = criteriaBuilder.greaterThanOrEqualTo(c.get("endDate"), endDate);
+            Predicate fourthCase = criteriaBuilder.lessThanOrEqualTo(c.get("startDate"), startDate);
             Predicate fifthCase = criteriaBuilder.and(thirdCase, fourthCase);
             predicate.add(criteriaBuilder.or(firstCase, secondCase, fifthCase));
 
@@ -270,8 +270,8 @@ public class EventService {
         if (startHour != null && endHour != null) {
             Predicate firstCase = criteriaBuilder.between(c.get("startHour"), startHour, endHour);
             Predicate secondCase = criteriaBuilder.between(c.get("endHour"), startHour, endHour);
-            Predicate thirdCase = criteriaBuilder.greaterThan(c.get("endHour"), endHour);
-            Predicate fourthCase = criteriaBuilder.lessThan(c.get("startHour"), startHour);
+            Predicate thirdCase = criteriaBuilder.greaterThanOrEqualTo(c.get("endHour"), endHour);
+            Predicate fourthCase = criteriaBuilder.lessThanOrEqualTo(c.get("startHour"), startHour);
             Predicate fifthCase = criteriaBuilder.and(thirdCase, fourthCase);
             predicate.add(criteriaBuilder.or(firstCase, secondCase, fifthCase));
         }
@@ -317,6 +317,34 @@ public class EventService {
         Long count = entityManager.createQuery(sc).getSingleResult();
         return new PageImpl<>(result, pageable, count);
 
+    }
+    public Page<EventView> filterEventsByEndDate(Pageable pageable,LocalDate startDate,short timeCriteria){
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<EventView> q = criteriaBuilder.createQuery(EventView.class);
+        Root<EventView> c = q.from(EventView.class);
+        List<Predicate> predicate = new ArrayList<>();
+        Predicate predicate1 = null;
+        if (startDate != null) {
+            switch (timeCriteria){
+                case 0 : predicate1 = criteriaBuilder.lessThan(c.get("endDate"), startDate); break;
+                case 1 : predicate1 = criteriaBuilder.greaterThanOrEqualTo(c.get("endDate"), startDate); break;
+                default: break;
+            }
+            predicate.add(predicate1);
+        }
+        Predicate finalPredicate = criteriaBuilder.and(predicate.toArray(new Predicate[0]));
+        q.where(finalPredicate);
+        TypedQuery<EventView> typedQuery = entityManager.createQuery(q);
+        typedQuery.setFirstResult((int) pageable.getOffset());
+        typedQuery.setMaxResults(pageable.getPageSize());
+        List<EventView> result = typedQuery.getResultList();
+
+        CriteriaQuery<Long> sc = criteriaBuilder.createQuery(Long.class);
+        Root<EventView> rootSelect = sc.from(EventView.class);
+        sc.select(criteriaBuilder.count(rootSelect));
+        sc.where(finalPredicate);
+        Long count = entityManager.createQuery(sc).getSingleResult();
+        return new PageImpl<>(result, pageable, count);
     }
 
 
