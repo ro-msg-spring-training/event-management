@@ -60,7 +60,7 @@
         "username": "Nume de utilizator",
         "password": "Parolă",
         "successMessage": "Autentificare reușită!",
-        "passwordError": "Cerințe: min. 8 caractere, litere mari și un număr.",
+        "passwordError": "Cerințe: min. 8 caractere, o literă mare și o cifră.",
         "emailError": "Introduceți o adresă de email validă!",
         "errorMessage": "Nume de utilizator sau parolă incorectă."
     },
@@ -117,7 +117,7 @@
         "popupMsgCancelTitle": "Sunteți sigur?",
         "popupMsgCancelDescription": "Dacă alegeți să renunțați veți pierde progresul.",
 
-        "popupMsgTryAgain": "Incercați încă o data",
+        "popupMsgTryAgain": "Încercați încă o dată",
         "popupMsgErrTitle": "Eroare",
         "popupMsgTimeErrDescription": "Perioada de timp nu este selectată corect. Timpul de început trebuie să fie inaintea timpului de încheiere.",
         "popupMsgDateErrDescription": "Perioada de timp nu este selectată corect. Ziua începerii trebuie să fie înaintea zilei de încheiere",
@@ -249,14 +249,14 @@
         "carousselError": "Încărcare nereușită. Mai încearcă!"
     },
     "buyTicketsFirstPage": {
-        "radioButtonNoSeat": "Continua fără a alege un loc",
+        "radioButtonNoSeat": "Continuă fără a alege un loc",
         "radioButtonSeat": "Selectați un loc din planul clădirii",
         "generalTicketInfo": "Informați generale despre bilete",
         "toDate": "până în",
         "toTime": "până la",
         "nextPage": "Mergi la a doua pagină",
         "cancel": "Renunță la achiziție",
-        "errorMessage": " Oops, error"
+        "errorMessage": "Oops, error"
     },
 
     "buyTicketsSecondPage": {
@@ -280,7 +280,6 @@
         "noErrorsInNamesStep": "Există încă erori în secțiunea de nume, pentru a cumpăra biletele trebuie să le rezolvați",
         "termsAndConditions": "Termeni și Condiții",
         "agreement": "Sunt de acord"
-
     },
     "serverErrors": {
         "tickets_404": "Categoriile evenimentului nu au fost găsite!",
@@ -307,5 +306,4 @@
         "successfulAdd": "Adăugarea a fost cu succes!",
         "successfulEdit": "Editarea a fost cu succes!"
     }
-
 }

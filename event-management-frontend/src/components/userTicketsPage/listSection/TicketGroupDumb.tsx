@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from '@material-ui/core';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import { Link } from 'react-router-dom';
+import { serverURL } from '../../../api/Api';
 import { Ticket } from '../../../model/Ticket';
 import { useStyles } from '../../../styles/CommonStyles';
 import { useStylesTickets } from '../../../styles/ticketsListStyles';
@@ -11,6 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import TicketCollapseDumb from './TicketCollapseDumb';
+
 
 interface Props {
   handleChange: (index: number) => void;
@@ -32,9 +33,12 @@ const TicketGroupDumb = ({ handleChange, tickets, open, index }: Props) => {
   const eventName = firstElement.eventName;
   const category = firstElement.ticketCategory;
   const name = firstElement.name;
-  // const pdfUrl = firstElement.pdfUrl;
+  const URL_PDF = serverURL + '/tickets/pdf/' + firstElement.ticketId;
 
-  // TODO: when backend done, add link to PDFs here
+  const downloadTicketPdf = () => {
+    window.open(URL_PDF, 'Download');
+  };
+
   return (
     <>
       <TableRow>
@@ -78,13 +82,13 @@ const TicketGroupDumb = ({ handleChange, tickets, open, index }: Props) => {
         </TableCell>
 
         <TableCell key={'pdfUrl'} align={'center'} size={'medium'} className={classes.pdfButton}>
-          <Link to={''} className={classes.linkDecoration}>
+          <div onClick={downloadTicketPdf}>
             <Button
               className={`${commonClasses.mainButtonStyle} ${commonClasses.pinkGradientButtonStyle} ${commonClasses.mobileButton}`}
             >
               {t('eventList.open')}
             </Button>
-          </Link>
+          </div>
         </TableCell>
       </TableRow>
 

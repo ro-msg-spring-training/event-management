@@ -25,7 +25,6 @@ import { EventImage } from '../model/EventImage';
 import { EventFormErrors, CategoryCardErrors } from '../model/EventFormErrors';
 import { TicketAvailabilityData } from '../model/TicketAvailabilityData';
 import { CategoryCardItem } from '../model/TicketType';
-import { isError } from 'util';
 
 export interface EventState {
   eventIsLoading: boolean;
@@ -93,7 +92,7 @@ export const initialState: EventState = {
     picturesUrlDelete: [],
     ticketsPerUser: 0,
     noTicketEvent: true,
-    ticketCategoryDtoList: [emptyCard],
+    ticketCategoryDtoList: [],
     ticketCategoryToDelete: [],
     ticketInfo: '',
   },
@@ -144,13 +143,13 @@ const HeaderReducer = (
         isError: false,
         modifyEventError: false,
         error: '',
-      }
+      };
 
     case RESET_STORE:
       return {
-        ...initialState
-      }
-
+        ...initialState,
+      };
+    
     case UPDATE_LOCATION:
       const newEvent = JSON.parse(JSON.stringify(state.event));
       newEvent.location = action.payload;
@@ -241,7 +240,7 @@ const HeaderReducer = (
         ...state,
         eventIsLoading: false,
         modifyEventError: true,
-        error: action.payload
+        error: action.payload,
       };
     //-------------------------------------
     case EDIT_EVENT_REQUEST:

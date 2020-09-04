@@ -31,7 +31,6 @@ const CategoryPageDumb: React.FC<Props> = ({ newEvent, event, addCard, handleCha
 
   return (
     <div>
-      <h1 className={classes.title}>General</h1>
       <Grid className={classes.gridStyleHeader} container spacing={1}>
         <Grid container item xl={2} lg={2} md={2} sm={9} xs={10}>
           <TextField
@@ -65,6 +64,7 @@ const CategoryPageDumb: React.FC<Props> = ({ newEvent, event, addCard, handleCha
             rowsMax="4"
             variant="outlined"
             label={t('categoryCard.ticketInfo')}
+            disabled={!newEvent}
             defaultValue={event.ticketInfo}
             onChange={handleChange}
             error={formErrors.ticketInfo.length > 0}
