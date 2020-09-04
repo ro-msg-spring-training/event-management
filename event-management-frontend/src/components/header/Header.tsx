@@ -1,80 +1,39 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import {AppBar, Avatar, Toolbar, Typography} from '@material-ui/core'
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import AppBarCollapse from "./AppBarCollapse";
+import React from 'react';
+import { AppBar, Avatar, Toolbar } from '@material-ui/core';
+import AppBarCollapse from './AppBarCollapse';
 import RO from '../../languageImages/RO.png';
 import EN from '../../languageImages/EN.png';
-import { useTranslation } from "react-i18next";
-
-
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        small: {
-            width: theme.spacing(3),
-            height: theme.spacing(3),
-            padding: 10
-        },
-        title: {
-            flexGrow: 1,
-        },
-
-        //Colors
-        dark: {
-            color: '#133655',
-        },
-        light: {
-            color: '#6BB7D0',
-        },
-        ghost: {
-            color: '#F4F5F9',
-        },
-        white: {
-            color: '#FFFFFF',
-        },
-        yellow: {
-            color: '#F2AE30',
-        },
-        flags: {
-            '&:hover': {
-                cursor: "pointer",
-            }
-        }
-    }),
-);
+import { useTranslation } from 'react-i18next';
+import { useStylesHeader } from '../../styles/HeaderStyle';
+import AccountAppBarCollapse from './AccountAppBarCollapse';
 
 // The Header creates links that can be used to navigate between routes.
 const Header = () => {
-    const [ t, i18n ] = useTranslation();
-    const classes = useStyles();
+  const [, i18n] = useTranslation();
+  const classes = useStylesHeader();
 
-    const handleChangeAppLanguage = (language: string) => {
-        i18n.changeLanguage(language);
-        localStorage.setItem("i18nextLng", language)
-    }
+  const handleChangeAppLanguage = (language: string) => {
+    i18n.changeLanguage(language);
+    localStorage.setItem('i18nextLng', language);
+  };
 
-    return (
-    <AppBar position="sticky" style={{backgroundColor: "#133655"}}>
-        <Toolbar>
-            <Link to='/account' style={{ textDecoration: 'none' }} >
-                <IconButton className={classes.yellow}>
-                    <AccountCircle />
-                    <Typography variant="h6" >&nbsp;{t("eventList.account")}</Typography>
-                </IconButton>
-            </Link>
-            <div onClick={()=>handleChangeAppLanguage("ro")} className={classes.flags}>
-                <Avatar alt="RO" variant="square" className={classes.small} src={RO} />
-            </div>
-            <div onClick={()=>handleChangeAppLanguage("en")} className={classes.flags}>
-                <Avatar alt="EN" variant="square" className={classes.small} src={EN} />
-            </div>
+  return (
+    <AppBar position="sticky" style={{ backgroundColor: '#133655' }}>
+      <Toolbar>
+        <AccountAppBarCollapse />
 
-            <AppBarCollapse/>
-        </Toolbar>
+        <div onClick={() => handleChangeAppLanguage('ro')} className={classes.flags}>
+          <Avatar alt="RO" variant="square" className={classes.small} src={RO} />
+        </div>
+
+        <div onClick={() => handleChangeAppLanguage('en')} className={classes.flags}>
+          <Avatar alt="EN" variant="square" className={classes.small} src={EN} />
+        </div>
+
+        <AppBarCollapse />
+      </Toolbar>
     </AppBar>
-    );
-}
+  );
+};
 
-export default Header
+export default Header;

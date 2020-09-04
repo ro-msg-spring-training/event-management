@@ -1,14 +1,11 @@
-import React from 'react';
-
-interface Event {
-    id: number;
-    title: string;
-    subtitle: string;
-    location: number;
-    date: string;
-    hour: number;
-    occRate: number;
-    name: string;
+export interface Event {
+  endDate: string;
+  endHour: string;
+  id: number;
+  location: string;
+  occupancyRate: number;
+  startDate: string;
+  startHour: string;
+  subtitle: string;
+  title: string;
 }
-
-export default Event;

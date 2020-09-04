@@ -8,13 +8,9 @@ interface FromErrorProps {
 export const FormErrors = (props: FromErrorProps) => {
   const classes = useStylesError();
 
-  if (props.error) {
-    return (
-      <Alert severity="error" className={classes.error}>
-        Error: {props.error}
-      </Alert>
-    );
-  } else {
-    return null;
-  }
+  return (
+    <Alert severity="error" className={classes.error}>
+      Error: {props.error}
+    </Alert>
+  );
 };

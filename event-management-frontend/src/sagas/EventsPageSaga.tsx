@@ -1,140 +1,148 @@
 import {
-    FILTER_EVENTS,
-    FETCH_EVENTS,
-    FETCH_HOME_EVENTS,
-    fetchEventsRequest,
-    fetchEventsSuccess,
-    fetchEventsError,
-    fetchEventsRequestHome,
-    fetchEventsSuccessHome,
-    fetchEventsErrorHome,
-    filterEventsSuccess,
-    filterEventsError,
-    SORT_EVENTS, PREV_PAGE, NEXT_PAGE, FETCH_CUSTOM_EVENTS, FETCH_CUSTOM_EVENTS_HOME,
-    fetchCustomEventsRequest, fetchCustomEventsSuccess, fetchCustomEventsError,
-    fetchCustomEventsRequestHome, fetchCustomEventsSuccessHome, fetchCustomEventsErrorHome
-} from "../actions/EventsPageActions";
+  FILTER_EVENTS,
+  FETCH_EVENTS,
+  FETCH_HOME_EVENTS,
+  FETCH_CUSTOM_EVENTS,
+  FETCH_CUSTOM_EVENTS_HOME,
+  fetchEventsRequest,
+  fetchEventsSuccess,
+  fetchEventsError,
+  fetchEventsRequestHome,
+  fetchEventsSuccessHome,
+  fetchEventsErrorHome,
+  filterEventsSuccess,
+  filterEventsError,
+  fetchCustomEventsRequest,
+  fetchCustomEventsSuccess,
+  fetchCustomEventsError,
+  fetchCustomEventsRequestHome,
+  fetchCustomEventsSuccessHome,
+  fetchCustomEventsErrorHome,
+  validateTicketRequest,
+  validateTicketSuccess,
+  validateTicketFailure,
+  VALIDATE_TICKET,
+} from '../actions/EventsPageActions';
 
-import { takeLatest, takeEvery, put, call } from "redux-saga/effects";
-import { EventFilters } from "../model/EventFilters";
+import { takeLatest, takeEvery, put, call } from 'redux-saga/effects';
+import { EventFilters } from '../model/EventFilters';
 import {
-    fetchEvents,
-    fetchFilteredEvents,
-    fetchSortedEvents,
-    fetchHomeEvents,
-    fetchPaginatedHomeEvents
-} from "../api/EventsServiceAPI";
-import { EventSort } from "../model/EventSort";
-
+  fetchEvents,
+  fetchFilteredEvents,
+  fetchSortedEvents,
+  fetchHomeEvents,
+  fetchPaginatedHomeEvents,
+  validateTicketAPI,
+} from '../api/EventsServiceAPI';
+import { EventSort } from '../model/EventSort';
+import { responsiveFontSizes } from '@material-ui/core';
 
 interface FilterEventsProps {
-    type: string,
-    payload: EventFilters
+  type: string;
+  payload: EventFilters;
 }
 
 interface SortEventsProps {
-    type: string,
-    payload: EventSort
+  type: string;
+  payload: EventSort;
 }
 
-const delay = (ms: number) => new Promise(res => setTimeout(res, ms))
+interface ValidateProps {
+  type: string;
+  ticketID: number;
+  eventID: number;
+}
+
+const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 function* fetchFilteredEventsAsync(action: any) {
-    try {
-        const result = yield call(() => fetchFilteredEvents(action.payload, action.page))
-        yield put(filterEventsSuccess(result))
-    }
-    catch (err) {
-        yield put(filterEventsError())
-    }
+  try {
+    const result = yield call(() => fetchFilteredEvents(action.payload, action.page));
+    yield put(filterEventsSuccess(result));
+  } catch (err) {
+    yield put(filterEventsError());
+  }
 }
 
 export function* watchFetchFilteredEventsAsync() {
-    yield takeLatest(FILTER_EVENTS, fetchFilteredEventsAsync)
-}
-
-function* sortEventsAsync() {
-    yield delay(1000);
-}
-
-export function* watchSortEventsAsync() {
-    yield takeEvery(SORT_EVENTS, sortEventsAsync)
-}
-
-function* prevPageAsync() {
-    yield delay(1000);
-}
-
-export function* watchPrevPageAsync() {
-    yield takeEvery(PREV_PAGE, prevPageAsync)
-}
-
-function* nextPageAsync() {
-    yield delay(1000);
-}
-
-export function* watchNextPageAsync() {
-    yield takeEvery(NEXT_PAGE, nextPageAsync)
+  yield takeLatest(FILTER_EVENTS, fetchFilteredEventsAsync);
 }
 
 function* fetchEventsAsync() {
-    yield put(fetchEventsRequest())
-    try {
-        const result = yield fetchEvents()
-        yield put(fetchEventsSuccess(result))
-    }
-    catch (err) {
-        yield put(fetchEventsError())
-    }
+  yield put(fetchEventsRequest());
+  try {
+    const result = yield fetchEvents();
+    yield put(fetchEventsSuccess(result));
+  } catch (err) {
+    yield put(fetchEventsError());
+  }
 }
 
 export function* watchFetchEventsAsync() {
-    yield takeEvery(FETCH_EVENTS, fetchEventsAsync)
+  yield takeEvery(FETCH_EVENTS, fetchEventsAsync);
 }
 
 function* fetchHomeEventsAsync() {
-    yield put(fetchEventsRequestHome())
-    try {
-        const result = yield fetchHomeEvents()
-        yield put(fetchEventsSuccessHome(result))
-    }
-    catch (err) {
-        yield put(fetchEventsErrorHome())
-    }
+  yield put(fetchEventsRequestHome());
+  try {
+    const result = yield fetchHomeEvents();
+    yield put(fetchEventsSuccessHome(result));
+  } catch (err) {
+    yield put(fetchEventsErrorHome());
+  }
 }
 
 export function* watchFetchHomeEventsAsync() {
-    yield takeEvery(FETCH_HOME_EVENTS, fetchHomeEventsAsync)
+  yield takeEvery(FETCH_HOME_EVENTS, fetchHomeEventsAsync);
 }
 
-// custom events
-
+// Custom events
 
 function* fetchCustomEventsAsync(action: any) {
-    yield put(fetchCustomEventsRequest())
-    try {
-        const result = yield call (() => fetchSortedEvents(action.payload.sort, action.payload.filters, action.payload.page))
-        yield put(fetchCustomEventsSuccess(result))
-    }
-    catch (err) {
-        yield put(fetchCustomEventsError())
-    }
+  yield put(fetchCustomEventsRequest());
+  try {
+    const result = yield call(() =>
+      fetchSortedEvents(action.payload.sort, action.payload.filters, action.payload.page)
+    );
+    yield put(fetchCustomEventsSuccess(result));
+  } catch (err) {
+    yield put(fetchCustomEventsError());
+  }
 }
 
 export function* watchFetchCustomEventsAsync() {
-    yield takeEvery(FETCH_CUSTOM_EVENTS, fetchCustomEventsAsync)
+  yield takeEvery(FETCH_CUSTOM_EVENTS, fetchCustomEventsAsync);
 }
 
 function* fetchCustomHomeEventsAsync(action: any) {
-    yield put(fetchCustomEventsRequestHome())
-    try {
-        const result = yield call (() => fetchPaginatedHomeEvents(action.payload.page))
-        yield put(fetchCustomEventsSuccessHome(result))
-    }
-    catch (err) {
-        yield put(fetchCustomEventsErrorHome())
-    }
+  yield put(fetchCustomEventsRequestHome());
+  try {
+    const result = yield call(() => fetchPaginatedHomeEvents(action.payload.page));
+    yield put(fetchCustomEventsSuccessHome(result));
+  } catch (err) {
+    yield put(fetchCustomEventsErrorHome());
+  }
 }
 
 export function* watchFetchCustomHomeEventsAsync() {
-    yield takeEvery(FETCH_CUSTOM_EVENTS_HOME, fetchCustomHomeEventsAsync)
+  yield takeEvery(FETCH_CUSTOM_EVENTS_HOME, fetchCustomHomeEventsAsync);
+}
+
+function* validateTicketAsync(props: ValidateProps) {
+  try {
+    yield put(validateTicketRequest());
+    const ticketID = props.ticketID;
+    const eventID = props.eventID;
+    const response = yield call(() => validateTicketAPI(ticketID, eventID));
+    if (response.status) {
+      throw response.status;
+    } else {
+      yield put(validateTicketSuccess(response.name, response.email));
+    }
+  } catch (response) {
+    yield put(validateTicketFailure(response));
+  }
+}
+
+export function* watchValidateTicket() {
+  yield takeLatest(VALIDATE_TICKET, validateTicketAsync);
 }

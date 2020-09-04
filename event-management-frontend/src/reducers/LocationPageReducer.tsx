@@ -1,19 +1,18 @@
-import { LocationType } from "../types/LocationType";
-import {
-  LocationAction,
-  LocationActionTypes,
-} from "../actions/LocationActions";
+import { LocationAction, LocationActionTypes } from '../actions/LocationActions';
+import { LocationType } from '../model/LocationType';
 
 export interface LocationPageState {
   locations: LocationType[];
   isLoading: boolean;
   error: string;
+  searchValue: string;
 }
 
 const initialState: LocationPageState = {
   isLoading: true,
   locations: [],
-  error: "",
+  error: '',
+  searchValue: '',
 };
 
 export const LocationPageReducer = (
@@ -37,6 +36,12 @@ export const LocationPageReducer = (
       return {
         ...state,
         error: action.errorStatus,
+      };
+    }
+    case LocationActionTypes.UPDATE_SEARCH_VALUE: {
+      return {
+        ...state,
+        searchValue: action.searchValue,
       };
     }
     default:

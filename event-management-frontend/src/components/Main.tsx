@@ -1,63 +1,41 @@
-import React, { useLayoutEffect, useState } from 'react'
-import { Switch, Route } from 'react-router-dom'
-import Home from './homePage/Home'
-import EventList from "./eventListPage/listSection/EventListSmart";
-import { Container } from '@material-ui/core';
+import React from 'react';
+import { Switch, Route } from 'react-router-dom';
+import Home from './homePage/Home';
+import EventList from './eventListPage/listSection/EventListSmart';
 import Header from './header/Header';
 import EventDetails from './eventCreateOrEdit/EventDetails';
-import { PrivateRoute } from './PrivateRoute';
+import { SecureRoute } from './SecureRoute';
+import ValidateTicket from './validateTicket/ValidateTicketSmart';
 
-// The Main component renders one of the three provided
-// Routes (provided that one matches). The /events
-// route will match any pathname that starts
-// with /events. The / route will only match
-// when the pathname is exactly the string "/"
-//TODO: i18n for all story admin page
 const Main = () => {
-    const [width, setWidth] = useState(window.innerWidth);
+  return (
+    <>
+      <Header />
+      <main>
+        <Switch>
+          <SecureRoute
+            admin
+            exact
+            path="/admin/events/:id"
+            component={(props: any) => <EventDetails match={props.match} isAdmin={true} />}
+          />
+          <Route
+            exact
+            path="/admin/validate/:id"
+            component={(props: any) => <ValidateTicket match={props.match} newEvent={true} isAdmin={true} />}
+          />
+          <SecureRoute admin exact path="/admin/events" component={EventList} />
+          <SecureRoute
+            admin
+            exact
+            path="/admin/newEvent"
+            component={(props: any) => <EventDetails match={props.match} isAdmin={true} />}
+          />
+          <SecureRoute admin exact path="/admin" component={Home} />
+        </Switch>
+      </main>
+    </>
+  );
+};
 
-    useLayoutEffect(() => {
-        function updateSize() {
-            setWidth(window.innerWidth);
-        }
-        window.addEventListener('resize', updateSize);
-        updateSize();
-        return () => window.removeEventListener('resize', updateSize);
-    }, []);
-
-    if (width <= 600) {
-        return (
-            <>
-                <Header />
-                <main>
-                    <Switch>
-                        <PrivateRoute admin exact path='/admin' component={Home} />
-                        <PrivateRoute admin exact path='/admin/events' component={EventList} />
-                        <Route exact path='/admin/events/:id'
-                            render={(props: any) => <EventDetails match={props.match} admin={true} />} /> 
-                        <Route exact path='/admin/newEvent'
-                            render={(props: any) => <EventDetails match={props.match} admin={true} />} />
-                    </Switch>
-                </main>
-            </>
-        );
-    } else {
-        return (
-            <div>
-                <Header />
-                <main>
-                    <Switch>
-                        <Route exact path='/admin' component={Home} />
-                        <Route exact path='/admin/events' component={EventList} />
-                        <Route exact path='/admin/events/:id'
-                            render={props => <EventDetails match={props.match} admin={true} />} />
-                        <Route exact path='/admin/newEvent'
-                            render={props => <EventDetails match={props.match} admin={true} />} />
-                    </Switch>
-                </main>
-            </div>
-        );
-    }
-}
-
-export default Main
+export default Main;

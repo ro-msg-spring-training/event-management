@@ -1,95 +1,109 @@
 import React from 'react';
-import { Button, makeStyles, Grid, Typography, useMediaQuery } from '@material-ui/core';
-import { useStyles } from '../../../styles/CommonStyles'
+import { Button, Grid, Typography, useMediaQuery, AppBar, Tooltip, IconButton } from '@material-ui/core';
+import { useStyles } from '../../../styles/CommonStyles';
 import { useTranslation } from 'react-i18next';
-
-const useStyles2 = makeStyles({
-  grid: {
-    background: 'linear-gradient(45deg, #21C6F3 10%, #1E5FA4 90%)',
-    width: '100%',
-    margin: '0px',
-    flexGrow: 1,
-  },
-  secondGrid: {
-    width: '100%',
-    margin: '0px',
-    flexGrow: 1,
-  },
-  position: {
-    marginLeft: "5%"
-  },
-  typography: {
-    fontSize: 25,
-    fontFamily: 'Monospace',
-    textTransform: "uppercase"
-  },
-});
+import DeleteIcon from '@material-ui/icons/Delete';
+import SaveIcon from '@material-ui/icons/Save';
+import { headerCrudDumbStyles } from '../../../styles/HeaderCrudStyles';
 
 interface Props {
-  admin: boolean,
-  title: string,
-  handleDelete: any,
-  handleSave: any,
+  isAdmin: boolean;
+  title: string;
+  handleEventDelete: () => void;
+  handleEventSave: () => void;
 }
 
-function HeaderDumb({ admin, title, handleDelete, handleSave }: Props) {
-  const classes = useStyles();
-  const classes2 = useStyles2();
+function HeaderDumb({ isAdmin, title, handleEventDelete, handleEventSave }: Props) {
+  const buttonStyle = useStyles();
+  const gridStyle = headerCrudDumbStyles();
   const { t } = useTranslation();
 
-  const cancelButton = admin === true ?
-    title === t("welcome.newEventTitle") ?
-      <Button variant="contained" className={`${classes.buttonStyle2} ${classes.buttonStyle3}`} onClick={handleDelete}> {t("welcome.headerCRUDCancel")} </Button> :
-      <Button variant="contained" className={`${classes.buttonStyle2} ${classes.buttonStyle3}`} onClick={handleDelete}> {t("welcome.headerCRUDDelete")} </Button>
-    : null
+  const cancelButton =
+    <Button variant="contained" className={`${buttonStyle.mainButtonStyle} ${buttonStyle.pinkGradientButtonStyle}`} onClick={handleEventDelete}>
+      { isAdmin && t("welcome.newEventTitle") === title  ?  t("welcome.headerCRUDCancel") :  t("welcome.headerCRUDDelete") }
+    </Button>
 
-  const saveButton = admin === true ?
-    <Button variant="contained" className={`${classes.buttonStyle2} ${classes.buttonStyle3}`} onClick={handleSave}> {t("welcome.headerCRUDSave")} </Button>
-    : null
+  const cancelIcon = (
+    <IconButton onClick={handleEventDelete}>
+      <DeleteIcon color="secondary" />
+    </IconButton>
+  );
 
-  const bigWindow = <Grid container spacing={2} className={classes2.grid} direction="row" justify="space-between" alignItems="center">
+  const cancelIconButton =
+    isAdmin === true ? (
+      title === t('welcome.newEventTitle') ? (
+        <Tooltip title="Cancel">{cancelIcon}</Tooltip>
+      ) : (
+        <Tooltip title="Delete">{cancelIcon}</Tooltip>
+      )
+    ) : null;
 
-    <Grid item sm={4} xs={5}>
-      <Typography align="left" className={`${classes2.typography} ${classes2.position}`}> {title}</Typography>
-    </Grid>
+  const saveButton =
+    isAdmin === true ? (
+      <Button
+        variant="contained"
+        className={`${buttonStyle.mainButtonStyle} ${buttonStyle.pinkGradientButtonStyle}`}
+        onClick={handleEventSave}
+      >
+        {t('welcome.headerCRUDSave')}
+      </Button>
+    ) : null;
 
-    <Grid item sm={5} xs={5}>
-      <Grid container spacing={2} className={classes2.secondGrid} direction="row" justify="flex-end" alignItems="center">
+  const saveIconButton =
+    isAdmin === true ? (
+      <Tooltip title="Save">
+        <IconButton onClick={handleEventSave}>
+          <SaveIcon color="secondary" />
+        </IconButton>
+      </Tooltip>
+    ) : null;
 
-        <Grid item xs={6} md={4} lg={3}>
-          {cancelButton}
+  const bigWindow = (
+    <Grid container spacing={2} className={gridStyle.grid} direction="row" justify="space-between" alignItems="center">
+      <Grid item sm={4} xs={5}>
+        <Typography align="left" className={`${gridStyle.typography} ${gridStyle.position}`}>
+          {title}
+        </Typography>
+      </Grid>
+
+      <Grid item sm={5} xs={5}>
+        <Grid
+          container
+          spacing={2}
+          className={gridStyle.secondGrid}
+          direction="row"
+          justify="flex-end"
+          alignItems="center"
+        >
+          <Grid item xs={6} md={4} lg={3}>
+            {cancelButton}
+          </Grid>
+
+          <Grid item xs={6} md={4} lg={3}>
+            {saveButton}
+          </Grid>
         </Grid>
-
-        <Grid item xs={6} md={4} lg={3}>
-          {saveButton}
-        </Grid>
-
       </Grid>
     </Grid>
-  </Grid>
+  );
 
-  const smallWindow = <Grid container spacing={2} className={classes2.grid} direction="column" justify="center" alignItems="center">
-      <Grid item sm={10} xs={10}>
-        <Typography align="center" className={classes2.typography}> {title}</Typography>
+  const smallWindow = (
+    <Grid container className={gridStyle.grid} direction="row" justify="space-between" alignItems="center">
+      <Grid item sm={7} xs={8}>
+        <Typography align="left" className={`${gridStyle.typography} ${gridStyle.position}`}>
+          {title}
+        </Typography>
       </Grid>
 
-      <Grid item container spacing={1} sm={4} xs={9} className={`${classes2.secondGrid} ${classes2.position}`} direction="row" justify="center" alignItems="center">
-        <Grid item xs={6} md={5}>
-          {cancelButton}
-        </Grid>
-
-        <Grid item xs={6} md={5}>
-          {saveButton}
-        </Grid>
+      <Grid item container sm={5} xs={4} className={gridStyle.secondGrid} direction="row" justify="flex-end" alignItems="center">
+        {cancelIconButton}
+        {saveIconButton}
       </Grid>
     </Grid>
+  );
 
   const matches = useMediaQuery('(max-width:630px)');
-  return (
-    <header className={classes.shadow}>
-      {matches ? smallWindow : bigWindow}
-    </header>
-  );
+  return <AppBar position="sticky">{matches ? smallWindow : bigWindow}</AppBar>;
 }
 
 export default HeaderDumb;
