@@ -1,20 +1,28 @@
 package ro.msg.event.management.eventmanagementbackend;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.time.LocalDateTime;
+import javax.transaction.Transactional;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import ro.msg.event.management.eventmanagementbackend.entity.*;
+import ro.msg.event.management.eventmanagementbackend.entity.Booking;
+import ro.msg.event.management.eventmanagementbackend.entity.Event;
+import ro.msg.event.management.eventmanagementbackend.entity.Ticket;
+import ro.msg.event.management.eventmanagementbackend.entity.TicketCategory;
+import ro.msg.event.management.eventmanagementbackend.entity.TicketDocument;
 import ro.msg.event.management.eventmanagementbackend.exception.TicketCorrespondingEventException;
 import ro.msg.event.management.eventmanagementbackend.exception.TicketValidateException;
-import ro.msg.event.management.eventmanagementbackend.repository.*;
+import ro.msg.event.management.eventmanagementbackend.repository.BookingRepository;
+import ro.msg.event.management.eventmanagementbackend.repository.EventRepository;
+import ro.msg.event.management.eventmanagementbackend.repository.TicketCategoryRepository;
+import ro.msg.event.management.eventmanagementbackend.repository.TicketDocumentRepository;
+import ro.msg.event.management.eventmanagementbackend.repository.TicketRepository;
 import ro.msg.event.management.eventmanagementbackend.service.TicketService;
-
-import javax.transaction.Transactional;
-import java.time.LocalDateTime;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional

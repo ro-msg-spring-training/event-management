@@ -1,5 +1,11 @@
 package ro.msg.event.management.eventmanagementbackend.security;
 
+import static java.util.List.of;
+
+import java.text.ParseException;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.proc.BadJOSEException;
 import com.nimbusds.jose.proc.SecurityContext;
@@ -12,12 +18,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import ro.msg.event.management.eventmanagementbackend.exception.InvalidJWTException;
-
-import javax.servlet.http.HttpServletRequest;
-import java.text.ParseException;
-import java.util.List;
-
-import static java.util.List.of;
 
 /**
  * Does all the verification by calling the AWS Cognito JWK URL, building the signature and comparing it with the

@@ -1,5 +1,10 @@
 package ro.msg.event.management.eventmanagementbackend.controller;
 
+import java.io.InputStream;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.NoSuchElementException;
+
 import lombok.AllArgsConstructor;
 import net.minidev.json.JSONObject;
 import org.springframework.core.io.InputStreamResource;
@@ -12,7 +17,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import ro.msg.event.management.eventmanagementbackend.controller.converter.Converter;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.AvailableTicketsPerCategory;
@@ -23,11 +34,6 @@ import ro.msg.event.management.eventmanagementbackend.exception.TicketCorrespond
 import ro.msg.event.management.eventmanagementbackend.exception.TicketValidateException;
 import ro.msg.event.management.eventmanagementbackend.security.User;
 import ro.msg.event.management.eventmanagementbackend.service.TicketService;
-
-import java.io.InputStream;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.NoSuchElementException;
 
 @RestController
 @AllArgsConstructor

@@ -1,5 +1,10 @@
 package ro.msg.event.management.eventmanagementbackend.security;
 
+import static com.nimbusds.jose.JWSAlgorithm.RS256;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.jwk.source.RemoteJWKSet;
 import com.nimbusds.jose.proc.JWSKeySelector;
@@ -12,11 +17,6 @@ import com.nimbusds.jwt.proc.DefaultJWTProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import static com.nimbusds.jose.JWSAlgorithm.RS256;
 
 @Configuration
 public class JWTProcessorConfiguration {

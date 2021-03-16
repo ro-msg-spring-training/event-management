@@ -1,5 +1,9 @@
 package ro.msg.event.management.eventmanagementbackend.service;
 
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.amazonaws.HttpMethod;
 import com.amazonaws.auth.InstanceProfileCredentialsProvider;
 import com.amazonaws.regions.Regions;
@@ -7,10 +11,6 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import org.springframework.stereotype.Service;
-
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class PictureS3Service {

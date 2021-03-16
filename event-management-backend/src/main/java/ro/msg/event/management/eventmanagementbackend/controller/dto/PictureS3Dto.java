@@ -1,8 +1,8 @@
 package ro.msg.event.management.eventmanagementbackend.controller.dto;
 
-import lombok.Data;
-
 import java.util.List;
+
+import lombok.Data;
 
 @Data
 public class PictureS3Dto {

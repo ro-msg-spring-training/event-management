@@ -1,15 +1,15 @@
 package ro.msg.event.management.eventmanagementbackend.entity.view;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import java.time.LocalDate;
-import java.time.LocalTime;
 
 @Entity
 @Immutable

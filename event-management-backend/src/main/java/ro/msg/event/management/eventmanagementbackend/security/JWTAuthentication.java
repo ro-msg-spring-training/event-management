@@ -1,10 +1,10 @@
 package ro.msg.event.management.eventmanagementbackend.security;
 
-import org.springframework.security.authentication.AbstractAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-
 import java.util.Collection;
 import java.util.Objects;
+
+import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 
 /**
  * Represents the token for an authentication request or for an authenticated principal once the request has been

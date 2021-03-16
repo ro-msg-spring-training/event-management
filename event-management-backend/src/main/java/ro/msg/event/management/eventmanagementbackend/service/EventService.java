@@ -1,26 +1,5 @@
 package ro.msg.event.management.eventmanagementbackend.service;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import ro.msg.event.management.eventmanagementbackend.entity.*;
-import ro.msg.event.management.eventmanagementbackend.entity.view.EventView;
-import ro.msg.event.management.eventmanagementbackend.exception.ExceededCapacityException;
-import ro.msg.event.management.eventmanagementbackend.exception.OverlappingEventsException;
-import ro.msg.event.management.eventmanagementbackend.repository.*;
-import ro.msg.event.management.eventmanagementbackend.security.User;
-import ro.msg.event.management.eventmanagementbackend.utils.ComparisonSign;
-import ro.msg.event.management.eventmanagementbackend.utils.SortCriteria;
-import ro.msg.event.management.eventmanagementbackend.utils.TimeValidation;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -28,6 +7,41 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ro.msg.event.management.eventmanagementbackend.entity.BaseEntity;
+import ro.msg.event.management.eventmanagementbackend.entity.Event;
+import ro.msg.event.management.eventmanagementbackend.entity.EventSublocation;
+import ro.msg.event.management.eventmanagementbackend.entity.EventSublocationID;
+import ro.msg.event.management.eventmanagementbackend.entity.Location;
+import ro.msg.event.management.eventmanagementbackend.entity.Sublocation;
+import ro.msg.event.management.eventmanagementbackend.entity.TicketCategory;
+import ro.msg.event.management.eventmanagementbackend.entity.view.EventView;
+import ro.msg.event.management.eventmanagementbackend.exception.ExceededCapacityException;
+import ro.msg.event.management.eventmanagementbackend.exception.OverlappingEventsException;
+import ro.msg.event.management.eventmanagementbackend.repository.EventRepository;
+import ro.msg.event.management.eventmanagementbackend.repository.EventSublocationRepository;
+import ro.msg.event.management.eventmanagementbackend.repository.LocationRepository;
+import ro.msg.event.management.eventmanagementbackend.repository.PictureRepository;
+import ro.msg.event.management.eventmanagementbackend.repository.SublocationRepository;
+import ro.msg.event.management.eventmanagementbackend.security.User;
+import ro.msg.event.management.eventmanagementbackend.utils.ComparisonSign;
+import ro.msg.event.management.eventmanagementbackend.utils.SortCriteria;
+import ro.msg.event.management.eventmanagementbackend.utils.TimeValidation;
 
 @Service
 @RequiredArgsConstructor

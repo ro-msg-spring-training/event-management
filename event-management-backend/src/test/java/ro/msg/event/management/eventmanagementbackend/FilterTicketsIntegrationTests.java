@@ -1,23 +1,36 @@
 package ro.msg.event.management.eventmanagementbackend;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
+import javax.transaction.Transactional;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
-import ro.msg.event.management.eventmanagementbackend.entity.*;
+import ro.msg.event.management.eventmanagementbackend.entity.Booking;
+import ro.msg.event.management.eventmanagementbackend.entity.Event;
+import ro.msg.event.management.eventmanagementbackend.entity.EventSublocation;
+import ro.msg.event.management.eventmanagementbackend.entity.EventSublocationID;
+import ro.msg.event.management.eventmanagementbackend.entity.Location;
+import ro.msg.event.management.eventmanagementbackend.entity.Sublocation;
+import ro.msg.event.management.eventmanagementbackend.entity.Ticket;
+import ro.msg.event.management.eventmanagementbackend.entity.TicketCategory;
 import ro.msg.event.management.eventmanagementbackend.entity.view.TicketView;
-import ro.msg.event.management.eventmanagementbackend.repository.*;
+import ro.msg.event.management.eventmanagementbackend.repository.BookingRepository;
+import ro.msg.event.management.eventmanagementbackend.repository.EventRepository;
+import ro.msg.event.management.eventmanagementbackend.repository.EventSublocationRepository;
+import ro.msg.event.management.eventmanagementbackend.repository.LocationRepository;
+import ro.msg.event.management.eventmanagementbackend.repository.SublocationRepository;
+import ro.msg.event.management.eventmanagementbackend.repository.TicketCategoryRepository;
+import ro.msg.event.management.eventmanagementbackend.repository.TicketRepository;
 import ro.msg.event.management.eventmanagementbackend.service.EventService;
 import ro.msg.event.management.eventmanagementbackend.service.TicketService;
-
-import javax.transaction.Transactional;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Transactional
 @SpringBootTest

@@ -1,11 +1,11 @@
 package ro.msg.event.management.eventmanagementbackend.controller.converter;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Component;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.TicketCategoryDto;
 import ro.msg.event.management.eventmanagementbackend.entity.TicketCategory;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class TicketCategoryConverter implements Converter<TicketCategoryDto, TicketCategory> {

@@ -1,13 +1,13 @@
 package ro.msg.event.management.eventmanagementbackend.service;
 
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ro.msg.event.management.eventmanagementbackend.entity.Location;
 import ro.msg.event.management.eventmanagementbackend.repository.LocationRepository;
-
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

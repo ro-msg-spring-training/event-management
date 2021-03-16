@@ -1,5 +1,12 @@
 package ro.msg.event.management.eventmanagementbackend.controller;
 
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+import java.util.NoSuchElementException;
+import javax.servlet.http.HttpServletResponse;
+
 import lombok.RequiredArgsConstructor;
 import net.minidev.json.JSONObject;
 import org.springframework.data.domain.Page;
@@ -10,11 +17,28 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import ro.msg.event.management.eventmanagementbackend.controller.converter.Converter;
 import ro.msg.event.management.eventmanagementbackend.controller.converter.EventReverseConverter;
-import ro.msg.event.management.eventmanagementbackend.controller.dto.*;
+import ro.msg.event.management.eventmanagementbackend.controller.dto.AvailableTicketsPerCategory;
+import ro.msg.event.management.eventmanagementbackend.controller.dto.CardsEventDto;
+import ro.msg.event.management.eventmanagementbackend.controller.dto.CardsUserEventDto;
+import ro.msg.event.management.eventmanagementbackend.controller.dto.EventDetailsForBookingDto;
+import ro.msg.event.management.eventmanagementbackend.controller.dto.EventDetailsForUserDto;
+import ro.msg.event.management.eventmanagementbackend.controller.dto.EventDto;
+import ro.msg.event.management.eventmanagementbackend.controller.dto.EventFilteringDto;
+import ro.msg.event.management.eventmanagementbackend.controller.dto.EventWithRemainingTicketsDto;
 import ro.msg.event.management.eventmanagementbackend.entity.Event;
 import ro.msg.event.management.eventmanagementbackend.entity.view.EventView;
 import ro.msg.event.management.eventmanagementbackend.exception.ExceededCapacityException;
@@ -25,13 +49,6 @@ import ro.msg.event.management.eventmanagementbackend.service.EventService;
 import ro.msg.event.management.eventmanagementbackend.service.TicketService;
 import ro.msg.event.management.eventmanagementbackend.utils.ComparisonSign;
 import ro.msg.event.management.eventmanagementbackend.utils.SortCriteria;
-
-import javax.servlet.http.HttpServletResponse;
-import java.time.DateTimeException;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.List;
-import java.util.NoSuchElementException;
 
 
 @RestController

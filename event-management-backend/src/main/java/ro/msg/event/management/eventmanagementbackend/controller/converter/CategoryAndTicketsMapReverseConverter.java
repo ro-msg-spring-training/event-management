@@ -1,15 +1,15 @@
 package ro.msg.event.management.eventmanagementbackend.controller.converter;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ro.msg.event.management.eventmanagementbackend.controller.dto.TicketSaveDto;
 import ro.msg.event.management.eventmanagementbackend.entity.Ticket;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @NoArgsConstructor
 public class CategoryAndTicketsMapReverseConverter implements Converter<List<TicketSaveDto>, Map<String, List<Ticket>>>{
